@@ -54,6 +54,7 @@ src/PhysicalThing.cpp
 src/PhysicsGenericContactCallback.cpp
 src/PhysicsManager.cpp
 src/PhysicsMaterialRaycast.cpp
+src/PhysicsRagDoll.cpp
 src/PlayAnimationJob.cpp
 src/PlaySoundJob.cpp
 src/PolynomicSoundFadeFunctor.cpp

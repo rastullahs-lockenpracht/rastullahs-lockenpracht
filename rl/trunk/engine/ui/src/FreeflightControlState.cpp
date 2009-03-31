@@ -29,6 +29,9 @@
 #include "CommandMapper.h"
 #include "MeshObject.h"
 #include "WindowManager.h"
+#include "CreatureControllerManager.h"
+#include "Creature.h"
+#include "PhysicsRagDoll.h"
 
 using namespace Ogre;
 
@@ -61,7 +64,8 @@ namespace rl {
     {
 		mCameraActor->getPhysicalThing()->freeze();
 		//mCharacterActor->getPhysicalThing()->unfreeze();
-        delete mOgreNewtPlayerController;
+//        delete mOgreNewtPlayerController;
+
         mOgreNewtPlayerController = NULL;
         mCharacterActor->getPhysicalThing()->setUpConstraint();
         mCameraActor->getPhysicalThing()->setPhysicsController(NULL);
@@ -84,7 +88,7 @@ namespace rl {
         mCameraActor->getPhysicalThing()->unfreeze();
 		//mCharacterActor->getPhysicalThing()->freeze();
         mCharacterActor->getPhysicalThing()->clearUpConstraint();
-        mOgreNewtPlayerController = new OgreNewt::PlayerController(mCharBody);
+//        mOgreNewtPlayerController = new OgreNewt::PlayerController(mCharBody);
 
         resetCamera();
 
@@ -164,7 +168,8 @@ namespace rl {
             // put character here
             if( mCharacterActor != NULL )
             {
-                mCharacterActor->setPosition(
+                //mCharacterActor->setPosition(
+                mCharacterActor->getPhysicalThing()->setPosition(
                     mCameraActor->getPosition()
                     + mCameraActor->getWorldOrientation() * Vector3::NEGATIVE_UNIT_Z * 2
                     - 1.5 * Vector3::UNIT_Y);
@@ -213,8 +218,8 @@ namespace rl {
         if (mPitch < mPitchRange.first) mPitch = mPitchRange.first;
         if (mPitch > mPitchRange.second) mPitch = mPitchRange.second;
 
-if( mCollisionsEnabled )
-    mOgreNewtPlayerController->setVelocity(mDesiredVelocity.z, mDesiredVelocity.x, mYaw);
+//if( mCollisionsEnabled )
+//    mOgreNewtPlayerController->setVelocity(mDesiredVelocity.z, mDesiredVelocity.x, mYaw);
 
         mCameraActor->setOrientation(Quaternion::IDENTITY);
         mCameraActor->yaw(mYaw.valueDegrees());
@@ -232,6 +237,20 @@ if( mCollisionsEnabled )
 		// with or without collision?
         // be careful to enable collision if beeing in another collision
         mCollisionsEnabled = !mCollisionsEnabled;
+/*
+        if( mCollisionsEnabled )
+        {
+            CreatureControllerManager::getSingleton().detachController(mCharacter);
+            PhysicsManager::getSingleton().destroyPhysicsProxy(mCharacterActor->getPhysicalThing());
+            PhysicsManager::getSingleton().createPhysicsProxy_RagDoll(mCharacterActor->getPhysicalThing());
+        }
+        else
+        {
+            PhysicsManager::getSingleton().destroyPhysicsProxy(mCharacterActor->getPhysicalThing());
+            PhysicsManager::getSingleton().createPhysicsProxy(mCharacterActor->getPhysicalThing());
+            CreatureControllerManager::getSingleton().getCreatureController(mCharacter);
+        }
+*/
 	}
 
 	void FreeflightControlState::resetCamera()
@@ -285,7 +304,7 @@ if( mCollisionsEnabled )
             }
             else if (command == "toggle_camera_collision" )
             {
-                mCollisionsEnabled = !mCollisionsEnabled;
+                toggleCameraCollision();
                 retval = true;
             }
         }

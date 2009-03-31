@@ -125,6 +125,8 @@ namespace rl {
     void Actor::setPhysicalThing( PhysicalThing* pt )
     {
         mPhysicalThing = pt;
+        if( mPhysicalThing != NULL )
+            mPhysicalThing->_setActor(this);
     }
 
     Ogre::Real Actor::getRenderingDistance() const
@@ -815,7 +817,7 @@ namespace rl {
         // Physikverknüpfung anpassen
         if (mPhysicalThing && mActorControlledObject)
         {
-            PhysicsManager::getSingleton().createPhysicsProxy(mPhysicalThing, mSceneNode);
+            PhysicsManager::getSingleton().createPhysicsProxy(mPhysicalThing);
 
             // Knochen angegeben und handelt sich um ein Mesh
             if( physicsBone.length() > 0 && mActorControlledObject->isMeshObject())

@@ -702,6 +702,12 @@ public:
 
     void removeAndDestroyPhysicalThing(PhysicalThing* thing);
 
+    void createPhysicsProxy(PhysicalThing* pt);
+
+    void createPhysicsProxy_RagDoll(PhysicalThing* pt);
+
+    void destroyPhysicsProxy(PhysicalThing* pt);
+
     // Global Settings
     void setGravity(Ogre::Real x, Ogre::Real y, Ogre::Real z);
     Ogre::Vector3 getGravity() const;

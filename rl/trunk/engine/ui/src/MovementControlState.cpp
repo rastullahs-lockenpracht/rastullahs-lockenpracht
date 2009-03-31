@@ -222,6 +222,7 @@ namespace rl {
             mController =
                 CreatureControllerManager::getSingleton().getCreatureController(mCharacter);
         }
+        mCharBody = mCharacterActor->getPhysicalThing()->_getBody();
 
         // We want to check for visibility from char's POV.
         mSelector.setCheckVisibility(true, mCharacter);

@@ -366,11 +366,17 @@ namespace rl
         mWorld->setWorldSize(mWorldAABB);
     }
 
-	void PhysicsManager::createPhysicsProxy(PhysicalThing* pt, SceneNode* node)
+	void PhysicsManager::createPhysicsProxy(PhysicalThing* pt)
 	{
-		pt->createPhysicsProxy(node);
+		pt->createPhysicsProxy();
 		mPhysicalThings.push_back(pt);
 	}
+
+    void PhysicsManager::createPhysicsProxy_RagDoll(PhysicalThing* pt)
+    {
+        pt->createPhysicsProxy_RagDoll();
+        mPhysicalThings.push_back(pt);
+    }
 
 	void PhysicsManager::destroyPhysicsProxy(PhysicalThing* pt)
 	{
@@ -541,12 +547,6 @@ namespace rl
                     case GT_ELLIPSOID: // from createEllipsoid
                     case GT_PYRAMID: // createPyramid
                     case GT_SPHERE:
-                        {
-                            Vector3 inert_offs=Vector3::ZERO;
-                            static_cast<OgreNewt::ConvexCollision*>(rval)->calculateInertialMatrix(*inertia, inert_offs);
-                            *inertia *= mass;
-                        }
-                        break;
                     case GT_MESH:
                     case GT_NONE:
                         *inertia = Ogre::Vector3::ZERO;

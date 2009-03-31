@@ -296,7 +296,7 @@ namespace rl {
             PhysicalThing* pt = PhysicsManager::getSingleton()
                 .createPhysicalThing(GT_SPHERE, co,
                 0.001f, true);
-            PhysicsManager::getSingleton().createPhysicsProxy(pt, NULL);
+            PhysicsManager::getSingleton().createPhysicsProxy(pt);
             pt->_getBody()->setMaterialGroupID(
                 PhysicsManager::getSingleton().createMaterialID("camera"));
             actor = new Actor(uniquename, co, pt);
