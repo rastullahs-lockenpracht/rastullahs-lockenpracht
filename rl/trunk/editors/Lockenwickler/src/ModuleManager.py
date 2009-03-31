@@ -384,6 +384,7 @@ class Map():
                 if n.name.startswith("entity_"):
                     entElem = xml.SubElement(nodesElem, "entity")
                     entElem.attrib["name"] = n.getAttachedObject(0).getName()
+                    print "Saving Entity: " + n.getAttachedObject(0).getName()
                     entElem.attrib["meshfile"] = n.getAttachedObject(0).getMesh().getName()
    
                     entElem.attrib["receivesShadow"] = str(n.getAttachedObject(0).getUserObject().receivesShadow).lower()
@@ -410,7 +411,7 @@ class Map():
                 elif n.name.startswith("gameobject_"):
                     goElem = xml.SubElement(nodesElem, "gameobject")
                     mname = n.name
-
+                    print "Saving GOID: " + str(n.getAttachedObject(0).getUserObject().inWorldId)
                     goElem.attrib["class"] = str(n.getAttachedObject(0).getUserObject().gocName)
                     goElem.attrib["state"] = str(n.getAttachedObject(0).getUserObject().state)
                     goElem.attrib["id"] = str(n.getAttachedObject(0).getUserObject().inWorldId)
@@ -429,6 +430,7 @@ class Map():
                 elif n.name.startswith("light_"):
                     light = extractLight(n)
                     lightName = light.getName()
+                    print "Saving Light: " + lightName
                     lightType = light.getType()
                     isVisible = "true"
                     if not light.getVisible():
