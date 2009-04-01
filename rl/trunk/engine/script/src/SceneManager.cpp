@@ -74,10 +74,10 @@ namespace rl
             activeChar->setState(GOS_LOADED);
         }
 
-        /*if (saveCurrent) 
+        if (saveCurrent) 
         {
             mSceneStates[mCurrentScene] = mCurrentScene->getAllProperties();
-        }*/
+        }
 
         std::map<CeGuiString, Scene*>::iterator itScene = mScenes.find(sceneName);
         if (itScene != mScenes.end())

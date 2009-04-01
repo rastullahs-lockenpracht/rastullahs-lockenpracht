@@ -16,7 +16,12 @@
 #include "stdinc.h"
 
 #include <xercesc/dom/DOM.hpp>
-#include <CEGUI/CEGUIPropertyHelper.h>
+
+#ifdef __APPLE__
+#   include <CEGUI/CEGUIPropertyHelper.h>
+#else
+#   include <CEGUIPropertyHelper.h>
+#endif
 
 #include "DialogLoaderImpl.h"
 
