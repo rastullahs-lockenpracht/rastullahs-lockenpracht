@@ -1,9 +1,49 @@
+ #################################################
+# This source file is part of Rastullahs Lockenwickler.
+# Copyright (C) 2003-2009 Team Pantheon. http://www.team-pantheon.de
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  US
+ #################################################
+
 import ctypes as ctypes
 import random
 import platform
 
 import ogre.renderer.OGRE as og
 
+# get the light out of a light node
+def extractLight(node):
+        i = 0
+        num = node.numAttachedObjects()
+        while i < node.numAttachedObjects():
+            c = node.getAttachedObject(i)
+            tp = str(type(c))
+            if tp == "<class 'ogre.renderer.OGRE._ogre_.Light'>":
+                return c
+            i += 1
+            
+# get the light out of a light node
+def extractEntity(node):
+        i = 0
+        num = node.numAttachedObjects()
+        while i < node.numAttachedObjects():
+            c = node.getAttachedObject(i)
+            tp = str(type(c))
+            if tp == "<class 'ogre.renderer.OGRE._ogre_.Entity'>":
+                return c
+            i += 1
 
 # a class to store information about a object that got selected
 class SelectionObject():
@@ -12,10 +52,7 @@ class SelectionObject():
         self.entity = entity #the selected entity
         self.isPivot = False
 
-#        if self.entity.getUserObject() is not None:
-#            self.isGameObject = True
-#        else:
-#            self.isGameObject = False
+
 
     #if True this instance will show its bounding box else it will hide it
     def setSelected(self,  selected):
@@ -98,10 +135,12 @@ class SelectionRenderListener(og.RenderTargetListener):
 
         
 class SelectionBuffer():
-    def __init__(self, sceneManager,  renderTarget):
+    def __init__(self, sceneManager,  renderTarget, moduleManager, zoneManager):
         self.sceneMgr = sceneManager
         self.camera = sceneManager.getCamera("MainCam")
-
+        self.moduleManager = moduleManager
+        self.zoneManager = zoneManager
+        
         self.renderTarget = renderTarget
         
         # This is the material listener - Note: it is controlled by a seperate
@@ -216,7 +255,8 @@ class SelectionBuffer():
                 elif key == "EditorXRotator" or key == "EditorYRotator" or key == "EditorZRotator":
                     so = SelectionObject(self.sceneMgr.getEntity(key))
                     so.isPivot = True
-                elif key == "EditorXScaler" or key == "EditorYScaler" or key == "EditorZScaler":
+                    return so
+                elif key == "EditorXScaler" or key == "EditorYScaler" or key == "EditorZScaler" or key == "UniScaler":
                     so = SelectionObject(self.sceneMgr.getEntity(key))
                     so.isPivot = True
                     return so
@@ -225,6 +265,31 @@ class SelectionBuffer():
                     return so
 
         return None
+        
+    def manualSelectObjects(self, itemNodes):
+        items = []
+        for key in itemNodes:
+            parentNode = None
+            if key.startswith("Map: "):
+                parentNode = self.moduleManager.mainModule.getMap(key.replace("Map: ", "")).mapNode
+                for nodeName in itemNodes[key]:                    
+                    n = parentNode.getChild(nodeName).getAttachedObject(0)
+                    if parentNode.getChild(nodeName).getName().startswith("light_"):
+                        n = extractEntity(parentNode.getChild(nodeName))
+                        
+                    so = SelectionObject(n)
+                    so.setSelected(True)
+                    items.append(so)
+            elif key.startswith("Zone: "):
+                parentNode = self.zoneManager.getZone(key.replace("Zone: ", "")).zoneNode
+                for nodeName in itemNodes[key]:
+                    obj = parentNode.getChild(nodeName).getAttachedObject(0)
+                    so = SelectionObject(obj)
+                    so.setSelected(True)
+                    items.append(so)
+        
+        return items
+        
         
     def createRTTOverlays(self):
         baseWhite = og.MaterialManager.getSingletonPtr().getByName("Lockenwickler_Pivot_X")

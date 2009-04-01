@@ -92,10 +92,10 @@ namespace rl
 
     GameObject* Selector::getFirstSelectedObject() const
     {
-        return mSelection.empty() ? NULL : mSelection[0];
+        return mSelection.empty() ? NULL : *mSelection.begin();
     }
 
-    const Selector::GameObjectVector& Selector::getAllSelectedObjects() const
+    const GameObjectList& Selector::getAllSelectedObjects() const
     {
         return mSelection;
     }
@@ -301,4 +301,122 @@ namespace rl
     {
         mPrimitive = new LineSetPrimitive();
     }
+
+    //////////////////////////////////////////////////////////////////////////
+
+    SphereSelector::SphereSelector(Ogre::SceneManager* smgr,
+        unsigned long mask)
+        : Selector(mask),
+          mQuery(smgr, mask),
+          mCheckVisibility(false),
+          mLoSReferenceGo(NULL),
+		  mTrackedGo(NULL)
+    {
+    }
+
+    SphereSelector::SphereSelector(unsigned long mask)
+        : Selector(mask),
+		  mQuery(CoreSubsystem::getSingleton().getWorld()->getSceneManager(), mask),
+          mCheckVisibility(false),
+          mLoSReferenceGo(NULL),
+		  mTrackedGo(NULL)
+    {
+    }
+
+    void SphereSelector::updateSelection()
+    {
+        // Remove old selection
+        mSelection.clear();
+
+        // Auto tracking enabled?
+        if (mTrackedGo != NULL)
+        {
+            // If not in scene, then we're done
+            if (!(mTrackedGo->getState() & GOS_IN_SCENE))
+            {
+                return;
+            }
+
+            // Set query transform according to position and orientation of tracked GO.
+            setPosition(mTrackedGo->getPosition());
+        }
+
+        // Do the query, results are in proper order
+        const ActorVector& actors = doExecuteQuery();
+
+        // Set selection to first result with a GameObject attached.
+        for (ActorVector::const_iterator it = actors.begin(), end = actors.end();
+            it != end; ++it)
+        {
+            Actor* actor = *it;
+            GameObject* go = static_cast<GameObject*>(actor->getGameObject());
+            if (go != NULL && (go->getQueryFlags() & mSelectionMask))
+            {
+                // Is this GO seen when we need it to be seen?
+                if (mCheckVisibility && mLoSReferenceGo &&
+                    !SelectionHelper::checkLineOfSight(mLoSReferenceGo, go))
+                {
+                    // Nope, check next.
+                    continue;
+                }
+                else if (filter(go))
+                {
+                    // Ok, LoS either not needed or given.
+                    mSelection.push_back(go);
+                }
+            }
+        }
+    }
+
+    void SphereSelector::updatePrimitive()
+    {
+        LineSetPrimitive* lineSet = static_cast<LineSetPrimitive*>(mPrimitive);
+        lineSet->clear();
+
+        Vector3 pos = mQuery.getPosition();
+        Quaternion ori = mQuery.getOrientation();
+        Real radius = mQuery.getRadius();
+
+        lineSet->addLine(pos, pos + radius * (ori * Vector3::UNIT_X), ColourValue::Red);
+        lineSet->addLine(pos, pos + radius * (ori * Vector3::UNIT_Y), ColourValue::Green);
+        lineSet->addLine(pos, pos + radius * (ori * Vector3::NEGATIVE_UNIT_Z),
+            ColourValue::Blue);
+    }
+
+    void SphereSelector::setRadius(Ogre::Real radius)
+    {
+        mQuery.setRadius(radius);
+    }
+
+    void SphereSelector::setPosition(const Ogre::Vector3& pos)
+    {
+        mQuery.setPosition(pos);
+    }
+
+    void SphereSelector::setCheckVisibility(bool check, GameObject* reference)
+    {
+        mCheckVisibility = check;
+        mLoSReferenceGo = reference;
+    }
+
+    void SphereSelector::track(GameObject* go)
+    {
+        mTrackedGo = go;
+    }
+
+    DebugVisualisableFlag SphereSelector::getFlag() const
+    {
+        return DVF_CONTROL;
+    }
+
+    const ActorVector& SphereSelector::doExecuteQuery()
+    {
+        return mQuery.execute();
+    }
+
+    void SphereSelector::doCreatePrimitive()
+    {
+        mPrimitive = new LineSetPrimitive();
+    }
+
 }

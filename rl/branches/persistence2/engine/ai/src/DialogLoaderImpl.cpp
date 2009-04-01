@@ -1,14 +1,27 @@
-/*
- *  DialogLoaderImpl.cpp
- *  Rastullah
+/* This source file is part of Rastullahs Lockenpracht.
+ * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
  *
- *  Created by Sascha Kolewa on 04.12.08.
- *  Copyright 2008 __MyCompanyName__. All rights reserved.
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the Clarified Artistic License.
  *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  Clarified Artistic License for more details.
+ *
+ *  You should have received a copy of the Clarified Artistic License
+ *  along with this program; if not you can get it here
+ *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 #include "stdinc.h"
 
 #include <xercesc/dom/DOM.hpp>
+
+#ifdef __APPLE__
+#   include <CEGUI/CEGUIPropertyHelper.h>
+#else
+#   include <CEGUIPropertyHelper.h>
+#endif
 
 #include "DialogLoaderImpl.h"
 
@@ -154,17 +167,22 @@ namespace rl
             }
             CeGuiString id = getAttributeValueAsString(dialogElemXml, "id");
             CeGuiString text = getValueAsString(dialogElemXml);
+            CeGuiString person = "";
+            if (hasAttribute(dialogElemXml, "person"))
+            {
+                person = getAttributeValueAsString(dialogElemXml, "person");
+            }
 
             if (hasNodeName(dialogElemXml, "switchoption"))
             {
-                DialogOption* option = new DialogSelection<DialogOption>(id);
+                DialogOption* option = new DialogSelection<DialogOption>(id, person);
                 option->setLabel(text);
                 dialogPrototype->addOption(option);
             }
             else if (hasNodeName(dialogElemXml, "option"))
             {
                 bool isAutoSelected = getAttributeValueAsBool(dialogElemXml, "autoSelect");
-                DialogOption* option = new DialogOption(id, isAutoSelected);
+                DialogOption* option = new DialogOption(id, person, isAutoSelected);
                 if (hasAttribute(dialogElemXml, "label"))
                 {
                     option->setLabel(getAttributeValueAsString(dialogElemXml, "label"));
@@ -177,11 +195,11 @@ namespace rl
             }
             else if (hasNodeName(dialogElemXml, "response"))
             {
-                dialogPrototype->addResponse(new DialogResponse(id));
+                dialogPrototype->addResponse(new DialogResponse(id, person));
             }
             else if (hasNodeName(dialogElemXml, "switchresponse"))
             {
-                dialogPrototype->addResponse(new DialogResponseSelection(id));
+                dialogPrototype->addResponse(new DialogResponseSelection(id, person));
             }
         }
 
@@ -331,6 +349,7 @@ namespace rl
         {
             option = processSwitchOption(static_cast<DOMElement*>(node), dialogPrototype);
         }
+
         return option;
     }
 
@@ -500,11 +519,16 @@ namespace rl
     DialogParagraph* DialogLoaderImpl::processParagraph(DOMElement* paragraphXml)
     {
         Ogre::String voicefile = "";
+        CeGuiString person = "";
         if (hasAttribute(paragraphXml, "voicefile"))
         {
             voicefile = getAttributeValueAsStdString(paragraphXml, "voicefile");
         }
-        return new DialogParagraph(getValueAsString(paragraphXml), voicefile);
+        if (hasAttribute(paragraphXml, "person"))
+        {
+            person = getAttributeValueAsString(paragraphXml, "person");
+        }
+        return new DialogParagraph(getValueAsString(paragraphXml), person, voicefile);
     }
 
     DialogCondition* DialogLoaderImpl::processCase(DOMElement *caseXml)
@@ -612,7 +636,7 @@ namespace rl
 
                 if (!isInParty)
                 {
-                    dialog->addParticipant("nsc", curCr);
+                    dialog->addParticipant("npc", curCr);
                     found1stNpc = true;
                 }
             }
@@ -653,7 +677,7 @@ namespace rl
         mParticipantFilter.push_back(participant);
     }
 
-    DialogLoaderImpl::DialogParticipant::DialogParticipant(const CeGuiString& personId, int goId,
+    DialogLoaderImpl::DialogParticipant::DialogParticipant(const CeGuiString& personId, const CeGuiString &goId,
             const CeGuiString& goClass, const CeGuiString& name)
         : mPersonId(personId), mGoId(goId), mGoClass(goClass), mName(name)
     {
@@ -666,7 +690,7 @@ namespace rl
 
     bool DialogLoaderImpl::DialogParticipant::isMatching(Creature* creature) const
     {
-        return (mGoId == -1 || creature->getId() == mGoId)
+        return (mGoId == "" || creature->getId() == mGoId)
             && (mGoClass.empty() || creature->getClassId() == mGoClass)
             && (mName.empty() || creature->getName() == mName);
     }
@@ -816,7 +840,7 @@ namespace rl
     DialogLoaderImpl::DialogParticipant* DialogLoaderImpl::processPerson(DOMElement* personXml)
     {
         CeGuiString personId(""), goClass(""), name("");
-        int goId = -1;
+        CeGuiString goId;
 
         if (hasAttribute(personXml, "id"))
         {
@@ -827,13 +851,13 @@ namespace rl
             LOG_ERROR("DialogLoader", "person node without id found");
         }
 
-        if (hasAttribute(personXml, "goId"))
+        if (hasAttribute(personXml, "goid"))
         {
-            goId = getAttributeValueAsInteger(personXml, "goId");
+            goId = getAttributeValueAsString(personXml, "goid");
         }
-        if (hasAttribute(personXml, "goClass"))
+        if (hasAttribute(personXml, "goclass"))
         {
-            goClass = getAttributeValueAsString(personXml, "goClass");
+            goClass = getAttributeValueAsString(personXml, "goclass");
         }
         if (hasAttribute(personXml, "name"))
         {

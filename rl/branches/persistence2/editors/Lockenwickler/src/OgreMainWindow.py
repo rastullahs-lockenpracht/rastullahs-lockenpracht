@@ -1,19 +1,20 @@
-#################################################
- # Copyright (C) 2008  Stefan Stammberger
- #
- # This library is free software; you can redistribute it and/or
- # modify it under the terms of the GNU Lesser General Public
- # License as published by the Free Software Foundation; either
- # version 2.1 of the License, or (at your option) any later version.
- #
- # This library is distributed in the hope that it will be useful,
- # but WITHOUT ANY WARRANTY; without even the implied warranty of
- # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- # Lesser General Public License for more details.
- #
- # You should have received a copy of the GNU Lesser General Public
- # License along with this library; if not, write to the Free Software
- # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ #################################################
+# This source file is part of Rastullahs Lockenwickler.
+# Copyright (C) 2003-2009 Team Pantheon. http://www.team-pantheon.de
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  US
  #################################################
 
 
@@ -63,6 +64,7 @@ class OgreMainWindow(QWidget):
         Form.resize(QSize(QRect(0,0,935,843).size()).expandedTo(Form.minimumSizeHint()))
 
         self.gridlayout = QGridLayout(Form)
+        self.gridlayout.setContentsMargins(0, 2, 0, 0)
         self.gridlayout.setObjectName("gridlayout")
 
         # create the vertical splitter ( contains the preferences buttons and the horizontal splitter with the two render windows )
@@ -75,20 +77,6 @@ class OgreMainWindow(QWidget):
         self.splitterV.setSizePolicy(sizePolicy)
         self.splitterV.setOrientation(Qt.Vertical)
         self.splitterV.setObjectName("splitter")
-
-        # create the preferences buttons and connect the signals
-        self.ogreWindowOptions = QToolButton(self)
-        QObject.connect(self.ogreWindowOptions, SIGNAL("clicked()"),
-                                    self.onPreferencesButton)
-        self.ogreWindowOptions.hide()
-
-        sizePolicy = QSizePolicy(QSizePolicy.Maximum,QSizePolicy.Minimum)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.ogreWindowOptions.sizePolicy().hasHeightForWidth())
-        self.ogreWindowOptions.setSizePolicy(sizePolicy)
-        self.ogreWindowOptions.setObjectName("ogreWindowPreferences")
-        self.splitterV.addWidget(self.ogreWindowOptions)
 
         # create the horizontal splitter wich contains the two ogre render windows and add it to the vertical splitter
 
@@ -126,10 +114,6 @@ class OgreMainWindow(QWidget):
         
     def retranslateUi(self, Form):
         Form.setWindowTitle(QApplication.translate("Form", "Form", None, QApplication.UnicodeUTF8))
-        self.ogreWindowOptions.setText(QApplication.translate("Form", "...", None, QApplication.UnicodeUTF8))
-
-    def onPreferencesButton(self):
-        self.splitterH.setOrientation(Qt.Vertical)
 
     def keyPressEvent(self,  event):
         if event.key() == Qt.Key_W:
@@ -166,6 +150,7 @@ class OgreMainWindow(QWidget):
             elif event.button() == 2: # right mouse button is pressed
                 self.rightMouseDown = True
                 self.moduleManager.rightMouseDown = True
+                QTimer.singleShot(50, self.onContextMenuTimer)
 
             elif event.button() == 4: # middle mouse button is pressed
                 self.middleMouseDown = True
@@ -185,6 +170,7 @@ class OgreMainWindow(QWidget):
             elif event.button() == 2: # right mouse button is released
                 self.rightMouseDown = False
                 self.moduleManager.rightMouseDown = False
+                
             elif event.button() == 4: # middle mouse button is released
                 self.middleMouseDown = False
                 self.moduleManager.middleMouseDown = False
@@ -346,3 +332,20 @@ class OgreMainWindow(QWidget):
             
     def updateRenderWindow(self):
         self.ogreWidget.update()
+        
+    def onContextMenuTimer(self):
+        if not self.rightMouseDown:
+            relMousePos = self.ogreWidget.mapFromGlobal(QCursor.pos()) # get the mose position relative to the ogre window
+            
+            screenX = relMousePos.x()/float(self.ogreWidget.viewport.getActualWidth())
+            screenY = relMousePos.y()/float(self.ogreWidget.viewport.getActualHeight())
+            mouseRay = self.ogreWidget.getCamera().getCameraToViewportRay(screenX, screenY)
+
+            self.moduleManager.onContextMenu(relMousePos.x(), relMousePos.y(), mouseRay)
+            
+    def toggleViewportGrid(self):
+        if self.viewportGrid.isEnabled():
+            self.viewportGrid.disable()
+        else:
+            self.viewportGrid.enable()
+        

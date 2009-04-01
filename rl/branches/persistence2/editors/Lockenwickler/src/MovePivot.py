@@ -1,19 +1,20 @@
-#################################################
- # Copyright (C) 2008  Stefan Stammberger
- #
- # This library is free software; you can redistribute it and/or
- # modify it under the terms of the GNU Lesser General Public
- # License as published by the Free Software Foundation; either
- # version 2.1 of the License, or (at your option) any later version.
- #
- # This library is distributed in the hope that it will be useful,
- # but WITHOUT ANY WARRANTY; without even the implied warranty of
- # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- # Lesser General Public License for more details.
- #
- # You should have received a copy of the GNU Lesser General Public
- # License along with this library; if not, write to the Free Software
- # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ #################################################
+# This source file is part of Rastullahs Lockenwickler.
+# Copyright (C) 2003-2009 Team Pantheon. http://www.team-pantheon.de
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  US
  #################################################
 
 
@@ -116,6 +117,12 @@ class Pivot():
         self.zScaleNode = self.pivotNode.createChildSceneNode()
         self.zScaleNode.attachObject(self.zScaleEntity)
         self.zScaleNode.translate(og.Vector3(0, 0, 2))
+        
+        self.uniScaleEntity = self.sceneManager.createEntity("UniScaler",  "UniCube.mesh")
+        self.uniScaleEntity.setMaterialName("Lockenwickler_FreeMover")
+        self.uniScaleEntity.setRenderQueueGroup(og.RENDER_QUEUE_OVERLAY - 1)
+        self.uniScaleNode = self.pivotNode.createChildSceneNode()
+        self.uniScaleNode.attachObject(self.uniScaleEntity)
 
     def setPosition(self,  pos):
         self.pivotNode.setPosition(pos)
@@ -127,11 +134,9 @@ class Pivot():
         self.moveDirection = dirEntity.getName()
         self.selectionList = soList
         self.isTransforming = True
-        pass
 
     def stopTransforming(self):
         self.isTransforming = False
-        pass
 
     def hide(self):
         self.pivotNode.removeAllChildren()
@@ -148,7 +153,10 @@ class Pivot():
             self.pivotNode.addChild(self.yRotateNode)
             self.pivotNode.addChild(self.zRotateNode)
         elif self.mode == 3:
-            return
+            self.pivotNode.addChild(self.xScaleNode)
+            self.pivotNode.addChild(self.yScaleNode)
+            self.pivotNode.addChild(self.zScaleNode)
+            self.pivotNode.addChild(self.uniScaleNode)
         self.isHidden = False
 
     def setMoveMode(self):
@@ -171,6 +179,7 @@ class Pivot():
         self.pivotNode.addChild(self.xScaleNode)
         self.pivotNode.addChild(self.yScaleNode)
         self.pivotNode.addChild(self.zScaleNode)
+        self.pivotNode.addChild(self.uniScaleNode)
         
     def onMouseMoved(self, globalX, globalY, incX, incY):
         # move mode
@@ -219,6 +228,12 @@ class Pivot():
                 if self.moveDirection == "EditorZScaler":
                     for so in self.selectionList:
                         scale = so.entity.getParentNode().getScale() + og.Vector3(0, 0, incX * scaleFactor)
+                        so.entity.getParentNode().setScale(scale)
+                if self.moveDirection == "UniScaler":
+                    for so in self.selectionList:
+                        val = incY / 6.0
+                        print val
+                        scale = so.entity.getParentNode().getScale() + og.Vector3(val * scaleFactor, val * scaleFactor, val * scaleFactor)
                         so.entity.getParentNode().setScale(scale)
         
         self.update()

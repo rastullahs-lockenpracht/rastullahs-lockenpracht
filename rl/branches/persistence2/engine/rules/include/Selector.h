@@ -63,8 +63,6 @@ namespace rl {
     class _RlRulesExport Selector : public DebugVisualisable
     {
     public:
-        typedef std::vector<GameObject*> GameObjectVector;
-
         Selector(unsigned long mask = 0xffffffff);
         virtual ~Selector();
         virtual void updateSelection();
@@ -77,11 +75,11 @@ namespace rl {
         SelectionFilter* getFilter() const;
 
         GameObject* getFirstSelectedObject() const;
-        const GameObjectVector& getAllSelectedObjects() const;
+        const GameObjectList& getAllSelectedObjects() const;
 		unsigned int getSelectionCount() const;
 
     protected:
-        GameObjectVector mSelection;
+        GameObjectList mSelection;
         unsigned long mSelectionMask;
         SelectionFilter* mFilter;
 
@@ -143,6 +141,43 @@ namespace rl {
 
     protected:
         HalfSphereSceneQuery mQuery;
+        bool mCheckVisibility;
+        GameObject* mLoSReferenceGo;
+        GameObject* mTrackedGo;
+
+        virtual const ActorVector& doExecuteQuery();
+
+        virtual void doCreatePrimitive();
+    };
+
+    /// Selects this GameObject within a sphere .
+    class _RlRulesExport SphereSelector : public Selector
+    {
+    public:
+        SphereSelector(Ogre::SceneManager* smgr, unsigned long mask = 0xffffffff);
+	SphereSelector(unsigned long mask = 0xffffffff);
+
+        virtual void updateSelection();
+
+        void setRadius(Ogre::Real radius);
+
+        void setPosition(const Ogre::Vector3& pos);
+
+        /// Instead of using transform set with setPosition/Orientation, use the
+        /// GameObject's transform. Set to NULL to disable tracking.
+        void track(GameObject* go);
+
+        /// If check is true, visibility is checked from the POV of the GameObject reference
+        /// This is currently done by casting a ray from the GameObject to the candidate GOs
+        void setCheckVisibility(bool check, GameObject* reference = NULL);
+
+        // Overrides from DebugVisualisable
+
+        virtual DebugVisualisableFlag getFlag() const;
+        virtual void updatePrimitive();
+
+    protected:
+        SphereSceneQuery mQuery;
         bool mCheckVisibility;
         GameObject* mLoSReferenceGo;
         GameObject* mTrackedGo;

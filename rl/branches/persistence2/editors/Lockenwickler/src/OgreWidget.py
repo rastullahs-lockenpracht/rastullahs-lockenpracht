@@ -1,19 +1,20 @@
-#################################################
- # Copyright (C) 2008  Stefan Stammberger
- #
- # This library is free software; you can redistribute it and/or
- # modify it under the terms of the GNU Lesser General Public
- # License as published by the Free Software Foundation; either
- # version 2.1 of the License, or (at your option) any later version.
- #
- # This library is distributed in the hope that it will be useful,
- # but WITHOUT ANY WARRANTY; without even the implied warranty of
- # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- # Lesser General Public License for more details.
- #
- # You should have received a copy of the GNU Lesser General Public
- # License along with this library; if not, write to the Free Software
- # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ #################################################
+# This source file is part of Rastullahs Lockenwickler.
+# Copyright (C) 2003-2009 Team Pantheon. http://www.team-pantheon.de
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  US
  #################################################
 
 
@@ -79,7 +80,7 @@ class OgreWidget(QtGui.QWidget):
             self.renderWindow = renderWindow
             
             self.camera = self.sceneManager.createCamera(self.cameraName)
-            self.camera.NearClipDistance = 0.1
+            self.camera.NearClipDistance = 0.5
 
             # Create focus node (camera always points at this)
             self.camFocusNode = self.sceneManager.getRootSceneNode().createChildSceneNode()
@@ -104,13 +105,11 @@ class OgreWidget(QtGui.QWidget):
         if self.renderWindow:
             self.renderWindow.resize(event.size().width(), event.size().height())
             self.renderWindow.windowMovedOrResized()
-
-            if platform.system() == "Linux":
-                self.viewport._updateDimensions() # shouldn't actually be needed but it doesn't work without it on linux
+            self.viewport.update()
 
             self.renderWindow.update(True)
             self.ogreRoot.renderOneFrame()
-
+            
             if self.camera:
                 self.camera.setAspectRatio(float(event.size().width()) / float(event.size().height()));
                 

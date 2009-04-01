@@ -458,14 +458,14 @@ namespace rl {
 
 		mMouseSelector->setRay(camToWorld.getOrigin(), camToWorld.getPoint(3));
 		mMouseSelector->updateSelection();
-		Selector::GameObjectVector objs = mMouseSelector->getAllSelectedObjects();
+		GameObjectList objs = mMouseSelector->getAllSelectedObjects();
 
 		///@todo select, ...
 		if (!objs.empty())
 		{
 			LOG_MESSAGE(Logger::UI,
 				"Selected "+Ogre::StringConverter::toString(objs.size())+" items.");
-			for (Selector::GameObjectVector::const_iterator it = objs.begin();
+			for (GameObjectList::const_iterator it = objs.begin();
 				it != objs.end(); ++it)
 			{
                 if( !mInventory->getOwner()->canReachItem(static_cast<Item*>(*it)) )
@@ -528,8 +528,8 @@ namespace rl {
 				sel.setRadius(10.0);
 
 				sel.updateSelection();
-				Selector::GameObjectVector v = sel.getAllSelectedObjects();
-				for (Selector::GameObjectVector::iterator
+				GameObjectList v = sel.getAllSelectedObjects();
+				for (GameObjectList::iterator
 					it = v.begin(); it != v.end(); ++it)
 				{
                     if( !mInventory->getOwner()->canReachItem(static_cast<Item*>(*it)) )

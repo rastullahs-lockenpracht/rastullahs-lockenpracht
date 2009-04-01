@@ -873,5 +873,7 @@ namespace rl
              **/
             void setStatus(int& statusVariable, bool value, const Ogre::String& errorMessage);
     };
+    
+    typedef std::list<Creature*> CreatureList;
 }
 #endif //__CREATURE_H__

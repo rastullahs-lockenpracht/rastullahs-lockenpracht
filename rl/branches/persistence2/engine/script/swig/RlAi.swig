@@ -83,7 +83,7 @@ namespace rl
     class AgentDialogState : public rl::AgentState
     {
     public:
-        void setDialogPartner(rl::Agent* partner);
+        void addDialogPartner(rl::Agent* partner);
         void setDialog(rl::Dialog* dialog);
     private:
         AgentDialogState(rl::Agent* agent);
@@ -302,7 +302,7 @@ namespace rl
     public:
         static rl::DialogManager& getSingleton();
         rl::Dialog* createDialog(const Ogre::String& name, rl::Creature* npc);
-        rl::Dialog* createDialog(const Ogre::String& name, const std::list<rl::Creature*>& npcs);
+        rl::Dialog* createDialog(const Ogre::String& name, rl::CreatureList& npcs);
     private:
         DialogManager();
     };

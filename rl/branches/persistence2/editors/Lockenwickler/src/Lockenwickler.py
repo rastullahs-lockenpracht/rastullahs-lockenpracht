@@ -1,26 +1,26 @@
+#################################################
+# This source file is part of Rastullahs Lockenwickler.
+# Copyright (C) 2003-2009 Team Pantheon. http://www.team-pantheon.de
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  US
  #################################################
- #################################################
- # Copyright (C) 2008  Stefan Stammberger
- #
- # This library is free software; you can redistribute it and/or
- # modify it under the terms of the GNU Lesser General Public
- # License as published by the Free Software Foundation; either
- # version 2.1 of the License, or (at your option) any later version.
- #
- # This library is distributed in the hope that it will be useful,
- # but WITHOUT ANY WARRANTY; without even the implied warranty of
- # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- # Lesser General Public License for more details.
- #
- # You should have received a copy of the GNU Lesser General Public
- # License along with this library; if not, write to the Free Software
- # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- #################################################
-
 
 import os
 import sys
 import platform
+import subprocess
 
 sys.path.insert(0,'..')
 import PythonOgreConfig
@@ -34,9 +34,10 @@ from ModelSelectionDialog import *
 from MaterialSelectionDialog import *
 from GameObjectClassView import *
 from ConsoleWindow import *
-from ModuleManager import *
+from ModuleManager import ModuleManager
 from ModuleExplorer import *
 from NewModuleWizard import *
+from MovePivot import *
 from PivotRenderQueueListener import *
 
 import OgreMainWindow
@@ -50,7 +51,7 @@ class Lockenwickler(QtGui.QMainWindow):
 #        splash = QSplashScreen(pixmap, Qt.WindowStaysOnTopHint)
 #        splash.setMask(pixmap.mask())
 #        splash.showMessage("Starting...")
-#        splash.show()
+#        splash.show() 
 
         self.setupUi()
 
@@ -59,7 +60,7 @@ class Lockenwickler(QtGui.QMainWindow):
         self.setupOgre()
 
         self.prefDialog = PreferencesDialog(self)
-        self.objectPropertyWin = ObjectPropertyWin(self.OgreMainWinSceneMgr, self)
+        self.objectPropertyWin = ObjectPropertyWin(self.OgreMainWinSceneMgr, self.gocManager, self)
         self.moduleExplorerWin = ModuleExplorer(self)
         self.modelSelectionDialog = ModelSelectionDialog(self.ogreRoot, self)
         self.materialSelectionDialog = MaterialSelectionDialog(self.ogreRoot, self)
@@ -85,6 +86,7 @@ class Lockenwickler(QtGui.QMainWindow):
         
         self.moduleManager.setModuleExplorer(self.moduleExplorerWin)
         self.moduleManager.setPropertyWindow(self.objectPropertyWin)
+        self.moduleManager.setContextMenuCallback(self.onContextMenuCallback)
         
         self.setWindowIcon(QIcon("media/icons/lockenwickler_provisorium_small.png"))
         self.setWindowTitle("Rastullahs Lockenwickler")
@@ -123,11 +125,13 @@ class Lockenwickler(QtGui.QMainWindow):
         self.centralwidget.setObjectName("centralwidget")
 
         self.hboxlayout = QtGui.QHBoxLayout(self.centralwidget)
+        self.hboxlayout.setContentsMargins(0, 0, 0, 0)
         self.hboxlayout.setObjectName("hboxlayout")
 
         self.gridlayout = QtGui.QGridLayout()
         self.gridlayout.setObjectName("gridlayout")
-
+        self.gridlayout.setContentsMargins(0, 0, 0, 0)
+        
         self.menubar = QtGui.QMenuBar(self)
         self.menubar.setObjectName("menubar")
 
@@ -155,8 +159,11 @@ class Lockenwickler(QtGui.QMainWindow):
         
         self.actionSave = self.createAction("&Save",  self.actionSaveSlot,  QKeySequence.Save,  "filesave.png",  "Save Module")
         self.actionSave.setObjectName("actionSave")
+        
+        self.actionRunModule = self.createAction("&Save and Run",  self.actionRunModuleSlot,  "Alt+R",  "fileexport.png",  "Save And Run Module")
+        self.actionRunModule.setObjectName("actionRunModule")
 
-        self.actionClose = self.createAction("Quit",  self.actionQuitSlot,  "Alt + Q",  "exit.png",  "Quit")
+        self.actionClose = self.createAction("Quit",  self.actionQuitSlot,  "Alt+Q",  "exit.png",  "Quit")
         self.actionClose.setObjectName("actionQuit")
 #####################################
 
@@ -192,26 +199,29 @@ class Lockenwickler(QtGui.QMainWindow):
 
 #####################################
 #####################################
-        self.actionSceneExplorer = self.createAction("&Scene Exlporer",  self.toggleModuleExplorer,  "Alt + E",  "view_tree.png",  "Module Explorer",  False)
+        self.actionSceneExplorer = self.createAction("&Scene Exlporer",  self.toggleModuleExplorer,  "Alt+E",  "view_tree.png",  "Module Explorer",  False)
         self.actionSceneExplorer.setObjectName("actionSceneExplorer")
         
-        self.actionPreferences = self.createAction("&Preferences",  self.togglePreferencesWindow,  "Alt + P",  "configure.png",  "Lockenwickler Preferences",  False)
+        self.actionPreferences = self.createAction("&Preferences",  self.togglePreferencesWindow,  "Alt+P",  "configure.png",  "Lockenwickler Preferences",  False)
         self.actionPreferences.setObjectName("actionPreferences")
 
-        self.actionProperty_Window = self.createAction("Pr&operty Window",  self.togglePropertyWindow,  "Alt + P",  "unsortedlist1.png",  "Property Window")
+        self.actionProperty_Window = self.createAction("Pr&operty Window",  self.togglePropertyWindow,  "Alt+P",  "unsortedlist1.png",  "Property Window")
         self.actionProperty_Window.setObjectName("actionProperty_Window")
 
-        self.actionObject_Selection = self.createAction("&Model Preview Window",  self.toggleModelPreviewWindow,  "Alt + O",  "tux.png",  "Model Preview")
+        self.actionObject_Selection = self.createAction("&Model Preview Window",  self.toggleModelPreviewWindow,  "Alt+O",  "tux.png",  "Model Preview")
         self.actionObject_Selection.setObjectName("actionObject_Selection")
         
-        self.actionMaterial_Selection = self.createAction("Material &Preview Window",  self.toggleMaterialPreviewWindow,  "Alt + M",  "colors.png",  "Material Preview")
+        self.actionMaterial_Selection = self.createAction("Material &Preview Window",  self.toggleMaterialPreviewWindow,  "Alt+M",  "colors.png",  "Material Preview")
         self.actionMaterial_Selection.setObjectName("actionMaterial_Selection")
 
-        self.actionGameObjectClass_Selection = self.createAction("&Game Object Class Preview Window",  self.toggleGameObjectViewWindow,  "Alt + G",  "multirow.png",  "GameObjectClass Preview")
+        self.actionGameObjectClass_Selection = self.createAction("&Game Object Class Preview Window",  self.toggleGameObjectViewWindow,  "Ctrl+G",  "multirow.png",  "GameObjectClass Preview")
         self.actionGameObjectClass_Selection.setObjectName("actionObject_Selection")
 
-        self.actionConsole_Window = self.createAction("&Console Window",  self.toggleConsoleWindow,  "Alt + C",  "console.png",  "Console Window")
+        self.actionConsole_Window = self.createAction("&Console Window",  self.toggleConsoleWindow,  "Alt+C",  "console.png",  "Console Window")
         self.actionConsole_Window.setObjectName("actionConsole_Window")
+        
+        self.actionToggleViewportGrid = self.createAction("&Toggle Grid",  self.toggleViewportGrid,  "Alt+G",  "console.png",  "Toggle Viewport Grid")
+        self.actionToggleViewportGrid.setObjectName("actionToggleViewportGrid")
 
 #####################################
 #####################################
@@ -220,6 +230,7 @@ class Lockenwickler(QtGui.QMainWindow):
         self.menuFile.addAction(self.actionNeu)
         self.menuFile.addAction(self.actionOpen)
         self.menuFile.addAction(self.actionSave)
+        self.menuFile.addAction(self.actionRunModule)
         self.menuFile.addAction(self.actionClose)
 
         self.menuEdit.addAction(self.actionSelect)
@@ -242,6 +253,8 @@ class Lockenwickler(QtGui.QMainWindow):
         self.menuView.addAction(self.actionMaterial_Selection)
         self.menuView.addAction(self.actionGameObjectClass_Selection)
         self.menuView.addAction(self.actionConsole_Window)
+        self.menuView.addAction(self.actionToggleViewportGrid)
+        
         self.menubar.addAction(self.menuFile.menuAction())
         self.menubar.addAction(self.menuEdit.menuAction())
         self.menubar.addAction(self.menuView.menuAction())
@@ -282,10 +295,11 @@ class Lockenwickler(QtGui.QMainWindow):
         self.OgreMainWinSceneMgr = self.ogreRoot.createSceneManager(og.ST_GENERIC, "OgreMainWinSceneMgr")
         self.OgreMainWinSceneMgr.ambientLight = og.ColourValue(4, 4, 4)
         self.OgreMainWinSceneMgr.addRenderQueueListener(self.pivotRenderQueueListener)
-
+        
         self.moduleName = ""
         self.moduleManager = ModuleManager(self.ogreRoot,  self.OgreMainWinSceneMgr)
-
+        self.gocManager = self.moduleManager.gocManager
+        
         self.ogreMainWindow = OgreMainWindow.OgreMainWindow(self.moduleManager,  root,  self.OgreMainWinSceneMgr,  self)
         self.gridlayout.addWidget(self.ogreMainWindow,0,0,1,1)
         self.hboxlayout.addLayout(self.gridlayout)
@@ -321,6 +335,16 @@ class Lockenwickler(QtGui.QMainWindow):
         
     def actionSaveSlot(self):
         self.moduleManager.save()
+        
+    def actionRunModuleSlot(self):
+        self.moduleManager.save()
+        if platform.system() == "Windows":
+            workingDir = self.prefDialog.moduleCfgPath.replace("/modules/modules.cfg", "")
+            executable = os.path.join(workingDir, "Rastullah.exe")
+            executable = executable.replace("/",  "\\")
+            if os.path.isfile(executable):
+                subprocess.Popen([executable, "--module", self.moduleManager.mainModule.name], 0, None, None, None, None, None, False, False, workingDir)
+
         
     def actionQuitSlot(self):
         self.close()
@@ -394,13 +418,10 @@ class Lockenwickler(QtGui.QMainWindow):
         else:
             self.consoleDock.hide()
 
-    def createDockWindows(self):
-        self.propertyDock = QtGui.QDockWidget(self.tr("Properties"), self)
-        self.propertyDock.setObjectName("PropertyDockWindow")
-        self.propertyDock.setAllowedAreas(QtCore.Qt.LeftDockWidgetArea | QtCore.Qt.RightDockWidgetArea)
-        self.propertyDock.setWidget(self.objectPropertyWin)
-        self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.propertyDock)
+    def toggleViewportGrid(self):
+        self.ogreMainWindow.toggleViewportGrid()
 
+    def createDockWindows(self):
         self.modelSelectionDock = QtGui.QDockWidget(self.tr("Models"), self)
         self.modelSelectionDock.setObjectName("ModelSelectionDockWindow")
         self.modelSelectionDock.setAllowedAreas(QtCore.Qt.LeftDockWidgetArea | QtCore.Qt.RightDockWidgetArea)
@@ -412,19 +433,28 @@ class Lockenwickler(QtGui.QMainWindow):
         self.materialSelectionDock.setAllowedAreas(QtCore.Qt.LeftDockWidgetArea | QtCore.Qt.RightDockWidgetArea)
         self.materialSelectionDock.setWidget(self.materialSelectionDialog)
         self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.materialSelectionDock)
-
+        self.tabifyDockWidget(self.modelSelectionDock, self.materialSelectionDock)
+        
         self.gameObjectClassViewDock = QtGui.QDockWidget(self.tr("GameObjectClasses"), self)
         self.gameObjectClassViewDock.setObjectName("GameObjectClassView")
         self.gameObjectClassViewDock.setAllowedAreas(QtCore.Qt.LeftDockWidgetArea | QtCore.Qt.RightDockWidgetArea)
         self.gameObjectClassViewDock.setWidget(self.gameObjectClassView)
-        self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.gameObjectClassViewDock)
+        self.addDockWidget(QtCore.Qt.RightDockWidgetArea, self.gameObjectClassViewDock)        
+        self.tabifyDockWidget(self.modelSelectionDock, self.gameObjectClassViewDock)
+        
+        self.propertyDock = QtGui.QDockWidget(self.tr("Properties"), self)
+        self.propertyDock.setObjectName("PropertyDockWindow")
+        self.propertyDock.setAllowedAreas(QtCore.Qt.LeftDockWidgetArea | QtCore.Qt.RightDockWidgetArea)
+        self.propertyDock.setWidget(self.objectPropertyWin)
+        self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.propertyDock)
 
         self.moduleExplorerDock = QtGui.QDockWidget(self.tr("Module Explorer"), self)
         self.moduleExplorerDock.setObjectName("ModuleExplorerDockWindow")
         self.moduleExplorerDock.setAllowedAreas(QtCore.Qt.LeftDockWidgetArea | QtCore.Qt.RightDockWidgetArea)
         self.moduleExplorerDock.setWidget(self.moduleExplorerWin)
         self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.moduleExplorerDock)
-
+        self.tabifyDockWidget(self.moduleExplorerDock, self.propertyDock)
+        
         self.consoleDock = QtGui.QDockWidget(self.tr("Console"), self)
         self.consoleDock.setObjectName("ConsoleDockWindow")
         self.consoleDock.setAllowedAreas(QtCore.Qt.BottomDockWidgetArea | QtCore.Qt.TopDockWidgetArea)
@@ -437,6 +467,7 @@ class Lockenwickler(QtGui.QMainWindow):
         self.fileToolBar.addAction(self.actionNeu)
         self.fileToolBar.addAction(self.actionOpen)
         self.fileToolBar.addAction(self.actionSave)
+        self.fileToolBar.addAction(self.actionRunModule)
         self.fileToolBar.addAction(self.actionClose)
         self.addToolBar(QtCore.Qt.TopToolBarArea, self.fileToolBar)
 
@@ -458,16 +489,31 @@ class Lockenwickler(QtGui.QMainWindow):
             self.ogreMainWindow.keyReleaseEvent(event)
         pass
 
+    def onContextMenuCallback(self, actions, menus):
+        menu = QMenu("My Menu!!")
+        menu.addAction(self.actionDelete)
+        menu.addAction(self.actionCopy)
+        menu.addAction(self.actionCut)
+        menu.addAction(self.actionPaste)
+        menu.addSeparator()
+        
+        for m in menus:
+            menu.addMenu(m)
+        for a in actions:
+            menu.addAction(a)
+
+        menu.exec_(QCursor.pos())
+
     def connectActionButtons(self):
         pass
 
     def saveOnClose(self):
-        reply = QtGui.QMessageBox.question(self,  "Rastullahs Lockenwickler - Unsaved Chages",  "Save unsaved changes?",  QtGui.QMessageBox.Yes|QtGui.QMessageBox.No|QtGui.QMessageBox.Cancel)
-        if reply == QtGui.QMessageBox.Cancel:
-            return False
-        if reply == QtGui.QMessageBox.Yes:
-            print""
-            #TODO: implement save here
+#        reply = QtGui.QMessageBox.question(self,  "Rastullahs Lockenwickler - Unsaved Chages",  "Save unsaved changes?",  QtGui.QMessageBox.Yes|QtGui.QMessageBox.No|QtGui.QMessageBox.Cancel)
+#        if reply == QtGui.QMessageBox.Cancel:
+#            return False
+#        if reply == QtGui.QMessageBox.Yes:
+#            print""
+#            #TODO: implement save here
         return True
 
     def closeEvent(self,  event):
@@ -476,14 +522,16 @@ class Lockenwickler(QtGui.QMainWindow):
             settings.setValue("Preferences/moduleCfgPath", QtCore.QVariant(self.prefDialog.lineEdit.text()))
             settings.setValue("MainWindow/Geometry",  QtCore.QVariant(self.saveGeometry()))
             settings.setValue("MainWIndow/DockWindows",  QtCore.QVariant(self.saveState()))
+            
+            #self.ogreRoot.shutdown()
         else:
             event.ignore()
 
 if __name__ == "__main__":
 #    # Import Psyco if available
 #    try:
-##        import psyco
-##        psyco.full(0.02)
+#        import psyco
+#        psyco.full(0.02)
 #        #psyco.log()
 #        #psyco.profile()
 #    except ImportError:
@@ -497,5 +545,7 @@ if __name__ == "__main__":
     form = Lockenwickler()
     form.show()
 
-    sys.exit(app.exec_())
+    app.exec_()
+    
+    sys.exit(0)
 

@@ -31,6 +31,7 @@ namespace rl {
 
 	class Actor;
 	class MeshObject;
+    class PhysicsRagDoll;
 
 	/** PhysicalThing contains the physical representation of an ActorControlledObject.
 	 * It utilizes a default collision primitiv derived from the default mesh, but it
@@ -129,7 +130,7 @@ namespace rl {
         Ogre::Real getMass() const;
         void setMass(Ogre::Real mass);
 
-		void createPhysicsProxy(Ogre::SceneNode* node);
+		void createPhysicsProxy();
         void updatePhysicsProxy();
 		void destroyPhysicsProxy();
 
@@ -172,13 +173,20 @@ namespace rl {
          */
         const OgreNewt::MaterialID* getMaterialID() const;
 
+        //! retrieve the ragdoll
+        PhysicsRagDoll* getRagDoll() { return mRagDoll; }
+
+        //! create a RagDoll, it is destroyed with
+        void createPhysicsProxy_RagDoll();
+
+/*
     protected:
 		void prepareUserControl(OgreNewt::MaterialID* material);
         void unprepareUserControl();
-
+*/
     private:
         Actor* mActor;
-		//! The newton body object this physical thing works with
+		//! The newton body object this physical thing works with, if it has a ragdoll, this is the main-body!
         OgreNewt::Body* mBody;
 		//! an upjoint to keep the body from falling over
         OgreNewt::BasicJoints::UpVector* mUpVectorJoint;
@@ -197,7 +205,7 @@ namespace rl {
 
 		//! typedefinition for easing variable declaration
         typedef std::map<Ogre::String, OgreNewt::CollisionPtr> CollisionMap;
-		//! ??
+		//! Cache for collisions created by fitToPose
         CollisionMap mPoseCollisions;
 
 		//! the objects mass
@@ -219,6 +227,9 @@ namespace rl {
 		void setBody(OgreNewt::Body* body);
 
         OgreNewt::CollisionPtr createCollision(PhysicalObject* po, Ogre::Vector3& inertia) const;
+
+        //! the ragdoll, if this thing is controlled by a ragdoll
+        PhysicsRagDoll* mRagDoll;
 	};
 }
 

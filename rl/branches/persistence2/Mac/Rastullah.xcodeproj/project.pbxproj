@@ -429,6 +429,8 @@
 		44D8147A0BF7B62F00534175 /* Trigger.h in Headers */ = {isa = PBXBuildFile; fileRef = 44D814750BF7B62F00534175 /* Trigger.h */; };
 		44D8147B0BF7B62F00534175 /* Zone.h in Headers */ = {isa = PBXBuildFile; fileRef = 44D814760BF7B62F00534175 /* Zone.h */; };
 		44D8147C0BF7B62F00534175 /* ZoneManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 44D814770BF7B62F00534175 /* ZoneManager.h */; };
+		483373810F65EBF4005979BF /* DialogController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 483373800F65EBF4005979BF /* DialogController.cpp */; };
+		483373830F65EC01005979BF /* DialogController.h in Headers */ = {isa = PBXBuildFile; fileRef = 483373820F65EC01005979BF /* DialogController.h */; };
 		483646990D83D13700912FEC /* ContentLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 483646960D83D13700912FEC /* ContentLoader.h */; };
 		4836469A0D83D13700912FEC /* SoundStitching.h in Headers */ = {isa = PBXBuildFile; fileRef = 483646970D83D13700912FEC /* SoundStitching.h */; };
 		4836469B0D83D13700912FEC /* StartAnimationJob.h in Headers */ = {isa = PBXBuildFile; fileRef = 483646980D83D13700912FEC /* StartAnimationJob.h */; };
@@ -1285,6 +1287,9 @@
 		44D814750BF7B62F00534175 /* Trigger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Trigger.h; sourceTree = "<group>"; };
 		44D814760BF7B62F00534175 /* Zone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Zone.h; sourceTree = "<group>"; };
 		44D814770BF7B62F00534175 /* ZoneManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZoneManager.h; sourceTree = "<group>"; };
+		483373800F65EBF4005979BF /* DialogController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DialogController.cpp; sourceTree = "<group>"; };
+		483373820F65EC01005979BF /* DialogController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DialogController.h; sourceTree = "<group>"; };
+		483374130F6D275A005979BF /* TypeRlGameObjectList.swig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TypeRlGameObjectList.swig; path = script/swig/TypeRlGameObjectList.swig; sourceTree = "<group>"; };
 		483646960D83D13700912FEC /* ContentLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContentLoader.h; sourceTree = "<group>"; };
 		483646970D83D13700912FEC /* SoundStitching.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundStitching.h; sourceTree = "<group>"; };
 		483646980D83D13700912FEC /* StartAnimationJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartAnimationJob.h; sourceTree = "<group>"; };
@@ -1943,6 +1948,7 @@
 				48389BFB0D8677EE00AFAB66 /* TypeOgreVector3.swig */,
 				48389BFC0D8677EE00AFAB66 /* TypeRlCeGuiString.swig */,
 				48389BFD0D8677EE00AFAB66 /* TypeRlCeGuiStringVector.swig */,
+				483374130F6D275A005979BF /* TypeRlGameObjectList.swig */,
 				48389BFE0D8677EE00AFAB66 /* TypeRlProperty.swig */,
 				48389BFF0D8677EE00AFAB66 /* TypeRlPropertyKeys.swig */,
 				48389C000D8677EE00AFAB66 /* TypeStdPairIntInt.swig */,
@@ -2293,6 +2299,7 @@
 		48EFE0880E8B6822007EB7F8 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				483373820F65EC01005979BF /* DialogController.h */,
 				48B006C60ECAC097008141C2 /* windows */,
 				444EAD010BD0E58C00C6D4A0 /* CeGuiHelper.h */,
 				4404DA850C48D037007B4657 /* stdinc.h */,
@@ -2320,6 +2327,7 @@
 		48EFE0890E8B6900007EB7F8 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				483373800F65EBF4005979BF /* DialogController.cpp */,
 				48B006C30ECABFB0008141C2 /* windows */,
 				444EACCC0BD0E57100C6D4A0 /* UiSubsystem.cpp */,
 				444EACCD0BD0E57100C6D4A0 /* WindowFactory.cpp */,
@@ -2823,6 +2831,7 @@
 				48389B9D0D86743900AFAB66 /* UiMessages.h in Headers */,
 				487029C70E80DCEA00B66388 /* GameOverWindow.h in Headers */,
 				48B006C80ECAC11D008141C2 /* CharacterSelectionWindow.h in Headers */,
+				483373830F65EC01005979BF /* DialogController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3102,7 +3111,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "pwd\ncd ../engine/script/swig\n/usr/local/bin/swig -ruby -minherit -c++ -Fmicrosoft -addextern RlExports.i";
+			shellScript = "pwd\ncd ../engine/script/swig\n/usr/local/bin/swig -ruby -minherit -c++ -w473 -Fstandard -addextern RlExports.i";
 		};
 		48CA78BF0F221DD700F8E471 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3422,6 +3431,7 @@
 				48389B950D86741F00AFAB66 /* stdinc.cpp in Sources */,
 				487029C90E80DCF900B66388 /* GameOverWindow.cpp in Sources */,
 				48B006C50ECAC05F008141C2 /* CharacterSelectionWindow.cpp in Sources */,
+				483373810F65EBF4005979BF /* DialogController.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

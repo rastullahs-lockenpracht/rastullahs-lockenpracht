@@ -54,12 +54,18 @@ SteeringVehicle::SteeringVehicle(Creature* creature)
 
     mController = CreatureControllerManager::getSingleton().getCreatureController(
         mCreature);
+    std::ostringstream oss;
+    oss << " Creature '" << mCreature->getName() << "' controlled by SteeringVehicle.";
+    LOG_DEBUG(Logger::RULES, oss.str());
     mMessageType_GameObjectsLoaded_Handler = MessagePump::getSingleton().addMessageHandler<MessageType_GameObjectsLoaded>(
                 boost::bind(&SteeringVehicle::refetchCreature, this));
 }
 
 SteeringVehicle::~SteeringVehicle()
 {
+    std::ostringstream oss;
+    oss << " Creature '" << mCreature->getName() << "' not controlled by SteeringVehicle any more.";
+    LOG_DEBUG(Logger::RULES, oss.str());
 }
 
 void SteeringVehicle::resetLocalSpace()
@@ -220,8 +226,13 @@ Vector3 SteeringVehicle::calcSteerTargetSpeed(const float targetSpeed)
 bool SteeringVehicle::isAhead(Agent* agent, const float threshold)
 {
     Vector3 target = agent->getControlledCreature()->getPosition();
-	//target.y = position.y;
-	return SimpleVehicle_2::isAhead(target, threshold);
+    //target.y = position.y;
+    return SimpleVehicle_2::isAhead(target, threshold);
+}
+
+bool SteeringVehicle::isAhead(const Vector3& position, const float threshold)
+{
+    return SimpleVehicle_2::isAhead(position, threshold);
 }
 
 bool SteeringVehicle::needAvoidance(const float minTimeToCollision)

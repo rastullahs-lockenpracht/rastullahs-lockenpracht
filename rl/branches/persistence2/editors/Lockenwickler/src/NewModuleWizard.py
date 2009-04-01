@@ -1,5 +1,21 @@
-# -*- coding: utf-8 -*-
-
+ #################################################
+# This source file is part of Rastullahs Lockenwickler.
+# Copyright (C) 2003-2009 Team Pantheon. http://www.team-pantheon.de
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  US
+ #################################################
 """
 Module implementing NewModuleWizard.
 """
@@ -119,23 +135,48 @@ class NewModuleWizard(QDialog, Ui_Dialog):
         f.write("    def getDependencies()\n")
         f.write("       return [" + str(mdeps) + "];\n")
         f.write("    end\n\n")
-        f.write("    def getTextureLocation()\n")
+        f.write("    def getTextureLocations()\n")
         f.write("       return [\"textures\"];\n")
         f.write("    end\n\n")
-        f.write("    def getModelLocation()\n")
+        f.write("    def getModelLocations()\n")
         f.write("       return [\"models\"];\n")
         f.write("    end\n\n")
-        f.write("    def getSoundLocation()\n")
+        f.write("    def getSoundLocations()\n")
         f.write("       return [\"sound\"];\n")
         f.write("    end\n\n")
         f.write("    def start()\n")
-        f.write(sdeps)
-        f.write("\n\n       SceneManager.getSingleton().loadScene(\"" + self.sceneNameLineEdit.text() + "\");\n")
-        f.write("       $World = $CORE.getWorld();\n")
+        f.write(sdeps + "\n")
+        f.write("       require 'player.rb'\n")
+        f.write("       require 'mckhero.rb'\n")
+        f.write("       $PM.setEnabled(true);\n\n")
+        f.write("\n\n       SceneManager.getSingleton().loadScene(\"" + self.sceneNameLineEdit.text() + "\");\n\n")
+        f.write("       hero = $GOM.getGameObject(XXXXXX);\n")
+        f.write("       PlayerSettings.preparePlayer(hero)\n")
+        f.write("       PartyManager.getSingleton().setActiveCharacter(hero)\n\n")
         f.write("    end\n")
         f.write("end\n\n")
-
         f.write("CoreSubsystem.getSingleton().registerModule(" + mname.capitalize() + "Module.new());\n")
+        f.close()
+        
+        
+        
+        p = os.path.join(modulePath, "maps")
+        p = os.path.join(p, str(self.sceneNameLineEdit.text()) + ".rlscene")
+        
+        f = open(p, "w")
+        f.write("<scene name=\"" + str(self.sceneNameLineEdit.text()) + "\">\n")
+        f.write("    <map file=\"" + str(self.mapNameLineEdit.text()) + ".rlmap.xml\"" +  "/>\n")
+        f.write("</scene>\n")
+        f.close()
+        
+        p = os.path.join(modulePath, "maps")
+        p = os.path.join(p, str(self.mapNameLineEdit.text()) + ".rlmap.xml")
+        
+        f = open(p, "w")
+        f.write("<rastullahmap formatVersion=\"0.4.0\">\n")
+        f.write("    <nodes>\n")
+        f.write("    </nodes>\n")
+        f.write("</rastullahmap>\n")
         f.close()
         
         self.moduleManager.resetParsedModuleConfig()

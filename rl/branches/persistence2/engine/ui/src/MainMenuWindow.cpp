@@ -102,16 +102,25 @@ namespace rl {
 		MenuBase* modulesMenu = getMenu("MainMenu/Modules/Menu");
 
 		ItemEntry* itOld = NULL;
+        CeGuiString activeName;
+        activeName = mActiveModule->getName();
 		for (size_t i=0; i<modulesMenu->getItemCount(); i++)
 		{
 			ItemEntry* curr = modulesMenu->getItemFromIndex(i);
-			if (curr->getText().compare(mActiveModule->getName()+" *") == 0)
+            CeGuiString currName;
+            currName = curr->getText();
+			if (currName.compare(activeName+" *") == 0)
 			{
 				itOld = curr;
 				break;
 			}
 		}
-		itOld->setText(mActiveModule->getName());
+        if( !itOld )
+        {
+            LOG_ERROR(Logger::UI,"Could not determine last active MenuEntry in MainMenuWindow::handleChooseModule");            
+        }
+        else
+            itOld->setText(mActiveModule->getName());
 
 		mActiveModule = module;
 		it->setText(module->getName()+" *");

@@ -94,6 +94,31 @@ material Lockenwickler_Area
 	}
 }
 
+material Lockenwickler_Area_Subtract
+{
+	technique
+	{
+                pass
+		{
+                        depth_write off
+                        scene_blend alpha_blend
+                        
+			ambient 0.0 0.0 1.0 0.2
+			diffuse 0.0 0.0 1.0 0.2
+			emissive 0.0 0.0 1.0 0.2
+		}
+
+		pass
+		{
+                        polygon_mode wireframe
+
+			ambient 0.0 0.0 1.0 1.0
+			diffuse 0.0 0.0 1.0 1.0
+			emissive 0.0 0.0 1.0 1.0
+		}
+	}
+}
+
 vertex_program PlainColor_VS cg
 {
 	source PlainColor.cg
@@ -164,9 +189,33 @@ material PlainColorGLSL glsl
 			vertex_program_ref PlainColorGLSL_VP	
 			{
 			}
-			
+				
 			fragment_program_ref PlainColorGLSL_FP
 			{
+			}
+		}
+	}
+}
+
+fragment_program FragmentDepthMap glsl
+{
+	source depthmap.frag
+}
+
+material DepthMap
+{
+	technique
+	{
+		pass
+		{
+			vertex_program_ref PlainColorGLSL_VP	
+			{
+			}
+
+			fragment_program_ref FragmentDepthMap
+			{
+				param_named_auto fNear near_clip_distance
+				param_named_auto fFar far_clip_distance
 			}
 		}
 	}

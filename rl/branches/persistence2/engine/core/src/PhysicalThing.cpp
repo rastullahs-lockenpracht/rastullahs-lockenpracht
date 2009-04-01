@@ -24,6 +24,7 @@
 #include "MathUtil.h"
 #include "MeshObject.h"
 #include "PhysicalObject.h"
+#include "PhysicsRagDoll.h"
 
 using namespace Ogre;
 using namespace OgreNewt;
@@ -46,15 +47,14 @@ namespace rl
 		mPhysicalObject(po),
 		mMass(mass),
 		mHullModifier(hullModifier),
-        mPhysicsController(NULL)
+        mPhysicsController(NULL),
+        mRagDoll(NULL)
 	{
 	}
 
     PhysicalThing::~PhysicalThing()
 	{
-                mPoseCollisions.clear();
-		delete mBody;
-		mBody = NULL;
+        destroyPhysicsProxy();
     }
 
     Ogre::Vector3 PhysicalThing::getPosition() const
@@ -75,7 +75,10 @@ namespace rl
         Quaternion quat;
         Vector3 oldPos;
         mBody->getPositionOrientation(oldPos, quat);
-        mBody->setPositionOrientation(pos, quat);
+        if( mRagDoll )
+            mRagDoll->setPositionOrientation(pos, quat);
+        else
+            mBody->setPositionOrientation(pos, quat);
     }
 
     Ogre::Quaternion PhysicalThing::getOrientation() const
@@ -96,7 +99,10 @@ namespace rl
         Quaternion oldOrientation;
         Vector3 pos;
         mBody->getPositionOrientation(pos, oldOrientation);
-        mBody->setPositionOrientation(pos, orientation);
+        if( mRagDoll )
+            mRagDoll->setPositionOrientation(pos, orientation);
+        else
+            mBody->setPositionOrientation(pos, orientation);
     }
 
     void PhysicalThing::setVelocity(const Vector3& vel)
@@ -129,9 +135,18 @@ namespace rl
     {
 		if (mBody && mActor)
 		{
-			mBody->setPositionOrientation(
-				mActor->_getSceneNode()->_getDerivedPosition(),
-				mActor->_getSceneNode()->_getDerivedOrientation());
+            if( mRagDoll )
+            {
+                mRagDoll->setPositionOrientation(
+		    		mActor->_getSceneNode()->_getDerivedPosition(),
+				    mActor->_getSceneNode()->_getDerivedOrientation());
+            }
+            else
+            {
+			    mBody->setPositionOrientation(
+		    		mActor->_getSceneNode()->_getDerivedPosition(),
+				    mActor->_getSceneNode()->_getDerivedOrientation());
+            }
 			mActor->_update(Actor::UF_ALL & ~Actor::UF_PHYSICAL_THING);
 		}
     }
@@ -145,7 +160,10 @@ namespace rl
 
     void PhysicalThing::_attachToSceneNode(Ogre::SceneNode* node)
     {
-        mBody->attachNode(node);
+        if( mRagDoll )
+            mRagDoll->setSceneNode( node );
+        else
+            mBody->attachNode(node);
     }
 
     void PhysicalThing::_attachToBone(MeshObject* object, const std::string& boneName )
@@ -162,6 +180,9 @@ namespace rl
 
     void PhysicalThing::setUpConstraint(const Vector3& upVector)
     {
+        RlAssert(!mRagDoll,
+           "PhysicalThing::setUpConstraint: using UpConstraint not possible while a RagDoll controls this PhysicalThing!");
+
         if (!mUpVectorJoint)
         {
             mUpVectorJoint = new OgreNewt::BasicJoints::UpVector(
@@ -185,8 +206,11 @@ namespace rl
 
     void PhysicalThing::clearUpConstraint()
     {
-        delete mUpVectorJoint;
-        mUpVectorJoint = NULL;
+        if( mUpVectorJoint )
+        {
+            delete mUpVectorJoint;
+            mUpVectorJoint = NULL;
+        }
     }
 
     void PhysicalThing::onApplyForceAndTorque(float timestep)
@@ -210,10 +234,16 @@ namespace rl
 
     void PhysicalThing::setMass(Ogre::Real mass)
     {
-        Vector3 inertia;
-        mBody->getMassMatrix(mMass, inertia);
+        // effect on ragdoll?
+
+        if( mBody && !mRagDoll )
+        {
+            Vector3 inertia;
+            mBody->getMassMatrix(mMass, inertia);
+            mMass = mass;
+            mBody->setMassMatrix(mass, inertia);
+        }
         mMass = mass;
-        mBody->setMassMatrix(mass, inertia);
     }
 
     void PhysicalThing::setGravityOverride(bool override, const Vector3& gravity)
@@ -233,7 +263,9 @@ namespace rl
         entity->_updateAnimation();
         Node* node = entity->getParentNode();
         RlAssert(node,
-            "Actor has to be placed in the scene in order to update its collision hull.");
+            "PhysicalThing::updateCollisionHull: Actor has to be placed in the scene in order to update its collision hull.");
+        RlAssert(!mRagDoll,
+            "PhysicalThing::updateCollisionHull: PhysicalThing must not be controlled by a RagDoll in order to update its collision hull.");
 
 
         Vector3 position;
@@ -328,6 +360,9 @@ namespace rl
 
     void PhysicalThing::fitToPose(const Ogre::String& animName)
     {
+        if( mRagDoll )
+            Throw(IllegalArgumentException, "PhysicalThing::fitToPose cannot be used while the PhysicalThing is controlled by a RagDoll!");
+
 		CollisionPtr coll;
 
         if (mPhysicalObject->isMeshObject())
@@ -385,12 +420,27 @@ namespace rl
 
 	void PhysicalThing::destroyPhysicsProxy()
 	{
-		delete mBody;
-		mBody = NULL;
+        setPhysicsController(NULL);
+        clearUpConstraint();
+        mPoseCollisions.clear();
+        if( mRagDoll )
+        {
+            delete mRagDoll;
+            mRagDoll = NULL;
+            mBody = NULL;
+        }
+        else if( mBody )
+        {
+		    delete mBody;
+		    mBody = NULL;
+        }
+
 	}
 
-    void PhysicalThing::createPhysicsProxy(SceneNode* node)
+    void PhysicalThing::createPhysicsProxy()
 	{
+        RlAssert( !mRagDoll,
+                "PhysicalThing::createPhysicsProxy: cannot create physics proxy while the PhysicalThing is controlled by a RagDoll!");
 		if (!mBody)
 		{
             Vector3 inertia;
@@ -409,6 +459,13 @@ namespace rl
 			body->setCustomForceAndTorqueCallback(PhysicsManager::genericForceCallback);
 
             setBody(body);
+
+            if( mActor )
+            {
+                if( mActor->_getSceneNode() )
+                    _attachToSceneNode(mActor->_getSceneNode());
+
+            }
         }
 	}
 
@@ -450,7 +507,7 @@ namespace rl
 
     void PhysicalThing::updatePhysicsProxy()
     {
-        if (mBody)
+        if (mBody && !mRagDoll)
         {
             mPoseCollisions.clear();
 
@@ -498,7 +555,10 @@ namespace rl
 
     void PhysicalThing::setMaterialID(const OgreNewt::MaterialID* materialid)
     {
-        mBody->setMaterialGroupID(materialid);
+        if( mRagDoll )
+            mRagDoll->setMaterialID(materialid);
+        else
+            mBody->setMaterialGroupID(materialid);
     }
 
     const OgreNewt::MaterialID* PhysicalThing::getMaterialID() const
@@ -506,4 +566,37 @@ namespace rl
         return mBody->getMaterialGroupID();
     }
 
+
+    void PhysicalThing::createPhysicsProxy_RagDoll()
+    {
+        if(!mRagDoll)
+        {
+            if( mBody )
+            {
+                Throw(OperationNotSupportedException, "PhysicalThing::createPhysicsProxy_RagDoll: there is already a body connected to this PhysicalThing!");
+            }
+
+
+
+            if( !mPhysicalObject->isMeshObject() )
+                Throw(IllegalArgumentException, "PhysicalThing::createPhysicsProxy_RagDoll needs a Mesh-Actor as argument!");
+            MeshObject* meshObj = static_cast<MeshObject*>(mPhysicalObject);
+
+            String ragdollRes = meshObj->getMeshName();
+            ragdollRes = ragdollRes.substr(0,ragdollRes.find(".mesh")) + "_ragdoll.xml";
+            mRagDoll = new PhysicsRagDoll(ragdollRes, mActor);
+            mBody = NULL;
+            if( mRagDoll->getRootBone() )
+                mBody = mRagDoll->getRootBone()->getBody();
+
+            if( !mBody )
+            {
+                delete mRagDoll;
+                mRagDoll = NULL;
+                Throw(NullPointerException, "Error creating the ragdoll!");
+            }
+        }
+    }
+
 }
+

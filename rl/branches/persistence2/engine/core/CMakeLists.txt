@@ -3,6 +3,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/include
 ${CMAKE_CURRENT_SOURCE_DIR}/include/fmod4driver
 ${CMAKE_CURRENT_SOURCE_DIR}/include/nulldriver
 ${RL_COMMON_INCLUDE_DIR}
+${XERCESC_INCLUDE_DIR}
 ${OGRE_INCLUDE_DIRS}
 ${CEGUI_INCLUDE_DIRS}
 ${OGRENEWT_INCLUDE_DIR}
@@ -52,6 +53,7 @@ src/PhysicalThing.cpp
 src/PhysicsGenericContactCallback.cpp
 src/PhysicsManager.cpp
 src/PhysicsMaterialRaycast.cpp
+src/PhysicsRagDoll.cpp
 src/PlayAnimationJob.cpp
 src/PlaySoundJob.cpp
 src/PolynomicSoundFadeFunctor.cpp

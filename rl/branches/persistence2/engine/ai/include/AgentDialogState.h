@@ -19,6 +19,8 @@
 
 #include "AgentState.h"
 
+#include <list>
+
 namespace rl
 {
     class Dialog;
@@ -31,11 +33,11 @@ namespace rl
         ~AgentDialogState();
 
         virtual void update(const Ogre::Real elapsedTime);
-        void setDialogPartner(Agent* partner);
+        void addDialogPartner(Agent* partner);
         void setDialog(Dialog* dialog);
 
     private:
-        Agent* mPartner;
+        std::list<Agent*> mPartners;
         Dialog* mDialog;
         bool mTalking;
     };

@@ -119,7 +119,7 @@ namespace rl {
         GameObjectFactory();
         virtual ~GameObjectFactory();
     };
-
+    
     class GameObjectManager
     {
     public:
@@ -127,6 +127,7 @@ namespace rl {
         rl::GameObject* createGameObject(const Ogre::String& classId, const rl::CeGuiString &id = "");
         rl::GameObject* getGameObject(const rl::CeGuiString id) const;
         void setGameObjectFactory(rl::GameObjectFactory* gof);
+        rl::GameObjectList getAllGameObjects();
 
     private:
         GameObjectManager();
@@ -874,7 +875,7 @@ namespace rl {
         unsigned long getSelectionMask() const;
 
         GameObject* getFirstSelectedObject() const;
-		const std::vector<GameObject*>& getAllSelectedObjects() const;
+		const rl::GameObjectList& getAllSelectedObjects() const;
 		unsigned int getSelectionCount() const;
 
 		virtual void updatePrimitive() = 0;
@@ -901,6 +902,16 @@ namespace rl {
         void setOrientation(const Ogre::Quaternion& ori);
 		virtual void updatePrimitive();
 	};
+
+    /// Selects GameObjects within a sphere.
+    class SphereSelector : public Selector
+    {
+    public:
+        SphereSelector(unsigned long mask = 0xffffffff);
+	    void setRadius(Ogre::Real radius);
+        void setPosition(const Ogre::Vector3& pos);
+		virtual void updatePrimitive();
+    };
     
     class PartyManager
     {

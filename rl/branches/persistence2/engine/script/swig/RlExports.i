@@ -197,13 +197,17 @@ void throwRubyException(RlExceptionClass clazz, const char* exceptionMessage)
 // da dies in allen erzeugten Exceptionhandlern auftritt
 %{
 #pragma warning( disable : 4101 )									
+#include "FixRubyHeaders.h"
 %}
 
 // Include bodies
 
 %include "RlCommon.swig"
 %include "RlCore.swig"
-%include "RlRules.swig"
 %include "RlUi.swig"
+%include "RlRules.swig"
 %include "RlAi.swig"
+%{
+    #include "FixRubyHeaders.h"
+%}
 %include "RlScript.swig"

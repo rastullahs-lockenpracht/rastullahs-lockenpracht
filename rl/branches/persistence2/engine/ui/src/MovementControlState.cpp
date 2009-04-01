@@ -222,6 +222,7 @@ namespace rl {
             mController =
                 CreatureControllerManager::getSingleton().getCreatureController(mCharacter);
         }
+        mCharBody = mCharacterActor->getPhysicalThing()->_getBody();
 
         // We want to check for visibility from char's POV.
         mSelector.setCheckVisibility(true, mCharacter);
@@ -1120,10 +1121,10 @@ namespace rl {
     {
         mCombatSelector.updateSelection();
 
-        const Selector::GameObjectVector& gov = mCombatSelector.getAllSelectedObjects();
-        for (size_t i = 0, end = gov.size(); i < end; ++i)
+        const GameObjectList& gov = mCombatSelector.getAllSelectedObjects();
+        for (GameObjectList::const_iterator it = gov.begin(), end = gov.end(); it != end; ++it)
         {
-            Creature* creature = dynamic_cast<Creature*>(gov.at(i));
+            Creature* creature = dynamic_cast<Creature*>(*it);
             if (creature &&
 				creature->getAlignment() == Creature::ALIGNMENT_ENEMY &&
 				(creature->getLifeState() & Effect::LS_NO_COMBAT) == 0)

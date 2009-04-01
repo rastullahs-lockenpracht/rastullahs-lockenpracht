@@ -53,9 +53,9 @@ REM -----------------------------
 REM 
 copy "%RL_ROOT%\dependencies\FMOD4\api\fmodex.dll" "%RL_DIST%"
 
-copy "%RL_ROOT%\Dependencies\NewtonSDK\sdk\dll\Newton.dll" "%RL_DIST%"
-copy "%RL_ROOT%\Dependencies\OgreNewt\lib\debug\OgreNewt_d.dll" "%RL_DIST%"
-copy "%RL_ROOT%\Dependencies\OgreNewt\lib\release\OgreNewt.dll" "%RL_DIST%"
+copy "%RL_ROOT%\Dependencies\NewtonSDK\sdk\x32\dll_vs9\Newton.dll" "%RL_DIST%"
+copy "%RL_ROOT%\Dependencies\OgreNewt\lib\OgreNewt_d.dll" "%RL_DIST%"
+copy "%RL_ROOT%\Dependencies\OgreNewt\lib\OgreNewt.dll" "%RL_DIST%"
 
 copy "%RL_ROOT%\Dependencies\cegui_mk2\bin\*.dll" "%RL_DIST%"
 copy "%RL_ROOT%\Dependencies\xerces\bin\*.dll" "%RL_DIST%"

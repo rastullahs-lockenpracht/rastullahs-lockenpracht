@@ -325,7 +325,7 @@ namespace rl
 
     void ConfigurationManager::saveConfig() const
     {
-        ConfigFile* cfgfile = new ConfigFile();
+        ConfigFile* cfgfile = OGRE_NEW ConfigFile();
 
         for (SectionMap::const_iterator it = mSettings.begin(); it != mSettings.end(); ++it)
         {
@@ -338,7 +338,7 @@ namespace rl
         cfgfile->save(Ogre::String(::getenv("HOME")) + "/.rastullah/" + mRastullahCfgFile);
 #       endif
 
-        delete cfgfile;
+        OGRE_DELETE cfgfile;
     }
 
     Logger::LogLevel ConfigurationManager::getLogLevel() const

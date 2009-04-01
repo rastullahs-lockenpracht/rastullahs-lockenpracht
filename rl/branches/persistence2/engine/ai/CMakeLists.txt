@@ -6,7 +6,8 @@ ${RL_RULES_INCLUDE_DIR}
 ${OGRE_INCLUDE_DIRS}
 ${CEGUI_INCLUDE_DIRS}
 ${OGRENEWT_INCLUDE_DIRS}
-${OPENSTEER_INCLUDE_DIR})
+${OPENSTEER_INCLUDE_DIR}
+${XERCESC_INCLUDE_DIR})
 
 SET(RlAi_LIB_SRCS
 src/Agent.cpp
@@ -43,7 +44,17 @@ src/SteeringVehicle.cpp
 src/WalkPathBehaviour.cpp
 src/WayPointNode.cpp
 src/WayPointGraph.cpp
-src/WayPointGraphManager.cpp)
+src/WayPointGraphManager.cpp
+src/OpenSteer/Color.cpp
+src/OpenSteer/lq.c
+src/OpenSteer/Obstacle.cpp
+src/OpenSteer/Path.cpp
+src/OpenSteer/Pathway.cpp
+src/OpenSteer/PolylineSegmentedPath.cpp
+src/OpenSteer/PolylineSegmentedPathwaySingleRadius.cpp
+src/OpenSteer/SegmentedPath.cpp
+src/OpenSteer/SegmentedPathway.cpp
+src/OpenSteer/Vec3.cpp)
 
 ADD_LIBRARY(RlAi SHARED ${RlAi_LIB_SRCS})
 

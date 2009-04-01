@@ -331,7 +331,9 @@ void AnimationManager::run(Ogre::Real timePassed)
            AnimationManager::stopAnimation(anim);
            ScriptWrapper::getSingleton().deleted( anim );
            delete anim;
-           mFadeAnimSet.erase(it++);
+           FadeAnimSet::iterator toDelete = it;
+           it++;
+           mFadeAnimSet.erase(toDelete);
         }
         else
             ++it;

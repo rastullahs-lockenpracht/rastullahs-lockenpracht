@@ -131,6 +131,12 @@ namespace rl
 		 */
 		bool isAhead(Agent* agent, const float threshold);
 
+		/** tests if the specified position is within the threshold.
+		 * @param agent Agent to test against
+		 * @param threshold specifies maximum distance
+		 */
+		bool isAhead(const Vector3& position, const float threshold);
+
 		/** tests if collision will happen within specified timeframe
 		 * @param minTimeToCollision minimum time to next collision
 		 */

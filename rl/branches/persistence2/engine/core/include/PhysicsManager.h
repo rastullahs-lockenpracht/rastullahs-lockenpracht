@@ -110,7 +110,12 @@ namespace rl {
 		/**
 		 * Erschafft den entgültigen Physikproxy
 		 */
-		void createPhysicsProxy(PhysicalThing* pt, Ogre::SceneNode* node);
+		void createPhysicsProxy(PhysicalThing* pt);
+
+        /**
+         * Creates a ragdoll as physics proxy
+         */
+        void createPhysicsProxy_RagDoll(PhysicalThing* pt);
 
 		/**
 		 * Removes the physics proxy
@@ -364,7 +369,7 @@ namespace rl {
         PhysicsGenericContactCallback* mGenericCallback;
 
 #ifdef _DEBUG
-        static void _CDECL PhysicsManager::newtonPerBodyLogProperties( const NewtonBody* body );
+        void logBodyProperties( const OgreNewt::Body* body );
 #endif
 
     };

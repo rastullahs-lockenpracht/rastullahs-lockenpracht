@@ -71,7 +71,7 @@ static VALUE getOutScriptObject( void* ptr, swig_type_info *type )
 }
 %}
 
-// Animation* getActor oder andere OUTPUT Parameter für DYNAMICs
+// Animation* getActor oder andere OUTPUT Parameter fÂ¸r DYNAMICs
 %typemap(out) SWIGTYPE* DYNAMIC, SWIGTYPE& DYNAMIC
 "   $result = getOutScriptObject((void *) $1, $1_descriptor );"
 

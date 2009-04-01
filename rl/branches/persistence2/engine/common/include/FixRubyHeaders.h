@@ -34,6 +34,7 @@
 #undef write
 #undef max
 #undef min
+#undef check
 
 #undef PACKAGE_VERSION
 #undef PACKAGE_STRING
