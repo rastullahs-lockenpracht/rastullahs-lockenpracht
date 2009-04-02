@@ -17,6 +17,11 @@
 #include "OgreNewt_Tools.h"
 
 
+namespace Ogre
+{
+    class ManualObject;
+}
+
 namespace OgreNewt
 {
 
@@ -127,6 +132,9 @@ namespace OgreNewt
 
         //! clear debug data cache fo bodies (m_cachemap)
         void clearBodyDebugDataCache();
+
+        typedef std::list<Ogre::ManualObject*> ManualObjectList;
+        ManualObjectList mRecordedRaycastObjects;
 
 
     private:

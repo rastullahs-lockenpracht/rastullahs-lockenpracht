@@ -209,7 +209,7 @@ public:
     /*!
      * the debugger needs to be initialized (Debugger::init(...) ) in order to work correctly
     */
-    Debugger& getDebugger() const {return m_debugger;}
+    Debugger& getDebugger() const {return *m_debugger;}
 
 protected:
     
@@ -220,7 +220,7 @@ protected:
     
     BodyInAABBIterator m_bodyInAABBIterator;
 
-    mutable Debugger m_debugger;
+    mutable Debugger* m_debugger;
 
 private:
 

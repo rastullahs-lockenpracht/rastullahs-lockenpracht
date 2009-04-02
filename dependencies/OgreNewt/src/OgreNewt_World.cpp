@@ -8,8 +8,7 @@ namespace OgreNewt
 
 // Constructor
 World::World() :
-    m_bodyInAABBIterator(this),
-    m_debugger(this)
+    m_bodyInAABBIterator(this)
 {
     m_limits = Ogre::AxisAlignedBox(Ogre::Vector3(-100,-100,-100), Ogre::Vector3(100,100,100));
 
@@ -26,16 +25,30 @@ World::World() :
     m_defaultMatID = new OgreNewt::MaterialID( this, NewtonMaterialGetDefaultGroupID( m_world ) );
 
     m_leaveCallback = NULL;
+
+    m_debugger = new Debugger(this);
 }
 
 // Destructor
 World::~World()
 {
+    if (m_debugger)
+    {
+        delete m_debugger;
+        m_debugger = NULL;
+    }
+
     if (m_defaultMatID)
+    {
         delete m_defaultMatID;
+        m_defaultMatID = NULL;
+    }
 
     if (m_world)
+    {
         NewtonDestroy( m_world );
+        m_world = NULL;
+    }
 }
 
 // update

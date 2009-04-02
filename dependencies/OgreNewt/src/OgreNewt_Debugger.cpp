@@ -58,16 +58,14 @@ void Debugger::init( Ogre::SceneManager* smgr )
 
 void Debugger::deInit()
 {
+    clearBodyDebugDataCache();
     if (m_debugnode)
     {
         m_debugnode->setListener(NULL);
-        m_debugnode->removeAllChildren();
+        m_debugnode->removeAndDestroyAllChildren();
         m_debugnode->getParentSceneNode()->removeAndDestroyChild( m_debugnode->getName() );
         m_debugnode = NULL;
     }
-
-
-    clearBodyDebugDataCache();
 
 
     clearRaycastsRecorded();
@@ -84,15 +82,14 @@ void Debugger::nodeDestroyed (const Ogre::Node *node)
 {
     if(node == m_debugnode)
     {
-        clearBodyDebugDataCache();
         m_debugnode = NULL;
+        clearBodyDebugDataCache();
     }
 
     if(node == m_raycastsnode)
     {
-        //!TODO: check this... this accesses the node, I'm not shure if this is allowed in this function
-        clearRaycastsRecorded();
         m_raycastsnode = NULL;
+        clearRaycastsRecorded();
     }
 }
 
@@ -104,9 +101,11 @@ void Debugger::clearBodyDebugDataCache()
             Ogre::ManualObject* mo = it->second.m_lines;
             if( mo )
                 delete mo;
+            OgreNewt::OgreAddons::MovableText *text = it->second.m_text;
+            if( text )
+                delete text;
         }
         m_cachemap.clear();
-
 }
 
 
@@ -136,6 +135,9 @@ void Debugger::showDebugInformation( )
             Ogre::ManualObject* mo = it->second.m_lines;
             if( mo )
                 delete mo;
+            OgreNewt::OgreAddons::MovableText *text = it->second.m_text;
+            if( text )
+                delete text;
         }
     }
     m_cachemap.swap(newmap);
@@ -299,13 +301,20 @@ void Debugger::clearRaycastsRecorded()
 {
     if( m_raycastsnode )
     {
+/*
         while( m_raycastsnode->numAttachedObjects() > 0 )
         {
             delete m_raycastsnode->detachObject((unsigned short)0);
         }
-
-        m_raycastsnode->detachAllObjects();
+*/
+        m_raycastsnode->removeAndDestroyAllChildren();
     }
+
+    for(ManualObjectList::iterator it = mRecordedRaycastObjects.begin(); it != mRecordedRaycastObjects.end(); it++)
+    {
+        delete (*it);
+    }
+    mRecordedRaycastObjects.clear();
 }
 
 void Debugger::stopRaycastRecording()
@@ -330,6 +339,7 @@ void Debugger::addRay(const Ogre::Vector3 &startpt, const Ogre::Vector3 &endpt)
     std::ostringstream oss;
     oss << "__OgreNewt__Raycast_Debugger__Lines__Raycastline__" << i++ << "__";
     Ogre::ManualObject *line = new Ogre::ManualObject(oss.str());
+    mRecordedRaycastObjects.push_back(line);
 
     line->begin("BaseWhiteNoLighting", Ogre::RenderOperation::OT_LINE_LIST );
     line->colour(m_raycol);
@@ -350,6 +360,7 @@ void Debugger::addConvexRay(const OgreNewt::Collision* col, const Ogre::Vector3 
     std::ostringstream oss;
     oss << "__OgreNewt__Raycast_Debugger__Lines__Convexcastlines__" << i++ << "__";
     Ogre::ManualObject *line = new Ogre::ManualObject(oss.str());
+    mRecordedRaycastObjects.push_back(line);
 
     line->begin("BaseWhiteNoLighting", Ogre::RenderOperation::OT_LINE_LIST );
     line->colour(m_convexcol);
@@ -402,6 +413,7 @@ void Debugger::addDiscardedBody(const OgreNewt::Body* body)
     std::ostringstream oss;
     oss << "__OgreNewt__Raycast_Debugger__Lines__DiscardedBody__" << i++ << "__";
     Ogre::ManualObject *line = new Ogre::ManualObject(oss.str());
+    mRecordedRaycastObjects.push_back(line);
 
     line->begin("BaseWhiteNoLighting", Ogre::RenderOperation::OT_LINE_LIST );
     line->colour(m_prefilterdiscardedcol);
@@ -427,6 +439,7 @@ void Debugger::addHitBody(const OgreNewt::Body* body)
     std::ostringstream oss;
     oss << "__OgreNewt__Raycast_Debugger__Lines__HitBody__" << i++ << "__";
     Ogre::ManualObject *line = new Ogre::ManualObject(oss.str());
+    mRecordedRaycastObjects.push_back(line);
 
     line->begin("BaseWhiteNoLighting", Ogre::RenderOperation::OT_LINE_LIST );
     line->colour(m_hitbodycol);
