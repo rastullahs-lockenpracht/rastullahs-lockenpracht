@@ -80,8 +80,8 @@ namespace rl
 
         mCreature->getActor()->getPhysicalThing()->setPhysicsController(this);
 
-//        mCreature->getActor()->getPhysicalThing()->_getBody()->setAngularDamping(0*Vector3::UNIT_SCALE);
-        mCreature->getActor()->getPhysicalThing()->_getBody()->setContinuousCollisionMode(1);
+        //mCreature->getActor()->getPhysicalThing()->_getBody()->setAngularDamping(0*Vector3::UNIT_SCALE);
+        //mCreature->getActor()->getPhysicalThing()->_getBody()->setContinuousCollisionMode(1);
 
 
         std::pair<MovementType, AbstractMovement*> movementPair;
@@ -407,11 +407,12 @@ for(OgreNewt::Contact contact = contactJoint.getFirstContact(); contact; contact
 
         Vector3 charPos;
         Quaternion charOri;
-        mCreature->getActor()->getPhysicalThing()->_getBody()->getPositionOrientation(charPos, charOri);
+        OgreNewt::Body* charBody = mCreature->getActor()->getPhysicalThing()->_getBody();
+        charBody->getPositionOrientation(charPos, charOri);
         bool isFloorCollision(false);
 
-        AxisAlignedBox CharAab = mCreature->getActor()->getPhysicalThing()->_getBody()->getCollision()->getAABB();
-        Real charHeight = CharAab.getMaximum().y - CharAab.getMinimum().y;
+        AxisAlignedBox charAab = charBody->getCollision()->getAABB();
+        Real charHeight = charAab.getMaximum().y - charAab.getMinimum().y;
         Real stepHeight = point.y - charPos.y;
 
         if( stepHeight < charHeight/2 )
@@ -426,6 +427,17 @@ for(OgreNewt::Contact contact = contactJoint.getFirstContact(); contact; contact
                 mLastFloorContact = time;
             }
         }
+
+        // set contact direction to point to the center of mass
+        contact.setNormalDirection((charPos + charBody->getCenterOfMass() - point).normalisedCopy());
+        contact.setNormalAcceleration(0);
+        // no friction
+        contact.setFrictionState(0,0);
+        contact.setFrictionState(0,1);
+        contact.setTangentAcceleration(0,0);
+        contact.setTangentAcceleration(0,1);
+
+
 /*
 //        setContactNormalDirection(((Vector3::UNIT_Y.dotProduct(point-charPos)*Vector3::UNIT_Y + charPos) - point).normalisedCopy());
         setContactNormalDirection(point - (charPos + charHeight/2));
@@ -434,8 +446,8 @@ for(OgreNewt::Contact contact = contactJoint.getFirstContact(); contact; contact
         setContactFrictionState(0,1);
         setContactTangentAcceleration(0, 0);
         setContactTangentAcceleration(0, 1);
-
 */
+
 //std::ostringstream oss;
 //Vector3 vec1, vec2;
 //oss << " Collision: Point: " << point-charPos;
@@ -448,10 +460,10 @@ for(OgreNewt::Contact contact = contactJoint.getFirstContact(); contact; contact
 //oss << "  \t Tangent-Directions: " << vec1 << " " << vec2;
 //LOG_MESSAGE(Logger::RULES, oss.str());
 
-        contact.rotateTangentDirections(/*charOri*mDirection + */Vector3::UNIT_Y);
-        contact.setFrictionState(1,0);
-        contact.setFrictionState(0,1);
-
+//        contact.rotateTangentDirections(/*charOri*mDirection + */Vector3::UNIT_Y);
+//        contact.setFrictionState(0,0);
+//        contact.setFrictionState(0,1);
+/*
         if( stepHeight < 0.4 )
         {
             if(stepHeight > 0.01f) // experimantal value, 
@@ -485,6 +497,7 @@ for(OgreNewt::Contact contact = contactJoint.getFirstContact(); contact; contact
                 //setContactFrictionState(0,1);
             }
         }
+*/
 }
 
         if(mMovement != NULL)

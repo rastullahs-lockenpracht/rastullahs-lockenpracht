@@ -110,7 +110,6 @@ namespace rl {
         PhysicsManager::getSingleton().getMaterialID("camera"));
         mCameraActor->getPhysicalThing()->unfreeze();
         mCameraActor->getPhysicalThing()->setPhysicsController(this);
-        mCameraActor->getPhysicalThing()->setUpConstraint(Vector3::ZERO);
         
         // We also handle cam<->level, cam<->default cam<->char collision from now on
         OgreNewt::MaterialPair* mat_pair = NULL;

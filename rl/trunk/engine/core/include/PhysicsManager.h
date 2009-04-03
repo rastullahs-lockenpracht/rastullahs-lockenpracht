@@ -222,6 +222,7 @@ namespace rl {
 		 * @param orientation Quaternion gives an euler rotation for the coordinate system of the coll. primitiv
          * @param mass gives the mass of the collision primitive used for calculating the inertia
 		 * @param inertia Vector3 returns the inertia coefficients for the created collision primitiv
+		 * @param centerOfMass Vector3 returns the centerOfMass coefficients for the created collision primitiv
 		*/
 		OgreNewt::CollisionPtr createCollision(
 			Ogre::Entity* entity,
@@ -230,7 +231,8 @@ namespace rl {
 			Ogre::Vector3* offset = NULL,
 			Ogre::Quaternion* orientation = NULL,
             const Ogre::Real mass = 0,
-            Ogre::Vector3* inertia = NULL);
+            Ogre::Vector3* inertia = NULL,
+            Ogre::Vector3* centerOfMass = NULL);
 
         /** creates a collision primitive for OgreNewt.
 		 * The collision primitive created has got a basic orientation which can be influenced by
@@ -248,6 +250,7 @@ namespace rl {
 		 * @param orientation Quaternion gives an euler rotation for the coordinate system of the coll. primitiv
          * @param mass gives the mass of the collision primitive used for calculating the inertia
 		 * @param inertia Vector3 returns the inertia coefficients for the created collision primitiv
+		 * @param centerOfMass Vector3 returns the centerOfMass coefficients for the created collision primitiv
 		*/
         OgreNewt::CollisionPtr createCollision(
             const Ogre::String& name,
@@ -256,7 +259,8 @@ namespace rl {
             Ogre::Vector3* offset = NULL,
 			Ogre::Quaternion* orientation = NULL,
             const Ogre::Real mass = 0,
-            Ogre::Vector3* inertia = NULL);
+            Ogre::Vector3* inertia = NULL,
+            Ogre::Vector3* centerOfMass = NULL);
 
         /** Makes the collision primitive generation available to non mesh objects.
          * Non mesh objects need collision objects too. Therefore they can
@@ -401,13 +405,15 @@ namespace rl {
 		 * @param orientation Quaternion gives an euler rotation for the coordinate system of the coll. primitiv
          * @param mass gives the mass of the collision primitive used for calculating the inertia
 		 * @param inertia Vector3 returns the inertia coefficients for the created collision primitiv
+		 * @param centerOfMass Vector3 returns the centerOfMass coefficients for the created collision primitiv
 		*/
         OgreNewt::CollisionPtr createCollisionFromEntity(Ogre::Entity* entity,
             const GeometryType& geomType,
             Ogre::Vector3* offset = NULL, 
             Ogre::Quaternion* orientation = NULL,
             const Ogre::Real Mass = 0,
-            Ogre::Vector3* inertiaCoefficients = NULL);
+            Ogre::Vector3* inertia = NULL,
+            Ogre::Vector3* centerOfMass = NULL);
 
         /** creates a collision primitive for OgreNewt from an AABB box.
 		 * The collision primitive created has got a basic orientation which can be influenced by
@@ -423,13 +429,15 @@ namespace rl {
 		 * @param orientation Quaternion gives an euler rotation for the coordinate system of the coll. primitiv
          * @param mass gives the mass of the collision primitive used for calculating the inertia
 		 * @param inertia Vector3 returns the inertia coefficients for the created collision primitiv
+		 * @param centerOfMass Vector3 returns the centerOfMass coefficients for the created collision primitiv
 		*/
         OgreNewt::CollisionPtr createCollisionFromAABB(const Ogre::AxisAlignedBox aabb,
             const GeometryType& geomType,
             Ogre::Vector3* offset = NULL,
             Ogre::Quaternion* orientation = NULL,
             const Ogre::Real Mass = 0,
-            Ogre::Vector3* inertiaCoefficients = NULL);
+            Ogre::Vector3* inertia = NULL,
+            Ogre::Vector3* centerOfMass = NULL);
     protected:
         /** creates a box collision primitive with offset at middle of bottom layer.
          * It's actually a convenience function used by both createCollision functions.
@@ -438,12 +446,14 @@ namespace rl {
          * @param orientation when not null, specifies the euler angle of orientation.
          * @param mass gives the mass for inertia calculation.
          * @param inertia when not null, an inertia is calculated and passed back.
+         * @param centerOfMass when not null, an centerOfMass is calculated and passed back.
          */
         OgreNewt::CollisionPtr createBox(const Ogre::AxisAlignedBox& aabb,
             Ogre::Vector3* offset = NULL,
             Ogre::Quaternion* orientation = NULL,
             const Ogre::Real mass = 0,
-            Ogre::Vector3* inertia = NULL);
+            Ogre::Vector3* inertia = NULL,
+            Ogre::Vector3* centerOfMass = NULL);
         /** creates a pyramid collision primitive with offset at middle of bottom layer.
          * It's actually a convenience function used by both createCollision functions.
          * @param aabb gives the axis aligned dimension to create the primitive for.
@@ -451,12 +461,14 @@ namespace rl {
          * @param orientation when not null, specifies the euler angle of orientation.
          * @param mass gives the mass for inertia calculation.
          * @param inertia when not null, an inertia is calculated and passed back.
+         * @param centerOfMass when not null, an centerOfMass is calculated and passed back.
          */
         OgreNewt::CollisionPtr createPyramid(const Ogre::AxisAlignedBox& aabb,
             Ogre::Vector3* offset = NULL,
             Ogre::Quaternion* orientation = NULL,
             const Ogre::Real mass = 0,
-            Ogre::Vector3* inertia = NULL);
+            Ogre::Vector3* inertia = NULL,
+            Ogre::Vector3* centerOfMass = NULL);
         /** creates a sphere collision primitive with offset at middle of bottom layer.
          * It's actually a convenience function used by both createCollision functions.
          * @param aabb gives the axis aligned dimension to create the primitive for.
@@ -464,12 +476,14 @@ namespace rl {
          * @param orientation when not null, specifies the euler angle of orientation.
          * @param mass gives the mass for inertia calculation.
          * @param inertia when not null, an inertia is calculated and passed back.
+         * @param centerOfMass when not null, an centerOfMass is calculated and passed back.
          */
         OgreNewt::CollisionPtr createSphere(const Ogre::AxisAlignedBox& aabb,
             Ogre::Vector3* offset = NULL,
             Ogre::Quaternion* orientation = NULL,
             const Ogre::Real mass = 0,
-            Ogre::Vector3* inertia = NULL);
+            Ogre::Vector3* inertia = NULL,
+            Ogre::Vector3* centerOfMass = NULL);
         /** creates a ellipsoid collision primitive with offset at middle of bottom layer.
          * It's actually a convenience function used by both createCollision functions.
          * @param aabb gives the axis aligned dimension to create the primitive for.
@@ -477,12 +491,14 @@ namespace rl {
          * @param orientation when not null, specifies the euler angle of orientation.
          * @param mass gives the mass for inertia calculation.
          * @param inertia when not null, an inertia is calculated and passed back.
+         * @param centerOfMass when not null, an centerOfMass is calculated and passed back.
          */
         OgreNewt::CollisionPtr createEllipsoid(const Ogre::AxisAlignedBox& aabb,
             Ogre::Vector3* offset = NULL,
             Ogre::Quaternion* orientation = NULL,
             const Ogre::Real mass = 0,
-            Ogre::Vector3* inertia = NULL);
+            Ogre::Vector3* inertia = NULL,
+            Ogre::Vector3* centerOfMass = NULL);
         /** creates a capsule collision primitive with offset at middle of bottom layer.
          * It's actually a convenience function used by both createCollision functions.
          * @param aabb gives the axis aligned dimension to create the primitive for.
@@ -490,12 +506,14 @@ namespace rl {
          * @param orientation when not null, specifies the euler angle of orientation.
          * @param mass gives the mass for inertia calculation.
          * @param inertia when not null, an inertia is calculated and passed back.
+         * @param centerOfMass when not null, an centerOfMass is calculated and passed back.
          */
         OgreNewt::CollisionPtr createCapsule(const Ogre::AxisAlignedBox& aabb,
             Ogre::Vector3* offset = NULL,
             Ogre::Quaternion* orientation = NULL,
             const Ogre::Real mass = 0,
-            Ogre::Vector3* inertia = NULL);
+            Ogre::Vector3* inertia = NULL,
+            Ogre::Vector3* centerOfMass = NULL);
     };
 }
 

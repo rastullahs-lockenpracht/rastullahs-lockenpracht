@@ -226,7 +226,7 @@ namespace rl {
 		GeometryType getGeometryType() const;
 		void setBody(OgreNewt::Body* body);
 
-        OgreNewt::CollisionPtr createCollision(PhysicalObject* po, Ogre::Vector3& inertia) const;
+        OgreNewt::CollisionPtr createCollision(PhysicalObject* po, Ogre::Vector3& inertia, Ogre::Vector3& centerOfMass) const;
 
         //! the ragdoll, if this thing is controlled by a ragdoll
         PhysicsRagDoll* mRagDoll;
