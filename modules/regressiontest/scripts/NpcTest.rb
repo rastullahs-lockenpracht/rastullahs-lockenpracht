@@ -12,17 +12,21 @@ class NpcTest < TestCase
 
         npc1 = $GOM.createGameObject("TestPerson");
         npc1.setPosition(rel_pos([0.0, height, 0.0]));
-
         npc1.placeIntoScene();
+        npc1.getActor().getPhysicalThing().setUpConstraint();
+
 
         npc2 = $GOM.createGameObject("TestPerson2");
         npc2.setPosition(rel_pos([2.2, height, 2.2]));
         npc2.setProperty("dialog", "test_3pers_dialog")
         npc2.placeIntoScene();
+        npc2.getActor().getPhysicalThing().setUpConstraint();
+
         npc3 = $GOM.createGameObject("TestPerson");
         npc3.setPosition(rel_pos([1.8, height, 1.8]));
         npc3.setProperty("dialog", "test_3pers_dialog")
         npc3.setName("TestPerson_byName");
         npc3.placeIntoScene();
+        npc3.getActor().getPhysicalThing().setUpConstraint();
     end
 end

@@ -29,5 +29,6 @@ class CombatTest < TestCase
 
 		npc.setPosition(getCenter());
 		npc.placeIntoScene();
+        npc.getActor().getPhysicalThing().setUpConstraint();
 	end
 end
