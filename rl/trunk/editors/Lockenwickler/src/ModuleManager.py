@@ -384,6 +384,7 @@ class Map():
                 if n.name.startswith("entity_"):
                     entElem = xml.SubElement(nodesElem, "entity")
                     entElem.attrib["name"] = n.getAttachedObject(0).getName()
+                    entName = n.getAttachedObject(0).getName()
                     print "Saving Entity: " + n.getAttachedObject(0).getName()
                     entElem.attrib["meshfile"] = n.getAttachedObject(0).getMesh().getName()
    
@@ -897,6 +898,7 @@ class ModuleManager():
     def selectionChangedCallback(self, items):
         self.resetSelection()
         self.userSelectionList = self.selectionBuffer.manualSelectObjects(items)
+        self.updatePivots()
         
     def selectMapCallback(self, sceneName, mapName):
         self.currentMap = self.mainModule.getMap(mapName, sceneName)
@@ -1003,15 +1005,16 @@ class ModuleManager():
             self.sceneManager.destroySceneNode(node)
             self.sceneManager.destroyEntity(so.entity)
             del so
-
+        
         self.userSelectionList = []
-
+        self.moduleExplorer.updateView()
+        
     def copyObjects(self):
         if len(self.userSelectionList) < 1 or self.currentMap is None:
             print "Warning: No map selected!"
             return
 
-        newSelectionList = []
+        self.newSelectionList = []
 
         for so in self.userSelectionList:
             if so.entity.getUserObject() is not None:
@@ -1031,7 +1034,7 @@ class ModuleManager():
 
                         newSO = SelectionObject(newEntity)
                         newSO.setSelected(True)
-                        newSelectionList.append(newSO)
+                        self.newSelectionList.append(newSO)
                         ModuleManager.dropCount += 1
                 elif str(so.entity.getParentNode().getName()).startswith("entity_"):
                     nodeName = "entity_dropNode" + str(ModuleManager.dropCount)
@@ -1050,14 +1053,19 @@ class ModuleManager():
 
                     newSO = SelectionObject(newEntity)
                     newSO.setSelected(True)
-                    newSelectionList.append(newSO)
+                    self.newSelectionList.append(newSO)
                     ModuleManager.dropCount += 1
                 elif str(so.entity.getParentNode().getName()).startswith("light_"):
                     print "Can't copy lights yet :)"
 
         self.resetSelection()
-        self.userSelectionList = newSelectionList
+        self.userSelectionList = self.newSelectionList
+        self.moduleExplorer.updateView()
+        for so in self.userSelectionList:
+            self.moduleExplorer.selectItem(so, True)
+        self.updatePivots()
 
+        
     def cutObjects(self):
         if len(self.userSelectionList) < 1:
             return
@@ -1072,7 +1080,8 @@ class ModuleManager():
             so.entity.getParentNode().setPosition(so.entity.getParentNode().getPosition() - self.pivot.getPosition())
             self.cutList.append(so)
         self.resetSelection()
-
+        self.moduleExplorer.updateView()
+        
     def pasteObjects(self,  ray):
         if len(self.cutList) < 1:
             return
@@ -1091,11 +1100,11 @@ class ModuleManager():
                 self.cutList[i].entity.getParentNode().translate(ray.getPoint(100.0))
                 i = i+1
         self.cutList = []
-
+        self.moduleExplorer.updateView()
+        
     def leftMouseUp(self):
         if self.pivot is not None and self.pivot.isTransforming:
             self.propertyWindow.updateProperties()
-            self.moduleExplorer.updateView()
             self.pivot.stopTransforming()
 
     def resetSelection(self):
@@ -1110,7 +1119,7 @@ class ModuleManager():
 
         for so in self.userSelectionList:
             newPivotPosition += so.entity.getParentNode().getPosition()
-        if self.pivot is not None:
+        if self.pivot is not None and len(self.userSelectionList) > 0:
             self.pivot.setPosition(newPivotPosition / len(self.userSelectionList))
 
     def unload(self,  saveOnUnload=True):

@@ -352,6 +352,7 @@ class ModuleExplorer(QWidget):
         self.mapSelectedCallback(sceneName, mapName)
         
     def updateView(self):
+        self.disconnect(self.sceneTreeView, SIGNAL("itemSelectionChanged ()"), self.onSelectionChanged)
         self.mapItems = []
         self.sceneTreeView.clear()
         
@@ -363,7 +364,8 @@ class ModuleExplorer(QWidget):
                 self.parseMap(m, sceneRootItem)
         
         self.paintLastSelectedMapBlue()
-
+        self.connect(self.sceneTreeView, SIGNAL("itemSelectionChanged ()"), self.onSelectionChanged)
+        
     def parseMap(self, map, sceneRootItem):
         childItem =  QTreeWidgetItem(sceneRootItem)
         self.mapItems.append(childItem)
