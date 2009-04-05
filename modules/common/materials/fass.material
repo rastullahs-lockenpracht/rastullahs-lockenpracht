@@ -1,0 +1,7 @@
+import Basic_Normalmapping_kana from Normalmapping.program
+
+material fass_stehend/SOLID/TEX/fass_kanalisation.png : Basic_Normalmapping_kana
+{
+set_texture_alias DiffuseMap fass_kanalisation.png
+set_texture_alias NormalMap fass_kanalisation_normal.png
+}
