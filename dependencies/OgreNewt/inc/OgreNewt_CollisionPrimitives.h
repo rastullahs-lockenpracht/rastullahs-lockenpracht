@@ -214,15 +214,17 @@ namespace OgreNewt
 
             //! constructor
             /*!
-                Overloaded constructor.  pass a SceneNode*, and it will use the vertex data from the first attached object.
+                Overloaded constructor.  pass an Entity*, and it will use its vertex data. if it is attached to Node*, the collision
+                will be scaled apperently (entity->getParentNode()->getScale())
                 \param world pointer to the OgreNewt::World
                 \param node pointer to an Ogre::SceneNode with a single entity attached
                 \param orient orientation offset of the primitive
                 \param pos position offset of the primitive
                 \parem tolerance a tolerance passed to newton
+                \param forceScale if set to something else then (0,0,0), the value of this argument will be used as scale instead of the parent-node's scale
             */
             ConvexHull( const World* world, Ogre::Entity* ent, 
-                const Ogre::Quaternion& orient = Ogre::Quaternion::IDENTITY, const Ogre::Vector3& pos = Ogre::Vector3::ZERO, Ogre::Real tolerance = 0.001f );
+                const Ogre::Quaternion& orient = Ogre::Quaternion::IDENTITY, const Ogre::Vector3& pos = Ogre::Vector3::ZERO, Ogre::Real tolerance = 0.001f , const Ogre::Vector3& forceScale = Ogre::Vector3::ZERO);
 
             /*!
                 Overloaded constructor.  pass a pointer to an array of vertices and the hull will be made from that.

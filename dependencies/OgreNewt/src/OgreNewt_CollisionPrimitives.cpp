@@ -118,7 +118,7 @@ namespace OgreNewt
         ConvexHull::ConvexHull(const World* world) : ConvexCollision( world )
         {}
 
-        ConvexHull::ConvexHull( const World* world, Ogre::Entity* obj, const Ogre::Quaternion& orient, const Ogre::Vector3& pos, Ogre::Real tolerance ) : ConvexCollision( world )
+        ConvexHull::ConvexHull( const World* world, Ogre::Entity* obj, const Ogre::Quaternion& orient, const Ogre::Vector3& pos, Ogre::Real tolerance, const Ogre::Vector3& forceScale ) : ConvexCollision( world )
         {
             Ogre::Vector3 scale(1.0,1.0,1.0);
             
@@ -127,9 +127,11 @@ namespace OgreNewt
             //Ogre::Entity* obj = (Ogre::Entity*)node->getAttachedObject(0);
             Ogre::MeshPtr mesh = obj->getMesh();
 
-                        // get scale, if attached to node
-                        Ogre::Node * node = obj->getParentNode();
-                        if (node) scale = node->getScale();
+                       
+            // get scale, if attached to node
+            Ogre::Node * node = obj->getParentNode();
+            if (node) scale = node->getScale();
+            if (forceScale != Ogre::Vector3::ZERO) scale = forceScale;
 
             //find number of submeshes
             unsigned short sub = mesh->getNumSubMeshes();
