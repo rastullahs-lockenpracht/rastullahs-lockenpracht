@@ -898,6 +898,14 @@ class ModuleManager():
     def selectionChangedCallback(self, items):
         self.resetSelection()
         self.userSelectionList = self.selectionBuffer.manualSelectObjects(items)
+        
+        if len(self.userSelectionList) > 1:
+            self.propertyWindow.clear()
+        elif len(self.userSelectionList) == 1:
+            self.propertyWindow.showProperties(self.userSelectionList[0])
+        else:
+            return
+            
         self.updatePivots()
         
     def selectMapCallback(self, sceneName, mapName):

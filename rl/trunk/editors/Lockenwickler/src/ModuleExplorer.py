@@ -35,7 +35,7 @@ def extractLight(node):
             i += 1
 
 class ExplorerOptionsDlg(QDialog):
-    def __init__(self, lights, gameObjects, entities, zones, parent = None):
+    def __init__(self, lights, gameObjects, entities, zones, zonelights, parent = None):
         super(ExplorerOptionsDlg, self).__init__(parent)
         
         buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
@@ -56,6 +56,10 @@ class ExplorerOptionsDlg(QDialog):
         self.zonesCheckBox = QCheckBox("Show Zones")
         self.zonesCheckBox.setChecked(zones)        
         layout.addWidget(self.zonesCheckBox)
+        
+        self.zoneslightsCheckBox = QCheckBox("Show Zonelights")
+        self.zoneslightsCheckBox.setChecked(zonelights)        
+        layout.addWidget(self.zoneslightsCheckBox)
         
         layout.addWidget(buttonBox)
         layout.setContentsMargins(2, 2, 2, 2)
@@ -83,9 +87,13 @@ class ModuleTreeWidget(QTreeWidget):
     def __init__(self, parent = None):
         super(ModuleTreeWidget, self).__init__(parent)
         
+        self.moduleManager = None
         self.setContextMenuPolicy(Qt.CustomContextMenu)        
         self.connect(self, SIGNAL("customContextMenuRequested(const QPoint &)"), self.doMenu)
-
+        
+        self.setDragEnabled(True)
+        self.setAcceptDrops(True)
+        
         self.onMenuCallback = None
         self.setAnimated(True)
 
@@ -98,7 +106,78 @@ class ModuleTreeWidget(QTreeWidget):
     def doMenu(self, point):
         self.onMenuCallback(point)
 
+    def startDrag(self, lvi):
+        relMousePos = self.mapFromGlobal(QPoint(QCursor.pos().x(), QCursor.pos().y() - self.header().height()))
+        item = self.itemAt(relMousePos)
+        if item is not None and not str(item.data(0, Qt.UserRole).toString()).startswith("light_") and not item.data(0, Qt.UserRole).toInt()[0] == ModuleExplorer.LIGHT_IN_ZONE:
+            return
+        
+        data = QByteArray()
+        stream = QDataStream(data,  QIODevice.WriteOnly)
+        stream << self.currentItem().text(0)
+        mimeData = QMimeData()
+        mimeData.setData("application/light", data)
+        drag = QDrag(self)
+        drag.setMimeData(mimeData)
+        drag.start(Qt.CopyAction)
+
+    def dragEnterEvent(self, event):
+        print "enter"
+        if event.mimeData().hasFormat("application/light"):
+            event.accept()
+            
+            items = self.selectedItems()
+            
+            if items[0].data(0, Qt.UserRole).toInt()[0] == ModuleExplorer.LIGHT_IN_ZONE:
+                zone = self.zoneManager.getZone(str(items[0].parent().parent().text(0)).replace("Zone: ", ""))
+                zone.lightList.remove(str(items[0].text(0)))
+                
+                items[0].parent().removeChild(items[0])
+                
+    def dragMoveEvent (self, event):
+        relMousePos = self.mapFromGlobal(QPoint(QCursor.pos().x(), QCursor.pos().y() - self.header().height()))
+        item = self.itemAt(relMousePos)
+        if item is not None and str(item.text(0)).startswith("Zone: "):
+            event.accept()
+        else:
+            event.ignore()
+            
+
+    def dropEvent(self, event):
+        if event.mimeData().hasFormat("application/light"):
+            data = event.mimeData().data("application/light")
+            stream = QDataStream(data, QIODevice.ReadOnly)
+            text = QString()
+            stream >> text
+
+            event.setDropAction(Qt.CopyAction)
+            event.accept()
+        
+            relMousePos = self.mapFromGlobal(QPoint(QCursor.pos().x(), QCursor.pos().y() - self.header().height()))
+            item = self.itemAt(relMousePos)
+            str(item.data(0, Qt.UserRole).toString())
+            
+            items = self.findItems("Lights", Qt.MatchFixedString | Qt.MatchRecursive)
+            for iitem in items:
+                if iitem.parent() is item:
+                    zoneName = str(item.text(0)).replace("Zone: ", "")
+                    zone = self.zoneManager.getZone(zoneName)
+                    
+                    for light in zone.lightList:
+                        if str(light) == str(text):
+                            print "Zone \"" + zoneName + "\" already has Light \"" + str(light) + "\" attached!"
+                            return
+                    
+                    zone.lightList.append(text)
+                    child = QTreeWidgetItem(iitem)
+                    child.setText(0, text)
+                    child.setData(0, Qt.UserRole, QVariant(ModuleExplorer.LIGHT_IN_ZONE))
+
+
+
 class ModuleExplorer(QWidget):
+    LIGHT_IN_ZONE = 99
+    
     def __init__(self, parent=None):
         QWidget.__init__(self, parent)
         self.sceneTreeView = ModuleTreeWidget()
@@ -125,6 +204,7 @@ class ModuleExplorer(QWidget):
         self.onMenuPoint = None
         
         self.showLights = True
+        self.showZoneLights = True
         self.showGameObjects = True
         self.showEntities = True
         self.showZones = True
@@ -174,6 +254,13 @@ class ModuleExplorer(QWidget):
         if self.selectionChangedCallback is None:
             return
 
+        #get all selected items
+        items = self.sceneTreeView.selectedItems()
+        if len(items) == 1:
+            if str(items[0].parent().text(0)) == "Lights" and str(items[0].parent().parent().text(0)).startswith("Zone: "):
+                return
+        
+        
         nodeNames = {}
         
         # get all maps and add them as a key to the dictionary
@@ -188,8 +275,7 @@ class ModuleExplorer(QWidget):
         for item in items:
             nodeNames[str(item.text(0))] = []
         
-        #get all selected items
-        items = self.sceneTreeView.selectedItems()
+
         
         #end remove all the things from the list we actually don't want to be selected
         for item in items:
@@ -286,7 +372,7 @@ class ModuleExplorer(QWidget):
             menu.exec_(QCursor().pos())
     
     def onOptions(self):
-        dlg = ExplorerOptionsDlg(self.showLights, self.showGameObjects, self.showEntities, self.showZones, self)
+        dlg = ExplorerOptionsDlg(self.showLights, self.showGameObjects, self.showEntities, self.showZones, self.showZoneLights, self)
         if dlg.exec_():
             self.showLights = dlg.lightCheckBox.isChecked()
             self.showGameObjects = dlg.gameObjectsCheckBox.isChecked()
@@ -328,7 +414,10 @@ class ModuleExplorer(QWidget):
     
     def onDelete(self):
         print "delete"
-        
+
+    def keyPressEvent(self, event):
+        print "key!!!!!!!!!!!!!!"
+    
     def paintLastSelectedMapBlue(self):
         print self.lastSelectedMap
         for item in self.mapItems:
@@ -436,13 +525,23 @@ class ModuleExplorer(QWidget):
                 childItem2.setText(0, "Area " + str(area.id))
                 childItem2.setData(0, Qt.UserRole, QVariant(area.areaNode.getName()))
                 i += 1
+             
+            if self.showZoneLights:
+                lightsItem = QTreeWidgetItem(childItem)
+                lightsItem.setText(0, "Lights")
                 
+                for lightName in zone.lightList:
+                    childItem2 = QTreeWidgetItem(lightsItem)
+                    childItem2.setText(0, lightName)
+                    childItem2.setData(0, Qt.UserRole, QVariant(ModuleExplorer.LIGHT_IN_ZONE))
+                    
     def setCurrentModule(self, module):
         self.module = module
         self.updateView()
 
     def setModuleManager(self, moduleManager):
         self.moduleManager = moduleManager
+        self.sceneTreeView.zoneManager = self.moduleManager.zoneManager
         
     def setMapSelectedCallback(self, callback):
         self.mapSelectedCallback = callback
