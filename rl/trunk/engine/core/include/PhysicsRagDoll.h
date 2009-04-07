@@ -112,7 +112,7 @@ public:
 
 	private:
         //! create a convexhull from a mesh
-		OgreNewt::ConvexCollision* _makeConvexHull( OgreNewt::World* world, Ogre::MeshPtr mesh, Ogre::Real minWeight );
+		OgreNewt::ConvexCollisionPtr _makeConvexHull( OgreNewt::World* world, Ogre::MeshPtr mesh, Ogre::Real minWeight );
 
 		//! the ragdoll to that this bone belongs
 		PhysicsRagDoll* mDoll;

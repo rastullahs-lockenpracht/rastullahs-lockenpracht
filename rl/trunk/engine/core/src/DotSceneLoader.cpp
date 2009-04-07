@@ -473,7 +473,11 @@ namespace rl {
     // eine benutzerdefinierte Collision
     void DotSceneLoader::processCollisions(XERCES_CPP_NAMESPACE::DOMElement *rootCollisionXml)
     {
-        OgreNewt::CollisionPtr collision = OgreNewt::CollisionPtr();
+#ifdef OGRENEWT_COLLISION_USE_SHAREDPTR
+        OgreNewt::CollisionPtr collision;
+#else
+        OgreNewt::CollisionPtr collision = NULL;
+#endif
         DOMNode* child = rootCollisionXml->getFirstChild();
         OgreNewt::World *thisWorld = PhysicsManager::getSingleton()._getNewtonWorld();
 
@@ -492,7 +496,11 @@ namespace rl {
                 child = child->getNextSibling();
                 continue;
             }
+#ifdef OGRENEWT_COLLISION_USE_SHAREDPTR
+            collision.reset();
+#else
             collision = NULL;
+#endif
             // am Anfang steht ein Node mit dem Typ
             std::string typeAsString = transcodeToStdString(child->getNodeName());
 
@@ -701,7 +709,11 @@ namespace rl {
                 {
                     LOG_MESSAGE(Logger::CORE,
                         " Mesh-Collisions in <collisions> werden momentan noch nicht unterstützt (Eintrag wird ignoriert).");
+#ifdef OGRENEWT_COLLISION_USE_SHAREDPTR
+                    collision.reset();
+#else
                     collision = NULL;
+#endif
                 }
 /*
                 else if (typeAsString.compare("meshhull") == 0)  // automatische convexhull mit daten aus mesh
@@ -715,15 +727,18 @@ namespace rl {
                 {
                     LOG_MESSAGE(Logger::CORE,
                         " > Parse Error beim Erstellen einer Collision; ungültiger typ: '"+typeAsString+"' !");
+#ifdef OGRENEWT_COLLISION_USE_SHAREDPTR
+                    collision.reset();
+#else
                     collision = NULL;
-                    //return OgreNewt::CollisionPtr(NULL);
+#endif
                 }
 
             }
 
 
             // Collision dem vektor hinzufügen
-            if (collision != NULL)
+            if ( !collision )
                 mCollisions.push_back(collision);
 
             child = child->getNextSibling();

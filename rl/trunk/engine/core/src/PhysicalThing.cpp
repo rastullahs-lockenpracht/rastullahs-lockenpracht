@@ -28,7 +28,6 @@
 
 using namespace Ogre;
 using namespace OgreNewt;
-using namespace OgreNewt::CollisionPrimitives;
 
 namespace rl
 {
@@ -128,7 +127,11 @@ namespace rl
 	void PhysicalThing::setBody(OgreNewt::Body* body)
     {
         mBody = body;
-		mBody->setUserData(mActor);
+#ifdef OGRENEWT_USE_OGRE_ANY
+		mBody->setUserData( Ogre::Any(mActor) );
+#else
+        mBody->setUserData( mActor );
+#endif
     }
 
     void PhysicalThing::_update()
@@ -155,7 +158,13 @@ namespace rl
     {
         mActor = actor;
 		if (mBody != NULL)
-			mBody->setUserData(actor);
+        {
+#ifdef OGRENEWT_USE_OGRE_ANY
+    		mBody->setUserData( Ogre::Any(mActor) );
+#else
+            mBody->setUserData( mActor );
+#endif
+        }
     }
 
     void PhysicalThing::_attachToSceneNode(Ogre::SceneNode* node)
@@ -272,10 +281,25 @@ namespace rl
             "PhysicalThing::updateCollisionHull: PhysicalThing must not be controlled by a RagDoll in order to update its collision hull.");
 
 
+        
         Vector3 position;
         Quaternion orientation;
         mBody->getPositionOrientation(position, orientation);
+        CollisionPtr collision = PhysicsManager::getSingleton().createCollision(
+                entity,
+                mGeometryType,
+                "",
+                NULL,
+                NULL,
+                0, NULL, NULL,
+                true); // don't cache
+        if( collision )
+        {
+            mBody->setCollision(collision);
+            mBody->setPositionOrientation(position, orientation);
+        }
 
+/*
 		if (mGeometryType == GT_CONVEXHULL)
 		{
 			Matrix4 transform = node->_getFullTransform().inverse();
@@ -328,18 +352,19 @@ namespace rl
 					vbuffer->unlock();
 				}
 			}
-	        CollisionPtr collision(new ConvexHull(PhysicsManager::getSingleton()._getNewtonWorld(),
+	        CollisionPtr collision(new CollisionPrimitives::ConvexHull(PhysicsManager::getSingleton()._getNewtonWorld(),
 			    &vertices[0], vertices.size()));
 		    mBody->setCollision(collision);
 		}
 		else if (mGeometryType == GT_MESH)
 		{
-	        CollisionPtr collision(new TreeCollision(
+	        CollisionPtr collision(new CollisionPrimitives::TreeCollision(
 				PhysicsManager::getSingleton()._getNewtonWorld(), entity, true));
 		    mBody->setCollision(collision);
 		}
 
         mBody->setPositionOrientation(position, orientation);
+*/
     }
 
     void PhysicalThing::freeze()

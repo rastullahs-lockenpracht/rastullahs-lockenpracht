@@ -87,7 +87,9 @@ namespace rl {
         mViewMode(VM_THIRD_PERSON),
         mRaycast(new PhysicsMaterialRaycast()),
         mConvexcast(new PhysicsMaterialConvexcast()),
+#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
         mCameraCastCollision(NULL),
+#endif
         mSelector(CoreSubsystem::getSingleton().getWorld()->getSceneManager()),
         mCombatSelector(CoreSubsystem::getSingleton().getWorld()->getSceneManager(),
             QUERYFLAG_CREATURE),
@@ -158,7 +160,7 @@ namespace rl {
             }
         }
         //! TODO: remove this workaround (newton-bug: "spheres don't cast"!)
-        mCameraCastCollision = new OgreNewt::CollisionPrimitives::ConvexHull(mCamBody->getWorld(), verts, 80);
+        mCameraCastCollision = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::ConvexHull(mCamBody->getWorld(), verts, 80));
         //mCameraCastCollision = new OgreNewt::CollisionPrimitives::Ellipsoid(mCamBody->getWorld(), Vector3::UNIT_SCALE * camRadius);
     }
 
@@ -171,7 +173,9 @@ namespace rl {
         mSelector.setFilter(NULL);
         delete mRaycast;
         delete mConvexcast;
+#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
         delete mCameraCastCollision;
+#endif
 
         if (DebugWindow::getSingletonPtr())
         {

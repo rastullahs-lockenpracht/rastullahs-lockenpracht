@@ -126,7 +126,7 @@ namespace rl {
 
         PhysicsMaterialRaycast* mRaycast;
         PhysicsMaterialConvexcast * mConvexcast;
-        OgreNewt::Collision *mCameraCastCollision;
+        OgreNewt::ConvexCollisionPtr mCameraCastCollision;
         HalfSphereSelector mSelector;
         HalfSphereSelector mCombatSelector;
 

@@ -36,7 +36,7 @@ template<> rl::PhysicsManager* Singleton<rl::PhysicsManager>::ms_Singleton = 0;
 
 namespace rl
 {
-    const Ogre::Real PhysicsManager::NEWTON_GRID_WIDTH = 0.01;
+    const Ogre::Real PhysicsManager::NEWTON_GRID_WIDTH = 0.02;
 
 	LQTBodies::LQTBodies(int maxData, int maxDepth, float looseness,
 		const Ogre::Vector2& tlc, const Ogre::Vector2& brc, float mWidth)
@@ -326,7 +326,10 @@ namespace rl
         
 
         // try one compound collision for the entity if there are several collisions
-        OgreNewt::CollisionPtr collision(NULL);
+        OgreNewt::CollisionPtr collision;
+#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
+        collision = NULL;
+#endif
         switch( collisions.size() )
         {
             case 0:
@@ -335,7 +338,7 @@ namespace rl
                 collision = collisions[0];
                 break;
             default:
-                collision = new OgreNewt::CollisionPrimitives::CompoundCollision(mWorld, collisions);
+                collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::CompoundCollision(mWorld, collisions));
                 break;
         }
 
@@ -403,16 +406,27 @@ namespace rl
     void PhysicsManager::genericForceCallback(OgreNewt::Body* body, float timestep, int)
     {
         // apply saved forces in the PhysicalThing
-        PhysicalThing* thing =
-            static_cast<Actor*>(body->getUserData())->getPhysicalThing();
+        PhysicalThing* thing;
+
+#ifdef OGRENEWT_USE_OGRE_ANY
+        thing = Ogre::any_cast<Actor*>(body->getUserData())->getPhysicalThing();
+#else
+        thing = static_cast<Actor*>(body->getUserData())->getPhysicalThing();
+#endif
 
         thing->onApplyForceAndTorque(timestep);
     }
 
     void PhysicsManager::controlledForceCallback(OgreNewt::Body* body, float timestep, int)
     {
-        PhysicalThing* thing =
-            static_cast<Actor*>(body->getUserData())->getPhysicalThing();
+        PhysicalThing* thing;
+
+#ifdef OGRENEWT_USE_OGRE_ANY
+        thing = Ogre::any_cast<Actor*>(body->getUserData())->getPhysicalThing();
+#else
+        thing = static_cast<Actor*>(body->getUserData())->getPhysicalThing();
+#endif
+
 
         if (thing->getPhysicsController())
         {
@@ -508,7 +522,7 @@ namespace rl
         Ogre::Entity* entity, const GeometryType& geomType,
 		const Ogre::String animName, Ogre::Vector3* offset,
         Ogre::Quaternion* orientation, const Ogre::Real mass, Ogre::Vector3* inertia,
-        Ogre::Vector3* centerOfMass)
+        Ogre::Vector3* centerOfMass, bool nocache)
     {
         // problem here is that a mesh can have different animations with
         // different extents. Therefore we add the animName to the meshname
@@ -516,7 +530,10 @@ namespace rl
         Ogre::String collisionName (entity->getMesh()->getName() + animName);
 
         // result value
-        CollisionPtr rval(NULL);
+        CollisionPtr rval;
+#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
+        rval = NULL;
+#endif
 
         // check if there is a collision primitiv for the specified mesh object
         CollisionInUse &usedcol (mCollisionPrimitives[collisionName]);
@@ -555,10 +572,13 @@ namespace rl
         const Ogre::String& name, const Ogre::AxisAlignedBox& aabb,
         const GeometryType& geomType, Ogre::Vector3* offset,
         Ogre::Quaternion* orientation, const Ogre::Real mass, Ogre::Vector3* inertia,
-        Ogre::Vector3* centerOfMass)
+        Ogre::Vector3* centerOfMass, bool nocache)
     {
         // result value
-        CollisionPtr rval(NULL);
+        CollisionPtr rval;
+#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
+        rval = NULL;
+#endif
 
         // check if there is a collision primitiv for the specified mesh object
         CollisionInUse &usedcol (mCollisionPrimitives[name]);
@@ -637,8 +657,9 @@ namespace rl
 		return typestr;
 	}
 
-    bool PhysicsCollisionFactory::checkSize(const Ogre::Vector3& size) const
+    bool PhysicsCollisionFactory::checkSize(const Ogre::AxisAlignedBox& aabb) const
     {
+        Ogre::Vector3 size = aabb.getSize();
         if( size.x < PhysicsManager::NEWTON_GRID_WIDTH ||
             size.y < PhysicsManager::NEWTON_GRID_WIDTH ||
             size.z < PhysicsManager::NEWTON_GRID_WIDTH )
@@ -646,8 +667,9 @@ namespace rl
         return true;
     }
 
-    void PhysicsCollisionFactory::correctSize(Ogre::Vector3& size)
+    void PhysicsCollisionFactory::correctSize(Ogre::AxisAlignedBox& aabb)
     {
+        Ogre::Vector3 size = aabb.getSize();
         // correct size, log warning and fail back to box
         if (size.x < PhysicsManager::NEWTON_GRID_WIDTH)
             size.x = PhysicsManager::NEWTON_GRID_WIDTH;
@@ -656,6 +678,9 @@ namespace rl
         if (size.z < PhysicsManager::NEWTON_GRID_WIDTH)
             size.z = PhysicsManager::NEWTON_GRID_WIDTH;
         LOG_MESSAGE(Logger::CORE, "Correcting collision primitiv size");
+        Ogre::Vector3 center = aabb.getCenter();
+        aabb.setMaximum(center + 0.5*size);
+        aabb.setMinimum(center - 0.5*size);
     }
 
     /*
@@ -665,7 +690,7 @@ namespace rl
     }
     */
 
-    OgreNewt::CollisionPtr PhysicsCollisionFactory::createCollisionFromAABB(const Ogre::AxisAlignedBox aabb,
+    OgreNewt::CollisionPtr PhysicsCollisionFactory::createCollisionFromAABB(const Ogre::AxisAlignedBox passedAabb,
         const GeometryType& geomType,
         Ogre::Vector3* offset,
         Ogre::Quaternion* orientation,
@@ -673,18 +698,20 @@ namespace rl
         Ogre::Vector3* inertia,
         Ogre::Vector3* centerOfMass)
     {
-        // size of the mesh
-        Vector3 size( aabb.getSize() );
+        Ogre::AxisAlignedBox aabb(passedAabb);
         // type for the collision primitiv (can change internally here)
         bool forceBox (false);
 
         // result value
-        CollisionPtr rval(NULL);
+        CollisionPtr rval;
+#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
+        rval = NULL;
+#endif
 
         // size check (if object is too small, it falls back to a box primitiv
-        if (checkSize(size) == false )
+        if (checkSize(aabb) == false )
         {
-            correctSize(size);
+            correctSize(aabb);
             LOG_MESSAGE(Logger::CORE,
                 " AABB is too small, using 'box' instead of primitiv '" +
                 PhysicsManager::convertGeometryTypeToString(geomType));
@@ -741,19 +768,20 @@ namespace rl
         Ogre::Vector3* centerOfMass)
     {
         // bounding box of the mesh
-        const Ogre::AxisAlignedBox aabb(entity->getBoundingBox());
-        // size of the mesh
-        Vector3 size( aabb.getSize() );
+        Ogre::AxisAlignedBox aabb(entity->getBoundingBox());
         // type for the collision primitiv (can change internally here)
         bool forceBox (false);
 
         // result value
-        CollisionPtr rval(NULL);
+        CollisionPtr rval;
+#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
+        rval = NULL;
+#endif
 
         // size check (if object is too small, it falls back to a box primitiv
-        if (checkSize(size) == false )
+        if (checkSize(aabb) == false )
         {
-            correctSize(size);
+            correctSize(aabb);
             LOG_MESSAGE(Logger::CORE, " Entity '"+entity->getName()+
                 "' is too small, using 'box' instead of primitiv '"+
                 PhysicsManager::convertGeometryTypeToString(geomType));
@@ -808,7 +836,11 @@ namespace rl
             if (inertia != NULL || centerOfMass != NULL )
             {
                 Vector3 temp_inertia, temp_centerOfMass;
-                static_cast<OgreNewt::ConvexCollision*>(rval)->calculateInertialMatrix(temp_inertia, temp_centerOfMass);
+#ifdef OGRENEWT_COLLISION_USE_SHAREDPTR
+                boost::dynamic_pointer_cast<OgreNewt::ConvexCollision>(rval)->calculateInertialMatrix(temp_inertia, temp_centerOfMass);
+#else
+                dynamic_cast<OgreNewt::ConvexCollisionPtr>(rval)->calculateInertialMatrix(temp_inertia, temp_centerOfMass);
+#endif
                 if( inertia != NULL )
                     *inertia = temp_inertia*mass;
                 if( centerOfMass != NULL )
@@ -874,7 +906,11 @@ namespace rl
         if (inertia != NULL || centerOfMass != NULL )
         {
             Vector3 temp_inertia, temp_centerOfMass;
-            static_cast<OgreNewt::ConvexCollision*>(rval)->calculateInertialMatrix(temp_inertia, temp_centerOfMass);
+#ifdef OGRENEWT_COLLISION_USE_SHAREDPTR
+            boost::dynamic_pointer_cast<OgreNewt::ConvexCollision>(rval)->calculateInertialMatrix(temp_inertia, temp_centerOfMass);
+#else
+            dynamic_cast<OgreNewt::ConvexCollisionPtr>(rval)->calculateInertialMatrix(temp_inertia, temp_centerOfMass);
+#endif
             if( inertia )
                 *inertia = temp_inertia*mass;
             if( centerOfMass )
@@ -911,7 +947,11 @@ namespace rl
         if (inertia != NULL || centerOfMass != NULL )
         {
             Vector3 temp_inertia, temp_centerOfMass;
-            static_cast<OgreNewt::ConvexCollision*>(rval)->calculateInertialMatrix(temp_inertia, temp_centerOfMass);
+#ifdef OGRENEWT_COLLISION_USE_SHAREDPTR
+            boost::dynamic_pointer_cast<OgreNewt::ConvexCollision>(rval)->calculateInertialMatrix(temp_inertia, temp_centerOfMass);
+#else
+            dynamic_cast<OgreNewt::ConvexCollisionPtr>(rval)->calculateInertialMatrix(temp_inertia, temp_centerOfMass);
+#endif
             if( inertia )
                 *inertia = temp_inertia*mass;
             if( centerOfMass )
@@ -952,7 +992,11 @@ namespace rl
         if (inertia != NULL || centerOfMass != NULL )
         {
             Vector3 temp_inertia, temp_centerOfMass;
-            static_cast<OgreNewt::ConvexCollision*>(rval)->calculateInertialMatrix(temp_inertia, temp_centerOfMass);
+#ifdef OGRENEWT_COLLISION_USE_SHAREDPTR
+            boost::dynamic_pointer_cast<OgreNewt::ConvexCollision>(rval)->calculateInertialMatrix(temp_inertia, temp_centerOfMass);
+#else
+            dynamic_cast<OgreNewt::ConvexCollisionPtr>(rval)->calculateInertialMatrix(temp_inertia, temp_centerOfMass);
+#endif
             if( inertia )
                 *inertia = temp_inertia*mass;
             if( centerOfMass )
@@ -994,7 +1038,11 @@ namespace rl
         if (inertia != NULL || centerOfMass != NULL )
         {
             Vector3 temp_inertia, temp_centerOfMass;
-            static_cast<OgreNewt::ConvexCollision*>(rval)->calculateInertialMatrix(temp_inertia, temp_centerOfMass);
+#ifdef OGRENEWT_COLLISION_USE_SHAREDPTR
+            boost::dynamic_pointer_cast<OgreNewt::ConvexCollision>(rval)->calculateInertialMatrix(temp_inertia, temp_centerOfMass);
+#else
+            dynamic_cast<OgreNewt::ConvexCollisionPtr>(rval)->calculateInertialMatrix(temp_inertia, temp_centerOfMass);
+#endif
             if( inertia )
                 *inertia = temp_inertia*mass;
             if( centerOfMass )
@@ -1030,7 +1078,7 @@ namespace rl
 
         // an capsule primitiv has got its coordinate system at its center, so shift it with radius
         // additionally it is x axis aligned, so rotate it 90 degrees around z axis
-        OgreNewt::CollisionPtr rval(new OgreNewt::CollisionPrimitives::Capsule(
+        OgreNewt::ConvexCollisionPtr rval(new OgreNewt::CollisionPrimitives::Capsule(
             PhysicsManager::getSingleton()._getNewtonWorld(),
             radius, height, *orientation, *offset));
 
@@ -1038,7 +1086,11 @@ namespace rl
         if (inertia != NULL || centerOfMass != NULL )
         {
             Vector3 temp_inertia, temp_centerOfMass;
-            static_cast<OgreNewt::ConvexCollision*>(rval)->calculateInertialMatrix(temp_inertia, temp_centerOfMass);
+#ifdef OGRENEWT_COLLISION_USE_SHAREDPTR
+            boost::dynamic_pointer_cast<OgreNewt::ConvexCollision>(rval)->calculateInertialMatrix(temp_inertia, temp_centerOfMass);
+#else
+            dynamic_cast<OgreNewt::ConvexCollisionPtr>(rval)->calculateInertialMatrix(temp_inertia, temp_centerOfMass);
+#endif
             if( inertia )
                 *inertia = temp_inertia*mass;
             if( centerOfMass )

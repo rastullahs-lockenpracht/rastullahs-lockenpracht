@@ -43,13 +43,13 @@ namespace rl
 
         Ogre::String entName = getAttributeValueAsStdString(nodeElem, "name");
 
-        LOG_DEBUG(Logger::RULES,
+        LOG_DEBUG(Logger::SCRIPT,
             "Processing entity node "
                 + entName);
 
         if (!hasAttribute(nodeElem, "meshfile"))
         {
-            LOG_ERROR(Logger::RULES, "Entity node defines no meshfile attribute");
+            LOG_ERROR(Logger::SCRIPT, "Entity node defines no meshfile attribute");
             return false;
         }
 
@@ -73,7 +73,7 @@ namespace rl
         }
         else
         {
-            LOG_WARNING(Logger::RULES, "No position given for entity, used (0,0,0)");
+            LOG_WARNING(Logger::SCRIPT, "No position given for entity, used (0,0,0)");
         }
 
         DOMElement* oriElem = getChildNamed(nodeElem, "rotation");
@@ -83,7 +83,7 @@ namespace rl
         }
         else
         {
-            LOG_WARNING(Logger::RULES, "No orientation given for entity, used Identity");
+            LOG_WARNING(Logger::SCRIPT, "No orientation given for entity, used Identity");
         }
 
         ///@todo static geometry groups
@@ -108,11 +108,11 @@ namespace rl
             newEnt = CoreSubsystem::getSingleton().getWorld()
                         ->getSceneManager()->createEntity(entName, meshFile);
 
-            LOG_DEBUG(Logger::RULES, " Loaded meshfile "+meshFile);
+            LOG_DEBUG(Logger::SCRIPT, " Loaded meshfile "+meshFile);
         }
         catch(...)
         {
-	        LOG_ERROR(Logger::RULES, " Entity '"+meshFile+"' mit dem Namen '"+entName+"' konnte nicht geladen werden.");
+	        LOG_ERROR(Logger::SCRIPT, " Entity '"+meshFile+"' mit dem Namen '"+entName+"' konnte nicht geladen werden.");
             return false;
         }
 
@@ -141,6 +141,62 @@ namespace rl
 
     void EntityNodeProcessor::createCollision(Entity* entity, Ogre::String meshName, DOMElement* physicsProxyElem)
 	{
+        Ogre::String physicsProxyTypeAsString;
+        if (physicsProxyElem == NULL || !hasAttribute(physicsProxyElem, "type"))
+        {
+            physicsProxyTypeAsString = "auto";
+        }
+        else
+        {
+            physicsProxyTypeAsString = getAttributeValueAsStdString(physicsProxyElem, "type");
+        }
+
+
+
+        if (physicsProxyTypeAsString == "custom")
+        {
+            ///@todo create physics proxy from custom collision primitives which are defined in children elements of <code>physicsProxyElem<code>
+        }
+        else if (physicsProxyTypeAsString == "none")
+        {
+            LOG_DEBUG(Logger::SCRIPT, "No physics proxy for entity '"+entity->getName()+"'.");
+        }
+        else
+        {
+            GeometryType physicsProxyType = PhysicsManager::getSingleton().convertStringToGeometryType(physicsProxyTypeAsString);
+            if( physicsProxyType == GT_NONE )
+            {
+                // auto -> mesh
+                if (physicsProxyTypeAsString == "auto")
+                    physicsProxyType = GT_MESH;
+                
+                if (physicsProxyTypeAsString == "custom")
+                {
+                    ///@todo create physics proxy from custom collision primitives which are defined in children elements of <code>physicsProxyElem<code>
+                    LOG_WARNING(Logger::SCRIPT, "Physics proxy type 'custom' is not yet implemented.");
+                }
+                else if ( physicsProxyType != GT_NONE )
+                {
+                    OgreNewt::CollisionPtr collision = PhysicsManager::getSingleton().createCollision(entity, physicsProxyType);
+                    if (collision)
+                    {
+                        LOG_DEBUG(Logger::SCRIPT, "Created physics proxy type '" + physicsProxyTypeAsString + "' for entity '"+entity->getName()+"'.");
+                        std::vector<OgreNewt::CollisionPtr> collisionVector;
+                        collisionVector.push_back(collision);
+                        PhysicsManager::getSingleton().addLevelGeometry(entity, collisionVector);
+                    }
+                }
+                else
+                {
+                    LOG_ERROR(Logger::SCRIPT,
+                            "Physics proxy type '" + physicsProxyTypeAsString + "' of entity '"+entity->getName()+"' is unknown.");
+                    return;
+                }
+            }
+
+                
+        }
+/*
         std::vector<OgreNewt::CollisionPtr> collisions;
 
         Ogre::String physicsProxyType;
@@ -164,7 +220,7 @@ namespace rl
         }
         else if (physicsProxyType == "none")
         {
-            LOG_DEBUG(Logger::RULES, "No physics proxy for entity '"+entity->getName()+"'.");
+            LOG_DEBUG(Logger::SCRIPT, "No physics proxy for entity '"+entity->getName()+"'.");
         }
         else
         {
@@ -185,7 +241,7 @@ namespace rl
                 if (size.z < PhysicsManager::NEWTON_GRID_WIDTH)
                     size.z = PhysicsManager::NEWTON_GRID_WIDTH;
 
-                LOG_MESSAGE(Logger::RULES, "Entity '"+entity->getName()+"' is planar, using 'box' as instead of '"+physicsProxyType+"'.");
+                LOG_MESSAGE(Logger::SCRIPT, "Entity '"+entity->getName()+"' is planar, using 'box' as instead of '"+physicsProxyType+"'.");
                 forceBox = true;
             }
             const Quaternion orientation(0,0,0,0);// = parentNode->getOrientation();
@@ -199,7 +255,7 @@ namespace rl
                 (!forceBox)) // sicherheitshalber
             {
                 collision = aucol.ColPtr;
-                LOG_DEBUG(Logger::RULES, " Reused physical body for entity '"+entity->getName()+"'.");
+                LOG_DEBUG(Logger::SCRIPT, " Reused physical body for entity '"+entity->getName()+"'.");
             }
             else
             {
@@ -207,13 +263,13 @@ namespace rl
                 {
                     collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Box(
                                      thisWorld, size, orientation, pos));
-                    LOG_DEBUG(Logger::RULES, "Created physics proxy type 'box' for entity '"+entity->getName()+"'.");
+                    LOG_DEBUG(Logger::SCRIPT, "Created physics proxy type 'box' for entity '"+entity->getName()+"'.");
                 }
                 else if (physicsProxyType == "pyramid")
                 {
                     collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Pyramid(
                                     thisWorld, size, orientation, pos));
-                    LOG_DEBUG(Logger::RULES, "Created physics proxy type 'pyramid' for entity '"+entity->getName()+"'.");
+                    LOG_DEBUG(Logger::SCRIPT, "Created physics proxy type 'pyramid' for entity '"+entity->getName()+"'.");
                 }
                 else if (physicsProxyType == "sphere")
                 {
@@ -221,7 +277,7 @@ namespace rl
                     collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid(
                                     thisWorld, Vector3(radius, radius, radius),
                                     orientation, pos));
-                    LOG_DEBUG(Logger::RULES, "Created physics proxy type 'sphere' for entity '"+entity->getName()+"'.");
+                    LOG_DEBUG(Logger::SCRIPT, "Created physics proxy type 'sphere' for entity '"+entity->getName()+"'.");
                 }
                 else if (physicsProxyType == "ellipsoid")
                 {
@@ -232,7 +288,7 @@ namespace rl
                     collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid(
                                     thisWorld, s,
                                     orientation, pos));
-                    LOG_DEBUG(Logger::RULES, "Created physics proxy type 'ellipsoid' for entity '"+entity->getName()+"'.");
+                    LOG_DEBUG(Logger::SCRIPT, "Created physics proxy type 'ellipsoid' for entity '"+entity->getName()+"'.");
                 }
                 else if (physicsProxyType == "capsule")
                 {
@@ -244,24 +300,24 @@ namespace rl
                                     radius,
                                     height,
                                     orientation, pos));
-                    LOG_DEBUG(Logger::RULES, "Created physics proxy type 'capsule' for entity '"+entity->getName()+"'.");
+                    LOG_DEBUG(Logger::SCRIPT, "Created physics proxy type 'capsule' for entity '"+entity->getName()+"'.");
                 }
                 else if (physicsProxyType == "convexhull")
                 {
                     collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::ConvexHull(
                                     thisWorld,
                                     entity));
-                    LOG_DEBUG(Logger::RULES, "Created physics proxy type 'convexhull' for entity '"+entity->getName()+"'.");
+                    LOG_DEBUG(Logger::SCRIPT, "Created physics proxy type 'convexhull' for entity '"+entity->getName()+"'.");
                 }
                 else if (physicsProxyType == "mesh" || physicsProxyType == "auto")
                 {
                     collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::TreeCollision(
                                     thisWorld, entity, true));
-                    LOG_DEBUG(Logger::RULES, "Created physics proxy type 'mesh' for entity '"+entity->getName()+"'.");
+                    LOG_DEBUG(Logger::SCRIPT, "Created physics proxy type 'mesh' for entity '"+entity->getName()+"'.");
                 }
                 else
                 {
-                    LOG_ERROR(Logger::RULES,
+                    LOG_ERROR(Logger::SCRIPT,
                         "Physics proxy type '"+physicsProxyType+"' of entity '"+entity->getName()+"' is unknown.");
                     return;
                 }
@@ -282,9 +338,10 @@ namespace rl
         if (collisions.size() > 0)
         {
             PhysicsManager::getSingleton().addLevelGeometry(entity, collisions);
-            LOG_DEBUG(Logger::RULES, " Entity '"+entity->getName()+"' in levelGeometry geladen");
+            LOG_DEBUG(Logger::SCRIPT, " Entity '"+entity->getName()+"' in levelGeometry geladen");
         }
-	}
+*/
+    }
 
 	void EntityNodeProcessor::processAnimation(Ogre::Entity* entity, DOMElement *animationElem)
 	{

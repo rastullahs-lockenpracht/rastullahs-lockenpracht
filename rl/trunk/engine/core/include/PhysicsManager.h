@@ -223,6 +223,8 @@ namespace rl {
          * @param mass gives the mass of the collision primitive used for calculating the inertia
 		 * @param inertia Vector3 returns the inertia coefficients for the created collision primitiv
 		 * @param centerOfMass Vector3 returns the centerOfMass coefficients for the created collision primitiv
+         * @param nocache if set to true a new collision will be created (without looking for an existing one in the cache);
+         *                the new collision is not added to the cache
 		*/
 		OgreNewt::CollisionPtr createCollision(
 			Ogre::Entity* entity,
@@ -232,7 +234,8 @@ namespace rl {
 			Ogre::Quaternion* orientation = NULL,
             const Ogre::Real mass = 0,
             Ogre::Vector3* inertia = NULL,
-            Ogre::Vector3* centerOfMass = NULL);
+            Ogre::Vector3* centerOfMass = NULL,
+            bool nocache = false);
 
         /** creates a collision primitive for OgreNewt.
 		 * The collision primitive created has got a basic orientation which can be influenced by
@@ -251,6 +254,8 @@ namespace rl {
          * @param mass gives the mass of the collision primitive used for calculating the inertia
 		 * @param inertia Vector3 returns the inertia coefficients for the created collision primitiv
 		 * @param centerOfMass Vector3 returns the centerOfMass coefficients for the created collision primitiv
+         * @param nocache if set to true a new collision will be created (without looking for an existing one in the cache);
+         *                the new collision is not added to the cache
 		*/
         OgreNewt::CollisionPtr createCollision(
             const Ogre::String& name,
@@ -260,7 +265,8 @@ namespace rl {
 			Ogre::Quaternion* orientation = NULL,
             const Ogre::Real mass = 0,
             Ogre::Vector3* inertia = NULL,
-            Ogre::Vector3* centerOfMass = NULL);
+            Ogre::Vector3* centerOfMass = NULL,
+            bool nocache = false);
 
         /** Makes the collision primitive generation available to non mesh objects.
          * Non mesh objects need collision objects too. Therefore they can
@@ -296,7 +302,11 @@ namespace rl {
         struct CollisionInUse
         {
         public:
-            CollisionInUse() : colPtr(NULL), geomType(GT_NONE) {}
+            CollisionInUse() :
+#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
+                colPtr(NULL),
+#endif
+                geomType(GT_NONE) {}
             GeometryType geomType;  //! primitive type
             OgreNewt::CollisionPtr colPtr;          //! the collision primitve
         };
@@ -382,13 +392,13 @@ namespace rl {
     {
     public:
         /** checks if the specified size is ok for OgreNewt
-         * @param size to check
+         * @param aabb check the aabb's size
          */
-        bool checkSize(const Ogre::Vector3& size) const;
+        bool checkSize(const Ogre::AxisAlignedBox& aabb) const;
         /** corrects the specified size if it is not ok for OgreNewt
-         * @param size to correct
+         * @param aabb correct the aabb's size
          */
-        void correctSize(Ogre::Vector3& size);
+        void correctSize(Ogre::AxisAlignedBox& aabb);
         /** calculates the Inertia for the given primitive type
          */
         //Ogre::Vector3 calculateIntertia(const Ogre::Real& Mass, Ogre::Vector3* inertiaCoefficients);

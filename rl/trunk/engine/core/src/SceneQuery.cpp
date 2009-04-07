@@ -116,7 +116,11 @@ namespace rl
                 if (mLevelOcclusion && (body->getMaterialGroupID() == levelId)) break;
 
                 // Add actor to this body to the result
+#ifdef OGRENEWT_USE_OGRE_ANY
+                Actor* actor = Ogre::any_cast<Actor*>(body->getUserData());
+#else
                 Actor* actor = static_cast<Actor*>(body->getUserData());
+#endif
                 if (actor != NULL) mResult.push_back(actor);
             }
         }

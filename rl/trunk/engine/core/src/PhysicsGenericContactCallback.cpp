@@ -29,8 +29,30 @@ namespace rl
     {
         userProcess(contactJoint, timestep, threadid);
 
-        Actor* a1 = static_cast<Actor*>(contactJoint.getBody0()->getUserData());
-        Actor* a2 = static_cast<Actor*>(contactJoint.getBody1()->getUserData());
+        Actor* a1 = NULL;
+        Actor* a2 = NULL;
+
+#ifdef OGRENEWT_USE_OGRE_ANY
+        try
+        {
+            a1 = Ogre::any_cast<Actor*>(contactJoint.getBody0()->getUserData());
+        }
+        catch(...)
+        {
+            LOG_WARNING(Logger::CORE, "Found collision with a OgreNewt::Body that doesn't have an Actor as UserData in PhysicsGenericContactCallback::contactsProcess");
+        }
+        try
+        {
+            a2 = Ogre::any_cast<Actor*>(contactJoint.getBody1()->getUserData());
+        }
+        catch(...)
+        {
+            LOG_WARNING(Logger::CORE, "Found collision with a OgreNewt::Body that doesn't have an Actor as UserData in PhysicsGenericContactCallback::contactsProcess");
+        }
+#else
+        a1 = static_cast<Actor*>(contactJoint.getBody0()->getUserData());
+        a2 = static_cast<Actor*>(contactJoint.getBody1()->getUserData());
+#endif
         if (a1 && a1->getPhysicalThing()->getContactListener())
         {
             a1->getPhysicalThing()->getContactListener()->
