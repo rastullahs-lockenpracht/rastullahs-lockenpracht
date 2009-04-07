@@ -14,12 +14,11 @@
 
 
 #include "OgreNewt_Prerequisites.h"
+#include "OgreNewt_Collision.h"
 
 // OgreNewt namespace.  all functions and classes use this namespace.
 namespace OgreNewt
 {
-    class Collision;
-
   /*!
   This class can be used to (de)serialize a Collision. Pre-building a Collision and serializing from a tool,
   then deserializing it at runtime may be more efficient than building the Collision on the fly, especially for complex objects.
@@ -37,13 +36,13 @@ namespace OgreNewt
     /*!
     Serialize the Collision to a file with the given name.
     */
-    void exportCollision(const Collision* collision, const Ogre::String& filename);
+    void exportCollision(const OgreNewt::CollisionPtr& collision, const Ogre::String& filename);
 
     /*!
     Deserialize the Collision from a DataStream.
     this will create a NEW Collision object
     */
-    void importCollision(Ogre::DataStreamPtr& stream, Collision* pDest);
+    OgreNewt::CollisionPtr importCollision(Ogre::DataStreamPtr& stream, OgreNewt::World* world);
 
   private:
     /*!

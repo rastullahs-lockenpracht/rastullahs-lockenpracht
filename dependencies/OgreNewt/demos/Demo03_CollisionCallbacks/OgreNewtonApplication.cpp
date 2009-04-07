@@ -79,9 +79,13 @@ void OgreNewtonApplication::createScene()
 	floor->setCastShadows( false );
 
 	//Ogre::Vector3 siz(100.0, 10.0, 100.0);
-	OgreNewt::Collision* col = new OgreNewt::CollisionPrimitives::TreeCollision( m_World, floor, true );
+	OgreNewt::CollisionPtr col = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::TreeCollision( m_World, floor, true ));
 	OgreNewt::Body* bod = new OgreNewt::Body( m_World, col );
 	
+#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
+    delete col;
+#endif
+
 	//floornode->setScale( siz );
 	bod->attachNode( floornode );
 	bod->setPositionOrientation( Ogre::Vector3(0.0,-10.0,0.0), Ogre::Quaternion::IDENTITY );

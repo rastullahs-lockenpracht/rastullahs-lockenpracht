@@ -87,18 +87,23 @@ bool OgreNewtonFrameListener::frameStarted(const FrameEvent &evt)
 
 			ent->setMaterialName( "Simple/dirt01" );
 
-			OgreNewt::ConvexCollision* col = new OgreNewt::CollisionPrimitives::Ellipsoid( m_World, Ogre::Vector3(1,1,1) );
+			OgreNewt::ConvexCollisionPtr col = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid( m_World, Ogre::Vector3(1,1,1) ));
 			OgreNewt::Body* body = new OgreNewt::Body( m_World, col );
 
 			Ogre::Vector3 inertia, offset;
             col->calculateInertialMatrix(inertia, offset);
 			body->setMassMatrix( 10.0, 10.0*inertia );
+            body->setCenterOfMass(offset);
 			body->attachNode( node );
 			body->setStandardForceCallback();
 			body->setPositionOrientation( pos, camorient );
 			body->setVelocity( (dir * 50.0) );
 
 			timer = 0.2;
+
+#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
+            delete col;
+#endif
 		}
 	}
 	timer -= evt.timeSinceLastFrame;

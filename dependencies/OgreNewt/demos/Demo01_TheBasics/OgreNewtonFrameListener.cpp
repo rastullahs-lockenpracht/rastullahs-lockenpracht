@@ -80,17 +80,20 @@ bool OgreNewtonFrameListener::frameStarted(const FrameEvent &evt)
 			//ent->setNormaliseNormals(true);
 
 			// again, make the collision shape.
-			OgreNewt::ConvexCollision* col = new OgreNewt::CollisionPrimitives::Cylinder(m_World, 1, 1);
+			OgreNewt::ConvexCollisionPtr col = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::Cylinder(m_World, 1, 1));
 			
 			// then make the rigid body.
 			OgreNewt::Body* body = new OgreNewt::Body( m_World, col );
 
 			Ogre::Vector3 inertia, offset;
             col->calculateInertialMatrix(inertia, offset);
+#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
 			//no longer need the collision shape object
 			delete col;
+#endif
 
 			body->setMassMatrix( 10.0, 10.0*inertia );
+            body->setCenterOfMass(offset);
 
 			// attach to the scene node.
 			body->attachNode( node );

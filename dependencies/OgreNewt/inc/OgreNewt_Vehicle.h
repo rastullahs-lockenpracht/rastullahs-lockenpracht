@@ -18,8 +18,8 @@
 
 namespace OgreNewt
 {
-    class Body;
-    class World;
+
+
 #ifdef INCLUDE_VEHICLE
 //! Represents a wheeled vehicle
 /*!

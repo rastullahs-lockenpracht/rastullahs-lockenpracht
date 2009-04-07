@@ -1,5 +1,6 @@
 #include "OgreNewt_CollisionSerializer.h"
-#include "OgreNewt_Collision.h"
+#include "OgreNewt_CollisionPrimitives.h"
+#include "OgreNewt_World.h"
 
 namespace OgreNewt
 {
@@ -13,38 +14,76 @@ namespace OgreNewt
   }
 
 
-  void CollisionSerializer::exportCollision(const Collision* collision, const Ogre::String& filename)
+  void CollisionSerializer::exportCollision(const CollisionPtr& collision, const Ogre::String& filename)
   {
-    if( collision )
-    {
-        mpfFile=fopen(filename.c_str(),"wb");
-    
-        if (!mpfFile)
-        {
-          OGRE_EXCEPT(Ogre::Exception::ERR_INVALIDPARAMS, "Unable to open file " + filename + " for writing","CollisionSerializer::exportCollision");
-        }
-    
-        NewtonCollisionSerialize(collision->getWorld()->getNewtonWorld(), collision->m_col, &CollisionSerializer::_newtonSerializeCallback, this);
+    if( !collision )
+        OGRE_EXCEPT(Ogre::Exception::ERR_INVALIDPARAMS, "Argument collision is NULL","CollisionSerializer::exportCollision");
 
-        fclose(mpfFile);
+    mpfFile=fopen(filename.c_str(),"wb");
+    
+    if (!mpfFile)
+    {
+        OGRE_EXCEPT(Ogre::Exception::ERR_INVALIDPARAMS, "Unable to open file " + filename + " for writing","CollisionSerializer::exportCollision");
     }
+
+    NewtonCollisionSerialize(collision->getWorld()->getNewtonWorld(), collision->m_col, &CollisionSerializer::_newtonSerializeCallback, this);
+
+
+    fclose(mpfFile);
   }
 
 
-  void CollisionSerializer::importCollision(Ogre::DataStreamPtr& stream, Collision* pDest)
+  CollisionPtr CollisionSerializer::importCollision(Ogre::DataStreamPtr& stream, OgreNewt::World* world)
   {
-    if( pDest )
-    {
-        if( pDest->m_col )
-        {
-            // we need an error here!!
-            NewtonReleaseCollision(pDest->m_world->getNewtonWorld(), pDest->m_col);
-        }
+      CollisionPtr dest;
 
-        NewtonCollision* col = NewtonCreateCollisionFromSerialization(pDest->getWorld()->getNewtonWorld(), &CollisionSerializer::_newtonDeserializeCallback, &stream);
+      NewtonCollision* col = NewtonCreateCollisionFromSerialization(world->getNewtonWorld(), &CollisionSerializer::_newtonDeserializeCallback, &stream);
 
-        pDest->m_col = col;
-    }
+      // the type doesn't really matter... but lets do it correctly
+      switch( Collision::getCollisionPrimitiveType(col) )
+      {
+          case BoxPrimitiveType:
+              dest = CollisionPtr(new CollisionPrimitives::Box(world));
+              break;
+          case ConePrimitiveType:
+              dest = CollisionPtr(new CollisionPrimitives::Cone(world));
+              break;
+          case EllipsoidPrimitiveType:
+              dest = CollisionPtr(new CollisionPrimitives::Ellipsoid(world));
+              break;
+          case CapsulePrimitiveType:
+              dest = CollisionPtr(new CollisionPrimitives::Capsule(world));
+              break;
+          case CylinderPrimitiveType:
+              dest = CollisionPtr(new CollisionPrimitives::Cylinder(world));
+              break;
+          case CompoundCollisionPrimitiveType:
+              dest = CollisionPtr(new CollisionPrimitives::CompoundCollision(world));
+              break;
+          case ConvexHullPrimitiveType:
+              dest = CollisionPtr(new CollisionPrimitives::ConvexHull(world));
+              break;
+          case ConvexHullModifierPrimitiveType:
+              dest = CollisionPtr(new ConvexModifierCollision(world));
+              break;
+          case ChamferCylinderPrimitiveType:
+              dest = CollisionPtr(new CollisionPrimitives::ChamferCylinder(world));
+              break;
+          case TreeCollisionPrimitiveType:
+              dest = CollisionPtr(new CollisionPrimitives::TreeCollision(world));
+              break;
+          case NullPrimitiveType:
+              dest = CollisionPtr(new CollisionPrimitives::Null(world));
+              break;
+          case HeighFieldPrimitiveType:
+          case ScenePrimitiveType:
+          default:
+              dest = CollisionPtr(new Collision(world));
+      }
+
+      dest->m_col = col;
+
+      return dest;
   }
 
 

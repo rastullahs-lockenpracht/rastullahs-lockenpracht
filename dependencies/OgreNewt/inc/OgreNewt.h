@@ -64,13 +64,14 @@
             - joints
             - collision-serializer
             - treecollision raycastcallback 
-        - shared pointers for collisions (atm CollisionPtr := Collision*, but should be Ogre::SharedPtr<Collision>, but there was some problem...)
 
 
     \section new New in this version
 
     New in this version
         - this version uses cmake > 2.6.2!
+        - shared pointers for collisions, in order to use shared pointers define OGRENEWT_COLLISION_USE_SHAREDPTR
+        - support for Ogre::Any instead of void* as userdata, in order to use it, define OGRENEWT_USE_OGRE_ANY
         - several interface-breaking changes:
             - the ContactCallback passes a ContactJoint as argument that can be used to iterate through all contacts
               (the callback is not called for each contact any more, but for each pair of colliding bodies!)

@@ -15,15 +15,10 @@
 
 
 #include "OgreNewt_Prerequisites.h"
-#include <boost/function.hpp>
-#include <boost/bind.hpp>
 
 // OgreNewt namespace.  all functions and classes use this namespace.
 namespace OgreNewt
 {
-
-class World;
-class Body;
 
 
 //! Iterate through all bodies in a specific AABB in the world.

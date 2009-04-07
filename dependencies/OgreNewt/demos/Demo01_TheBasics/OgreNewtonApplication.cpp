@@ -55,13 +55,15 @@ void OgreNewtonApplication::createScene()
 
 	// here's where we make a collision shape for the physics.  note that we use the same size as
 	// above.
-	OgreNewt::Collision* col = new OgreNewt::CollisionPrimitives::Cylinder(m_World, 2.5, 5);
+	OgreNewt::CollisionPtr col = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Cylinder(m_World, 2.5, 5));
 
 	// now we make a new rigid body based on this collision shape.
 	OgreNewt::Body* bod = new OgreNewt::Body( m_World, col );
 
+#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
 	// we`re done with the collision shape, we can delete it now.
 	delete col;
+#endif
 
 	// now we "attach" the rigid body to the scene node that holds the visual object, and set it's
 	// original position and orientation.  all rigid bodies default to mass=0 (static, immobile), so

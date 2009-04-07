@@ -8,7 +8,11 @@ RagDoll::RagBone::RagBone( RagDoll* creator, OgreNewt::World* world, RagDoll::Ra
 	mParent = parent;
 	mOgreBone = ogreBone;
 
-	OgreNewt::ConvexCollision* col = NULL;
+#ifdef OGRENEWT_COLLISION_USE_SHAREDPTR
+	OgreNewt::ConvexCollisionPtr col;
+#else
+	OgreNewt::ConvexCollisionPtr col = NULL;
+#endif
 
 	// in the case of the cylindrical primitives, they need to be rotated to align the main axis with the direction vector.
 	Ogre::Quaternion orient = Ogre::Quaternion::IDENTITY;
@@ -32,23 +36,23 @@ RagDoll::RagBone::RagBone( RagDoll* creator, OgreNewt::World* world, RagDoll::Ra
 	switch (shape)
 	{
 	case RagDoll::RagBone::BS_BOX:
-		col = new OgreNewt::CollisionPrimitives::Box( world, size );
+		col = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::Box( world, size ));
 		break;
 
 	case RagDoll::RagBone::BS_CAPSULE:
-		col = new OgreNewt::CollisionPrimitives::Capsule( world, size.y, size.x, orient, pos );
+		col = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::Capsule( world, size.y, size.x, orient, pos ));
 		break;
 
 	case RagDoll::RagBone::BS_CONE:
-		col = new OgreNewt::CollisionPrimitives::Cone( world, size.y, size.x, orient, pos );
+		col = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::Cone( world, size.y, size.x, orient, pos ));
 		break;
 
 	case RagDoll::RagBone::BS_CYLINDER:
-		col = new OgreNewt::CollisionPrimitives::Cylinder( world, size.y, size.x, orient, pos );
+		col = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::Cylinder( world, size.y, size.x, orient, pos ));
 		break;
 
 	case RagDoll::RagBone::BS_ELLIPSOID:
-		col = new OgreNewt::CollisionPrimitives::Ellipsoid( world, size );
+		col = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid( world, size ));
 		break;
 
 	case RagDoll::RagBone::BS_CONVEXHULL:
@@ -56,24 +60,31 @@ RagDoll::RagBone::RagBone( RagDoll* creator, OgreNewt::World* world, RagDoll::Ra
 		break;
 
 	default:
-		col = new OgreNewt::CollisionPrimitives::Box( world, size );
+		col = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::Box( world, size ));
 		break;
 	}
 
 	mBody = new OgreNewt::Body( world, col );
-	mBody->setUserData( this );
+#ifdef OGRENEWT_USE_OGRE_ANY
+	mBody->setUserData( Ogre::Any(this) );
+#else
+    mBody->setUserData( this );
+#endif
 	mBody->setStandardForceCallback();
 
 	Ogre::Vector3 inertia;
-	Ogre::Vector3 com;
-	col->calculateInertialMatrix( inertia, com );
+	Ogre::Vector3 offset;
+	col->calculateInertialMatrix( inertia, offset );
 	
 	mBody->setMassMatrix( mass, inertia * mass );
-	mBody->setCenterOfMass( com );
+	mBody->setCenterOfMass( offset );
 
 	mBody->setCustomTransformCallback( RagDoll::_placementCallback );
 
 
+#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
+    delete col;
+#endif
 }
 
 
@@ -86,7 +97,11 @@ RagDoll::RagBone::~RagBone()
 
 void RagDoll::RagBone::_hingeCallback( OgreNewt::BasicJoints::Hinge* me )
 {
+#ifdef OGRENEWT_USE_OGRE_ANY
+	RagDoll::RagBone* bone = Ogre::any_cast<RagDoll::RagBone*>(me->getUserData());
+#else
 	RagDoll::RagBone* bone = (RagDoll::RagBone*)me->getUserData();
+#endif
 
 	Ogre::Degree angle = me->getJointAngle();
 	Ogre::Degree lim1( bone->getLimit1() );
@@ -107,7 +122,7 @@ void RagDoll::RagBone::_hingeCallback( OgreNewt::BasicJoints::Hinge* me )
 }
 
 
-OgreNewt::ConvexCollision* RagDoll::RagBone::_makeConvexHull( OgreNewt::World* world, Ogre::MeshPtr mesh, Ogre::Real minWeight )
+OgreNewt::ConvexCollisionPtr RagDoll::RagBone::_makeConvexHull( OgreNewt::World* world, Ogre::MeshPtr mesh, Ogre::Real minWeight )
 {
 	std::vector< Ogre::Vector3 > vertexVector;
 
@@ -197,7 +212,7 @@ OgreNewt::ConvexCollision* RagDoll::RagBone::_makeConvexHull( OgreNewt::World* w
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
-	OgreNewt::ConvexCollision* col = new OgreNewt::CollisionPrimitives::ConvexHull( world, verts, numVerts );
+	OgreNewt::ConvexCollisionPtr col = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::ConvexHull( world, verts, numVerts ));
 
 	delete []verts;
 
@@ -390,7 +405,11 @@ void RagDoll::_joinBones( RagDoll::JointType type, RagBone* parent, RagBone* chi
 	case RagDoll::JT_HINGE:
 		joint = new OgreNewt::BasicJoints::Hinge( child->getBody()->getWorld(), child->getBody(), parent->getBody(), pos, pin );
 		((OgreNewt::BasicJoints::Hinge*)joint)->setCallback( RagBone::_hingeCallback );
-		joint->setUserData( child );
+#ifdef OGRENEWT_USE_OGRE_ANY
+	joint->setUserData( Ogre::Any(child) );
+#else
+	joint->setUserData( child );
+#endif
 		child->setLimits( limit1, limit2 );
 		break;
 	}
@@ -400,7 +419,11 @@ void RagDoll::_joinBones( RagDoll::JointType type, RagBone* parent, RagBone* chi
 
 void RagDoll::_placementCallback( OgreNewt::Body* me, const Ogre::Quaternion& orient, const Ogre::Vector3& pos, int threadindex )
 {
+#ifdef OGRENEWT_USE_OGRE_ANY
+	RagDoll::RagBone* bone = Ogre::any_cast<RagDoll::RagBone*>(me->getUserData());
+#else
 	RagDoll::RagBone* bone = (RagDoll::RagBone*)me->getUserData();
+#endif
 	RagDoll* doll = bone->getDoll();
 
 	// is this the root bone?

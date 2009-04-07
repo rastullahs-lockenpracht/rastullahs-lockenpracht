@@ -19,7 +19,6 @@
 namespace OgreNewt
 {
 
-class World;
 
 //! represents a material
 class _OgreNewtExport MaterialID

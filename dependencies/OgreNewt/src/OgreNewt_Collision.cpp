@@ -1,4 +1,5 @@
 #include "OgreNewt_Collision.h"
+#include "OgreNewt_World.h"
 #include "OgreNewt_Tools.h"
 
 
@@ -18,6 +19,12 @@ Collision::~Collision()
 }
 
 
+void Collision::makeUnique()
+{
+    NewtonCollisionMakeUnique( m_world->getNewtonWorld(), m_col );
+}
+
+
 Ogre::AxisAlignedBox Collision::getAABB( const Ogre::Quaternion& orient, const Ogre::Vector3& pos ) const
 {
     Ogre::AxisAlignedBox box;
@@ -34,13 +41,13 @@ Ogre::AxisAlignedBox Collision::getAABB( const Ogre::Quaternion& orient, const O
     return box;
 }
 
-CollisionPrimitive Collision::getCollisionPrimitiveType(const NewtonCollision *col)
+CollisionPrimitiveType Collision::getCollisionPrimitiveType(const NewtonCollision *col)
 {
     NewtonCollisionInfoRecord *info = new NewtonCollisionInfoRecord();
 
     NewtonCollisionGetInfo( col, info );
 
-    return static_cast<CollisionPrimitive>(info->m_collisionType);
+    return static_cast<CollisionPrimitiveType>(info->m_collisionType);
 }
 
 
@@ -55,7 +62,12 @@ ConvexCollision::~ConvexCollision()
 
 
 
-ConvexModifierCollision::ConvexModifierCollision(const World* world, const Collision* col) : Collision(world)
+
+ConvexModifierCollision::ConvexModifierCollision(const World* world) : ConvexCollision(world)
+{
+}
+
+ConvexModifierCollision::ConvexModifierCollision(const World* world, const ConvexCollisionPtr col) : ConvexCollision(world)
 {
     m_col = NewtonCreateConvexHullModifier( world->getNewtonWorld(), col->getNewtonCollision() );
 }

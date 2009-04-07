@@ -14,11 +14,11 @@
 
 
 #include "OgreNewt_Prerequisites.h"
+#include "OgreNewt_Collision.h"
 
 namespace OgreNewt
 {
-    class World;
-    class Collision;
+
 
     //! set of handy convertors.
     namespace Converters
@@ -70,7 +70,7 @@ namespace OgreNewt
             \param retnormal returned normal on the collision primitive in global space
         */
         _OgreNewtExport int CollisionPointDistance( const OgreNewt::World* world, const Ogre::Vector3& globalpt, 
-                                    const OgreNewt::Collision* col, const Ogre::Quaternion& colorient, const Ogre::Vector3& colpos, 
+                                    const OgreNewt::CollisionPtr& col, const Ogre::Quaternion& colorient, const Ogre::Vector3& colpos, 
                                     Ogre::Vector3& retpt, Ogre::Vector3& retnormal, int threadIndex );
                                     
 
@@ -88,8 +88,8 @@ namespace OgreNewt
             \param retPosB returned position on collision primitive B
             \param retNorm returned collision normal
         */
-        _OgreNewtExport int CollisionClosestPoint( const OgreNewt::World* world, const OgreNewt::Collision* colA, const Ogre::Quaternion& colOrientA, const Ogre::Vector3& colPosA,
-                                                            const OgreNewt::Collision* colB, const Ogre::Quaternion& colOrientB, const Ogre::Vector3& colPosB,
+        _OgreNewtExport int CollisionClosestPoint( const OgreNewt::World* world, const OgreNewt::CollisionPtr& colA, const Ogre::Quaternion& colOrientA, const Ogre::Vector3& colPosA,
+                                                            const OgreNewt::CollisionPtr& colB, const Ogre::Quaternion& colOrientB, const Ogre::Vector3& colPosB,
                                                             Ogre::Vector3& retPosA, Ogre::Vector3& retPosB, Ogre::Vector3& retNorm, int threadIndex );
 
 
@@ -110,8 +110,8 @@ namespace OgreNewt
             \param retPenetrations returned penetrations for each contact.
         */
         _OgreNewtExport int CollisionCollide(  const OgreNewt::World* world, int maxSize, 
-            const OgreNewt::Collision* colA, const Ogre::Quaternion& colOrientA, const Ogre::Vector3& colPosA,
-            const OgreNewt::Collision* colB, const Ogre::Quaternion& colOrientB, const Ogre::Vector3& colPosB,
+            const OgreNewt::CollisionPtr& colA, const Ogre::Quaternion& colOrientA, const Ogre::Vector3& colPosA,
+            const OgreNewt::CollisionPtr& colB, const Ogre::Quaternion& colOrientB, const Ogre::Vector3& colPosB,
             Ogre::Vector3* retContactPts, Ogre::Vector3* retNormals, Ogre::Real* retPenetrations, int threadIndex );
 
 
@@ -137,8 +137,8 @@ namespace OgreNewt
             \param retPenetrations returned penetrations for each contact.
         */
         _OgreNewtExport int CollisionCollideContinue( const OgreNewt::World* world, int maxSize, Ogre::Real timeStep,
-            const OgreNewt::Collision* colA, const Ogre::Quaternion& colOrientA, const Ogre::Vector3& colPosA, const Ogre::Vector3& colVelA, const Ogre::Vector3& colOmegaA,
-            const OgreNewt::Collision* colB, const Ogre::Quaternion& colOrientB, const Ogre::Vector3& colPosB, const Ogre::Vector3& colVelB, const Ogre::Vector3& colOmegaB,
+            const OgreNewt::CollisionPtr& colA, const Ogre::Quaternion& colOrientA, const Ogre::Vector3& colPosA, const Ogre::Vector3& colVelA, const Ogre::Vector3& colOmegaA,
+            const OgreNewt::CollisionPtr& colB, const Ogre::Quaternion& colOrientB, const Ogre::Vector3& colPosB, const Ogre::Vector3& colVelB, const Ogre::Vector3& colOmegaB,
             Ogre::Real& retTimeOfImpact, Ogre::Vector3* retContactPts, Ogre::Vector3* retNormals, Ogre::Real* retPenetrations, int threadIndex );
 
 
@@ -152,7 +152,7 @@ namespace OgreNewt
             \param normal returned normal where the ray hit the collision.
             \param colID returned ID of the collision primitive hit.
         */
-        _OgreNewtExport Ogre::Real CollisionRayCast( const OgreNewt::Collision* col, const Ogre::Vector3& startPt, const Ogre::Vector3& endPt, 
+        _OgreNewtExport Ogre::Real CollisionRayCast( const OgreNewt::CollisionPtr& col, const Ogre::Vector3& startPt, const Ogre::Vector3& endPt, 
                                                         Ogre::Vector3& retNorm, int& retColID );
                 
 
@@ -163,7 +163,7 @@ namespace OgreNewt
             \param orient world orientation of the collision.
             \param pos world position of the collision.
         */
-        _OgreNewtExport Ogre::AxisAlignedBox CollisionCalculateAABB( const OgreNewt::Collision* col, const Ogre::Quaternion& orient, const Ogre::Vector3& pos );
+        _OgreNewtExport Ogre::AxisAlignedBox CollisionCalculateAABB( const OgreNewt::CollisionPtr& col, const Ogre::Quaternion& orient, const Ogre::Vector3& pos );
 
     }   // end namespace "ColliionTools"
 

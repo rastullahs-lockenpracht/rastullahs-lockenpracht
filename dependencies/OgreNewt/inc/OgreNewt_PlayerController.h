@@ -21,9 +21,6 @@
 namespace OgreNewt
 {
 
-class Collision;
-class ConvexCollision;
-
 //! PlayerController
 /*!
     this class implements a player-controller based on the code of the CustomPlayerController-class in the Newton-CustomJoints library
@@ -85,9 +82,9 @@ protected:
     Ogre::Vector3 m_upVector;
 
     bool m_isInJumpState;
-    OgreNewt::ConvexCollision* m_verticalSensorShape;
-    OgreNewt::ConvexCollision* m_horizontalSensorShape;
-    OgreNewt::ConvexCollision* m_dynamicsSensorShape;
+    OgreNewt::ConvexCollisionPtr m_verticalSensorShape;
+    OgreNewt::ConvexCollisionPtr m_horizontalSensorShape;
+    OgreNewt::ConvexCollisionPtr m_dynamicsSensorShape;
 
     virtual bool convexStaticCastPreFilter(OgreNewt::Body *body);
     virtual bool convexDynamicCastPreFilter(OgreNewt::Body *body);
@@ -133,7 +130,7 @@ private:
         public:
             StaticConvexCast(PlayerController *pc) : m_parent(pc) {}
 
-            void go(const OgreNewt::Collision* col, const Ogre::Vector3& startpt,
+            void go(const OgreNewt::ConvexCollisionPtr& col, const Ogre::Vector3& startpt,
                     const Ogre::Quaternion &colori, const Ogre::Vector3& endpt, int maxcontactscount, int thread)
             {
                 go(m_parent->getControlledBody()->getWorld(), col, startpt, colori, endpt, maxcontactscount, thread);
@@ -150,7 +147,7 @@ private:
         public:
             DynamicConvexCast(PlayerController *pc) : m_parent(pc) {}
 
-            void go(const OgreNewt::Collision* col, const Ogre::Vector3& startpt,
+            void go(const OgreNewt::ConvexCollisionPtr& col, const Ogre::Vector3& startpt,
                     const Ogre::Quaternion &colori, const Ogre::Vector3& endpt, int maxcontactscount, int thread)
             {
                 go(m_parent->getControlledBody()->getWorld(), col, startpt, colori, endpt, maxcontactscount, thread);
@@ -167,7 +164,7 @@ private:
         public:
             AllBodyConvexCast(PlayerController *pc) : m_parent(pc) {}
 
-            void go(const OgreNewt::Collision* col, const Ogre::Vector3& startpt,
+            void go(const OgreNewt::ConvexCollisionPtr& col, const Ogre::Vector3& startpt,
                     const Ogre::Quaternion &colori, const Ogre::Vector3& endpt, int maxcontactscount, int thread)
             {
                 go(m_parent->getControlledBody()->getWorld(), col, startpt, colori, endpt, maxcontactscount, thread);

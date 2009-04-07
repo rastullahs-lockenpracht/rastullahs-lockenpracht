@@ -20,8 +20,6 @@
 namespace OgreNewt
 {
 
-class World;
-class Body;
 
 //! base class for all joints.
 /*!
@@ -71,21 +69,34 @@ public:
     /*!
         user data can be used to connect this class to other user classes through the use of this general pointer.
     */
-    void setUserData( void* ptr ) { m_userdata = ptr; }
+#ifdef OGRENEWT_USE_OGRE_ANY
+    void setUserData( const Ogre::Any& data ) { m_userdata = data; }
+#else
+    void setUserData( void* data ) { m_userdata = data; }
+#endif
 
     //! get user data for this joint
     /*!
         user data can be used to connect this class to other user classes through the use of this general pointer.
     */
+#ifdef OGRENEWT_USE_OGRE_ANY
+    const Ogre::Any& getUserData() const { return m_userdata; }
+#else
     void* getUserData() const { return m_userdata; }
+#endif
 
-        
+ 
 protected:
 
     NewtonJoint* m_joint;
     const OgreNewt::World* m_world;
 
-    void* m_userdata;
+
+#ifdef OGRENEWT_USE_OGRE_ANY
+    Ogre::Any                       m_userdata;
+#else
+    void*                           m_userdata;
+#endif
 
     static void _CDECL destructor( const NewtonJoint* me );
 

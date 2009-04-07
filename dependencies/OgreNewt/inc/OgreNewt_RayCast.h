@@ -21,8 +21,6 @@
 namespace OgreNewt
 {
 
-class World;
-class Body;
 
 //! general raycast
 /*!
@@ -186,7 +184,7 @@ public:
         \param maxcontactscount maximum number of contacts that should be saved,
                set to 0 if you only need the distance to the first intersection
     */
-    void go( const OgreNewt::World* world, const OgreNewt::Collision* col, const Ogre::Vector3& startpt, const Ogre::Quaternion &colori, const Ogre::Vector3& endpt, int maxcontactscount, int threadIndex);
+    void go( const OgreNewt::World* world, const OgreNewt::ConvexCollisionPtr& col, const Ogre::Vector3& startpt, const Ogre::Quaternion &colori, const Ogre::Vector3& endpt, int maxcontactscount, int threadIndex);
 
     //! user callback pre-filter function.
     /*!
@@ -254,7 +252,7 @@ public:
         \param endpt ending point of ray in global space
         \param maxcontactscount maximum number of contacts that should be saved        
     */
-    BasicConvexcast( const OgreNewt::World* world, const OgreNewt::Collision* col, const Ogre::Vector3& startpt, const Ogre::Quaternion &colori, const Ogre::Vector3& endpt, int maxcontactscount, int threadIndex);
+    BasicConvexcast( const OgreNewt::World* world, const OgreNewt::ConvexCollisionPtr& col, const Ogre::Vector3& startpt, const Ogre::Quaternion &colori, const Ogre::Vector3& endpt, int maxcontactscount, int threadIndex);
 
     //! destuctor.
     ~BasicConvexcast();

@@ -27,15 +27,21 @@ void ConveyorBelt::init( Ogre::String& name, Ogre::SceneManager* mgr, OgreNewt::
 	mNode->setScale( size );
 
 	// create the collision object for the conveyor belt.
-	OgreNewt::Collision* col = new OgreNewt::CollisionPrimitives::Box( world, size );
+	OgreNewt::CollisionPtr col = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Box( world, size ));
 	mBody = new OgreNewt::Body( world, col, conveyorType );
+#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
 	delete col;
+#endif
 
 	mBody->setMassMatrix( 0.0, Ogre::Vector3(0,0,0) );
 	mBody->attachNode( mNode );
 	mBody->setMaterialGroupID( conveyorMat );
 
+#ifdef OGRENEWT_USE_OGRE_ANY
+	mBody->setUserData( Ogre::Any(this) );
+#else
 	mBody->setUserData( this );
+#endif
 
 	mBody->setPositionOrientation( pos, orient );
 	mNode->setPosition( pos );

@@ -49,9 +49,11 @@ void OgreNewtonApplication::createScene()
 	floor->setCastShadows( false );
 
 	//Ogre::Vector3 siz(100.0, 10.0, 100.0);
-	OgreNewt::Collision* col = new OgreNewt::CollisionPrimitives::TreeCollision( m_World, floor, true );
+	OgreNewt::CollisionPtr col = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::TreeCollision( m_World, floor, true ));
 	OgreNewt::Body* bod = new OgreNewt::Body( m_World, col );
+#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
 	delete col;
+#endif
 	
 	//floornode->setScale( siz );
 	bod->attachNode( floornode );
@@ -97,7 +99,7 @@ OgreNewt::Body* OgreNewtonApplication::makeSimpleBox( Ogre::Vector3& size, Ogre:
 	box1node->attachObject( box1 );
 	box1node->setScale( size );
 
-	OgreNewt::ConvexCollision* col = new OgreNewt::CollisionPrimitives::Box( m_World, size );
+	OgreNewt::ConvexCollisionPtr col = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::Box( m_World, size ));
 	OgreNewt::Body* bod = new OgreNewt::Body( m_World, col );
 
 
@@ -108,10 +110,13 @@ OgreNewt::Body* OgreNewtonApplication::makeSimpleBox( Ogre::Vector3& size, Ogre:
 	Ogre::Vector3 inertia, offset;
     col->calculateInertialMatrix(inertia, offset);
 
+#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
 	delete col;
+#endif
 				
 	bod->attachNode( box1node );
 	bod->setMassMatrix( mass, mass*inertia );
+    bod->setCenterOfMass(offset);
 	bod->setStandardForceCallback();
 
 	box1->setMaterialName( "Simple/BumpyMetal" );

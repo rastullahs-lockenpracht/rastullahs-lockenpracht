@@ -8,7 +8,7 @@ namespace OgreNewt
 {
 
     
-Body::Body( const World* W, const OgreNewt::Collision* col, int bodytype ) 
+Body::Body( const World* W, const OgreNewt::CollisionPtr& col, int bodytype ) 
 {
     m_world = W;
     m_collision = col;
@@ -204,7 +204,7 @@ void Body::setCustomTransformCallback( TransformCallback callback )
 }
 
 //set collision
-void Body::setCollision( const OgreNewt::Collision* col )
+void Body::setCollision( const OgreNewt::CollisionPtr& col )
 {
     NewtonBodySetCollision( m_body, col->getNewtonCollision() );
 
@@ -212,7 +212,7 @@ void Body::setCollision( const OgreNewt::Collision* col )
 }
 
 //get collision
-const OgreNewt::Collision* Body::getCollision() const
+const OgreNewt::CollisionPtr& Body::getCollision() const
 {
     return m_collision;
 }

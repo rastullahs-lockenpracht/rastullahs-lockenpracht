@@ -20,16 +20,11 @@
 #include "OgreNewt_Prerequisites.h"
 #include "OgreNewt_MaterialID.h"
 #include "OgreNewt_Collision.h"
-#include <boost/function.hpp>
-#include <boost/bind.hpp>
 
 
 // OgreNewt namespace.  all functions and classes use this namespace.
 namespace OgreNewt
 {
-
-class World;
-class MaterialID;
 
 /*
     CLASS DEFINITION:
@@ -82,7 +77,7 @@ public:
         \param col pointer to an OgreNewt::Collision object that represents the shape of the rigid body.
         \param bodytype simple integer value used to identify the type of rigid body, useful for determining bodies in callbacks.
     */
-    Body( const World* W, const OgreNewt::Collision* col, int bodytype = 0 );
+    Body( const World* W, const OgreNewt::CollisionPtr& col, int bodytype = 0 );
 
     //! destructor
     ~Body();
@@ -92,10 +87,18 @@ public:
         you can use this to store a pointer to a parent class, etc.  then inside one of the many callbacks, you can get the pointer
         using this "userData" system.
     */
+#ifdef OGRENEWT_USE_OGRE_ANY
+    void setUserData( const Ogre::Any& data ) { m_userdata = data; }
+#else
     void setUserData( void* data ) { m_userdata = data; }
+#endif
 
     //! retrieve pointer to previously set user data.
+#ifdef OGRENEWT_USE_OGRE_ANY
+    const Ogre::Any& getUserData() const { return m_userdata; }
+#else
     void* getUserData() const { return m_userdata; }
+#endif
 
     //! get a pointer to the NewtonBody object
     /*!
@@ -260,7 +263,7 @@ public:
         This can be used to change the collision shape of a body mid-simulation.  for example making the collision for a character smaller when crouching, etc.
         \param col pointer to the new OgreNewt::Collision shape.
     */
-    void setCollision( const OgreNewt::Collision* col );
+    void setCollision( const OgreNewt::CollisionPtr& col );
 
     //! set whether the body should "sleep" when equilibruim is reached.
     /*!
@@ -275,7 +278,7 @@ public:
     //void setFreezeThreshold( Ogre::Real speed, Ogre::Real omega, int framecount ) { NewtonBodySetFreezeTreshold( m_body, (float)speed, (float)omega, framecount ); }
 
     //! get a pointer to the OgreNewt::Collision for this body
-    const OgreNewt::Collision* getCollision() const;
+    const OgreNewt::CollisionPtr& getCollision() const;
 
     //! get a pointer to the Material assigned to this body.
     const OgreNewt::MaterialID* getMaterialGroupID() const;
@@ -398,7 +401,7 @@ public:
     /*!
      * usually it is also possible to get this via: body->getCollision()->getCollisionPrimitiveType()
     */
-    CollisionPrimitive getCollisionPrimitiveType() const { return Collision::getCollisionPrimitiveType(getNewtonCollision()); }
+    CollisionPrimitiveType getCollisionPrimitiveType() const { return Collision::getCollisionPrimitiveType(getNewtonCollision()); }
 
     //! Returns the Newton Collision for this Body
     /*!
@@ -408,20 +411,23 @@ public:
 
 protected:
 
-    NewtonBody*         m_body;
-    const Collision*    m_collision;
-    const MaterialID*   m_matid;
-    const World*        m_world;
+    NewtonBody*                     m_body;
+    OgreNewt::CollisionPtr          m_collision;
+    const MaterialID*               m_matid;
+    const World*                    m_world;
     
-
-    void*               m_userdata;
+#ifdef OGRENEWT_USE_OGRE_ANY
+    Ogre::Any                       m_userdata;
+#else
+    void*                           m_userdata;
+#endif
     
-    int                 m_type;
-    Ogre::Node*         m_node;
+    int                             m_type;
+    Ogre::Node*                     m_node;
 
-    ForceCallback           m_forcecallback;
-    TransformCallback       m_transformcallback;
-    buoyancyPlaneCallback   m_buoyancycallback;
+    ForceCallback                   m_forcecallback;
+    TransformCallback               m_transformcallback;
+    buoyancyPlaneCallback           m_buoyancycallback;
 
 private:
 

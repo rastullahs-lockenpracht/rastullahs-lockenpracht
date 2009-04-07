@@ -29,8 +29,6 @@
 namespace OgreNewt
 {
 
-class World;
-
 
 //! simple frame listener to update the physics.
 /*!

@@ -68,14 +68,18 @@ bool OgreNewtonFrameListener::frameStarted(const FrameEvent &evt)
 
 		ent->setMaterialName( "Simple/BumpyMetal" );
 
-		OgreNewt::ConvexCollision* col = new OgreNewt::CollisionPrimitives::Box( m_World, size );
+		OgreNewt::ConvexCollisionPtr col = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::Box( m_World, size ));
 		OgreNewt::Body* body = new OgreNewt::Body( m_World, col );
 
         Ogre::Vector3 inertia, offset;
         col->calculateInertialMatrix(inertia, offset);
+
+#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
 		delete col;
+#endif
 
 		body->setMassMatrix( mass, mass*inertia );
+        body->setCenterOfMass(offset);
 		body->attachNode( node );
 		body->setStandardForceCallback();
 		body->setPositionOrientation( Ogre::Vector3(-5,8,0), Ogre::Quaternion::IDENTITY );

@@ -20,7 +20,6 @@
 namespace OgreNewt
 {
 
-class Body;
 
 //! custom contact behavior
 /*!

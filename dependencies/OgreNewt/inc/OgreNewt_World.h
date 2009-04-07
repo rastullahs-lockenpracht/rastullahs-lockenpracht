@@ -15,8 +15,6 @@
 #include "OgreNewt_Prerequisites.h"
 #include "OgreNewt_BodyInAABBIterator.h"
 #include "OgreNewt_Debugger.h"
-#include <boost/function.hpp>
-#include <boost/bind.hpp>
 
 //! main namespace.
 /*!
@@ -24,10 +22,6 @@
 */
 namespace OgreNewt
 {
-
-
-class Body;
-class MaterialID;
 
 
 //! represents a physics world.

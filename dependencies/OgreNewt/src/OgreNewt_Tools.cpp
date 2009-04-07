@@ -1,7 +1,6 @@
 #include "OgreNewt_Tools.h"
 #include "OgreNewt_World.h"
 #include "OgreNewt_Body.h"
-#include "OgreNewt_Collision.h"
 #include <iostream>
 
 #ifdef __APPLE__
@@ -116,7 +115,7 @@ namespace OgreNewt
         //! find the point on a collision primitive closest to a global point.
         
         int CollisionPointDistance( const OgreNewt::World* world, const Ogre::Vector3& globalpt, 
-                                    const OgreNewt::Collision* col, const Ogre::Quaternion& colorient, const Ogre::Vector3& colpos, 
+                                    const OgreNewt::CollisionPtr& col, const Ogre::Quaternion& colorient, const Ogre::Vector3& colpos, 
                                     Ogre::Vector3& retpt, Ogre::Vector3& retnormal, int threadIndex )
         {
             float matrix[16];
@@ -131,8 +130,8 @@ namespace OgreNewt
 
 
         
-        int CollisionClosestPoint( const OgreNewt::World* world, const OgreNewt::Collision* colA, const Ogre::Quaternion& colOrientA, const Ogre::Vector3& colPosA,
-                                                            const OgreNewt::Collision* colB, const Ogre::Quaternion& colOrientB, const Ogre::Vector3& colPosB,
+        int CollisionClosestPoint( const OgreNewt::World* world, const OgreNewt::CollisionPtr& colA, const Ogre::Quaternion& colOrientA, const Ogre::Vector3& colPosA,
+                                                            const OgreNewt::CollisionPtr& colB, const Ogre::Quaternion& colOrientB, const Ogre::Vector3& colPosB,
                                                             Ogre::Vector3& retPosA, Ogre::Vector3& retPosB, Ogre::Vector3& retNorm, int threadIndex )
         {
             float matrixA[16];
@@ -152,8 +151,8 @@ namespace OgreNewt
 
 
         int CollisionCollide(  const OgreNewt::World* world, int maxSize, 
-            const OgreNewt::Collision* colA, const Ogre::Quaternion& colOrientA, const Ogre::Vector3& colPosA,
-            const OgreNewt::Collision* colB, const Ogre::Quaternion& colOrientB, const Ogre::Vector3& colPosB,
+            const OgreNewt::CollisionPtr& colA, const Ogre::Quaternion& colOrientA, const Ogre::Vector3& colPosA,
+            const OgreNewt::CollisionPtr& colB, const Ogre::Quaternion& colOrientB, const Ogre::Vector3& colPosB,
             Ogre::Vector3* retContactPts, Ogre::Vector3* retNormals, Ogre::Real* retPenetrations, int threadIndex )
         {
             float matrixA[16];
@@ -173,8 +172,8 @@ namespace OgreNewt
 
 
         int CollisionCollideContinue( const OgreNewt::World* world, int maxSize, Ogre::Real timeStep,
-            const OgreNewt::Collision* colA, const Ogre::Quaternion& colOrientA, const Ogre::Vector3& colPosA, const Ogre::Vector3& colVelA, const Ogre::Vector3& colOmegaA,
-            const OgreNewt::Collision* colB, const Ogre::Quaternion& colOrientB, const Ogre::Vector3& colPosB, const Ogre::Vector3& colVelB, const Ogre::Vector3& colOmegaB,
+            const OgreNewt::CollisionPtr& colA, const Ogre::Quaternion& colOrientA, const Ogre::Vector3& colPosA, const Ogre::Vector3& colVelA, const Ogre::Vector3& colOmegaA,
+            const OgreNewt::CollisionPtr& colB, const Ogre::Quaternion& colOrientB, const Ogre::Vector3& colPosB, const Ogre::Vector3& colVelB, const Ogre::Vector3& colOmegaB,
             Ogre::Real& retTimeOfImpact, Ogre::Vector3* retContactPts, Ogre::Vector3* retNormals, Ogre::Real* retPenetrations, int threadIndex )
         {
             float matrixA[16];
@@ -197,13 +196,13 @@ namespace OgreNewt
         }
 
 
-        Ogre::Real CollisionRayCast( const OgreNewt::Collision* col, const Ogre::Vector3& startPt, const Ogre::Vector3& endPt, 
+        Ogre::Real CollisionRayCast( const OgreNewt::CollisionPtr& col, const Ogre::Vector3& startPt, const Ogre::Vector3& endPt, 
             Ogre::Vector3& retNorm, int& retColID )
         {
             return NewtonCollisionRayCast( col->getNewtonCollision(), &startPt.x, &endPt.x, &retNorm.x, &retColID );
         }
 
-        Ogre::AxisAlignedBox CollisionCalculateAABB( const OgreNewt::Collision* col, const Ogre::Quaternion& orient, const Ogre::Vector3& pos )
+        Ogre::AxisAlignedBox CollisionCalculateAABB( const OgreNewt::CollisionPtr& col, const Ogre::Quaternion& orient, const Ogre::Vector3& pos )
         {
             float matrix[16];
             Converters::QuatPosToMatrix( orient, pos, matrix );

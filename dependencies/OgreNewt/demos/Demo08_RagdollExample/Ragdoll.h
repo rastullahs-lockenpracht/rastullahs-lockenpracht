@@ -63,7 +63,7 @@ public:
 
 	private:
 
-		OgreNewt::ConvexCollision* _makeConvexHull( OgreNewt::World* world, Ogre::MeshPtr mesh, Ogre::Real minWeight );
+		OgreNewt::ConvexCollisionPtr _makeConvexHull( OgreNewt::World* world, Ogre::MeshPtr mesh, Ogre::Real minWeight );
 
 		// pointer to the doll to which this bone belongs.
 		RagDoll* mDoll;

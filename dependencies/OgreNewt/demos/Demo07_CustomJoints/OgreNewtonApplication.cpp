@@ -75,8 +75,10 @@ void OgreNewtonApplication::createScene()
 	// SceneNodes (parsing all children), and add collision for all meshes in the tree.
 	OgreNewt::CollisionPrimitives::TreeCollisionSceneParser* stat_col = new OgreNewt::CollisionPrimitives::TreeCollisionSceneParser( m_World );
 	stat_col->parseScene( floornode, true );
-	OgreNewt::Body* bod = new OgreNewt::Body( m_World, stat_col );
+	OgreNewt::Body* bod = new OgreNewt::Body( m_World, OgreNewt::CollisionPtr(stat_col) );
+#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
 	delete stat_col;
+#endif
 	
 	bod->attachNode( floornode );
 	bod->setPositionOrientation( Ogre::Vector3(0.0,-20.0,0.0), Ogre::Quaternion::IDENTITY );
@@ -160,7 +162,7 @@ OgreNewt::Body* OgreNewtonApplication::makeSimpleBox( Ogre::Vector3& size, Ogre:
 	box1node->attachObject( box1 );
 	box1node->setScale( size );
 
-	OgreNewt::ConvexCollision* col = new OgreNewt::CollisionPrimitives::Box( m_World, size );
+	OgreNewt::ConvexCollisionPtr col = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::Box( m_World, size ));
 	OgreNewt::Body* bod = new OgreNewt::Body( m_World, col );
 
 
@@ -170,11 +172,13 @@ OgreNewt::Body* OgreNewtonApplication::makeSimpleBox( Ogre::Vector3& size, Ogre:
 	// calculate the inertia based on box formula and mass
 	Ogre::Vector3 inertia, offset;
     col->calculateInertialMatrix(inertia, offset);
-
+#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
 	delete col;
+#endif
 				
 	bod->attachNode( box1node );
 	bod->setMassMatrix( mass, mass*inertia );
+    bod->setCenterOfMass(offset);
 	bod->setStandardForceCallback();
 
 	box1->setMaterialName( "Simple/BumpyMetal" );

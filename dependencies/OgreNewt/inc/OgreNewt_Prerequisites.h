@@ -22,6 +22,12 @@
 #   include <Ogre/OgreRenderable.h>
 #   include <Ogre/OgreNode.h>
 #   include <Ogre/OgreFrameListener.h>
+#   ifdef OGRENEWT_COLLISION_USE_SHAREDPTR
+//#       include <Ogre/OgreSharedPtr.h>
+#   endif
+#   ifdef OGRENEWT_USE_OGRE_ANY
+#       include <Ogre/OgreAny.h>
+#   endif
 #else
 #include <OgreVector3.h>
 #include <OgreQuaternion.h>
@@ -29,9 +35,20 @@
 #include <OgreRenderable.h>
 #include <OgreNode.h>
 #include <OgreFrameListener.h>
+#   ifdef OGRENEWT_COLLISION_USE_SHAREDPTR
+//#       include <OgreSharedPtr.h>
+#   endif
+#   ifdef OGRENEWT_USE_OGRE_ANY
+#       include <OgreAny.h>
+#   endif
 #endif
 
 #include <Newton.h>
+#include <boost/function.hpp>
+#include <boost/bind.hpp>
+#ifdef OGRENEWT_COLLISION_USE_SHAREDPTR
+#   include <boost/shared_ptr.hpp>
+#endif
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #   define _CDECL _cdecl
@@ -46,6 +63,29 @@
 #   define _OgreNewtExport
 #   define _CDECL
 #endif
+
+
+#ifdef OGRENEWT_COLLISION_USE_SHAREDPTR
+#warning "the option OGRENEWT_COLLISION_USE_SHAREDPTR is set"
+#endif
+
+#ifdef OGRENEWT_USE_OGRE_ANY
+#warning "the option OGRENEWT_USE_OGRE_ANY is set"
+#endif
+
+namespace OgreNewt
+{
+    class World;
+    class MaterialID;
+    class Joint;
+    class Contact;
+    class MaterialPair;
+    class Body;
+    class Collision;
+    class CollisionSerializer;
+    class ConvexCollision;
+    class Debugger;
+}
 
 #endif 
 

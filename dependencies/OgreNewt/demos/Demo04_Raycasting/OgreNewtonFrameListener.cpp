@@ -114,7 +114,12 @@ bool OgreNewtonFrameListener::frameStarted(const FrameEvent &evt)
 				Ogre::Vector3 localpt = bodorient.Inverse() * (globalpt - bodpos);
 
 				// now we need to save this point to apply the spring force, I'm using the userData of the bodies in this example.
+                // (where is it used? probably not needed here...)
+#ifdef OGRENEWT_USE_OGRE_ANY
+                info.mBody->setUserData( Ogre::Any(this) );
+#else
 				info.mBody->setUserData( this );
+#endif
 
 				// now change the force callback from the standard one to the one that applies the spring (drag) force.
 				// this is an example of binding a callback to a member of a specific class.  in previous versions of OgreNewt you were

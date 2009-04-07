@@ -25,10 +25,6 @@ namespace Ogre
 namespace OgreNewt
 {
 
-    class World;
-    class Body;
-    class MaterialID;
-    class Collision;
 
     //! For viewing the Newton rigid bodies visually.
     /*!
@@ -90,7 +86,7 @@ namespace OgreNewt
         void addRay(const Ogre::Vector3 &startpt, const Ogre::Vector3 &endpt);
 
         //! this function is used internally
-        void addConvexRay(const OgreNewt::Collision* col, const Ogre::Vector3 &startpt, const Ogre::Quaternion &colori, const Ogre::Vector3 &endpt);
+        void addConvexRay(const OgreNewt::ConvexCollisionPtr& col, const Ogre::Vector3 &startpt, const Ogre::Quaternion &colori, const Ogre::Vector3 &endpt);
 
         //! this function is used internally
         void addDiscardedBody(const OgreNewt::Body* body);
@@ -117,8 +113,12 @@ namespace OgreNewt
 
         struct BodyDebugData
         {
-            BodyDebugData() : m_lastcol(NULL), m_node(NULL), m_lines(NULL), m_text(NULL), m_updated(false) {}
-            const Collision* m_lastcol;
+            BodyDebugData() :
+#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
+                m_lastcol(NULL),
+#endif
+                m_node(NULL), m_lines(NULL), m_text(NULL), m_updated(false) {}
+            CollisionPtr m_lastcol;
             Ogre::SceneNode* m_node;
             Ogre::ManualObject* m_lines;
             OgreNewt::OgreAddons::MovableText* m_text;

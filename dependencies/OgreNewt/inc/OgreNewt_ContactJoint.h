@@ -20,8 +20,6 @@
 namespace OgreNewt
 {
 
-class Contact;
-class MaterialPair;
 
 //! with this class you can iterate through all contacts
 /*!

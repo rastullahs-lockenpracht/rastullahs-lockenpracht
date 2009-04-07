@@ -191,7 +191,7 @@ namespace OgreNewt
         }
 
 
-    void Convexcast::go(const OgreNewt::World* world, const OgreNewt::Collision *col, const Ogre::Vector3& startpt, const Ogre::Quaternion &colori, const Ogre::Vector3& endpt, int maxcontactscount, int threadIndex)
+    void Convexcast::go(const OgreNewt::World* world, const OgreNewt::ConvexCollisionPtr& col, const Ogre::Vector3& startpt, const Ogre::Quaternion &colori, const Ogre::Vector3& endpt, int maxcontactscount, int threadIndex)
     {
 
         if( world->getDebugger().isRaycastRecording() )
@@ -278,7 +278,7 @@ namespace OgreNewt
         {
         }
 
-    BasicConvexcast::BasicConvexcast(const OgreNewt::World* world, const OgreNewt::Collision *col, const Ogre::Vector3& startpt, const Ogre::Quaternion &colori, const Ogre::Vector3& endpt, int maxcontactscount, int threadIndex)
+    BasicConvexcast::BasicConvexcast(const OgreNewt::World* world, const OgreNewt::ConvexCollisionPtr& col, const Ogre::Vector3& startpt, const Ogre::Quaternion &colori, const Ogre::Vector3& endpt, int maxcontactscount, int threadIndex)
     {
         go( world, col, startpt, colori, endpt, maxcontactscount, threadIndex);
     }

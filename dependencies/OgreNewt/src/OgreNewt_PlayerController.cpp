@@ -40,9 +40,11 @@ PlayerController::PlayerController(OgreNewt::Body * child) :
     m_floorFinderRadiusFactor = 1.0f;
     m_maxPlayerHeightPaddFactor = 0.01f;
     m_sensorShapeSegments = 32;
+#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
     m_verticalSensorShape = NULL;
     m_horizontalSensorShape = NULL;
     m_dynamicsSensorShape = NULL;
+#endif
 
 
     updateSensorShapes();
@@ -50,13 +52,14 @@ PlayerController::PlayerController(OgreNewt::Body * child) :
 
 PlayerController::~PlayerController()
 {
+#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
     if( m_verticalSensorShape )
         delete m_verticalSensorShape;
     if( m_horizontalSensorShape )
         delete m_horizontalSensorShape;
     if( m_dynamicsSensorShape )
-        delete m_dynamicsSensorShape
-;
+        delete m_dynamicsSensorShape;
+#endif
 }
 
 void PlayerController::updateSensorShapes()
@@ -83,6 +86,7 @@ void PlayerController::updateSensorShapes()
         abs( newSensorHeight - m_lastSensorHeight ) > 0.04f ||
         abs( newPlayerRadius - m_lastPlayerRadius ) > 0.04f )
     {
+#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
         // delete old ones
         if( m_verticalSensorShape )
             delete m_verticalSensorShape;
@@ -90,6 +94,7 @@ void PlayerController::updateSensorShapes()
             delete m_horizontalSensorShape;
         if( m_dynamicsSensorShape )
             delete m_dynamicsSensorShape;
+#endif
 
         m_lastPlayerRadius = newPlayerRadius;
         m_lastSensorHeight = newSensorHeight;
@@ -126,9 +131,9 @@ void PlayerController::updateSensorShapes()
             horizontalSensorPoints[i + m_sensorShapeSegments].z =  horizontalSensorPoints[i].z;
         }
 
-        m_verticalSensorShape = new OgreNewt::CollisionPrimitives::ConvexHull(m_body->getWorld(), verticalSensorPoints, 2*m_sensorShapeSegments);
-        m_horizontalSensorShape = new OgreNewt::CollisionPrimitives::ConvexHull(m_body->getWorld(), horizontalSensorPoints, 2*m_sensorShapeSegments);
-        m_dynamicsSensorShape = new OgreNewt::CollisionPrimitives::ConvexHull(m_body->getWorld(), dynamicsSensorPoints, 2*m_sensorShapeSegments);
+        m_verticalSensorShape = ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::ConvexHull(m_body->getWorld(), verticalSensorPoints, 2*m_sensorShapeSegments));
+        m_horizontalSensorShape = ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::ConvexHull(m_body->getWorld(), horizontalSensorPoints, 2*m_sensorShapeSegments));
+        m_dynamicsSensorShape = ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::ConvexHull(m_body->getWorld(), dynamicsSensorPoints, 2*m_sensorShapeSegments));
 
         delete[] dynamicsSensorPoints;
         delete[] verticalSensorPoints;

@@ -29,13 +29,21 @@ void ConveyorMatCallback::contactsProcess( OgreNewt::ContactJoint &contactJoint,
 
 	if (body0->getType() == mConveyorID)
 	{
+#ifdef OGRENEWT_USE_OGRE_ANY
+		belt = Ogre::any_cast<ConveyorBelt*>(body0->getUserData());
+#else
 		belt = (ConveyorBelt*)body0->getUserData();
+#endif
 		object = body1;
 	}
 
 	if (body1->getType() == mConveyorID)
 	{
+#ifdef OGRENEWT_USE_OGRE_ANY
+		belt = Ogre::any_cast<ConveyorBelt*>(body1->getUserData());
+#else
 		belt = (ConveyorBelt*)body1->getUserData();
+#endif
 		object = body0;
 	}
 

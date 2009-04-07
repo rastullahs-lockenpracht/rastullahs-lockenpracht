@@ -1,6 +1,7 @@
 #include "OgreNewt_CollisionPrimitives.h"
 #include "OgreNewt_Tools.h"
 #include "OgreNewt_RayCast.h"
+#include "OgreNewt_World.h"
 
 #ifdef __APPLE__
 #   include <Ogre/OgreEntity.h>
@@ -719,7 +720,7 @@ namespace OgreNewt
         CompoundCollision::CompoundCollision(const World* world) : Collision( world )
         {}
         
-        CompoundCollision::CompoundCollision( const World* world, std::vector<OgreNewt::Collision*> col_array ) : Collision( world )
+        CompoundCollision::CompoundCollision( const World* world, std::vector<OgreNewt::CollisionPtr> col_array ) : Collision( world )
         {
             //get the number of elements.
             unsigned int num = col_array.size();

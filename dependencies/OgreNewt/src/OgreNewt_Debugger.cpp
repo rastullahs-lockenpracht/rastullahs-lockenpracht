@@ -350,7 +350,7 @@ void Debugger::addRay(const Ogre::Vector3 &startpt, const Ogre::Vector3 &endpt)
     m_raycastsnode->attachObject(line);    
 }
 
-void Debugger::addConvexRay(const OgreNewt::Collision* col, const Ogre::Vector3 &startpt, const Ogre::Quaternion &colori, const Ogre::Vector3 &endpt)
+void Debugger::addConvexRay(const OgreNewt::ConvexCollisionPtr& col, const Ogre::Vector3 &startpt, const Ogre::Quaternion &colori, const Ogre::Vector3 &endpt)
 {
     if (!m_raycastsnode)
         return;

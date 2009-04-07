@@ -14,30 +14,28 @@
 
 
 #include "OgreNewt_Prerequisites.h"
-#include "OgreNewt_World.h"
-#include "OgreNewt_CollisionSerializer.h"
+
 
 // OgreNewt namespace.  all functions and classes use this namespace.
 namespace OgreNewt
 {
 
-class World;
 
-enum _OgreNewtExport CollisionPrimitive
+enum _OgreNewtExport CollisionPrimitiveType
 {
-    BoxPrimitive                =   SERIALIZE_ID_BOX,
-    ConePrimitive               =   SERIALIZE_ID_CONE,
-    EllipsoidPrimitive          =   SERIALIZE_ID_SPHERE,
-    CapsulePrimitive            =   SERIALIZE_ID_CAPSULE,
-    CylinderPrimitive           =   SERIALIZE_ID_CYLINDER,
-    CompoundCollisionPrimitive  =   SERIALIZE_ID_COMPOUND,
-    ConvexHullPrimitive         =   SERIALIZE_ID_CONVEXHULL,
-    ConvexHullModifierPrimitive =   SERIALIZE_ID_CONVEXMODIFIER,
-    ChamferCylinderPrimitive    =   SERIALIZE_ID_CHAMFERCYLINDER,
-    TreeCollisionPrimitive      =   SERIALIZE_ID_TREE,
-    NullPrimitive               =   SERIALIZE_ID_NULL,
-    HeighFieldPrimitive         =   SERIALIZE_ID_HEIGHTFIELD,
-    ScenePrimitive              =   SERIALIZE_ID_SCENE
+    BoxPrimitiveType                =   SERIALIZE_ID_BOX,
+    ConePrimitiveType               =   SERIALIZE_ID_CONE,
+    EllipsoidPrimitiveType          =   SERIALIZE_ID_SPHERE,
+    CapsulePrimitiveType            =   SERIALIZE_ID_CAPSULE,
+    CylinderPrimitiveType           =   SERIALIZE_ID_CYLINDER,
+    CompoundCollisionPrimitiveType  =   SERIALIZE_ID_COMPOUND,
+    ConvexHullPrimitiveType         =   SERIALIZE_ID_CONVEXHULL,
+    ConvexHullModifierPrimitiveType =   SERIALIZE_ID_CONVEXMODIFIER,
+    ChamferCylinderPrimitiveType    =   SERIALIZE_ID_CHAMFERCYLINDER,
+    TreeCollisionPrimitiveType      =   SERIALIZE_ID_TREE,
+    NullPrimitiveType               =   SERIALIZE_ID_NULL,
+    HeighFieldPrimitiveType         =   SERIALIZE_ID_HEIGHTFIELD,
+    ScenePrimitiveType              =   SERIALIZE_ID_SCENE
 };
 
 /*
@@ -82,20 +80,21 @@ public:
     unsigned getUserID() const { return NewtonCollisionGetUserID( m_col ); }
 
     //! make unique
-    void makeUnique() { NewtonCollisionMakeUnique( m_world->getNewtonWorld(), m_col ); }
+    void makeUnique();
 
     //! get the Axis-Aligned Bounding Box for this collision shape.
     Ogre::AxisAlignedBox getAABB( const Ogre::Quaternion& orient = Ogre::Quaternion::IDENTITY, const Ogre::Vector3& pos = Ogre::Vector3::ZERO ) const;
 
     //! Returns the Collisiontype for this Collision
-    CollisionPrimitive getCollisionPrimitiveType() const { return getCollisionPrimitiveType( m_col ); } 
+    CollisionPrimitiveType getCollisionPrimitiveType() const { return getCollisionPrimitiveType( m_col ); } 
 
     //! Returns the Collisiontype for the given Newton-Collision
-    static CollisionPrimitive getCollisionPrimitiveType(const NewtonCollision *col);
+    static CollisionPrimitiveType getCollisionPrimitiveType(const NewtonCollision *col);
 
     //! friend functions for the Serializer
-    friend void CollisionSerializer::exportCollision(const Collision* collision, const Ogre::String& filename);
-    friend void CollisionSerializer::importCollision(Ogre::DataStreamPtr& stream, Collision* pDest);
+    friend class OgreNewt::CollisionSerializer;
+    //friend void CollisionSerializer::exportCollision(const CollisionPtr& collision, const Ogre::String& filename);
+    //friend CollisionPtr CollisionSerializer::importCollision(Ogre::DataStreamPtr& stream, OgreNewt::World* world);
 
 protected:
 
@@ -104,8 +103,7 @@ protected:
 
 };
 
-//typedef Ogre::SharedPtr<Collision> CollisionPtr;
-typedef Collision* CollisionPtr;
+
 
 //! represents a collision shape that is explicitly convex.
 class _OgreNewtExport ConvexCollision : public Collision
@@ -135,13 +133,30 @@ public:
 };
 
 
+#ifdef OGRENEWT_COLLISION_USE_SHAREDPTR
+typedef boost::shared_ptr<Collision> CollisionPtr;
+typedef boost::shared_ptr<ConvexCollision> ConvexCollisionPtr;
+#else
+typedef Collision* CollisionPtr;
+typedef ConvexCollision* ConvexCollisionPtr;
+#endif
+
+
+
 
 //! represents a scalable collision shape.
-class _OgreNewtExport ConvexModifierCollision : public Collision
+class _OgreNewtExport ConvexModifierCollision : public ConvexCollision
 {
 public:
     //! constructor
-    ConvexModifierCollision( const OgreNewt::World* world, const OgreNewt::Collision* col );
+    /*!
+      Create a 'blank' box collision object.  Can be used for CollisionSerializer::importCollision
+      \param world pointer to the OgreNewt::World
+    */
+    ConvexModifierCollision( const OgreNewt::World* world );
+
+    //! constructor
+    ConvexModifierCollision( const OgreNewt::World* world, const OgreNewt::ConvexCollisionPtr col );
 
     //! destructor
     ~ConvexModifierCollision();

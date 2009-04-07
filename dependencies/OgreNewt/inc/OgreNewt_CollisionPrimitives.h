@@ -388,7 +388,7 @@ namespace OgreNewt
                 \param world pointer to the OgreNewt::World
                 \param col_array std::vector of pointers to existing collision objects.
             */
-            CompoundCollision( const World* world, std::vector<OgreNewt::Collision*> col_array );
+            CompoundCollision( const World* world, std::vector<OgreNewt::CollisionPtr> col_array );
 
             //! destructor
             ~CompoundCollision() {}

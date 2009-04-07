@@ -172,6 +172,7 @@ OgreNewt::Body* SimpleVehicle::makeSimpleBox( Ogre::Vector3& size, Ogre::Vector3
 				
 	bod->attachNode( box1node );
 	bod->setMassMatrix( mass, mass*inertia );
+    bod->setCenterOfMass(offset);
 	bod->setStandardForceCallback();
 
 	box1->setMaterialName( "Simple/BumpyMetal" );
