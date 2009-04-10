@@ -27,6 +27,7 @@ import ogre.renderer.OGRE as og
 
 from GOStringEditor import *
 from GOIntEditor import *
+from GOGenericEditor import *
 
 class GOCStringProperty():
     def __init__(self, name, data):
@@ -137,9 +138,29 @@ class GameObjectRepresentation(og.UserDefinedObject):
         self.state = "IN_SCENE"
         self.propertieDict = {}
     
-    def addProperty(self):
-        return
-        
+    def addProperty(self, repeat = False):
+        if not repeat:
+            self.editor = GOGenericEditor("", "STRING", "", QApplication.focusWidget())
+            
+        if self.editor.exec_():
+            rep = GameObjectRepresentation.PropertieRepresentation()
+            rep.name = str(self.editor.nameEditBox.text())
+            rep.type = str(self.editor.typeDropBox.currentText())
+            
+            if rep.type == "STRING" or rep.type == "BOOL" or rep.type == "REAL" or rep.type == "INT":
+                rep.data = str(self.editor.dataEditBox.text())
+            
+            if rep.name in self.propertieDict:
+                reply = QMessageBox.question(QApplication.focusWidget(), "Warning", "Replace the existing property?" , QMessageBox.Yes|QMessageBox.No|QMessageBox.Cancel)
+                if reply == QMessageBox.Cancel:
+                    return
+                elif reply == QMessageBox.Yes:
+                    self.propertieDict[rep.name] = rep
+                elif reply == QMessageBox.No:
+                    self.addProperty(True)
+            else:
+                self.propertieDict[rep.name] = rep
+                
     def editProperty(self, description):
         return
     

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project Lockenwickler -->
-<!-- Saved: 2009-03-21, 13:56:34 -->
+<!-- Saved: 2009-04-10, 16:03:00 -->
 <!-- Copyright (C) 2009 Stefan Stammberger, sstammberger@web.de -->
 <Project version="4.6">
   <Language>en</Language>
@@ -40,6 +40,7 @@
     <Source>src/MaterialSelectionDialog.py</Source>
     <Source>src/DepthBuffer.py</Source>
     <Source>src/ZoneManager.py</Source>
+    <Source>src/GOGenericEditor.py</Source>
   </Sources>
   <Forms>
     <Form>ui files/GOPropertyEditorDialogINT.ui</Form>

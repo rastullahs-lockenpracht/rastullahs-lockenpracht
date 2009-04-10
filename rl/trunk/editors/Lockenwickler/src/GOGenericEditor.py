@@ -28,13 +28,12 @@ class GOGenericEditor(QDialog):
         
         self.layout = QVBoxLayout()
         
-        self.descEditBox = QLineEdit(self)
-        self.descEditBox.setText(description)
-        self.layout.addWidget(self.descEditBox)
+        self.nameEditBox = QLineEdit(self)
+        self.nameEditBox.setText(description)
+        self.layout.addWidget(self.nameEditBox)
         
-        self.createTypeDropBox()
+        self.createTypeDropBox(type)
         
-
         if type == "STRING":
             self.dataEditBox = QLineEdit(self)
             self.dataEditBox.setText(data)
@@ -52,6 +51,14 @@ class GOGenericEditor(QDialog):
 #            self.typeDropBox.setCurrentIndex(4)
 #        elif type == "INTTRIPLE":
 #            self.typeDropBox.setCurrentIndex(5)
+        
+        btnBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        self.connect(btnBox, SIGNAL("accepted()"), self.accept)
+        self.connect(btnBox, SIGNAL("rejected()"), self.reject)
+        self.layout.addWidget(btnBox)
+        
+        self.setLayout(self.layout)
+        
         
     def createTypeDropBox(self, type):
         self.typeDropBox = QComboBox(self)
@@ -74,7 +81,9 @@ class GOGenericEditor(QDialog):
             self.typeDropBox.setCurrentIndex(4)
         elif type == "INTTRIPLE":
             self.typeDropBox.setCurrentIndex(5)
-
+            
+        self.layout.addWidget(self.typeDropBox)
+        
         self.connect(self, SIGNAL("currentIndexChanged ( const QString & text )"), self.onTypeChanged)
 
     def onTypeChanged(self, type):

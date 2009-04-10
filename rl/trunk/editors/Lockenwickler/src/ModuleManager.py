@@ -1364,6 +1364,7 @@ class ModuleManager():
 
         if so is not None and so.entity.getParentNode().getName().startswith("gameobject_"):
             actions.append(self.createAction("Set Player Starterpoint", self.setPlayerStart))
+            actions.append(self.createAction("Add Property", so.entity.getUserObject().addProperty))
             self.playerStartGameObjectId = so.entity.getUserObject().inWorldId
             
                 
