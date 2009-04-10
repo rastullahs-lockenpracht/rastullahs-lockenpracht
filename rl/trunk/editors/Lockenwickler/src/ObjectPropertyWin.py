@@ -22,6 +22,7 @@ import sys
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
+from GOGenericEditor import *
 
 import ogre.renderer.OGRE as og
 
@@ -113,9 +114,9 @@ class EntityPhysicsProxyEditor(QDialog):
     def getValue(self):
         return str(self.combo.currentText())
     
-class ObjectPropertyWin(QDialog):
+class ObjectPropertyWin(QWidget):
     def __init__(self, sceneManager, gocManager, parent=None):
-        super(QDialog, self).__init__(parent)
+        super(QWidget, self).__init__(parent)
         self.setupUi()
         self.sceneManager = sceneManager
         self.valueBeforeEdit = None
@@ -199,7 +200,7 @@ class ObjectPropertyWin(QDialog):
     def onItemChanged(self, item, column):
         if self.valueBeforeEdit is not None and self.valueBeforeEdit != item.text(column):
             parent = item.parent()
-            if parent is None: # handle properties that don't expand here (pos, rot, scale etc)
+            if parent is None: # handle properties that don't expand here
                 if item.text(0) == "Name":
                     if self.node.getName().startswith("entity_"):
                         if not self.sceneManager.hasEntity(str(item.text(column))):
@@ -274,6 +275,51 @@ class ObjectPropertyWin(QDialog):
                     
                     self.node.getAttachedObject(0).getUserObject().renderingdistance = val
             else:
+                parentOfParent = parent.parent() 
+                if parentOfParent is not None and str(parentOfParent.text(0)).startswith("Properties"):
+                    propertiesDict = self.node.getAttachedObject(0).getUserObject().propertieDict
+                    prop = propertiesDict[str(parent.text(1))]
+                    self.disconnect(self.treeWidget, SIGNAL("itemChanged (QTreeWidgetItem *,int)"), self.onItemChanged)
+                    
+                    if item.text(0) == "Name":
+                        del propertiesDict[self.valueBeforeEdit]
+                        prop.name = str(item.text(1))
+                        propertiesDict[prop.name] = prop
+
+                        parent.setText(1, prop.name)
+
+                        
+                    elif item.text(0) == "Data" and prop.type == "STRING":
+                        prop.data = str(item.text(1))
+                        
+                    elif item.text(0) == "Data" and prop.type == "INT":
+                        val = None
+                        
+                        try:
+                            val = int(item.text(1))
+                        except ValueError, e:
+                            item.setText(column, self.valueBeforeEdit)
+                            print "ValueError: " + str(e)
+                            return
+                        
+                        prop.data = str(val)
+                    elif item.text(0) == "Data" and prop.type == "REAL":
+                        val = None
+                        
+                        try:
+                            val = float(item.text(1))
+                        except ValueError, e:
+                            item.setText(column, self.valueBeforeEdit)
+                            print "ValueError: " + str(e)
+                            return
+
+                        prop.data = str(val)
+                        
+                    self.connect(self.treeWidget, SIGNAL("itemChanged (QTreeWidgetItem *,int)"), self.onItemChanged)
+                    return
+                    
+                
+                
                 val = None
                 try:
                     val = float(item.text(1))
@@ -375,11 +421,36 @@ class ObjectPropertyWin(QDialog):
             item = QTreeWidgetItem(self.treeWidget)
             item.setText(0, "State")
             n = str(self.node.getAttachedObject(0).getUserObject().state)
-            item.setText(1, n)            
-            
+            item.setText(1, n)
+                
             self.parsePosition(self.node)
             self.parseOrientation(self.node)
-            self.parseScale(self.node)
+            self.parseScale(self.node)            
+            
+            
+            propDict = self.node.getAttachedObject(0).getUserObject().propertieDict
+            item = QTreeWidgetItem(self.treeWidget)
+            item.setText(0, "Properties")
+            item.setText(1, str(len(propDict)))
+            
+            for key in propDict:
+                propParent = QTreeWidgetItem(item)
+                propParent.setText(0,  "Name")
+                propParent.setText(1,  propDict[key].name)
+                
+                propItem = QTreeWidgetItem(propParent)
+                propItem.setText(0,  "Name")
+                propItem.setText(1,  propDict[key].name)
+                propItem.setFlags(propItem.flags() | Qt.ItemIsEditable)
+                
+                propItem = QTreeWidgetItem(propParent)
+                propItem.setText(0,  "Type")
+                propItem.setText(1,  propDict[key].type)
+                
+                propItem = QTreeWidgetItem(propParent)
+                propItem.setText(0,  "Data")
+                propItem.setText(1,  propDict[key].data)
+                propItem.setFlags(propItem.flags() | Qt.ItemIsEditable)
             
         elif name.startswith("light_"):
             item = QTreeWidgetItem(self.treeWidget)
@@ -414,6 +485,7 @@ class ObjectPropertyWin(QDialog):
             self.parseDiffuseColor(self.node)
             self.parseSpecularColor(self.node)
             self.parseLightAttenuation(self.node)
+            
         elif name.startswith("area_"):
             area = so.entity.getUserObject()
             item = QTreeWidgetItem(self.treeWidget)

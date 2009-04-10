@@ -243,7 +243,7 @@ class ZoneManager():
             for area in zone.areaList:
                 areaElem = xml.SubElement(zoneElem, "area")
                 areaElem.attrib["type"] = area.type
-                print "Saving Zone: " + zone.name + " - Area " + str(area.id)
+                #print "Saving Zone: " + zone.name + " - Area " + str(area.id)
                 if area.type == "mesh" and area.meshFile is not None:
                     areaElem.attrib["meshfile"] = area.meshFile
                     

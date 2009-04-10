@@ -117,9 +117,17 @@ class GOCMapProperty():
     def getType(self):
         return "MAP"
 
+
+
 # gameObjectClass is the id of the class itself
 # since a game object can be ingame more than once there is also a id for those
-class GameObjectRepresentation(og.UserDefinedObject):
+class GameObjectRepresentation(og.UserDefinedObject):     
+    class PropertieRepresentation():
+        def __init__(self, name = "", type = "STRING", data = ""):
+            self.name = name
+            self.type = type
+            self.data = data
+
     def __init__(self, inWorldId, gameObjectClass, node, meshFile = None):
         og.UserDefinedObject.__init__(self)
         self.inWorldId = inWorldId
@@ -127,7 +135,14 @@ class GameObjectRepresentation(og.UserDefinedObject):
         self.node = node
         self.meshFile = meshFile
         self.state = "IN_SCENE"
-
+        self.propertieDict = {}
+    
+    def addProperty(self):
+        return
+        
+    def editProperty(self, description):
+        return
+    
     def getType(self):
         return "GAME_OBJECT_REPRESENTATION"
 
@@ -176,7 +191,6 @@ class GameObjectClass():
             return None
         else:
             return self.meshFile
-
 
     def createProperty(self, property):
         if property.get("type") == "STRING":

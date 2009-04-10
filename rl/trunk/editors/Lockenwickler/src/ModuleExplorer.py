@@ -255,9 +255,9 @@ class ModuleExplorer(QWidget):
             return
 
         #get all selected items
-        items = self.sceneTreeView.selectedItems()
-        if len(items) == 1:
-            if str(items[0].parent().text(0)) == "Lights" and str(items[0].parent().parent().text(0)).startswith("Zone: "):
+        selItems = self.sceneTreeView.selectedItems()
+        if len(selItems) == 1:
+            if str(selItems[0].parent().text(0)) == "Lights" and str(selItems[0].parent().parent().text(0)).startswith("Zone: "):
                 return
         
         
@@ -278,11 +278,11 @@ class ModuleExplorer(QWidget):
 
         
         #end remove all the things from the list we actually don't want to be selected
-        for item in items:
+        for item in selItems:
             if str(item.text(0)).startswith("Scene: ") or str(item.text(0)).startswith("Map: ") or str(item.text(0)).startswith("Zone: "):
                 items.remove(item)
         
-        for item in items:
+        for item in selItems:
             parentName =  str(item.text(0))
                         
             name = str(item.data(0, Qt.UserRole).toString())

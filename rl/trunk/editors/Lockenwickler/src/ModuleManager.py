@@ -332,7 +332,8 @@ class Map():
             state = g.attrib["state"]
             nodePosition = None
             nodeRotation = None
-
+            properties = {}
+            
             transformations = g.getiterator()
             for t in transformations:
                 if t.tag == "position":
@@ -346,6 +347,11 @@ class Map():
                     qy = float(t.attrib["qy"])
                     qz = float(t.attrib["qz"])
                     nodeRotation = og.Quaternion(qw, qx, qy, qz)
+                elif t.tag == "property":
+                    name = t.attrib["name"]
+                    type = t.attrib["type"]
+                    data = t.attrib["data"]
+                    properties[name] = GameObjectRepresentation.PropertieRepresentation(name, type, data)
 
             go = self.gocManager.getGameObjectWithClassId(classid)
             if go is not None:
@@ -364,6 +370,7 @@ class Map():
                 self.gocManager.addGameObjectRepresentation(go)
                 go.inWorldId = id
                 go.state = state
+                go.propertieDict = properties
                 ent.setUserObject(go)
 
 
@@ -385,7 +392,7 @@ class Map():
                     entElem = xml.SubElement(nodesElem, "entity")
                     entElem.attrib["name"] = n.getAttachedObject(0).getName()
                     entName = n.getAttachedObject(0).getName()
-                    print "Saving Entity: " + n.getAttachedObject(0).getName()
+                    #print "Saving Entity: " + n.getAttachedObject(0).getName()
                     entElem.attrib["meshfile"] = n.getAttachedObject(0).getMesh().getName()
    
                     entElem.attrib["receivesShadow"] = str(n.getAttachedObject(0).getUserObject().receivesShadow).lower()
@@ -412,7 +419,7 @@ class Map():
                 elif n.name.startswith("gameobject_"):
                     goElem = xml.SubElement(nodesElem, "gameobject")
                     mname = n.name
-                    print "Saving GOID: " + str(n.getAttachedObject(0).getUserObject().inWorldId)
+                    #print "Saving GOID: " + str(n.getAttachedObject(0).getUserObject().inWorldId)
                     goElem.attrib["class"] = str(n.getAttachedObject(0).getUserObject().gocName)
                     goElem.attrib["state"] = str(n.getAttachedObject(0).getUserObject().state)
                     goElem.attrib["id"] = str(n.getAttachedObject(0).getUserObject().inWorldId)
@@ -428,10 +435,19 @@ class Map():
                     rotElem.attrib["qy"] = str(n.getOrientation().y)
                     rotElem.attrib["qz"] = str(n.getOrientation().z)
                     
+                    dict = n.getAttachedObject(0).getUserObject().propertieDict
+                    for key in dict:
+                        prop = dict[key]
+                        rotElem = xml.SubElement(goElem, "property")
+                        rotElem.attrib["name"] = prop.name
+                        rotElem.attrib["type"] = prop.type
+                        rotElem.attrib["data"] = prop.data
+
+                    
                 elif n.name.startswith("light_"):
                     light = extractLight(n)
                     lightName = light.getName()
-                    print "Saving Light: " + lightName
+                    #print "Saving Light: " + lightName
                     lightType = light.getType()
                     isVisible = "true"
                     if not light.getVisible():
@@ -899,9 +915,11 @@ class ModuleManager():
         self.resetSelection()
         self.userSelectionList = self.selectionBuffer.manualSelectObjects(items)
         
+        print len(self.userSelectionList)
+        
         if len(self.userSelectionList) > 1:
             self.propertyWindow.clear()
-        elif len(self.userSelectionList) == 1:
+        elif len(self.userSelectionList) > 0 and len(self.userSelectionList) < 2:
             self.propertyWindow.showProperties(self.userSelectionList[0])
         else:
             return
