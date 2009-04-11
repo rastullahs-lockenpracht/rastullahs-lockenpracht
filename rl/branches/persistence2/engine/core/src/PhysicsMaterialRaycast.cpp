@@ -186,7 +186,7 @@ namespace rl {
     }
 
     ConvexcastInfo PhysicsMaterialConvexcast::execute(OgreNewt::World* world, const OgreNewt::MaterialID* material,
-                        const OgreNewt::Collision *col, const Vector3& startpt, const Quaternion &ori,
+                        const OgreNewt::ConvexCollisionPtr& col, const Vector3& startpt, const Quaternion &ori,
                         const Vector3& endpt, bool invertmat)
     {
         mMaterialVector = NULL;
@@ -201,7 +201,7 @@ namespace rl {
     }
 
     ConvexcastInfo PhysicsMaterialConvexcast::execute(OgreNewt::World* world, const MaterialVector* materials,
-                        const OgreNewt::Collision *col, const Vector3& startpt, const Quaternion &ori,
+                        const OgreNewt::ConvexCollisionPtr& col, const Vector3& startpt, const Quaternion &ori,
                         const Vector3& endpt, bool invertmat)
     {
         mMaterialVector = materials;

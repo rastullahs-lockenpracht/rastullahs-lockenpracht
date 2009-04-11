@@ -30,6 +30,7 @@ class GoTreeWidget(QTreeWidget):
         super(GoTreeWidget, self).__init__(parent)
         self.setDragEnabled(True)
         self.setAnimated(True)
+        self.setAlternatingRowColors(True)
         
     def startDrag(self,  dropActions):
         data = QByteArray()
@@ -101,7 +102,6 @@ class GameObjectClassView(QWidget):
 
     def updateObjectList(self,  objectsDict):
         for key in objectsDict:
-            changeColor = True
             file = objectsDict[key]
             fileItem = QTreeWidgetItem(self.treeWidget)
             fileItem.setText(0, str(key))
@@ -111,22 +111,12 @@ class GameObjectClassView(QWidget):
                 goItem = QTreeWidgetItem(fileItem)
                 self.addItemToDict(go, goItem)
                 goItem.setIcon(0, QIcon("media/icons/agt_games.png"))
-                if changeColor:
-                    goItem.setBackgroundColor(0, QColor("lightGray"))
-                    goItem.setBackgroundColor(1, QColor("lightGray"))
-                    goItem.setBackgroundColor(2, QColor("lightGray"))
                 goItem.setText(0, str(go.classid))
                 goItem.setText(1, str(go.baseclass))
-                changeColor = not changeColor
 
-                changeColor2 = False
                 for prop in go.properties:
                     item1 = QTreeWidgetItem(goItem) #the property item, needs to be created regardless the type
                     self.addItemToDict(prop, item1)
-                    if changeColor:
-                        item1.setBackgroundColor(0, QColor("lightGray"))
-                        item1.setBackgroundColor(1, QColor("lightGray"))
-                        item1.setBackgroundColor(2, QColor("lightGray"))
                     item1.setIcon(0, QIcon("media/icons/agt_multimedia.png"))
                     item1.setText(0, str(prop.name))
                     item1.setText(1, prop.getType())
@@ -137,5 +127,4 @@ class GameObjectClassView(QWidget):
                     else:
                         item1.setText(2, unicode(prop.data))
 
-                    changeColor2 = not changeColor
 

@@ -70,7 +70,7 @@ namespace rl {
         Quaternion orientation;
         body->getPositionOrientation(position, orientation);
 
-    	const OgreNewt::Collision* collision = body->getCollision();
+    	const OgreNewt::CollisionPtr collision = body->getCollision();
     	RlAssert(collision, "Body has no collision!");
     	AxisAlignedBox box = collision->getAABB();
     	Ogre::Vector3 dims = box.getMaximum() - box.getMinimum();

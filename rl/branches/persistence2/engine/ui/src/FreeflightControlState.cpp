@@ -63,11 +63,12 @@ namespace rl {
     void FreeflightControlState::pause()
     {
 		mCameraActor->getPhysicalThing()->freeze();
-		//mCharacterActor->getPhysicalThing()->unfreeze();
+		mCharacterActor->getPhysicalThing()->unfreeze();
+
+// for testing the OgreNewt player controller
 //        delete mOgreNewtPlayerController;
 
         mOgreNewtPlayerController = NULL;
-        mCharacterActor->getPhysicalThing()->setUpConstraint();
         mCameraActor->getPhysicalThing()->setPhysicsController(NULL);
 
         // Char<->Level collision back to default
@@ -86,8 +87,9 @@ namespace rl {
     void FreeflightControlState::resume()
     {
         mCameraActor->getPhysicalThing()->unfreeze();
-		//mCharacterActor->getPhysicalThing()->freeze();
-        mCharacterActor->getPhysicalThing()->clearUpConstraint();
+		mCharacterActor->getPhysicalThing()->freeze();
+
+// for testing the OgreNewt player controller
 //        mOgreNewtPlayerController = new OgreNewt::PlayerController(mCharBody);
 
         resetCamera();
@@ -352,8 +354,11 @@ namespace rl {
             Vector3 currentVel = body->getVelocity();
             Real delay = 2 * PhysicsManager::getSingleton().getMaxTimestep();
             Vector3 force = mass*(orientation * mDesiredVelocity - currentVel) / delay;
-if( mCollisionsEnabled )
-    force = mass*(- currentVel) / delay;
+
+// for testing the OgreNewt player controller
+//if( mCollisionsEnabled )
+//    force = mass*(- currentVel) / delay;
+
             body->setForce(force);
         }
     }

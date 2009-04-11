@@ -332,7 +332,8 @@ class Map():
             state = g.attrib["state"]
             nodePosition = None
             nodeRotation = None
-
+            properties = {}
+            
             transformations = g.getiterator()
             for t in transformations:
                 if t.tag == "position":
@@ -346,6 +347,11 @@ class Map():
                     qy = float(t.attrib["qy"])
                     qz = float(t.attrib["qz"])
                     nodeRotation = og.Quaternion(qw, qx, qy, qz)
+                elif t.tag == "property":
+                    name = t.attrib["name"]
+                    type = t.attrib["type"]
+                    data = t.attrib["data"]
+                    properties[name] = GameObjectRepresentation.PropertieRepresentation(name, type, data)
 
             go = self.gocManager.getGameObjectWithClassId(classid)
             if go is not None:
@@ -364,6 +370,7 @@ class Map():
                 self.gocManager.addGameObjectRepresentation(go)
                 go.inWorldId = id
                 go.state = state
+                go.propertieDict = properties
                 ent.setUserObject(go)
 
 
@@ -384,7 +391,8 @@ class Map():
                 if n.name.startswith("entity_"):
                     entElem = xml.SubElement(nodesElem, "entity")
                     entElem.attrib["name"] = n.getAttachedObject(0).getName()
-                    print "Saving Entity: " + n.getAttachedObject(0).getName()
+                    entName = n.getAttachedObject(0).getName()
+                    #print "Saving Entity: " + n.getAttachedObject(0).getName()
                     entElem.attrib["meshfile"] = n.getAttachedObject(0).getMesh().getName()
    
                     entElem.attrib["receivesShadow"] = str(n.getAttachedObject(0).getUserObject().receivesShadow).lower()
@@ -411,7 +419,7 @@ class Map():
                 elif n.name.startswith("gameobject_"):
                     goElem = xml.SubElement(nodesElem, "gameobject")
                     mname = n.name
-                    print "Saving GOID: " + str(n.getAttachedObject(0).getUserObject().inWorldId)
+                    #print "Saving GOID: " + str(n.getAttachedObject(0).getUserObject().inWorldId)
                     goElem.attrib["class"] = str(n.getAttachedObject(0).getUserObject().gocName)
                     goElem.attrib["state"] = str(n.getAttachedObject(0).getUserObject().state)
                     goElem.attrib["id"] = str(n.getAttachedObject(0).getUserObject().inWorldId)
@@ -427,10 +435,19 @@ class Map():
                     rotElem.attrib["qy"] = str(n.getOrientation().y)
                     rotElem.attrib["qz"] = str(n.getOrientation().z)
                     
+                    dict = n.getAttachedObject(0).getUserObject().propertieDict
+                    for key in dict:
+                        prop = dict[key]
+                        rotElem = xml.SubElement(goElem, "property")
+                        rotElem.attrib["name"] = prop.name
+                        rotElem.attrib["type"] = prop.type
+                        rotElem.attrib["data"] = prop.data
+
+                    
                 elif n.name.startswith("light_"):
                     light = extractLight(n)
                     lightName = light.getName()
-                    print "Saving Light: " + lightName
+                    #print "Saving Light: " + lightName
                     lightType = light.getType()
                     isVisible = "true"
                     if not light.getVisible():
@@ -898,6 +915,17 @@ class ModuleManager():
         self.resetSelection()
         self.userSelectionList = self.selectionBuffer.manualSelectObjects(items)
         
+        print len(self.userSelectionList)
+        
+        if len(self.userSelectionList) > 1:
+            self.propertyWindow.clear()
+        elif len(self.userSelectionList) > 0 and len(self.userSelectionList) < 2:
+            self.propertyWindow.showProperties(self.userSelectionList[0])
+        else:
+            return
+            
+        self.updatePivots()
+        
     def selectMapCallback(self, sceneName, mapName):
         self.currentMap = self.mainModule.getMap(mapName, sceneName)
         self.zoneManager.currentMap = self.currentMap
@@ -1003,15 +1031,16 @@ class ModuleManager():
             self.sceneManager.destroySceneNode(node)
             self.sceneManager.destroyEntity(so.entity)
             del so
-
+        
         self.userSelectionList = []
-
+        self.moduleExplorer.updateView()
+        
     def copyObjects(self):
         if len(self.userSelectionList) < 1 or self.currentMap is None:
             print "Warning: No map selected!"
             return
 
-        newSelectionList = []
+        self.newSelectionList = []
 
         for so in self.userSelectionList:
             if so.entity.getUserObject() is not None:
@@ -1031,7 +1060,7 @@ class ModuleManager():
 
                         newSO = SelectionObject(newEntity)
                         newSO.setSelected(True)
-                        newSelectionList.append(newSO)
+                        self.newSelectionList.append(newSO)
                         ModuleManager.dropCount += 1
                 elif str(so.entity.getParentNode().getName()).startswith("entity_"):
                     nodeName = "entity_dropNode" + str(ModuleManager.dropCount)
@@ -1050,14 +1079,19 @@ class ModuleManager():
 
                     newSO = SelectionObject(newEntity)
                     newSO.setSelected(True)
-                    newSelectionList.append(newSO)
+                    self.newSelectionList.append(newSO)
                     ModuleManager.dropCount += 1
                 elif str(so.entity.getParentNode().getName()).startswith("light_"):
                     print "Can't copy lights yet :)"
 
         self.resetSelection()
-        self.userSelectionList = newSelectionList
+        self.userSelectionList = self.newSelectionList
+        self.moduleExplorer.updateView()
+        for so in self.userSelectionList:
+            self.moduleExplorer.selectItem(so, True)
+        self.updatePivots()
 
+        
     def cutObjects(self):
         if len(self.userSelectionList) < 1:
             return
@@ -1072,7 +1106,8 @@ class ModuleManager():
             so.entity.getParentNode().setPosition(so.entity.getParentNode().getPosition() - self.pivot.getPosition())
             self.cutList.append(so)
         self.resetSelection()
-
+        self.moduleExplorer.updateView()
+        
     def pasteObjects(self,  ray):
         if len(self.cutList) < 1:
             return
@@ -1091,11 +1126,11 @@ class ModuleManager():
                 self.cutList[i].entity.getParentNode().translate(ray.getPoint(100.0))
                 i = i+1
         self.cutList = []
-
+        self.moduleExplorer.updateView()
+        
     def leftMouseUp(self):
         if self.pivot is not None and self.pivot.isTransforming:
             self.propertyWindow.updateProperties()
-            self.moduleExplorer.updateView()
             self.pivot.stopTransforming()
 
     def resetSelection(self):
@@ -1110,7 +1145,7 @@ class ModuleManager():
 
         for so in self.userSelectionList:
             newPivotPosition += so.entity.getParentNode().getPosition()
-        if self.pivot is not None:
+        if self.pivot is not None and len(self.userSelectionList) > 0:
             self.pivot.setPosition(newPivotPosition / len(self.userSelectionList))
 
     def unload(self,  saveOnUnload=True):
@@ -1329,6 +1364,7 @@ class ModuleManager():
 
         if so is not None and so.entity.getParentNode().getName().startswith("gameobject_"):
             actions.append(self.createAction("Set Player Starterpoint", self.setPlayerStart))
+            actions.append(self.createAction("Add Property", so.entity.getUserObject().addProperty))
             self.playerStartGameObjectId = so.entity.getUserObject().inWorldId
             
                 

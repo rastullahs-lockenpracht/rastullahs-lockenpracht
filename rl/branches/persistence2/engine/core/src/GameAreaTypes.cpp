@@ -244,8 +244,15 @@ namespace rl {
             col);
         mBody->setMaterialGroupID(
             PhysicsManager::getSingleton().getMaterialID("gamearea"));
+#ifndef OGRENEWT_USE_OGRE_ANY
         mBody->setUserData(NULL);
-        ((OgreNewt::ConvexCollision*)col)->setAsTriggerVolume(true);
+#endif
+
+#ifdef OGRENEWT_COLLISION_USE_SHAREDPTR
+        boost::dynamic_pointer_cast<OgreNewt::ConvexCollision>(col)->setAsTriggerVolume(true);
+#else
+        dynamic_cast<OgreNewt::ConvexCollisionPtr>(col)->setAsTriggerVolume(true);
+#endif
     }
 
     GameSimpleCollisionAreaType::GameSimpleCollisionAreaType(
@@ -262,8 +269,15 @@ namespace rl {
             col);
         mBody->setMaterialGroupID(
             PhysicsManager::getSingleton().getMaterialID("gamearea"));
+#ifndef OGRENEWT_USE_OGRE_ANY
         mBody->setUserData(NULL);
-        ((OgreNewt::ConvexCollision*)col)->setAsTriggerVolume(true);
+#endif
+
+#ifdef OGRENEWT_COLLISION_USE_SHAREDPTR
+        boost::dynamic_pointer_cast<OgreNewt::ConvexCollision>(col)->setAsTriggerVolume(true);
+#else
+        dynamic_cast<OgreNewt::ConvexCollisionPtr>(col)->setAsTriggerVolume(true);
+#endif
     }
 
 }

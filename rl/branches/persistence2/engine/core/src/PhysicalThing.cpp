@@ -28,7 +28,6 @@
 
 using namespace Ogre;
 using namespace OgreNewt;
-using namespace OgreNewt::CollisionPrimitives;
 
 namespace rl
 {
@@ -128,7 +127,11 @@ namespace rl
 	void PhysicalThing::setBody(OgreNewt::Body* body)
     {
         mBody = body;
-		mBody->setUserData(mActor);
+#ifdef OGRENEWT_USE_OGRE_ANY
+		mBody->setUserData( Ogre::Any(mActor) );
+#else
+        mBody->setUserData( mActor );
+#endif
     }
 
     void PhysicalThing::_update()
@@ -155,7 +158,13 @@ namespace rl
     {
         mActor = actor;
 		if (mBody != NULL)
-			mBody->setUserData(actor);
+        {
+#ifdef OGRENEWT_USE_OGRE_ANY
+    		mBody->setUserData( Ogre::Any(mActor) );
+#else
+            mBody->setUserData( mActor );
+#endif
+        }
     }
 
     void PhysicalThing::_attachToSceneNode(Ogre::SceneNode* node)
@@ -239,8 +248,12 @@ namespace rl
         if( mBody && !mRagDoll )
         {
             Vector3 inertia;
-            mBody->getMassMatrix(mMass, inertia);
+            Real oldMass;
+            mBody->getMassMatrix(oldMass, inertia);
             mMass = mass;
+            if( oldMass > 0 )
+                inertia = inertia/oldMass*mass;
+                
             mBody->setMassMatrix(mass, inertia);
         }
         mMass = mass;
@@ -268,10 +281,25 @@ namespace rl
             "PhysicalThing::updateCollisionHull: PhysicalThing must not be controlled by a RagDoll in order to update its collision hull.");
 
 
+        
         Vector3 position;
         Quaternion orientation;
         mBody->getPositionOrientation(position, orientation);
+        CollisionPtr collision = PhysicsManager::getSingleton().createCollision(
+                entity,
+                mGeometryType,
+                "",
+                NULL,
+                NULL,
+                0, NULL, NULL,
+                true); // don't cache
+        if( collision )
+        {
+            mBody->setCollision(collision);
+            mBody->setPositionOrientation(position, orientation);
+        }
 
+/*
 		if (mGeometryType == GT_CONVEXHULL)
 		{
 			Matrix4 transform = node->_getFullTransform().inverse();
@@ -324,18 +352,19 @@ namespace rl
 					vbuffer->unlock();
 				}
 			}
-	        CollisionPtr collision(new ConvexHull(PhysicsManager::getSingleton()._getNewtonWorld(),
+	        CollisionPtr collision(new CollisionPrimitives::ConvexHull(PhysicsManager::getSingleton()._getNewtonWorld(),
 			    &vertices[0], vertices.size()));
 		    mBody->setCollision(collision);
 		}
 		else if (mGeometryType == GT_MESH)
 		{
-	        CollisionPtr collision(new TreeCollision(
+	        CollisionPtr collision(new CollisionPrimitives::TreeCollision(
 				PhysicsManager::getSingleton()._getNewtonWorld(), entity, true));
 		    mBody->setCollision(collision);
 		}
 
         mBody->setPositionOrientation(position, orientation);
+*/
     }
 
     void PhysicalThing::freeze()
@@ -443,8 +472,8 @@ namespace rl
                 "PhysicalThing::createPhysicsProxy: cannot create physics proxy while the PhysicalThing is controlled by a RagDoll!");
 		if (!mBody)
 		{
-            Vector3 inertia;
-            OgreNewt::CollisionPtr coll = createCollision(mPhysicalObject, inertia);
+            Vector3 inertia, centerOfMass;
+            OgreNewt::CollisionPtr coll = createCollision(mPhysicalObject, inertia, centerOfMass);
 
 			OgreNewt::Body* body = new OgreNewt::Body(
                 PhysicsManager::getSingleton()._getNewtonWorld(), coll);
@@ -454,6 +483,7 @@ namespace rl
 			if (mass > 0.0 && mGeometryType != GT_MESH)
             {
                 body->setMassMatrix(mass, inertia);
+                body->setCenterOfMass(centerOfMass);
             }
 
 			body->setCustomForceAndTorqueCallback(PhysicsManager::genericForceCallback);
@@ -469,7 +499,7 @@ namespace rl
         }
 	}
 
-    OgreNewt::CollisionPtr PhysicalThing::createCollision(PhysicalObject* po, Vector3& inertia) const
+    OgreNewt::CollisionPtr PhysicalThing::createCollision(PhysicalObject* po, Vector3& inertia, Vector3& centerOfMass) const
     {
         OgreNewt::CollisionPtr coll;
 
@@ -488,7 +518,8 @@ namespace rl
                 NULL,
                 NULL,
                 mMass,
-                &inertia);
+                &inertia,
+                &centerOfMass);
         }
         else
         {
@@ -499,7 +530,8 @@ namespace rl
                 NULL,
                 NULL,
                 mMass,
-                &inertia);
+                &inertia,
+                &centerOfMass);
         }
 
         return coll;
@@ -511,13 +543,14 @@ namespace rl
         {
             mPoseCollisions.clear();
 
-            Vector3 inertia;
+            Vector3 inertia, centerOfMass;
 
             // update the collision
-		    mBody->setCollision(createCollision(mPhysicalObject, inertia));
+		    mBody->setCollision(createCollision(mPhysicalObject, inertia, centerOfMass));
 		    if (mMass > 0.0 && mGeometryType != GT_MESH)
             {
                 mBody->setMassMatrix(mMass, inertia);
+                mBody->setCenterOfMass(centerOfMass);
             }
         }
     }

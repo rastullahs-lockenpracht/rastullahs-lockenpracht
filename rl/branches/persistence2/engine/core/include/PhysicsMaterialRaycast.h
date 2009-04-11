@@ -111,7 +111,7 @@ namespace rl {
         * @param invertmat if "true", the ray finds all collisions, which do NOT have the material-id "material"
         */
         ConvexcastInfo execute(OgreNewt::World* world, const OgreNewt::MaterialID* material,
-            const OgreNewt::Collision *col, const Ogre::Vector3& startpt, const Ogre::Quaternion &ori,
+            const OgreNewt::ConvexCollisionPtr& col, const Ogre::Vector3& startpt, const Ogre::Quaternion &ori,
             const Ogre::Vector3& endpt, bool invertmat = false);
         
         /** executes the Convexcast
@@ -125,7 +125,7 @@ namespace rl {
         * @param invertmat if "true", the ray finds all collisions, which do NOT have the material-id "material"
         */
         ConvexcastInfo execute(OgreNewt::World* world, const MaterialVector* materials,
-            const OgreNewt::Collision *col, const Ogre::Vector3& startpt, const Ogre::Quaternion &ori,
+            const OgreNewt::ConvexCollisionPtr& col, const Ogre::Vector3& startpt, const Ogre::Quaternion &ori,
             const Ogre::Vector3& endpt, bool invertmat = false);
 
 

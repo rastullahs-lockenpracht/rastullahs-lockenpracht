@@ -166,7 +166,11 @@ namespace rl
 
     void CreatureControllerManager::userProcess(OgreNewt::ContactJoint &contactJoint, Real timestep, int threadid)
     {
+#ifdef OGRENEWT_USE_OGRE_ANY
+        Actor *actor = Ogre::any_cast<Actor*>(contactJoint.getBody0()->getUserData());
+#else
         Actor *actor = static_cast<Actor*>(contactJoint.getBody0()->getUserData());
+#endif
         if( actor != NULL )
         {
             ControllerMap::const_iterator it = mControllers.find(static_cast<Creature*>(actor->getGameObject()));
@@ -178,7 +182,11 @@ namespace rl
         }
 
         // if the controlled body is the second body...
-        actor = static_cast<Actor*>(contactJoint.getBody1()->getUserData());
+#ifdef OGRENEWT_USE_OGRE_ANY
+        actor = Ogre::any_cast<Actor*>(contactJoint.getBody0()->getUserData());
+#else
+        actor = static_cast<Actor*>(contactJoint.getBody0()->getUserData());
+#endif
         if( actor != NULL )
         {
             ControllerMap::const_iterator it = mControllers.find(static_cast<Creature*>(actor->getGameObject()));
