@@ -32,11 +32,17 @@ XmlResource::XmlResource(
 	mCharBuffer(NULL),
 	mXmlBuffer(NULL)
 {
+#ifdef _DEBUG
+    LOG_MESSAGE(Logger::COMMON, "XML Resource " + mName + " loaded!");
+#endif
 }
 
 
 XmlResource::~XmlResource()
 {
+#ifdef _DEBUG
+    LOG_MESSAGE(Logger::COMMON, "XML Resource " + mName + " unloaded!");
+#endif
 	unload();
 }
 
@@ -47,10 +53,6 @@ void XmlResource::loadImpl()
 	
 	mCharBuffer = new XMLByte[mSize];
 	ds->read(mCharBuffer, mSize);
-
-	mXmlBuffer = new MemBufInputSource(
-        mCharBuffer,
-	    static_cast<const unsigned int>(mSize), "rl::XmlResourceManager");
 }
 
 void XmlResource::unloadImpl()
@@ -80,11 +82,17 @@ bool XmlResource::parseBy(XERCES_CPP_NAMESPACE::XercesDOMParser* parser, XmlProc
         parser->setErrorHandler(errorHandler);
     }
 
+    mXmlBuffer = new MemBufInputSource(
+        mCharBuffer,
+        static_cast<const unsigned int>(mSize), ((Ogre::String)("rl::XmlResourceManager " + mName)).c_str());
+
     parser->parse(*mXmlBuffer);
     if(parser->getErrorCount() > 0)
     {
+        delete mXmlBuffer;
         return false;
     }
+    delete mXmlBuffer;
     return true;
 }
 
