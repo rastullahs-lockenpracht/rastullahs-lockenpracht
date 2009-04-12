@@ -280,7 +280,7 @@ class ModuleExplorer(QWidget):
         #end remove all the things from the list we actually don't want to be selected
         for item in selItems:
             if str(item.text(0)).startswith("Scene: ") or str(item.text(0)).startswith("Map: ") or str(item.text(0)).startswith("Zone: "):
-                items.remove(item)
+                selItems.remove(item)
         
         for item in selItems:
             parentName =  str(item.text(0))

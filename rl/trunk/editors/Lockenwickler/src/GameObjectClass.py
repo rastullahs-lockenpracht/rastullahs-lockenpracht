@@ -151,7 +151,7 @@ class GameObjectRepresentation(og.UserDefinedObject):
                 rep.data = str(self.editor.dataEditBox.text())
             
             if rep.name in self.propertieDict:
-                reply = QMessageBox.question(QApplication.focusWidget(), "Warning", "Replace the existing property?" , QMessageBox.Yes|QMessageBox.No|QMessageBox.Cancel)
+                reply = QMessageBox.question(QApplication.focusWidget(), "Warning...", "Replace the existing property?" , QMessageBox.Yes|QMessageBox.No|QMessageBox.Cancel)
                 if reply == QMessageBox.Cancel:
                     return
                 elif reply == QMessageBox.Yes:
