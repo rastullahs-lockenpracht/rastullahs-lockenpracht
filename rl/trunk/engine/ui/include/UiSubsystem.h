@@ -18,7 +18,6 @@
 #define __UiSubsystem_H__
 
 #include "UiPrerequisites.h"
-#include "World.h"
 
 
 #include "ControlState.h"

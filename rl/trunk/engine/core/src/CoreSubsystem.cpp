@@ -26,7 +26,7 @@
 #include "ContentModule.h"
 #include "ConfigurationManager.h"
 #include "DebugVisualsManager.h"
-#include "DotSceneOctreeWorld.h"
+#include "GenericWorld.h"
 #include "Exception.h"
 #include "GameEventManager.h"
 #include "GameLoop.h"
@@ -280,7 +280,7 @@ namespace rl
                 "Video", "Max Anisotropy"));
 
 
-        mWorld = new DotSceneOctreeWorld();
+        mWorld = new GenericWorld();
         mActorManager->setWorld(mWorld);
 
         mPhysicsManager = new PhysicsManager();  // the World needs to be initialized before!
@@ -571,12 +571,15 @@ namespace rl
         return mModules;
     }
 
+    // obsolete
+/*
     void CoreSubsystem::loadMap(const Ogre::String& type, const Ogre::String& filename,
         const Ogre::String& module)
     {
         mWorld->loadScene(filename, module);
     }
-    
+*/  
+
     void CoreSubsystem::loadPlugin(const Ogre::String& plugin)
     {
         Ogre::String pluginFile;

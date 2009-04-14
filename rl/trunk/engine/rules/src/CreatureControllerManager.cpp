@@ -167,7 +167,9 @@ namespace rl
     void CreatureControllerManager::userProcess(OgreNewt::ContactJoint &contactJoint, Real timestep, int threadid)
     {
 #ifdef OGRENEWT_USE_OGRE_ANY
-        Actor *actor = Ogre::any_cast<Actor*>(contactJoint.getBody0()->getUserData());
+        Actor *actor = NULL;
+        if( contactJoint.getBody0()->getUserData().getType() == typeid(Actor*) )
+            actor = Ogre::any_cast<Actor*>(contactJoint.getBody0()->getUserData());
 #else
         Actor *actor = static_cast<Actor*>(contactJoint.getBody0()->getUserData());
 #endif
@@ -183,9 +185,10 @@ namespace rl
 
         // if the controlled body is the second body...
 #ifdef OGRENEWT_USE_OGRE_ANY
-        actor = Ogre::any_cast<Actor*>(contactJoint.getBody0()->getUserData());
+        if( contactJoint.getBody1()->getUserData().getType() == typeid(Actor*) )
+            actor = Ogre::any_cast<Actor*>(contactJoint.getBody1()->getUserData());
 #else
-        actor = static_cast<Actor*>(contactJoint.getBody0()->getUserData());
+        actor = static_cast<Actor*>(contactJoint.getBody1()->getUserData());
 #endif
         if( actor != NULL )
         {

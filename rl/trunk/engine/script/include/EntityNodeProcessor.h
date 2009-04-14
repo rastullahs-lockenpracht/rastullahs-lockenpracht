@@ -38,16 +38,6 @@ namespace rl
         virtual bool processNode(XERCES_CPP_NAMESPACE::DOMElement* nodeElem, bool loadGameObjects);
 
     private:
-		/// stores already constructed collision proxies for reuse
-        struct AlreadyUsedCollision
-        {
-        public:
-            Ogre::String Type;
-            Ogre::Vector3 Scale;
-            OgreNewt::CollisionPtr ColPtr;
-        };
-
-		std::map<Ogre::String,AlreadyUsedCollision> mAutoCreatedCollisions;
         Ogre::String mResourceGroup;
 
         void createCollision(Ogre::Entity* entity, Ogre::String meshFile, XERCES_CPP_NAMESPACE::DOMElement* physicsProxyElem);

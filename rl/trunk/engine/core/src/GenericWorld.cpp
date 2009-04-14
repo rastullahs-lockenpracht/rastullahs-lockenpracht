@@ -18,7 +18,7 @@
 // Xerces geht vor allen Ogre includes...
 #include "XmlResourceManager.h"
 
-#include "DotSceneOctreeWorld.h"
+#include "GenericWorld.h"
 
 
 #include "CoreSubsystem.h"
@@ -26,25 +26,24 @@
 #include "ActorManager.h"
 #include "Actor.h"
 #include "PhysicsManager.h"
-#include "DotSceneLoader.h"
 #include "ZoneManager.h"
 
 using namespace Ogre;
 
 namespace rl {
 
-    DotSceneOctreeWorld::DotSceneOctreeWorld( )
+    GenericWorld::GenericWorld( )
         :   World(ST_GENERIC)
     {
         mSceneFile = "";
     }
 
-    DotSceneOctreeWorld::~DotSceneOctreeWorld()
+    GenericWorld::~GenericWorld()
     {
         clearScene();
     }
 
-    void DotSceneOctreeWorld::initializeDefaultCamera(void)
+    void GenericWorld::initializeDefaultCamera(void)
     {
         if (mCamera == 0)
         {
@@ -69,44 +68,7 @@ namespace rl {
 		}
     }
 
-    void DotSceneOctreeWorld::loadScene(const Ogre::String& levelName, const Ogre::String& module)
-    {
-        // Alte Szene löschen
-        clearScene();
-
-		setCastShadows( true );
-
-        // Leerer Ogre::String, keine Map laden
-        if (levelName.length() != 0)
-        {
-            /// TODO - In den Sky-Sonnenpart verschieben
-            mSceneMgr->setAmbientLight(ColourValue(0.55, 0.55, 0.55));
-            mSceneFile = levelName;
-
-            DotSceneLoader* dot = NULL;
-            try
-            {
-                dot = new DotSceneLoader( mSceneFile, module );
-                dot->initializeScene( mSceneMgr );
-                delete dot;
-            }
-            catch( ... )
-            {
-                LOG_CRITICAL(Logger::CORE,
-                    "Laden der Szenenbeschreibung aus '" + mSceneFile + "' ist fehlgeschlagen." );
-                delete dot;
-            }
-        }
-        else
-        {
-            mSceneFile = "";
-        }
-
-        initializeDefaultCamera();
-        fireAfterSceneLoaded();
-    }
-
-    void DotSceneOctreeWorld::clearScene()
+    void GenericWorld::clearScene()
     {
         fireBeforeClearScene();
 
@@ -121,7 +83,7 @@ namespace rl {
         mCamera = NULL;
     }
 
-    void DotSceneOctreeWorld::setCastShadows(bool enabled)
+    void GenericWorld::setCastShadows(bool enabled)
     {
 		bool castShadows = false;
 

@@ -20,7 +20,6 @@
 #include "AiPrerequisites.h"
 
 #include "MessagePump.h"
-#include "World.h"
 
 namespace rl
 {

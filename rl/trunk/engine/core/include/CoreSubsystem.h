@@ -23,6 +23,7 @@
 #include "EventSource.h"
 #include "EventCaster.h"
 #include "CorePrerequisites.h"
+#include "World.h"
 
 namespace rl {
 
@@ -69,8 +70,9 @@ public:
     void renderOneFrame(bool executeTasks = true);
 
     World* getWorld();
-    void loadMap(const Ogre::String& type, const Ogre::String& filename,
-        const Ogre::String& module);
+
+    // obsolete
+    // void loadMap(const Ogre::String& type, const Ogre::String& filename, const Ogre::String& module);
 
     RubyInterpreter* getRubyInterpreter();
 

@@ -25,8 +25,6 @@ src/ContentModule.cpp
 src/CoreSubsystem.cpp
 src/DebugVisualisable.cpp
 src/DebugVisualsManager.cpp
-src/DotSceneLoader.cpp
-src/DotSceneOctreeWorld.cpp
 src/FadeAnimation.cpp
 src/GameAreaEvent.cpp
 src/GameAreaEventSource.cpp
@@ -34,6 +32,7 @@ src/GameAreaListener.cpp
 src/GameAreaTypes.cpp
 src/GameEventManager.cpp
 src/GameLoop.cpp
+src/GenericWorld.cpp
 src/Job.cpp
 src/JobQueue.cpp
 src/JobScheduler.cpp

@@ -162,6 +162,7 @@ namespace rl {
         //! TODO: remove this workaround (newton-bug: "spheres don't cast"!)
         mCameraCastCollision = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::ConvexHull(mCamBody->getWorld(), verts, 80));
         //mCameraCastCollision = new OgreNewt::CollisionPrimitives::Ellipsoid(mCamBody->getWorld(), Vector3::UNIT_SCALE * camRadius);
+        // we could use the real collision of the camera here...
     }
 
     //------------------------------------------------------------------------

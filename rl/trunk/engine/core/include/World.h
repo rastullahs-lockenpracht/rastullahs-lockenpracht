@@ -42,8 +42,9 @@ namespace rl {
         virtual Ogre::Vector3 getStartPoint() const;
 
         virtual void clearScene(void) = 0;
-        virtual void loadScene(const Ogre::String& levelName,
-            const Ogre::String& module) = 0;
+
+        // obsolete
+        //virtual void loadScene(const Ogre::String& levelName, const Ogre::String& module) = 0;
 
         //Enables / disables a 'sky plane' i.e.
         virtual void setSkyPlane(bool enable, const Ogre::Plane &plane,

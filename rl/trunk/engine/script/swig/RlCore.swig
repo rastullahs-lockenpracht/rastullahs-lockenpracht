@@ -172,8 +172,6 @@ class World {
 public:	
 	enum FogMode { FOG_NONE, FOG_EXP, FOG_EXP2, FOG_LINEAR  };
 
-	void loadScene(const Ogre::String& levelName, const Ogre::String& resourceGroup ) = 0;
-
     virtual void setSkyBox (bool enable, const Ogre::String& materialName, Ogre::Real distance=2500, bool drawFirst=true );
     virtual void setSkyDome (bool enable, const Ogre::String& materialName, Ogre::Real curvature=10, Ogre::Real tiling=8, Ogre::Real distance=4000, bool drawFirst=true );
     virtual void setFog ( FogMode mode=FOG_NONE, const Ogre::ColourValue &colour=Ogre::ColourValue::White, Ogre::Real expDensity=0.001, Ogre::Real linearStart=0.0, Ogre::Real linearEnd=1.0);
@@ -184,6 +182,8 @@ public:
     virtual void setAmbientLight(Ogre::Real r, Ogre::Real g, Ogre::Real b);
     virtual Ogre::Vector3 getStartPoint() const;
     virtual void setCastShadows(bool);
+    virtual void clearScene() = 0;
+    virtual void initializeDefaultCamera() = 0;
 
     void setShowBoundingBoxes( bool dis );
 };
@@ -777,8 +777,8 @@ private:
 public:
     static CoreSubsystem& getSingleton(void);
     
-    void loadMap(const Ogre::String& type, const Ogre::String& filename,
-		const Ogre::String& resourceGroup);
+    // obsolete
+    // void loadMap(const Ogre::String& type, const Ogre::String& filename, const Ogre::String& resourceGroup);
 
 	void registerModule(rl::ContentModule* module);
 
