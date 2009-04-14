@@ -23,6 +23,7 @@
 #include "EventSource.h"
 #include "EventCaster.h"
 #include "CorePrerequisites.h"
+#include "World.h"
 
 namespace rl {
 
@@ -71,6 +72,9 @@ public:
     void renderOneFrame(bool executeTasks = true);
 
     World* getWorld();
+
+    // obsolete
+    // void loadMap(const Ogre::String& type, const Ogre::String& filename, const Ogre::String& module);
 
     RubyInterpreter* getRubyInterpreter();
 
@@ -159,8 +163,8 @@ private:
     void unloadPlugins();
 
     /**
-     * Sammelt alle Default-Techniques, um sie sp‰ter bei jedem aktivierten Scheme
-     * benutzen zu kˆnnen
+     * Sammelt alle Default-Techniques, um sie spâ€°ter bei jedem aktivierten Scheme
+     * benutzen zu kË†nnen
      */
     void updateDefaultScheme();
 

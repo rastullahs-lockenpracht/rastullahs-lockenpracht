@@ -24,9 +24,7 @@
 #include "GameLoop.h"
 #include "Landmark.h"
 #include "LandmarkPath.h"
-#include "Logger.h"
 #include "WayPointGraphManager.h"
-#include "World.h"
 
 #include <xercesc/util/PlatformUtils.hpp>
 

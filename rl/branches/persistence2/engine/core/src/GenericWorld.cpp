@@ -18,7 +18,7 @@
 // Xerces geht vor allen Ogre includes...
 #include "XmlResourceManager.h"
 
-#include "DotSceneOctreeWorld.h"
+#include "GenericWorld.h"
 
 
 #include "CoreSubsystem.h"
@@ -32,18 +32,18 @@ using namespace Ogre;
 
 namespace rl {
 
-    DotSceneOctreeWorld::DotSceneOctreeWorld( )
+    GenericWorld::GenericWorld( )
         :   World(ST_GENERIC)
     {
         mSceneFile = "";
     }
 
-    DotSceneOctreeWorld::~DotSceneOctreeWorld()
+    GenericWorld::~GenericWorld()
     {
         clearScene();
     }
 
-    void DotSceneOctreeWorld::initializeDefaultCamera(void)
+    void GenericWorld::initializeDefaultCamera(void)
     {
         if (mCamera == 0)
         {
@@ -64,10 +64,11 @@ namespace rl {
 
 			// Schwarzer Hintergrund
 			newVp->setBackgroundColour(ColourValue(0,0,0));
+
 		}
     }
 
-    void DotSceneOctreeWorld::clearScene()
+    void GenericWorld::clearScene()
     {
         fireBeforeClearScene();
 
@@ -82,7 +83,7 @@ namespace rl {
         mCamera = NULL;
     }
 
-    void DotSceneOctreeWorld::setCastShadows(bool enabled)
+    void GenericWorld::setCastShadows(bool enabled)
     {
 		bool castShadows = false;
 

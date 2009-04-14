@@ -141,7 +141,7 @@ namespace rl {
 		/// Komplette Levelgeometrie auflösen
 		void clearLevelGeometry();
 		
-	void toggleDebugMode();
+        void toggleDebugMode();
         int isDebugMode() const;
 
         // Newton callbacks ...
@@ -207,74 +207,29 @@ namespace rl {
         void resetMaterialPair( const OgreNewt::MaterialID* M1,
             const OgreNewt::MaterialID* M2);
 
-        /** creates a collision primitive for OgreNewt.
-		 * The collision primitive created has got a basic orientation which can be influenced by
-		 * offset and orientation parameters. Additionally an initial inertiaCoefficents vector is
-		 * calculated according to the size and type of collision primitiv.
-         * Whenever any of the parameters is a null pointer, it is ignored.
-         * The created collision primitive gets cached for the given mesh,
-         * so whenever an other entity with the same mesh tries to fetch
-         * a collision primitive here, then it gets back the already existing
-         * one (no need to duplicate).
-		 * @param entity gives the mesh entity that needs a collision primitive
-         * @param geomType defines the geometry of the collision type
-         * @param offset Vector3 gives the offset of the coordinate system of the coll. primitiv
-		 * @param orientation Quaternion gives an euler rotation for the coordinate system of the coll. primitiv
-         * @param mass gives the mass of the collision primitive used for calculating the inertia
-		 * @param inertia Vector3 returns the inertia coefficients for the created collision primitiv
-		 * @param centerOfMass Vector3 returns the centerOfMass coefficients for the created collision primitiv
-         * @param nocache if set to true a new collision will be created (without looking for an existing one in the cache);
-         *                the new collision is not added to the cache
-		*/
+        /// calls PhysicsCollisionFactory::createCollisionFromEntity
 		OgreNewt::CollisionPtr createCollision(
 			Ogre::Entity* entity,
             const GeometryType& geomType = GT_NONE,
-            const Ogre::String animName = "",
-			Ogre::Vector3* offset = NULL,
-			Ogre::Quaternion* orientation = NULL,
+            const Ogre::String& animName = "",
+			const Ogre::Vector3* offset = NULL,
+			const Ogre::Quaternion* orientation = NULL,
             const Ogre::Real mass = 0,
             Ogre::Vector3* inertia = NULL,
             Ogre::Vector3* centerOfMass = NULL,
             bool nocache = false);
 
-        /** creates a collision primitive for OgreNewt.
-		 * The collision primitive created has got a basic orientation which can be influenced by
-		 * offset and orientation parameters. Additionally an initial inertiaCoefficents vector is
-		 * calculated according to the size and type of collision primitiv.
-         * Whenever any of the parameters is a null pointer, it is ignored.
-         * The created collision primitive gets cached for the given aabb,
-         * so whenever an other aabb with the same name tries to fetch
-         * a collision primitive here, then it gets back the already existing
-         * one (no need to duplicate).
-		 * @param aabb AxisAlignedBox that contains the extents for the collision primitive to be created
-         * @param name gives the name of the AxisAlignedBox
-         * @param geomType defines the geometry of the collision type
-         * @param offset Vector3 gives the offset of the coordinate system of the coll. primitiv
-		 * @param orientation Quaternion gives an euler rotation for the coordinate system of the coll. primitiv
-         * @param mass gives the mass of the collision primitive used for calculating the inertia
-		 * @param inertia Vector3 returns the inertia coefficients for the created collision primitiv
-		 * @param centerOfMass Vector3 returns the centerOfMass coefficients for the created collision primitiv
-         * @param nocache if set to true a new collision will be created (without looking for an existing one in the cache);
-         *                the new collision is not added to the cache
-		*/
+        /// calls PhysicsCollisionFactory::createCollisionFromAABB
         OgreNewt::CollisionPtr createCollision(
             const Ogre::String& name,
             const Ogre::AxisAlignedBox& aabb,
             const GeometryType& geomType = GT_NONE,
-            Ogre::Vector3* offset = NULL,
-			Ogre::Quaternion* orientation = NULL,
+            const Ogre::Vector3* offset = NULL,
+			const Ogre::Quaternion* orientation = NULL,
             const Ogre::Real mass = 0,
             Ogre::Vector3* inertia = NULL,
             Ogre::Vector3* centerOfMass = NULL,
             bool nocache = false);
-
-        /** Makes the collision primitive generation available to non mesh objects.
-         * Non mesh objects need collision objects too. Therefore they can
-         * utilise this function for bypassing the caching mechanism of
-         * PhysicalManager.
-         * @returns a collision primitive creating factory object.
-         */
-        PhysicsCollisionFactory* getCollisionFactory();
 
         /** converts a string identifying a collision property into an enum.
          * Mainly for making string definitions of the collision property
@@ -294,30 +249,6 @@ namespace rl {
         OgreNewt::Debugger* getNewtonDebugger() {return &mWorld->getDebugger();}
 
     private:
-
-        /** structure containing further information about the collision primitive.
-         * Actually this information should go into either the collisionptr or the
-         * object for the primitive ...
-         */
-        struct CollisionInUse
-        {
-        public:
-            CollisionInUse() :
-#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
-                colPtr(NULL),
-#endif
-                geomType(GT_NONE) {}
-            GeometryType geomType;  //! primitive type
-            OgreNewt::CollisionPtr colPtr;          //! the collision primitve
-        };
-
-        /** shortens definition of a list of collision primitives.
-         * currently only one geometry type per entity (mesh) is allowed.
-         * if multiple should be possible, the geometry type should be
-         * moved from the above struct into the key.
-         */
-        typedef std::map< std::string, CollisionInUse > CollisionMap;
-
         bool mEnabled;
         //! the globally used physical representation of the world by Newton
         OgreNewt::World* mWorld;
@@ -326,8 +257,6 @@ namespace rl {
 
         //! factory for creating new collision primitives
         PhysicsCollisionFactory* mPhysicsCollisionFactory;
-        //! a list of collision primitives
-        CollisionMap mCollisionPrimitives;
 
         //! a list of objects of the physical world
         std::vector<PhysicalThing*> mPhysicalThings;
@@ -391,139 +320,248 @@ namespace rl {
     class PhysicsCollisionFactory
     {
     public:
+        //! destructor, releases the collisions from the collision cache
+        ~PhysicsCollisionFactory();
+
+        /** creates a collision primitive for OgreNewt from an Ogre::Entity.
+		 * The collision primitive created has got a basic orientation which can be influenced by
+		 * offset and orientation parameters. Additionally an initial inertiaCoefficents vector is
+		 * calculated according to the size and type of collision primitiv.
+         * Whenever any of the parameters is a null pointer, it is ignored.
+         * The created collision primitive gets cached for the given mesh,
+         * so whenever an other entity with the same mesh tries to fetch
+         * a collision primitive here, then it gets back the already existing
+         * one (no need to duplicate).
+         * 
+         * Scaling should be implemented through attaching to a scene node.
+         * if that is not the case, we'll have to fix OgreNewt ...
+		 * @param entity gives the mesh entity that needs a collision primitive
+		 * @param geomType specifies the type of collision primitiv to create.
+		 * @param offset gives the offset of the coordinate system of the coll. primitiv
+		 * @param orientation Quaternion gives an euler rotation for the coordinate system of the coll. primitiv
+         * @param mass gives the mass of the collision primitive used for calculating the inertia
+		 * @param inertia Vector3 returns the inertia coefficients for the created collision primitiv
+		 * @param centerOfMass Vector3 returns the centerOfMass coefficients for the created collision primitiv
+         * @param nocache if set to true a new collision will be created (without looking for an existing one in the cache);
+         *                the new collision is not added to the cache
+		*/
+        OgreNewt::CollisionPtr createCollisionFromEntity(
+            Ogre::Entity* entity,
+            const GeometryType& geomType,
+            const Ogre::Vector3* offset,
+            const Ogre::Quaternion* orientation,
+            const Ogre::Real Mass,
+            Ogre::Vector3* inertia,
+            Ogre::Vector3* centerOfMass,
+            bool nocache);
+
+        /** creates a collision primitive for OgreNewt.
+		 * The collision primitive created has got a basic orientation which can be influenced by
+		 * offset and orientation parameters. Additionally an initial inertiaCoefficents vector is
+		 * calculated according to the size and type of collision primitiv.
+         * Whenever any of the parameters is a null pointer, it is ignored.
+         * The created collision primitive gets cached for the given aabb,
+         * so whenever an other aabb with the same name tries to fetch
+         * a collision primitive here, then it gets back the already existing
+         * one (no need to duplicate). There's no difference between Collisions created through an aabb or through
+         * the entity in the cache. In order to supply a support for 'scaling' the size of the cached collision is
+         * checked.
+         * Since no entity is given several physical collision primitives are not
+         * possible (convexhull, tree, etc.)
+         * // no scaling at the moment, the correct scale must be given (OgreNewt cannot scale a collision, this is a limitation
+         * // of newton. It is only possible to 'scale' a convex collision by created a ConvexHullModifier (a new collision,
+         * // that uses the old one and applies transformation through a matrix), so for aabbs (-> convex collisions) a scale
+         * // that udpates with the scale of the node could be implemented, but as this would be different for treecollisions,
+         * // it is better to create a collision with the correct scale...
+         * // "Scaling should be implemented through attaching to a scene node.
+         * // if that is not the case, we'll have to fix OgreNewt ..."
+         * @param name gives the name of the AxisAlignedBox
+		 * @param aabb AxisAlignedBox that contains the extents for the collision primitive to be created
+		 * @param geomType specifies the type of collision primitiv to create.
+		 * @param offset gives the offset of the coordinate system of the coll. primitiv
+		 * @param orientation Quaternion gives an euler rotation for the coordinate system of the coll. primitiv
+         * @param mass gives the mass of the collision primitive used for calculating the inertia
+		 * @param inertia Vector3 returns the inertia coefficients for the created collision primitiv
+		 * @param centerOfMass Vector3 returns the centerOfMass coefficients for the created collision primitiv
+         * @param nocache if set to true a new collision will be created (without looking for an existing one in the cache);
+         *                the new collision is not added to the cache
+		*/
+        OgreNewt::CollisionPtr createCollisionFromAABB(
+            const Ogre::String& name,
+            const Ogre::AxisAlignedBox& aabb,
+            const GeometryType& geomType,
+            const Ogre::Vector3* offset,
+            const Ogre::Quaternion* orientation,
+            const Ogre::Real Mass,
+            Ogre::Vector3* inertia,
+            Ogre::Vector3* centerOfMass,
+            bool nocache);
+
+        /// clear the collision cache
+        void clearCollisionCache();
+
+    protected:
         /** checks if the specified size is ok for OgreNewt
          * @param aabb check the aabb's size
          */
         bool checkSize(const Ogre::AxisAlignedBox& aabb) const;
+
         /** corrects the specified size if it is not ok for OgreNewt
          * @param aabb correct the aabb's size
          */
         void correctSize(Ogre::AxisAlignedBox& aabb);
-        /** calculates the Inertia for the given primitive type
-         */
-        //Ogre::Vector3 calculateIntertia(const Ogre::Real& Mass, Ogre::Vector3* inertiaCoefficients);
 
-        /** creates a collision primitive for OgreNewt an Ogre::Entity.
-		 * The collision primitive created has got a basic orientation which can be influenced by
-		 * offset and orientation parameters.
-         * Whenever any of the parameters is a null pointer, it is ignored.
-         * Scaling should be implemented through attaching to a scene node.
-         * if that is not the case, we'll have to fix OgreNewt ...
-		 * @param entity Ogre::Entity mesh object
-		 * @param geomType specifies the type of collision primitiv to create.
-		 * @param offset gives the offset of the coordinate system of the coll. primitiv
-		 * @param orientation Quaternion gives an euler rotation for the coordinate system of the coll. primitiv
-         * @param mass gives the mass of the collision primitive used for calculating the inertia
-		 * @param inertia Vector3 returns the inertia coefficients for the created collision primitiv
-		 * @param centerOfMass Vector3 returns the centerOfMass coefficients for the created collision primitiv
-		*/
-        OgreNewt::CollisionPtr createCollisionFromEntity(Ogre::Entity* entity,
-            const GeometryType& geomType,
-            Ogre::Vector3* offset = NULL, 
-            Ogre::Quaternion* orientation = NULL,
-            const Ogre::Real Mass = 0,
-            Ogre::Vector3* inertia = NULL,
-            Ogre::Vector3* centerOfMass = NULL);
-
-        /** creates a collision primitive for OgreNewt from an AABB box.
-		 * The collision primitive created has got a basic orientation which can be influenced by
-		 * offset and orientation parameters.
-         * Whenever any of the parameters is a null pointer, it is ignored.
-         * Since no entity is given several physical collision primitives are not
-         * possible (convexhull, tree, etc.)
-         * Scaling should be implemented through attaching to a scene node.
-         * if that is not the case, we'll have to fix OgreNewt ...
-		 * @param entity Ogre::Entity mesh object
-		 * @param geomType specifies the type of collision primitiv to create.
-		 * @param offset gives the offset of the coordinate system of the coll. primitiv
-		 * @param orientation Quaternion gives an euler rotation for the coordinate system of the coll. primitiv
-         * @param mass gives the mass of the collision primitive used for calculating the inertia
-		 * @param inertia Vector3 returns the inertia coefficients for the created collision primitiv
-		 * @param centerOfMass Vector3 returns the centerOfMass coefficients for the created collision primitiv
-		*/
-        OgreNewt::CollisionPtr createCollisionFromAABB(const Ogre::AxisAlignedBox aabb,
-            const GeometryType& geomType,
-            Ogre::Vector3* offset = NULL,
-            Ogre::Quaternion* orientation = NULL,
-            const Ogre::Real Mass = 0,
-            Ogre::Vector3* inertia = NULL,
-            Ogre::Vector3* centerOfMass = NULL);
-    protected:
         /** creates a box collision primitive with offset at middle of bottom layer.
          * It's actually a convenience function used by both createCollision functions.
          * @param aabb gives the axis aligned dimension to create the primitive for.
          * @param offset when not null, specifies a different offset than the standard.
          * @param orientation when not null, specifies the euler angle of orientation.
-         * @param mass gives the mass for inertia calculation.
-         * @param inertia when not null, an inertia is calculated and passed back.
-         * @param centerOfMass when not null, an centerOfMass is calculated and passed back.
          */
-        OgreNewt::CollisionPtr createBox(const Ogre::AxisAlignedBox& aabb,
-            Ogre::Vector3* offset = NULL,
-            Ogre::Quaternion* orientation = NULL,
-            const Ogre::Real mass = 0,
-            Ogre::Vector3* inertia = NULL,
-            Ogre::Vector3* centerOfMass = NULL);
+        OgreNewt::ConvexCollisionPtr createBox(const Ogre::AxisAlignedBox& aabb,
+            const Ogre::Vector3* offset,
+            const Ogre::Quaternion* orientation);
+
         /** creates a pyramid collision primitive with offset at middle of bottom layer.
          * It's actually a convenience function used by both createCollision functions.
          * @param aabb gives the axis aligned dimension to create the primitive for.
          * @param offset when not null, specifies a different offset than the standard.
          * @param orientation when not null, specifies the euler angle of orientation.
-         * @param mass gives the mass for inertia calculation.
-         * @param inertia when not null, an inertia is calculated and passed back.
-         * @param centerOfMass when not null, an centerOfMass is calculated and passed back.
          */
-        OgreNewt::CollisionPtr createPyramid(const Ogre::AxisAlignedBox& aabb,
-            Ogre::Vector3* offset = NULL,
-            Ogre::Quaternion* orientation = NULL,
-            const Ogre::Real mass = 0,
-            Ogre::Vector3* inertia = NULL,
-            Ogre::Vector3* centerOfMass = NULL);
+        OgreNewt::ConvexCollisionPtr createPyramid(const Ogre::AxisAlignedBox& aabb,
+            const Ogre::Vector3* offset,
+            const Ogre::Quaternion* orientation);
+
         /** creates a sphere collision primitive with offset at middle of bottom layer.
          * It's actually a convenience function used by both createCollision functions.
          * @param aabb gives the axis aligned dimension to create the primitive for.
          * @param offset when not null, specifies a different offset than the standard.
          * @param orientation when not null, specifies the euler angle of orientation.
-         * @param mass gives the mass for inertia calculation.
-         * @param inertia when not null, an inertia is calculated and passed back.
-         * @param centerOfMass when not null, an centerOfMass is calculated and passed back.
          */
-        OgreNewt::CollisionPtr createSphere(const Ogre::AxisAlignedBox& aabb,
-            Ogre::Vector3* offset = NULL,
-            Ogre::Quaternion* orientation = NULL,
-            const Ogre::Real mass = 0,
-            Ogre::Vector3* inertia = NULL,
-            Ogre::Vector3* centerOfMass = NULL);
+        OgreNewt::ConvexCollisionPtr createSphere(const Ogre::AxisAlignedBox& aabb,
+            const Ogre::Vector3* offset,
+            const Ogre::Quaternion* orientation);
+
         /** creates a ellipsoid collision primitive with offset at middle of bottom layer.
          * It's actually a convenience function used by both createCollision functions.
          * @param aabb gives the axis aligned dimension to create the primitive for.
          * @param offset when not null, specifies a different offset than the standard.
          * @param orientation when not null, specifies the euler angle of orientation.
-         * @param mass gives the mass for inertia calculation.
-         * @param inertia when not null, an inertia is calculated and passed back.
-         * @param centerOfMass when not null, an centerOfMass is calculated and passed back.
          */
-        OgreNewt::CollisionPtr createEllipsoid(const Ogre::AxisAlignedBox& aabb,
-            Ogre::Vector3* offset = NULL,
-            Ogre::Quaternion* orientation = NULL,
-            const Ogre::Real mass = 0,
-            Ogre::Vector3* inertia = NULL,
-            Ogre::Vector3* centerOfMass = NULL);
+        OgreNewt::ConvexCollisionPtr createEllipsoid(const Ogre::AxisAlignedBox& aabb,
+            const Ogre::Vector3* offset,
+            const Ogre::Quaternion* orientation);
+
         /** creates a capsule collision primitive with offset at middle of bottom layer.
          * It's actually a convenience function used by both createCollision functions.
          * @param aabb gives the axis aligned dimension to create the primitive for.
          * @param offset when not null, specifies a different offset than the standard.
          * @param orientation when not null, specifies the euler angle of orientation.
-         * @param mass gives the mass for inertia calculation.
-         * @param inertia when not null, an inertia is calculated and passed back.
-         * @param centerOfMass when not null, an centerOfMass is calculated and passed back.
          */
-        OgreNewt::CollisionPtr createCapsule(const Ogre::AxisAlignedBox& aabb,
-            Ogre::Vector3* offset = NULL,
-            Ogre::Quaternion* orientation = NULL,
-            const Ogre::Real mass = 0,
-            Ogre::Vector3* inertia = NULL,
-            Ogre::Vector3* centerOfMass = NULL);
+        OgreNewt::ConvexCollisionPtr createCapsule(const Ogre::AxisAlignedBox& aabb,
+            const Ogre::Vector3* offset,
+            const Ogre::Quaternion* orientation);
+
+        /** creates a convex-hull collision primitive with offset at middle of bottom layer.
+         * It's actually a convenience function used by createCollisionFromEntity
+         * @param entity the entity for which a convexhull should be created, if it is attached to
+         *               a node the scale of the node is used (see OgreNewt)
+         * @param offset when not null, specifies a different offset than the standard.
+         * @param orientation when not null, specifies the euler angle of orientation.
+         */
+        OgreNewt::ConvexCollisionPtr createConvexHull(
+            Ogre::Entity* entity,
+            const Ogre::Vector3* offset,
+            const Ogre::Quaternion* orientation);
+
+
+        //! class for caching convex collisions (box...convexhull), saves additionally the scale, so it can be rescaled if necessary
+        class ConvexCollisionCacheObject
+        {
+            public:
+                ConvexCollisionCacheObject() :
+#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
+                    col(NULL),
+#endif
+                    scale(Ogre::Vector3::ZERO),
+                    type(GT_NONE)
+                    {}
+                OgreNewt::ConvexCollisionPtr col;
+                Ogre::Vector3 scale;
+                GeometryType type;
+        };
+
+        typedef std::map<Ogre::String, ConvexCollisionCacheObject> ConvexCollisionCacheMap;
+
+        //! cache for convex collisions
+        ConvexCollisionCacheMap mConvexCollisionsCache;
+
+        //! for using a string and a vector as key in a map... we should implement here a hash-function
+        class StringVector
+        {
+            public:
+                StringVector(const Ogre::String& str, const Ogre::Vector3& vec) : mStr(str)
+                {
+                    setVector(vec);
+                }
+                void setString(const Ogre::String& str) {mStr = str;}
+                void setVector(const Ogre::Vector3& vec)
+                {
+                    mVec = vec;
+                }
+                const Ogre::String& getString() const {return mStr;}
+                const Ogre::Vector3& getVector() const {return mVec;}
+
+                bool operator==(const StringVector& strVec) const
+                {
+                    if( mStr != strVec.mStr )
+                        return false;
+
+                    Ogre::Vector3 diff = mVec - strVec.mVec;
+                    if( abs(diff.x) > 0.01 )
+                        return false;
+                    if( abs(diff.y) > 0.01 )
+                        return false;
+                    if( abs(diff.z) > 0.01 )
+                        return false;
+
+                    return true;
+                }
+
+                bool operator<(const StringVector& strVec) const
+                {
+                    int strCompare = mStr.compare(strVec.mStr);
+                    if( strCompare == 0 ) // strings are the same
+                    {
+                        // compare vectors
+                        Ogre::Vector3 diff = mVec - strVec.mVec;
+                        if( diff.x < -0.01 )
+                            return true;
+                        if( diff.x > 0.01 )
+                            return false;
+                        if( diff.y < -0.01 )
+                            return true;
+                        if( diff.y > 0.01 )
+                            return false;
+                        if( diff.y < -0.01 )
+                            return true;
+
+                        return false;
+                    }
+                    
+                    return strCompare < 0;
+                }
+            private:
+                Ogre::String mStr;
+                Ogre::Vector3 mVec;
+        };
+
+        typedef std::map<StringVector, OgreNewt::CollisionPtr> MeshCollisionCacheMap;
+
+        //! cache for mesh collisions
+        MeshCollisionCacheMap mMeshCollisionsCache;
+
+
+
     };
 }
 

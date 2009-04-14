@@ -14,8 +14,8 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-#ifndef __DotSceneOctreeWorld_H__
-#define __DotSceneOctreeWorld_H__
+#ifndef __GenericWorld_H__
+#define __GenericWorld_H__
 
 #include "World.h"
 
@@ -23,11 +23,11 @@
 
 namespace rl {
 
-    class _RlCoreExport DotSceneOctreeWorld : public World
+    class _RlCoreExport GenericWorld : public World
     {
     public:
-        DotSceneOctreeWorld();
-        ~DotSceneOctreeWorld();
+        GenericWorld();
+        ~GenericWorld();
 
         virtual void clearScene();
         virtual void initializeDefaultCamera();	

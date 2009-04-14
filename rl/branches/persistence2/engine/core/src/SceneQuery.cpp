@@ -117,7 +117,11 @@ namespace rl
 
                 // Add actor to this body to the result
 #ifdef OGRENEWT_USE_OGRE_ANY
-                Actor* actor = Ogre::any_cast<Actor*>(body->getUserData());
+                Actor* actor = NULL;
+                if( body->getUserData().getType() == typeid(Actor*) )
+                {
+                    actor = Ogre::any_cast<Actor*>(body->getUserData());
+                }
 #else
                 Actor* actor = static_cast<Actor*>(body->getUserData());
 #endif

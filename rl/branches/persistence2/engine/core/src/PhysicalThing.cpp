@@ -524,7 +524,8 @@ namespace rl
         else
         {
             const AxisAlignedBox& aabb = mPhysicalObject->getDefaultSize();
-            coll = PhysicsManager::getSingleton().getCollisionFactory()->createCollisionFromAABB(
+            coll = PhysicsManager::getSingleton().createCollision(
+                "", // @todo: can we use a name here?
                 aabb,
                 mGeometryType,
                 NULL,

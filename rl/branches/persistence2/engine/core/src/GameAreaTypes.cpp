@@ -237,8 +237,8 @@ namespace rl {
             geomType = GT_CONVEXHULL;
         }
         OgreNewt::CollisionPtr col =
-            PhysicsManager::getSingleton().getCollisionFactory()->createCollisionFromEntity(entity,
-            geomType, &offset, &orientation);
+            PhysicsManager::getSingleton().createCollision(entity,
+            geomType, "", &offset, &orientation);
         mBody = new OgreNewt::Body(
             PhysicsManager::getSingleton()._getNewtonWorld(),
             col);
@@ -262,8 +262,8 @@ namespace rl {
             Ogre::Quaternion orientation)
     {
         OgreNewt::CollisionPtr col =
-            PhysicsManager::getSingleton().getCollisionFactory()->createCollisionFromAABB(
-            aabb, geomType, &offset, &orientation);
+            PhysicsManager::getSingleton().createCollision(
+            "", aabb, geomType, &offset, &orientation, 0, NULL, NULL, true);
         mBody = new OgreNewt::Body(
             PhysicsManager::getSingleton()._getNewtonWorld(),
             col);

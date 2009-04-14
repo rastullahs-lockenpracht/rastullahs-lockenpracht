@@ -184,6 +184,8 @@ public:
     virtual void setAmbientLight(Ogre::Real r, Ogre::Real g, Ogre::Real b);
     virtual Ogre::Vector3 getStartPoint() const;
     virtual void setCastShadows(bool);
+    virtual void clearScene() = 0;
+    virtual void initializeDefaultCamera() = 0;
 
     void setShowBoundingBoxes( bool dis );
 };
@@ -777,6 +779,7 @@ private:
 public:
     static CoreSubsystem& getSingleton(void);
     
+
 	void registerModule(rl::ContentModule* module);
 
 	rl::ContentModule* getActiveAdventureModule() const;
