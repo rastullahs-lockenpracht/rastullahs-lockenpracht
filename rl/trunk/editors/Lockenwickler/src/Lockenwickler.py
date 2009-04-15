@@ -1,4 +1,4 @@
-#################################################
+ #################################################
 # This source file is part of Rastullahs Lockenwickler.
 # Copyright (C) 2003-2009 Team Pantheon. http://www.team-pantheon.de
 #
@@ -39,6 +39,7 @@ from ModuleExplorer import *
 from NewModuleWizard import *
 from MovePivot import *
 from PivotRenderQueueListener import *
+from ModuleDirectoryView import *
 
 import OgreMainWindow
 import ogre.renderer.OGRE as og
@@ -66,7 +67,8 @@ class Lockenwickler(QtGui.QMainWindow):
         self.materialSelectionDialog = MaterialSelectionDialog(self.ogreRoot, self)
         self.moduleManager.modelSelectionDialog = self.modelSelectionDialog
         self.moduleManager.materialSelectionDialog = self.materialSelectionDialog
-
+        self.moduleDirectoryViewWin = ModuleDirectoryView(self)
+        
         self.gameObjectClassView = GameObjectClassView(self.moduleManager.gocManager)
 
         self.createDockWindows()
@@ -84,7 +86,10 @@ class Lockenwickler(QtGui.QMainWindow):
         else:
             self.moduleManager.moduleCfgPath = self.prefDialog.moduleCfgPath
         
+        self.moduleDirectoryViewWin.parseDirectory(self.prefDialog.moduleCfgPath.replace("modules.cfg", ""))
+        
         self.moduleManager.setModuleExplorer(self.moduleExplorerWin)
+        self.moduleManager.setModuleDirView(self.moduleDirectoryViewWin)
         self.moduleManager.setPropertyWindow(self.objectPropertyWin)
         self.moduleManager.setContextMenuCallback(self.onContextMenuCallback)
         
@@ -202,6 +207,9 @@ class Lockenwickler(QtGui.QMainWindow):
         self.actionSceneExplorer = self.createAction("&Scene Exlporer",  self.toggleModuleExplorer,  "Alt+E",  "view_tree.png",  "Module Explorer",  False)
         self.actionSceneExplorer.setObjectName("actionSceneExplorer")
         
+        self.actionModuleDirView = self.createAction("&Directory Explorer",  self.toggleModuleDirView,  "Alt+D",  "view_tree.png",  "Module Directory Explorer",  False)
+        self.actionModuleDirView.setObjectName("actionDirectoryExplorer")
+        
         self.actionPreferences = self.createAction("&Preferences",  self.togglePreferencesWindow,  "Alt+P",  "configure.png",  "Lockenwickler Preferences",  False)
         self.actionPreferences.setObjectName("actionPreferences")
 
@@ -247,6 +255,7 @@ class Lockenwickler(QtGui.QMainWindow):
         
 
         self.menuView.addAction(self.actionSceneExplorer)
+        self.menuView.addAction(self.actionModuleDirView)
         self.menuView.addAction(self.actionPreferences)
         self.menuView.addAction(self.actionProperty_Window)
         self.menuView.addAction(self.actionObject_Selection)
@@ -405,6 +414,12 @@ class Lockenwickler(QtGui.QMainWindow):
             self.moduleExplorerDock.show()
         else:
             self.moduleExplorerDock.hide()
+            
+    def toggleModuleDirView(self):
+        if self.moduleDirectoryViewDock.isHidden():
+            self.moduleDirectoryViewDock.show()
+        else:
+            self.moduleDirectoryViewDock.hide()
 
     def togglePropertyWindow(self):
         if self.propertyDock.isHidden():
@@ -454,6 +469,12 @@ class Lockenwickler(QtGui.QMainWindow):
         self.moduleExplorerDock.setWidget(self.moduleExplorerWin)
         self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.moduleExplorerDock)
         self.tabifyDockWidget(self.moduleExplorerDock, self.propertyDock)
+        
+        self.moduleDirectoryViewDock = QtGui.QDockWidget(self.tr("Module Directory View"), self)
+        self.moduleDirectoryViewDock.setObjectName("ModuleDirectoryViewDockWindow")
+        self.moduleDirectoryViewDock.setAllowedAreas(QtCore.Qt.LeftDockWidgetArea | QtCore.Qt.RightDockWidgetArea)
+        self.moduleDirectoryViewDock.setWidget(self.moduleDirectoryViewWin)
+        self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.moduleDirectoryViewDock)
         
         self.consoleDock = QtGui.QDockWidget(self.tr("Console"), self)
         self.consoleDock.setObjectName("ConsoleDockWindow")

@@ -764,6 +764,7 @@ class ModuleManager():
         self.cutListPreviousNodes = [] # contains the nodes they where copnnected to before the cut
         self.currentMap = None
         self.moduleExplorer = None
+        self.moduleDirView = None
 
         self.lastRay = None
         self.rayLine = None
@@ -882,7 +883,8 @@ class ModuleManager():
                 self.materialSelectionDialog.scanDirForMaterials(m.moduleRoot)
                 self.mainModule = m
                 self.moduleExplorer.setCurrentModule(m)
-
+                self.moduleDirView.parseDirectory(m.moduleRoot)
+                
         if self.selectionBuffer is None:
             self.selectionBuffer = SelectionBuffer(self.sceneManager, self.ogreRoot.getRenderTarget("OgreMainWin"), self, self.zoneManager)
 
@@ -907,6 +909,9 @@ class ModuleManager():
         self.moduleExplorer.setMapSelectedCallback(self.selectMapCallback)
         self.moduleExplorer.setSelectionChangedCallback(self.selectionChangedCallback)
         self.moduleExplorer.setModuleManager(self)
+    
+    def setModuleDirView(self, dirView):
+        self.moduleDirView = dirView
     
     def setPropertyWindow(self, propertyWin):
         self.propertyWindow = propertyWin

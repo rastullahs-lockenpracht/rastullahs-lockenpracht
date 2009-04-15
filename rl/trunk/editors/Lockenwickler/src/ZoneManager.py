@@ -270,11 +270,11 @@ class ZoneManager():
                 
             for lightName in zone.lightList:
                 lightElem = xml.SubElement(zoneElem, "light")
-                lightElem.attrib["name"] = lightName
+                lightElem.attrib["name"] = str(lightName)
             
             for soundName in zone.soundList:
                 soundElem = xml.SubElement(zoneElem, "sound")
-                soundElem.attrib["name"] = soundName
+                soundElem.attrib["name"] = str(soundName)
                 
     def deleteArea(self, area):
         for z in self.zoneList:
