@@ -108,6 +108,7 @@ class NewModuleWizard(QDialog, Ui_Dialog):
         os.mkdir(os.path.join(modulePath, "quests"))
         os.mkdir(os.path.join(modulePath, "scripts"))
         os.mkdir(os.path.join(modulePath, "scripts/maps"))
+        os.mkdir(os.path.join(modulePath, "scripts/triggers"))
         os.mkdir(os.path.join(modulePath, "sound"))
         
         mname = str(self.moduleNameLineEdit.text())
@@ -146,8 +147,6 @@ class NewModuleWizard(QDialog, Ui_Dialog):
         f.write("    end\n\n")
         f.write("    def start()\n")
         f.write(sdeps + "\n")
-        f.write("       require 'player.rb'\n")
-        f.write("       require 'mckhero.rb'\n")
         f.write("       $PM.setEnabled(true);\n\n")
         f.write("\n\n       SceneManager.getSingleton().loadScene(\"" + self.sceneNameLineEdit.text() + "\");\n\n")
         f.write("       hero = $GOM.getGameObject(XXXXXX);\n")
@@ -157,8 +156,6 @@ class NewModuleWizard(QDialog, Ui_Dialog):
         f.write("end\n\n")
         f.write("CoreSubsystem.getSingleton().registerModule(" + mname.capitalize() + "Module.new());\n")
         f.close()
-        
-        
         
         p = os.path.join(modulePath, "maps")
         p = os.path.join(p, str(self.sceneNameLineEdit.text()) + ".rlscene")
