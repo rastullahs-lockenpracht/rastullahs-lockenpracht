@@ -41,7 +41,7 @@ namespace rl
     void PartyManager::addCharacter(Creature* character)
     {
         mParty.push_back(character);
-        MessagePump::getSingleton().sendMessage<MessageType_PlayerCharRemoved>(
+        MessagePump::getSingleton().sendMessage<MessageType_PlayerCharAdded>(
 			character);
         
         if (mActiveCharacter == NULL)
@@ -65,10 +65,21 @@ namespace rl
         }
         checkParty();
     }
+
+    void PartyManager::removeAllCharacters()
+    {
+        for (std::vector<Creature*>::iterator it = mParty.begin();
+             it != mParty.end(); ++it)
+        {    
+            MessagePump::getSingleton().sendMessage<MessageType_PlayerCharRemoved>(*it);
+            mParty.erase(it);
+        }
+        checkParty();
+    }
     
     void PartyManager::setActiveCharacter(Creature* character)
     {
-        if (!isInParty(character))
+        if (!isInParty(character) && character)
         {
             addCharacter(character);
         }

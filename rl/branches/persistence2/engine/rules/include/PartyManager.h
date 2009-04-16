@@ -36,6 +36,7 @@ namespace rl
         void setActiveCharacter(Creature* character);
         void addCharacter(Creature* character);
         void removeCharacter(Creature* character);
+        void removeAllCharacters();
         Party getCharacters() const;
         bool isInParty(Creature* creature) const;
         
