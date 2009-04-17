@@ -863,6 +863,8 @@ class ModuleManager():
 #        self.progress = ProgressBarThread(0, 8, moduleName)
 #        self.progress.start()
         
+        directories = []
+        
         for m in self.moduleList:
             if m.name == moduleName:
                 if m.hasDependencies: # load modules on wich the main module depends before the main module is loaded
@@ -874,16 +876,17 @@ class ModuleManager():
                                 self.modelSelectionDialog.scanDirForModels(m2.moduleRoot)
                                 self.materialSelectionDialog.scanDirForMaterials(m2.moduleRoot)
                                 self.mainModuledependencieList.append(m2)
-
+                                directories.append(m2.moduleRoot)
 #                self.progress.setProgress(4, "Loading " + moduleName)
                 m.load()
 #                self.progress.setProgress(6, "Scan for models...")
                 self.modelSelectionDialog.scanDirForModels(m.moduleRoot)
 #                self.progress.setProgress(8, "Scan for materials")
                 self.materialSelectionDialog.scanDirForMaterials(m.moduleRoot)
+                directories.append(m.moduleRoot)
                 self.mainModule = m
                 self.moduleExplorer.setCurrentModule(m)
-                self.moduleDirView.parseDirectory(m.moduleRoot)
+                self.moduleDirView.parseDirectory(directories)
                 
         if self.selectionBuffer is None:
             self.selectionBuffer = SelectionBuffer(self.sceneManager, self.ogreRoot.getRenderTarget("OgreMainWin"), self, self.zoneManager)

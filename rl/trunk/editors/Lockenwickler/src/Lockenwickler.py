@@ -86,7 +86,7 @@ class Lockenwickler(QtGui.QMainWindow):
         else:
             self.moduleManager.moduleCfgPath = self.prefDialog.moduleCfgPath
         
-        self.moduleDirectoryViewWin.parseDirectory(self.prefDialog.moduleCfgPath.replace("modules.cfg", ""))
+        self.moduleDirectoryViewWin.modulesPath = self.prefDialog.moduleCfgPath.replace("modules.cfg", "")
         
         self.moduleManager.setModuleExplorer(self.moduleExplorerWin)
         self.moduleManager.setModuleDirView(self.moduleDirectoryViewWin)
@@ -472,7 +472,7 @@ class Lockenwickler(QtGui.QMainWindow):
         
         self.moduleDirectoryViewDock = QtGui.QDockWidget(self.tr("Module Directory View"), self)
         self.moduleDirectoryViewDock.setObjectName("ModuleDirectoryViewDockWindow")
-        self.moduleDirectoryViewDock.setAllowedAreas(QtCore.Qt.LeftDockWidgetArea | QtCore.Qt.RightDockWidgetArea)
+        self.moduleDirectoryViewDock.setAllowedAreas(QtCore.Qt.LeftDockWidgetArea | QtCore.Qt.RightDockWidgetArea | QtCore.Qt.TopDockWidgetArea | QtCore.Qt.BottomDockWidgetArea)
         self.moduleDirectoryViewDock.setWidget(self.moduleDirectoryViewWin)
         self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.moduleDirectoryViewDock)
         
