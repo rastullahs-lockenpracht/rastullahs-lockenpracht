@@ -75,6 +75,9 @@ class PreferencesDialog(QDialog):
         PreferencesDialog.externalTextAppCmd = str(self.externalTextAppLineEdit.text())
         self.accept()
         
+    def setExternalEditorPath(self, path):
+        PreferencesDialog.externalTextAppCmd = path
+        self.externalTextAppLineEdit.setText(path)
         
     def setCfgPath(self, inPath):
         path = str(inPath)

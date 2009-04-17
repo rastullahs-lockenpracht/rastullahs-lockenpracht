@@ -40,6 +40,7 @@ class ModuleDirectoryView(QWidget):
         
         self.tree.setContextMenuPolicy(Qt.CustomContextMenu)        
         self.connect(self.tree, SIGNAL("customContextMenuRequested(const QPoint &)"), self.doMenu)
+        self.connect(self.tree, SIGNAL("doubleClicked(const QModelIndex &)"), self.onDoubleClicked)
         
         self.tree.setModel(self.model)
         self.tree.setWindowTitle("Module Dir View")
@@ -50,16 +51,31 @@ class ModuleDirectoryView(QWidget):
         
     def doMenu(self, point):
         menu = QMenu(self)
-        #item = self.tree.itemAt(point)
             
         action= self.createAction("Delete", self.onDelete, None, "editdelete.png")
         menu.addAction(action)
         
+        action= self.createAction("Refresh", self.model.refresh)
+        menu.addAction(action)
+        
+        
+        
         menu.exec_(QCursor.pos())
         #subprocess.Popen(PreferencesDialog.externalTextAppCmd)
-
+    
+    def onDoubleClicked(self, index):
+        if PreferencesDialog.externalTextAppCmd is not None:
+            fileInfo = self.model.fileInfo(index)
+            if not fileInfo.isDir():
+                fileName = str(fileInfo.fileName())
+                if fileName.endswith(".rb") or fileName.endswith(".material") or fileName.endswith(".xml"):
+                    subprocess.Popen([PreferencesDialog.externalTextAppCmd, str(fileInfo.filePath())])
+        
+    
     def onDelete(self):
-        print "delete"
+        fileInfo = self.model.fileInfo(self.tree.currentIndex())
+        os.remove(str(fileInfo.filePath()))
+        self.model.refresh()
         
     def getFilters(self, dir, list):
         for f in os.listdir(dir):
@@ -75,9 +91,6 @@ class ModuleDirectoryView(QWidget):
 #            self.getFilters(dir, nameFilters)
 
         self.tree.setRootIndex(self.model.index(self.modulesPath))
-
-    
-
         
     def createAction(self, text, slot=None, shortcut=None, icon=None, tip=None, checkable=False, signal="triggered()"):
         action = QAction(text, self)

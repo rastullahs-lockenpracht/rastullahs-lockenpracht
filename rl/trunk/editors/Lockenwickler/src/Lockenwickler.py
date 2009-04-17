@@ -85,6 +85,8 @@ class Lockenwickler(QtGui.QMainWindow):
             self.moduleManager.moduleCfgPath = self.prefDialog.moduleCfgPath
         else:
             self.moduleManager.moduleCfgPath = self.prefDialog.moduleCfgPath
+            
+        self.prefDialog.setExternalEditorPath(str(settings.value("Preferences/externalEditorPath").toString()))
         
         self.moduleDirectoryViewWin.modulesPath = self.prefDialog.moduleCfgPath.replace("modules.cfg", "")
         
@@ -210,7 +212,7 @@ class Lockenwickler(QtGui.QMainWindow):
         self.actionModuleDirView = self.createAction("&Directory Explorer",  self.toggleModuleDirView,  "Alt+D",  "view_tree.png",  "Module Directory Explorer",  False)
         self.actionModuleDirView.setObjectName("actionDirectoryExplorer")
         
-        self.actionPreferences = self.createAction("&Preferences",  self.togglePreferencesWindow,  "Alt+P",  "configure.png",  "Lockenwickler Preferences",  False)
+        self.actionPreferences = self.createAction("&Preferences",  self.togglePreferencesWindow,  None,  "configure.png",  "Lockenwickler Preferences",  False)
         self.actionPreferences.setObjectName("actionPreferences")
 
         self.actionProperty_Window = self.createAction("Pr&operty Window",  self.togglePropertyWindow,  "Alt+P",  "unsortedlist1.png",  "Property Window")
@@ -543,7 +545,7 @@ class Lockenwickler(QtGui.QMainWindow):
             settings.setValue("Preferences/moduleCfgPath", QtCore.QVariant(self.prefDialog.lineEdit.text()))
             settings.setValue("MainWindow/Geometry",  QtCore.QVariant(self.saveGeometry()))
             settings.setValue("MainWIndow/DockWindows",  QtCore.QVariant(self.saveState()))
-            
+            settings.setValue("Preferences/externalEditorPath",  QtCore.QVariant(self.prefDialog.externalTextAppLineEdit.text()))
             #self.ogreRoot.shutdown()
         else:
             event.ignore()
