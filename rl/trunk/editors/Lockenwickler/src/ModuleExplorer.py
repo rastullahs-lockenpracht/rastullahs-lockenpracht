@@ -1,4 +1,4 @@
- #################################################
+#################################################
 # This source file is part of Rastullahs Lockenwickler.
 # Copyright (C) 2003-2009 Team Pantheon. http://www.team-pantheon.de
 #
@@ -15,12 +15,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  US
- #################################################
+#################################################
 
 import sys
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 import ogre.renderer.OGRE as og
+
+from ZoneManager import ZoneManager
 
 # get the light out of a light node
 def extractLight(node):
@@ -352,6 +354,11 @@ class ModuleExplorer(QWidget):
                 setActiveMapAction = QAction("Set Active",  self)
                 menu.addAction(setActiveMapAction)
                 self.connect(setActiveMapAction, SIGNAL("triggered()"), self.onSetActiveMap)
+            elif self.sceneTreeView.currentItem() is not None and str(self.sceneTreeView.currentItem().text(0)).startswith("Zone:"):
+                item = self.sceneTreeView.itemAt(point)
+                addTriggerAction = QAction("Add Trigger",  self)
+                menu.addAction(addTriggerAction)
+                self.connect(addTriggerAction, SIGNAL("triggered()"), self.onAddTriggerToZone)
                 
             deleteAction= QAction("Delete",  self)
             menu.addAction(deleteAction)
@@ -371,6 +378,10 @@ class ModuleExplorer(QWidget):
             
             menu.exec_(QCursor().pos())
     
+    def onAddTriggerToZone(self):
+        zoneName = str(self.sceneTreeView.currentItem().text(0)).replace("Zone: ", "")
+        ZoneManager.instance.getZone(zoneName).addTrigger()
+        
     def onOptions(self):
         dlg = ExplorerOptionsDlg(self.showLights, self.showGameObjects, self.showEntities, self.showZones, self.showZoneLights, self)
         if dlg.exec_():

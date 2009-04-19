@@ -1,4 +1,4 @@
- #################################################
+#################################################
 # This source file is part of Rastullahs Lockenwickler.
 # Copyright (C) 2003-2009 Team Pantheon. http://www.team-pantheon.de
 #
@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  US
- #################################################
+#################################################
 
 import sys
 import codecs
@@ -37,7 +37,7 @@ from MovePivot import *
 from GameObjectClassManager import *
 from MyRaySceneQueryListener import *
 from ZoneManager import ZoneManager
-
+from TriggerManager import TriggerManager 
 
 # get the light out of a light node
 def extractLight(node):
@@ -875,6 +875,7 @@ class ModuleManager():
                                 m2.load()
                                 self.modelSelectionDialog.scanDirForModels(m2.moduleRoot)
                                 self.materialSelectionDialog.scanDirForMaterials(m2.moduleRoot)
+                                TriggerManager.instance.addDirectory(m2.moduleRoot)
                                 self.mainModuledependencieList.append(m2)
                                 directories.append(m2.moduleRoot)
 #                self.progress.setProgress(4, "Loading " + moduleName)
@@ -883,10 +884,13 @@ class ModuleManager():
                 self.modelSelectionDialog.scanDirForModels(m.moduleRoot)
 #                self.progress.setProgress(8, "Scan for materials")
                 self.materialSelectionDialog.scanDirForMaterials(m.moduleRoot)
+                TriggerManager.instance.addDirectory(m.moduleRoot)
                 directories.append(m.moduleRoot)
                 self.mainModule = m
                 self.moduleExplorer.setCurrentModule(m)
                 self.moduleDirView.parseDirectory(directories)
+        
+        TriggerManager.instance.update()
                 
         if self.selectionBuffer is None:
             self.selectionBuffer = SelectionBuffer(self.sceneManager, self.ogreRoot.getRenderTarget("OgreMainWin"), self, self.zoneManager)
@@ -1374,8 +1378,6 @@ class ModuleManager():
             actions.append(self.createAction("Set Player Starterpoint", self.setPlayerStart))
             actions.append(self.createAction("Add Property", so.entity.getUserObject().addProperty))
             self.playerStartGameObjectId = so.entity.getUserObject().inWorldId
-            
-                
             
         if self.onContextMenuCallback is not None:
             self.onContextMenuCallback(actions,  menus)

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project Lockenwickler -->
-<!-- Saved: 2009-04-16, 19:30:12 -->
+<!-- Saved: 2009-04-19, 16:52:11 -->
 <!-- Copyright (C) 2009 Stefan Stammberger, sstammberger@web.de -->
 <Project version="4.6">
   <Language>en</Language>
@@ -42,11 +42,20 @@
     <Source>src/ZoneManager.py</Source>
     <Source>src/GOGenericEditor.py</Source>
     <Source>src/ModuleDirectoryView.py</Source>
+    <Source>src/TriggerManager.py</Source>
+    <Source>src/GlobDirectoryWalker.py</Source>
+    <Source>ui files/Ui_GOPropertyEditorDialogINT.py</Source>
+    <Source>ui files/Ui_GOPropertyEditorDialogSTRING.py</Source>
+    <Source>ui files/Ui_NewModuleWizard.py</Source>
+    <Source>ui files/Ui_AddTriggerDialog.py</Source>
+    <Source>src/AddTriggerDialog.py</Source>
+    <Source>src/Ui_AddTriggerDialog.py</Source>
   </Sources>
   <Forms>
     <Form>ui files/GOPropertyEditorDialogINT.ui</Form>
     <Form>ui files/GOPropertyEditorDialogSTRING.ui</Form>
     <Form>ui files/NewModuleWizard.ui</Form>
+    <Form>ui files/AddTriggerDialog.ui</Form>
   </Forms>
   <Translations>
   </Translations>

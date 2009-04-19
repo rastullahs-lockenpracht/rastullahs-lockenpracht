@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  US
- #################################################
+#################################################
 
 import functools
 import xml.etree.cElementTree as xml
@@ -26,7 +26,9 @@ from PyQt4.QtGui import *
 import ogre.renderer.OGRE as og
  
 from ModuleExplorer import NameInputDlg
- 
+from TriggerManager import TriggerManager
+from AddTriggerDialog import AddTriggerDialog
+
 #                <zone name="Testzone">
 #                        <area type="sphere">
 #                                <position x="-10" y="0" z="-5"/>
@@ -49,6 +51,7 @@ from ModuleExplorer import NameInputDlg
 #                        </trigger>
 #                </zone>
  
+       
 class Area(og.UserDefinedObject):
     def __init__(self,sceneManager, type, parentZone, id, position, orientation, scale, meshFile = None, transitiondistance = "0.5", subtract = False):
         og.UserDefinedObject.__init__(self)
@@ -138,6 +141,10 @@ class Zone():
                 self.areaList.remove(a)
                 del a
     
+    def addTrigger(self):
+        dlg = AddTriggerDialog()
+        dlg.exec_(QCursor.pos())
+    
     def hide(self):
         self.sceneManager.getRootSceneNode().removeChild(self.zoneNode)
         self.isHidden = True
@@ -148,13 +155,20 @@ class Zone():
         
         
 class ZoneManager():
+    instance = None
+    
     def __init__(self, sceneManager):
-        self.currentMap = None
-        self.zoneList = []
-        self.menuList = []
-        self.entityUnderMouse = None
-        self.newAreaPosition = None
-        self.sceneManager = sceneManager
+        if ZoneManager.instance == None:
+            ZoneManager.instance = self
+        
+            self.currentMap = None
+            self.zoneList = []
+            self.menuList = []
+            self.entityUnderMouse = None
+            self.newAreaPosition = None
+            self.sceneManager = sceneManager
+        
+        
         
     def createZone(self, name):
         if self.currentMap == None:
