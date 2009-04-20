@@ -289,8 +289,8 @@ namespace rl
                 entity,
                 mGeometryType,
                 "",
-                NULL,
-                NULL,
+                Vector3::ZERO,
+                Quaternion::IDENTITY,
                 0, NULL, NULL,
                 true); // don't cache
         if( collision )
@@ -515,8 +515,8 @@ namespace rl
                 entity,
                 mGeometryType,
                 "",
-                NULL,
-                NULL,
+                Vector3::ZERO,
+                Quaternion::IDENTITY,
                 mMass,
                 &inertia,
                 &centerOfMass);
@@ -528,8 +528,8 @@ namespace rl
                 "", // @todo: can we use a name here?
                 aabb,
                 mGeometryType,
-                NULL,
-                NULL,
+                Vector3::ZERO,
+                Quaternion::IDENTITY,
                 mMass,
                 &inertia,
                 &centerOfMass);

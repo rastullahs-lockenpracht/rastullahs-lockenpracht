@@ -238,7 +238,7 @@ namespace rl {
         }
         OgreNewt::CollisionPtr col =
             PhysicsManager::getSingleton().createCollision(entity,
-            geomType, "", &offset, &orientation);
+            geomType, "", offset, orientation);
         mBody = new OgreNewt::Body(
             PhysicsManager::getSingleton()._getNewtonWorld(),
             col);
@@ -263,7 +263,7 @@ namespace rl {
     {
         OgreNewt::CollisionPtr col =
             PhysicsManager::getSingleton().createCollision(
-            "", aabb, geomType, &offset, &orientation, 0, NULL, NULL, true);
+            "", aabb, geomType, offset, orientation, 0, NULL, NULL, true);
         mBody = new OgreNewt::Body(
             PhysicsManager::getSingleton()._getNewtonWorld(),
             col);

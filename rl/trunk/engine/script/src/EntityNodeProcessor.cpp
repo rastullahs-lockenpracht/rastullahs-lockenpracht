@@ -117,13 +117,15 @@ namespace rl
         }
 
         parentNode->attachObject(newEnt);
-        createCollision(newEnt, meshFile, getChildNamed(nodeElem, "physicsproxy"));
 
         DOMElement* scaleElem = getChildNamed(nodeElem, "scale");
         if (scaleElem != NULL)
         {
             parentNode->scale(processVector3(scaleElem));
         }
+
+        // in order for the scale to work correctly the collision needs to be created after the scale was applied
+        createCollision(newEnt, meshFile, getChildNamed(nodeElem, "physicsproxy"));
 
 		AutoXMLCh animation("animation");
 		DOMNodeList* list = nodeElem->getElementsByTagName(animation.data());

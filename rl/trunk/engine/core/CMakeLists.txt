@@ -49,6 +49,7 @@ src/MessagePump.cpp
 src/MovableText.cpp
 src/ParticleSystemObject.cpp
 src/PhysicsContactListener.cpp
+src/PhysicsCollisionFactory.cpp
 src/PhysicalThing.cpp
 src/PhysicsGenericContactCallback.cpp
 src/PhysicsManager.cpp

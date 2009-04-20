@@ -148,7 +148,7 @@ namespace rl
 			const Quaternion orientation(0,0,0,0);// = parentNode->getOrientation();
 			const Ogre::Vector3 pos = aab.getMinimum() * parentNode->getScale() + (size/2.0);
 
-            collision = PhysicsManager::getSingleton().createCollision(entity, GT_BOX, "", NULL, NULL, 0, NULL, NULL, true);
+            collision = PhysicsManager::getSingleton().createCollision(entity, GT_BOX, "", Vector3::ZERO, Quaternion::IDENTITY, 0, NULL, NULL, true);
 
 			if ( collision != NULL )
 			{
