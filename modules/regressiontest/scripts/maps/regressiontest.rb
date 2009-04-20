@@ -40,6 +40,7 @@ require 'TimeTest.rb'
 require 'CombatTest.rb'
 require 'WalkJobTest.rb'
 require 'CharacterSelectionTest.rb'
+require 'CollisionsCacheTest.rb'
 
 class RegressionTestSuite
 	def initialize
@@ -79,6 +80,7 @@ class RegressionTestSuite
 		runTest(CombatTest, [15, 0, 15])
   	runTest(FetchItemJobTest, [-15, 0, 15])
    runTest(CharacterSelectionTest, [-15, 0, -15])
+   runTest(CollisionsCacheTest, [62, 0, -10])
 
 		if @mErrors > 0
 		  MessageBox.showModal(
