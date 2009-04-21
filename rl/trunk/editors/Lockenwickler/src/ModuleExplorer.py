@@ -22,7 +22,6 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 import ogre.renderer.OGRE as og
 
-from ZoneManager import ZoneManager
 
 # get the light out of a light node
 def extractLight(node):
@@ -380,7 +379,7 @@ class ModuleExplorer(QWidget):
     
     def onAddTriggerToZone(self):
         zoneName = str(self.sceneTreeView.currentItem().text(0)).replace("Zone: ", "")
-        ZoneManager.instance.getZone(zoneName).addTrigger()
+        self.moduleManager.zoneManager.getZone(zoneName).addTrigger()
         
     def onOptions(self):
         dlg = ExplorerOptionsDlg(self.showLights, self.showGameObjects, self.showEntities, self.showZones, self.showZoneLights, self)

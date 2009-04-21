@@ -18,7 +18,13 @@
 #################################################
 
 from os.path import isfile,  join
+
+from PyQt4.QtCore import *
+from PyQt4.QtGui import *
+
 from GlobDirectoryWalker import GlobDirectoryWalker
+from AddTriggerDialog import AddTriggerDialog
+from GOGenericEditor import *
 
 class TriggerProperty():
     def __init__(self, name, type, data):
@@ -27,14 +33,21 @@ class TriggerProperty():
         self.data = data
 
 class Trigger():
-    def __init__(self, className, name):
-        self.className = className
-        self.name = name
+    def __init__(self):
+        self.className = ""
+        self.name = ""
         self.properties = []
         
-    def addProperty(self, name, type, data):
-        prop = TriggerProperty(name,  type, data)
-        self.properties.append(prop)
+    def addProperty(self):
+        editor = GOGenericEditor("", "STRING", "", QApplication.focusWidget())
+        if editor.exec_():
+            name = str(editor.nameEditBox.text())
+            type = str(editor.typeDropBox.currentText())
+            data = str(editor.dataEditBox.text())
+            prop = TriggerProperty(name,  type, data)
+            self.properties.append(prop)
+            return True
+        return False
         
     def removeProperty(self, name):
         for prop in self.properties:
@@ -47,7 +60,7 @@ class TriggerManager():
     availableTriggers = []
     
     def __init__(self):
-        self.triggerInstances = ()
+        self.triggerInstances = []
         self.directories = []
         
         if TriggerManager.instance == None:
@@ -58,10 +71,15 @@ class TriggerManager():
         
         self.update()
     
-    def createTrigger(self, className, name):
-        trigger = Trigger(className, name)
-        self.triggerInstances.append(trigger)
-        return trigger
+    def createTrigger(self):
+        trigger = Trigger()
+        
+        dlg = AddTriggerDialog(trigger, TriggerManager.availableTriggers, self, QApplication.focusWidget())
+        if dlg.exec_():
+            self.triggerInstances.append(trigger)
+            return trigger
+        
+        return False
     
     def update(self):
         TriggerManager.availableTriggers = []

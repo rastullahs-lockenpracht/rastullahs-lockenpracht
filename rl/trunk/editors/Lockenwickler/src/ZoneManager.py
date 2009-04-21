@@ -27,7 +27,7 @@ import ogre.renderer.OGRE as og
  
 from ModuleExplorer import NameInputDlg
 from TriggerManager import TriggerManager
-from AddTriggerDialog import AddTriggerDialog
+
 
 #                <zone name="Testzone">
 #                        <area type="sphere">
@@ -142,8 +142,7 @@ class Zone():
                 del a
     
     def addTrigger(self):
-        dlg = AddTriggerDialog()
-        dlg.exec_(QCursor.pos())
+        trigger = TriggerManager.instance.createTrigger()
     
     def hide(self):
         self.sceneManager.getRootSceneNode().removeChild(self.zoneNode)

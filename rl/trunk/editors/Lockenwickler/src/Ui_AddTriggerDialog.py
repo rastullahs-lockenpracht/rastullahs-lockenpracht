@@ -30,7 +30,7 @@ class Ui_Dialog(object):
         self.pushButton.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.pushButton.setObjectName("pushButton")
         self.gridLayout.addWidget(self.pushButton, 5, 0, 1, 1)
-        self.listView = QtGui.QListView(Dialog)
+        self.listView = QtGui.QListWidget(Dialog)
         self.listView.setObjectName("listView")
         self.gridLayout.addWidget(self.listView, 6, 0, 1, 1)
         self.buttonBox = QtGui.QDialogButtonBox(Dialog)
