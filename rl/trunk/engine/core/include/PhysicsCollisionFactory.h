@@ -222,64 +222,23 @@ namespace rl {
 
         typedef std::map<Ogre::String, ConvexCollisionCacheObject> ConvexCollisionCacheMap;
 
-        //! cache for convex collisions
+        //! cache for convex collisions created with the 'FromEntity'-function
         ConvexCollisionCacheMap mConvexCollisionsCache;
+
+        //! cache for convex collisions created with the 'FromAABB'-function
+        ConvexCollisionCacheMap mConvexAABBCollisionsCache;
 
         //! for using a string and a vector as key in a map... we should implement here a hash-function
         class StringVector
         {
             public:
-                StringVector(const Ogre::String& str, const Ogre::Vector3& vec) : mStr(str)
-                {
-                    setVector(vec);
-                }
-                void setString(const Ogre::String& str) {mStr = str;}
-                void setVector(const Ogre::Vector3& vec)
-                {
-                    mVec = vec;
-                }
-                const Ogre::String& getString() const {return mStr;}
-                const Ogre::Vector3& getVector() const {return mVec;}
-
-                bool operator==(const StringVector& strVec) const
-                {
-                    if( mStr != strVec.mStr )
-                        return false;
-
-                    Ogre::Vector3 diff = mVec - strVec.mVec;
-                    if( abs(diff.x) > 0.01 )
-                        return false;
-                    if( abs(diff.y) > 0.01 )
-                        return false;
-                    if( abs(diff.z) > 0.01 )
-                        return false;
-
-                    return true;
-                }
-
-                bool operator<(const StringVector& strVec) const
-                {
-                    int strCompare = mStr.compare(strVec.mStr);
-                    if( strCompare == 0 ) // strings are the same
-                    {
-                        // compare vectors
-                        Ogre::Vector3 diff = mVec - strVec.mVec;
-                        if( diff.x < -0.01 )
-                            return true;
-                        if( diff.x > 0.01 )
-                            return false;
-                        if( diff.y < -0.01 )
-                            return true;
-                        if( diff.y > 0.01 )
-                            return false;
-                        if( diff.y < -0.01 )
-                            return true;
-
-                        return false;
-                    }
-                    
-                    return strCompare < 0;
-                }
+                StringVector(const Ogre::String& str, const Ogre::Vector3& vec);
+                void setString(const Ogre::String& str);
+                void setVector(const Ogre::Vector3& vec);
+                const Ogre::String& getString() const;
+                const Ogre::Vector3& getVector() const;
+                bool operator==(const StringVector& strVec) const;
+                bool operator<(const StringVector& strVec) const;
             private:
                 Ogre::String mStr;
                 Ogre::Vector3 mVec;

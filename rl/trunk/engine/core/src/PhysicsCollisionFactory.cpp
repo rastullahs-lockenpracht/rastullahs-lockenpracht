@@ -43,6 +43,7 @@ namespace rl
     {
         mMeshCollisionsCache.clear();
         mConvexCollisionsCache.clear();
+        mConvexAABBCollisionsCache.clear();
     }
 
     bool PhysicsCollisionFactory::checkSize(const Ogre::AxisAlignedBox& aabb) const
@@ -82,6 +83,12 @@ namespace rl
         Ogre::Vector3* centerOfMass,
         bool nocache)
     {
+
+        // don't cache if the name is ""
+        if( name == "" )
+            nocache = true;
+
+
         Ogre::AxisAlignedBox aabb(passedAabb);
         // type for the collision primitiv (can change internally here)
         bool forceBox (false);
@@ -113,6 +120,45 @@ namespace rl
             forceBox = true;
         }
 
+
+        ConvexCollisionCacheMap::iterator convexCacheIt = mConvexAABBCollisionsCache.end();
+
+        // check if we can reuse a cached collision
+        if( !nocache )
+        {
+            if( !forceBox )
+            {
+                Ogre::String index(name);
+                std::pair<ConvexCollisionCacheMap::iterator,bool> iterBoolPair = mConvexAABBCollisionsCache.insert(std::make_pair(index, ConvexCollisionCacheObject()));
+                convexCacheIt = iterBoolPair.first;
+                if( !iterBoolPair.second )
+                {
+                    // there was already an element, check type, the size, offset etc if we can use it
+                    if( geomType != convexCacheIt->second.type )
+                    {
+                        LOG_MESSAGE(Logger::CORE, "Performance warning: trying to create a collision for aabb '" + name +
+                                "' with geometry-type '"+PhysicsManager::convertGeometryTypeToString(geomType)+
+                                "'. There's already a collision with type '"+PhysicsManager::convertGeometryTypeToString(convexCacheIt->second.type)+"'!");
+                    }
+                    else if( aabb.getSize() == convexCacheIt->second.scale && offset == convexCacheIt->second.offset && orientation == convexCacheIt->second.orientation )
+                    {
+                        // everything fine, reuse it
+                        rval = convexCacheIt->second.col;
+
+                        if( inertia != NULL )
+                            *inertia = convexCacheIt->second.inertia;
+                        if( centerOfMass != NULL )
+                            *centerOfMass = convexCacheIt->second.centerOfMass;
+
+                        LOG_DEBUG(Logger::CORE, "Reused collision for aabb '" + name + "'.");
+
+                        return rval;
+                    }
+                }
+            }
+        }
+
+
         /* differentiate between the different collision primitives, because they all
 		   need different offset and probably different orientation values.
 		   Newton SDK is really nifty and helps here, because we can shift the origin
@@ -120,40 +166,87 @@ namespace rl
 		   desire. Actually this is the bottom middle of our mesh - as the meshes are
 		   always constructed like that.
 	    */
-		if (geomType == GT_BOX || forceBox == true)
+        if( !rval )
         {
-			rval = createBox(aabb, offset, orientation);
+            if (geomType == GT_BOX || forceBox == true)
+            {
+                rval = createBox(aabb, offset, orientation);
+            }
+            else if (geomType == GT_PYRAMID)
+            {
+                rval = createPyramid(aabb, offset, orientation);
+            }
+            else if (geomType == GT_SPHERE)
+            {
+                rval = createSphere(aabb, offset, orientation);
+            }
+            else if (geomType == GT_ELLIPSOID)
+            {
+                rval = createEllipsoid(aabb, offset, orientation);
+            }
+            else if (geomType == GT_CAPSULE)
+            {
+                rval = createCapsule(aabb, offset, orientation);
+            }
         }
-        else if (geomType == GT_PYRAMID)
-        {
-            rval = createPyramid(aabb, offset, orientation);
-        }
-        else if (geomType == GT_SPHERE)
-        {
-			rval = createSphere(aabb, offset, orientation);
-        }
-        else if (geomType == GT_ELLIPSOID)
-        {
-            rval = createEllipsoid(aabb, offset, orientation);
-        }
-		else if (geomType == GT_CAPSULE)
-		{
-			rval = createCapsule(aabb, offset, orientation);
-		}
 
-        // calculate inertia / centerOfMass if needed
-        if (inertia != NULL || centerOfMass != NULL )
+        if ( rval == NULL )
         {
-            Vector3 temp_inertia, temp_centerOfMass;
-            rval->calculateInertialMatrix(temp_inertia, temp_centerOfMass);
-            if( inertia != NULL )
-                *inertia = temp_inertia*mass;
-            if( centerOfMass != NULL )
-                *centerOfMass = temp_centerOfMass;
+            LOG_WARNING(Logger::CORE, " creating collision primitiv '"+
+                PhysicsManager::convertGeometryTypeToString(geomType)+"' for AABB '"+ name
+                +"' failed.");
+
+            // delete cacheobject
+            if( convexCacheIt != mConvexAABBCollisionsCache.end() )
+            {
+                mConvexAABBCollisionsCache.erase( convexCacheIt );
+            }
+        }
+        else
+        {
+            LOG_DEBUG(Logger::CORE, " collision primitiv '"+
+                PhysicsManager::convertGeometryTypeToString(geomType)+"' created for AABB '"+
+                name+"'");
+        }
+
+
+        // calculate inertia / centerOfMass if requested
+        // and save collision in cache
+        if( rval)
+        {
+            if( convexCacheIt != mConvexAABBCollisionsCache.end() )
+            {
+                // save collision in cache
+                Vector3 temp_inertia, temp_centerOfMass;
+                rval->calculateInertialMatrix(temp_inertia, temp_centerOfMass);
+
+                convexCacheIt->second.col = rval;
+                convexCacheIt->second.scale = aabb.getSize();
+                convexCacheIt->second.offset = offset;
+                convexCacheIt->second.orientation = orientation;
+                convexCacheIt->second.inertia = temp_inertia;
+                convexCacheIt->second.centerOfMass = temp_centerOfMass;
+                convexCacheIt->second.type = geomType;
+
+                if( inertia != NULL )
+                    *inertia = temp_inertia*mass;
+                if( centerOfMass != NULL )
+                    *centerOfMass = temp_centerOfMass;
+            }
+            else if (inertia != NULL || centerOfMass != NULL )
+            {
+                Vector3 temp_inertia, temp_centerOfMass;
+                rval->calculateInertialMatrix(temp_inertia, temp_centerOfMass);
+                if( inertia != NULL )
+                    *inertia = temp_inertia*mass;
+                if( centerOfMass != NULL )
+                    *centerOfMass = temp_centerOfMass;
+            }
         }
 
         return rval;
     }
+
 
     OgreNewt::CollisionPtr PhysicsCollisionFactory::createCollisionFromEntity(Ogre::Entity* entity,
         const GeometryType& geomType,
@@ -168,8 +261,12 @@ namespace rl
         // bounding box of the mesh
         Ogre::AxisAlignedBox aabb(entity->getBoundingBox());
         // apply scale if attached to a node (like in OgreNewt for convexhull)
+        Ogre::Vector3 scale = Ogre::Vector3::UNIT_SCALE;
         if( entity->getParentNode() )
-            aabb.scale(entity->getParentNode()->getScale());
+        {
+            scale = entity->getParentNode()->getScale();
+            aabb.scale(scale);
+        }
 
         // type for the collision primitiv (can change internally here)
         bool forceBox (false);
@@ -194,6 +291,16 @@ namespace rl
         }
 
 
+        if( geomType == GT_MESH )
+        {
+            if( offset != Ogre::Vector3::ZERO || orientation != Ogre::Quaternion::IDENTITY )
+            {
+                LOG_WARNING(Logger::CORE, " Cannot set collision offset or orientation when using mesh-collision (entity: '" +
+                        entity->getName()+"')!");
+            }
+        }
+
+
         MeshCollisionCacheMap::iterator meshCacheIt = mMeshCollisionsCache.end();
         ConvexCollisionCacheMap::iterator convexCacheIt = mConvexCollisionsCache.end();
 
@@ -203,10 +310,6 @@ namespace rl
             // use meshcollisionscache
             if( geomType == GT_MESH && !forceBox )
             {
-                Ogre::Vector3 scale = Ogre::Vector3::ZERO;
-                if( entity->getParentNode() )
-                    scale = entity->getParentNode()->getScale();
-
                 StringVector index(entity->getMesh()->getName() + animName, scale);
                 std::pair<MeshCollisionCacheMap::iterator,bool> iterBoolPair = mMeshCollisionsCache.insert(std::make_pair(index, MeshCollisionCacheObject()));
                 meshCacheIt = iterBoolPair.first;
@@ -217,11 +320,78 @@ namespace rl
                     LOG_DEBUG(Logger::CORE, "Reused collision for entity '" + entity->getName() + "' (mesh: '"
                             + entity->getMesh()->getName() + "', animation: '" + animName + "').");
                     rval = iterBoolPair.first->second.col;
+
+                    return rval;
                 }
             }
             // use convexcollisionscache
-            else
+            else if( !forceBox )
             {
+                Ogre::String index(entity->getMesh()->getName() + animName);
+                std::pair<ConvexCollisionCacheMap::iterator,bool> iterBoolPair = mConvexCollisionsCache.insert(std::make_pair(index, ConvexCollisionCacheObject()));
+                convexCacheIt = iterBoolPair.first;
+                if( !iterBoolPair.second )
+                {
+                    // there was already an element, check type, the size, offset etc if we can use it
+                    if( geomType != convexCacheIt->second.type )
+                    {
+                        LOG_MESSAGE(Logger::CORE, "Performance warning: trying to create a collision for entity '"+entity->getName()+"' with animation '"+
+                                animName+"' with geometry-type '"+PhysicsManager::convertGeometryTypeToString(geomType)+
+                                "'. There's already a collision with type '"+PhysicsManager::convertGeometryTypeToString(convexCacheIt->second.type)+"'!");
+                    }
+                    else if( scale == convexCacheIt->second.scale && offset == convexCacheIt->second.offset && orientation == convexCacheIt->second.orientation )
+                    {
+                        // everything fine, reuse it
+                        rval = convexCacheIt->second.col;
+
+                        if( inertia != NULL )
+                            *inertia = convexCacheIt->second.inertia;
+                        if( centerOfMass != NULL )
+                            *centerOfMass = convexCacheIt->second.centerOfMass;
+
+                        LOG_DEBUG(Logger::CORE, "Reused collision for entity '" + entity->getName() + "' (mesh: '"
+                            + entity->getMesh()->getName() + "', animation: '" + animName + "').");
+
+                        return rval;
+                    }
+                    else if( geomType == GT_CONVEXHULL ) // for simple types just use create a new collision
+                    {
+                        // we need to rescale (or change offset or orientation)
+                        // the old transformation
+                        Ogre::Matrix4 oldInvTransformation;
+                        oldInvTransformation.makeInverseTransform(convexCacheIt->second.offset, convexCacheIt->second.scale, convexCacheIt->second.orientation);
+                        // the new transformation
+                        Ogre::Matrix4 newTransformation;
+                        newTransformation.makeTransform(offset, scale, orientation);
+
+                        // the needed transformation from old to new:
+                        Ogre::Matrix4 transformation = oldInvTransformation*newTransformation;
+
+                        OgreNewt::ConvexModifierCollision *convexModCol = new OgreNewt::ConvexModifierCollision(
+                                PhysicsManager::getSingleton()._getNewtonWorld(),convexCacheIt->second.col);
+                        convexModCol->setScalarMatrix(transformation);
+
+                        // set the convexcollision-ptr, so centerOfMass and inertia can be calculated
+                        rval = OgreNewt::ConvexCollisionPtr(convexModCol);
+
+
+                        LOG_DEBUG(Logger::CORE, "Reused collision for entity '" + entity->getName() + "' (mesh: '"
+                                + entity->getMesh()->getName() + "', animation: '" + animName + "') with a ConvexModifierCollision.");
+
+                        // calculate inertia / centerOfMass if needed
+                        if (inertia != NULL || centerOfMass != NULL )
+                        {
+                            Vector3 temp_inertia, temp_centerOfMass;
+                            rvalAsConvexCollision->calculateInertialMatrix(temp_inertia, temp_centerOfMass);
+                            if( inertia != NULL )
+                                *inertia = temp_inertia*mass;
+                            if( centerOfMass != NULL )
+                                *centerOfMass = temp_centerOfMass;
+                        }
+
+                        return rval;
+                    }
+                }
             }
         }
 
@@ -232,52 +402,50 @@ namespace rl
 		   desire. Actually this is the bottom middle of our mesh - as the meshes are
 		   always constructed like that.
 	    */
-        if( !rval )
+        if (geomType == GT_BOX || forceBox == true)
         {
-            if (geomType == GT_BOX || forceBox == true)
-            {
-                rvalAsConvexCollision = createBox(aabb, offset, orientation);
-                rval = rvalAsConvexCollision;
-            }
-            else if (geomType == GT_PYRAMID)
-            {
-                rvalAsConvexCollision = createPyramid(aabb, offset, orientation);
-                rval = rvalAsConvexCollision;
-            }
-            else if (geomType == GT_SPHERE)
-            {
-                rvalAsConvexCollision = createSphere(aabb, offset, orientation);
-                rval = rvalAsConvexCollision;
-            }
-            else if (geomType == GT_ELLIPSOID)
-            {
-                rvalAsConvexCollision = createEllipsoid(aabb, offset, orientation);
-                rval = rvalAsConvexCollision;
-            }
-            else if (geomType == GT_CAPSULE)
-            {
-                rvalAsConvexCollision = createCapsule(aabb, offset, orientation);
-                rval = rvalAsConvexCollision;
-            }
-            else if (geomType == GT_CONVEXHULL)
-            {
-                rvalAsConvexCollision = createConvexHull(entity, offset, orientation);
-                rval = rvalAsConvexCollision;
-            }
-            else if (geomType == GT_MESH)
-            {
-                rval = CollisionPtr(new OgreNewt::CollisionPrimitives::TreeCollision(
-                    PhysicsManager::getSingleton()._getNewtonWorld(),
-                    entity, true ));
-
-                if( meshCacheIt != mMeshCollisionsCache.end() )
-                    meshCacheIt->second.col = rval;
-            }
-            else
-            {
-                Throw(IllegalArgumentException, "unknown geometry type.");
-            }
+            rvalAsConvexCollision = createBox(aabb, offset, orientation);
+            rval = rvalAsConvexCollision;
         }
+        else if (geomType == GT_PYRAMID)
+        {
+            rvalAsConvexCollision = createPyramid(aabb, offset, orientation);
+            rval = rvalAsConvexCollision;
+        }
+        else if (geomType == GT_SPHERE)
+        {
+            rvalAsConvexCollision = createSphere(aabb, offset, orientation);
+            rval = rvalAsConvexCollision;
+        }
+        else if (geomType == GT_ELLIPSOID)
+        {
+            rvalAsConvexCollision = createEllipsoid(aabb, offset, orientation);
+            rval = rvalAsConvexCollision;
+        }
+        else if (geomType == GT_CAPSULE)
+        {
+            rvalAsConvexCollision = createCapsule(aabb, offset, orientation);
+            rval = rvalAsConvexCollision;
+        }
+        else if (geomType == GT_CONVEXHULL)
+        {
+            rvalAsConvexCollision = createConvexHull(entity, offset, orientation);
+            rval = rvalAsConvexCollision;
+        }
+        else if (geomType == GT_MESH)
+        {
+            rval = CollisionPtr(new OgreNewt::CollisionPrimitives::TreeCollision(
+                PhysicsManager::getSingleton()._getNewtonWorld(),
+                entity, true ));
+
+            if( meshCacheIt != mMeshCollisionsCache.end() )
+                meshCacheIt->second.col = rval;
+        }
+        else
+        {
+            Throw(IllegalArgumentException, "unknown geometry type.");
+        }
+
 
         if ( rval == NULL )
         {
@@ -303,9 +471,29 @@ namespace rl
         }
 
         // calculate inertia / centerOfMass if requested
+        // and save collision in cache
         if( rvalAsConvexCollision )
         {
-            if (inertia != NULL || centerOfMass != NULL )
+            if( convexCacheIt != mConvexCollisionsCache.end() )
+            {
+                // save collision in cache
+                Vector3 temp_inertia, temp_centerOfMass;
+                rvalAsConvexCollision->calculateInertialMatrix(temp_inertia, temp_centerOfMass);
+
+                convexCacheIt->second.col = rvalAsConvexCollision;
+                convexCacheIt->second.scale = scale;
+                convexCacheIt->second.offset = offset;
+                convexCacheIt->second.orientation = orientation;
+                convexCacheIt->second.inertia = temp_inertia;
+                convexCacheIt->second.centerOfMass = temp_centerOfMass;
+                convexCacheIt->second.type = geomType;
+
+                if( inertia != NULL )
+                    *inertia = temp_inertia*mass;
+                if( centerOfMass != NULL )
+                    *centerOfMass = temp_centerOfMass;
+            }
+            else if (inertia != NULL || centerOfMass != NULL )
             {
                 Vector3 temp_inertia, temp_centerOfMass;
                 rvalAsConvexCollision->calculateInertialMatrix(temp_inertia, temp_centerOfMass);
@@ -315,16 +503,10 @@ namespace rl
                     *centerOfMass = temp_centerOfMass;
             }
         }
-        else
-        {
-            if (inertia != NULL)
-                *inertia = Ogre::Vector3::ZERO;
-            if (centerOfMass != NULL)
-                *centerOfMass = Ogre::Vector3::ZERO;
-        }
 
         return rval;
     }
+
 
     OgreNewt::ConvexCollisionPtr PhysicsCollisionFactory::createBox(const Ogre::AxisAlignedBox& aabb,
             const Ogre::Vector3 &offset,
@@ -433,6 +615,75 @@ namespace rl
                     entity, orientation, offsetInGlobalSpace));
 
         return rval;
+    }
+
+
+
+    PhysicsCollisionFactory::StringVector::StringVector(const Ogre::String& str, const Ogre::Vector3& vec)
+    {
+        setString(str);
+        setVector(vec);
+    }
+    
+    void PhysicsCollisionFactory::StringVector::setString(const Ogre::String& str)
+    {
+        mStr = str;
+    }
+    
+    void PhysicsCollisionFactory::StringVector::setVector(const Ogre::Vector3& vec)
+    {
+        mVec = vec;
+    }
+    
+    const Ogre::String& PhysicsCollisionFactory::StringVector::getString() const
+    {
+        return mStr;
+    }
+    
+    const Ogre::Vector3& PhysicsCollisionFactory::StringVector::getVector() const
+    {
+        return mVec;
+    }
+
+    bool PhysicsCollisionFactory::StringVector::operator==(const PhysicsCollisionFactory::StringVector& strVec) const
+    {
+        if( mStr != strVec.mStr )
+            return false;
+
+        Ogre::Vector3 diff = mVec - strVec.mVec;
+        if( abs(diff.x) > 0.01 )
+            return false;
+        if( abs(diff.y) > 0.01 )
+            return false;
+        if( abs(diff.z) > 0.01 )
+            return false;
+
+        return true;
+    }
+
+    bool PhysicsCollisionFactory::StringVector::operator<(const PhysicsCollisionFactory::StringVector& strVec) const
+    {
+        int strCompare = mStr.compare(strVec.mStr);
+        // @todo: use a hash or so
+        if( strCompare == 0 ) // strings are the same
+        {
+            // compare vectors
+            Ogre::Vector3 diff = mVec - strVec.mVec;
+            if( diff.x < -0.01 )
+                return true;
+            if( diff.x > 0.01 )
+                return false;
+            if( diff.y < -0.01 )
+                return true;
+            if( diff.y > 0.01 )
+                return false;
+            if( diff.y < -0.01 )
+                return true;
+
+            return false;
+        }
+        
+        return strCompare < 0;
     }
 
 
