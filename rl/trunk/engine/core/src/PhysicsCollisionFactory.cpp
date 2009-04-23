@@ -19,6 +19,11 @@
 #include "PhysicsCollisionFactory.h"
 #include "PhysicsManager.h"
 
+#include <boost/filesystem/operations.hpp>
+#include <boost/filesystem/exception.hpp>
+
+namespace fs = boost::filesystem;
+
 #ifdef __APPLE__
 #   include <Ogre/OgreMesh.h>
 #else
@@ -34,6 +39,24 @@ using namespace Ogre;
 
 namespace rl
 {
+
+    PhysicsCollisionFactory::PhysicsCollisionFactory() :
+        mCollisionSerializer()
+    {
+
+#       if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
+        mCachePathName = Ogre::String( Ogre::String(::getenv("HOME")) + "/.rastullah/cache/");
+        fs::path cachePath( mCachePathName, fs::portable_posix_name);
+#       else
+        mCachePathName = Ogre::String( ConfigurationManager::getSingleton().getModulesRootDirectory() + "/cache/" );
+        fs::path cachePath( mCachePathName );
+#       endif
+
+        if( !fs::exists(cachePath) )
+            fs::create_directory(cachePath);
+    }
+
+
     PhysicsCollisionFactory::~PhysicsCollisionFactory()
     {
         clearCollisionCache();
@@ -298,6 +321,11 @@ namespace rl
                 LOG_WARNING(Logger::CORE, " Cannot set collision offset or orientation when using mesh-collision (entity: '" +
                         entity->getName()+"')!");
             }
+            if( inertia || centerOfMass )
+            {
+                LOG_WARNING(Logger::CORE, " Cannot calculate inertia or center of mass when using mesh-collision (entity: '" +
+                        entity->getName()+"')!");
+            }
         }
 
 
@@ -434,9 +462,7 @@ namespace rl
         }
         else if (geomType == GT_MESH)
         {
-            rval = CollisionPtr(new OgreNewt::CollisionPrimitives::TreeCollision(
-                PhysicsManager::getSingleton()._getNewtonWorld(),
-                entity, true ));
+            rval = createMesh( entity, animName, nocache );
 
             if( meshCacheIt != mMeshCollisionsCache.end() )
                 meshCacheIt->second.col = rval;
@@ -613,6 +639,91 @@ namespace rl
         OgreNewt::ConvexCollisionPtr rval(new OgreNewt::CollisionPrimitives::ConvexHull(
                     PhysicsManager::getSingleton()._getNewtonWorld(),
                     entity, orientation, offsetInGlobalSpace));
+
+        return rval;
+    }
+
+
+    OgreNewt::CollisionPtr PhysicsCollisionFactory::loadFromFile(const Ogre::String& filename)
+    {
+        OgreNewt::CollisionPtr rval;
+#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
+        rval = NULL;
+#endif
+        Ogre::String fullfilename = mCachePathName+filename;
+        FILE* pFile = fopen(fullfilename.c_str(), "r" );
+        if( pFile )
+        {
+            Ogre::DataStreamPtr streamPtr( new Ogre::FileHandleDataStream( pFile ) );
+            rval = mCollisionSerializer.importCollision( streamPtr, PhysicsManager::getSingleton()._getNewtonWorld() );
+
+            if( rval )
+            {
+                LOG_DEBUG(Logger::CORE, "Loaded collision from file '" + filename + "'.");
+            }
+        }
+
+        return rval;
+    }
+
+
+
+    void PhysicsCollisionFactory::saveToFile(OgreNewt::CollisionPtr col, const Ogre::String& filename)
+    {
+        mCollisionSerializer.exportCollision(col, mCachePathName + filename);
+    }
+
+
+
+    OgreNewt::CollisionPtr PhysicsCollisionFactory::createMesh( Ogre::Entity* entity, const Ogre::String& animName, bool nocache )
+    {
+        OgreNewt::CollisionPtr rval;
+#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
+        rval = NULL;
+#endif
+        Ogre::String filename;
+
+        if( !nocache )
+        {
+            Ogre::Vector3 scale(Ogre::Vector3::UNIT_SCALE);
+            if( entity->getParentNode() )
+                scale = entity->getParentNode()->getScale();
+
+            filename = entity->getMesh()->getName() + animName + Ogre::StringConverter::toString(scale) + ".collision";
+
+            // check date of cache file and mesh
+            time_t meshFileModified = 
+                Ogre::ResourceGroupManager::getSingleton().resourceModifiedTime(
+                        entity->getMesh()->getGroup(),
+                        entity->getMesh()->getName());
+
+#if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
+            fs::path cacheFilePath( mCachePathName+filename, fs::portable_posix_name);
+#else
+            fs::path cacheFilePath( mCachePathName+filename );
+#endif
+
+            time_t cacheFileModified = 0;
+            if( fs::exists(cacheFilePath) )
+                cacheFileModified = fs::last_write_time(cacheFilePath);
+
+
+            if( cacheFileModified > meshFileModified )        
+                rval = loadFromFile( filename );
+        }
+
+
+        if( !rval )
+        {
+            rval = OgreNewt::CollisionPtr( new OgreNewt::CollisionPrimitives::TreeCollision(
+                        PhysicsManager::getSingleton()._getNewtonWorld(),
+                        entity, true ));
+
+            if( !nocache )
+            {
+                saveToFile(rval, filename );
+            }
+        }
 
         return rval;
     }

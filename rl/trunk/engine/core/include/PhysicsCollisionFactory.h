@@ -40,6 +40,10 @@ namespace rl {
     class PhysicsCollisionFactory
     {
     public:
+        //! constructor
+        PhysicsCollisionFactory();
+
+
         //! destructor, releases the collisions from the collision cache
         ~PhysicsCollisionFactory();
 
@@ -57,7 +61,7 @@ namespace rl {
          * if that is not the case, we'll have to fix OgreNewt ...
 		 * @param entity gives the mesh entity that needs a collision primitive
 		 * @param geomType specifies the type of collision primitiv to create.
-		 * @param animName gives the name of the currently set animation (this is used in the collisionscache
+		 * @param animName gives the name of the currently set animation (this is used in the collisionscache)
 		 * @param offset gives the offset of the coordinate system of the coll. primitiv,
          *        it is relative to the standard offset (center of the aabb of an entity for simple collision types)
 		 * @param orientation Quaternion gives an euler rotation for the coordinate system of the coll. primitiv
@@ -196,6 +200,15 @@ namespace rl {
             const Ogre::Vector3 &offset,
             const Ogre::Quaternion &orientation);
 
+        /** creates a mesh collision primitive from aabb
+         * It's actually a convenience function used by createCollisionFromEntity
+         * @param entity the entity for which a convexhull should be created, if it is attached to
+         *               a node the scale of the node is used (see OgreNewt)
+		 * @param animName gives the name of the currently set animation (this is used in the collisionscache)
+         * @param nocache if true, the function doesn't try to load the collision from a cache file
+         */
+        OgreNewt::CollisionPtr createMesh( Ogre::Entity* entity, const Ogre::String & animName, bool nocache );
+
 
         //! class for caching convex collisions (box...convexhull), saves additionally the scale, so it can be rescaled if necessary
         class ConvexCollisionCacheObject
@@ -261,6 +274,23 @@ namespace rl {
 
         //! cache for mesh collisions
         MeshCollisionCacheMap mMeshCollisionsCache;
+
+
+        //! OgreNewt collision serializer
+        OgreNewt::CollisionSerializer mCollisionSerializer;
+
+        /** load a collision from a file
+         * It's actually a convenience function used internally
+        */
+        OgreNewt::CollisionPtr loadFromFile(const Ogre::String& filename);
+
+        /** save a collision to a file
+         * It's actually a convenience function used internally
+        */
+        void saveToFile(OgreNewt::CollisionPtr col, const Ogre::String& filename);
+
+        //! the path for cached collision files
+        Ogre::String mCachePathName;
     };
 }
 

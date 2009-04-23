@@ -114,6 +114,16 @@ namespace rl
 
     PhysicsManager::~PhysicsManager()
     {
+        // remove all bodies
+        clearLevelGeometry();
+
+        // remove all physical things
+        for( vector<PhysicalThing*>::iterator it = mPhysicalThings.begin(); it != mPhysicalThings.end(); it++ )
+        {
+            delete (*it);
+        }
+
+
         // remove all material-pairs
         for (MaterialPairMap::iterator it = mMaterialPairs.begin(); it != mMaterialPairs.end(); it++)
         {
