@@ -147,7 +147,7 @@ class Zone():
             
     def manualAddTrigger(self):
         trigger = TriggerManager.instance.manualCreateTrigger()
-        if trigger is not False:
+        if trigger is not False and trigger is not None:
             self.triggerList.append(trigger)
     
     def hide(self):
@@ -252,7 +252,7 @@ class ZoneManager():
                 
                 trigger = TriggerManager.instance.createTrigger(name, classname, properties)
                 
-                z.addTrigger(name)
+                z.addTrigger(trigger)
                 
             soundNodes = zone.getiterator("sound")
             for sound in soundNodes:
@@ -301,18 +301,16 @@ class ZoneManager():
                 lightElem = xml.SubElement(zoneElem, "light")
                 lightElem.attrib["name"] = str(lightName)
                 
-            for triggerName in zone.triggerList:
-                trigger = TriggerManager.instance.getTrigger(triggerName)
-                
+            for trigger in zone.triggerList:
                 triggerElem = xml.SubElement(zoneElem, "trigger")
                 triggerElem.attrib["name"] = str(trigger.name)
                 triggerElem.attrib["classname"] = str(trigger.name)
                 
                 for prop in trigger.properties:
-                    propElem = xml.SubElement(triggerElen, "property")
-                    triggerElem.attrib["name"] = str(trigger.name)
-                    triggerElem.attrib["type"] = str(trigger.type)
-                    triggerElem.attrib["data"] = str(trigger.data)
+                    propElem = xml.SubElement(triggerElem, "property")
+                    propElem.attrib["name"] = str(prop.name)
+                    propElem.attrib["type"] = str(prop.type)
+                    propElem.attrib["data"] = str(prop.data)
             
             for soundName in zone.soundList:
                 soundElem = xml.SubElement(zoneElem, "sound")

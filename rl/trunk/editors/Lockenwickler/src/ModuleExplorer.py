@@ -286,15 +286,15 @@ class ModuleExplorer(QWidget):
         
         #end remove all the things from the list we actually don't want to be selected
         for item in selItems:
-            print str(item.text(0))
-            print str(item.parent().text(0))
+            itemText = str(item.text(0))
+            parentText = str(item.parent().text(0))
             
-            if str(item.text(0)).startswith("Scene: ") or str(item.text(0)).startswith("Map: ") or str(item.text(0)).startswith("Zone: "):
+            if itemText.startswith("Scene: ") or itemText.startswith("Map: ") or itemText.startswith("Zone: "):
                 selItems.remove(item)
             elif item.data(0, Qt.UserRole).toInt()[0] == ModuleExplorer.LIGHT_IN_ZONE or item.data(0, Qt.UserRole).toInt()[0] == ModuleExplorer.TRIGGER_IN_ZONE:
                 selItems.remove(item)
-            elif item.text(0) == "Lights" and item.text(0) == "Triggers":
-                if str(item.parent().text(0)).startswith("Zone: "):
+            elif itemText == "Lights" or itemText == "Triggers":
+                if parentText.startswith("Zone: "):
                     selItems.remove(item)
         
         for item in selItems:
