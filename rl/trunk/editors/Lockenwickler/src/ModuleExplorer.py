@@ -36,7 +36,7 @@ def extractLight(node):
             i += 1
 
 class ExplorerOptionsDlg(QDialog):
-    def __init__(self, lights, gameObjects, entities, zones, zonelights, parent = None):
+    def __init__(self, lights, gameObjects, entities, zones, zonelights, zonetriggers, parent = None):
         super(ExplorerOptionsDlg, self).__init__(parent)
         
         buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
@@ -61,6 +61,10 @@ class ExplorerOptionsDlg(QDialog):
         self.zoneslightsCheckBox = QCheckBox("Show Zonelights")
         self.zoneslightsCheckBox.setChecked(zonelights)        
         layout.addWidget(self.zoneslightsCheckBox)
+        
+        self.zonesTriggersCheckBox = QCheckBox("Show Zonetriggers")
+        self.zonesTriggersCheckBox.setChecked(zoneTriggers)        
+        layout.addWidget(self.zonesTriggersCheckBox)
         
         layout.addWidget(buttonBox)
         layout.setContentsMargins(2, 2, 2, 2)
@@ -178,6 +182,7 @@ class ModuleTreeWidget(QTreeWidget):
 
 class ModuleExplorer(QWidget):
     LIGHT_IN_ZONE = 99
+    TRIGGER_IN_ZONE = 100
     
     def __init__(self, parent=None):
         QWidget.__init__(self, parent)
@@ -206,6 +211,7 @@ class ModuleExplorer(QWidget):
         
         self.showLights = True
         self.showZoneLights = True
+        self.showZoneTriggers = True
         self.showGameObjects = True
         self.showEntities = True
         self.showZones = True
@@ -280,8 +286,16 @@ class ModuleExplorer(QWidget):
         
         #end remove all the things from the list we actually don't want to be selected
         for item in selItems:
+            print str(item.text(0))
+            print str(item.parent().text(0))
+            
             if str(item.text(0)).startswith("Scene: ") or str(item.text(0)).startswith("Map: ") or str(item.text(0)).startswith("Zone: "):
                 selItems.remove(item)
+            elif item.data(0, Qt.UserRole).toInt()[0] == ModuleExplorer.LIGHT_IN_ZONE or item.data(0, Qt.UserRole).toInt()[0] == ModuleExplorer.TRIGGER_IN_ZONE:
+                selItems.remove(item)
+            elif item.text(0) == "Lights" and item.text(0) == "Triggers":
+                if str(item.parent().text(0)).startswith("Zone: "):
+                    selItems.remove(item)
         
         for item in selItems:
             parentName =  str(item.text(0))
@@ -379,10 +393,11 @@ class ModuleExplorer(QWidget):
     
     def onAddTriggerToZone(self):
         zoneName = str(self.sceneTreeView.currentItem().text(0)).replace("Zone: ", "")
-        self.moduleManager.zoneManager.getZone(zoneName).addTrigger()
+        self.moduleManager.zoneManager.getZone(zoneName).manualAddTrigger()
+        self.updateView()
         
     def onOptions(self):
-        dlg = ExplorerOptionsDlg(self.showLights, self.showGameObjects, self.showEntities, self.showZones, self.showZoneLights, self)
+        dlg = ExplorerOptionsDlg(self.showLights, self.showGameObjects, self.showEntities, self.showZones, self.showZoneLights, self.showZoneTriggers, self)
         if dlg.exec_():
             self.showLights = dlg.lightCheckBox.isChecked()
             self.showGameObjects = dlg.gameObjectsCheckBox.isChecked()
@@ -544,6 +559,15 @@ class ModuleExplorer(QWidget):
                     childItem2 = QTreeWidgetItem(lightsItem)
                     childItem2.setText(0, lightName)
                     childItem2.setData(0, Qt.UserRole, QVariant(ModuleExplorer.LIGHT_IN_ZONE))
+                    
+            if self.showZoneTriggers:
+                triggersItem = QTreeWidgetItem(childItem)
+                triggersItem.setText(0, "Triggers")
+                
+                for trigger in zone.triggerList:
+                    childItem2 = QTreeWidgetItem(triggersItem)
+                    childItem2.setText(0, trigger.name)
+                    childItem2.setData(0, Qt.UserRole, QVariant(ModuleExplorer.TRIGGER_IN_ZONE))
                     
     def setCurrentModule(self, module):
         self.module = module

@@ -33,12 +33,16 @@ class TriggerProperty():
         self.data = data
 
 class Trigger():
-    def __init__(self):
-        self.className = ""
-        self.name = ""
+    def __init__(self, name = "", className = ""):
+        self.name = name
+        self.className = className
         self.properties = []
         
-    def addProperty(self):
+    def addProperty(self, name, type, data):
+        prop = TriggerProperty(name,  type, data)
+        self.properties.append(prop)
+        
+    def manualAddProperty(self):
         editor = GOGenericEditor("", "STRING", "", QApplication.focusWidget())
         if editor.exec_():
             name = str(editor.nameEditBox.text())
@@ -68,10 +72,18 @@ class TriggerManager():
         
     def addDirectory(self, dir):
         self.directories.append(dir)
-        
         self.update()
     
-    def createTrigger(self):
+    def createTrigger(self, name, classname, properties):
+        trigger = Trigger(name, classname)
+        for prop in properties:
+            name = prop.attrib["name"]
+            type = prop.attrib["type"]
+            data = prop.attrib["data"]
+            trigger.addProperty(name, type, data)
+        return trigger
+        
+    def manualCreateTrigger(self):
         trigger = Trigger()
         
         dlg = AddTriggerDialog(trigger, TriggerManager.availableTriggers, self, QApplication.focusWidget())
@@ -80,6 +92,13 @@ class TriggerManager():
             return trigger
         
         return False
+    
+    def getTrigger(self, name):
+        for trigger in self.triggerInstances:
+            if trigger.name == name:
+                return trigger
+        
+        return None
     
     def update(self):
         TriggerManager.availableTriggers = []

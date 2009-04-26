@@ -4,9 +4,8 @@
 Module implementing AddTriggerDialog.
 """
 
-from PyQt4.QtGui import QDialog
-from PyQt4.QtCore import pyqtSignature
-
+from PyQt4.QtCore import *
+from PyQt4.QtGui import *
 
 from Ui_AddTriggerDialog import Ui_Dialog
 
@@ -22,6 +21,8 @@ class AddTriggerDialog(QDialog, Ui_Dialog):
         for trigger in triggerClassNames:
             self.comboBox.addItem(trigger)
         
+        self.connect(self, SIGNAL("accepted()"), self.onAccepted)
+        
     @pyqtSignature("QString")
     def on_lineEdit_textChanged(self, p0):
         for trigger in self.triggerManager.triggerInstances:
@@ -35,13 +36,12 @@ class AddTriggerDialog(QDialog, Ui_Dialog):
             
     @pyqtSignature("")
     def on_pushButton_clicked(self):
-        if self.trigger.addProperty():
+        if self.trigger.manualAddProperty():
             self.updateProperties()
         
-    def accept(self):
+    def onAccepted(self):
         self.trigger.name = str(self.lineEdit.text())
         self.trigger.className = str(self.comboBox.currentText())
-        self.close()
         
     def updateProperties(self):
         self.listView.clear()

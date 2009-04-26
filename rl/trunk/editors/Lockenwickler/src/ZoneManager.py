@@ -141,8 +141,14 @@ class Zone():
                 self.areaList.remove(a)
                 del a
     
-    def addTrigger(self):
-        trigger = TriggerManager.instance.createTrigger()
+    def addTrigger(self, trigger):
+        if trigger is not None:
+            self.triggerList.append(trigger)
+            
+    def manualAddTrigger(self):
+        trigger = TriggerManager.instance.manualCreateTrigger()
+        if trigger is not False:
+            self.triggerList.append(trigger)
     
     def hide(self):
         self.sceneManager.getRootSceneNode().removeChild(self.zoneNode)
@@ -238,6 +244,16 @@ class ZoneManager():
                 name = light.attrib["name"]
                 z.lightList.append(name)
                 
+            triggerNodes = zone.getiterator("trigger")
+            for trigger in triggerNodes:
+                name = trigger.attrib["name"]
+                classname = trigger.attrib["classname"]
+                properties = trigger.getiterator("property")
+                
+                trigger = TriggerManager.instance.createTrigger(name, classname, properties)
+                
+                z.addTrigger(name)
+                
             soundNodes = zone.getiterator("sound")
             for sound in soundNodes:
                 name = sound.attrib["name"]
@@ -284,6 +300,19 @@ class ZoneManager():
             for lightName in zone.lightList:
                 lightElem = xml.SubElement(zoneElem, "light")
                 lightElem.attrib["name"] = str(lightName)
+                
+            for triggerName in zone.triggerList:
+                trigger = TriggerManager.instance.getTrigger(triggerName)
+                
+                triggerElem = xml.SubElement(zoneElem, "trigger")
+                triggerElem.attrib["name"] = str(trigger.name)
+                triggerElem.attrib["classname"] = str(trigger.name)
+                
+                for prop in trigger.properties:
+                    propElem = xml.SubElement(triggerElen, "property")
+                    triggerElem.attrib["name"] = str(trigger.name)
+                    triggerElem.attrib["type"] = str(trigger.type)
+                    triggerElem.attrib["data"] = str(trigger.data)
             
             for soundName in zone.soundList:
                 soundElem = xml.SubElement(zoneElem, "sound")
