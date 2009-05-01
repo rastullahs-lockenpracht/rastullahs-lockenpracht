@@ -64,7 +64,7 @@ class ExplorerOptionsDlg(QDialog):
         layout.addWidget(self.zoneslightsCheckBox)
         
         self.zonesTriggersCheckBox = QCheckBox("Show Zonetriggers")
-        self.zonesTriggersCheckBox.setChecked(zoneTriggers)        
+        self.zonesTriggersCheckBox.setChecked(zonetriggers)        
         layout.addWidget(self.zonesTriggersCheckBox)
         
         layout.addWidget(buttonBox)
@@ -260,10 +260,12 @@ class ModuleExplorer(QWidget):
         if self.selectionChangedCallback is None:
             return
 
+        
+
         #get all selected items
         selItems = self.sceneTreeView.selectedItems()
         if len(selItems) == 1:
-            if str(selItems[0].parent().text(0)) == "Lights" and str(selItems[0].parent().parent().text(0)).startswith("Zone: "):
+            if str(selItems[0]).startswith("Scene: ") and str(selItems[0].parent().text(0)) == "Lights" and str(selItems[0].parent().parent().text(0)).startswith("Zone: "):
                 return
         
         
@@ -286,9 +288,12 @@ class ModuleExplorer(QWidget):
         #end remove all the things from the list we actually don't want to be selected
         for item in selItems:
             itemText = str(item.text(0))
+            if item.parent() is None:
+                continue
+            
             parentText = str(item.parent().text(0))
             
-            if itemText.startswith("Scene: ") or itemText.startswith("Map: ") or itemText.startswith("Zone: "):
+            if itemText.startswith("Map: ") or itemText.startswith("Zone: "):
                 selItems.remove(item)
             elif item.data(0, Qt.UserRole).toInt()[0] == ModuleExplorer.LIGHT_IN_ZONE or item.data(0, Qt.UserRole).toInt()[0] == ModuleExplorer.TRIGGER_IN_ZONE:
                 selItems.remove(item)
@@ -297,13 +302,17 @@ class ModuleExplorer(QWidget):
                     selItems.remove(item)
         
         for item in selItems:
+            if item.parent() is None:
+                continue
+            
             parentName =  str(item.text(0))
                         
             name = str(item.data(0, Qt.UserRole).toString())
             if len > 0:
                 nodeNames[str(item.parent().text(0))].append(name)
                 
-        self.selectionChangedCallback(nodeNames)
+        if len(nodeNames) > 0:
+            self.selectionChangedCallback(nodeNames)
 
     def deselectAll(self):
         self.disconnect(self.sceneTreeView, SIGNAL("itemSelectionChanged ()"), self.onSelectionChanged)
