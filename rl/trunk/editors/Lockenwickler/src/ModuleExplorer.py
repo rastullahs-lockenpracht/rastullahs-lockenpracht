@@ -22,6 +22,7 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 import ogre.renderer.OGRE as og
 
+from ZoneManager import *
 
 # get the light out of a light node
 def extractLight(node):
@@ -127,7 +128,7 @@ class ModuleTreeWidget(QTreeWidget):
         drag.start(Qt.CopyAction)
 
     def dragEnterEvent(self, event):
-        print "enter"
+#        print "enter"
         if event.mimeData().hasFormat("application/light"):
             event.accept()
             
@@ -160,7 +161,7 @@ class ModuleTreeWidget(QTreeWidget):
         
             relMousePos = self.mapFromGlobal(QPoint(QCursor.pos().x(), QCursor.pos().y() - self.header().height()))
             item = self.itemAt(relMousePos)
-            str(item.data(0, Qt.UserRole).toString())
+            #str(item.data(0, Qt.UserRole).toString())
             
             items = self.findItems("Lights", Qt.MatchFixedString | Qt.MatchRecursive)
             for iitem in items:
@@ -177,8 +178,6 @@ class ModuleTreeWidget(QTreeWidget):
                     child = QTreeWidgetItem(iitem)
                     child.setText(0, text)
                     child.setData(0, Qt.UserRole, QVariant(ModuleExplorer.LIGHT_IN_ZONE))
-
-
 
 class ModuleExplorer(QWidget):
     LIGHT_IN_ZONE = 99
@@ -438,13 +437,34 @@ class ModuleExplorer(QWidget):
             self.updateView()
     
     def onDelete(self):
-        print "delete"
+        item = self.sceneTreeView.itemAt(self.onMenuPoint)
+        
+        if item.data(0, Qt.UserRole).toString() == str(ModuleExplorer.LIGHT_IN_ZONE):
+            zoneName = str(item.parent().parent().text(0)).replace("Zone: ",  "")
+            lightName = str(item.text(0))
+            if self.sceneTreeView.zoneManager.removeLightFromZone(zoneName, lightName):
+                item.parent().removeChild(item)     
+        elif item.data(0, Qt.UserRole).toString() == str(ModuleExplorer.TRIGGER_IN_ZONE):
+            zoneName = str(item.parent().parent().text(0)).replace("Zone: ",  "")
+            triggerNameName = str(item.text(0))
+            if self.sceneTreeView.zoneManager.removeTriggerFromZone(zoneName, triggerNameName):
+                item.parent().removeChild(item)
+        elif str(item.text(0)).startswith("Zone: "):
+            zoneName = str(item.text(0)).replace("Zone: ",  "")
+            reply = QMessageBox.warning(QApplication.focusWidget(), "Undoable Action!", "Delete zone " +  zoneName + "?", QMessageBox.Yes|QMessageBox.Cancel)
+            if reply == QMessageBox.Cancel:
+                return
+            elif reply == QMessageBox.Yes:
+                if self.sceneTreeView.zoneManager.deleteZone(zoneName):
+                    item.parent().removeChild(item)
+                    
+#        print "delete " + str(item.data(0, Qt.UserRole).toString())
 
     def keyPressEvent(self, event):
         print "key!!!!!!!!!!!!!!"
     
     def paintLastSelectedMapBlue(self):
-        print self.lastSelectedMap
+#        print self.lastSelectedMap
         for item in self.mapItems:
             if str(item.text(0)) == self.lastSelectedMap:
                 brush = item.foreground(0)

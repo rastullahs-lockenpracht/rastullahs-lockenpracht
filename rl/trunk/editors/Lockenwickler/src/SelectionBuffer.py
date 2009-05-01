@@ -281,7 +281,11 @@ class SelectionBuffer():
                     so.setSelected(True)
                     items.append(so)
             elif key.startswith("Zone: "):
-                parentNode = self.zoneManager.getZone(key.replace("Zone: ", "")).zoneNode
+                zone = self.zoneManager.getZone(key.replace("Zone: ", ""))
+                if zone is None:
+                    continue
+                    
+                parentNode = zone.zoneNode
                 for nodeName in itemNodes[key]:
                     obj = parentNode.getChild(nodeName).getAttachedObject(0)
                     so = SelectionObject(obj)

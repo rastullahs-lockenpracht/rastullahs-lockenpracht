@@ -101,7 +101,8 @@ class Area(og.UserDefinedObject):
         self.areaNode.detachAllObjects()
         self.areaNode.getParent().removeAndDestroyChild(self.areaNode.getName())
         self.sceneManager.destroyEntity(self.areaEntity.getName())
-    
+        print "area" + str(self.id) + " deleted"
+        
     def getsubtract(self):
         return self.__subtract
         
@@ -128,22 +129,32 @@ class Zone():
         self.isHidden = False
         
         self.zoneNode =  self.sceneManager.getRootSceneNode().createChildSceneNode("zone_" + name + "_node")
+    
+    def __del__(self):
+        print "Zone " + self.name + " is garbage collected"
         
     def addArea(self, type, position, orientation, scale, meshFile = None):
         area = Area(self.sceneManager, type, self, self.areaCounter, position, orientation, scale, meshFile)
         if area is not None:
             self.areaList.append(area)
             self.areaCounter = self.areaCounter + 1
-    
+            
+    def addTrigger(self, trigger):
+        if trigger is not None:
+            self.triggerList.append(trigger)
+        
+    def deleteSelf(self):    
+        del self.areaList[:]
+        
+        self.zoneNode.detachAllObjects()
+        parent = self.zoneNode.getParent()
+        parent.removeAndDestroyChild(self.zoneNode.getName())
+        
     def deleteArea(self, area):
         for a in self.areaList:
             if a.id == area.id:
                 self.areaList.remove(a)
                 del a
-    
-    def addTrigger(self, trigger):
-        if trigger is not None:
-            self.triggerList.append(trigger)
             
     def manualAddTrigger(self):
         trigger = TriggerManager.instance.manualCreateTrigger()
@@ -184,6 +195,15 @@ class ZoneManager():
         self.zoneList.append(z)
         self.currentMap.zoneList.append(z)
         return z
+        
+    def deleteZone(self, zoneName):
+        for zone in self.zoneList:
+            if zone.name == zoneName:
+                self.zoneList.remove(zone)
+                zone.deleteSelf()
+                del zone
+                return True
+        return False
         
     def parseZonesFromXml(self, zoneXmlNode, map):
         if zoneXmlNode is None:
@@ -258,7 +278,24 @@ class ZoneManager():
             for sound in soundNodes:
                 name = sound.attrib["name"]
                 z.soundList.append(name)
-            
+    
+    def removeLightFromZone(self, zoneName, lightName):
+        for zone in self.zoneList:
+            if zone.name == zoneName:
+                for light in zone.lightList:
+                    if light == lightName:
+                        zone.lightList.remove(light)
+                        return True
+        return False
+        
+    def removeTriggerFromZone(self, zoneName, triggerName):
+        for zone in self.zoneList:
+            if zone.name == zoneName:
+                for trigger in zone.triggerList:
+                    if trigger.name == triggerName:
+                        zone.triggerList.remove(trigger)
+                        return True
+        return False
 
     def saveZonesToXml(self, root, map):
         if len(map.zoneList) == 0:
@@ -321,7 +358,7 @@ class ZoneManager():
             for a in z.areaList:
                 if a.id == area.id:
                     z.deleteArea(area)
-    
+
     def getZoneMenu(self):
         self.menuList = []
         menu = QMenu("Add Area")
