@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project Lockenwickler -->
-<!-- Saved: 2009-04-19, 16:59:45 -->
+<!-- Saved: 2009-05-03, 17:17:07 -->
 <!-- Copyright (C) 2009 Stefan Stammberger, sstammberger@web.de -->
 <Project version="4.6">
   <Language>en</Language>
@@ -49,16 +49,22 @@
     <Source>ui files/Ui_NewModuleWizard.py</Source>
     <Source>src/AddTriggerDialog.py</Source>
     <Source>src/Ui_AddTriggerDialog.py</Source>
+    <Source>src/MyTerrainManager.py</Source>
+    <Source>ui files/Ui_MyTerrainManagerDock.py</Source>
+    <Source>src/Ui_MyTerrainManagerDock.py</Source>
+    <Source>src/media/help/help_rc.py</Source>
   </Sources>
   <Forms>
     <Form>ui files/GOPropertyEditorDialogINT.ui</Form>
     <Form>ui files/GOPropertyEditorDialogSTRING.ui</Form>
     <Form>ui files/NewModuleWizard.ui</Form>
     <Form>ui files/AddTriggerDialog.ui</Form>
+    <Form>ui files/MyTerrainManagerDock.ui</Form>
   </Forms>
   <Translations>
   </Translations>
   <Resources>
+    <Resource>src/media/help/help.qrc</Resource>
   </Resources>
   <Interfaces>
   </Interfaces>

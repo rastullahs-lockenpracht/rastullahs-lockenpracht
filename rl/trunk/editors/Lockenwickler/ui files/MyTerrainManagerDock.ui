@@ -1,0 +1,597 @@
+<ui version="4.0" >
+ <class>TerrainManagerUi</class>
+ <widget class="QWidget" name="TerrainManagerUi" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>263</width>
+    <height>748</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_2" >
+   <property name="margin" >
+    <number>1</number>
+   </property>
+   <property name="spacing" >
+    <number>1</number>
+   </property>
+   <item row="0" column="0" >
+    <widget class="QComboBox" name="comboBox" >
+     <item>
+      <property name="text" >
+       <string>No Terrain</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="1" column="0" >
+    <widget class="QToolBox" name="toolBox" >
+     <property name="frameShape" >
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="frameShadow" >
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="currentIndex" >
+      <number>0</number>
+     </property>
+     <property name="tabSpacing" >
+      <number>1</number>
+     </property>
+     <widget class="QWidget" name="page" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>261</width>
+        <height>637</height>
+       </rect>
+      </property>
+      <attribute name="label" >
+       <string>Create Terrain</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout" >
+       <property name="margin" >
+        <number>1</number>
+       </property>
+       <property name="spacing" >
+        <number>1</number>
+       </property>
+       <item row="0" column="0" colspan="2" >
+        <widget class="QLabel" name="label_6" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text" >
+          <string>Geometry</string>
+         </property>
+         <property name="alignment" >
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="buddy" >
+          <cstring>nameLineEdit</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" >
+        <widget class="QLabel" name="label" >
+         <property name="toolTip" >
+          <string>Name of the terrain</string>
+         </property>
+         <property name="text" >
+          <string>&amp;Name</string>
+         </property>
+         <property name="buddy" >
+          <cstring>nameLineEdit</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1" >
+        <widget class="QLineEdit" name="nameLineEdit" >
+         <property name="toolTip" >
+          <string>Name of the terrain</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" >
+        <widget class="QLabel" name="label_2" >
+         <property name="toolTip" >
+          <string>Vertex density</string>
+         </property>
+         <property name="text" >
+          <string>&amp;Size</string>
+         </property>
+         <property name="buddy" >
+          <cstring>sizeComboBox</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1" >
+        <widget class="QComboBox" name="sizeComboBox" >
+         <property name="toolTip" >
+          <string>Vertex density</string>
+         </property>
+         <item>
+          <property name="text" >
+           <string>8</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>16</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>32</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>64</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>128</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>256</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>512</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>1024</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="3" column="1" >
+        <widget class="QDoubleSpinBox" name="positionSpinBoxX" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="toolTip" >
+          <string>Position of the terrain</string>
+         </property>
+         <property name="prefix" >
+          <string>X:</string>
+         </property>
+         <property name="maximum" >
+          <double>999999999.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0" >
+        <widget class="QLabel" name="label_11" >
+         <property name="toolTip" >
+          <string>Position of the terrain</string>
+         </property>
+         <property name="text" >
+          <string>&amp;Position</string>
+         </property>
+         <property name="buddy" >
+          <cstring>extendsSpinBoxX</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1" >
+        <widget class="QDoubleSpinBox" name="positionSpinBoxY" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="toolTip" >
+          <string>Position of the terrain</string>
+         </property>
+         <property name="prefix" >
+          <string>Y:</string>
+         </property>
+         <property name="maximum" >
+          <double>999999999.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1" >
+        <widget class="QDoubleSpinBox" name="positionSpinBoxZ" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="toolTip" >
+          <string>Position of the terrain</string>
+         </property>
+         <property name="prefix" >
+          <string>Z:</string>
+         </property>
+         <property name="suffix" >
+          <string/>
+         </property>
+         <property name="maximum" >
+          <double>999999999.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1" >
+        <widget class="QSpinBox" name="extendsSpinBoxX" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="toolTip" >
+          <string>The extends of the terrain</string>
+         </property>
+         <property name="correctionMode" >
+          <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
+         </property>
+         <property name="suffix" >
+          <string/>
+         </property>
+         <property name="prefix" >
+          <string>X:</string>
+         </property>
+         <property name="minimum" >
+          <number>128</number>
+         </property>
+         <property name="maximum" >
+          <number>10000</number>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0" >
+        <widget class="QLabel" name="label_3" >
+         <property name="toolTip" >
+          <string>The extends of the terrain</string>
+         </property>
+         <property name="text" >
+          <string>&amp;Extends</string>
+         </property>
+         <property name="buddy" >
+          <cstring>extendsSpinBoxX</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1" >
+        <widget class="QSpinBox" name="extendsSpinBoxY" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="toolTip" >
+          <string>The extends of the terrain</string>
+         </property>
+         <property name="correctionMode" >
+          <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
+         </property>
+         <property name="suffix" >
+          <string/>
+         </property>
+         <property name="prefix" >
+          <string>Y:</string>
+         </property>
+         <property name="minimum" >
+          <number>128</number>
+         </property>
+         <property name="maximum" >
+          <number>10000</number>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="1" >
+        <widget class="QSpinBox" name="extendsSpinBoxZ" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="toolTip" >
+          <string>The extends of the terrain</string>
+         </property>
+         <property name="correctionMode" >
+          <enum>QAbstractSpinBox::CorrectToNearestValue</enum>
+         </property>
+         <property name="suffix" >
+          <string/>
+         </property>
+         <property name="prefix" >
+          <string>Z:</string>
+         </property>
+         <property name="minimum" >
+          <number>128</number>
+         </property>
+         <property name="maximum" >
+          <number>10000</number>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0" >
+        <widget class="QLabel" name="label_10" >
+         <property name="toolTip" >
+          <string>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
+&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+p, li { white-space: pre-wrap; }
+&lt;/style>&lt;/head>&lt;body style=" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;">
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">This value means how high the vertices are placed in relation to the terrain extend in Y.&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">This means when you have a terrain extend in Y by 100 and the terrain height is 0.5&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">the vertices are placed in at height 50.&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;img src=":/helpPref/TerrainExtends1.png" />&lt;/p>&lt;/body>&lt;/html></string>
+         </property>
+         <property name="text" >
+          <string>&amp;Height</string>
+         </property>
+         <property name="buddy" >
+          <cstring>extendsSpinBoxX</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="1" >
+        <widget class="QDoubleSpinBox" name="terrainHeightSpinBox" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="toolTip" >
+          <string>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
+&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+p, li { white-space: pre-wrap; }
+&lt;/style>&lt;/head>&lt;body style=" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;">
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">This value means how high the vertices are placed in relation to the terrain extend in Y.&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">This means when you have a terrain extend in Y by 100 and the terrain height is 0.5&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">the vertices are placed in at height 50.&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;img src=":/helpPref/TerrainExtends1.png" />&lt;/p>&lt;/body>&lt;/html></string>
+         </property>
+         <property name="maximum" >
+          <double>1.000000000000000</double>
+         </property>
+         <property name="singleStep" >
+          <double>0.100000000000000</double>
+         </property>
+         <property name="value" >
+          <double>0.500000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="0" colspan="2" >
+        <widget class="QLabel" name="label_7" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text" >
+          <string>Splatting Settings</string>
+         </property>
+         <property name="alignment" >
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="buddy" >
+          <cstring>baseNameLineEdit</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="0" >
+        <widget class="QLabel" name="label_4" >
+         <property name="toolTip" >
+          <string>Base name for the map textures (will be appended by their number)</string>
+         </property>
+         <property name="text" >
+          <string>&amp;Base Name</string>
+         </property>
+         <property name="buddy" >
+          <cstring>baseNameLineEdit</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="1" >
+        <widget class="QLineEdit" name="baseNameLineEdit" >
+         <property name="toolTip" >
+          <string>Base name for the map textures (will be appended by their number)</string>
+         </property>
+         <property name="text" >
+          <string>ETSplatting</string>
+         </property>
+        </widget>
+       </item>
+       <item row="12" column="0" >
+        <widget class="QLabel" name="label_5" >
+         <property name="toolTip" >
+          <string>The resource group the textures will be placed in</string>
+         </property>
+         <property name="text" >
+          <string>&amp;Res Group</string>
+         </property>
+         <property name="buddy" >
+          <cstring>resGroupLineEdit</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="12" column="1" >
+        <widget class="QLineEdit" name="resGroupLineEdit" >
+         <property name="toolTip" >
+          <string>The resource group the textures will be placed in</string>
+         </property>
+         <property name="text" >
+          <string>ET</string>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="0" >
+        <widget class="QLabel" name="label_8" >
+         <property name="toolTip" >
+          <string>Texture size in pixels</string>
+         </property>
+         <property name="text" >
+          <string>&amp;Tex Size</string>
+         </property>
+         <property name="buddy" >
+          <cstring>texSizeComboBox</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="1" >
+        <widget class="QComboBox" name="texSizeComboBox" >
+         <property name="toolTip" >
+          <string>Texture size in pixels</string>
+         </property>
+         <item>
+          <property name="text" >
+           <string>64</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>128</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>256</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>512</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>1024</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="14" column="0" >
+        <widget class="QLabel" name="label_9" >
+         <property name="toolTip" >
+          <string>Number of splatting textures (Layers)</string>
+         </property>
+         <property name="text" >
+          <string>&amp;NumTextures</string>
+         </property>
+         <property name="buddy" >
+          <cstring>numTexturesComboBox</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="14" column="1" >
+        <widget class="QComboBox" name="numTexturesComboBox" >
+         <property name="toolTip" >
+          <string>Number of splatting textures (Layers)</string>
+         </property>
+         <item>
+          <property name="text" >
+           <string>1</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>2</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>3</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>4</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>5</string>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>6</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="15" column="0" colspan="2" >
+        <widget class="QPushButton" name="createTerrainButton" >
+         <property name="text" >
+          <string>Create Terrain</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="page_2" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>261</width>
+        <height>637</height>
+       </rect>
+      </property>
+      <attribute name="label" >
+       <string>ModifyTerrain</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="Seite" >
+      <property name="geometry" >
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>261</width>
+        <height>637</height>
+       </rect>
+      </property>
+      <attribute name="label" >
+       <string>PaintTerrain</string>
+      </attribute>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>nameLineEdit</tabstop>
+  <tabstop>sizeComboBox</tabstop>
+  <tabstop>extendsSpinBoxX</tabstop>
+  <tabstop>extendsSpinBoxY</tabstop>
+  <tabstop>extendsSpinBoxZ</tabstop>
+  <tabstop>baseNameLineEdit</tabstop>
+  <tabstop>resGroupLineEdit</tabstop>
+  <tabstop>texSizeComboBox</tabstop>
+  <tabstop>numTexturesComboBox</tabstop>
+  <tabstop>createTerrainButton</tabstop>
+ </tabstops>
+ <resources>
+  <include location="../src/media/help/help.qrc" />
+ </resources>
+ <connections/>
+</ui>
