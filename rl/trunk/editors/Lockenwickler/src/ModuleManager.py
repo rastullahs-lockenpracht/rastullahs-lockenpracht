@@ -39,6 +39,7 @@ from MyRaySceneQueryListener import *
 from ZoneManager import ZoneManager
 from TriggerManager import TriggerManager 
 
+
 # get the light out of a light node
 def extractLight(node):
         i = 0
@@ -785,6 +786,7 @@ class ModuleManager():
         self.moduleConfigIsParsed = False
 
         self.selectionBuffer = None
+        self.myTerrainManager = None
         self.depthBuffer = None
         self.propertyWindow = None
     
@@ -801,6 +803,7 @@ class ModuleManager():
         self.raySceneQueryListener = MyRaySceneQueryListener()
         
         self.zoneManager = ZoneManager(self.sceneManager)
+
         
     def resetParsedModuleConfig(self):
         self.moduleConfigIsParsed = False
@@ -895,6 +898,7 @@ class ModuleManager():
         if self.selectionBuffer is None:
             self.selectionBuffer = SelectionBuffer(self.sceneManager, self.ogreRoot.getRenderTarget("OgreMainWin"), self, self.zoneManager)
 
+            
 #        if self.depthBuffer is None:
 #            self.depthBuffer = DepthBuffer(self.sceneManager, self.ogreRoot.getRenderTarget("OgreMainWin"))
 

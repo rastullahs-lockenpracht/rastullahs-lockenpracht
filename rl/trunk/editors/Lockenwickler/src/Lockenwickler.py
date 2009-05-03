@@ -41,7 +41,7 @@ from MovePivot import *
 from PivotRenderQueueListener import *
 from ModuleDirectoryView import *
 from TriggerManager import *
-
+from MyTerrainManager import MyTerrainManager
 
 import OgreMainWindow
 import ogre.renderer.OGRE as og
@@ -234,6 +234,9 @@ class Lockenwickler(QtGui.QMainWindow):
         self.actionConsole_Window = self.createAction("&Console Window",  self.toggleConsoleWindow,  "Alt+C",  "console.png",  "Console Window")
         self.actionConsole_Window.setObjectName("actionConsole_Window")
         
+        self.actionTerrainTools_Window = self.createAction("&Terrain Tools",  self.toggleTerrainToolsWindow,  "Alt+T",  "terrain_small.png",  "Console Window")
+        self.actionTerrainTools_Window.setObjectName("actionTerrainTools_Window")
+        
         self.actionToggleViewportGrid = self.createAction("&Toggle Grid",  self.toggleViewportGrid,  "Alt+G",  "console.png",  "Toggle Viewport Grid")
         self.actionToggleViewportGrid.setObjectName("actionToggleViewportGrid")
 
@@ -268,6 +271,7 @@ class Lockenwickler(QtGui.QMainWindow):
         self.menuView.addAction(self.actionMaterial_Selection)
         self.menuView.addAction(self.actionGameObjectClass_Selection)
         self.menuView.addAction(self.actionConsole_Window)
+        self.menuView.addAction(self.actionTerrainTools_Window)
         self.menuView.addAction(self.actionToggleViewportGrid)
         
         self.menubar.addAction(self.menuFile.menuAction())
@@ -312,7 +316,9 @@ class Lockenwickler(QtGui.QMainWindow):
         self.OgreMainWinSceneMgr.addRenderQueueListener(self.pivotRenderQueueListener)
         
         self.moduleName = ""
+        self.myTerrainManager = MyTerrainManager(self.OgreMainWinSceneMgr)
         self.moduleManager = ModuleManager(self.ogreRoot,  self.OgreMainWinSceneMgr)
+        self.moduleManager.myTerrainManager = self.myTerrainManager
         self.gocManager = self.moduleManager.gocManager
         
         self.ogreMainWindow = OgreMainWindow.OgreMainWindow(self.moduleManager,  root,  self.OgreMainWinSceneMgr,  self)
@@ -326,6 +332,7 @@ class Lockenwickler(QtGui.QMainWindow):
     def finishEditorSetup(self):
         if not self.editorSetupFinished:
             og.ResourceGroupManager.getSingleton().addResourceLocation("./media", "FileSystem", "General", False)
+            og.ResourceGroupManager.getSingleton().addResourceLocation("./media/terrain", "FileSystem", "General", False)
             og.ResourceGroupManager.getSingleton().initialiseAllResourceGroups()
 
             self.moduleManager.pivot = Pivot(self.OgreMainWinSceneMgr)
@@ -438,6 +445,12 @@ class Lockenwickler(QtGui.QMainWindow):
             self.consoleDock.show()
         else:
             self.consoleDock.hide()
+            
+    def toggleTerrainToolsWindow(self):
+        if self.myTerrainManagerDock.isHidden():
+            self.myTerrainManagerDock.show()
+        else:
+            self.myTerrainManagerDock.hide()
 
     def toggleViewportGrid(self):
         self.ogreMainWindow.toggleViewportGrid()
@@ -481,6 +494,8 @@ class Lockenwickler(QtGui.QMainWindow):
         self.moduleDirectoryViewDock.setAllowedAreas(QtCore.Qt.LeftDockWidgetArea | QtCore.Qt.RightDockWidgetArea | QtCore.Qt.TopDockWidgetArea | QtCore.Qt.BottomDockWidgetArea)
         self.moduleDirectoryViewDock.setWidget(self.moduleDirectoryViewWin)
         self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.moduleDirectoryViewDock)
+        
+        self.myTerrainManagerDock = self.myTerrainManager.getDockWidget(self)
         
         self.consoleDock = QtGui.QDockWidget(self.tr("Console"), self)
         self.consoleDock.setObjectName("ConsoleDockWindow")
