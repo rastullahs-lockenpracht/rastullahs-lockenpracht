@@ -72,9 +72,9 @@ class Terrain():
     def create(self, arg):
         self.name = arg["name"]
         self.position = og.Vector3(arg["positionX"], arg["positionY"], arg["positionZ"])
-        self.extends = og.Vector3(arg["extendsX"], arg["extendsY"], arg["extendsZ"]) + 1
+        self.extends = og.Vector3(arg["extendsX"], arg["extendsY"], arg["extendsZ"])
         self.terrainHeight = arg["terrainHeight"]
-        self.terrainSize = arg["terrainSize"]
+        self.terrainSize = arg["terrainSize"] + 1
         self.splattingBaseName = arg["splattingBaseName"]
         self.splattingResGroup = arg["splattingResGroup"]
         self.splattingTexturSize = arg["splattingTexturSize"]
@@ -86,7 +86,7 @@ class Terrain():
         heightMapValues = og.LodDistanceList() ## ET.stdVectorFloat()
         for i in xrange(self.terrainSize):
             for j in xrange(self.terrainSize):
-                heightMapValues.append(float(self.terrainHeight))
+                heightMapValues.append(self.terrainHeight)
         # width, height, heightmapvalues as a float array
         self.terrainInfo = ET.TerrainInfo (self.terrainSize, self.terrainSize, heightMapValues )
         
@@ -99,7 +99,9 @@ class Terrain():
         half = self.extends / 2
         minPos = self.position - half
         maxPos = self.position + half
-        terrainInfo.setExtents(og.AxisAlignedBox(minPos.x, minPos.y, minPos.z, minPos.x, minPos.y, minPos.z))
+        terrainInfo.setExtents(og.AxisAlignedBox(int(minPos.x), int(minPos.y), int(minPos.z), int(minPos.x), int(minPos.y), int(minPos.z)))
+
+        print minPos.x, minPos.y, minPos.z, minPos.x, minPos.y, minPos.z
 
         ## now render it
         terrainMgr.createTerrain(terrainInfo)
@@ -112,7 +114,7 @@ class Terrain():
 #        * @param channels   Number of channels per texture (must be in {1, 2, 3, 4})
         self.splatMgr = ET.SplattingManager(self.splattingBaseName, self.splattingResGroup, self.splattingTexturSize, self.splattingTexturSize, 3)
         ## specify number of splatting textures we need to handle
-        self.splatMgr.setNumTextures(self.numTextures)
+        self.splatMgr.setNumTextures(self.splattingNumTextures)
 
         ## create a manual lightmap texture
         lightmapTex = og.TextureManager.getSingleton().createManual(
@@ -126,8 +128,8 @@ class Terrain():
         lightmapTex.getBuffer(0, 0).blitFromMemory(lightmap.getPixelBox(0, 0))
 
         ##  load the terrain material and assign it
-#        material = og.MaterialManager.getSingleton().getByName("ETTerrainMaterial")
-        material = og.MaterialManager.getSingleton().getByName("Lockenwickler_Area")
+        material = og.MaterialManager.getSingleton().getByName("ETTerrainMaterial")
+#        material = og.MaterialManager.getSingleton().getByName("Lockenwickler_Area")
         self.terrainManager.setMaterial(material)
         
 class MyTerrainManager():

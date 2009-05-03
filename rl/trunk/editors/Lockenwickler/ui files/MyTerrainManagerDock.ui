@@ -48,7 +48,7 @@
         <x>0</x>
         <y>0</y>
         <width>261</width>
-        <height>637</height>
+        <height>656</height>
        </rect>
       </property>
       <attribute name="label" >
@@ -174,8 +174,14 @@
          <property name="prefix" >
           <string>X:</string>
          </property>
+         <property name="minimum" >
+          <double>-999999999.000000000000000</double>
+         </property>
          <property name="maximum" >
           <double>999999999.000000000000000</double>
+         </property>
+         <property name="value" >
+          <double>0.000000000000000</double>
          </property>
         </widget>
        </item>
@@ -206,6 +212,9 @@
          <property name="prefix" >
           <string>Y:</string>
          </property>
+         <property name="minimum" >
+          <double>-999999999.000000000000000</double>
+         </property>
          <property name="maximum" >
           <double>999999999.000000000000000</double>
          </property>
@@ -227,6 +236,9 @@
          </property>
          <property name="suffix" >
           <string/>
+         </property>
+         <property name="minimum" >
+          <double>-999999999.000000000000000</double>
          </property>
          <property name="maximum" >
           <double>999999999.000000000000000</double>
@@ -254,7 +266,7 @@
           <string>X:</string>
          </property>
          <property name="minimum" >
-          <number>128</number>
+          <number>0</number>
          </property>
          <property name="maximum" >
           <number>10000</number>
@@ -295,7 +307,7 @@
           <string>Y:</string>
          </property>
          <property name="minimum" >
-          <number>128</number>
+          <number>0</number>
          </property>
          <property name="maximum" >
           <number>10000</number>
@@ -323,7 +335,7 @@
           <string>Z:</string>
          </property>
          <property name="minimum" >
-          <number>128</number>
+          <number>0</number>
          </property>
          <property name="maximum" >
           <number>10000</number>
@@ -554,7 +566,7 @@ p, li { white-space: pre-wrap; }
         <x>0</x>
         <y>0</y>
         <width>261</width>
-        <height>637</height>
+        <height>656</height>
        </rect>
       </property>
       <attribute name="label" >
@@ -567,7 +579,7 @@ p, li { white-space: pre-wrap; }
         <x>0</x>
         <y>0</y>
         <width>261</width>
-        <height>637</height>
+        <height>656</height>
        </rect>
       </property>
       <attribute name="label" >

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/fusion/dev/ui files/MyTerrainManagerDock.ui'
+# Form implementation generated from reading ui file 'D:\Lockenwickler\ui files\MyTerrainManagerDock.ui'
 #
-# Created: Sun May  3 16:55:48 2009
-#      by: PyQt4 UI code generator 4.4.4
+# Created: Sun May 03 18:30:28 2009
+#      by: PyQt4 UI code generator 4.4.3
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -27,7 +27,7 @@ class Ui_TerrainManagerUi(object):
 #        self.toolBox.setTabSpacing(1)
         self.toolBox.setObjectName("toolBox")
         self.page = QtGui.QWidget()
-        self.page.setGeometry(QtCore.QRect(0, 0, 261, 637))
+        self.page.setGeometry(QtCore.QRect(0, 0, 261, 656))
         self.page.setObjectName("page")
         self.gridLayout = QtGui.QGridLayout(self.page)
         self.gridLayout.setMargin(1)
@@ -68,7 +68,9 @@ class Ui_TerrainManagerUi(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.positionSpinBoxX.sizePolicy().hasHeightForWidth())
         self.positionSpinBoxX.setSizePolicy(sizePolicy)
+        self.positionSpinBoxX.setMinimum(-999999999.0)
         self.positionSpinBoxX.setMaximum(999999999.0)
+        self.positionSpinBoxX.setProperty("value", QtCore.QVariant(0.0))
         self.positionSpinBoxX.setObjectName("positionSpinBoxX")
         self.gridLayout.addWidget(self.positionSpinBoxX, 3, 1, 1, 1)
         self.label_11 = QtGui.QLabel(self.page)
@@ -80,6 +82,7 @@ class Ui_TerrainManagerUi(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.positionSpinBoxY.sizePolicy().hasHeightForWidth())
         self.positionSpinBoxY.setSizePolicy(sizePolicy)
+        self.positionSpinBoxY.setMinimum(-999999999.0)
         self.positionSpinBoxY.setMaximum(999999999.0)
         self.positionSpinBoxY.setObjectName("positionSpinBoxY")
         self.gridLayout.addWidget(self.positionSpinBoxY, 4, 1, 1, 1)
@@ -89,6 +92,7 @@ class Ui_TerrainManagerUi(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.positionSpinBoxZ.sizePolicy().hasHeightForWidth())
         self.positionSpinBoxZ.setSizePolicy(sizePolicy)
+        self.positionSpinBoxZ.setMinimum(-999999999.0)
         self.positionSpinBoxZ.setMaximum(999999999.0)
         self.positionSpinBoxZ.setObjectName("positionSpinBoxZ")
         self.gridLayout.addWidget(self.positionSpinBoxZ, 5, 1, 1, 1)
@@ -99,7 +103,7 @@ class Ui_TerrainManagerUi(object):
         sizePolicy.setHeightForWidth(self.extendsSpinBoxX.sizePolicy().hasHeightForWidth())
         self.extendsSpinBoxX.setSizePolicy(sizePolicy)
         self.extendsSpinBoxX.setCorrectionMode(QtGui.QAbstractSpinBox.CorrectToNearestValue)
-        self.extendsSpinBoxX.setMinimum(128)
+        self.extendsSpinBoxX.setMinimum(0)
         self.extendsSpinBoxX.setMaximum(10000)
         self.extendsSpinBoxX.setObjectName("extendsSpinBoxX")
         self.gridLayout.addWidget(self.extendsSpinBoxX, 6, 1, 1, 1)
@@ -113,7 +117,7 @@ class Ui_TerrainManagerUi(object):
         sizePolicy.setHeightForWidth(self.extendsSpinBoxY.sizePolicy().hasHeightForWidth())
         self.extendsSpinBoxY.setSizePolicy(sizePolicy)
         self.extendsSpinBoxY.setCorrectionMode(QtGui.QAbstractSpinBox.CorrectToNearestValue)
-        self.extendsSpinBoxY.setMinimum(128)
+        self.extendsSpinBoxY.setMinimum(0)
         self.extendsSpinBoxY.setMaximum(10000)
         self.extendsSpinBoxY.setObjectName("extendsSpinBoxY")
         self.gridLayout.addWidget(self.extendsSpinBoxY, 7, 1, 1, 1)
@@ -124,7 +128,7 @@ class Ui_TerrainManagerUi(object):
         sizePolicy.setHeightForWidth(self.extendsSpinBoxZ.sizePolicy().hasHeightForWidth())
         self.extendsSpinBoxZ.setSizePolicy(sizePolicy)
         self.extendsSpinBoxZ.setCorrectionMode(QtGui.QAbstractSpinBox.CorrectToNearestValue)
-        self.extendsSpinBoxZ.setMinimum(128)
+        self.extendsSpinBoxZ.setMinimum(0)
         self.extendsSpinBoxZ.setMaximum(10000)
         self.extendsSpinBoxZ.setObjectName("extendsSpinBoxZ")
         self.gridLayout.addWidget(self.extendsSpinBoxZ, 8, 1, 1, 1)
@@ -191,11 +195,11 @@ class Ui_TerrainManagerUi(object):
         self.gridLayout.addWidget(self.createTerrainButton, 15, 0, 1, 2)
         self.toolBox.addItem(self.page, "")
         self.page_2 = QtGui.QWidget()
-        self.page_2.setGeometry(QtCore.QRect(0, 0, 261, 637))
+        self.page_2.setGeometry(QtCore.QRect(0, 0, 261, 656))
         self.page_2.setObjectName("page_2")
         self.toolBox.addItem(self.page_2, "")
         self.Seite = QtGui.QWidget()
-        self.Seite.setGeometry(QtCore.QRect(0, 0, 261, 637))
+        self.Seite.setGeometry(QtCore.QRect(0, 0, 261, 656))
         self.Seite.setObjectName("Seite")
         self.toolBox.addItem(self.Seite, "")
         self.gridLayout_2.addWidget(self.toolBox, 1, 0, 1, 1)
