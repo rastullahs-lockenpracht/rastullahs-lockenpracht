@@ -979,7 +979,7 @@ class ModuleManager():
                     self.updatePivots()
                 elif controlDown and not shiftDown:
                     so.setSelected(True)
-
+                    
                     for soFromList in self.userSelectionList:
                         if soFromList == so:
                             return # object already selected

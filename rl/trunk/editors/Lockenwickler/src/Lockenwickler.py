@@ -332,7 +332,6 @@ class Lockenwickler(QtGui.QMainWindow):
     def finishEditorSetup(self):
         if not self.editorSetupFinished:
             og.ResourceGroupManager.getSingleton().addResourceLocation("./media", "FileSystem", "General", False)
-            og.ResourceGroupManager.getSingleton().addResourceLocation("./media/terrain", "FileSystem", "General", False)
             og.ResourceGroupManager.getSingleton().initialiseAllResourceGroups()
 
             self.moduleManager.pivot = Pivot(self.OgreMainWinSceneMgr)

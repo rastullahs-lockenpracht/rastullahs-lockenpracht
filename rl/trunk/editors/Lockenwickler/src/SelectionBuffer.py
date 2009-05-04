@@ -52,7 +52,7 @@ class SelectionObject():
         self.entity = entity #the selected entity
         self.isPivot = False
 
-
+        print self.entity.getParentNode().getName()
 
     #if True this instance will show its bounding box else it will hide it
     def setSelected(self,  selected):
@@ -102,7 +102,6 @@ class MaterialSwitcher( og.MaterialManager.Listener ):
                 self.lastEntity = subEntity.getParent().getName()
                 self.colorDict[self.lastEntity] = self.currentColorAsVector3
                 return self.lastTechnique
-        
 
     def randomizeColor(self):
         r = random.randrange(1, 255)
@@ -187,7 +186,8 @@ class SelectionBuffer():
 
         self.pBox = og.PixelBox(pixelBuffer.getWidth(), pixelBuffer.getHeight(),pixelBuffer.getDepth(), pixelBuffer.getFormat(), VoidPointer)
         self.renderTexture.copyContentsToMemory(self.pBox, og.RenderTarget.FrameBuffer.FB_FRONT)
-
+        
+#        self.renderTexture.writeContentsToFile("selectionbuffer.png")
 #        i = 0
 #        
 #        while i < len(self.buffer):

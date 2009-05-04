@@ -24,12 +24,66 @@ import ogre.renderer.OGRE as og
 import ogre.addons.et as ET
 
 import Ui_MyTerrainManagerDock
+from GlobDirectoryWalker import GlobDirectoryWalker
 
+class BrushDialog(QDialog):
+    def __init__(self, parent = None):
+        super(BrushDialog, self).__init__(parent)
+        self.setupUi(self)
+        self.brushName = ""
+        
+        for file in GlobDirectoryWalker("./media/terrain/brushes", "*.png"):
+            btn = QListWidgetItem()
+            btn.setText(file.replace("./media/terrain/brushes/", ""))
+            btn.setIcon(QIcon(file))
+            self.listWidget.addItem(btn)
+        
+    def setupUi(self, Dialog):
+        Dialog.setObjectName("Dialog")
+        Dialog.resize(343, 388)
+        self.gridLayout = QGridLayout(Dialog)
+        self.gridLayout.setObjectName("gridLayout")
+        self.pushButton = QPushButton(Dialog)
+        self.pushButton.setObjectName("pushButton")
+        self.gridLayout.addWidget(self.pushButton, 1, 0, 1, 1)
+        self.pushButton_2 = QPushButton(Dialog)
+        self.pushButton_2.setObjectName("pushButton_2")
+        self.gridLayout.addWidget(self.pushButton_2, 1, 1, 1, 1)
+        self.listWidget = QListWidget(Dialog)
+        self.listWidget.setObjectName("listWidget")
+        self.gridLayout.addWidget(self.listWidget, 0, 0, 1, 2)
+
+        self.retranslateUi(Dialog)
+        QObject.connect(self.pushButton_2, SIGNAL("pressed()"), Dialog.reject)
+        QObject.connect(self.pushButton, SIGNAL("pressed()"), Dialog.accept)
+        QObject.connect(self.listWidget, SIGNAL("doubleClicked(QModelIndex)"), Dialog.saveBrushName)
+        QObject.connect(self.listWidget, SIGNAL("doubleClicked(QModelIndex)"), Dialog.accept)
+        QMetaObject.connectSlotsByName(Dialog)
+
+    def retranslateUi(self, Dialog):
+        Dialog.setWindowTitle(QApplication.translate("Dialog", "Dialog", None, QApplication.UnicodeUTF8))
+        self.pushButton.setText(QApplication.translate("Dialog", "Ok", None, QApplication.UnicodeUTF8))
+        self.pushButton_2.setText(QApplication.translate("Dialog", "Cancel", None, QApplication.UnicodeUTF8))
+    
+    def saveBrushName(self):
+        item = self.listWidget.currentItem()
+        self.brushName = str(item.text())
+        
 class MyTerrainManagerDock(Ui_MyTerrainManagerDock.Ui_TerrainManagerUi, QWidget):
-    def __init__(self, parent):
+    def __init__(self, onBrushChangedCallback, parent = None):
         super(MyTerrainManagerDock, self).__init__(parent)
         self.setupUi(self)
         QWidget.connect(self.createTerrainButton, SIGNAL("clicked()"), self.onCreateTerrainButtonClicked)
+        QWidget.connect(self.brushButton, SIGNAL("clicked()"), self.onBrushButtonClicked)
+        self.onBrushChangedCallback = onBrushChangedCallback
+        
+    def onBrushButtonClicked(self):
+        dlg = BrushDialog(self)
+        dlg.exec_()
+        self.onBrushChangedCallback(dlg.brushName)
+        self.brushButton.setIcon(QIcon("./media/terrain/brushes/" + dlg.brushName))
+        self.brushButton.setIconSize(QSize(150, 150))
+        self.brushButton.setText(dlg.brushName)
         
     def onCreateTerrainButtonClicked(self):
         terrainData = {}
@@ -45,7 +99,7 @@ class MyTerrainManagerDock(Ui_MyTerrainManagerDock.Ui_TerrainManagerUi, QWidget)
         terrainData["terrainHeight"]  = self.terrainHeightSpinBox.value()
         terrainData["splattingBaseName"]  = str(self.baseNameLineEdit.text())
         terrainData["splattingResGroup"]  = str(self.resGroupLineEdit.text())
-        terrainData["splattingTexturSize"]  = int(self.texSizeComboBox.currentText())
+        terrainData["splattingTextureSize"]  = int(self.texSizeComboBox.currentText())
         terrainData["splattingNumTextures"]  = int(self.numTexturesComboBox.currentText())
         
         self.emit(SIGNAL("createTerrain"), terrainData)
@@ -61,25 +115,30 @@ class Terrain():
         self.terrainSize = 129
         self.splattingBaseName = "ETSplatting"
         self.splattingResGroup = "ET"
-        self.splattingTexturSize = 128
+        self.splattingTextureSize = 128
         self.splattingNumTextures = 6
         
-        ## create terrain manager
-        self.terrainManager =  ET.TerrainManager(self.sceneManager)
+        self.created = False
+        self.terrainInfo = None
+        
+    def create(self, arg):
+#        if self.created:
+#            del self.terrainInfo
+#            del self.terrainManager
+        if arg is not None:
+            self.name = arg["name"]
+            self.position = og.Vector3(arg["positionX"], arg["positionY"], arg["positionZ"])
+            self.extends = og.Vector3(arg["extendsX"], arg["extendsY"], arg["extendsZ"])
+            self.terrainHeight = arg["terrainHeight"]
+            self.terrainSize = arg["terrainSize"] + 1
+            self.splattingBaseName = arg["splattingBaseName"]
+            self.splattingResGroup = arg["splattingResGroup"]
+            self.splattingTextureSize = arg["splattingTextureSize"]
+            self.splattingNumTextures = arg["splattingNumTextures"]
+        
+        self.terrainManager =  ET.TerrainManager(self.sceneManager, self.name)
         self.terrainManager.setLODErrorMargin(2, self.camera.getViewport().getActualHeight())
         self.terrainManager.setUseLODMorphing(True, 0.2, "morphFactor")
-    
-    def create(self, arg):
-        self.name = arg["name"]
-        self.position = og.Vector3(arg["positionX"], arg["positionY"], arg["positionZ"])
-        self.extends = og.Vector3(arg["extendsX"], arg["extendsY"], arg["extendsZ"])
-        self.terrainHeight = arg["terrainHeight"]
-        self.terrainSize = arg["terrainSize"] + 1
-        self.splattingBaseName = arg["splattingBaseName"]
-        self.splattingResGroup = arg["splattingResGroup"]
-        self.splattingTexturSize = arg["splattingTexturSize"]
-        self.splattingNumTextures = arg["splattingNumTextures"]
-        
         
         ## create a fresh, mid-high terrain for editing
         # Note 
@@ -97,11 +156,8 @@ class Terrain():
         
         ## set position and size of the terrain
         half = self.extends / 2
-        minPos = self.position - half
-        maxPos = self.position + half
-        terrainInfo.setExtents(og.AxisAlignedBox(int(minPos.x), int(minPos.y), int(minPos.z), int(minPos.x), int(minPos.y), int(minPos.z)))
+        terrainInfo.setExtents(og.AxisAlignedBox(-half.x, -half.y, -half.z, half.x, half.y, half.z))
 
-        print minPos.x, minPos.y, minPos.z, minPos.x, minPos.y, minPos.z
 
         ## now render it
         terrainMgr.createTerrain(terrainInfo)
@@ -112,13 +168,13 @@ class Terrain():
 #        * @param width      width of the textures in pixels
 #        * @param height     height of the textures in pixels
 #        * @param channels   Number of channels per texture (must be in {1, 2, 3, 4})
-        self.splatMgr = ET.SplattingManager(self.splattingBaseName, self.splattingResGroup, self.splattingTexturSize, self.splattingTexturSize, 3)
+        self.splatMgr = ET.SplattingManager(self.splattingBaseName, self.splattingResGroup, self.splattingTextureSize, self.splattingTextureSize, 3)
         ## specify number of splatting textures we need to handle
         self.splatMgr.setNumTextures(self.splattingNumTextures)
-
+        
         ## create a manual lightmap texture
         lightmapTex = og.TextureManager.getSingleton().createManual(
-        self.splattingBaseName, self.splattingResGroup, og.TEX_TYPE_2D, self.splattingTexturSize, self.splattingTexturSize, 1, og.PF_BYTE_RGB)
+        "ETLightmap", self.splattingResGroup, og.TEX_TYPE_2D, self.splattingTextureSize, self.splattingTextureSize, 1, og.PF_BYTE_RGB)
 
         lightmap = og.Image()
         ET.createTerrainLightmap(terrainInfo, lightmap, 128, 128,\
@@ -132,14 +188,20 @@ class Terrain():
 #        material = og.MaterialManager.getSingleton().getByName("Lockenwickler_Area")
         self.terrainManager.setMaterial(material)
         
+        self.sceneNode = self.sceneManager.getSceneNode(self.name + "/Terrain")
+        self.sceneNode.setPosition(self.position)
+        self.created = True
+        
 class MyTerrainManager():
     def __init__(self, sceneManager):
         self.sceneManager = sceneManager
         self.dockWidgetContents = None
-
+        og.ResourceGroupManager.getSingleton().addResourceLocation("./media/terrain", "FileSystem", "ET", True)
+        self.terrainList = []
+    
     def getDockWidget(self, parent):
         if self.dockWidgetContents is None:
-            self.dockWidgetContents = MyTerrainManagerDock(parent)
+            self.dockWidgetContents = MyTerrainManagerDock(self.onBrushChanged, parent)
             self.myTerrainManagerDock = QDockWidget("Terrain Tools", parent)
             self.myTerrainManagerDock.setObjectName("TerrainToolsDockWindow")
             self.myTerrainManagerDock.setAllowedAreas(Qt.LeftDockWidgetArea | Qt.RightDockWidgetArea)
@@ -152,6 +214,31 @@ class MyTerrainManager():
             
         return self.myTerrainManagerDock
 
+    def onBrushChanged(self, brushName):
+        print brushName
+
     def onCreateTerrain(self, arg):
-        self.terrain = Terrain(self.sceneManager)
-        self.terrain.create(arg)
+        terrain = Terrain(self.sceneManager)
+        terrain.create(arg)
+        self.terrainList.append(terrain)
+        
+        og.ResourceGroupManager.getSingleton().initialiseAllResourceGroups()
+        
+        self.updateTerrainListBox()
+        
+#        i = 0
+#        numChildren = self.sceneManager.getRootSceneNode().numChildren()
+#        while i < numChildren:
+#            n = self.sceneManager.getRootSceneNode().getChild(i)
+#            name = n.getName()
+#            print name
+#            i += 1
+
+    def updateTerrainListBox(self):
+        self.dockWidgetContents.terrainListComboBox.clear()
+        if len(self.terrainList) == 0:
+            self.dockWidgetContents.terrainListComboBox.addItem("No Terrain")
+            return
+            
+        for terrain in self.terrainList:
+            self.dockWidgetContents.terrainListComboBox.addItem(terrain.name)
