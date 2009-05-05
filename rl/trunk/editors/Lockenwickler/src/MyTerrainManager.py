@@ -70,12 +70,17 @@ class BrushDialog(QDialog):
         self.brushName = str(item.text())
         
 class MyTerrainManagerDock(Ui_MyTerrainManagerDock.Ui_TerrainManagerUi, QWidget):
-    def __init__(self, onBrushChangedCallback, parent = None):
+    def __init__(self, terrainManager, onBrushChangedCallback, parent = None):
         super(MyTerrainManagerDock, self).__init__(parent)
         self.setupUi(self)
+        self.terrainManager = terrainManager
         QWidget.connect(self.createTerrainButton, SIGNAL("clicked()"), self.onCreateTerrainButtonClicked)
+        QWidget.connect(self.deleteTerrainButton, SIGNAL("clicked()"), self.onDeleteTerrainButtonClicked)
         QWidget.connect(self.brushButton, SIGNAL("clicked()"), self.onBrushButtonClicked)
+        QWidget.connect(self.terrainListComboBox, SIGNAL("currentIndexChanged ( const QString &)"), self.onTerrainChanged)
+        QWidget.connect(self.toggleTerrainVisibilityButton, SIGNAL("toggled ( bool )"), self.onToggleTerrainVisiblity)
         self.onBrushChangedCallback = onBrushChangedCallback
+        self.lastTerrain = None
         
     def onBrushButtonClicked(self):
         dlg = BrushDialog(self)
@@ -104,6 +109,24 @@ class MyTerrainManagerDock(Ui_MyTerrainManagerDock.Ui_TerrainManagerUi, QWidget)
         
         self.emit(SIGNAL("createTerrain"), terrainData)
         
+    def onDeleteTerrainButtonClicked(self):
+        reply = QtGui.QMessageBox.question(self,  "This cannot be undone!",  "Really delete the terrain?",  QMessageBox.Yes|QMessageBox.Cancel)
+        if reply == QMessageBox.Cancel:
+            return
+        elif reply == QMessageBox.Yes:
+            self.terrainManager.deleteTerrain(str(self.terrainListComboBox.currentText()))
+        
+    def onTerrainChanged(self, text):
+        terrain = self.terrainManager.getTerrain(text)
+        if terrain is not None:
+            self.toggleTerrainVisibilityButton.setChecked(terrain.visible)
+            
+            self.lastTerrain = terrain
+        
+    def onToggleTerrainVisiblity(self, visibility):
+        if self.lastTerrain is not None:
+            self.lastTerrain.setVisible(visibility)
+        
 class Terrain():
     def __init__(self, sceneManager):
         self.sceneManager = sceneManager
@@ -120,11 +143,15 @@ class Terrain():
         
         self.created = False
         self.terrainInfo = None
+        self.visible = True
+        
+    def __del__(self):
+        print "deleting terrain: " + self.name
+        if self.terrainManager:
+            del self.terrainManager
+            del self.splatMgr
         
     def create(self, arg):
-#        if self.created:
-#            del self.terrainInfo
-#            del self.terrainManager
         if arg is not None:
             self.name = arg["name"]
             self.position = og.Vector3(arg["positionX"], arg["positionY"], arg["positionZ"])
@@ -190,8 +217,20 @@ class Terrain():
         
         self.sceneNode = self.sceneManager.getSceneNode(self.name + "/Terrain")
         self.sceneNode.setPosition(self.position)
+        self.parentSceneNode = self.sceneNode.getParentSceneNode()
         self.created = True
         
+    def setVisible(self, visibility):
+        try:
+            if self.parentSceneNode.getChild(self.sceneNode.getName()):
+                self.parentSceneNode.addChild(self.sceneNode)
+                self.visible = visibility
+            else:
+                self.parentSceneNode.attachChild(self.sceneNode)
+                self.visible = visibility
+        except og.OgreException, e:
+            print e
+            
 class MyTerrainManager():
     def __init__(self, sceneManager):
         self.sceneManager = sceneManager
@@ -199,9 +238,15 @@ class MyTerrainManager():
         og.ResourceGroupManager.getSingleton().addResourceLocation("./media/terrain", "FileSystem", "ET", True)
         self.terrainList = []
     
+    def deleteTerrain(self, name):
+        for terrain in self.terrainList:
+            if terrain.name == name:
+                self.terrainList.remove(terrain)
+                del terrain
+    
     def getDockWidget(self, parent):
         if self.dockWidgetContents is None:
-            self.dockWidgetContents = MyTerrainManagerDock(self.onBrushChanged, parent)
+            self.dockWidgetContents = MyTerrainManagerDock(self, self.onBrushChanged, parent)
             self.myTerrainManagerDock = QDockWidget("Terrain Tools", parent)
             self.myTerrainManagerDock.setObjectName("TerrainToolsDockWindow")
             self.myTerrainManagerDock.setAllowedAreas(Qt.LeftDockWidgetArea | Qt.RightDockWidgetArea)
@@ -213,6 +258,11 @@ class MyTerrainManager():
             
             
         return self.myTerrainManagerDock
+
+    def getTerrain(self, name):
+        for terrain in self.terrainList:
+            if terrain.name == name:
+                return terrain
 
     def onBrushChanged(self, brushName):
         print brushName

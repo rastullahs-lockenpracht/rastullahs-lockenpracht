@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '/home/fusion/dev/ui files/MyTerrainManagerDock.ui'
 #
-# Created: Mon May  4 20:23:29 2009
+# Created: Tue May  5 18:01:03 2009
 #      by: PyQt4 UI code generator 4.4.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -21,12 +21,27 @@ class Ui_TerrainManagerUi(object):
         self.terrainListComboBox.setObjectName("terrainListComboBox")
         self.terrainListComboBox.addItem(QtCore.QString())
         self.gridLayout_2.addWidget(self.terrainListComboBox, 0, 0, 1, 1)
-        self.deleteTerrainButton = QtGui.QToolButton(TerrainManagerUi)
+        self.toggleTerrainVisibilityButton = QtGui.QToolButton(TerrainManagerUi)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/iconsPref/editdelete.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.deleteTerrainButton.setIcon(icon)
+        icon.addPixmap(QtGui.QPixmap(":/iconsPref/14_layer_invisible.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/iconsPref/14_layer_visible.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
+        self.toggleTerrainVisibilityButton.setIcon(icon)
+        self.toggleTerrainVisibilityButton.setCheckable(True)
+        self.toggleTerrainVisibilityButton.setObjectName("toggleTerrainVisibilityButton")
+        self.gridLayout_2.addWidget(self.toggleTerrainVisibilityButton, 0, 1, 1, 1)
+        self.editTerrainButton = QtGui.QToolButton(TerrainManagerUi)
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap(":/iconsPref/colors.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.editTerrainButton.setIcon(icon1)
+        self.editTerrainButton.setCheckable(True)
+        self.editTerrainButton.setObjectName("editTerrainButton")
+        self.gridLayout_2.addWidget(self.editTerrainButton, 0, 2, 1, 1)
+        self.deleteTerrainButton = QtGui.QToolButton(TerrainManagerUi)
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap(":/iconsPref/editdelete.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.deleteTerrainButton.setIcon(icon2)
         self.deleteTerrainButton.setObjectName("deleteTerrainButton")
-        self.gridLayout_2.addWidget(self.deleteTerrainButton, 0, 1, 1, 1)
+        self.gridLayout_2.addWidget(self.deleteTerrainButton, 0, 3, 1, 1)
         self.toolBox = QtGui.QToolBox(TerrainManagerUi)
         self.toolBox.setFrameShape(QtGui.QFrame.NoFrame)
         self.toolBox.setFrameShadow(QtGui.QFrame.Sunken)
@@ -246,7 +261,7 @@ class Ui_TerrainManagerUi(object):
         self.Seite.setGeometry(QtCore.QRect(0, 0, 264, 634))
         self.Seite.setObjectName("Seite")
         self.toolBox.addItem(self.Seite, "")
-        self.gridLayout_2.addWidget(self.toolBox, 1, 0, 1, 2)
+        self.gridLayout_2.addWidget(self.toolBox, 1, 0, 1, 4)
         self.label_6.setBuddy(self.nameLineEdit)
         self.label.setBuddy(self.nameLineEdit)
         self.label_2.setBuddy(self.sizeComboBox)
@@ -287,6 +302,10 @@ class Ui_TerrainManagerUi(object):
     def retranslateUi(self, TerrainManagerUi):
         TerrainManagerUi.setWindowTitle(QtGui.QApplication.translate("TerrainManagerUi", "Form", None, QtGui.QApplication.UnicodeUTF8))
         self.terrainListComboBox.setItemText(0, QtGui.QApplication.translate("TerrainManagerUi", "No Terrain", None, QtGui.QApplication.UnicodeUTF8))
+        self.toggleTerrainVisibilityButton.setToolTip(QtGui.QApplication.translate("TerrainManagerUi", "Delete the current terrain", None, QtGui.QApplication.UnicodeUTF8))
+        self.toggleTerrainVisibilityButton.setText(QtGui.QApplication.translate("TerrainManagerUi", "...", None, QtGui.QApplication.UnicodeUTF8))
+        self.editTerrainButton.setToolTip(QtGui.QApplication.translate("TerrainManagerUi", "Delete the current terrain", None, QtGui.QApplication.UnicodeUTF8))
+        self.editTerrainButton.setText(QtGui.QApplication.translate("TerrainManagerUi", "...", None, QtGui.QApplication.UnicodeUTF8))
         self.deleteTerrainButton.setToolTip(QtGui.QApplication.translate("TerrainManagerUi", "Delete the current terrain", None, QtGui.QApplication.UnicodeUTF8))
         self.deleteTerrainButton.setText(QtGui.QApplication.translate("TerrainManagerUi", "...", None, QtGui.QApplication.UnicodeUTF8))
         self.label_6.setText(QtGui.QApplication.translate("TerrainManagerUi", "Geometry", None, QtGui.QApplication.UnicodeUTF8))
