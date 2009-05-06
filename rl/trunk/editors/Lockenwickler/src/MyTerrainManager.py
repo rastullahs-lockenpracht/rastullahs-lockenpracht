@@ -76,19 +76,37 @@ class MyTerrainManagerDock(Ui_MyTerrainManagerDock.Ui_TerrainManagerUi, QWidget)
         self.terrainManager = terrainManager
         QWidget.connect(self.createTerrainButton, SIGNAL("clicked()"), self.onCreateTerrainButtonClicked)
         QWidget.connect(self.deleteTerrainButton, SIGNAL("clicked()"), self.onDeleteTerrainButtonClicked)
-        QWidget.connect(self.brushButton, SIGNAL("clicked()"), self.onBrushButtonClicked)
+        QWidget.connect(self.editBrushButton, SIGNAL("clicked()"), self.onEditBrushButtonClicked)
+        QWidget.connect(self.paintBrushButton, SIGNAL("clicked()"), self.onPaintBrushButtonClicked)
         QWidget.connect(self.terrainListComboBox, SIGNAL("currentIndexChanged ( const QString &)"), self.onTerrainChanged)
         QWidget.connect(self.toggleTerrainVisibilityButton, SIGNAL("toggled ( bool )"), self.onToggleTerrainVisiblity)
+        QWidget.connect(self.toolBox, SIGNAL("currentChanged( int )"), self.onModeChanged)
+        QWidget.connect(self.toolBox, SIGNAL("currentChanged( int )"), self.onModeChanged)
+        
         self.onBrushChangedCallback = onBrushChangedCallback
         self.lastTerrain = None
         
-    def onBrushButtonClicked(self):
+    def onEditBrushButtonClicked(self):
         dlg = BrushDialog(self)
         dlg.exec_()
-        self.onBrushChangedCallback(dlg.brushName)
-        self.brushButton.setIcon(QIcon("./media/terrain/brushes/" + dlg.brushName))
-        self.brushButton.setIconSize(QSize(150, 150))
-        self.brushButton.setText(dlg.brushName)
+        self.terrainManager.setEditBrush(dlg.brushName)
+        self.editBrushButton.setIcon(QIcon("./media/terrain/brushes/" + dlg.brushName))
+        self.editBrushButton.setIconSize(QSize(150, 150))
+        self.editBrushButton.setText(dlg.brushName)
+        
+    def onPaintBrushButtonClicked(self):
+        dlg = BrushDialog(self)
+        dlg.exec_()
+        self.terrainManager.setPaintBrush(dlg.brushName)
+        self.paintBrushButton.setIcon(QIcon("./media/terrain/brushes/" + dlg.brushName))
+        self.paintBrushButton.setIconSize(QSize(150, 150))
+        self.paintBrushButton.setText(dlg.brushName)
+        
+    def onPaintBrushSizeChanged(self, val):
+        self.paintBrushSize = val
+        
+    def onEditBrushSizeChanged(self, val):
+        self.editBrushSize = val
         
     def onCreateTerrainButtonClicked(self):
         terrainData = {}
@@ -110,22 +128,39 @@ class MyTerrainManagerDock(Ui_MyTerrainManagerDock.Ui_TerrainManagerUi, QWidget)
         self.emit(SIGNAL("createTerrain"), terrainData)
         
     def onDeleteTerrainButtonClicked(self):
-        reply = QtGui.QMessageBox.question(self,  "This cannot be undone!",  "Really delete the terrain?",  QMessageBox.Yes|QMessageBox.Cancel)
+        reply = QMessageBox.question(self,  "This cannot be undone!",  "Really delete the terrain?",  QMessageBox.Yes|QMessageBox.Cancel)
         if reply == QMessageBox.Cancel:
             return
         elif reply == QMessageBox.Yes:
             self.terrainManager.deleteTerrain(str(self.terrainListComboBox.currentText()))
+        self.lastTerrain = None
+    
+    def onModeChanged(self, mode):
+        self.terrainManager.setEditMode(mode)
         
     def onTerrainChanged(self, text):
+        self.terrainManager.setCurrentTerrain(text)
         terrain = self.terrainManager.getTerrain(text)
         if terrain is not None:
+            QWidget.disconnect(self.toggleTerrainVisibilityButton, SIGNAL("toggled ( bool )"), self.onToggleTerrainVisiblity)
             self.toggleTerrainVisibilityButton.setChecked(terrain.visible)
+            QWidget.connect(self.toggleTerrainVisibilityButton, SIGNAL("toggled ( bool )"), self.onToggleTerrainVisiblity)
             
             self.lastTerrain = terrain
+        
         
     def onToggleTerrainVisiblity(self, visibility):
         if self.lastTerrain is not None:
             self.lastTerrain.setVisible(visibility)
+            
+    def updateTerrainListBox(self, terrainList):
+        self.terrainListComboBox.clear()
+        if len(terrainList) == 0:
+            self.terrainListComboBox.addItem("No Terrain")
+            return
+            
+        for terrain in terrainList:
+            self.terrainListComboBox.addItem(terrain.name)
         
 class Terrain():
     def __init__(self, sceneManager):
@@ -222,11 +257,12 @@ class Terrain():
         
     def setVisible(self, visibility):
         try:
-            if self.parentSceneNode.getChild(self.sceneNode.getName()):
-                self.parentSceneNode.addChild(self.sceneNode)
+            #if self.parentSceneNode.getChild(self.sceneNode.getName()):
+            if not visibility:
+                self.parentSceneNode.removeChild(self.sceneNode)
                 self.visible = visibility
             else:
-                self.parentSceneNode.attachChild(self.sceneNode)
+                self.parentSceneNode.addChild(self.sceneNode)
                 self.visible = visibility
         except og.OgreException, e:
             print e
@@ -237,13 +273,22 @@ class MyTerrainManager():
         self.dockWidgetContents = None
         og.ResourceGroupManager.getSingleton().addResourceLocation("./media/terrain", "FileSystem", "ET", True)
         self.terrainList = []
+        
+        self.currentEditBrush = None
+        self.editBrushes = {}        
+        self.editBrushSize = val
+        
+        self.currentPaintBrush = None
+        self.paintBrushes = {}
+        self.paintBrushSize = val
     
     def deleteTerrain(self, name):
         for terrain in self.terrainList:
             if terrain.name == name:
                 self.terrainList.remove(terrain)
                 del terrain
-    
+        self.updateTerrainListBox()
+        
     def getDockWidget(self, parent):
         if self.dockWidgetContents is None:
             self.dockWidgetContents = MyTerrainManagerDock(self, self.onBrushChanged, parent)
@@ -267,6 +312,12 @@ class MyTerrainManager():
     def onBrushChanged(self, brushName):
         print brushName
 
+    def onPaintBrushSizeChanged(self, val):
+        self.paintBrushSize = val
+        
+    def onEditBrushSizeChanged(self, val):
+        self.editBrushSize = val
+
     def onCreateTerrain(self, arg):
         terrain = Terrain(self.sceneManager)
         terrain.create(arg)
@@ -285,10 +336,21 @@ class MyTerrainManager():
 #            i += 1
 
     def updateTerrainListBox(self):
-        self.dockWidgetContents.terrainListComboBox.clear()
-        if len(self.terrainList) == 0:
-            self.dockWidgetContents.terrainListComboBox.addItem("No Terrain")
-            return
-            
-        for terrain in self.terrainList:
-            self.dockWidgetContents.terrainListComboBox.addItem(terrain.name)
+        self.dockWidgetContents.updateTerrainListBox(self.terrainList)
+
+    def setCurrentTerrain(self, text):
+        self.currentTerrain = self.getTerrain(text)
+        
+    def setEditBrush(self, brush):
+        self.editBrushes
+        
+    def setPaintBrush(self, brush):
+        print brush
+        
+    def setEditMode(self, mode):
+        self.editMode = mode
+        
+#        if mode == 0:
+#            
+#        elif mode == 1:
+#        elif mode == 2:
