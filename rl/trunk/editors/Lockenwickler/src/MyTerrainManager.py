@@ -70,7 +70,7 @@ class BrushDialog(QDialog):
         self.brushName = str(item.text())
         
 class MyTerrainManagerDock(Ui_MyTerrainManagerDock.Ui_TerrainManagerUi, QWidget):
-    def __init__(self, terrainManager, onBrushChangedCallback, parent = None):
+    def __init__(self, terrainManager, parent = None):
         super(MyTerrainManagerDock, self).__init__(parent)
         self.setupUi(self)
         self.terrainManager = terrainManager
@@ -82,8 +82,11 @@ class MyTerrainManagerDock(Ui_MyTerrainManagerDock.Ui_TerrainManagerUi, QWidget)
         QWidget.connect(self.toggleTerrainVisibilityButton, SIGNAL("toggled ( bool )"), self.onToggleTerrainVisiblity)
         QWidget.connect(self.toolBox, SIGNAL("currentChanged( int )"), self.onModeChanged)
         QWidget.connect(self.toolBox, SIGNAL("currentChanged( int )"), self.onModeChanged)
+        QWidget.connect(self.editBrushSizeSlider, SIGNAL("valueChanged( int )"), self.terrainManager.onEditBrushSizeChanged)
+        QWidget.connect(self.editIntensitySlider, SIGNAL("valueChanged( int )"), self.terrainManager.onEditBrushIntensityChanged)
+        QWidget.connect(self.paintBrushSizeSlider, SIGNAL("valueChanged( int )"), self.terrainManager.onPaintBrushSizeChanged)
+        QWidget.connect(self.paintIntensitySlider, SIGNAL("valueChanged( int )"), self.terrainManager.onPaintBrushIntensityChanged)
         
-        self.onBrushChangedCallback = onBrushChangedCallback
         self.lastTerrain = None
         
     def onEditBrushButtonClicked(self):
@@ -271,16 +274,27 @@ class MyTerrainManager():
     def __init__(self, sceneManager):
         self.sceneManager = sceneManager
         self.dockWidgetContents = None
-        og.ResourceGroupManager.getSingleton().addResourceLocation("./media/terrain", "FileSystem", "ET", True)
+        og.ResourceGroupManager.getSingleton().addResourceLocation("./media/terrain", "FileSystem", "ET", False)        
+        og.ResourceGroupManager.getSingleton().addResourceLocation("./media/terrain/brushes", "FileSystem", "ET", False)
+        
         self.terrainList = []
         
         self.currentEditBrush = None
+        self.currentEditBrushName = None
         self.editBrushes = {}        
-        self.editBrushSize = val
+        self.editBrushSize = 32    
+        self.editBrushIntensity = 32
         
         self.currentPaintBrush = None
+        self.currentPaintBrushName = None
         self.paintBrushes = {}
-        self.paintBrushSize = val
+        self.paintBrushSize = 32
+        self.paintBrushIntensity = 32
+    
+        self.leftMouseDown = False
+        
+        self.mainTimer = QTimer(None)
+        self.mainTimer.start(5)
     
     def deleteTerrain(self, name):
         for terrain in self.terrainList:
@@ -291,7 +305,7 @@ class MyTerrainManager():
         
     def getDockWidget(self, parent):
         if self.dockWidgetContents is None:
-            self.dockWidgetContents = MyTerrainManagerDock(self, self.onBrushChanged, parent)
+            self.dockWidgetContents = MyTerrainManagerDock(self, parent)
             self.myTerrainManagerDock = QDockWidget("Terrain Tools", parent)
             self.myTerrainManagerDock.setObjectName("TerrainToolsDockWindow")
             self.myTerrainManagerDock.setAllowedAreas(Qt.LeftDockWidgetArea | Qt.RightDockWidgetArea)
@@ -309,15 +323,26 @@ class MyTerrainManager():
             if terrain.name == name:
                 return terrain
 
-    def onBrushChanged(self, brushName):
-        print brushName
+    def leftMouseDown(self):
+        self.leftMouseDown = True
+        
+    def leftMouseUp(self):
+        self.leftMouseDown = False
 
     def onPaintBrushSizeChanged(self, val):
         self.paintBrushSize = val
+        self.updatePaintBrush()
+        
+    def onPaintBrushIntensityChanged(self, val):
+        self.paintBrushIntensity = val
         
     def onEditBrushSizeChanged(self, val):
         self.editBrushSize = val
-
+        self.updateEditBrush()
+        
+    def onEditBrushIntensityChanged(self, val):
+        self.editBrushIntensity = val
+        
     def onCreateTerrain(self, arg):
         terrain = Terrain(self.sceneManager)
         terrain.create(arg)
@@ -338,19 +363,48 @@ class MyTerrainManager():
     def updateTerrainListBox(self):
         self.dockWidgetContents.updateTerrainListBox(self.terrainList)
 
+    def updateEditBrush(self):
+        if self.currentEditBrush is not None:
+            self.currentEditBrush = None
+        image = og.Image()
+        image.load(self.currentEditBrushName, "ET")
+        image.resize(self.editBrushSize, self.editBrushSize)
+        self.currentEditBrush = ET.loadBrushFromImage(image)
+        
+    def updatePaintBrush(self):
+        if self.currentPaintBrush is not None:
+            self.currentPaintBrush = None
+        image = og.Image()
+        image.load(self.currentPaintBrushName, "ET")
+        image.resize(self.paintBrushSize, self.paintBrushSize)
+        self.currentPaintBrush = ET.loadBrushFromImage(image)
+
     def setCurrentTerrain(self, text):
         self.currentTerrain = self.getTerrain(text)
         
     def setEditBrush(self, brush):
-        self.editBrushes
+        self.currentEditBrushName = brush
+        self.updateEditBrush()
         
     def setPaintBrush(self, brush):
-        print brush
+        self.currentPaintBrushName = brush
+        self.updatePaintBrush()
         
     def setEditMode(self, mode):
         self.editMode = mode
         
-#        if mode == 0:
-#            
-#        elif mode == 1:
-#        elif mode == 2:
+        if self.editMode == 0:
+            self.mainTimer.disconnect(self.mainTimer, SIGNAL("timeout()"), self.update)
+        elif self.editMode == 1:
+            self.mainTimer.connect(self.mainTimer, SIGNAL("timeout()"), self.update)
+        elif self.editMode == 2:
+            self.mainTimer.connect(self.mainTimer, SIGNAL("timeout()"), self.update)
+        
+    def update(self):
+        if self.editMode == 1:
+            if self.currentEditBrushName is not None:
+                print self.currentEditBrushName + " " + str(self.editBrushSize) + " " + str(self.editBrushIntensity)
+        if self.editMode == 2:
+            if self.currentPaintBrushName is not None:
+                print self.currentPaintBrushName + " " + str(self.paintBrushSize) + " " + str(self.paintBrushIntensity)
+

@@ -1143,12 +1143,17 @@ class ModuleManager():
                 i = i+1
         self.cutList = []
         self.moduleExplorer.updateView()
+    def leftMouseDown(self):
+        if self.pivot is not None and not self.pivot.isTransforming:
+            self.myTerrainManager.leftMouseDown()
         
     def leftMouseUp(self):
         if self.pivot is not None and self.pivot.isTransforming:
             self.propertyWindow.updateProperties()
             self.pivot.stopTransforming()
-
+        else:
+            self.myTerrainManager.leftMouseUp()
+            
     def resetSelection(self):
         if self.userSelectionList is not None:
             for so in self.userSelectionList:
