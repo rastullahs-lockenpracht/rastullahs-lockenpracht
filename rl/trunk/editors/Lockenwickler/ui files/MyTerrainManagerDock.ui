@@ -86,7 +86,7 @@
       <enum>QFrame::Sunken</enum>
      </property>
      <property name="currentIndex" >
-      <number>2</number>
+      <number>1</number>
      </property>
      <property name="tabSpacing" >
       <number>1</number>
@@ -706,8 +706,14 @@ p, li { white-space: pre-wrap; }
          <property name="toolTip" >
           <string>The intensity wich is applied to the tool</string>
          </property>
+         <property name="minimum" >
+          <number>-50</number>
+         </property>
+         <property name="maximum" >
+          <number>50</number>
+         </property>
          <property name="value" >
-          <number>2</number>
+          <number>1</number>
          </property>
          <property name="orientation" >
           <enum>Qt::Horizontal</enum>
@@ -784,6 +790,9 @@ p, li { white-space: pre-wrap; }
          <property name="toolTip" >
           <string>The diameter of the tool</string>
          </property>
+         <property name="maximum" >
+          <number>50</number>
+         </property>
          <property name="value" >
           <number>2</number>
          </property>
@@ -793,15 +802,6 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
       </layout>
-      <zorder>terrainModToolComboBox</zorder>
-      <zorder>label_12</zorder>
-      <zorder>editIntensitySlider</zorder>
-      <zorder>label_13</zorder>
-      <zorder>editBrushButton</zorder>
-      <zorder>label_14</zorder>
-      <zorder>label_15</zorder>
-      <zorder>label_16</zorder>
-      <zorder>editBrushSizeSlider</zorder>
      </widget>
      <widget class="QWidget" name="page_3" >
       <property name="geometry" >

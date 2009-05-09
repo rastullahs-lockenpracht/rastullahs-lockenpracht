@@ -326,6 +326,8 @@ class Lockenwickler(QtGui.QMainWindow):
         self.hboxlayout.addLayout(self.gridlayout)
         self.setCentralWidget(self.centralwidget)
         
+        self.myTerrainManager.ogreMainWindow = self.ogreMainWindow
+        
         oglog = og.LogManager.getSingleton().getDefaultLog()
         oglog.addListener(self.consoleWindow.lockenLog)
 

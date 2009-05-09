@@ -52,7 +52,7 @@ class SelectionObject():
         self.entity = entity #the selected entity
         self.isPivot = False
 
-        print self.entity.getParentNode().getName()
+#        print self.entity.getParentNode().getName()
 
     #if True this instance will show its bounding box else it will hide it
     def setSelected(self,  selected):
@@ -239,6 +239,8 @@ class SelectionBuffer():
                 if key == "OgreMainWin::0::ViewportGrid":
                     return None
                 elif key == "rayLine":
+                    return None
+                elif key == "TerrainManagerEditingCircle" or  key == "TerrainManagerPointerNodeMesh":
                     return None
                 elif key == "EditorXArrow":
                     so = SelectionObject(self.sceneMgr.getEntity(key))

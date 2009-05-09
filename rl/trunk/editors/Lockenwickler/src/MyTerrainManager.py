@@ -270,6 +270,32 @@ class Terrain():
         except og.OgreException, e:
             print e
             
+    def deform(self, brush, pos, brushIntensity):
+        ## translate our cursor position to vertex indexes
+        x = int( self.terrainManager.getTerrainInfo().posToVertexX(pos.x) )
+        z = int( self.terrainManager.getTerrainInfo().posToVertexZ(pos.z) )
+
+        ## choose a brush intensity, this determines
+        ## how extreme our brush works on the terrain
+        ## and tell the ETM to deform the terrain
+        #brushIntensity = float(evt.timeSinceLastFrame * 0.4 * dr)
+        self.terrainManager.deform(x, z, brush, brushIntensity * 0.0004)
+
+    def updateLightMap(self):
+        lightmap = og.Image()
+        ET.createTerrainLightmap(
+                             self.terrainManager.getTerrainInfo() ,
+                             lightmap, 128, 128 ,
+                             og.Vector3(1, -1, 1) ,
+                             og.ColourValue(1 ,1, 1) ,      
+                             og.ColourValue(0.3, 0.3,  0.3) )
+
+        ## get our dynamic texture and update its contents
+        tex = og.TextureManager.getSingleton().getByName("ETLightmap")
+        l = lightmap.getPixelBox(0, 0)
+        tex.getBuffer(0, 0).blitFromMemory(lightmap.getPixelBox(0, 0))
+        
+        
 class MyTerrainManager():
     def __init__(self, sceneManager):
         self.sceneManager = sceneManager
@@ -278,6 +304,10 @@ class MyTerrainManager():
         og.ResourceGroupManager.getSingleton().addResourceLocation("./media/terrain/brushes", "FileSystem", "ET", False)
         
         self.terrainList = []
+        
+        self.currentRay = None
+        self.currentTerrain = None
+        self.isEditing = False
         
         self.currentEditBrush = None
         self.currentEditBrushName = None
@@ -296,6 +326,33 @@ class MyTerrainManager():
         self.mainTimer = QTimer(None)
         self.mainTimer.start(5)
     
+        self.setupFinished = False
+    
+        self.ogreMainWindow = None
+
+        
+    def createEditingCircle(self):
+        self.editingCircle = self.sceneManager.createManualObject("TerrainManagerEditingCircle")
+        self.editingCircle.setDynamic(True)
+        self.editingCircleAccuracy = 6
+        
+        self.editingCircle.begin("BaseWhiteNoLighting", og.RenderOperation.OT_LINE_STRIP)
+        
+        point_index = 0
+        theta = 0
+        while theta < 2 * og.Math.PI:
+            self.editingCircle.position(10 * og.Math.Cos(theta), 0, 10 * og.Math.Sin(theta))
+            self.editingCircle.index(point_index)
+            point_index += 1
+            theta += og.Math.PI / self.editingCircleAccuracy
+            
+        self.editingCircle.index(0)
+        
+        self.editingCircle.end()
+        
+        self.pointerNode.createChildSceneNode("TerrainManagerEditingCircleNode").attachObject(self.editingCircle)
+
+        
     def deleteTerrain(self, name):
         for terrain in self.terrainList:
             if terrain.name == name:
@@ -323,11 +380,9 @@ class MyTerrainManager():
             if terrain.name == name:
                 return terrain
 
-    def leftMouseDown(self):
-        self.leftMouseDown = True
-        
     def leftMouseUp(self):
-        self.leftMouseDown = False
+        if self.currentTerrain:
+            self.currentTerrain.updateLightMap()
 
     def onPaintBrushSizeChanged(self, val):
         self.paintBrushSize = val
@@ -344,6 +399,16 @@ class MyTerrainManager():
         self.editBrushIntensity = val
         
     def onCreateTerrain(self, arg):
+        if not self.setupFinished:
+            self.pointer = self.sceneManager.createEntity("TerrainManagerPointerNodeMesh", "UniCube.mesh")
+            self.pointerNode = self.sceneManager.getRootSceneNode().createChild("TerrainManagerPointerNode")
+            self.pointerNode.attachObject(self.pointer)
+
+            self.createEditingCircle()
+            
+            self.setupFinished = True
+        
+        
         terrain = Terrain(self.sceneManager)
         terrain.create(arg)
         self.terrainList.append(terrain)
@@ -364,8 +429,12 @@ class MyTerrainManager():
         self.dockWidgetContents.updateTerrainListBox(self.terrainList)
 
     def updateEditBrush(self):
-        if self.currentEditBrush is not None:
+        if self.currentEditBrushName is None:
+            return
+            
+        if self.currentEditBrush is None:
             self.currentEditBrush = None
+            
         image = og.Image()
         image.load(self.currentEditBrushName, "ET")
         image.resize(self.editBrushSize, self.editBrushSize)
@@ -395,16 +464,56 @@ class MyTerrainManager():
         
         if self.editMode == 0:
             self.mainTimer.disconnect(self.mainTimer, SIGNAL("timeout()"), self.update)
+                
         elif self.editMode == 1:
             self.mainTimer.connect(self.mainTimer, SIGNAL("timeout()"), self.update)
         elif self.editMode == 2:
             self.mainTimer.connect(self.mainTimer, SIGNAL("timeout()"), self.update)
         
     def update(self):
-        if self.editMode == 1:
-            if self.currentEditBrushName is not None:
-                print self.currentEditBrushName + " " + str(self.editBrushSize) + " " + str(self.editBrushIntensity)
-        if self.editMode == 2:
-            if self.currentPaintBrushName is not None:
+        self.currentRay = self.ogreMainWindow.getCameraToViewportRay()
+        
+        self.updatePointer()
+            
+        if self.editMode == 1 and self.isEditing:
+            if self.currentEditBrushName is not None and self.editBrushIntensity is not 0 and self.leftMouseDown:
+                self.currentTerrain.deform(self.currentEditBrush, self.pointerNode.getPosition(), self.editBrushIntensity)
+        elif self.editMode == 2 and self.isEditing:
+            if self.currentPaintBrushName is not None :
                 print self.currentPaintBrushName + " " + str(self.paintBrushSize) + " " + str(self.paintBrushIntensity)
+    
+    def updateEditingCircle(self):
+        self.editingCircle.beginUpdate(0)
 
+        point_index = 0
+        theta = 0
+        while theta < 2 * og.Math.PI:
+            x = og.Math.Abs(self.pointerNode.getPosition().x) * og.Math.Cos(theta)
+            z = og.Math.Abs(self.pointerNode.getPosition().z) * og.Math.Sin(theta)
+            
+            y = self.currentTerrain.terrainManager.getTerrainInfo().getHeightAt(x, z)
+            
+            self.editingCircle.position(x, y + 0.3, z)
+            self.editingCircle.index(point_index)
+            point_index += 1
+            theta += og.Math.PI / self.editingCircleAccuracy
+            
+        self.editingCircle.index(0)
+
+        self.editingCircle.end()
+
+    def updatePointer(self):
+        if self.currentTerrain is not None:    #float getHeightAt(float x, float z) const;
+            result = self.currentTerrain.terrainManager.getTerrainInfo().rayIntersects(self.currentRay)
+            intersects = result[0]
+            ## update pointer's position
+            if (intersects):
+                self.updateEditingCircle()
+                self.pointerNode.setVisible(True)
+                x = result[1][0]
+                y = result[1][1]
+                z = result[1][2]
+#                print ("Intersect %f, %f, %f " % ( x, y, z) )
+                self.pointerNode.setPosition(og.Vector3(x, y, z))
+            else:
+                self.pointerNode.setVisible(False)

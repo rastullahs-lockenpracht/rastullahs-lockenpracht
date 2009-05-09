@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project Lockenwickler -->
-<!-- Saved: 2009-05-07, 20:40:18 -->
+<!-- Saved: 2009-05-09, 21:08:47 -->
 <!-- Copyright (C) 2009 Stefan Stammberger, sstammberger@web.de -->
 <Project version="4.6">
   <Language>en</Language>
@@ -53,6 +53,7 @@
     <Source>src/Ui_MyTerrainManagerDock.py</Source>
     <Source>src/media/help/help_rc.py</Source>
     <Source>ui files/Ui_BrushDialog.py</Source>
+    <Source>ui files/Ui_MyTerrainManagerDock.py</Source>
   </Sources>
   <Forms>
     <Form>ui files/GOPropertyEditorDialogINT.ui</Form>

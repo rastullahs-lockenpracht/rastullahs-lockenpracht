@@ -931,8 +931,6 @@ class ModuleManager():
         self.resetSelection()
         self.userSelectionList = self.selectionBuffer.manualSelectObjects(items)
         
-        print len(self.userSelectionList)
-        
         if len(self.userSelectionList) > 1:
             self.propertyWindow.clear()
         elif len(self.userSelectionList) > 0 and len(self.userSelectionList) < 2:
@@ -1143,16 +1141,21 @@ class ModuleManager():
                 i = i+1
         self.cutList = []
         self.moduleExplorer.updateView()
-    def leftMouseDown(self):
-        if self.pivot is not None and not self.pivot.isTransforming:
-            self.myTerrainManager.leftMouseDown()
         
-    def leftMouseUp(self):
+    def setLeftMouseDown(self):
+        self.leftMouseDown = True
+        
+        if self.pivot is not None and not self.pivot.isTransforming:
+            self.myTerrainManager.leftMouseDown = True
+        
+    def setLeftMouseUp(self):
+        self.leftMouseDown = False
+        
         if self.pivot is not None and self.pivot.isTransforming:
             self.propertyWindow.updateProperties()
             self.pivot.stopTransforming()
         else:
-            self.myTerrainManager.leftMouseUp()
+            self.myTerrainManager.leftMouseDown = False
             
     def resetSelection(self):
         if self.userSelectionList is not None:
