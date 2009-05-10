@@ -16,6 +16,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  US
 #################################################
+import ctypes
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
@@ -86,6 +87,8 @@ class MyTerrainManagerDock(Ui_MyTerrainManagerDock.Ui_TerrainManagerUi, QWidget)
         QWidget.connect(self.editIntensitySlider, SIGNAL("valueChanged( int )"), self.terrainManager.onEditBrushIntensityChanged)
         QWidget.connect(self.paintBrushSizeSlider, SIGNAL("valueChanged( int )"), self.terrainManager.onPaintBrushSizeChanged)
         QWidget.connect(self.paintIntensitySlider, SIGNAL("valueChanged( int )"), self.terrainManager.onPaintBrushIntensityChanged)
+        QWidget.connect(self.setHeightButton, SIGNAL("toggled( bool )"), self.onToggleSetHeight)
+        QWidget.connect(self.editSmoothButton, SIGNAL("toggled( bool )"), self.onEditSmoothToolToggled)
         
         self.lastTerrain = None
         
@@ -140,6 +143,9 @@ class MyTerrainManagerDock(Ui_MyTerrainManagerDock.Ui_TerrainManagerUi, QWidget)
     
     def onModeChanged(self, mode):
         self.terrainManager.setEditMode(mode)
+    
+    def onEditSmoothToolToggled(self, ison):
+        self.terrainManager.setSmoothMode(ison)
         
     def onTerrainChanged(self, text):
         self.terrainManager.setCurrentTerrain(text)
@@ -165,6 +171,14 @@ class MyTerrainManagerDock(Ui_MyTerrainManagerDock.Ui_TerrainManagerUi, QWidget)
         for terrain in terrainList:
             self.terrainListComboBox.addItem(terrain.name)
         
+    def onToggleSetHeight(self, setHeights):
+        if setHeights:
+            box = QMessageBox.information(QApplication.focusWidget(), "", "Pick the height", QMessageBox.Ok)
+          
+            self.terrainManager.setTerrainHeightMode(True)
+        else:
+            self.terrainManager.setTerrainHeightMode(False)
+            
 class Terrain():
     def __init__(self, sceneManager):
         self.sceneManager = sceneManager
@@ -278,9 +292,79 @@ class Terrain():
         ## choose a brush intensity, this determines
         ## how extreme our brush works on the terrain
         ## and tell the ETM to deform the terrain
-        #brushIntensity = float(evt.timeSinceLastFrame * 0.4 * dr)
         self.terrainManager.deform(x, z, brush, brushIntensity * 0.0004)
 
+    def setHeights(self, brush, pos):
+        ## translate our cursor position to vertex indexes
+        x = int( self.terrainManager.getTerrainInfo().posToVertexX(pos.x) )
+        z = int( self.terrainManager.getTerrainInfo().posToVertexZ(pos.z) )
+
+        self.terrainManager.setHeights(x, z, brush)
+    def getHeights(self, brush, pos):
+        ## translate our cursor position to vertex indexes
+        x = int( self.terrainManager.getTerrainInfo().posToVertexX(pos.x) )
+        z = int( self.terrainManager.getTerrainInfo().posToVertexZ(pos.z) )
+
+        self.terrainManager.getHeights(x, z, brush)
+        
+    def smooth(self, brush, pos, intensity):
+        x = int( self.terrainManager.getTerrainInfo().posToVertexX(pos.x) )
+        z = int( self.terrainManager.getTerrainInfo().posToVertexZ(pos.z) )
+        
+        smooth = self.averageFilter(x, z, brush, intensity)
+        self.terrainManager.setHeights(x, z, smooth)
+        
+    def averageFilter(self, x, z, brush, intensity):
+        #When you're doing a loop possibly thousands of times, it's worth setting these
+        #aside rather than calling a function every iteration.
+        iWidth = brush.getWidth()
+        iHeight = brush.getHeight()
+
+        storageclass = ctypes.c_float * (iWidth * iHeight)
+        vecReturnBuffer =  storageclass()
+        vecHeightBuffer = storageclass()
+       
+        ptr = ctypes.pointer(vecReturnBuffer)
+       
+        brushReturn = ET.Brush(ctypes.pointer(vecReturnBuffer), iWidth, iHeight)
+        brushHeights = ET.Brush(ctypes.pointer(vecHeightBuffer), iWidth, iHeight)
+
+        self.terrainManager.getHeights(x, z, brushHeights)
+
+        fSumHeights = 0.0
+        iNumHeights = iWidth * iHeight
+
+        # Find the sum of all the heights within the sample
+        i = 0
+        j = 0
+        while i < iWidth:
+            while j < iHeight:
+                fSumHeights += brushHeights.at(i, j)
+                j += 1
+            i += 1
+       
+
+        #Find the average height within the sample
+        fAvgHeight = fSumHeights / iNumHeights
+
+        i = 0
+        j = 0
+        while i < iWidth:
+            while j < iHeight:
+                fHeight = brushHeights.at(i, j)
+                fDelta = fHeight - fAvgHeight
+                fShapeMask = shape.at(i, j)
+
+                fDelta = fDelta * fShapeMask * fIntensity
+
+                val = brushReturn.at(i, j) 
+                val = fHeight - fDelta
+                
+                j += 1
+            i += 1
+        return brushReturn
+
+        
     def updateLightMap(self):
         lightmap = og.Image()
         ET.createTerrainLightmap(
@@ -312,14 +396,14 @@ class MyTerrainManager():
         self.currentEditBrush = None
         self.currentEditBrushName = None
         self.editBrushes = {}        
-        self.editBrushSize = 32    
-        self.editBrushIntensity = 32
+        self.editBrushSize = 2    
+        self.editBrushIntensity = 2
         
         self.currentPaintBrush = None
         self.currentPaintBrushName = None
         self.paintBrushes = {}
-        self.paintBrushSize = 32
-        self.paintBrushIntensity = 32
+        self.paintBrushSize = 2
+        self.paintBrushIntensity = 2
     
         self.leftMouseDown = False
         
@@ -327,14 +411,18 @@ class MyTerrainManager():
         self.mainTimer.start(5)
     
         self.setupFinished = False
-    
+        
+        self.setHeigthMode = False
+        self.setHeigthPickMode = False
+        self.editSmoothMode = False
+        
         self.ogreMainWindow = None
 
         
     def createEditingCircle(self):
         self.editingCircle = self.sceneManager.createManualObject("TerrainManagerEditingCircle")
         self.editingCircle.setDynamic(True)
-        self.editingCircleAccuracy = 6
+        self.editingCircleAccuracy = 20
         
         self.editingCircle.begin("BaseWhiteNoLighting", og.RenderOperation.OT_LINE_STRIP)
         
@@ -469,15 +557,37 @@ class MyTerrainManager():
             self.mainTimer.connect(self.mainTimer, SIGNAL("timeout()"), self.update)
         elif self.editMode == 2:
             self.mainTimer.connect(self.mainTimer, SIGNAL("timeout()"), self.update)
+    
+    def setSmoothMode(self, ison):
+        self.editSmoothMode = ison
+        
+        if not ison:
+            self.updateEditBrush()
+            
+    def setTerrainHeightMode(self, setHeight):
+        self.setHeigthMode = setHeight
+        self.setHeigthPickMode = setHeight
+        
+        if not setHeight:
+            self.updateEditBrush()
         
     def update(self):
         self.currentRay = self.ogreMainWindow.getCameraToViewportRay()
         
         self.updatePointer()
-            
+        
+        if self.setHeigthPickMode and self.leftMouseDown:
+            self.currentTerrain.getHeights(self.currentEditBrush, self.pointerNode.getPosition())
+            self.setHeigthPickMode = False
+            return
+        
         if self.editMode == 1 and self.isEditing:
-            if self.currentEditBrushName is not None and self.editBrushIntensity is not 0 and self.leftMouseDown:
+            if self.currentEditBrushName is not None and self.editBrushIntensity is not 0 and self.leftMouseDown and not self.setHeigthMode and not self.editSmoothMode:
                 self.currentTerrain.deform(self.currentEditBrush, self.pointerNode.getPosition(), self.editBrushIntensity)
+            elif self.leftMouseDown and self.setHeigthMode:
+                self.currentTerrain.setHeights(self.currentEditBrush, self.pointerNode.getPosition())  
+            elif self.leftMouseDown and self.editSmoothMode:
+                self.currentTerrain.smooth(self.currentEditBrush, self.pointerNode.getPosition(), self.editBrushIntensity)  
         elif self.editMode == 2 and self.isEditing:
             if self.currentPaintBrushName is not None :
                 print self.currentPaintBrushName + " " + str(self.paintBrushSize) + " " + str(self.paintBrushIntensity)
@@ -488,12 +598,12 @@ class MyTerrainManager():
         point_index = 0
         theta = 0
         while theta < 2 * og.Math.PI:
-            x = og.Math.Abs(self.pointerNode.getPosition().x) * og.Math.Cos(theta)
-            z = og.Math.Abs(self.pointerNode.getPosition().z) * og.Math.Sin(theta)
+            x = self.editBrushSize * og.Math.Cos(theta)
+            z = self.editBrushSize * og.Math.Sin(theta)
             
-            y = self.currentTerrain.terrainManager.getTerrainInfo().getHeightAt(x, z)
+            y = self.currentTerrain.terrainManager.getTerrainInfo().getHeightAt(self.pointerNode.getPosition().x + x, self.pointerNode.getPosition().z +  z)
             
-            self.editingCircle.position(x, y + 0.3, z)
+            self.editingCircle.position(x, (y - self.pointerNode.getPosition().y) + 0.15, z)
             self.editingCircle.index(point_index)
             point_index += 1
             theta += og.Math.PI / self.editingCircleAccuracy
@@ -508,12 +618,12 @@ class MyTerrainManager():
             intersects = result[0]
             ## update pointer's position
             if (intersects):
-                self.updateEditingCircle()
                 self.pointerNode.setVisible(True)
                 x = result[1][0]
                 y = result[1][1]
                 z = result[1][2]
 #                print ("Intersect %f, %f, %f " % ( x, y, z) )
                 self.pointerNode.setPosition(og.Vector3(x, y, z))
+                self.updateEditingCircle()
             else:
                 self.pointerNode.setVisible(False)
