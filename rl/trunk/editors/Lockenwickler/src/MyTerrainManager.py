@@ -321,13 +321,13 @@ class Terrain():
         iHeight = brush.getHeight()
 
         storageclass = ctypes.c_float * (iWidth * iHeight)
-        vecReturnBuffer =  storageclass()
-        vecHeightBuffer = storageclass()
+        vecReturnBuffer =  og.LodDistanceList()
+        vecHeightBuffer = og.LodDistanceList()
        
         ptr = ctypes.pointer(vecReturnBuffer)
        
-        brushReturn = ET.Brush(ctypes.pointer(vecReturnBuffer), iWidth, iHeight)
-        brushHeights = ET.Brush(ctypes.pointer(vecHeightBuffer), iWidth, iHeight)
+        brushReturn = ET.Brush(vecReturnBuffer, iWidth, iHeight)
+        brushHeights = ET.Brush(vecHeightBuffer, iWidth, iHeight)
 
         self.terrainManager.getHeights(x, z, brushHeights)
 
@@ -408,7 +408,7 @@ class MyTerrainManager():
         self.leftMouseDown = False
         
         self.mainTimer = QTimer(None)
-        self.mainTimer.start(5)
+        self.mainTimer.start(15)
     
         self.setupFinished = False
         
@@ -598,8 +598,8 @@ class MyTerrainManager():
         point_index = 0
         theta = 0
         while theta < 2 * og.Math.PI:
-            x = self.editBrushSize * og.Math.Cos(theta)
-            z = self.editBrushSize * og.Math.Sin(theta)
+            x = (self.editBrushSize / 2) * og.Math.Cos(theta)
+            z = (self.editBrushSize / 2)* og.Math.Sin(theta)
             
             y = self.currentTerrain.terrainManager.getTerrainInfo().getHeightAt(self.pointerNode.getPosition().x + x, self.pointerNode.getPosition().z +  z)
             
