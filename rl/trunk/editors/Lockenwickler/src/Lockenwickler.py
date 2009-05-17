@@ -87,12 +87,15 @@ class Lockenwickler(QtGui.QMainWindow):
         if not self.prefDialog.setCfgPath(settings.value("Preferences/moduleCfgPath").toString()):
             self.prefDialog.show()
             self.moduleManager.moduleCfgPath = self.prefDialog.moduleCfgPath
+
         else:
             self.moduleManager.moduleCfgPath = self.prefDialog.moduleCfgPath
             
         self.prefDialog.setExternalEditorPath(str(settings.value("Preferences/externalEditorPath").toString()))
         
-        self.moduleDirectoryViewWin.modulesPath = self.prefDialog.moduleCfgPath.replace("modules.cfg", "")
+        if self.prefDialog.moduleCfgPath is not None:
+            self.moduleDirectoryViewWin.modulesPath = self.prefDialog.moduleCfgPath.replace("modules.cfg", "")
+
         
         self.moduleManager.setModuleExplorer(self.moduleExplorerWin)
         self.moduleManager.setModuleDirView(self.moduleDirectoryViewWin)
