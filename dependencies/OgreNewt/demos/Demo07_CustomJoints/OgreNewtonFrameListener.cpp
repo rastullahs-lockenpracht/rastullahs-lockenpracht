@@ -87,7 +87,7 @@ bool OgreNewtonFrameListener::frameStarted(const FrameEvent &evt)
 
 			timer = 0.2;
 
-#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
+#ifdef OGRENEWT_NO_COLLISION_SHAREDPTR
             delete col;
 #endif
 		}

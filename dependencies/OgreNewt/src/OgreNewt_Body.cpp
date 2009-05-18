@@ -4,6 +4,7 @@
 #include "OgreNewt_Tools.h"
 
 
+
 namespace OgreNewt
 {
 
@@ -99,8 +100,19 @@ void Body::standardForceCallback( OgreNewt::Body* me, float timestep, int thread
 
 void Body::standardTransformCallback( OgreNewt::Body* me, const Ogre::Quaternion& orient, const Ogre::Vector3& pos, int threadIndex )
 {
-    me->m_node->setOrientation( orient );
-    me->m_node->setPosition( pos );
+    if( me->m_node->getParent() )
+    {
+        Ogre::Quaternion invParentOri = me->m_node->getParent()->_getDerivedOrientation().Inverse();
+        Ogre::Vector3 parentPos = me->m_node->getParent()->_getDerivedPosition();
+
+        me->m_node->setOrientation( invParentOri*orient );
+        me->m_node->setPosition( invParentOri*(pos - parentPos) );
+    }
+    else
+    {
+        me->m_node->setOrientation( orient );
+        me->m_node->setPosition( pos );
+    }
 }
 
 
@@ -154,8 +166,19 @@ void Body::setPositionOrientation( const Ogre::Vector3& pos, const Ogre::Quatern
 
         if (m_node)
         {
-            m_node->setOrientation( orient );
-            m_node->setPosition( pos );
+            if( me->m_node->getParent() )
+            {
+                Ogre::Quaternion invParentOri = me->m_node->getParent()->_getDerivedOrientation().Inverse();
+                Ogre::Vector3 parentPos = me->m_node->getParent()->_getDerivedPosition();
+
+                me->m_node->setOrientation( invParentOri*orient );
+                me->m_node->setPosition( invParentOri*(pos - parentPos) );
+            }
+            else
+            {
+                me->m_node->setOrientation( orient );
+                me->m_node->setPosition( pos );
+            }
         }
     }
 }

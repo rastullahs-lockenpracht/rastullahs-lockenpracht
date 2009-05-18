@@ -8,7 +8,7 @@ RagDoll::RagBone::RagBone( RagDoll* creator, OgreNewt::World* world, RagDoll::Ra
 	mParent = parent;
 	mOgreBone = ogreBone;
 
-#ifdef OGRENEWT_COLLISION_USE_SHAREDPTR
+#ifndef OGRENEWT_NO_COLLISION_SHAREDPTR
 	OgreNewt::ConvexCollisionPtr col;
 #else
 	OgreNewt::ConvexCollisionPtr col = NULL;
@@ -65,7 +65,7 @@ RagDoll::RagBone::RagBone( RagDoll* creator, OgreNewt::World* world, RagDoll::Ra
 	}
 
 	mBody = new OgreNewt::Body( world, col );
-#ifdef OGRENEWT_USE_OGRE_ANY
+#ifndef OGRENEWT_NO_OGRE_ANY
 	mBody->setUserData( Ogre::Any(this) );
 #else
     mBody->setUserData( this );
@@ -82,7 +82,7 @@ RagDoll::RagBone::RagBone( RagDoll* creator, OgreNewt::World* world, RagDoll::Ra
 	mBody->setCustomTransformCallback( RagDoll::_placementCallback );
 
 
-#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
+#ifdef OGRENEWT_NO_COLLISION_SHAREDPTR
     delete col;
 #endif
 }
@@ -97,7 +97,7 @@ RagDoll::RagBone::~RagBone()
 
 void RagDoll::RagBone::_hingeCallback( OgreNewt::BasicJoints::Hinge* me )
 {
-#ifdef OGRENEWT_USE_OGRE_ANY
+#ifndef OGRENEWT_NO_OGRE_ANY
 	RagDoll::RagBone* bone = Ogre::any_cast<RagDoll::RagBone*>(me->getUserData());
 #else
 	RagDoll::RagBone* bone = (RagDoll::RagBone*)me->getUserData();
@@ -405,7 +405,7 @@ void RagDoll::_joinBones( RagDoll::JointType type, RagBone* parent, RagBone* chi
 	case RagDoll::JT_HINGE:
 		joint = new OgreNewt::BasicJoints::Hinge( child->getBody()->getWorld(), child->getBody(), parent->getBody(), pos, pin );
 		((OgreNewt::BasicJoints::Hinge*)joint)->setCallback( RagBone::_hingeCallback );
-#ifdef OGRENEWT_USE_OGRE_ANY
+#ifndef OGRENEWT_NO_OGRE_ANY
 	joint->setUserData( Ogre::Any(child) );
 #else
 	joint->setUserData( child );
@@ -419,7 +419,7 @@ void RagDoll::_joinBones( RagDoll::JointType type, RagBone* parent, RagBone* chi
 
 void RagDoll::_placementCallback( OgreNewt::Body* me, const Ogre::Quaternion& orient, const Ogre::Vector3& pos, int threadindex )
 {
-#ifdef OGRENEWT_USE_OGRE_ANY
+#ifndef OGRENEWT_NO_OGRE_ANY
 	RagDoll::RagBone* bone = Ogre::any_cast<RagDoll::RagBone*>(me->getUserData());
 #else
 	RagDoll::RagBone* bone = (RagDoll::RagBone*)me->getUserData();

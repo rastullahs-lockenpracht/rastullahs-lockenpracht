@@ -82,7 +82,7 @@ void OgreNewtonApplication::createScene()
 	OgreNewt::CollisionPtr col = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::TreeCollision( m_World, floor, true ));
 	OgreNewt::Body* bod = new OgreNewt::Body( m_World, col );
 	
-#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
+#ifdef OGRENEWT_NO_COLLISION_SHAREDPTR
     delete col;
 #endif
 
@@ -113,7 +113,9 @@ void OgreNewtonApplication::createMaterials()
 	mMatPairDefaultConveyor = new OgreNewt::MaterialPair( m_World, mMatDefault, mMatConveyor );
 	mConveyorCallback = new ConveyorMatCallback( BT_CONVEYOR );
 	mMatPairDefaultConveyor->setContactCallback( mConveyorCallback );
-	mMatPairDefaultConveyor->setDefaultFriction( 1.5, 1.4 );
+	mMatPairDefaultConveyor->setDefaultSoftness( 0.8 );
+    mMatPairDefaultConveyor->setDefaultElasticity( 0.05 );
+    mMatPairDefaultConveyor->setDefaultFriction( 0.9, 0.8 );
 
 }
 

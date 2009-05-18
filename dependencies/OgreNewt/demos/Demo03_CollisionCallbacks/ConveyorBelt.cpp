@@ -16,7 +16,7 @@ void ConveyorBelt::init( Ogre::String& name, Ogre::SceneManager* mgr, OgreNewt::
 {
 	// build a conveyor belt object.  first create the basic visual object.
 	mSceneMgr = mgr;
-	mDir = dir;
+	mDir = dir.normalisedCopy();
 	mSpeed = speed;
 
 	mNode = mgr->getRootSceneNode()->createChildSceneNode();
@@ -29,7 +29,7 @@ void ConveyorBelt::init( Ogre::String& name, Ogre::SceneManager* mgr, OgreNewt::
 	// create the collision object for the conveyor belt.
 	OgreNewt::CollisionPtr col = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Box( world, size ));
 	mBody = new OgreNewt::Body( world, col, conveyorType );
-#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
+#ifdef OGRENEWT_NO_COLLISION_SHAREDPTR
 	delete col;
 #endif
 
@@ -37,7 +37,7 @@ void ConveyorBelt::init( Ogre::String& name, Ogre::SceneManager* mgr, OgreNewt::
 	mBody->attachNode( mNode );
 	mBody->setMaterialGroupID( conveyorMat );
 
-#ifdef OGRENEWT_USE_OGRE_ANY
+#ifndef OGRENEWT_NO_OGRE_ANY
 	mBody->setUserData( Ogre::Any(this) );
 #else
 	mBody->setUserData( this );

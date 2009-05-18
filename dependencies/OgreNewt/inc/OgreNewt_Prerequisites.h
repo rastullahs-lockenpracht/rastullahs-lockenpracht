@@ -22,10 +22,7 @@
 #   include <Ogre/OgreRenderable.h>
 #   include <Ogre/OgreNode.h>
 #   include <Ogre/OgreFrameListener.h>
-#   ifdef OGRENEWT_COLLISION_USE_SHAREDPTR
-//#       include <Ogre/OgreSharedPtr.h>
-#   endif
-#   ifdef OGRENEWT_USE_OGRE_ANY
+#   ifndef OGRENEWT_NO_OGRE_ANY
 #       include <Ogre/OgreAny.h>
 #   endif
 #else
@@ -35,10 +32,7 @@
 #include <OgreRenderable.h>
 #include <OgreNode.h>
 #include <OgreFrameListener.h>
-#   ifdef OGRENEWT_COLLISION_USE_SHAREDPTR
-//#       include <OgreSharedPtr.h>
-#   endif
-#   ifdef OGRENEWT_USE_OGRE_ANY
+#   ifndef OGRENEWT_NO_OGRE_ANY
 #       include <OgreAny.h>
 #   endif
 #endif
@@ -46,7 +40,7 @@
 #include <Newton.h>
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
-#ifdef OGRENEWT_COLLISION_USE_SHAREDPTR
+#ifndef OGRENEWT_NO_COLLISION_SHAREDPTR
 #   include <boost/shared_ptr.hpp>
 #endif
 
@@ -65,12 +59,12 @@
 #endif
 
 
-#ifdef OGRENEWT_COLLISION_USE_SHAREDPTR
-#warning "the option OGRENEWT_COLLISION_USE_SHAREDPTR is set"
+#ifdef OGRENEWT_NO_COLLISION_SHAREDPTR
+#warning "the option OGRENEWT_NO_COLLISION_SHAREDPTR is set"
 #endif
 
-#ifdef OGRENEWT_USE_OGRE_ANY
-#warning "the option OGRENEWT_USE_OGRE_ANY is set"
+#ifdef OGRENEWT_NO_OGRE_ANY
+#warning "the option OGRENEWT_NO_OGRE_ANY is set"
 #endif
 
 namespace OgreNewt

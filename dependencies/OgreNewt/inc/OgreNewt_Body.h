@@ -87,14 +87,14 @@ public:
         you can use this to store a pointer to a parent class, etc.  then inside one of the many callbacks, you can get the pointer
         using this "userData" system.
     */
-#ifdef OGRENEWT_USE_OGRE_ANY
+#ifndef OGRENEWT_NO_OGRE_ANY
     void setUserData( const Ogre::Any& data ) { m_userdata = data; }
 #else
     void setUserData( void* data ) { m_userdata = data; }
 #endif
 
     //! retrieve pointer to previously set user data.
-#ifdef OGRENEWT_USE_OGRE_ANY
+#ifndef OGRENEWT_NO_OGRE_ANY
     const Ogre::Any& getUserData() const { return m_userdata; }
 #else
     void* getUserData() const { return m_userdata; }
@@ -416,7 +416,7 @@ protected:
     const MaterialID*               m_matid;
     const World*                    m_world;
     
-#ifdef OGRENEWT_USE_OGRE_ANY
+#ifndef OGRENEWT_NO_OGRE_ANY
     Ogre::Any                       m_userdata;
 #else
     void*                           m_userdata;

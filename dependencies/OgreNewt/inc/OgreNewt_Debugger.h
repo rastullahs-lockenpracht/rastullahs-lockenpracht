@@ -114,7 +114,7 @@ namespace OgreNewt
         struct BodyDebugData
         {
             BodyDebugData() :
-#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
+#ifdef OGRENEWT_NO_COLLISION_SHAREDPTR
                 m_lastcol(NULL),
 #endif
                 m_node(NULL), m_lines(NULL), m_text(NULL), m_updated(false) {}

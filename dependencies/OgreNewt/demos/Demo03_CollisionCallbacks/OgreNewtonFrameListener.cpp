@@ -74,7 +74,7 @@ bool OgreNewtonFrameListener::frameStarted(const FrameEvent &evt)
         Ogre::Vector3 inertia, offset;
         col->calculateInertialMatrix(inertia, offset);
 
-#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
+#ifdef OGRENEWT_NO_COLLISION_SHAREDPTR
 		delete col;
 #endif
 

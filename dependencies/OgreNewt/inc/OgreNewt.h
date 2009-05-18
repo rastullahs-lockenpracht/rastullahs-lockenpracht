@@ -70,8 +70,8 @@
 
     New in this version
         - this version uses cmake > 2.6.2!
-        - shared pointers for collisions, in order to use shared pointers define OGRENEWT_COLLISION_USE_SHAREDPTR
-        - support for Ogre::Any instead of void* as userdata, in order to use it, define OGRENEWT_USE_OGRE_ANY
+        - shared pointers for collisions, if you don't want to use shared pointers define OGRENEWT_NO_COLLISION_SHAREDPTR
+        - uses Ogre::Any instead of void* as userdata, if you want to use void* define OGRENEWT_NO_OGRE_ANY
         - several interface-breaking changes:
             - the ContactCallback passes a ContactJoint as argument that can be used to iterate through all contacts
               (the callback is not called for each contact any more, but for each pair of colliding bodies!)

@@ -76,7 +76,7 @@ void OgreNewtonApplication::createScene()
 	OgreNewt::CollisionPrimitives::TreeCollisionSceneParser* stat_col = new OgreNewt::CollisionPrimitives::TreeCollisionSceneParser( m_World );
 	stat_col->parseScene( floornode, true );
 	OgreNewt::Body* bod = new OgreNewt::Body( m_World, OgreNewt::CollisionPtr(stat_col) );
-#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
+#ifdef OGRENEWT_NO_COLLISION_SHAREDPTR
 	delete stat_col;
 #endif
 	
@@ -172,7 +172,7 @@ OgreNewt::Body* OgreNewtonApplication::makeSimpleBox( Ogre::Vector3& size, Ogre:
 	// calculate the inertia based on box formula and mass
 	Ogre::Vector3 inertia, offset;
     col->calculateInertialMatrix(inertia, offset);
-#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
+#ifdef OGRENEWT_NO_COLLISION_SHAREDPTR
 	delete col;
 #endif
 				

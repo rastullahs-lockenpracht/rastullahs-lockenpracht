@@ -115,7 +115,7 @@ bool OgreNewtonFrameListener::frameStarted(const FrameEvent &evt)
 
 				// now we need to save this point to apply the spring force, I'm using the userData of the bodies in this example.
                 // (where is it used? probably not needed here...)
-#ifdef OGRENEWT_USE_OGRE_ANY
+#ifndef OGRENEWT_NO_OGRE_ANY
                 info.mBody->setUserData( Ogre::Any(this) );
 #else
 				info.mBody->setUserData( this );

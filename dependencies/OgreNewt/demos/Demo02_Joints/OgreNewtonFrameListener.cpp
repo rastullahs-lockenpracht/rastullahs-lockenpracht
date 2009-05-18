@@ -77,7 +77,7 @@ bool OgreNewtonFrameListener::frameStarted(const FrameEvent &evt)
 			OgreNewt::ConvexCollisionPtr col = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid( m_World, Ogre::Vector3(1,1,1) ));
 			OgreNewt::Body* body = new OgreNewt::Body( m_World, col );
 
-#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
+#ifdef OGRENEWT_NO_COLLISION_SHAREDPTR
             delete col;
 #endif
 

@@ -3,6 +3,7 @@
 #include "OgreNewt_Tools.h"
 
 
+
 namespace OgreNewt
 {
 
@@ -14,8 +15,10 @@ Collision::Collision( const World* world ) : m_col(NULL)
 
 Collision::~Collision()
 {
-    if (m_world->getNewtonWorld())
+    if (m_world->getNewtonWorld() && m_col)
+    {
         NewtonReleaseCollision( m_world->getNewtonWorld(), m_col );
+    }
 }
 
 

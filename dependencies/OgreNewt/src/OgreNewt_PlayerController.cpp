@@ -40,7 +40,7 @@ PlayerController::PlayerController(OgreNewt::Body * child) :
     m_floorFinderRadiusFactor = 1.0f;
     m_maxPlayerHeightPaddFactor = 0.01f;
     m_sensorShapeSegments = 32;
-#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
+#ifdef OGRENEWT_NO_COLLISION_SHAREDPTR
     m_verticalSensorShape = NULL;
     m_horizontalSensorShape = NULL;
     m_dynamicsSensorShape = NULL;
@@ -52,7 +52,7 @@ PlayerController::PlayerController(OgreNewt::Body * child) :
 
 PlayerController::~PlayerController()
 {
-#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
+#ifdef OGRENEWT_NO_COLLISION_SHAREDPTR
     if( m_verticalSensorShape )
         delete m_verticalSensorShape;
     if( m_horizontalSensorShape )
@@ -86,7 +86,7 @@ void PlayerController::updateSensorShapes()
         abs( newSensorHeight - m_lastSensorHeight ) > 0.04f ||
         abs( newPlayerRadius - m_lastPlayerRadius ) > 0.04f )
     {
-#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
+#ifdef OGRENEWT_NO_COLLISION_SHAREDPTR
         // delete old ones
         if( m_verticalSensorShape )
             delete m_verticalSensorShape;

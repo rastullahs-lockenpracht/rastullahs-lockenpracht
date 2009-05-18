@@ -133,12 +133,12 @@ public:
 };
 
 
-#ifdef OGRENEWT_COLLISION_USE_SHAREDPTR
-typedef boost::shared_ptr<Collision> CollisionPtr;
-typedef boost::shared_ptr<ConvexCollision> ConvexCollisionPtr;
-#else
+#ifdef OGRENEWT_NO_COLLISION_SHAREDPTR
 typedef Collision* CollisionPtr;
 typedef ConvexCollision* ConvexCollisionPtr;
+#else
+typedef boost::shared_ptr<Collision> CollisionPtr;
+typedef boost::shared_ptr<ConvexCollision> ConvexCollisionPtr;
 #endif
 
 

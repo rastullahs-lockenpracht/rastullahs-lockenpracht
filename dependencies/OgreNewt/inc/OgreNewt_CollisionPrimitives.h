@@ -264,7 +264,7 @@ namespace OgreNewt
             /*!
                 Create a tree collision object.
                 \param world pointer to the OgreNewt::World
-                \param node pointer to an Ogre::SceneNode with a single entity attached.
+                \param ent pointer to an Ogre::Entitiy, if it is attached to a node, the scale of the parent node is used
                 \param optimize bool whether you want to optimize the collision or not.
             */
             TreeCollision( const World* world, Ogre::Entity* ent, bool optimize, FaceWinding fw = FW_DEFAULT );

@@ -29,7 +29,7 @@ void ConveyorMatCallback::contactsProcess( OgreNewt::ContactJoint &contactJoint,
 
 	if (body0->getType() == mConveyorID)
 	{
-#ifdef OGRENEWT_USE_OGRE_ANY
+#ifndef OGRENEWT_NO_OGRE_ANY
 		belt = Ogre::any_cast<ConveyorBelt*>(body0->getUserData());
 #else
 		belt = (ConveyorBelt*)body0->getUserData();
@@ -39,7 +39,7 @@ void ConveyorMatCallback::contactsProcess( OgreNewt::ContactJoint &contactJoint,
 
 	if (body1->getType() == mConveyorID)
 	{
-#ifdef OGRENEWT_USE_OGRE_ANY
+#ifndef OGRENEWT_NO_OGRE_ANY
 		belt = Ogre::any_cast<ConveyorBelt*>(body1->getUserData());
 #else
 		belt = (ConveyorBelt*)body1->getUserData();
@@ -55,8 +55,15 @@ void ConveyorMatCallback::contactsProcess( OgreNewt::ContactJoint &contactJoint,
         for( OgreNewt::Contact contact = contactJoint.getFirstContact(); contact; contact = contact.getNext() )
         {
 	        contact.rotateTangentDirections( thedir );
-    	    Ogre::Vector3 result_accel = (thedir * belt->getSpeed()) - object->getVelocity();
-	        contact.setTangentAcceleration( result_accel.length(), 0 );
+            Ogre::Vector3 contactPos, contactNorm;
+            contact.getPositionAndNormal(contactPos, contactNorm);
+            Ogre::Vector3 objectPos;
+            Ogre::Quaternion objectOri;
+            object->getPositionOrientation(objectPos, objectOri);
+            Ogre::Vector3 objectContactPointVel = object->getVelocity() + (contactPos - objectPos)*object->getOmega();
+    	    Ogre::Real result_accel = belt->getSpeed() - thedir.dotProduct(objectContactPointVel);
+            result_accel *= 10; // looks nicer
+	        contact.setTangentAcceleration( result_accel, 0 );
         }
     }
 }

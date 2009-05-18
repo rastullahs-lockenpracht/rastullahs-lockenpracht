@@ -31,11 +31,6 @@ public:
     */
     MaterialID( const World* world );
 
-    /*!
-        Overloaded constructor, sets the internal ID manually.  should not be used by the end-user.
-    */
-    MaterialID( const World* world, int ID );
-
     //! destructor
     ~MaterialID();
 
@@ -44,6 +39,14 @@ public:
 
 protected:
 
+    friend class OgreNewt::World;
+
+    /*!
+        Overloaded constructor, sets the internal ID manually.  should not be used by the end-user.
+    */
+    MaterialID( const World* world, int ID );
+
+private:
     int id;
     const OgreNewt::World* m_world;
 

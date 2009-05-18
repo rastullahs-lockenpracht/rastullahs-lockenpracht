@@ -60,7 +60,7 @@ void OgreNewtonApplication::createScene()
 	// now we make a new rigid body based on this collision shape.
 	OgreNewt::Body* bod = new OgreNewt::Body( m_World, col );
 
-#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
+#ifdef OGRENEWT_NO_COLLISION_SHAREDPTR
 	// we`re done with the collision shape, we can delete it now.
 	delete col;
 #endif
