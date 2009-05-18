@@ -87,9 +87,6 @@ namespace rl {
         mViewMode(VM_THIRD_PERSON),
         mRaycast(new PhysicsMaterialRaycast()),
         mConvexcast(new PhysicsMaterialConvexcast()),
-#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
-        mCameraCastCollision(NULL),
-#endif
         mSelector(CoreSubsystem::getSingleton().getWorld()->getSceneManager()),
         mCombatSelector(CoreSubsystem::getSingleton().getWorld()->getSceneManager(),
             QUERYFLAG_CREATURE),
@@ -174,9 +171,6 @@ namespace rl {
         mSelector.setFilter(NULL);
         delete mRaycast;
         delete mConvexcast;
-#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
-        delete mCameraCastCollision;
-#endif
 
         if (DebugWindow::getSingletonPtr())
         {

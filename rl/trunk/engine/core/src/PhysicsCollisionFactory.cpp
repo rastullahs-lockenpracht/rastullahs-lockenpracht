@@ -118,9 +118,6 @@ namespace rl
 
         // result value
         ConvexCollisionPtr rval;
-#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
-        rval = NULL;
-#endif
 
         // size check (if object is too small, it falls back to a box primitiv
         if (checkSize(aabb) == false )
@@ -298,10 +295,6 @@ namespace rl
         CollisionPtr rval;
         ConvexCollisionPtr rvalAsConvexCollision; // store pointer to ConvexCollision, so we don't need to cast
                                                   // this also indicates, that it is possible to calculate inertia/centerOfMass
-#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
-        rval = NULL;
-        rvalAsConvexCollision = NULL;
-#endif
 
         // size check (if object is too small, it falls back to a box primitiv
         if (checkSize(aabb) == false )
@@ -647,9 +640,6 @@ namespace rl
     OgreNewt::CollisionPtr PhysicsCollisionFactory::loadFromFile(const Ogre::String& filename)
     {
         OgreNewt::CollisionPtr rval;
-#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
-        rval = NULL;
-#endif
         Ogre::String fullfilename = mCachePathName+filename;
         FILE* pFile = fopen(fullfilename.c_str(), "r" );
         if( pFile )
@@ -678,9 +668,6 @@ namespace rl
     OgreNewt::CollisionPtr PhysicsCollisionFactory::createMesh( Ogre::Entity* entity, const Ogre::String& animName, bool nocache )
     {
         OgreNewt::CollisionPtr rval;
-#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
-        rval = NULL;
-#endif
         Ogre::String filename;
 
         if( !nocache )

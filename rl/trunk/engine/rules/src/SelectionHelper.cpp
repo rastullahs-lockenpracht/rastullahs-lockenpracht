@@ -84,13 +84,9 @@ namespace rl
             OgreNewt::Body* body = info.mBody;
             if (body != NULL)
             {
-#ifdef OGRENEWT_USE_OGRE_ANY
                 Actor* hitActor = NULL;
                 if( body->getUserData().getType() == typeid(Actor*) )
                     hitActor = Ogre::any_cast<Actor*>(body->getUserData());
-#else
-                Actor* hitActor = static_cast<Actor*>(body->getUserData());
-#endif
                 isVisible = hitActor == actor2 || hitActor == actor1;
                 if (!isVisible) break;
             }

@@ -215,9 +215,6 @@ namespace rl {
         {
             public:
                 ConvexCollisionCacheObject() :
-#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
-                    col(NULL),
-#endif
                     scale(Ogre::Vector3::ZERO),
                     offset(Ogre::Vector3::ZERO),
                     orientation(Ogre::Quaternion::IDENTITY),
@@ -262,9 +259,6 @@ namespace rl {
         {
             public:
                 MeshCollisionCacheObject()
-#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
-                    : col(NULL)
-#endif
                     {}
                 OgreNewt::CollisionPtr col;
         };

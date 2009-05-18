@@ -308,13 +308,9 @@ namespace rl {
 
     Actor* GameEventManager::bodyToActor(OgreNewt::Body* body)
     {
-#ifdef OGRENEWT_USE_OGRE_ANY
         if( body->getUserData().getType() == typeid(Actor*) )
             return Ogre::any_cast<Actor*>(body->getUserData());
         else
             return NULL;
-#else
-        return static_cast<Actor*>(body->getUserData());
-#endif
     }
 }

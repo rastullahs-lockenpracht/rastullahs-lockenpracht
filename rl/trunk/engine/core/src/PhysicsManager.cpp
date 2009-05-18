@@ -335,9 +335,6 @@ namespace rl
 
         // try one compound collision for the entity if there are several collisions
         OgreNewt::CollisionPtr collision;
-#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
-        collision = NULL;
-#endif
         switch( collisions.size() )
         {
             case 0:
@@ -416,11 +413,7 @@ namespace rl
         // apply saved forces in the PhysicalThing
         PhysicalThing* thing;
 
-#ifdef OGRENEWT_USE_OGRE_ANY
         thing = Ogre::any_cast<Actor*>(body->getUserData())->getPhysicalThing();
-#else
-        thing = static_cast<Actor*>(body->getUserData())->getPhysicalThing();
-#endif
 
         thing->onApplyForceAndTorque(timestep);
     }
@@ -429,11 +422,7 @@ namespace rl
     {
         PhysicalThing* thing;
 
-#ifdef OGRENEWT_USE_OGRE_ANY
         thing = Ogre::any_cast<Actor*>(body->getUserData())->getPhysicalThing();
-#else
-        thing = static_cast<Actor*>(body->getUserData())->getPhysicalThing();
-#endif
 
 
         if (thing->getPhysicsController())
@@ -542,9 +531,6 @@ namespace rl
 
         // result value
         CollisionPtr rval;
-#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
-        rval = NULL;
-#endif
 
         // check if there is a collision primitiv for the specified mesh object
         CollisionInUse &usedcol (mCollisionPrimitives[collisionName]);
@@ -591,9 +577,6 @@ namespace rl
 /*
         // result value
         CollisionPtr rval;
-#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
-        rval = NULL;
-#endif
 
         // check if there is a collision primitiv for the specified mesh object
         CollisionInUse &usedcol (mCollisionPrimitives[name]);

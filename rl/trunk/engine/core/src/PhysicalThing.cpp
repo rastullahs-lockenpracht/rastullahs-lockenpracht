@@ -127,11 +127,7 @@ namespace rl
 	void PhysicalThing::setBody(OgreNewt::Body* body)
     {
         mBody = body;
-#ifdef OGRENEWT_USE_OGRE_ANY
 		mBody->setUserData( Ogre::Any(mActor) );
-#else
-        mBody->setUserData( mActor );
-#endif
     }
 
     void PhysicalThing::_update()
@@ -159,11 +155,7 @@ namespace rl
         mActor = actor;
 		if (mBody != NULL)
         {
-#ifdef OGRENEWT_USE_OGRE_ANY
     		mBody->setUserData( Ogre::Any(mActor) );
-#else
-            mBody->setUserData( mActor );
-#endif
         }
     }
 

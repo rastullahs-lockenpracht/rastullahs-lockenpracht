@@ -32,7 +32,6 @@ namespace rl
         Actor* a1 = NULL;
         Actor* a2 = NULL;
 
-#ifdef OGRENEWT_USE_OGRE_ANY
         try
         {
             a1 = Ogre::any_cast<Actor*>(contactJoint.getBody0()->getUserData());
@@ -49,10 +48,7 @@ namespace rl
         {
             LOG_WARNING(Logger::CORE, "Found collision with a OgreNewt::Body that doesn't have an Actor as UserData in PhysicsGenericContactCallback::contactsProcess");
         }
-#else
-        a1 = static_cast<Actor*>(contactJoint.getBody0()->getUserData());
-        a2 = static_cast<Actor*>(contactJoint.getBody1()->getUserData());
-#endif
+
         if (a1 && a1->getPhysicalThing()->getContactListener())
         {
             a1->getPhysicalThing()->getContactListener()->
