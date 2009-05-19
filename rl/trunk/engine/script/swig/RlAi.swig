@@ -302,7 +302,7 @@ namespace rl
     public:
         static rl::DialogManager& getSingleton();
         rl::Dialog* createDialog(const Ogre::String& name, rl::Creature* npc);
-        rl::Dialog* createDialog(const Ogre::String& name, rl::CreatureList& npcs);
+        rl::Dialog* createDialog(const Ogre::String& name, const std::list<rl::Creature*>& npcs);
     private:
         DialogManager();
     };

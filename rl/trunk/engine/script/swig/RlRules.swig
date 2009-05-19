@@ -451,9 +451,12 @@ namespace rl {
     public:
 
 		GoToJob(rl::Creature* actor, const Ogre::Vector3& targetPos,
-			Ogre::Real maxDistance, Ogre::Real duration);
-		// Unclear what version is called from ruby, so uncomment second ctor.
-		//GoToJob(rl::Creature* actor, rl::GameObject* target, Ogre::Real maxDistance, Ogre::Real duration);
+			Ogre::Real maxDistance, Ogre::Real duration,
+            rl::CreatureController::MovementType movementType_moving = rl::CreatureController::MT_RENNEN,
+            rl::CreatureController::MovementType movementType_idle = rl::CreatureController::MT_STEHEN);
+		GoToJob(rl::Creature* actor, rl::GameObject* target, Ogre::Real maxDistance, Ogre::Real duration, bool followTarget = false,
+            rl::CreatureController::MovementType movementType_moving = rl::CreatureController::MT_RENNEN,
+            rl::CreatureController::MovementType movementType_idle = rl::CreatureController::MT_STEHEN);
     };
     
     /// A rl#Job to fetch an item

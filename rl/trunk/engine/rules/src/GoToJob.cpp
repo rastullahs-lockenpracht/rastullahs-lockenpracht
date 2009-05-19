@@ -26,11 +26,12 @@ using namespace Ogre;
 
 namespace rl
 {
-	GoToJob::GoToJob(Creature* actor, const Vector3& targetPos, Real maxDistance, Real duration, CreatureController::MovementType movementType_moving,
-            CreatureController::MovementType movementType_idle)
+	GoToJob::GoToJob(Creature* actor, const Vector3& targetPos, Real maxDistance, Real duration,
+            CreatureController::MovementType movementType_moving, CreatureController::MovementType movementType_idle)
 		: Job(false, true, TimeSource::REALTIME_INTERRUPTABLE),
 		  mActor(NULL),
 		  mTarget(NULL),
+          mFollowTarget(false),
 		  mTargetPos(targetPos),
 		  mMaxDistance(maxDistance),
 		  mTimeLeft(duration),
@@ -40,11 +41,12 @@ namespace rl
 		mActor = CreatureControllerManager::getSingleton().getCreatureController(actor);
 	}
 
-	GoToJob::GoToJob(Creature* actor, GameObject* target, Real maxDistance, Real duration, CreatureController::MovementType movementType_moving,
-            CreatureController::MovementType movementType_idle)
+	GoToJob::GoToJob(Creature* actor, GameObject* target, Real maxDistance, Real duration, bool followTarget,
+            CreatureController::MovementType movementType_moving, CreatureController::MovementType movementType_idle)
 		: Job(false, true, TimeSource::REALTIME_INTERRUPTABLE),
 		  mActor(NULL),
 		  mTarget(target),
+          mFollowTarget(followTarget),
 		  mTargetPos(Vector3::ZERO),
 		  mMaxDistance(maxDistance),
 		  mTimeLeft(duration),
@@ -83,34 +85,43 @@ namespace rl
         }
         
 		// Are we there now?
-		if (distance < mMaxDistance)
-		{
-			// Stay put where ever we are.
-			mActor->setMovement(mMovementType_idle, Vector3::ZERO, Vector3::ZERO);
-			return true;
-		}
-
-
-		Vector3 pos = mActor->getCreature()->getPosition();
-		pos.y = 0;
-		Vector3 targetPos = mTargetPos;
-		targetPos.y = 0;
+        Vector3 pos = mActor->getCreature()->getPosition();
+        pos.y = 0;
+        Vector3 targetPos = mTargetPos;
+        targetPos.y = 0;
         Degree realYawDiff = (mActor->getCreature()->getOrientation()*Vector3::NEGATIVE_UNIT_Z).getRotationTo(targetPos - pos).getYaw();
         Vector3 rotation = Vector3::ZERO;
         Quaternion currentOri(mActor->getYaw(), Vector3::UNIT_Y);
         rotation.y = (currentOri*Vector3::NEGATIVE_UNIT_Z).getRotationTo(targetPos - pos).getYaw().valueRadians();
 
         // old code for rotation:
-		//mActor->getCreature()->setOrientation(Vector3::NEGATIVE_UNIT_Z.getRotationTo(targetPos - pos));
-        
-        // first rotate, then move, is this the "desired" behaviour?
-        if( realYawDiff > Degree(5) || realYawDiff < Degree(-5) )
-            mActor->setMovement(mMovementType_idle, Vector3::ZERO, rotation);
-        else
-    		mActor->setMovement(mMovementType_moving, Vector3::NEGATIVE_UNIT_Z, rotation);
+        //mActor->getCreature()->setOrientation(Vector3::NEGATIVE_UNIT_Z.getRotationTo(targetPos - pos));
 
-		mTimeLeft  -= time;
-		return false;
+        // in order to prevent fast switching between moving and idle, use a larger maxDistance if idle
+        Real maxDistance = mMaxDistance;
+        if( mFollowTarget && mActor->getMovementId() == mMovementType_idle)
+            maxDistance += 0.5;
+
+        if( distance < maxDistance )
+        {
+            // turn to object
+            mActor->setMovement(mMovementType_idle, Vector3::ZERO, rotation);
+        }
+        else
+        {
+            // first rotate, then move, is this the "desired" behaviour?
+            if( realYawDiff > Degree(5) || realYawDiff < Degree(-5) )
+                mActor->setMovement(mMovementType_idle, Vector3::ZERO, rotation);
+            else
+                mActor->setMovement(mMovementType_moving, Vector3::NEGATIVE_UNIT_Z, rotation);
+        }
+
+        mTimeLeft  -= time;
+
+        if( !mFollowTarget && distance < mMaxDistance )
+            return true;
+        else
+            return false;
 	}
 }
 
