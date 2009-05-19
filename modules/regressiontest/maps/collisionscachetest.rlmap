@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <rastullahmap formatVersion="0.4.0">
   <nodes>
+    <!-- tests for level geometry -->
     <entity name="zaun2" meshfile="zaun.mesh">
       <position x="-62" y="0" z="-10"/>
       <scale x="0.1" y="0.1" z="0.1"/>
@@ -20,6 +21,32 @@
     <entity name="zaun6" meshfile="zaun.mesh">
       <position x="-62" y="7" z="-10"/>
       <scale x="0.1" y="0.1" z="0.1"/>
+    </entity>
+    <!-- tests for convex collisions -->
+    <entity name="zaun7" meshfile="zaun.mesh">
+      <position x="-62" y="0" z="-50"/>
+      <scale x="0.1" y="0.1" z="0.1"/>
+      <physicsproxy type="convexhull" />
+    </entity>
+    <entity name="zaun8" meshfile="zaun.mesh">
+      <position x="-62" y="1" z="-50"/>
+      <scale x="0.1" y="0.1" z="0.1"/>
+      <physicsproxy type="box" />
+    </entity>
+    <entity name="zaun9" meshfile="zaun.mesh">
+      <position x="-62" y="2" z="-50"/>
+      <scale x="0.1" y="0.1" z="0.1"/>
+      <physicsproxy type="convexhull" />
+    </entity>
+    <entity name="zaun10" meshfile="zaun.mesh">
+      <position x="-62" y="3" z="-50"/>
+      <scale x="0.5" y="0.5" z="0.5"/>
+      <physicsproxy type="convexhull" />
+    </entity>
+    <entity name="zaun11" meshfile="zaun.mesh">
+      <position x="-62" y="5" z="-50"/>
+      <scale x="0.1" y="0.1" z="0.1"/>
+      <physicsproxy type="convexhull" />
     </entity>
   </nodes>
 </rastullahmap>

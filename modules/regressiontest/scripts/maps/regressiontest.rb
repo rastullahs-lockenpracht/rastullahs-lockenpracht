@@ -39,6 +39,7 @@ require 'SoundTest.rb'
 require 'TimeTest.rb'
 require 'CombatTest.rb'
 require 'WalkJobTest.rb'
+require 'GoToJobTest.rb'
 require 'CharacterSelectionTest.rb'
 require 'CollisionsCacheTest.rb'
 
@@ -77,6 +78,7 @@ class RegressionTestSuite
 		runTest(SoundTest, [ 10, 0, 10])
 		runTest(TimeTest, [ -5, 0, -5])
 		runTest(WalkJobTest, [  0, 0, -3])
+        runTest(GoToJobTest, [ 0, 0, -30])
 		runTest(CombatTest, [15, 0, 15])
   	runTest(FetchItemJobTest, [-15, 0, 15])
    runTest(CharacterSelectionTest, [-15, 0, -15])
