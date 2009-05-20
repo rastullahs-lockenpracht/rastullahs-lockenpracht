@@ -302,7 +302,7 @@ namespace rl {
         virtual int getTargetClass() const;
         virtual void doAction(rl::GameObject *object, rl::Creature *actor,
             rl::GameObject *target);
-        virtual bool canDo(rl::GameObject* object, rl::Creature* actor) const;
+        virtual bool canDo(rl::GameObject* object, rl::Creature* actor, rl::GameObject* target = NULL) const;
             
         void setGroup(rl::ActionGroup* group);
         rl::ActionGroup* getGroup() const;

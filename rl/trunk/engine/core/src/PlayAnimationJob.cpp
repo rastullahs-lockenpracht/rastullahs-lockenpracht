@@ -103,15 +103,22 @@ namespace rl
             if (mAnimationRunning && mAnimation) 
             {
                 mAnimationRunning = false;
-                if (mHoldOnEnd) 
+                    
+                mAnimation->pause();
+                
+                if (!mHoldOnEnd) 
                 {
-                    mAnimation->pause();
+                    if( mActor )
+                    {
+                        MeshObject* mo = dynamic_cast<MeshObject*>(mActor->getControlledObject());
+                        mo->stopAnimation(mAnimName);
+                    }
+                    else
+                    {
+                        //! TODO: what to do here?
+                    }
                 }
-                else
-                {
-                    mAnimation->stop();
-                    delete mAnimation;
-                }
+
                 mAnimation = NULL;
             }
             return true;

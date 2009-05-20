@@ -1053,6 +1053,7 @@ public:
     PlayAnimationJob(Actor* actor, const Ogre::String& anim, int loops = 1,
 		bool replaceAllAnims=true);
     virtual ~PlayAnimationJob();
+    virtual void setHoldOnEnd(bool hold);
     
 private:
     bool execute(Ogre::Real time);
