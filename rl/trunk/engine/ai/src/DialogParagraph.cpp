@@ -76,14 +76,14 @@ namespace rl
         return dialog->getParticipant(getPerson());
     }
 
-    list<Creature*> DialogParagraph::getListeners(Dialog* dialog) const
+    CreatureList DialogParagraph::getListeners(Dialog* dialog) const
     {
         Creature* speaker = getSpeaker(dialog);
 
-        list<Creature*> listeners;
+        CreatureList listeners;
 
-        list<Creature*> participants = dialog->getParticipants();
-        for (list<Creature*>::iterator it = participants.begin(), end = participants.end(); it != end; ++it)
+        CreatureList participants = dialog->getParticipants();
+        for (CreatureList::iterator it = participants.begin(), end = participants.end(); it != end; ++it)
         {
             if (*it != speaker)
             {

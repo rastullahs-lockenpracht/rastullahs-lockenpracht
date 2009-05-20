@@ -205,11 +205,19 @@ class GameAreaType
 private:
 	GameAreaType();
 public:
-	unsigned long getQueryMask() const;
-    void setQueryMask( unsigned long mask );
+	virtual unsigned long getQueryMask() const = 0;
+    virtual void setQueryMask( unsigned long mask = 0xFFFFFFFF ) = 0;
     void addQueryFlag( unsigned long flag  );
     void removeQueryFlag( unsigned long flag );
-    const Ogre::Vector3& getQueryPosition() const;
+    virtual void setQueryPosition( const Ogre::Vector3& vec ) = 0;
+    virtual Ogre::Vector3 getQueryPosition() const = 0;
+    virtual void setQueryOrientation( const Ogre::Quaternion& ori ) = 0;
+    virtual Ogre::Quaternion getQueryOrientation() const = 0;
+    virtual OgreNewt::Body* getBody() { return NULL;}
+    virtual Ogre::Real getDistance(rl::Actor* actor) = 0;
+    virtual Ogre::Real getTransitionDistance() const = 0;
+    virtual void setTransitionDistance(Ogre::Real dist) = 0;
+    virtual bool isInside(rl::Actor *actor) = 0;
 };
 
 /*

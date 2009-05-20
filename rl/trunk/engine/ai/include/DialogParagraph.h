@@ -18,10 +18,10 @@
 #define __DialogParagraph_H__
 
 #include "AiPrerequisites.h"
+#include "Creature.h"
 
 namespace rl
 {
-    class Creature;
     class Dialog;
     class DialogElement;
     class DialogResponse;
@@ -39,7 +39,7 @@ namespace rl
         void _setParent(DialogElement* parent);
         virtual DialogResponse* getResponse() const;
         Creature* getSpeaker(Dialog* dialog) const;
-        std::list<Creature*> getListeners(Dialog* dialog) const;
+        CreatureList getListeners(Dialog* dialog) const;
 
     private:
         CeGuiString mText;

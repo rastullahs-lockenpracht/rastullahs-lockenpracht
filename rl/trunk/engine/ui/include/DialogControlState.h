@@ -19,11 +19,11 @@
 
 #include "UiPrerequisites.h"
 #include "DialogController.h"
+#include "Creature.h"
 
 namespace rl {
 
 	class Actor;
-    class Creature;
 	class Dialog;
     class DialogElement;
 	class DialogWindow;
@@ -83,7 +83,7 @@ namespace rl {
 
 		DialogWindow* mDialogWindow;
 
-        virtual void recalculateDialogCamera(Creature* speaker, std::list<Creature*> listeners);
+        virtual void recalculateDialogCamera(Creature* speaker, const CreatureList& listeners);
 
         void showOptions(const std::list<DialogOption*>& options);
 	};

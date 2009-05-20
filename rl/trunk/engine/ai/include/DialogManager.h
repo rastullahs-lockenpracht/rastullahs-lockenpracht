@@ -21,12 +21,12 @@
 #include <list>
 
 #include "Properties.h"
+#include "Creature.h"
 #include "SaveGameData.h"
 #include "XmlProcessor.h"
 
 namespace rl
 {
-    class Creature;
 	class Dialog;
 	class DialogLoader;
 
@@ -45,7 +45,7 @@ namespace rl
         ~DialogManager();
 
         Dialog* createDialog(const Ogre::String& name, Creature* npc);
-        Dialog* createDialog(const Ogre::String& name, const std::list<Creature*>& npcs);
+        Dialog* createDialog(const Ogre::String& name, const CreatureList& npcs);
 
         virtual const Property getProperty(const CeGuiString& key) const;
         virtual void setProperty(const CeGuiString& key, const Property& value);
@@ -60,16 +60,16 @@ namespace rl
         class DialogConfiguration
         {
         public:
-            DialogConfiguration(const Ogre::String& name, const std::list<Creature*>& participants);
+            DialogConfiguration(const Ogre::String& name, const CreatureList& participants);
 
             const Ogre::String& getName() const;
-            const std::list<Creature*>& getParticipants() const;
+            const CreatureList& getParticipants() const;
 
             bool operator==(const DialogConfiguration&) const;
             bool operator<(const DialogConfiguration&) const;
         private:
             Ogre::String mDialogName;
-            std::list<Creature*> mParticipants;
+            CreatureList mParticipants;
         };
 
 

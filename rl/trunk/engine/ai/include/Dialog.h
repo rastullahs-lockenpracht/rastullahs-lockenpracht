@@ -19,10 +19,10 @@
 #include "AiPrerequisites.h"
 
 #include "Properties.h"
+#include "Creature.h"
 
 namespace rl
 {
-    class Creature;
     class DialogOption;
     class DialogResponse;
     class DialogVariable;
@@ -47,12 +47,12 @@ namespace rl
         virtual PropertyKeys getAllPropertyKeys() const;
 
         void addParticipant(const CeGuiString& personId, Creature* person);
-        std::list<Creature*> getParticipants() const;
+        const CreatureList& getParticipants() const;
         Creature* getParticipant(const CeGuiString& id) const;
 
     private:
         DialogResponse* mDialogStart;
-        std::list<Creature*> mAllParticipants;
+        CreatureList mAllParticipants;
         std::map<CeGuiString, Creature*> mParticipantMap;
         std::map<Ogre::String, DialogVariable*> mVariables;
         PropertyRecord mPropertyVariables;

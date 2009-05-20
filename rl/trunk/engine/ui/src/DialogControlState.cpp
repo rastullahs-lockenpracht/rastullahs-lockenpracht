@@ -196,7 +196,7 @@ namespace rl {
                 + StringConverter::toString(mCurrFadeTextTime));
     }
 
-    void DialogControlState::recalculateDialogCamera(Creature* speaker, std::list<Creature*> listeners)
+    void DialogControlState::recalculateDialogCamera(Creature* speaker, const CreatureList& listeners)
     {
         // Position camera at position between char and dialog partner
         Vector3 speakerEyes = getParticipantPosition(speaker);
@@ -221,8 +221,8 @@ namespace rl {
         mSubtitleWindow = NULL;
         if (mDialog != NULL)
         {
-            const list<Creature*> list = mDialog->getParticipants();
-            for (std::list<Creature*>::const_iterator it = list.begin(); it != list.end(); ++it)
+            const CreatureList list = mDialog->getParticipants();
+            for (CreatureList::const_iterator it = list.begin(); it != list.end(); ++it)
             {
                 Actor* actor = (*it)->getActor();
                 if (actor != NULL)

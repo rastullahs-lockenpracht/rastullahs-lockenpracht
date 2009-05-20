@@ -17,12 +17,11 @@
 #define __DialogLoader_H__
 
 #include "AiPrerequisites.h"
+#include "Creature.h"
 
-#include <list>
 
 namespace rl
 {
-	class Creature;
     class Dialog;
     class DialogLoaderImpl;
 
@@ -36,7 +35,7 @@ namespace rl
         virtual void parseScript(Ogre::DataStreamPtr& stream, const Ogre::String& groupName);
 		virtual Ogre::Real getLoadingOrder() const;
 
-		Dialog* createDialog(const Ogre::String& name, const std::list<Creature*>& participants) const;
+		Dialog* createDialog(const Ogre::String& name, const CreatureList& participants) const;
 
 	private:
         Ogre::StringVector mScriptPatterns;
