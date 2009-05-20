@@ -252,6 +252,10 @@ namespace rl {
         {
             return MOVE_RUN_LOCK;
         }
+        else if (movementDescription == "rear_view")
+        {
+            return REAR_VIEW;
+        }
 
         return MOVE_NONE;
     }

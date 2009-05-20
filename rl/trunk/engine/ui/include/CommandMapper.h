@@ -35,7 +35,8 @@ namespace rl {
         MOVE_RUN = 1<<6,
         MOVE_SNEAK = 1<<7,
         MOVE_JUMP = 1<<8,
-        MOVE_RUN_LOCK = 1<<9
+        MOVE_RUN_LOCK = 1<<9,
+        REAR_VIEW = 1<<10
     };
 
     const int CMDMAP_NO_MAPPING = -9999999;
