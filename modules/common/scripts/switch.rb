@@ -12,7 +12,7 @@ class SwitchUpAction < Action
   end
   
   # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
-  def canDo(switch, user) 
+  def canDo(switch, user, target)
     switch.getState() != Switch3Way::STATE_OBEN;
   end
   
@@ -36,7 +36,7 @@ class SwitchDownAction < Action
   end
   
   # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
-  def canDo(switch, user)
+  def canDo(switch, user, target)
      switch.getState() != Switch3Way::STATE_UNTEN;
   end
   
@@ -59,7 +59,7 @@ class SwitchMiddleAction < Action
   end
   
   # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
-  def canDo(switch, user)    
+  def canDo(switch, user, target)
      switch.getState() != Switch3Way::STATE_MITTE;
   end
   

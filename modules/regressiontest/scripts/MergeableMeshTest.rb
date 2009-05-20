@@ -43,6 +43,7 @@ class MergeableMeshTest < TestCase
         test_item3 = $GOM.createGameObject("mesh construction kit test item 2")
         test_obj3.getInventory().hold(test_item3, "Armor")
         test_obj3.getActor().getControlledObject().startAnimation("Walk")
+        test_obj3.getActor().getPhysicalThing().updateCollisionHull()
 
         test_obj4 = $GOM.createGameObject("mesh construction kit test creature")
         test_obj4.setPosition(rel_pos([4, 0, 0]))

@@ -8,7 +8,7 @@ class JobSequenceTestAction < Action
     super("sequence", "Test job sequence.");
   end
   
-  def canDo(go, user)
+  def canDo(go, user, target)
     true
   end
   
@@ -36,7 +36,7 @@ class JobQueueTestAction < Action
     super("queue", "Test job queue");
   end
   
-  def canDo(go, user)
+  def canDo(go, user,target)
     true
   end
   
@@ -65,7 +65,7 @@ class GameTimeJobQueueTestAction < Action
     super("gametqueue", "Test game time job queue");
   end
   
-  def canDo(go, user)
+  def canDo(go, user, target)
     true
   end
   

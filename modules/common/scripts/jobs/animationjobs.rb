@@ -1,12 +1,14 @@
 require 'globals.rb'
 
-def PlayAnimation(actor, anim, loops = 1, replace=true)
+def PlayAnimation(actor, anim, loops = 1, replace=true, holdOnEnd=false)
     job = PlayAnimationJob.new(actor, anim, loops, replace)
+    job.setHoldOnEnd(holdOnEnd)
     $JS.addJob(job)
 end
 
-def PlayAnimationTime(actor, anim, duration, replace=true)
+def PlayAnimationTime(actor, anim, duration, replace=true, holdOnEnd=false)
     job = PlayAnimationJob.new(actor, anim, duration, replace)
+    job.setHoldOnEnd(holdOnEnd)
     $JS.addJob(job)
 end
 

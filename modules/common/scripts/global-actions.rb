@@ -195,7 +195,7 @@ class ShowGameObjectWindowAction < Action
     $WF.showGameObjectPropsWindow(object)
   end
   
-  def canDo(object, actor)
+  def canDo(object, actor, target)
     $CORE.getDeveloperMode()
   end
 end
@@ -259,7 +259,7 @@ class ShowContainerContentAction < Action
     $WF.showContainerContent(object)
   end
   
-  def canDo(object, actor)
+  def canDo(object, actor, target)
     return object.isContainer()
   end
 end

@@ -16,7 +16,7 @@ class LightTorchAction < Action
     end
     
     # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
-    def canDo?(torch, user)
+    def canDo?(torch, user, target)
         # Wenn die Fackel aus ist, kann sie angemacht werden.
         not torch.lit?;
     end
@@ -33,7 +33,7 @@ class PutoutTorchAction < Action
     end
     
     # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
-    def canDo?(torch, user)
+    def canDo?(torch, user, target)
         # Wenn die Fackel aus ist, kann sie angemacht werden.
         torch.lit?;
     end

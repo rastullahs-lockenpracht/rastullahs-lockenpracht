@@ -8,7 +8,7 @@ class SimpleEnemyKillAction < Action
     end
 
     # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
-    def canDo(enemy, user)    
+    def canDo(enemy, user, target)
         enemy.isAlive
     end
 

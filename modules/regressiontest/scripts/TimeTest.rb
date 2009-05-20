@@ -7,7 +7,7 @@ class TimeCheckAction < Action
     super("checktime", "Zeit ansagen lassen.");
   end
   
-  def canDo(go, user)
+  def canDo(go, user, target)
     true
   end
   

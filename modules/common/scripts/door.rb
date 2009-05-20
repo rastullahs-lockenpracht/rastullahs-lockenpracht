@@ -10,7 +10,7 @@ class OpenDoorAction < Action
   end
   
   # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
-  def canDo(door, user)    
+  def canDo(door, user, target)    
     not door.isOpen
   end
   
@@ -20,7 +20,7 @@ class OpenDoorAction < Action
     #p "call fitToPose for zu"
     doorActor.getPhysicalThing().fitToPose("zu");
 
-    PlayAnimation(doorActor, "auf");
+    PlayAnimation(doorActor, "auf", 1, true, true);
     PlaySound3d("doorcreak.ogg", doorActor.getPosition());
     door.setOpen(true);
   end
@@ -32,7 +32,7 @@ class CloseDoorAction < Action
   end
   
   # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
-  def canDo(door, user)    
+  def canDo(door, user, target)
     door.isOpen
   end
   
@@ -42,7 +42,7 @@ class CloseDoorAction < Action
     #p "call fitToPose for auf"
     doorActor.getPhysicalThing().fitToPose("auf");
 
-    PlayAnimation(doorActor, "zu");
+    PlayAnimation(doorActor, "zu", 1, true, true);
     PlaySound3d("doorcreak.ogg", doorActor.getPosition());
     door.setOpen(false);
   end

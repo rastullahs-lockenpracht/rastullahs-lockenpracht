@@ -14,7 +14,7 @@ class OpenContainerAction < Action
   end
 
   # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
-  def canDo(container, user)
+  def canDo(container, user, target)
     not container.isOpen();
   end
 
@@ -29,7 +29,7 @@ class CloseContainerAction < Action
   end
 
   # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
-  def canDo(container, user)
+  def canDo(container, user, target)
     container.isOpen();
   end
 
@@ -44,7 +44,7 @@ class ShowContainerContentAction < Action
   end
 
   # Die Methode prüft, ob die Aktion überhaupt angeboten wird.
-  def canDo(container, user)
+  def canDo(container, user, target)
     true
   end
 

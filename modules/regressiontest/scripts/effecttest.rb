@@ -12,7 +12,7 @@ class ParaluesAction < Action
     super("paralues", "Spontan versteinern.");
   end
   
-  def canDo(go, user)
+  def canDo(go, user, target)
     true
   end
   
@@ -28,7 +28,7 @@ class ResistenzAction < Action
     super("resistenz", "Resistenz gegen Krankheiten erweben.");
   end
   
-    def canDo(go, user)
+    def canDo(go, user, target)
     true
     end
   

@@ -19,8 +19,9 @@ class MeshAreaTest < TestCase
     testObj = $GOM.createGameObject("MeshAreaTestHouse")
     testObj.setPosition(@center)
     testObj.placeIntoScene()
+    testObj.getActor().setScale(0.5, 0.2, 1.0)
 
     listener = MeshAreaListener.new()
-    $GameEveMgr.addMeshAreaListener(testObj.getActor(), GT_CONVEXHULL, listener)
+    $GameEveMgr.addMeshAreaListener(testObj.getActor(), GT_BOX, listener)
   end
 end

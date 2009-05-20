@@ -7,7 +7,7 @@ class DirectorErrorAction < Action
     super("DirectorErrorAction", "Raises an Exception.");
   end
   
-  def canDo(go, user)
+  def canDo(go, user, target)
     true
   end
   
