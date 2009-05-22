@@ -19,10 +19,10 @@
 
 #include "Properties.h"
 #include "XmlProcessor.h"
+#include "Creature.h"
 
 namespace rl
 {
-    class Creature;
     class Dialog;
     class DialogCondition;
     class DialogElement;
@@ -39,7 +39,7 @@ namespace rl
         DialogLoaderImpl();
         ~DialogLoaderImpl();
 
-        Dialog* createDialog(const Ogre::String& name, const std::list<Creature*>& participants) const;
+        Dialog* createDialog(const Ogre::String& name, const CreatureList& participants) const;
         void parseDialog(Ogre::DataStreamPtr& stream, const Ogre::String& groupName);
 
     private:
@@ -70,7 +70,7 @@ namespace rl
             DialogResponse* getResponse(const CeGuiString& id) const;
 
             void setStartResponse(DialogResponse* response);
-            Dialog* createDialog(const std::list<Creature*>& participants);
+            Dialog* createDialog(const CreatureList& participants);
             void setProperty(const CeGuiString& key, const Property& value);
 
             void addParticipant(DialogParticipant* participant);

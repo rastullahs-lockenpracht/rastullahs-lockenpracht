@@ -100,7 +100,7 @@ namespace rl
         mAllParticipants.push_back(person);
     }
 
-    list<Creature*> Dialog::getParticipants() const
+    const CreatureList& Dialog::getParticipants() const
     {
         return mAllParticipants;
     }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-4.6.dtd">
 <!-- eric4 project file for project Lockenwickler -->
-<!-- Saved: 2009-04-10, 16:03:00 -->
+<!-- Saved: 2009-05-09, 21:08:47 -->
 <!-- Copyright (C) 2009 Stefan Stammberger, sstammberger@web.de -->
 <Project version="4.6">
   <Language>en</Language>
@@ -41,15 +41,33 @@
     <Source>src/DepthBuffer.py</Source>
     <Source>src/ZoneManager.py</Source>
     <Source>src/GOGenericEditor.py</Source>
+    <Source>src/ModuleDirectoryView.py</Source>
+    <Source>src/TriggerManager.py</Source>
+    <Source>src/GlobDirectoryWalker.py</Source>
+    <Source>ui files/Ui_GOPropertyEditorDialogINT.py</Source>
+    <Source>ui files/Ui_GOPropertyEditorDialogSTRING.py</Source>
+    <Source>ui files/Ui_NewModuleWizard.py</Source>
+    <Source>src/AddTriggerDialog.py</Source>
+    <Source>src/Ui_AddTriggerDialog.py</Source>
+    <Source>src/MyTerrainManager.py</Source>
+    <Source>src/Ui_MyTerrainManagerDock.py</Source>
+    <Source>src/media/help/help_rc.py</Source>
+    <Source>ui files/Ui_BrushDialog.py</Source>
+    <Source>ui files/Ui_MyTerrainManagerDock.py</Source>
   </Sources>
   <Forms>
     <Form>ui files/GOPropertyEditorDialogINT.ui</Form>
     <Form>ui files/GOPropertyEditorDialogSTRING.ui</Form>
     <Form>ui files/NewModuleWizard.ui</Form>
+    <Form>ui files/AddTriggerDialog.ui</Form>
+    <Form>ui files/MyTerrainManagerDock.ui</Form>
+    <Form>ui files/BrushDialog.ui</Form>
   </Forms>
   <Translations>
   </Translations>
   <Resources>
+    <Resource>src/media/help/help.qrc</Resource>
+    <Resource>src/media/icons/icons.qrc</Resource>
   </Resources>
   <Interfaces>
   </Interfaces>

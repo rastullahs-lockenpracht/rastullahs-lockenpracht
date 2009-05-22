@@ -37,6 +37,7 @@ namespace rl
             CreatureController::MovementType movementType_moving = CreatureController::MT_RENNEN,
             CreatureController::MovementType movementType_idle = CreatureController::MT_STEHEN);
 		GoToJob(const CeGuiString &id, Creature* actor, GameObject* target, Ogre::Real maxDistance, Ogre::Real duration,
+            bool followTarget = false,
             CreatureController::MovementType movementType_moving = CreatureController::MT_RENNEN,
             CreatureController::MovementType movementType_idle = CreatureController::MT_STEHEN);
         virtual ~GoToJob();
@@ -46,6 +47,7 @@ namespace rl
     private:
 		CreatureController* mActor;
 		GameObject* mTarget;
+        bool mFollowTarget;
 		Ogre::Vector3 mTargetPos;
 		Ogre::Real mMaxDistance;
 		Ogre::Real mTimeLeft;

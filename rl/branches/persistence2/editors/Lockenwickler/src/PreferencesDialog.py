@@ -26,6 +26,9 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
 class PreferencesDialog(QDialog):
+    pathToModuleConfig = None
+    externalTextAppCmd = None
+    
     def __init__(self, parent=None):
         QDialog.__init__(self, parent)
 
@@ -39,22 +42,50 @@ class PreferencesDialog(QDialog):
         layout.addWidget(self.label, 0, 0, 1, 2)
         layout.addWidget(self.lineEdit, 1, 0)
         layout.addWidget(self.modulConfigSelector, 1, 1)
-
-        self.setLayout(layout)
-        
-        self.moduleCfgPath = None
-        
         QObject.connect(self.modulConfigSelector, SIGNAL("clicked()"),
                                self.openModulConfigSelector)
 
+        self.externalTextApplabel = QLabel()
+        self.externalTextApplabel.setText("Please select the Texteditor to use.")
+        self.externalTextAppSelector = QPushButton()
+        self.externalTextAppSelector.setText("...")
+        self.externalTextAppLineEdit = QLineEdit()
+
+        layout.addWidget(self.externalTextApplabel, 2, 0, 1, 2)
+        layout.addWidget(self.externalTextAppLineEdit, 3, 0)
+        layout.addWidget(self.externalTextAppSelector, 3, 1)
+        QObject.connect(self.externalTextAppSelector, SIGNAL("clicked()"),
+                               self.openExternalTextEditorSelector)
+
+    
+
+        self.setLayout(layout)
+        self.setMinimumSize(600, 100)
+        self.moduleCfgPath = None
+        self.externalEditorPath = None
+
+
         self.setModal(True)
 
+        buttonBox = QDialogButtonBox(QDialogButtonBox.Ok)
+        layout.addWidget(buttonBox)
+        self.connect(buttonBox, SIGNAL("accepted()"), self.onOk)       
+        
+    def onOk(self):
+        PreferencesDialog.externalTextAppCmd = str(self.externalTextAppLineEdit.text())
+        self.accept()
+        
+    def setExternalEditorPath(self, path):
+        PreferencesDialog.externalTextAppCmd = path
+        self.externalTextAppLineEdit.setText(path)
+        
     def setCfgPath(self, inPath):
         path = str(inPath)
 
         from os.path import isfile
 
         if isfile(path):
+            PreferencesDialog.pathToModuleConfig = path
             self.moduleCfgPath = path
             self.modulePath = self.moduleCfgPath.replace("modules.cfg", "")
             self.lineEdit.setText(self.moduleCfgPath)
@@ -62,11 +93,22 @@ class PreferencesDialog(QDialog):
         else:
             return False
 
+    def openExternalTextEditorSelector(self):
+        dialog = QFileDialog(self)
+        self.externalEditorPath = str(dialog.getOpenFileName(self, "Select the executable", "/home/melven/rastullah/rl_dist/modules/"))
+
+        from os.path import isfile
+
+        if isfile(self.externalEditorPath):
+            self.externalTextAppLineEdit.setText(self.externalEditorPath)
+            PreferencesDialog.externalTextAppCmd = str(self.externalTextAppLineEdit.text())
+            
     def openModulConfigSelector(self):
         dialog = QFileDialog(self)
         self.moduleCfgPath = str(dialog.getOpenFileName(self, "Select modules.cfg", "/home/melven/rastullah/rl_dist/modules/", "modules.cfg (*.cfg)"))
         self.modulePath = self.moduleCfgPath.replace("modules.cfg", "")
-
+        PreferencesDialog.pathToModuleConfig = self.moduleCfgPath
+        
         from os.path import isfile
 
         if isfile(self.moduleCfgPath):

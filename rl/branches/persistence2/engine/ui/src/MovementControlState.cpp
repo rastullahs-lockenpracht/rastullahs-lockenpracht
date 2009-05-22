@@ -73,6 +73,7 @@ namespace rl {
         mCamYaw(0),
         mCamVirtualYaw(0),
         mNewCamVirtualYaw(0),
+        mCamRearViewYaw(0),
         mPitch(20),
         mRoll(0),
         mPitchRange(Degree(-75), Degree(85)),
@@ -87,9 +88,6 @@ namespace rl {
         mViewMode(VM_THIRD_PERSON),
         mRaycast(new PhysicsMaterialRaycast()),
         mConvexcast(new PhysicsMaterialConvexcast()),
-#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
-        mCameraCastCollision(NULL),
-#endif
         mSelector(CoreSubsystem::getSingleton().getWorld()->getSceneManager()),
         mCombatSelector(CoreSubsystem::getSingleton().getWorld()->getSceneManager(),
             QUERYFLAG_CREATURE),
@@ -174,9 +172,6 @@ namespace rl {
         mSelector.setFilter(NULL);
         delete mRaycast;
         delete mConvexcast;
-#ifndef OGRENEWT_COLLISION_USE_SHAREDPTR
-        delete mCameraCastCollision;
-#endif
 
         if (DebugWindow::getSingletonPtr())
         {
@@ -313,9 +308,9 @@ namespace rl {
     void MovementControlState::updateCharacter(Ogre::Real elapsedTime)
     {
         InputManager* im = InputManager::getSingletonPtr();
+        int movement = mCharacterState.mCurrentMovementState;
         if( mController != NULL )
         {
-            int movement = mCharacterState.mCurrentMovementState;
             Degree rotation(0);
 
             AbstractMovement *drehen = mController->getMovementFromId(CreatureController::MT_DREHEN);
@@ -347,7 +342,7 @@ namespace rl {
                 }
 
 
-                if( mViewMode != VM_PNYX_MODE  && mViewMode != VM_FIRST_PERSON )
+                if( mViewMode != VM_PNYX_MODE  )//&& mViewMode != VM_FIRST_PERSON )
                 {
                     // virtual yaw
                     if( mCamVirtualYaw != mNewCamVirtualYaw )
@@ -366,14 +361,14 @@ namespace rl {
                     }
                     else
                     {
-                        mNewCamVirtualYaw =Degree(0);
+                        mNewCamVirtualYaw = Degree(0);
                     }
                     if( mCamVirtualYaw != mNewCamVirtualYaw )
                     {
                         rotation += mCamVirtualYaw - mNewCamVirtualYaw;
                     }
                 }
-
+/*
                 if( mViewMode == VM_FIRST_PERSON )
                 {
                     if( ((movement & MOVE_FORWARD) && (movement & MOVE_RIGHT) && !(movement & MOVE_LEFT)) ||
@@ -406,6 +401,7 @@ namespace rl {
                         }
                     }
                 }
+*/
             }
 
 
@@ -589,6 +585,23 @@ namespace rl {
                 }
             }
         }
+
+
+        if ( movement & REAR_VIEW )
+        {
+            if( mCamRearViewYaw < Degree(180) )
+                mCamRearViewYaw += elapsedTime*Degree(2*360);
+            if( mCamRearViewYaw > Degree(180) )
+                mCamRearViewYaw = Degree(180);
+        }
+        else
+        {
+            if( mCamRearViewYaw > Degree(0) )
+                mCamRearViewYaw -= elapsedTime*Degree(2*360);
+            if( mCamRearViewYaw < Degree(0) )
+                mCamRearViewYaw = Degree(0);
+        }
+
     }
 
     // ------------------------------------------------------------------------
@@ -624,7 +637,7 @@ namespace rl {
         charPos = mCharacter->getActor()->getWorldPosition();
         Quaternion charOri = mCharacter->getActor()->getWorldOrientation();
         Quaternion virtualCamOri;
-        virtualCamOri.FromAngleAxis(mCamVirtualYaw, Vector3::UNIT_Y);
+        virtualCamOri.FromAngleAxis(mCamVirtualYaw+mCamRearViewYaw, Vector3::UNIT_Y);
 
 
         // Kamera-Gr�e beziehen
@@ -649,8 +662,8 @@ namespace rl {
         {
            cameraNode->lookAt(
                 charPos
-                + charOri * /* virtualCamOri * */  mLookAtOffset
-                + charOri * /* virtualCamOri * */ (-Vector3::UNIT_Z*radius),   // doesn't work smoothly with strafe+forward
+                + charOri * virtualCamOri *  mLookAtOffset
+                + charOri * virtualCamOri *  (-Vector3::UNIT_Z*radius),   // doesn't work smoothly with strafe+forward
                 Node::TS_WORLD);
 
         }
@@ -756,7 +769,7 @@ namespace rl {
         Vector3 charPos = mCharacter->getActor()->getWorldPosition();
         Quaternion charOri = mCharacter->getActor()->getWorldOrientation();
         Quaternion virtualCamOri;
-        virtualCamOri.FromAngleAxis(mCamVirtualYaw, Vector3::UNIT_Y);
+        virtualCamOri.FromAngleAxis(mCamVirtualYaw+mCamRearViewYaw, Vector3::UNIT_Y);
 
 
         Vector3 camPos;
@@ -985,7 +998,7 @@ namespace rl {
         //Quaternion charOri = mCharacter->getActor()->getWorldOrientation();
         Quaternion charOri (mController->getYaw(), Vector3::UNIT_Y);
         Quaternion virtualCamOri;
-        virtualCamOri.FromAngleAxis(mCamVirtualYaw, Vector3::UNIT_Y);
+        virtualCamOri.FromAngleAxis(mCamVirtualYaw+mCamRearViewYaw, Vector3::UNIT_Y);
         // get camera size
         CameraObject* ogreCam = static_cast<CameraObject*>(
                 mCameraActor->getControlledObject());
@@ -1311,6 +1324,7 @@ namespace rl {
         mCamBody->setPositionOrientation(calculateOptimalCameraPosition(false, 0.0f), camOri);
         mCamVirtualYaw = Degree(0);
         mNewCamVirtualYaw = Degree(0);
+        mCamRearViewYaw = Degree(0);
         mLastCameraCollision = 0;
         if(mViewMode == VM_FIRST_PERSON)
             mCharacterActor->setVisible(false);

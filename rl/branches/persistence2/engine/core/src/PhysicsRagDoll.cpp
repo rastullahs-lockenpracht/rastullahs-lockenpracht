@@ -35,11 +35,7 @@ PhysicsRagDoll::RagBone::RagBone( PhysicsRagDoll* creator, OgreNewt::World* worl
 	mParent = parent;
 	mOgreBone = ogreBone;
 
-#ifdef OGRENEWT_COLLISION_USE_SHAREDPTR
 	OgreNewt::ConvexCollisionPtr col;
-#else
-	OgreNewt::ConvexCollisionPtr col = NULL;
-#endif
 
 	// in the case of the cylindrical primitives, they need to be rotated to align the main axis with the direction vector.
 	Ogre::Quaternion orient = Ogre::Quaternion::IDENTITY;
@@ -95,12 +91,7 @@ PhysicsRagDoll::RagBone::RagBone( PhysicsRagDoll* creator, OgreNewt::World* worl
     {
         if( col->getNewtonCollision() == NULL )
         {
-#ifdef OGRENEWT_COLLISION_USE_SHAREDPTR
             col.reset();
-#else
-            delete col;
-            col = NULL;
-#endif
         }
     }
 
@@ -112,11 +103,7 @@ PhysicsRagDoll::RagBone::RagBone( PhysicsRagDoll* creator, OgreNewt::World* worl
     else
     {
     	mBody = new OgreNewt::Body( world, col );
-#ifdef OGRENEWT_USE_OGRE_ANY
         mBody->setUserData( Ogre::Any(parentActor) );
-#else
-	    mBody->setUserData( parentActor );
-#endif
     	mBody->setStandardForceCallback();
         const OgreNewt::MaterialID* ragdollMat = PhysicsManager::getSingleton().createMaterialID("default");
         mBody->setMaterialGroupID(ragdollMat);
@@ -146,11 +133,7 @@ PhysicsRagDoll::RagBone::~RagBone()
 
 void PhysicsRagDoll::RagBone::_hingeCallback( OgreNewt::BasicJoints::Hinge* me )
 {
-#ifdef OGRENEWT_USE_OGRE_ANY
     PhysicsRagDoll::RagBone* bone = Ogre::any_cast<PhysicsRagDoll::RagBone*>(me->getUserData());
-#else
-    PhysicsRagDoll::RagBone* bone = static_cast<PhysicsRagDoll::RagBone*>(me->getUserData());
-#endif
 
 	Ogre::Degree angle = me->getJointAngle();
 	Ogre::Degree lim1( bone->getLimit1() );
@@ -261,11 +244,7 @@ OgreNewt::ConvexCollisionPtr PhysicsRagDoll::RagBone::_makeConvexHull( OgreNewt:
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////
-#ifdef OGRENEWT_COLLISION_USE_SHAREDPTR
     OgreNewt::ConvexCollisionPtr col;
-#else
-    OgreNewt::ConvexCollisionPtr col = NULL;
-#endif
     if( numVerts > 0 )
     	col = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::ConvexHull( world, verts, numVerts ));
 
@@ -464,11 +443,7 @@ void PhysicsRagDoll::_joinBones( PhysicsRagDoll::JointType type, RagBone* parent
 	case PhysicsRagDoll::JT_HINGE:
 		joint = new OgreNewt::BasicJoints::Hinge( world, child->getBody(), parent->getBody(), pos, pin );
 		((OgreNewt::BasicJoints::Hinge*)joint)->setCallback( RagBone::_hingeCallback );
-#ifdef OGRENEWT_USE_OGRE_ANY
 		joint->setUserData( Ogre::Any(child) );
-#else
-		joint->setUserData( child );
-#endif
 		child->setLimits( limit1, limit2 );
 		break;
 	}
@@ -478,11 +453,7 @@ void PhysicsRagDoll::_joinBones( PhysicsRagDoll::JointType type, RagBone* parent
 
 void PhysicsRagDoll::_placementCallback( OgreNewt::Body* me, const Ogre::Quaternion& orient, const Ogre::Vector3& pos, int threadindex )
 {
-#ifdef OGRENEWT_USE_OGRE_ANY
     Actor* parentActor = Ogre::any_cast<Actor*>(me->getUserData());
-#else
-    Actor* parentActor = static_cast<Actor*>(me->getUserData());
-#endif
 	PhysicsRagDoll* doll = parentActor->getPhysicalThing()->getRagDoll();
     PhysicsRagDoll::RagBoneMapIterator it = doll->mRagBonesMap.find(me);
     if( it == doll->mRagBonesMap.end() )

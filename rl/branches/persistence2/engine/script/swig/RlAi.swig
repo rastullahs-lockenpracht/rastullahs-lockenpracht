@@ -301,8 +301,8 @@ namespace rl
     {
     public:
         static rl::DialogManager& getSingleton();
-        rl::Dialog* createDialog(const Ogre::String& name, rl::Creature* npc);
-        rl::Dialog* createDialog(const Ogre::String& name, rl::CreatureList& npcs);
+        // rl::Dialog* createDialog(const Ogre::String& name, rl::Creature* npc); // function overloading is not working correctly here in swig
+        rl::Dialog* createDialog(const Ogre::String& name, const rl::CreatureList& npcs);
     private:
         DialogManager();
     };

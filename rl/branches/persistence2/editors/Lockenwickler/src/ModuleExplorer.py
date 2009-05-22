@@ -1,4 +1,4 @@
- #################################################
+#################################################
 # This source file is part of Rastullahs Lockenwickler.
 # Copyright (C) 2003-2009 Team Pantheon. http://www.team-pantheon.de
 #
@@ -15,12 +15,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  US
- #################################################
+#################################################
 
 import sys
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 import ogre.renderer.OGRE as og
+
+from ZoneManager import *
 
 # get the light out of a light node
 def extractLight(node):
@@ -35,7 +37,7 @@ def extractLight(node):
             i += 1
 
 class ExplorerOptionsDlg(QDialog):
-    def __init__(self, lights, gameObjects, entities, zones, zonelights, parent = None):
+    def __init__(self, lights, gameObjects, entities, zones, zonelights, zonetriggers, parent = None):
         super(ExplorerOptionsDlg, self).__init__(parent)
         
         buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
@@ -60,6 +62,10 @@ class ExplorerOptionsDlg(QDialog):
         self.zoneslightsCheckBox = QCheckBox("Show Zonelights")
         self.zoneslightsCheckBox.setChecked(zonelights)        
         layout.addWidget(self.zoneslightsCheckBox)
+        
+        self.zonesTriggersCheckBox = QCheckBox("Show Zonetriggers")
+        self.zonesTriggersCheckBox.setChecked(zonetriggers)        
+        layout.addWidget(self.zonesTriggersCheckBox)
         
         layout.addWidget(buttonBox)
         layout.setContentsMargins(2, 2, 2, 2)
@@ -122,7 +128,7 @@ class ModuleTreeWidget(QTreeWidget):
         drag.start(Qt.CopyAction)
 
     def dragEnterEvent(self, event):
-        print "enter"
+#        print "enter"
         if event.mimeData().hasFormat("application/light"):
             event.accept()
             
@@ -155,7 +161,7 @@ class ModuleTreeWidget(QTreeWidget):
         
             relMousePos = self.mapFromGlobal(QPoint(QCursor.pos().x(), QCursor.pos().y() - self.header().height()))
             item = self.itemAt(relMousePos)
-            str(item.data(0, Qt.UserRole).toString())
+            #str(item.data(0, Qt.UserRole).toString())
             
             items = self.findItems("Lights", Qt.MatchFixedString | Qt.MatchRecursive)
             for iitem in items:
@@ -173,10 +179,9 @@ class ModuleTreeWidget(QTreeWidget):
                     child.setText(0, text)
                     child.setData(0, Qt.UserRole, QVariant(ModuleExplorer.LIGHT_IN_ZONE))
 
-
-
 class ModuleExplorer(QWidget):
     LIGHT_IN_ZONE = 99
+    TRIGGER_IN_ZONE = 100
     
     def __init__(self, parent=None):
         QWidget.__init__(self, parent)
@@ -205,6 +210,7 @@ class ModuleExplorer(QWidget):
         
         self.showLights = True
         self.showZoneLights = True
+        self.showZoneTriggers = True
         self.showGameObjects = True
         self.showEntities = True
         self.showZones = True
@@ -254,10 +260,12 @@ class ModuleExplorer(QWidget):
         if self.selectionChangedCallback is None:
             return
 
+        
+
         #get all selected items
         selItems = self.sceneTreeView.selectedItems()
         if len(selItems) == 1:
-            if str(selItems[0].parent().text(0)) == "Lights" and str(selItems[0].parent().parent().text(0)).startswith("Zone: "):
+            if str(selItems[0]).startswith("Scene: ") and str(selItems[0].parent().text(0)) == "Lights" and str(selItems[0].parent().parent().text(0)).startswith("Zone: "):
                 return
         
         
@@ -279,17 +287,32 @@ class ModuleExplorer(QWidget):
         
         #end remove all the things from the list we actually don't want to be selected
         for item in selItems:
-            if str(item.text(0)).startswith("Scene: ") or str(item.text(0)).startswith("Map: ") or str(item.text(0)).startswith("Zone: "):
+            itemText = str(item.text(0))
+            if item.parent() is None:
+                continue
+            
+            parentText = str(item.parent().text(0))
+            
+            if itemText.startswith("Map: ") or itemText.startswith("Zone: "):
                 selItems.remove(item)
+            elif item.data(0, Qt.UserRole).toInt()[0] == ModuleExplorer.LIGHT_IN_ZONE or item.data(0, Qt.UserRole).toInt()[0] == ModuleExplorer.TRIGGER_IN_ZONE:
+                selItems.remove(item)
+            elif itemText == "Lights" or itemText == "Triggers":
+                if parentText.startswith("Zone: "):
+                    selItems.remove(item)
         
         for item in selItems:
+            if item.parent() is None:
+                continue
+            
             parentName =  str(item.text(0))
                         
             name = str(item.data(0, Qt.UserRole).toString())
             if len > 0:
                 nodeNames[str(item.parent().text(0))].append(name)
                 
-        self.selectionChangedCallback(nodeNames)
+        if len(nodeNames) > 0:
+            self.selectionChangedCallback(nodeNames)
 
     def deselectAll(self):
         self.disconnect(self.sceneTreeView, SIGNAL("itemSelectionChanged ()"), self.onSelectionChanged)
@@ -352,6 +375,11 @@ class ModuleExplorer(QWidget):
                 setActiveMapAction = QAction("Set Active",  self)
                 menu.addAction(setActiveMapAction)
                 self.connect(setActiveMapAction, SIGNAL("triggered()"), self.onSetActiveMap)
+            elif self.sceneTreeView.currentItem() is not None and str(self.sceneTreeView.currentItem().text(0)).startswith("Zone:"):
+                item = self.sceneTreeView.itemAt(point)
+                addTriggerAction = QAction("Add Trigger",  self)
+                menu.addAction(addTriggerAction)
+                self.connect(addTriggerAction, SIGNAL("triggered()"), self.onAddTriggerToZone)
                 
             deleteAction= QAction("Delete",  self)
             menu.addAction(deleteAction)
@@ -371,8 +399,13 @@ class ModuleExplorer(QWidget):
             
             menu.exec_(QCursor().pos())
     
+    def onAddTriggerToZone(self):
+        zoneName = str(self.sceneTreeView.currentItem().text(0)).replace("Zone: ", "")
+        self.moduleManager.zoneManager.getZone(zoneName).manualAddTrigger()
+        self.updateView()
+        
     def onOptions(self):
-        dlg = ExplorerOptionsDlg(self.showLights, self.showGameObjects, self.showEntities, self.showZones, self.showZoneLights, self)
+        dlg = ExplorerOptionsDlg(self.showLights, self.showGameObjects, self.showEntities, self.showZones, self.showZoneLights, self.showZoneTriggers, self)
         if dlg.exec_():
             self.showLights = dlg.lightCheckBox.isChecked()
             self.showGameObjects = dlg.gameObjectsCheckBox.isChecked()
@@ -413,13 +446,34 @@ class ModuleExplorer(QWidget):
             self.updateView()
     
     def onDelete(self):
-        print "delete"
+        item = self.sceneTreeView.itemAt(self.onMenuPoint)
+        
+        if item.data(0, Qt.UserRole).toString() == str(ModuleExplorer.LIGHT_IN_ZONE):
+            zoneName = str(item.parent().parent().text(0)).replace("Zone: ",  "")
+            lightName = str(item.text(0))
+            if self.sceneTreeView.zoneManager.removeLightFromZone(zoneName, lightName):
+                item.parent().removeChild(item)     
+        elif item.data(0, Qt.UserRole).toString() == str(ModuleExplorer.TRIGGER_IN_ZONE):
+            zoneName = str(item.parent().parent().text(0)).replace("Zone: ",  "")
+            triggerNameName = str(item.text(0))
+            if self.sceneTreeView.zoneManager.removeTriggerFromZone(zoneName, triggerNameName):
+                item.parent().removeChild(item)
+        elif str(item.text(0)).startswith("Zone: "):
+            zoneName = str(item.text(0)).replace("Zone: ",  "")
+            reply = QMessageBox.warning(QApplication.focusWidget(), "Undoable Action!", "Delete zone " +  zoneName + "?", QMessageBox.Yes|QMessageBox.Cancel)
+            if reply == QMessageBox.Cancel:
+                return
+            elif reply == QMessageBox.Yes:
+                if self.sceneTreeView.zoneManager.deleteZone(zoneName):
+                    item.parent().removeChild(item)
+                    
+#        print "delete " + str(item.data(0, Qt.UserRole).toString())
 
     def keyPressEvent(self, event):
         print "key!!!!!!!!!!!!!!"
     
     def paintLastSelectedMapBlue(self):
-        print self.lastSelectedMap
+#        print self.lastSelectedMap
         for item in self.mapItems:
             if str(item.text(0)) == self.lastSelectedMap:
                 brush = item.foreground(0)
@@ -534,6 +588,15 @@ class ModuleExplorer(QWidget):
                     childItem2 = QTreeWidgetItem(lightsItem)
                     childItem2.setText(0, lightName)
                     childItem2.setData(0, Qt.UserRole, QVariant(ModuleExplorer.LIGHT_IN_ZONE))
+                    
+            if self.showZoneTriggers:
+                triggersItem = QTreeWidgetItem(childItem)
+                triggersItem.setText(0, "Triggers")
+                
+                for trigger in zone.triggerList:
+                    childItem2 = QTreeWidgetItem(triggersItem)
+                    childItem2.setText(0, trigger.name)
+                    childItem2.setData(0, Qt.UserRole, QVariant(ModuleExplorer.TRIGGER_IN_ZONE))
                     
     def setCurrentModule(self, module):
         self.module = module

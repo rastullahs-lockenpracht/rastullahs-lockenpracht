@@ -36,6 +36,7 @@ class OgreMainWindow(QWidget):
     def __init__(self, moduleManager,  ogreRoot, OgreMainWinSceneMgr,  parent):
         QWidget.__init__(self, parent)
         self.moduleManager = moduleManager
+
         self.ogreRoot = ogreRoot
         self.OgreMainWinSceneMgr = OgreMainWinSceneMgr
 
@@ -136,12 +137,14 @@ class OgreMainWindow(QWidget):
             self.strafeCamRight= False
 
     def eventFilter(self, obj, event):
+#        print event.type()
+        
         if event.type() == 2:
             self.ogreWidget.setFocus()
             if event.button() == 1: # left mouse button is pressed
                 self.leftMouseDown = True
-                self.moduleManager.leftMouseDown = True
-
+                self.moduleManager.setLeftMouseDown()
+                
                 if self.rightMouseDown: #if right mouse button is already pressed dolly the camera
                     self.mDollyCamera = True
                 else:
@@ -161,9 +164,9 @@ class OgreMainWindow(QWidget):
         elif event.type() == 3:
             if event.button() == 1: # left mouse button is released
                 self.leftMouseDown = False
-                self.moduleManager.leftMouseDown = False
-                self.moduleManager.leftMouseUp()
-
+                self.moduleManager.setLeftMouseUp()
+                self.moduleManager.myTerrainManager.leftMouseUp()
+                
                 if self.mDollyCamera == True: #if we dolly the camera set it to false
                     self.mDollyCamera = False
 
@@ -193,7 +196,12 @@ class OgreMainWindow(QWidget):
 
             if self.moduleManager.pivot is not None and  self.leftMouseDown and not self.middleMouseDown and not self.rightMouseDown:
                 self.moduleManager.pivot.onMouseMoved(event.globalX,  event.globalY,  incX,  incY)
-
+                
+            if self.leftMouseDown is True and not self.rightMouseDown and not self.middleMouseDown:
+                self.moduleManager.myTerrainManager.isEditing = True
+            else:
+                self.moduleManager.myTerrainManager.isEditing = False 
+            
             rotX = incX * 0.01
             rotY = incY * 0.01
 
@@ -204,6 +212,7 @@ class OgreMainWindow(QWidget):
 
             self.lastMousePosX = event.globalX()
             self.lastMousePosY = event.globalY()
+
 
         if event.type() == 60: #drag enter
             self.dragEnterEvent(event)

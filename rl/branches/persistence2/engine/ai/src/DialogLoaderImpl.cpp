@@ -81,7 +81,7 @@ namespace rl
         shutdownXml();
     }
 
-    Dialog* DialogLoaderImpl::createDialog(const String& name, const std::list<Creature*>& participants) const
+    Dialog* DialogLoaderImpl::createDialog(const String& name, const CreatureList& participants) const
     {
         std::map<Ogre::String, DialogPrototype*>::const_iterator it =
         mDialogs.find(name);
@@ -607,7 +607,7 @@ namespace rl
         return it->second;
     }
 
-    Dialog* DialogLoaderImpl::DialogPrototype::createDialog(const list<Creature*>& participants)
+    Dialog* DialogLoaderImpl::DialogPrototype::createDialog(const CreatureList& participants)
     {
         Dialog* dialog = new Dialog();
 
@@ -618,7 +618,7 @@ namespace rl
         bool found1stNpc = false;
         Party playerChars = PartyManager::getSingleton().getCharacters();
 
-        for (list<Creature*>::const_iterator itPart = participants.begin(); itPart != participants.end(); ++itPart)
+        for (CreatureList::const_iterator itPart = participants.begin(); itPart != participants.end(); ++itPart)
         {
             Creature* curCr = *itPart;
 

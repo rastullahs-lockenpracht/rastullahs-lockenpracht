@@ -232,7 +232,7 @@ class Pivot():
                 if self.moveDirection == "UniScaler":
                     for so in self.selectionList:
                         val = incY / 6.0
-                        print val
+#                        print val
                         scale = so.entity.getParentNode().getScale() + og.Vector3(val * scaleFactor, val * scaleFactor, val * scaleFactor)
                         so.entity.getParentNode().setScale(scale)
         

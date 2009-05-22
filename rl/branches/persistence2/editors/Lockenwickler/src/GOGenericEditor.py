@@ -84,7 +84,7 @@ class GOGenericEditor(QDialog):
             
         self.layout.addWidget(self.typeDropBox)
         
-        self.connect(self, SIGNAL("currentIndexChanged ( const QString & text )"), self.onTypeChanged)
+        self.connect(self, SIGNAL("currentIndexChanged ( const QString &)"), self.onTypeChanged)
 
     def onTypeChanged(self, type):
         print str(type)

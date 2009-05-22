@@ -1,4 +1,4 @@
- #################################################
+#################################################
 # This source file is part of Rastullahs Lockenwickler.
 # Copyright (C) 2003-2009 Team Pantheon. http://www.team-pantheon.de
 #
@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  US
- #################################################
+#################################################
 
 #from elementtree.ElementTree import *
 from xml.etree.cElementTree import *
@@ -147,9 +147,44 @@ class GameObjectRepresentation(og.UserDefinedObject):
             rep.name = str(self.editor.nameEditBox.text())
             rep.type = str(self.editor.typeDropBox.currentText())
             
-            if rep.type == "STRING" or rep.type == "BOOL" or rep.type == "REAL" or rep.type == "INT":
+            if rep.type == "STRING":
                 rep.data = str(self.editor.dataEditBox.text())
-            
+            elif rep.type == "BOOL":
+                text = str(self.editor.dataEditBox.text())
+                if text == "True" or text == "1" or text == "true":
+                    rep.data = "True"
+                elif text == "False" or text == "0" or text == "false":
+                    rep.data = "False"
+                else:
+                    reply = QMessageBox.question(QApplication.focusWidget(), "Try again?", "Data is not a BOOL" , QMessageBox.Yes|QMessageBox.No)
+                    if reply == QMessageBox.Yes:
+                        self.addProperty(True)
+                        return
+                    elif reply == QMessageBox.No:
+                        return
+            elif rep.type == "REAL":
+                try:
+                     rep.data = str(float(self.editor.dataEditBox.text()))
+                except ValueError, e:
+                    reply = QMessageBox.question(QApplication.focusWidget(), "Try again?", "Data is not a REAL" , QMessageBox.Yes|QMessageBox.No)
+                    if reply == QMessageBox.Yes:
+                        self.addProperty(True)
+                        print "ValueError: " + str(e)
+                        return
+                    elif reply == QMessageBox.No:
+                        return
+            elif rep.type == "INT":
+                try:
+                     rep.data = str(int(self.editor.dataEditBox.text()))
+                except ValueError, e:
+                    reply = QMessageBox.question(QApplication.focusWidget(), "Try again?", "Data is not a INT" , QMessageBox.Yes|QMessageBox.No)
+                    if reply == QMessageBox.Yes:
+                        self.addProperty(True)
+                        print "ValueError: " + str(e)
+                        return
+                    elif reply == QMessageBox.No:
+                        return
+                
             if rep.name in self.propertieDict:
                 reply = QMessageBox.question(QApplication.focusWidget(), "Warning...", "Replace the existing property?" , QMessageBox.Yes|QMessageBox.No|QMessageBox.Cancel)
                 if reply == QMessageBox.Cancel:

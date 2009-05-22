@@ -9,15 +9,12 @@
 #define DIALOGCONTROLLER_H_
 
 #include "AiPrerequisites.h"
-
-#include <list>
-
 #include "ControlState.h"
+#include "Creature.h"
 
 namespace rl
 {
     class Actor;
-    class Creature;
     class Dialog;
     class DialogOption;
     class DialogParagraph;
@@ -52,7 +49,7 @@ namespace rl
         void doTalk(DialogParagraph* paragraph, DialogWindow* window = NULL);
         Ogre::Vector3 getParticipantPosition(Creature* participant);
         virtual bool textFinished();
-        virtual void recalculateDialogCamera(Creature* speaker, std::list<Creature*> listeners) = 0;
+        virtual void recalculateDialogCamera(Creature* speaker, const CreatureList& listeners) = 0;
         virtual void handleDialogEnd() = 0;
         void setDialogWindow(DialogWindow* window);
         void setSubtitleWindow(SubtitleWindow* window);
@@ -68,7 +65,7 @@ namespace rl
         Ogre::Real mTotalFadeTextTime;
         Ogre::Real mSubtitleSpeed;
         Creature* mCurrentSpeaker;
-        std::list<Creature*> mCurrentListeners;
+        CreatureList mCurrentListeners;
         /// Der Untertitel-Text
         CeGuiString mText;
         /// Es wird gerade Text angezeigt

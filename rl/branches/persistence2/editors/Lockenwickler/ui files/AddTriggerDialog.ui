@@ -1,0 +1,125 @@
+<ui version="4.0" >
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>354</width>
+    <height>500</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Dialog</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout" >
+   <item row="2" column="0" >
+    <widget class="QLabel" name="label_2" >
+     <property name="text" >
+      <string>Identifier Name</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="buddy" >
+      <cstring>lineEdit</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0" >
+    <widget class="QLineEdit" name="lineEdit" />
+   </item>
+   <item row="4" column="0" >
+    <widget class="QLabel" name="label_3" >
+     <property name="text" >
+      <string>Properties</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="buddy" >
+      <cstring>pushButton</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0" >
+    <widget class="QPushButton" name="pushButton" >
+     <property name="layoutDirection" >
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="text" >
+      <string>Add Property</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0" >
+    <widget class="QListView" name="listView" />
+   </item>
+   <item row="7" column="0" >
+    <widget class="QDialogButtonBox" name="buttonBox" >
+     <property name="standardButtons" >
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" >
+    <widget class="QComboBox" name="comboBox" />
+   </item>
+   <item row="0" column="0" >
+    <widget class="QLabel" name="label" >
+     <property name="text" >
+      <string>ClassName</string>
+     </property>
+     <property name="alignment" >
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="buddy" >
+      <cstring>comboBox</cstring>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>comboBox</tabstop>
+  <tabstop>lineEdit</tabstop>
+  <tabstop>pushButton</tabstop>
+  <tabstop>listView</tabstop>
+  <tabstop>buttonBox</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>Dialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>301</x>
+     <y>469</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>329</x>
+     <y>478</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>Dialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>208</x>
+     <y>470</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>205</x>
+     <y>485</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

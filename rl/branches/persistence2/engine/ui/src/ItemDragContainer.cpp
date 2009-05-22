@@ -55,6 +55,8 @@ namespace rl {
             if(mDestroyListener)
                 mDestroyListener->notifyItemDragContainerDestroyed(this);
             setDestroyListener(NULL);
+
+            stopFadeOut();
         }
 
 	void ItemDragContainer::destroy()
@@ -62,21 +64,25 @@ namespace rl {
             if(mDestroyListener)
                 mDestroyListener->notifyItemDragContainerDestroyed(this);
             setDestroyListener(NULL);
+            stopFadeOut();
 
             CEGUI::DragContainer::destroy();
-/*        
-        stopFadeOut();
 
-        hide();
-		if (getParent())
-		{
-			getParent()->removeChildWindow(this);
-		}
-		removeAllEvents();
-		mContentWindow->removeAllEvents();
-		removeChildWindow(mContentWindow);
-		CEGUI::WindowManager::getSingleton().destroyWindow(mContentWindow);
-        CEGUI::WindowManager::getSingleton().destroyWindow(this);
+
+/*
+            hide();
+		
+            if (getParent())
+            {
+                getParent()->removeChildWindow(this);
+            }
+
+            removeAllEvents();
+            if( mContentWindow )
+            mContentWindow->removeAllEvents();
+            removeChildWindow(mContentWindow);
+            CEGUI::WindowManager::getSingleton().destroyWindow(mContentWindow);
+            CEGUI::WindowManager::getSingleton().destroyWindow(this);
 */
 	}
 /*

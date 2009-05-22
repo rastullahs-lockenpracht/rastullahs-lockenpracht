@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  US
- #################################################
+#################################################
 
 import os
 import sys
@@ -39,6 +39,9 @@ from ModuleExplorer import *
 from NewModuleWizard import *
 from MovePivot import *
 from PivotRenderQueueListener import *
+from ModuleDirectoryView import *
+from TriggerManager import *
+from MyTerrainManager import MyTerrainManager
 
 import OgreMainWindow
 import ogre.renderer.OGRE as og
@@ -66,7 +69,10 @@ class Lockenwickler(QtGui.QMainWindow):
         self.materialSelectionDialog = MaterialSelectionDialog(self.ogreRoot, self)
         self.moduleManager.modelSelectionDialog = self.modelSelectionDialog
         self.moduleManager.materialSelectionDialog = self.materialSelectionDialog
-
+        self.moduleDirectoryViewWin = ModuleDirectoryView(self)
+        
+        triggerManager = TriggerManager()
+        
         self.gameObjectClassView = GameObjectClassView(self.moduleManager.gocManager)
 
         self.createDockWindows()
@@ -81,10 +87,18 @@ class Lockenwickler(QtGui.QMainWindow):
         if not self.prefDialog.setCfgPath(settings.value("Preferences/moduleCfgPath").toString()):
             self.prefDialog.show()
             self.moduleManager.moduleCfgPath = self.prefDialog.moduleCfgPath
+
         else:
             self.moduleManager.moduleCfgPath = self.prefDialog.moduleCfgPath
+            
+        self.prefDialog.setExternalEditorPath(str(settings.value("Preferences/externalEditorPath").toString()))
+        
+        if self.prefDialog.moduleCfgPath is not None:
+            self.moduleDirectoryViewWin.modulesPath = self.prefDialog.moduleCfgPath.replace("modules.cfg", "")
+
         
         self.moduleManager.setModuleExplorer(self.moduleExplorerWin)
+        self.moduleManager.setModuleDirView(self.moduleDirectoryViewWin)
         self.moduleManager.setPropertyWindow(self.objectPropertyWin)
         self.moduleManager.setContextMenuCallback(self.onContextMenuCallback)
         
@@ -202,7 +216,10 @@ class Lockenwickler(QtGui.QMainWindow):
         self.actionSceneExplorer = self.createAction("&Scene Exlporer",  self.toggleModuleExplorer,  "Alt+E",  "view_tree.png",  "Module Explorer",  False)
         self.actionSceneExplorer.setObjectName("actionSceneExplorer")
         
-        self.actionPreferences = self.createAction("&Preferences",  self.togglePreferencesWindow,  "Alt+P",  "configure.png",  "Lockenwickler Preferences",  False)
+        self.actionModuleDirView = self.createAction("&Directory Explorer",  self.toggleModuleDirView,  "Alt+D",  "view_tree.png",  "Module Directory Explorer",  False)
+        self.actionModuleDirView.setObjectName("actionDirectoryExplorer")
+        
+        self.actionPreferences = self.createAction("&Preferences",  self.togglePreferencesWindow,  None,  "configure.png",  "Lockenwickler Preferences",  False)
         self.actionPreferences.setObjectName("actionPreferences")
 
         self.actionProperty_Window = self.createAction("Pr&operty Window",  self.togglePropertyWindow,  "Alt+P",  "unsortedlist1.png",  "Property Window")
@@ -219,6 +236,9 @@ class Lockenwickler(QtGui.QMainWindow):
 
         self.actionConsole_Window = self.createAction("&Console Window",  self.toggleConsoleWindow,  "Alt+C",  "console.png",  "Console Window")
         self.actionConsole_Window.setObjectName("actionConsole_Window")
+        
+        self.actionTerrainTools_Window = self.createAction("&Terrain Tools",  self.toggleTerrainToolsWindow,  "Alt+T",  "terrain_small.png",  "Console Window")
+        self.actionTerrainTools_Window.setObjectName("actionTerrainTools_Window")
         
         self.actionToggleViewportGrid = self.createAction("&Toggle Grid",  self.toggleViewportGrid,  "Alt+G",  "console.png",  "Toggle Viewport Grid")
         self.actionToggleViewportGrid.setObjectName("actionToggleViewportGrid")
@@ -247,12 +267,14 @@ class Lockenwickler(QtGui.QMainWindow):
         
 
         self.menuView.addAction(self.actionSceneExplorer)
+        self.menuView.addAction(self.actionModuleDirView)
         self.menuView.addAction(self.actionPreferences)
         self.menuView.addAction(self.actionProperty_Window)
         self.menuView.addAction(self.actionObject_Selection)
         self.menuView.addAction(self.actionMaterial_Selection)
         self.menuView.addAction(self.actionGameObjectClass_Selection)
         self.menuView.addAction(self.actionConsole_Window)
+        self.menuView.addAction(self.actionTerrainTools_Window)
         self.menuView.addAction(self.actionToggleViewportGrid)
         
         self.menubar.addAction(self.menuFile.menuAction())
@@ -297,13 +319,17 @@ class Lockenwickler(QtGui.QMainWindow):
         self.OgreMainWinSceneMgr.addRenderQueueListener(self.pivotRenderQueueListener)
         
         self.moduleName = ""
+        self.myTerrainManager = MyTerrainManager(self.OgreMainWinSceneMgr)
         self.moduleManager = ModuleManager(self.ogreRoot,  self.OgreMainWinSceneMgr)
+        self.moduleManager.myTerrainManager = self.myTerrainManager
         self.gocManager = self.moduleManager.gocManager
         
         self.ogreMainWindow = OgreMainWindow.OgreMainWindow(self.moduleManager,  root,  self.OgreMainWinSceneMgr,  self)
         self.gridlayout.addWidget(self.ogreMainWindow,0,0,1,1)
         self.hboxlayout.addLayout(self.gridlayout)
         self.setCentralWidget(self.centralwidget)
+        
+        self.myTerrainManager.ogreMainWindow = self.ogreMainWindow
         
         oglog = og.LogManager.getSingleton().getDefaultLog()
         oglog.addListener(self.consoleWindow.lockenLog)
@@ -405,6 +431,12 @@ class Lockenwickler(QtGui.QMainWindow):
             self.moduleExplorerDock.show()
         else:
             self.moduleExplorerDock.hide()
+            
+    def toggleModuleDirView(self):
+        if self.moduleDirectoryViewDock.isHidden():
+            self.moduleDirectoryViewDock.show()
+        else:
+            self.moduleDirectoryViewDock.hide()
 
     def togglePropertyWindow(self):
         if self.propertyDock.isHidden():
@@ -417,6 +449,12 @@ class Lockenwickler(QtGui.QMainWindow):
             self.consoleDock.show()
         else:
             self.consoleDock.hide()
+            
+    def toggleTerrainToolsWindow(self):
+        if self.myTerrainManagerDock.isHidden():
+            self.myTerrainManagerDock.show()
+        else:
+            self.myTerrainManagerDock.hide()
 
     def toggleViewportGrid(self):
         self.ogreMainWindow.toggleViewportGrid()
@@ -454,6 +492,14 @@ class Lockenwickler(QtGui.QMainWindow):
         self.moduleExplorerDock.setWidget(self.moduleExplorerWin)
         self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.moduleExplorerDock)
         self.tabifyDockWidget(self.moduleExplorerDock, self.propertyDock)
+        
+        self.moduleDirectoryViewDock = QtGui.QDockWidget(self.tr("Module Directory View"), self)
+        self.moduleDirectoryViewDock.setObjectName("ModuleDirectoryViewDockWindow")
+        self.moduleDirectoryViewDock.setAllowedAreas(QtCore.Qt.LeftDockWidgetArea | QtCore.Qt.RightDockWidgetArea | QtCore.Qt.TopDockWidgetArea | QtCore.Qt.BottomDockWidgetArea)
+        self.moduleDirectoryViewDock.setWidget(self.moduleDirectoryViewWin)
+        self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.moduleDirectoryViewDock)
+        
+        self.myTerrainManagerDock = self.myTerrainManager.getDockWidget(self)
         
         self.consoleDock = QtGui.QDockWidget(self.tr("Console"), self)
         self.consoleDock.setObjectName("ConsoleDockWindow")
@@ -522,7 +568,7 @@ class Lockenwickler(QtGui.QMainWindow):
             settings.setValue("Preferences/moduleCfgPath", QtCore.QVariant(self.prefDialog.lineEdit.text()))
             settings.setValue("MainWindow/Geometry",  QtCore.QVariant(self.saveGeometry()))
             settings.setValue("MainWIndow/DockWindows",  QtCore.QVariant(self.saveState()))
-            
+            settings.setValue("Preferences/externalEditorPath",  QtCore.QVariant(self.prefDialog.externalTextAppLineEdit.text()))
             #self.ogreRoot.shutdown()
         else:
             event.ignore()

@@ -97,6 +97,7 @@ namespace rl
         addSetting("Movement keys", "run", "Umschalt links");
         addSetting("Movement keys", "sneak", "Strg links");
         addSetting("Movement keys", "run_lock", "< | >");
+        addSetting("Movement keys", "rear_view", "T");
 
         addSetting("Action keys", "quitgame", "Ctrl+X");
         addSetting("Action keys", "closecurrentwindow", "Escape");

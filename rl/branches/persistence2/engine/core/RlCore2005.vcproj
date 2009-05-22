@@ -524,6 +524,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\PhysicsCollisionFactory.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\PhysicsContactListener.h"
 				>
 			</File>
@@ -878,6 +882,10 @@
 			</File>
 			<File
 				RelativePath=".\src\PhysicalThing.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\PhysicsCollisionFactory.cpp"
 				>
 			</File>
 			<File

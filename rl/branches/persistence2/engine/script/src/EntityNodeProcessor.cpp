@@ -117,13 +117,15 @@ namespace rl
         }
 
         parentNode->attachObject(newEnt);
-        createCollision(newEnt, meshFile, getChildNamed(nodeElem, "physicsproxy"));
 
         DOMElement* scaleElem = getChildNamed(nodeElem, "scale");
         if (scaleElem != NULL)
         {
             parentNode->scale(processVector3(scaleElem));
         }
+
+        // in order for the scale to work correctly the collision needs to be created after the scale was applied
+        createCollision(newEnt, meshFile, getChildNamed(nodeElem, "physicsproxy"));
 
 		AutoXMLCh animation("animation");
 		DOMNodeList* list = nodeElem->getElementsByTagName(animation.data());
@@ -173,25 +175,27 @@ namespace rl
                 if (physicsProxyTypeAsString == "custom")
                 {
                     ///@todo create physics proxy from custom collision primitives which are defined in children elements of <code>physicsProxyElem<code>
-                    LOG_WARNING(Logger::SCRIPT, "Physics proxy type 'custom' is not yet implemented.");
+                    LOG_WARNING(Logger::SCRIPT, "Physics proxy type 'custom' is not yet implemented, using mesh instead");
+                    physicsProxyType = GT_MESH;
                 }
-                else if ( physicsProxyType != GT_NONE )
+            }
+
+            if ( physicsProxyType != GT_NONE )
+            {
+                OgreNewt::CollisionPtr collision = PhysicsManager::getSingleton().createCollision(entity, physicsProxyType);
+                if (collision)
                 {
-                    OgreNewt::CollisionPtr collision = PhysicsManager::getSingleton().createCollision(entity, physicsProxyType);
-                    if (collision)
-                    {
-                        LOG_DEBUG(Logger::SCRIPT, "Created physics proxy type '" + physicsProxyTypeAsString + "' for entity '"+entity->getName()+"'.");
-                        std::vector<OgreNewt::CollisionPtr> collisionVector;
-                        collisionVector.push_back(collision);
-                        PhysicsManager::getSingleton().addLevelGeometry(entity, collisionVector);
-                    }
+                    LOG_DEBUG(Logger::SCRIPT, "Created physics proxy type '" + physicsProxyTypeAsString + "' for entity '"+entity->getName()+"'.");
+                    std::vector<OgreNewt::CollisionPtr> collisionVector;
+                    collisionVector.push_back(collision);
+                    PhysicsManager::getSingleton().addLevelGeometry(entity, collisionVector);
                 }
-                else
-                {
-                    LOG_ERROR(Logger::SCRIPT,
-                            "Physics proxy type '" + physicsProxyTypeAsString + "' of entity '"+entity->getName()+"' is unknown.");
-                    return;
-                }
+            }
+            else
+            {
+                LOG_ERROR(Logger::SCRIPT,
+                        "Physics proxy type '" + physicsProxyTypeAsString + "' of entity '"+entity->getName()+"' is unknown.");
+                return;
             }
 
                 

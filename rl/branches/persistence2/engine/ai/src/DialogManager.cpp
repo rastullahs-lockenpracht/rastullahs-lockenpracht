@@ -78,7 +78,7 @@ namespace rl
 
                 PropertyArray npcs;
 
-                for (list<Creature*>::const_iterator itNpc = it->first.getParticipants().begin();
+                for (CreatureList::const_iterator itNpc = it->first.getParticipants().begin();
                     itNpc != it->first.getParticipants().end(); ++itNpc)
                 {
                     npcs.push_back(GameObjectManager::getSingleton().toProperty(*itNpc));
@@ -133,15 +133,15 @@ namespace rl
 
     Dialog* DialogManager::createDialog(const Ogre::String& name, Creature* npc)
     {
-        list<Creature*> npcs;
+        CreatureList npcs;
         npcs.push_back(npc);
 
         return createDialog(name, npcs);
     }
 
-    Dialog* DialogManager::createDialog(const Ogre::String& name, const list<Creature*>& npcs)
+    Dialog* DialogManager::createDialog(const Ogre::String& name, const CreatureList& npcs)
     {
-        list<Creature*> participants;
+        CreatureList participants;
 
         Party party = PartyManager::getSingleton().getCharacters();
         for (Party::const_iterator it = party.begin(); it != party.end(); ++it)
@@ -149,7 +149,7 @@ namespace rl
             participants.push_back(*it);
         }
 
-        for (list<Creature*>::const_iterator it = npcs.begin(); it != npcs.end(); ++it)
+        for (CreatureList::const_iterator it = npcs.begin(); it != npcs.end(); ++it)
         {
             participants.push_back(*it);
         }
@@ -178,7 +178,7 @@ namespace rl
     }
 
     DialogManager::DialogConfiguration::DialogConfiguration(const Ogre::String& name,
-            const list<Creature*>& participants)
+            const CreatureList& participants)
         : mDialogName(name), mParticipants(participants)
     {
     }
@@ -188,7 +188,7 @@ namespace rl
         return mDialogName;
     }
 
-    const list<Creature*>& DialogManager::DialogConfiguration::getParticipants() const
+    const CreatureList& DialogManager::DialogConfiguration::getParticipants() const
     {
         return mParticipants;
     }

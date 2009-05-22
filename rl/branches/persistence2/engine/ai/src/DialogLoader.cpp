@@ -50,7 +50,7 @@ namespace rl
         mLoaderImplementation->parseDialog(stream, groupName);
     }
 
-    Dialog* DialogLoader::createDialog(const Ogre::String& name, const std::list<Creature*>& participants) const
+    Dialog* DialogLoader::createDialog(const Ogre::String& name, const CreatureList& participants) const
     {
         return mLoaderImplementation->createDialog(name, participants);
     }

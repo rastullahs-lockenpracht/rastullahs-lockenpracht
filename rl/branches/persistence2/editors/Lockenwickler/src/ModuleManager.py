@@ -1,4 +1,4 @@
- #################################################
+#################################################
 # This source file is part of Rastullahs Lockenwickler.
 # Copyright (C) 2003-2009 Team Pantheon. http://www.team-pantheon.de
 #
@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  US
- #################################################
+#################################################
 
 import sys
 import codecs
@@ -37,6 +37,7 @@ from MovePivot import *
 from GameObjectClassManager import *
 from MyRaySceneQueryListener import *
 from ZoneManager import ZoneManager
+from TriggerManager import TriggerManager 
 
 
 # get the light out of a light node
@@ -764,6 +765,7 @@ class ModuleManager():
         self.cutListPreviousNodes = [] # contains the nodes they where copnnected to before the cut
         self.currentMap = None
         self.moduleExplorer = None
+        self.moduleDirView = None
 
         self.lastRay = None
         self.rayLine = None
@@ -784,6 +786,7 @@ class ModuleManager():
         self.moduleConfigIsParsed = False
 
         self.selectionBuffer = None
+        self.myTerrainManager = None
         self.depthBuffer = None
         self.propertyWindow = None
     
@@ -800,6 +803,7 @@ class ModuleManager():
         self.raySceneQueryListener = MyRaySceneQueryListener()
         
         self.zoneManager = ZoneManager(self.sceneManager)
+
         
     def resetParsedModuleConfig(self):
         self.moduleConfigIsParsed = False
@@ -862,6 +866,8 @@ class ModuleManager():
 #        self.progress = ProgressBarThread(0, 8, moduleName)
 #        self.progress.start()
         
+        directories = []
+        
         for m in self.moduleList:
             if m.name == moduleName:
                 if m.hasDependencies: # load modules on wich the main module depends before the main module is loaded
@@ -872,20 +878,27 @@ class ModuleManager():
                                 m2.load()
                                 self.modelSelectionDialog.scanDirForModels(m2.moduleRoot)
                                 self.materialSelectionDialog.scanDirForMaterials(m2.moduleRoot)
+                                TriggerManager.instance.addDirectory(m2.moduleRoot)
                                 self.mainModuledependencieList.append(m2)
-
+                                directories.append(m2.moduleRoot)
 #                self.progress.setProgress(4, "Loading " + moduleName)
                 m.load()
 #                self.progress.setProgress(6, "Scan for models...")
                 self.modelSelectionDialog.scanDirForModels(m.moduleRoot)
 #                self.progress.setProgress(8, "Scan for materials")
                 self.materialSelectionDialog.scanDirForMaterials(m.moduleRoot)
+                TriggerManager.instance.addDirectory(m.moduleRoot)
+                directories.append(m.moduleRoot)
                 self.mainModule = m
                 self.moduleExplorer.setCurrentModule(m)
-
+                self.moduleDirView.parseDirectory(directories)
+        
+        TriggerManager.instance.update()
+                
         if self.selectionBuffer is None:
             self.selectionBuffer = SelectionBuffer(self.sceneManager, self.ogreRoot.getRenderTarget("OgreMainWin"), self, self.zoneManager)
 
+            
 #        if self.depthBuffer is None:
 #            self.depthBuffer = DepthBuffer(self.sceneManager, self.ogreRoot.getRenderTarget("OgreMainWin"))
 
@@ -908,14 +921,15 @@ class ModuleManager():
         self.moduleExplorer.setSelectionChangedCallback(self.selectionChangedCallback)
         self.moduleExplorer.setModuleManager(self)
     
+    def setModuleDirView(self, dirView):
+        self.moduleDirView = dirView
+    
     def setPropertyWindow(self, propertyWin):
         self.propertyWindow = propertyWin
     
     def selectionChangedCallback(self, items):
         self.resetSelection()
         self.userSelectionList = self.selectionBuffer.manualSelectObjects(items)
-        
-        print len(self.userSelectionList)
         
         if len(self.userSelectionList) > 1:
             self.propertyWindow.clear()
@@ -963,7 +977,7 @@ class ModuleManager():
                     self.updatePivots()
                 elif controlDown and not shiftDown:
                     so.setSelected(True)
-
+                    
                     for soFromList in self.userSelectionList:
                         if soFromList == so:
                             return # object already selected
@@ -1128,11 +1142,21 @@ class ModuleManager():
         self.cutList = []
         self.moduleExplorer.updateView()
         
-    def leftMouseUp(self):
+    def setLeftMouseDown(self):
+        self.leftMouseDown = True
+        
+        if self.pivot is not None and not self.pivot.isTransforming:
+            self.myTerrainManager.leftMouseDown = True
+        
+    def setLeftMouseUp(self):
+        self.leftMouseDown = False
+        
         if self.pivot is not None and self.pivot.isTransforming:
             self.propertyWindow.updateProperties()
             self.pivot.stopTransforming()
-
+        else:
+            self.myTerrainManager.leftMouseDown = False
+            
     def resetSelection(self):
         if self.userSelectionList is not None:
             for so in self.userSelectionList:
@@ -1366,8 +1390,6 @@ class ModuleManager():
             actions.append(self.createAction("Set Player Starterpoint", self.setPlayerStart))
             actions.append(self.createAction("Add Property", so.entity.getUserObject().addProperty))
             self.playerStartGameObjectId = so.entity.getUserObject().inWorldId
-            
-                
             
         if self.onContextMenuCallback is not None:
             self.onContextMenuCallback(actions,  menus)
