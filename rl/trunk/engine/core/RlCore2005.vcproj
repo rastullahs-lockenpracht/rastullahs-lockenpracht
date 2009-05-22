@@ -416,14 +416,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\DotSceneLoader.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\DotSceneOctreeWorld.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\FadeAnimation.h"
 				>
 			</File>
@@ -449,6 +441,10 @@
 			</File>
 			<File
 				RelativePath=".\include\GameLoop.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\GenericWorld.h"
 				>
 			</File>
 			<File
@@ -525,6 +521,10 @@
 			</File>
 			<File
 				RelativePath=".\include\PhysicalThing.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\PhysicsCollisionFactory.h"
 				>
 			</File>
 			<File
@@ -781,14 +781,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\DotSceneLoader.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\DotSceneOctreeWorld.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\FadeAnimation.cpp"
 				>
 			</File>
@@ -814,6 +806,10 @@
 			</File>
 			<File
 				RelativePath=".\src\GameLoop.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\GenericWorld.cpp"
 				>
 			</File>
 			<File
@@ -874,6 +870,10 @@
 			</File>
 			<File
 				RelativePath=".\src\PhysicalThing.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\PhysicsCollisionFactory.cpp"
 				>
 			</File>
 			<File

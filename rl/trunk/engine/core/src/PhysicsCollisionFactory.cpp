@@ -18,6 +18,7 @@
 #include "Exception.h"
 #include "PhysicsCollisionFactory.h"
 #include "PhysicsManager.h"
+#include "ConfigurationManager.h"
 
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/exception.hpp>
