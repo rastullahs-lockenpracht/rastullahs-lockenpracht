@@ -18,9 +18,12 @@
 
 #include "SceneManager.h"
 
+#include "CoreSubsystem.h"
 #include "Creature.h"
 #include "CreatureControllerManager.h"
+#include "GameObjectManager.h"
 #include "PartyManager.h"
+#include "RulesMessages.h"
 #include "Scene.h"
 #include "SceneLoader.h"
 #include "SaveAbleManager.h"
@@ -61,28 +64,33 @@ namespace rl
             return;
         }
 
-        SaveAbleManager::getSingleton().saveState();
-
-        Creature* activeChar = PartyManager::getSingleton().getActiveCharacter();
-
-        if (activeChar) {
-            CreatureControllerManager::getSingleton().detachController(
-                activeChar);
-            activeChar->setState(GOS_LOADED);
-        }
-
-        if (saveCurrent && mCurrentScene) 
-        {
-            mSceneStates[mCurrentScene] = mCurrentScene->getAllProperties();
-        }
-
         std::map<CeGuiString, Scene*>::iterator itScene = mScenes.find(sceneName);
         if (itScene != mScenes.end())
-        {            
+        {  
+            Creature* activeChar = PartyManager::getSingleton().getActiveCharacter();
+            CeGuiString activeCharId = "";
+
+            if (activeChar) {
+                CreatureControllerManager::getSingleton().detachController(
+                    activeChar);
+                activeChar->setState(GOS_LOADED);
+                activeCharId = activeChar->getId();
+                //PartyManager::getSingleton().removeCharacter(activeChar); //erzeugt nur ein game over --> party manager und character window müssen komplett überarbeitet werden
+                PartyManager::getSingleton().setActiveCharacter(NULL);
+            }
+    
+            if (saveCurrent && mCurrentScene) 
+            {
+                //hier daten abspeichern
+                SaveAbleManager::getSingleton().saveState();
+                //mSceneStates[mCurrentScene] = mCurrentScene->getAllProperties();
+            }
+                  
             std::map<Scene*, PropertyRecordPtr>::iterator itState =
                 mSceneStates.end();
             if (saveCurrent) 
             {
+                //gespeicherte daten für die scene abrufen
                 std::map<Scene*, PropertyRecordPtr>::iterator itState 
                     = mSceneStates.find(mCurrentScene);
             }
@@ -94,16 +102,17 @@ namespace rl
             {
                 mCurrentScene->setProperties(itState->second);
             }
+
+            if (activeCharId != "") 
+            {
+                if(static_cast<Creature*>(GameObjectManager::getSingleton().getGameObject(activeCharId)))
+                    PartyManager::getSingleton().setActiveCharacter(static_cast<Creature*>(GameObjectManager::getSingleton().getGameObject(activeCharId)));
+            }
         }
         else
         {
             LOG_ERROR("SceneManager", 
                 "Scene '" + sceneName + "' not found. Have you forgotten to define it in a .rlscene file?");
-        }
-
-        if (activeChar) 
-        {
-            PartyManager::getSingleton().setActiveCharacter(activeChar);
         }
     }
 

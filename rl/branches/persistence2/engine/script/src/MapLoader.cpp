@@ -189,7 +189,7 @@ namespace rl {
         }
         else
         {
-            LOG_ERROR(Logger::SCRIPT, "Map is already loaded!");
+            LOG_ERROR(Logger::SCRIPT, "Map '" + mapresource + "' is already loaded!");
         }
     }
 

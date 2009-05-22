@@ -69,10 +69,10 @@ namespace rl
     void PartyManager::removeAllCharacters()
     {
         for (std::vector<Creature*>::iterator it = mParty.begin();
-             it != mParty.end(); ++it)
+             it != mParty.end();)
         {    
             MessagePump::getSingleton().sendMessage<MessageType_PlayerCharRemoved>(*it);
-            mParty.erase(it);
+            it = mParty.erase(it);
         }
         checkParty();
     }

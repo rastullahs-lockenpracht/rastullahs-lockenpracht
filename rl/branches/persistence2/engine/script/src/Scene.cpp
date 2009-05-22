@@ -45,9 +45,11 @@ void Scene::addMap(const Ogre::String &mapfile)
 
 void Scene::load(bool loadGameObjects)
 {
+    GameObjectManager::getSingleton().deleteAllGameObjects();
     CoreSubsystem::getSingleton().getWorld()->clearScene();
     MapLoader* loader = new MapLoader();
     loader->loadScene(mMaps, loadGameObjects);
+    delete loader;
 }
 
 const CeGuiString& Scene::getName() const
