@@ -546,6 +546,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\PhysicsRagDoll.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\PlayAnimationJob.h"
 				>
 			</File>
@@ -884,6 +888,10 @@
 			</File>
 			<File
 				RelativePath=".\src\PhysicsMaterialRaycast.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\PhysicsRagDoll.cpp"
 				>
 			</File>
 			<File
