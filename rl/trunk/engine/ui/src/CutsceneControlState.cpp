@@ -25,6 +25,7 @@
 #include "PhysicalThing.h"
 
 using namespace Ogre;
+using namespace std;
 
 namespace rl {
 
@@ -95,6 +96,12 @@ namespace rl {
             CameraPosition nullPos = {CPT_FIXED, Vector3::ZERO, Quaternion::IDENTITY, Quaternion::IDENTITY};
             return nullPos;
         }
+        
+        for (vector<CameraPosition>::const_iterator it = mPositions.begin(), end = mPositions.end(); it != end; ++it)
+        {
+            
+        }
+        
         return *mPositions.begin();
     }
 

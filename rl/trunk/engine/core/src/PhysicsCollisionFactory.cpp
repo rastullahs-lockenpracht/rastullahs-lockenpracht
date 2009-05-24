@@ -15,13 +15,14 @@
 */
 #include "stdinc.h" //precompiled header
 
-#include "Exception.h"
 #include "PhysicsCollisionFactory.h"
-#include "PhysicsManager.h"
-#include "ConfigurationManager.h"
 
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/exception.hpp>
+
+#include "ConfigurationManager.h"
+#include "Exception.h"
+#include "PhysicsManager.h"
 
 namespace fs = boost::filesystem;
 
@@ -30,7 +31,6 @@ namespace fs = boost::filesystem;
 #else
 #   include <OgreMesh.h>
 #endif
-
 
 
 using namespace std;
