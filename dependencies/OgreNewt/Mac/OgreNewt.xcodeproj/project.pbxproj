@@ -46,6 +46,7 @@
 		487D45F90F47389A00D1D69F /* OgreNewt_Vehicle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 487D45E70F47389A00D1D69F /* OgreNewt_Vehicle.cpp */; };
 		487D45FA0F47389A00D1D69F /* OgreNewt_World.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 487D45E80F47389A00D1D69F /* OgreNewt_World.cpp */; };
 		48A94EC50F476C1700252666 /* libc.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48A94EC10F476B1400252666 /* libc.dylib */; };
+		48FF24380FC9A27B00E71D4D /* libboost_system-mt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48FF24370FC9A27B00E71D4D /* libboost_system-mt.dylib */; };
 		8D07F2C00486CC7A007CD1D0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
 
@@ -103,6 +104,7 @@
 		487D45E80F47389A00D1D69F /* OgreNewt_World.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OgreNewt_World.cpp; path = ../src/OgreNewt_World.cpp; sourceTree = SOURCE_ROOT; };
 		48A94EBE0F476A8700252666 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/i686-apple-darwin9/4.0.1/libstdc++.dylib"; sourceTree = SDKROOT; };
 		48A94EC10F476B1400252666 /* libc.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libc.dylib; path = usr/lib/libc.dylib; sourceTree = SDKROOT; };
+		48FF24370FC9A27B00E71D4D /* libboost_system-mt.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libboost_system-mt.dylib"; path = "/opt/local/lib/libboost_system-mt.dylib"; sourceTree = "<absolute>"; };
 		8D07F2C70486CC7A007CD1D0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D07F2C80486CC7A007CD1D0 /* OgreNewt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OgreNewt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -115,6 +117,7 @@
 				444EA9A30BD0D33B00C6D4A0 /* Ogre.framework in Frameworks */,
 				444EA9A70BD0D35800C6D4A0 /* libnewton32.a in Frameworks */,
 				48A94EC50F476C1700252666 /* libc.dylib in Frameworks */,
+				48FF24380FC9A27B00E71D4D /* libboost_system-mt.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,12 +135,11 @@
 		0867D691FE84028FC02AAC07 /* OgreNewt */ = {
 			isa = PBXGroup;
 			children = (
+				48FF24370FC9A27B00E71D4D /* libboost_system-mt.dylib */,
 				08FB77ACFE841707C02AAC07 /* Source */,
 				089C1665FE841158C02AAC07 /* Resources */,
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
 				034768DDFF38A45A11DB9C8B /* Products */,
-				48A94EBE0F476A8700252666 /* libstdc++.dylib */,
-				48A94EC10F476B1400252666 /* libc.dylib */,
 			);
 			name = OgreNewt;
 			sourceTree = "<group>";
@@ -145,6 +147,8 @@
 		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				48A94EC10F476B1400252666 /* libc.dylib */,
+				48A94EBE0F476A8700252666 /* libstdc++.dylib */,
 				444EA9A60BD0D35800C6D4A0 /* libnewton32.a */,
 				444EA9A20BD0D33B00C6D4A0 /* Ogre.framework */,
 			);
@@ -351,16 +355,8 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "";
-				HEADER_SEARCH_PATHS = (
-					/Library/Frameworks/Ogre.framework/Headers,
-					/usr/local/include,
-				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					/usr/local/lib,
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-				);
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SDKROOT)/usr/lib/i686-apple-darwin9/4.0.1\"";
 				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
@@ -386,13 +382,8 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "";
-				HEADER_SEARCH_PATHS = /usr/local/include;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					/usr/local/lib,
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-				);
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SDKROOT)/usr/lib/i686-apple-darwin9/4.0.1\"";
 				LIBRARY_STYLE = DYNAMIC;
 				MACH_O_TYPE = mh_dylib;
@@ -409,9 +400,20 @@
 		4FADC24708B4156D00ABE55E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = /Library/Frameworks/Ogre.framework/Headers;
+				HEADER_SEARCH_PATHS = (
+					/opt/local/include,
+					/usr/local/include,
+					/Library/Frameworks/Ogre.framework/Headers,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					/opt/local/lib,
+					/usr/local/lib,
+					/usr/lib,
+				);
 				PREBINDING = NO;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
@@ -420,11 +422,19 @@
 		4FADC24808B4156D00ABE55E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
+					/opt/local/include,
 					/usr/local/include,
 					/Library/Frameworks/Ogre.framework/Headers,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					/opt/local/lib,
+					/usr/local/lib,
+					/usr/lib,
 				);
 				PREBINDING = NO;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
