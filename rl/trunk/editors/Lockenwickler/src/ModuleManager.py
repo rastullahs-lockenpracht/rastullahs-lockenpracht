@@ -838,6 +838,9 @@ class ModuleManager():
         return False
 
     def openLoadModuleDialog(self):
+        if self.moduleCfgPath is None:
+            return
+            
         self.moduleFolder = str(self.moduleCfgPath.replace("modules.cfg", ""))
 
         self.parseModuleConfig()

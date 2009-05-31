@@ -574,14 +574,14 @@ class Lockenwickler(QtGui.QMainWindow):
             event.ignore()
 
 if __name__ == "__main__":
-#    # Import Psyco if available
+    # Import Psyco if available
 #    try:
 #        import psyco
-#        psyco.full(0.02)
-#        #psyco.log()
+#        psyco.full()
+        #psyco.log()
 #        #psyco.profile()
 #    except ImportError:
-#        pass
+#        print "Warning: No Psycho found!\nPlease download and install from http://psyco.sourceforge.net/"
     
     app = QtGui.QApplication(sys.argv)
     app.setOrganizationName("Team Pantheon")

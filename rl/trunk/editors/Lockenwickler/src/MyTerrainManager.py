@@ -25,6 +25,8 @@ import ogre.renderer.OGRE as og
 import ogre.addons.et as ET
 
 import Ui_MyTerrainManagerDock
+import TerrainDecalCursor
+
 from GlobDirectoryWalker import GlobDirectoryWalker
 
 class BrushDialog(QDialog):
@@ -34,6 +36,7 @@ class BrushDialog(QDialog):
         self.brushName = ""
         
         for file in GlobDirectoryWalker("./media/terrain/brushes", "*.png"):
+            file = file.replace("\\", "/")
             btn = QListWidgetItem()
             btn.setText(file.replace("./media/terrain/brushes/", ""))
             btn.setIcon(QIcon(file))
@@ -108,11 +111,6 @@ class MyTerrainManagerDock(Ui_MyTerrainManagerDock.Ui_TerrainManagerUi, QWidget)
         self.paintBrushButton.setIconSize(QSize(150, 150))
         self.paintBrushButton.setText(dlg.brushName)
         
-    def onPaintBrushSizeChanged(self, val):
-        self.paintBrushSize = val
-        
-    def onEditBrushSizeChanged(self, val):
-        self.editBrushSize = val
         
     def onCreateTerrainButtonClicked(self):
         terrainData = {}
@@ -126,11 +124,11 @@ class MyTerrainManagerDock(Ui_MyTerrainManagerDock.Ui_TerrainManagerUi, QWidget)
         terrainData["extendsZ"]  = self.extendsSpinBoxZ.value()
         terrainData["terrainSize"] = int(self.sizeComboBox.currentText())
         terrainData["terrainHeight"]  = self.terrainHeightSpinBox.value()
-        terrainData["splattingBaseName"]  = str(self.baseNameLineEdit.text())
-        terrainData["splattingResGroup"]  = str(self.resGroupLineEdit.text())
-        terrainData["splattingTextureSize"]  = int(self.texSizeComboBox.currentText())
-        terrainData["splattingNumTextures"]  = int(self.numTexturesComboBox.currentText())
-        
+#        terrainData["splattingBaseName"]  = str(self.baseNameLineEdit.text())
+#        terrainData["splattingResGroup"]  = str(self.resGroupLineEdit.text())
+#        terrainData["splattingTextureSize"]  = int(self.texSizeComboBox.currentText())
+#        terrainData["splattingNumTextures"]  = int(self.numTexturesComboBox.currentText())
+ 
         self.emit(SIGNAL("createTerrain"), terrainData)
         
     def onDeleteTerrainButtonClicked(self):
@@ -196,24 +194,30 @@ class Terrain():
         self.created = False
         self.terrainInfo = None
         self.visible = True
+        self.decalCursor = None
         
     def __del__(self):
-        print "deleting terrain: " + self.name
         if self.terrainManager:
+            print "deleting terrainmanager: " + self.name
             del self.terrainManager
             del self.splatMgr
-        
-    def create(self, arg):
+            del self.decalCursor
+            
+    def create(self, cursorSize, arg):
         if arg is not None:
             self.name = arg["name"]
             self.position = og.Vector3(arg["positionX"], arg["positionY"], arg["positionZ"])
             self.extends = og.Vector3(arg["extendsX"], arg["extendsY"], arg["extendsZ"])
             self.terrainHeight = arg["terrainHeight"]
             self.terrainSize = arg["terrainSize"] + 1
-            self.splattingBaseName = arg["splattingBaseName"]
-            self.splattingResGroup = arg["splattingResGroup"]
-            self.splattingTextureSize = arg["splattingTextureSize"]
-            self.splattingNumTextures = arg["splattingNumTextures"]
+            self.splattingResGroup = "ETSplatting"
+            self.splattingTextureSize = self.terrainSize = arg["terrainSize"] + 1
+            self.splattingNumTextures = 6
+            
+#            self.splattingBaseName = arg["splattingBaseName"]
+#            self.splattingResGroup = arg["splattingResGroup"]
+#            self.splattingTextureSize = arg["splattingTextureSize"]
+#            self.splattingNumTextures = arg["splattingNumTextures"]
         
         self.terrainManager =  ET.TerrainManager(self.sceneManager, self.name)
         self.terrainManager.setLODErrorMargin(2, self.camera.getViewport().getActualHeight())
@@ -221,7 +225,7 @@ class Terrain():
         
         ## create a fresh, mid-high terrain for editing
         # Note 
-        heightMapValues = og.LodDistanceList() ## ET.stdVectorFloat()
+        heightMapValues = og.stdVectorFloat() ## ET.stdVectorFloat()
         for i in xrange(self.terrainSize):
             for j in xrange(self.terrainSize):
                 heightMapValues.append(self.terrainHeight)
@@ -247,7 +251,7 @@ class Terrain():
 #        * @param width      width of the textures in pixels
 #        * @param height     height of the textures in pixels
 #        * @param channels   Number of channels per texture (must be in {1, 2, 3, 4})
-        self.splatMgr = ET.SplattingManager(self.splattingBaseName, self.splattingResGroup, self.splattingTextureSize, self.splattingTextureSize, 3)
+        self.splatMgr = ET.SplattingManager(self.splattingBaseName, self.splattingResGroup, self.terrainSize, self.terrainSize, 3)
         ## specify number of splatting textures we need to handle
         self.splatMgr.setNumTextures(self.splattingNumTextures)
         
@@ -272,9 +276,20 @@ class Terrain():
         self.parentSceneNode = self.sceneNode.getParentSceneNode()
         self.created = True
         
+        self.decalCursor = TerrainDecalCursor.TerrainDecalCursor(self.sceneManager, material, og.Vector2(cursorSize, cursorSize), "cursorTex.png")
+        
+    def paint(self, choosenTexture, pos, brush, paintBrushIntensity):
+        ## translate our cursor position to vertex indexes
+        x = int( self.terrainManager.getTerrainInfo().posToVertexX(pos.x) )
+        z = int( self.terrainManager.getTerrainInfo().posToVertexZ(pos.z) )
+
+        ## choose a brush intensity, this determines
+        ## how extreme our brush works on the terrain
+        ## and tell the ETM to deform the terrain
+        self.splatMgr.paint(choosenTexture, x, z, brush, paintBrushIntensity)
+        
     def setVisible(self, visibility):
         try:
-            #if self.parentSceneNode.getChild(self.sceneNode.getName()):
             if not visibility:
                 self.parentSceneNode.removeChild(self.sceneNode)
                 self.visible = visibility
@@ -321,8 +336,8 @@ class Terrain():
         iHeight = brush.getHeight()
 
         storageclass = ctypes.c_float * (iWidth * iHeight)
-        vecReturnBuffer =  og.LodDistanceList()
-        vecHeightBuffer = og.LodDistanceList()
+        vecReturnBuffer =  og.stdVectorFloat()
+        vecHeightBuffer = og.stdVectorFloat()
        
         ptr = ctypes.pointer(vecReturnBuffer)
        
@@ -362,10 +377,18 @@ class Terrain():
                 
                 j += 1
             i += 1
+            
         return brushReturn
 
         
     def updateLightMap(self):
+        return
+        decalCursorWasVisible = False
+        
+        if self.decalCursor.m_bVisible:
+            self.decalCursor.hide()
+            decalCursorWasVisible = True
+            
         lightmap = og.Image()
         ET.createTerrainLightmap(
                              self.terrainManager.getTerrainInfo() ,
@@ -379,7 +402,9 @@ class Terrain():
         l = lightmap.getPixelBox(0, 0)
         tex.getBuffer(0, 0).blitFromMemory(lightmap.getPixelBox(0, 0))
         
-        
+        if decalCursorWasVisible:
+            self.decalCursor.show()
+            
 class MyTerrainManager():
     def __init__(self, sceneManager):
         self.sceneManager = sceneManager
@@ -417,12 +442,12 @@ class MyTerrainManager():
         self.editSmoothMode = False
         
         self.ogreMainWindow = None
-
         
+       
     def createEditingCircle(self):
         self.editingCircle = self.sceneManager.createManualObject("TerrainManagerEditingCircle")
         self.editingCircle.setDynamic(True)
-        self.editingCircleAccuracy = 20
+        self.editingCircleAccuracy = 3
         
         self.editingCircle.begin("BaseWhiteNoLighting", og.RenderOperation.OT_LINE_STRIP)
         
@@ -439,7 +464,6 @@ class MyTerrainManager():
         self.editingCircle.end()
         
         self.pointerNode.createChildSceneNode("TerrainManagerEditingCircleNode").attachObject(self.editingCircle)
-
         
     def deleteTerrain(self, name):
         for terrain in self.terrainList:
@@ -460,7 +484,6 @@ class MyTerrainManager():
             
             QWidget.connect(self.dockWidgetContents, SIGNAL("createTerrain"), self.onCreateTerrain)
             
-            
         return self.myTerrainManagerDock
 
     def getTerrain(self, name):
@@ -469,36 +492,42 @@ class MyTerrainManager():
                 return terrain
 
     def leftMouseUp(self):
-        if self.currentTerrain:
+        if self.currentTerrain and self.editMode is 1:
             self.currentTerrain.updateLightMap()
 
     def onPaintBrushSizeChanged(self, val):
         self.paintBrushSize = val
         self.updatePaintBrush()
         
+        if self.currentTerrain:
+            self.currentTerrain.decalCursor.setSize(og.Vector2(val, val)/3)
+        
     def onPaintBrushIntensityChanged(self, val):
-        self.paintBrushIntensity = val
+        self.paintBrushIntensity = 1 / val
         
     def onEditBrushSizeChanged(self, val):
         self.editBrushSize = val
         self.updateEditBrush()
         
+        if self.currentTerrain:
+            self.currentTerrain.decalCursor.setSize(og.Vector2(val, val)/3)
+            
     def onEditBrushIntensityChanged(self, val):
         self.editBrushIntensity = val
         
     def onCreateTerrain(self, arg):
         if not self.setupFinished:
-            self.pointer = self.sceneManager.createEntity("TerrainManagerPointerNodeMesh", "UniCube.mesh")
+#            self.pointer = self.sceneManager.createEntity("TerrainManagerPointerNodeMesh", "UniCube.mesh")
             self.pointerNode = self.sceneManager.getRootSceneNode().createChild("TerrainManagerPointerNode")
-            self.pointerNode.attachObject(self.pointer)
+#            self.pointerNode.attachObject(self.pointer)
 
-            self.createEditingCircle()
+#            self.createEditingCircle()
             
             self.setupFinished = True
         
         
         terrain = Terrain(self.sceneManager)
-        terrain.create(arg)
+        terrain.create(self.editBrushSize, arg)
         self.terrainList.append(terrain)
         
         og.ResourceGroupManager.getSingleton().initialiseAllResourceGroups()
@@ -529,6 +558,9 @@ class MyTerrainManager():
         self.currentEditBrush = ET.loadBrushFromImage(image)
         
     def updatePaintBrush(self):
+        if self.currentPaintBrushName is None:
+            return
+            
         if self.currentPaintBrush is not None:
             self.currentPaintBrush = None
         image = og.Image()
@@ -550,13 +582,16 @@ class MyTerrainManager():
     def setEditMode(self, mode):
         self.editMode = mode
         
-        if self.editMode == 0:
-            self.mainTimer.disconnect(self.mainTimer, SIGNAL("timeout()"), self.update)
-                
-        elif self.editMode == 1:
-            self.mainTimer.connect(self.mainTimer, SIGNAL("timeout()"), self.update)
-        elif self.editMode == 2:
-            self.mainTimer.connect(self.mainTimer, SIGNAL("timeout()"), self.update)
+        if self.currentTerrain is not None:
+            if self.editMode == 0:
+                self.mainTimer.disconnect(self.mainTimer, SIGNAL("timeout()"), self.update)
+                self.currentTerrain.decalCursor.hide()
+            elif self.editMode == 1:
+                self.mainTimer.connect(self.mainTimer, SIGNAL("timeout()"), self.update)
+                self.currentTerrain.decalCursor.show()
+            elif self.editMode == 2:
+                self.mainTimer.connect(self.mainTimer, SIGNAL("timeout()"), self.update)
+                self.currentTerrain.decalCursor.show()
     
     def setSmoothMode(self, ison):
         self.editSmoothMode = ison
@@ -589,17 +624,25 @@ class MyTerrainManager():
             elif self.leftMouseDown and self.editSmoothMode:
                 self.currentTerrain.smooth(self.currentEditBrush, self.pointerNode.getPosition(), self.editBrushIntensity)  
         elif self.editMode == 2 and self.isEditing:
-            if self.currentPaintBrushName is not None :
-                print self.currentPaintBrushName + " " + str(self.paintBrushSize) + " " + str(self.paintBrushIntensity)
+            if self.currentPaintBrushName is not None and self.paintBrushIntensity is not 0 and self.leftMouseDown:
+                self.currentTerrain.paint(1, self.pointerNode.getPosition(), self.currentPaintBrush, self.paintBrushIntensity)
     
     def updateEditingCircle(self):
+        radius = None
+        if self.editMode == 1:
+            radius = self.editBrushSize / 2
+        elif self.editMode == 2:
+            radius = self.paintBrushSize / 2
+        else:
+            return # if not in an edit mode, we should not be in here anyway
+            
         self.editingCircle.beginUpdate(0)
 
         point_index = 0
         theta = 0
         while theta < 2 * og.Math.PI:
-            x = (self.editBrushSize / 2) * og.Math.Cos(theta)
-            z = (self.editBrushSize / 2)* og.Math.Sin(theta)
+            x = radius * og.Math.Cos(theta)
+            z =  radius * og.Math.Sin(theta)
             
             y = self.currentTerrain.terrainManager.getTerrainInfo().getHeightAt(self.pointerNode.getPosition().x + x, self.pointerNode.getPosition().z +  z)
             
@@ -617,13 +660,20 @@ class MyTerrainManager():
             result = self.currentTerrain.terrainManager.getTerrainInfo().rayIntersects(self.currentRay)
             intersects = result[0]
             ## update pointer's position
-            if (intersects):
+            if (intersects) and self.currentTerrain is not None:
                 self.pointerNode.setVisible(True)
                 x = result[1][0]
                 y = result[1][1]
                 z = result[1][2]
-#                print ("Intersect %f, %f, %f " % ( x, y, z) )
+                self.currentTerrain.decalCursor.setPosition(og.Vector3(x, y, z))
+                print ("Intersect %f, %f, %f " % ( x, y, z) )
                 self.pointerNode.setPosition(og.Vector3(x, y, z))
-                self.updateEditingCircle()
-            else:
-                self.pointerNode.setVisible(False)
+                
+#                self.editingCircleUpdateCounter += 1
+#                
+#                if self.editingCircleUpdateCounter == 4: # cheap trick to update the circle only every 4 frames for performance reasons
+#                    self.updateEditingCircle()
+#                    self.editingCircleUpdateCounter = 0
+#                    
+#            else:
+#                self.pointerNode.setVisible(False)
