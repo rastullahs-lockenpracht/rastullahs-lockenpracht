@@ -19,11 +19,11 @@
 #include "SaveGameFile.h"
 #include "SaveGameManager.h"
 #include <xercesc/framework/LocalFileFormatTarget.hpp>
-#include "WriteableDataStreamFormatTarget.h"
 
 #include <ConfigurationManager.h>
 #include <CoreSubsystem.h>
 #include <ContentModule.h>
+#include <OgreDataStream.h>
 
 namespace rl
 {
@@ -64,8 +64,9 @@ namespace rl
 
     XERCES_CPP_NAMESPACE::XMLFormatTarget* SaveGameFile::getFormatTarget()
     {
+        Ogre::String path = "./modules/saves/" + mStream->getName();
         ///@todo: encryption
-        return new WriteableDataStreamFormatTarget(static_cast<WriteableDataStream*>(mStream.get()));
+        return new XERCES_CPP_NAMESPACE::LocalFileFormatTarget(path.c_str());
     }
 
     void SaveGameFile::deleteFileFromStorage()

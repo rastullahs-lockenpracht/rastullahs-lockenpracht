@@ -371,18 +371,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\src\WriteableDataStream.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\WriteableDataStreamFormatTarget.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\WriteableFileSystemArchiv.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\XmlProcessor.cpp"
 				>
 			</File>
@@ -492,18 +480,6 @@
 			</File>
 			<File
 				RelativePath=".\include\Tripel.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\WriteableDataStream.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\WriteableDataStreamFormatTarget.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\WriteableFileSystemArchiv.h"
 				>
 			</File>
 			<File

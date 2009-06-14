@@ -69,6 +69,8 @@ namespace rl
         Ogre::StringVector mScriptPatterns;
         //SaveGameEntryMap mSaveGames;
 
+        SaveGameEntryMap mSaveGames;
+
         SaveGameDataOrderMap mSaveGameDataOrderMap;
 
         int mHighestSaveGameNumber;

@@ -237,6 +237,16 @@ namespace rl
 
     void SaveGameManager::parseScript(Ogre::DataStreamPtr &stream, const Ogre::String &groupName)
     {
+        Ogre::String name = stream->getName();
+        name = name.substr(0, name.length()-5); //delete ".save" at the and of the name
+        if(Ogre::StringConverter::isNumber(name))
+        {
+            int saveGameNumber = Ogre::StringConverter::parseInt(name);
+            mHighestSaveGameNumber = std::max(mHighestSaveGameNumber, saveGameNumber);
+
+            LOG_MESSAGE(Logger::CORE, "Parsing header of save game: " + name + ".save");
+        }
+
         //Ogre::String name = stream->getName();
         //name = name.substr(0, name.length()-5); //delete ".save" at the and of the name
         //int pointpos = name.find_last_of(".");
@@ -283,11 +293,11 @@ namespace rl
 
     void SaveGameManager::freeSaveGameMap()
     {
-       /* for(SaveGameEntryMap::const_iterator iter = mSaveGames.begin(); iter != mSaveGames.end(); iter++)
+        for(SaveGameEntryMap::const_iterator iter = mSaveGames.begin(); iter != mSaveGames.end(); iter++)
         {
             delete iter->second;
         }
-        mSaveGames.clear();*/
+        mSaveGames.clear();
     }
 
     int SaveGameManager::getHighestSaveGameNumber()
