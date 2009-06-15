@@ -58,6 +58,7 @@
 #include <boost/filesystem/operations.hpp>
 #include <boost/filesystem/exception.hpp>
 #include <boost/any.hpp>
+#include <boost/smartptr.hpp>
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #  include <Windows.h>

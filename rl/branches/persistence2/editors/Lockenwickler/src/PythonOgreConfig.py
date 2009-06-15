@@ -47,7 +47,7 @@ else:
                 libpath=localpath
 
     ## path to the Python-Ogre modules
-    pythonpath = os.path.abspath(os.path.join(libpath, 'python2.5/site-packages') )
+    pythonpath = os.path.abspath(os.path.join(libpath, 'python2.6/site-packages') )
     ## and insert it into the system path
     sys.path.insert(0,pythonpath)
 

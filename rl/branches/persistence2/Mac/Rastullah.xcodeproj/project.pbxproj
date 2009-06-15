@@ -67,8 +67,6 @@
 		444EAB6D0BD0E2F300C6D4A0 /* CoreSubsystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444EAB2C0BD0E2B600C6D4A0 /* CoreSubsystem.cpp */; };
 		444EAB6E0BD0E2F300C6D4A0 /* DebugVisualisable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444EAB2D0BD0E2B600C6D4A0 /* DebugVisualisable.cpp */; };
 		444EAB6F0BD0E2F300C6D4A0 /* DebugVisualsManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444EAB2E0BD0E2B600C6D4A0 /* DebugVisualsManager.cpp */; };
-		444EAB700BD0E2F300C6D4A0 /* DotSceneLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444EAB2F0BD0E2B600C6D4A0 /* DotSceneLoader.cpp */; };
-		444EAB710BD0E2F300C6D4A0 /* DotSceneOctreeWorld.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444EAB300BD0E2B600C6D4A0 /* DotSceneOctreeWorld.cpp */; };
 		444EAB720BD0E2F300C6D4A0 /* FadeAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444EAB310BD0E2B600C6D4A0 /* FadeAnimation.cpp */; };
 		444EAB730BD0E2F300C6D4A0 /* GameAreaEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444EAB320BD0E2B600C6D4A0 /* GameAreaEvent.cpp */; };
 		444EAB740BD0E2F300C6D4A0 /* GameAreaEventSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 444EAB330BD0E2B600C6D4A0 /* GameAreaEventSource.cpp */; };
@@ -120,8 +118,6 @@
 		444EABEA0BD0E33300C6D4A0 /* CoreSubsystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 444EABA90BD0E33300C6D4A0 /* CoreSubsystem.h */; };
 		444EABEB0BD0E33300C6D4A0 /* DebugVisualisable.h in Headers */ = {isa = PBXBuildFile; fileRef = 444EABAA0BD0E33300C6D4A0 /* DebugVisualisable.h */; };
 		444EABEC0BD0E33300C6D4A0 /* DebugVisualsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 444EABAB0BD0E33300C6D4A0 /* DebugVisualsManager.h */; };
-		444EABED0BD0E33300C6D4A0 /* DotSceneLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 444EABAC0BD0E33300C6D4A0 /* DotSceneLoader.h */; };
-		444EABEE0BD0E33300C6D4A0 /* DotSceneOctreeWorld.h in Headers */ = {isa = PBXBuildFile; fileRef = 444EABAD0BD0E33300C6D4A0 /* DotSceneOctreeWorld.h */; };
 		444EABEF0BD0E33300C6D4A0 /* FadeAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 444EABAE0BD0E33300C6D4A0 /* FadeAnimation.h */; };
 		444EABF00BD0E33300C6D4A0 /* GameAreaEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 444EABAF0BD0E33300C6D4A0 /* GameAreaEvent.h */; };
 		444EABF10BD0E33300C6D4A0 /* GameAreaEventSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 444EABB00BD0E33300C6D4A0 /* GameAreaEventSource.h */; };
@@ -593,8 +589,6 @@
 		485B895A0E15796500D5B19C /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 485B89570E15796500D5B19C /* Scene.cpp */; };
 		485B895B0E15796500D5B19C /* SceneLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 485B89580E15796500D5B19C /* SceneLoader.cpp */; };
 		485B895C0E15796500D5B19C /* SceneManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 485B89590E15796500D5B19C /* SceneManager.cpp */; };
-		4869D5300EF055F500619D4D /* libboost_system.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 48A52CAF0E0EF55C008DBDD8 /* libboost_system.dylib */; };
-		4869D5310EF055F600619D4D /* libboost_filesystem.dylib in Resources */ = {isa = PBXBuildFile; fileRef = 48A52B210E0EDA0E008DBDD8 /* libboost_filesystem.dylib */; };
 		487029C70E80DCEA00B66388 /* GameOverWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 487029C60E80DCEA00B66388 /* GameOverWindow.h */; };
 		487029C90E80DCF900B66388 /* GameOverWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 487029C80E80DCF900B66388 /* GameOverWindow.cpp */; };
 		487029E80E80E12200B66388 /* PartyManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 487029E70E80E12200B66388 /* PartyManager.h */; };
@@ -635,18 +629,14 @@
 		4890C0E20E18062B00BE5850 /* StepRecognitionMovement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4890C0D40E18062B00BE5850 /* StepRecognitionMovement.cpp */; };
 		4890C0E30E18062B00BE5850 /* StrafeMovement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4890C0D50E18062B00BE5850 /* StrafeMovement.cpp */; };
 		4890C0E40E18062B00BE5850 /* WalkMovement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4890C0D60E18062B00BE5850 /* WalkMovement.cpp */; };
-		48A52B220E0EDA0E008DBDD8 /* libboost_filesystem.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52B210E0EDA0E008DBDD8 /* libboost_filesystem.dylib */; };
-		48A52CB00E0EF55C008DBDD8 /* libboost_system.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52CAF0E0EF55C008DBDD8 /* libboost_system.dylib */; };
-		48A52CB10E0EF55C008DBDD8 /* libboost_system.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52CAF0E0EF55C008DBDD8 /* libboost_system.dylib */; };
-		48A52CB30E0EF577008DBDD8 /* libboost_filesystem.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52B210E0EDA0E008DBDD8 /* libboost_filesystem.dylib */; };
+		489864DA0FC4927300736047 /* GenericWorld.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 489864D70FC4927300736047 /* GenericWorld.cpp */; };
+		489864DB0FC4927300736047 /* PhysicsCollisionFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 489864D80FC4927300736047 /* PhysicsCollisionFactory.cpp */; };
+		489864DC0FC4927300736047 /* PhysicsRagDoll.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 489864D90FC4927300736047 /* PhysicsRagDoll.cpp */; };
+		489864E00FC4928B00736047 /* GenericWorld.h in Headers */ = {isa = PBXBuildFile; fileRef = 489864DD0FC4928A00736047 /* GenericWorld.h */; };
+		489864E10FC4928B00736047 /* PhysicsCollisionFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 489864DE0FC4928B00736047 /* PhysicsCollisionFactory.h */; };
+		489864E20FC4928B00736047 /* PhysicsRagDoll.h in Headers */ = {isa = PBXBuildFile; fileRef = 489864DF0FC4928B00736047 /* PhysicsRagDoll.h */; };
 		48A52CB60E0EF5BD008DBDD8 /* ApplyDamageJob.h in Headers */ = {isa = PBXBuildFile; fileRef = 48A52CB50E0EF5BD008DBDD8 /* ApplyDamageJob.h */; };
 		48A52CB80E0EF5D0008DBDD8 /* ApplyDamageJob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48A52CB70E0EF5D0008DBDD8 /* ApplyDamageJob.cpp */; };
-		48A52CBC0E0EF77B008DBDD8 /* libboost_system.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52CAF0E0EF55C008DBDD8 /* libboost_system.dylib */; };
-		48A52CBD0E0EF77B008DBDD8 /* libboost_system.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52CAF0E0EF55C008DBDD8 /* libboost_system.dylib */; };
-		48A52CBE0E0EF77C008DBDD8 /* libboost_system.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52CAF0E0EF55C008DBDD8 /* libboost_system.dylib */; };
-		48A52CBF0E0EF77C008DBDD8 /* libboost_system.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52CAF0E0EF55C008DBDD8 /* libboost_system.dylib */; };
-		48A52CC00E0EF77D008DBDD8 /* libboost_system.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52CAF0E0EF55C008DBDD8 /* libboost_system.dylib */; };
-		48A52CC20E0EF77E008DBDD8 /* libboost_system.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48A52CAF0E0EF55C008DBDD8 /* libboost_system.dylib */; };
 		48B006C50ECAC05F008141C2 /* CharacterSelectionWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48B006C40ECAC05F008141C2 /* CharacterSelectionWindow.cpp */; };
 		48B006C80ECAC11D008141C2 /* CharacterSelectionWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 48B006C70ECAC11D008141C2 /* CharacterSelectionWindow.h */; };
 		48B0B0350E6534690023B198 /* PlaneNodeProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48B0B0340E6534690023B198 /* PlaneNodeProcessor.cpp */; };
@@ -668,7 +658,6 @@
 		48CA78D40F2A513100F8E471 /* Fmod4Listener.h in Headers */ = {isa = PBXBuildFile; fileRef = 48CA78D00F2A513100F8E471 /* Fmod4Listener.h */; };
 		48CA78D50F2A513100F8E471 /* Fmod4Sound.h in Headers */ = {isa = PBXBuildFile; fileRef = 48CA78D10F2A513100F8E471 /* Fmod4Sound.h */; };
 		48CA78D60F2A513100F8E471 /* Fmod4SoundStitching.h in Headers */ = {isa = PBXBuildFile; fileRef = 48CA78D20F2A513100F8E471 /* Fmod4SoundStitching.h */; };
-		48CA78D80F2A51A400F8E471 /* libfmodex.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48CA78D70F2A51A400F8E471 /* libfmodex.dylib */; };
 		48CFBF8F0E2E869000CD0C51 /* FreeType.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 48CFBF8E0E2E869000CD0C51 /* FreeType.framework */; };
 		48D0BDC70E23375E00863824 /* libruby.dylib in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 483646A10D83D57800912FEC /* libruby.dylib */; };
 		48D0BE2C0E273C5E00863824 /* SaveAble.h in Headers */ = {isa = PBXBuildFile; fileRef = 48D0BE280E273C5E00863824 /* SaveAble.h */; };
@@ -696,6 +685,15 @@
 		48D34A810D91C7D800C89477 /* SaveGameManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 485A05710D71EDC40024198D /* SaveGameManager.h */; };
 		48EFE0A40E8B6AF6007EB7F8 /* FetchItemJob.h in Headers */ = {isa = PBXBuildFile; fileRef = 48EFE0A30E8B6AF6007EB7F8 /* FetchItemJob.h */; };
 		48EFE0A60E8B6C39007EB7F8 /* FetchItemJob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48EFE0A50E8B6C39007EB7F8 /* FetchItemJob.cpp */; };
+		48FF23FD0FC99D3D00E71D4D /* libboost_system-mt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48FF23FC0FC99D3D00E71D4D /* libboost_system-mt.dylib */; };
+		48FF24000FC99D8700E71D4D /* libboost_filesystem-mt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48FF23FF0FC99D8700E71D4D /* libboost_filesystem-mt.dylib */; };
+		48FF240A0FC99F2900E71D4D /* libfmodex.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48B0B0480E65BBB30023B198 /* libfmodex.dylib */; };
+		48FF240C0FC99F4800E71D4D /* libboost_filesystem-mt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48FF23FF0FC99D8700E71D4D /* libboost_filesystem-mt.dylib */; };
+		48FF24160FC9A19600E71D4D /* libboost_system-mt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48FF23FC0FC99D3D00E71D4D /* libboost_system-mt.dylib */; };
+		48FF24560FC9A4F600E71D4D /* libboost_system-mt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48FF23FC0FC99D3D00E71D4D /* libboost_system-mt.dylib */; };
+		48FF245A0FC9A53A00E71D4D /* libboost_system-mt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48FF23FC0FC99D3D00E71D4D /* libboost_system-mt.dylib */; };
+		48FF245C0FC9A58000E71D4D /* libboost_system-mt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48FF23FC0FC99D3D00E71D4D /* libboost_system-mt.dylib */; };
+		48FF245E0FC9A59D00E71D4D /* libboost_system-mt.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 48FF23FC0FC99D3D00E71D4D /* libboost_system-mt.dylib */; };
 		8D0C4E8D0486CD37000505A6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0867D6AAFE840B52C02AAC07 /* InfoPlist.strings */; };
 		8D0C4E8E0486CD37000505A6 /* main.nib in Resources */ = {isa = PBXBuildFile; fileRef = 02345980000FD03B11CA0E72 /* main.nib */; };
 /* End PBXBuildFile section */
@@ -945,8 +943,6 @@
 		444EAB2C0BD0E2B600C6D4A0 /* CoreSubsystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CoreSubsystem.cpp; sourceTree = "<group>"; };
 		444EAB2D0BD0E2B600C6D4A0 /* DebugVisualisable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DebugVisualisable.cpp; sourceTree = "<group>"; };
 		444EAB2E0BD0E2B600C6D4A0 /* DebugVisualsManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DebugVisualsManager.cpp; sourceTree = "<group>"; };
-		444EAB2F0BD0E2B600C6D4A0 /* DotSceneLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DotSceneLoader.cpp; sourceTree = "<group>"; };
-		444EAB300BD0E2B600C6D4A0 /* DotSceneOctreeWorld.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DotSceneOctreeWorld.cpp; sourceTree = "<group>"; };
 		444EAB310BD0E2B600C6D4A0 /* FadeAnimation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FadeAnimation.cpp; sourceTree = "<group>"; };
 		444EAB320BD0E2B600C6D4A0 /* GameAreaEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameAreaEvent.cpp; sourceTree = "<group>"; };
 		444EAB330BD0E2B600C6D4A0 /* GameAreaEventSource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameAreaEventSource.cpp; sourceTree = "<group>"; };
@@ -999,8 +995,6 @@
 		444EABA90BD0E33300C6D4A0 /* CoreSubsystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreSubsystem.h; sourceTree = "<group>"; };
 		444EABAA0BD0E33300C6D4A0 /* DebugVisualisable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugVisualisable.h; sourceTree = "<group>"; };
 		444EABAB0BD0E33300C6D4A0 /* DebugVisualsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugVisualsManager.h; sourceTree = "<group>"; };
-		444EABAC0BD0E33300C6D4A0 /* DotSceneLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DotSceneLoader.h; sourceTree = "<group>"; };
-		444EABAD0BD0E33300C6D4A0 /* DotSceneOctreeWorld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DotSceneOctreeWorld.h; sourceTree = "<group>"; };
 		444EABAE0BD0E33300C6D4A0 /* FadeAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FadeAnimation.h; sourceTree = "<group>"; };
 		444EABAF0BD0E33300C6D4A0 /* GameAreaEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameAreaEvent.h; sourceTree = "<group>"; };
 		444EABB00BD0E33300C6D4A0 /* GameAreaEventSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameAreaEventSource.h; sourceTree = "<group>"; };
@@ -1460,8 +1454,12 @@
 		4890C0D40E18062B00BE5850 /* StepRecognitionMovement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StepRecognitionMovement.cpp; sourceTree = "<group>"; };
 		4890C0D50E18062B00BE5850 /* StrafeMovement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StrafeMovement.cpp; sourceTree = "<group>"; };
 		4890C0D60E18062B00BE5850 /* WalkMovement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WalkMovement.cpp; sourceTree = "<group>"; };
-		48A52B210E0EDA0E008DBDD8 /* libboost_filesystem.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_filesystem.dylib; path = /usr/local/lib/libboost_filesystem.dylib; sourceTree = "<absolute>"; };
-		48A52CAF0E0EF55C008DBDD8 /* libboost_system.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_system.dylib; path = /usr/local/lib/libboost_system.dylib; sourceTree = "<absolute>"; };
+		489864D70FC4927300736047 /* GenericWorld.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GenericWorld.cpp; sourceTree = "<group>"; };
+		489864D80FC4927300736047 /* PhysicsCollisionFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PhysicsCollisionFactory.cpp; sourceTree = "<group>"; };
+		489864D90FC4927300736047 /* PhysicsRagDoll.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PhysicsRagDoll.cpp; sourceTree = "<group>"; };
+		489864DD0FC4928A00736047 /* GenericWorld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericWorld.h; sourceTree = "<group>"; };
+		489864DE0FC4928B00736047 /* PhysicsCollisionFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhysicsCollisionFactory.h; sourceTree = "<group>"; };
+		489864DF0FC4928B00736047 /* PhysicsRagDoll.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhysicsRagDoll.h; sourceTree = "<group>"; };
 		48A52CB50E0EF5BD008DBDD8 /* ApplyDamageJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplyDamageJob.h; sourceTree = "<group>"; };
 		48A52CB70E0EF5D0008DBDD8 /* ApplyDamageJob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ApplyDamageJob.cpp; sourceTree = "<group>"; };
 		48B006C40ECAC05F008141C2 /* CharacterSelectionWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CharacterSelectionWindow.cpp; sourceTree = "<group>"; };
@@ -1486,7 +1484,6 @@
 		48CA78D00F2A513100F8E471 /* Fmod4Listener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Fmod4Listener.h; path = fmod4driver/Fmod4Listener.h; sourceTree = "<group>"; };
 		48CA78D10F2A513100F8E471 /* Fmod4Sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Fmod4Sound.h; path = fmod4driver/Fmod4Sound.h; sourceTree = "<group>"; };
 		48CA78D20F2A513100F8E471 /* Fmod4SoundStitching.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Fmod4SoundStitching.h; path = fmod4driver/Fmod4SoundStitching.h; sourceTree = "<group>"; };
-		48CA78D70F2A51A400F8E471 /* libfmodex.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfmodex.dylib; path = "FMOD Programmers API/api/lib/libfmodex.dylib"; sourceTree = SYSTEM_DEVELOPER_DIR; };
 		48CFBF8E0E2E869000CD0C51 /* FreeType.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FreeType.framework; path = /Library/Frameworks/FreeType.framework; sourceTree = "<absolute>"; };
 		48D0BE280E273C5E00863824 /* SaveAble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaveAble.h; sourceTree = "<group>"; };
 		48D0BE290E273C5E00863824 /* SaveAbleCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaveAbleCollection.h; sourceTree = "<group>"; };
@@ -1511,6 +1508,8 @@
 		48EFE0A50E8B6C39007EB7F8 /* FetchItemJob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FetchItemJob.cpp; sourceTree = "<group>"; };
 		48EFE0D70E8B6EB1007EB7F8 /* mkdmg.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = mkdmg.sh; sourceTree = "<group>"; };
 		48EFE0D80E8B6EB1007EB7F8 /* renameinstalldirs.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = renameinstalldirs.sh; sourceTree = "<group>"; };
+		48FF23FC0FC99D3D00E71D4D /* libboost_system-mt.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libboost_system-mt.dylib"; path = "/opt/local/lib/libboost_system-mt.dylib"; sourceTree = "<absolute>"; };
+		48FF23FF0FC99D8700E71D4D /* libboost_filesystem-mt.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libboost_filesystem-mt.dylib"; path = "/opt/local/lib/libboost_filesystem-mt.dylib"; sourceTree = "<absolute>"; };
 		8D0C4E960486CD37000505A6 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D0C4E970486CD37000505A6 /* Rastullah.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rastullah.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -1520,12 +1519,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				48A52B220E0EDA0E008DBDD8 /* libboost_filesystem.dylib in Frameworks */,
 				444EAEBF0BD0F09900C6D4A0 /* CEGUI.framework in Frameworks */,
 				444EAEC00BD0F09900C6D4A0 /* Ogre.framework in Frameworks */,
 				4836CBCE0D8FB0BE002FE5D7 /* Xerces.framework in Frameworks */,
-				48A52CB00E0EF55C008DBDD8 /* libboost_system.dylib in Frameworks */,
 				484FE6BA0E17BC8800FA880F /* Carbon.framework in Frameworks */,
+				48FF23FD0FC99D3D00E71D4D /* libboost_system-mt.dylib in Frameworks */,
+				48FF24000FC99D8700E71D4D /* libboost_filesystem-mt.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1533,17 +1532,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				48A52CB30E0EF577008DBDD8 /* libboost_filesystem.dylib in Frameworks */,
+				48FF24160FC9A19600E71D4D /* libboost_system-mt.dylib in Frameworks */,
 				444EB0AB0BD115CB00C6D4A0 /* libRlCommon.dylib in Frameworks */,
+				48FF240C0FC99F4800E71D4D /* libboost_filesystem-mt.dylib in Frameworks */,
+				48FF240A0FC99F2900E71D4D /* libfmodex.dylib in Frameworks */,
 				483646A20D83D57800912FEC /* libruby.dylib in Frameworks */,
 				444EAEF30BD1150500C6D4A0 /* CEGUI.framework in Frameworks */,
 				444EAEF60BD1150500C6D4A0 /* Ogre.framework in Frameworks */,
 				444EB0890BD1153500C6D4A0 /* OgreNewt.framework in Frameworks */,
 				440785DE0C09D231006E496D /* libmeshmagick.dylib in Frameworks */,
 				4836CBCD0D8FB0BE002FE5D7 /* Xerces.framework in Frameworks */,
-				48A52CB10E0EF55C008DBDD8 /* libboost_system.dylib in Frameworks */,
 				484FE6BC0E17BC8800FA880F /* Carbon.framework in Frameworks */,
-				48CA78D80F2A51A400F8E471 /* libfmodex.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1555,12 +1554,12 @@
 				444EB34A0BD173A900C6D4A0 /* libRlRules.dylib in Frameworks */,
 				444EB12D0BD11A0C00C6D4A0 /* libRlCore.dylib in Frameworks */,
 				444EB1290BD119FB00C6D4A0 /* libRlCommon.dylib in Frameworks */,
+				48FF245A0FC9A53A00E71D4D /* libboost_system-mt.dylib in Frameworks */,
 				444EB0D40BD1198B00C6D4A0 /* CEGUI.framework in Frameworks */,
 				444EB0D60BD1198B00C6D4A0 /* Ogre.framework in Frameworks */,
 				444EB0D80BD1198B00C6D4A0 /* OgreNewt.framework in Frameworks */,
 				444EB0DB0BD119BB00C6D4A0 /* OpenSteer.framework in Frameworks */,
 				4836CBCC0D8FB0BE002FE5D7 /* Xerces.framework in Frameworks */,
-				48A52CBC0E0EF77B008DBDD8 /* libboost_system.dylib in Frameworks */,
 				484FE6BD0E17BC8800FA880F /* Carbon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1569,6 +1568,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48FF24560FC9A4F600E71D4D /* libboost_system-mt.dylib in Frameworks */,
 				440785EB0C09D377006E496D /* libmeshmagick.dylib in Frameworks */,
 				444EB3480BD1733900C6D4A0 /* OgreNewt.framework in Frameworks */,
 				444EB3440BD1730C00C6D4A0 /* libRlCommon.dylib in Frameworks */,
@@ -1576,7 +1576,6 @@
 				444EB3410BD172BA00C6D4A0 /* CEGUI.framework in Frameworks */,
 				444EB3420BD172BA00C6D4A0 /* Ogre.framework in Frameworks */,
 				4836CBCB0D8FB0BE002FE5D7 /* Xerces.framework in Frameworks */,
-				48A52CBD0E0EF77B008DBDD8 /* libboost_system.dylib in Frameworks */,
 				484FE6BE0E17BC8800FA880F /* Carbon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1585,6 +1584,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48FF245C0FC9A58000E71D4D /* libboost_system-mt.dylib in Frameworks */,
 				48389BC70D86764600AFAB66 /* libRlAi.dylib in Frameworks */,
 				444EB3610BD1756B00C6D4A0 /* libRlRules.dylib in Frameworks */,
 				444EB1CE0BD1595100C6D4A0 /* OgreNewt.framework in Frameworks */,
@@ -1595,7 +1595,6 @@
 				444EB3730BD1784A00C6D4A0 /* OgreCEGUIRenderer.framework in Frameworks */,
 				4857E4E50D46A664009D376D /* OIS.framework in Frameworks */,
 				4836CBCA0D8FB0BE002FE5D7 /* Xerces.framework in Frameworks */,
-				48A52CBE0E0EF77C008DBDD8 /* libboost_system.dylib in Frameworks */,
 				484FE6BF0E17BC8800FA880F /* Carbon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1605,7 +1604,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				483D87CE0D8C564400F3629E /* libRlScript.dylib in Frameworks */,
-				48A52CC00E0EF77D008DBDD8 /* libboost_system.dylib in Frameworks */,
 				484FE6C20E17BC8800FA880F /* Carbon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1624,7 +1622,6 @@
 				48570C480D8A6E9900096E35 /* libRlRules.dylib in Frameworks */,
 				48570C490D8A6E9900096E35 /* libRlUi.dylib in Frameworks */,
 				4836CBC90D8FB0BE002FE5D7 /* Xerces.framework in Frameworks */,
-				48A52CBF0E0EF77C008DBDD8 /* libboost_system.dylib in Frameworks */,
 				484FE6C00E17BC8800FA880F /* Carbon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1640,6 +1637,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48FF245E0FC9A59D00E71D4D /* libboost_system-mt.dylib in Frameworks */,
 				444EB7A20BD1963A00C6D4A0 /* CEGUI.framework in Frameworks */,
 				444EB7A80BD1963A00C6D4A0 /* Ogre.framework in Frameworks */,
 				444EB7A90BD1963A00C6D4A0 /* OgreCEGUIRenderer.framework in Frameworks */,
@@ -1652,7 +1650,6 @@
 				444EB7A00BD195E800C6D4A0 /* libRlUi.dylib in Frameworks */,
 				4836F8BC0D885AAA00E3632F /* libruby.dylib in Frameworks */,
 				48570E020D8A6F8300096E35 /* libRlScript.dylib in Frameworks */,
-				48A52CC20E0EF77E008DBDD8 /* libboost_system.dylib in Frameworks */,
 				484FE6BB0E17BC8800FA880F /* Carbon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1679,7 +1676,6 @@
 		20286C29FDCF999611CA2CEA /* Rastullah */ = {
 			isa = PBXGroup;
 			children = (
-				48CA78D70F2A51A400F8E471 /* libfmodex.dylib */,
 				20286C2AFDCF999611CA2CEA /* Engine */,
 				48D401810D9E483200AE5340 /* modules */,
 				20286C2CFDCF999611CA2CEA /* Resources */,
@@ -1719,13 +1715,13 @@
 		20286C32FDCF999611CA2CEA /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				48FF23FC0FC99D3D00E71D4D /* libboost_system-mt.dylib */,
+				48FF23FF0FC99D8700E71D4D /* libboost_filesystem-mt.dylib */,
 				487750AF0E7E3C9C0018216B /* Cg.framework */,
 				48C04B890E67DF0300CD3A7D /* PCRE.framework */,
 				48B0B0480E65BBB30023B198 /* libfmodex.dylib */,
 				48CFBF8E0E2E869000CD0C51 /* FreeType.framework */,
 				484FE6B90E17BC8800FA880F /* Carbon.framework */,
-				48A52CAF0E0EF55C008DBDD8 /* libboost_system.dylib */,
-				48A52B210E0EDA0E008DBDD8 /* libboost_filesystem.dylib */,
 				4836CBC80D8FB0BE002FE5D7 /* Xerces.framework */,
 				4857E4E40D46A664009D376D /* OIS.framework */,
 				440785DD0C09D231006E496D /* libmeshmagick.dylib */,
@@ -1959,6 +1955,9 @@
 		4851EA4C0EDDC82400AB79E9 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				489864D70FC4927300736047 /* GenericWorld.cpp */,
+				489864D80FC4927300736047 /* PhysicsCollisionFactory.cpp */,
+				489864D90FC4927300736047 /* PhysicsRagDoll.cpp */,
 				48CA78C70F2A511E00F8E471 /* Fmod4Driver.cpp */,
 				48CA78C80F2A511E00F8E471 /* Fmod4Listener.cpp */,
 				48CA78C90F2A511E00F8E471 /* Fmod4Sound.cpp */,
@@ -2000,8 +1999,6 @@
 				444EAB2C0BD0E2B600C6D4A0 /* CoreSubsystem.cpp */,
 				444EAB2D0BD0E2B600C6D4A0 /* DebugVisualisable.cpp */,
 				444EAB2E0BD0E2B600C6D4A0 /* DebugVisualsManager.cpp */,
-				444EAB2F0BD0E2B600C6D4A0 /* DotSceneLoader.cpp */,
-				444EAB300BD0E2B600C6D4A0 /* DotSceneOctreeWorld.cpp */,
 				444EAB310BD0E2B600C6D4A0 /* FadeAnimation.cpp */,
 				444EAB320BD0E2B600C6D4A0 /* GameAreaEvent.cpp */,
 				444EAB330BD0E2B600C6D4A0 /* GameAreaEventSource.cpp */,
@@ -2048,6 +2045,9 @@
 		4851EA4D0EDDC8CA00AB79E9 /* Header */ = {
 			isa = PBXGroup;
 			children = (
+				489864DD0FC4928A00736047 /* GenericWorld.h */,
+				489864DE0FC4928B00736047 /* PhysicsCollisionFactory.h */,
+				489864DF0FC4928B00736047 /* PhysicsRagDoll.h */,
 				48CA78CF0F2A513100F8E471 /* Fmod4Driver.h */,
 				48CA78D00F2A513100F8E471 /* Fmod4Listener.h */,
 				48CA78D10F2A513100F8E471 /* Fmod4Sound.h */,
@@ -2092,8 +2092,6 @@
 				444EABA90BD0E33300C6D4A0 /* CoreSubsystem.h */,
 				444EABAA0BD0E33300C6D4A0 /* DebugVisualisable.h */,
 				444EABAB0BD0E33300C6D4A0 /* DebugVisualsManager.h */,
-				444EABAC0BD0E33300C6D4A0 /* DotSceneLoader.h */,
-				444EABAD0BD0E33300C6D4A0 /* DotSceneOctreeWorld.h */,
 				444EABAE0BD0E33300C6D4A0 /* FadeAnimation.h */,
 				444EABAF0BD0E33300C6D4A0 /* GameAreaEvent.h */,
 				444EABB00BD0E33300C6D4A0 /* GameAreaEventSource.h */,
@@ -2565,8 +2563,6 @@
 				444EABEA0BD0E33300C6D4A0 /* CoreSubsystem.h in Headers */,
 				444EABEB0BD0E33300C6D4A0 /* DebugVisualisable.h in Headers */,
 				444EABEC0BD0E33300C6D4A0 /* DebugVisualsManager.h in Headers */,
-				444EABED0BD0E33300C6D4A0 /* DotSceneLoader.h in Headers */,
-				444EABEE0BD0E33300C6D4A0 /* DotSceneOctreeWorld.h in Headers */,
 				444EABEF0BD0E33300C6D4A0 /* FadeAnimation.h in Headers */,
 				444EABF00BD0E33300C6D4A0 /* GameAreaEvent.h in Headers */,
 				444EABF10BD0E33300C6D4A0 /* GameAreaEventSource.h in Headers */,
@@ -2639,6 +2635,9 @@
 				48CA78D40F2A513100F8E471 /* Fmod4Listener.h in Headers */,
 				48CA78D50F2A513100F8E471 /* Fmod4Sound.h in Headers */,
 				48CA78D60F2A513100F8E471 /* Fmod4SoundStitching.h in Headers */,
+				489864E00FC4928B00736047 /* GenericWorld.h in Headers */,
+				489864E10FC4928B00736047 /* PhysicsCollisionFactory.h in Headers */,
+				489864E20FC4928B00736047 /* PhysicsRagDoll.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3081,8 +3080,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4869D5300EF055F500619D4D /* libboost_system.dylib in Resources */,
-				4869D5310EF055F600619D4D /* libboost_filesystem.dylib in Resources */,
 				48B0B03C0E6535AB0023B198 /* libmeshmagick.dylib in Resources */,
 				484D921E0E1E078100BCFC2B /* libRlCommon.dylib in Resources */,
 				484D921F0E1E078100BCFC2B /* libRlCore.dylib in Resources */,
@@ -3190,8 +3187,6 @@
 				483646C50D83D62E00912FEC /* SaveGameManager.cpp in Sources */,
 				444EAB6E0BD0E2F300C6D4A0 /* DebugVisualisable.cpp in Sources */,
 				444EAB6F0BD0E2F300C6D4A0 /* DebugVisualsManager.cpp in Sources */,
-				444EAB700BD0E2F300C6D4A0 /* DotSceneLoader.cpp in Sources */,
-				444EAB710BD0E2F300C6D4A0 /* DotSceneOctreeWorld.cpp in Sources */,
 				444EAB720BD0E2F300C6D4A0 /* FadeAnimation.cpp in Sources */,
 				444EAB730BD0E2F300C6D4A0 /* GameAreaEvent.cpp in Sources */,
 				444EAB740BD0E2F300C6D4A0 /* GameAreaEventSource.cpp in Sources */,
@@ -3254,6 +3249,9 @@
 				48CA78CC0F2A511E00F8E471 /* Fmod4Listener.cpp in Sources */,
 				48CA78CD0F2A511E00F8E471 /* Fmod4Sound.cpp in Sources */,
 				48CA78CE0F2A511E00F8E471 /* Fmod4SoundStitching.cpp in Sources */,
+				489864DA0FC4927300736047 /* GenericWorld.cpp in Sources */,
+				489864DB0FC4927300736047 /* PhysicsCollisionFactory.cpp in Sources */,
+				489864DC0FC4927300736047 /* PhysicsRagDoll.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3624,8 +3622,7 @@
 				);
 				INSTALL_PATH = "@executable_path/../Resources";
 				LIBRARY_SEARCH_PATHS = (
-					/sw/lib,
-					/usr/local/lib,
+					"$(inherited)",
 					/opt/local/lib,
 				);
 				MACH_O_TYPE = mh_dylib;
@@ -3700,9 +3697,11 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 					/opt/local/lib,
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Ruby.framework/Versions/1.8/usr/lib\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(DEVELOPER_DIR)/FMOD Programmers API/api/lib\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(DEVELOPER_DIR)/FMOD Programmers API/api/lib\"";
 				MACH_O_TYPE = mh_dylib;
 				OTHER_LDFLAGS = "";
 				PREBINDING = NO;
@@ -3746,9 +3745,11 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 					/opt/local/lib,
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Ruby.framework/Versions/1.8/usr/lib\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(DEVELOPER_DIR)/FMOD Programmers API/api/lib\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(DEVELOPER_DIR)/FMOD Programmers API/api/lib\"";
 				OTHER_LDFLAGS = "";
 				PREBINDING = NO;
 				PRODUCT_NAME = RlCore;
@@ -3783,8 +3784,7 @@
 				INSTALL_PATH = "@executable_path/../Resources";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
-					/sw/lib,
+					/opt/local/lib,
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/build/Debug\"";
 				MACH_O_TYPE = mh_dylib;
@@ -3819,8 +3819,7 @@
 				INSTALL_PATH = "@executable_path/../Resources";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
-					/sw/lib,
+					/opt/local/lib,
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/build/Debug\"";
 				OTHER_LDFLAGS = "";
@@ -3857,6 +3856,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
+					/opt/local/lib,
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/build/Debug\"";
 				MACH_O_TYPE = mh_dylib;
@@ -3893,6 +3893,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
+					/opt/local/lib,
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/build/Debug\"";
 				OTHER_LDFLAGS = "";
@@ -3929,7 +3930,10 @@
 					/Library/Frameworks/Xerces.framework/Headers,
 				);
 				INSTALL_PATH = "@executable_path/../Resources";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/lib,
+				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/build/Debug\"";
 				MACH_O_TYPE = mh_dylib;
 				OTHER_LDFLAGS = (
@@ -3969,6 +3973,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
+					/opt/local/lib,
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/build/Debug\"";
 				OTHER_LDFLAGS = (
@@ -4183,6 +4188,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
+					/opt/local/lib,
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/build/Debug\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Ruby.framework/Versions/1.8/usr/lib\"";
@@ -4217,6 +4223,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_2)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_3)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					/opt/local/lib,
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/build/Debug\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_2 = "\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Ruby.framework/Versions/1.8/usr/lib\"";

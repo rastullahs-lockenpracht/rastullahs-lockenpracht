@@ -17,6 +17,8 @@
 
 #include "GameAreaTypes.h"
 
+#include <boost/smart_ptr.hpp>
+
 #include "Actor.h"
 #include "World.h"
 #include "CoreSubsystem.h"
@@ -51,7 +53,7 @@ namespace rl {
         mSphereQuery = CoreSubsystem::getSingleton().getWorld()->
             getSceneManager()->createSphereQuery( Sphere(center,radius), mask );
 
-        // Keine Welt-Geometrie erwünscht, nur Movables
+        // Keine Welt-Geometrie erwÂ¸nscht, nur Movables
         mSphereQuery->setWorldFragmentType( SceneQuery::WFT_NONE );
     }
 
@@ -75,7 +77,7 @@ namespace rl {
             MovableObject* mov = *it;
             if( mov->getUserObject() != NULL )
             {
-                // Zur Zeit sind die einzigen an Movables geknüpfte Objekte Actoren
+                // Zur Zeit sind die einzigen an Movables geknÂ¸pfte Objekte Actoren
                 Actor* act = dynamic_cast<Actor*>( mov->getUserObject() );
                 retMap.insert(ActorPair(act->getName(),act));
             }
