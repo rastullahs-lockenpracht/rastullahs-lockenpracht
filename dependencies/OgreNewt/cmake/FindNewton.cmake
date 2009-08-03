@@ -20,6 +20,7 @@ IF(WIN32)
 ELSE(WIN32)
 	SET(NEWTON_INCLUDE_SEARCH_DIRS
 	    /usr/include
+	    /usr/include/newtonSDK
 	    /usr/local/include
 	    /opt/newton/include
 	    /opt/include INTERNAL)
