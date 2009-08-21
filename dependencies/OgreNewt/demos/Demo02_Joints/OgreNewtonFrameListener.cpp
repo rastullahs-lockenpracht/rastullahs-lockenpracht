@@ -74,7 +74,7 @@ bool OgreNewtonFrameListener::frameStarted(const FrameEvent &evt)
 			ent->setMaterialName( "Simple/dirt01" );
 //			ent->setNormaliseNormals(true);
 
-			OgreNewt::ConvexCollisionPtr col = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid( m_World, Ogre::Vector3(1,1,1) ));
+			OgreNewt::ConvexCollisionPtr col = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid( m_World, Ogre::Vector3(1,1,1), 0 ));
 			OgreNewt::Body* body = new OgreNewt::Body( m_World, col );
 
 #ifdef OGRENEWT_NO_COLLISION_SHAREDPTR
@@ -111,6 +111,10 @@ bool OgreNewtonFrameListener::frameStarted(const FrameEvent &evt)
     }
 
 
+
+
+    if (mKeyboard->isKeyDown(OIS::KC_T))
+        m_World->setThreadCount( m_World->getThreadCount() % 2 + 1);
 
 	if (mKeyboard->isKeyDown(OIS::KC_ESCAPE))
 		return false;

@@ -165,7 +165,7 @@ bool OgreNewtonFrameListener::frameStarted(const FrameEvent &evt)
     {
         debug.showDebugInformation();
         debug.startRaycastRecording();
-        debug.clearRaycastsRecorded();
+        //debug.clearRaycastsRecorded();
     }
     else
     {
@@ -174,6 +174,10 @@ bool OgreNewtonFrameListener::frameStarted(const FrameEvent &evt)
         debug.stopRaycastRecording();
     }
 
+
+
+    if (mKeyboard->isKeyDown(OIS::KC_T))
+        m_World->setThreadCount( m_World->getThreadCount() % 2 + 1);
 
 
 	if (mKeyboard->isKeyDown(OIS::KC_ESCAPE))
@@ -214,12 +218,15 @@ void OgreNewtonFrameListener::dragCallback( OgreNewt::Body* me, float timestep, 
 	Ogre::Vector3 dragForce = ((campt - bodpt) * mass * 8.0) - me->getVelocity();
 
 	// draw a 3D line between these points for visual effect :)
+    /*
 	remove3DLine();
 	mDragLine->begin("BaseWhiteNoLighting", Ogre::RenderOperation::OT_LINE_LIST );
 	mDragLine->position( campt );
 	mDragLine->position( bodpt );
+    // ---------------------------- I get an error here using multithreading... -------------------------------
 	mDragLine->end();
 	mDragLineNode->attachObject( mDragLine );
+    */
 
 
 	// Add the force!

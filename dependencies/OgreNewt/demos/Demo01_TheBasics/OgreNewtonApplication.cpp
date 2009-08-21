@@ -55,7 +55,7 @@ void OgreNewtonApplication::createScene()
 
 	// here's where we make a collision shape for the physics.  note that we use the same size as
 	// above.
-	OgreNewt::CollisionPtr col = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Cylinder(m_World, 2.5, 5));
+	OgreNewt::CollisionPtr col = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Cylinder(m_World, 2.5, 5, 0));
 
 	// now we make a new rigid body based on this collision shape.
 	OgreNewt::Body* bod = new OgreNewt::Body( m_World, col );

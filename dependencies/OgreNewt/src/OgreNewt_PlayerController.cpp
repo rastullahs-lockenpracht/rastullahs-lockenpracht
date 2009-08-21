@@ -10,187 +10,153 @@
 namespace OgreNewt
 {
 
-PlayerController::PlayerController(OgreNewt::Body * child) :
+PlayerController::PlayerController(OgreNewt::Body * child, Ogre::Real stairHeight, Ogre::Real kinematicCushion, const Ogre::Matrix3& localFrame) :
     CustomJoint(6, child, NULL),
     m_body(child)
 {
     // initialize some non settable parameters
     m_maxCollisionsIteration = 8;
     m_maxContactsCount = 16;
+    m_sensorShapeSegments = 32;
+
+#ifdef OGRENEWT_NO_COLLISION_SHAREDPTR
+    m_bodySensorShape = NULL;
+    m_stairSensorShape = NULL;
+    m_bodyFloorSensorShape = NULL;
+#endif
+
+
     // initialize settable values
     m_forwardSpeed = 0;
     m_sideSpeed = 0;
     m_heading = Ogre::Radian(0);
-    Ogre::Real playerHeight, playerRadius;
-    getPlayerHeightAndRadius(playerHeight, playerRadius);
-    m_maxStepHeight = playerHeight / 4;
-    m_maxSlope = Ogre::Degree(45);
     m_restitution = 0;
-    m_upVector = Ogre::Vector3::UNIT_Y;
-    m_isInJumpState = false;
+    m_kinematicCushion = std::max(kinematicCushion, 1.0f/64.0f);
+    m_maxSlope = Ogre::Degree(30);
+    m_stairHeight = stairHeight;
+    m_playerState = PS_ONFREEFALL;
+    m_localFrame = localFrame;
 
-    Ogre::Vector3 pos;
-    m_body->getPositionOrientation(pos, m_lastOri);
+
+    updateGeometry();
+
+}
 
 
+void PlayerController::updateGeometry()
+{
+    m_localFrame.setScale( Ogre::Vector3::UNIT_SCALE );
+    m_localFrame.setTrans(  m_body->getCenterOfMass() );
+    Ogre::AxisAlignedBox playerAabb = m_body->getCollision()->getAABB( m_localFrame.extractQuaternion() );
+    Ogre::Real playerHeight = playerAabb.getSize().y;
+    Ogre::Real playerRadius = std::max(playerAabb.getSize().x, playerAabb.getSize().z);
+    
+    m_maxRadius = playerRadius + m_kinematicCushion;
 
-    // initialize sensor-shape parameters
-    m_staticRadiusFactor = 1.125f;
-    m_dynamicRadiusFactor = 1.5f;
-    m_floorFinderRadiusFactor = 1.0f;
-    m_maxPlayerHeightPaddFactor = 0.01f;
-    m_sensorShapeSegments = 32;
+
 #ifdef OGRENEWT_NO_COLLISION_SHAREDPTR
-    m_verticalSensorShape = NULL;
-    m_horizontalSensorShape = NULL;
-    m_dynamicsSensorShape = NULL;
+    // delete old ones
+    if( m_bodySensorShape )
+        delete m_bodySensorShape;
+    if( m_stairSensorShape )
+        delete m_stairSensorShape;
+    if( m_bodyFloorSensorShape )
+        delete m_bodyFloorSensorShape;
 #endif
 
+    std::vector<Ogre::Vector3> bodySensorPoints, stairSensorPoints, bodyFloorSensorPoints;
+    bodySensorPoints.resize(m_sensorShapeSegments*2);
+    stairSensorPoints.resize(m_sensorShapeSegments*2);
+    bodyFloorSensorPoints.resize(m_sensorShapeSegments*2);
 
-    updateSensorShapes();
+    Ogre::Real h0, h1, startHeight;
+    h0 = playerAabb.getMinimum().y;
+    h1 = playerAabb.getMaximum().y - m_stairHeight;
+    startHeight = h0 + m_stairHeight;
+
+
+    Ogre::Quaternion localOri = m_localFrame.extractQuaternion();
+    for( int i = 0; i < m_sensorShapeSegments; i++)
+    {
+        Ogre::Real x, z, fx, fz;
+        x = Ogre::Math::Cos( Ogre::Degree( (360.0f * i) / m_sensorShapeSegments ) );
+        z = Ogre::Math::Sin( Ogre::Degree( (360.0f * i) / m_sensorShapeSegments ) );
+
+        fx = playerRadius * x;
+        fz = playerRadius * z;
+
+        x = m_maxRadius * x;
+        z = m_maxRadius * z;
+
+        bodySensorPoints[i] = localOri * Ogre::Vector3(x, h0, z);
+        bodySensorPoints[i + m_sensorShapeSegments] = localOri * Ogre::Vector3(x, h1, z);
+
+        stairSensorPoints[i] = localOri * Ogre::Vector3(fx, h0, fz);
+        stairSensorPoints[i + m_sensorShapeSegments] = localOri * Ogre::Vector3(fx, h1, fz);
+
+        bodyFloorSensorPoints[i] = localOri * Ogre::Vector3(x, h0, z);
+        bodyFloorSensorPoints[i + m_sensorShapeSegments] = localOri * Ogre::Vector3(x, startHeight, z);
+
+    }
+
+
+    m_bodySensorShape = ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::ConvexHull(m_body->getWorld(), &bodySensorPoints[0], 2*m_sensorShapeSegments, 0));
+    m_stairSensorShape = ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::ConvexHull(m_body->getWorld(), &stairSensorPoints[0], 2*m_sensorShapeSegments, 0));
+    m_bodyFloorSensorShape = ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::ConvexHull(m_body->getWorld(), &bodyFloorSensorPoints[0], 2*m_sensorShapeSegments, 0));
+
 }
+
 
 PlayerController::~PlayerController()
 {
 #ifdef OGRENEWT_NO_COLLISION_SHAREDPTR
-    if( m_verticalSensorShape )
-        delete m_verticalSensorShape;
-    if( m_horizontalSensorShape )
-        delete m_horizontalSensorShape;
-    if( m_dynamicsSensorShape )
-        delete m_dynamicsSensorShape;
+    if( m_bodySensorShape )
+        delete m_bodySensorShape;
+    if( m_stairSensorShape )
+        delete m_stairSensorShape;
+    if( m_bodyFloorSensorShape )
+        delete m_bodyFloorSensorShape;
 #endif
 }
 
-void PlayerController::updateSensorShapes()
-{
-    Ogre::Real newPlayerRadius, newPlayerHeight, newSensorHeight;
-    // is this the first time, this function gets calles?
-    if( m_verticalSensorShape == NULL )
-    {
-        // initialize values, so they aren't arbitrary!
-        m_lastPlayerRadius = newPlayerRadius = 0;
-        m_lastPlayerHeight = newPlayerHeight = 0;
-        m_lastSensorHeight = newSensorHeight = 0;
-    }
-
-    // calculate new Values:
-    getPlayerHeightAndRadius(newPlayerHeight, newPlayerRadius);
-    newPlayerHeight += newPlayerHeight * m_maxPlayerHeightPaddFactor;
-    newSensorHeight = (newPlayerHeight - m_maxStepHeight) * 0.5f;
 
 
-    // do we need to update the shapes?
-    if( m_verticalSensorShape == NULL || 
-        abs( newPlayerHeight - m_lastPlayerHeight ) > 0.04f ||
-        abs( newSensorHeight - m_lastSensorHeight ) > 0.04f ||
-        abs( newPlayerRadius - m_lastPlayerRadius ) > 0.04f )
-    {
-#ifdef OGRENEWT_NO_COLLISION_SHAREDPTR
-        // delete old ones
-        if( m_verticalSensorShape )
-            delete m_verticalSensorShape;
-        if( m_horizontalSensorShape )
-            delete m_horizontalSensorShape;
-        if( m_dynamicsSensorShape )
-            delete m_dynamicsSensorShape;
-#endif
-
-        m_lastPlayerRadius = newPlayerRadius;
-        m_lastSensorHeight = newSensorHeight;
-        m_lastPlayerHeight = newPlayerHeight;
-
-        
-        Ogre::Vector3 *dynamicsSensorPoints = new Ogre::Vector3[m_sensorShapeSegments*2];
-        Ogre::Vector3 *verticalSensorPoints = new Ogre::Vector3[m_sensorShapeSegments*2];
-        Ogre::Vector3 *horizontalSensorPoints = new Ogre::Vector3[m_sensorShapeSegments*2];
-
-        for( int i = 0; i < m_sensorShapeSegments; i++)
-        {
-            Ogre::Real x, z;
-            x = m_lastPlayerRadius * Ogre::Math::Cos( Ogre::Degree( 360.0f * i / m_sensorShapeSegments ) );
-            z = m_lastPlayerRadius * Ogre::Math::Sin( Ogre::Degree( 360.0f * i / m_sensorShapeSegments ) );
-
-            dynamicsSensorPoints[i].x = x * m_dynamicRadiusFactor;
-            dynamicsSensorPoints[i].y = m_lastPlayerHeight * 0.45f;
-            dynamicsSensorPoints[i].z = z * m_dynamicRadiusFactor;
-            dynamicsSensorPoints[i + m_sensorShapeSegments].x =  dynamicsSensorPoints[i].x;
-            dynamicsSensorPoints[i + m_sensorShapeSegments].y = -dynamicsSensorPoints[i].y;
-            dynamicsSensorPoints[i + m_sensorShapeSegments].z =  dynamicsSensorPoints[i].z;
-            verticalSensorPoints[i].x = x * m_floorFinderRadiusFactor;
-            verticalSensorPoints[i].y = m_lastSensorHeight;
-            verticalSensorPoints[i].z = z * m_floorFinderRadiusFactor;
-            verticalSensorPoints[i + m_sensorShapeSegments].x =  verticalSensorPoints[i].x;
-            verticalSensorPoints[i + m_sensorShapeSegments].y = -verticalSensorPoints[i].y;
-            verticalSensorPoints[i + m_sensorShapeSegments].z =  verticalSensorPoints[i].z;
-            horizontalSensorPoints[i].x = x * m_staticRadiusFactor;
-            horizontalSensorPoints[i].y = m_lastSensorHeight;
-            horizontalSensorPoints[i].z = z * m_staticRadiusFactor;
-            horizontalSensorPoints[i + m_sensorShapeSegments].x =  horizontalSensorPoints[i].x;
-            horizontalSensorPoints[i + m_sensorShapeSegments].y = -horizontalSensorPoints[i].y;
-            horizontalSensorPoints[i + m_sensorShapeSegments].z =  horizontalSensorPoints[i].z;
-        }
-
-        m_verticalSensorShape = ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::ConvexHull(m_body->getWorld(), verticalSensorPoints, 2*m_sensorShapeSegments));
-        m_horizontalSensorShape = ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::ConvexHull(m_body->getWorld(), horizontalSensorPoints, 2*m_sensorShapeSegments));
-        m_dynamicsSensorShape = ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::ConvexHull(m_body->getWorld(), dynamicsSensorPoints, 2*m_sensorShapeSegments));
-
-        delete[] dynamicsSensorPoints;
-        delete[] verticalSensorPoints;
-        delete[] horizontalSensorPoints;
-    }
-
-}
-
-
-void PlayerController::getPlayerHeightAndRadius(Ogre::Real &height, Ogre::Real &radius)
-{
-    Ogre::AxisAlignedBox aab = m_body->getAABB();
-    height = aab.getMaximum().y - aab.getMinimum().y;
-
-    Ogre::Real rx = aab.getMaximum().x - aab.getMinimum().x;
-    Ogre::Real rz = aab.getMaximum().z - aab.getMinimum().z;
-    radius = std::max(rx,rz) / 2.0f;
-
-    //! TODO: the aabb seems to be too big
-// height *= 0.9f;
-// radius *= 0.5f;
-}
-
-
-bool PlayerController::convexStaticCastPreFilter(OgreNewt::Body *body)
+bool PlayerController::convexStaticCastPreFilter(OgreNewt::Body *body, BodyVector filterBodies)
 {
     Ogre::Real mass;
     Ogre::Vector3 inertia;
     body->getMassMatrix(mass, inertia);
 
-    return (mass == 0.0f && body != m_body);
+    //if( mass != 0.0f || body == m_body )
+    if( body == m_body )
+        return false;
+
+    for( int i = 0; i < filterBodies.size(); i++ )
+    {
+        if( body == filterBodies[i] )
+            return false;
+    }
+
+    return true;
 }
 
 
-bool PlayerController::convexDynamicCastPreFilter(OgreNewt::Body *body)
+bool PlayerController::convexAllBodyCastPreFilter(OgreNewt::Body *body, BodyVector filterBodies)
 {
-    Ogre::Real mass;
-    Ogre::Vector3 inertia;
-    body->getMassMatrix(mass, inertia);
+    if( body == m_body )
+        return false;
 
-    return (mass > 0.0f && body != m_body);
+    for( int i = 0; i < filterBodies.size(); i++ )
+    {
+        if( body == filterBodies[i] )
+            return false;
+    }
+
+    return true;
 }
 
 
-bool PlayerController::convexAllBodyCastPreFilter(OgreNewt::Body *body)
-{
-    return (body != m_body);
-}
-
-
-bool PlayerController::findFloorCastPreFilter(OgreNewt::Body *body)
-{
-    return (body != m_body);
-}
-
-
-void PlayerController::setVelocity(Ogre::Real forwardSpeed, Ogre::Real sideSpeed, Ogre::Degree heading)
+void PlayerController::setVelocity(Ogre::Real forwardSpeed, Ogre::Real sideSpeed, Ogre::Radian heading)
 {
     m_forwardSpeed = forwardSpeed;
     m_sideSpeed = sideSpeed;
@@ -198,44 +164,76 @@ void PlayerController::setVelocity(Ogre::Real forwardSpeed, Ogre::Real sideSpeed
     m_body->unFreeze();
 }
 
-/*
-// helper class
-class HitBodyCache : public BasicConvexcast::ConvexcastContactInfo
-{
-    public:
-        Ogre::Vector3 mVel;
-        Ogre::Vector3 mOmega;
-        HitBodyCache() {}
-        HitBodyCache(const BasicConvexcast::ConvexcastContactInfo& info) :
-            BasicConvexcast::ConvexcastContactInfo(info)
-        {
-            mVel = mBody->getVelocity();
-            mOmega = mBody->getOmega();
-        }
-};
 
-// helper class
-class HitBodyVector : public std::vector<HitBodyCache>
+void PlayerController::getVelocity(Ogre::Real& forwardSpeed, Ogre::Real& sideSpeed, Ogre::Radian& heading) const
 {
-    public:
-        void getCollidingBodiesFromConvexcast(const BasicConvexcast& cast)
-        {
-            // find first contact with each body and cache it
-            resize(0);
-            for(int i = 0; i < size(); i++)
-            {
-                int j;
-                for( j = 0; j < size(); j++ )
-                {
-                    if( cast.getInfoAt(i).mBody == at(j).mBody )
-                        break;
-                }
-                if( j == size() )
-                    push_back(HitBodyCache(cast.getInfoAt(0)));
-            }
-        }
-};
-*/
+    forwardSpeed = m_forwardSpeed;
+    sideSpeed = m_sideSpeed;
+    heading = m_heading;
+}
+
+
+void PlayerController::setStairHeight(Ogre::Real stairHeight)
+{
+    m_stairHeight = stairHeight;
+    updateGeometry();
+}
+
+
+Ogre::Real PlayerController::getStairHeight() const
+{
+    return m_stairHeight;
+}
+
+
+void PlayerController::setKinematicCushion(Ogre::Real cushion)
+{
+    m_kinematicCushion = std::max(cushion, 1.0f/64.0f);
+    updateGeometry();
+}
+
+
+Ogre::Real PlayerController::getKinematicCushion() const
+{
+    return m_kinematicCushion;
+}
+
+
+void PlayerController::setMaxSlope(Ogre::Radian maxSlope)
+{
+    m_maxSlope = maxSlope;
+}
+
+
+Ogre::Radian PlayerController::getMaxSlope() const
+{
+    return m_maxSlope;
+}
+
+
+void PlayerController::setRestitution(Ogre::Real restitution)
+{
+    m_restitution = restitution;
+}
+
+
+Ogre::Real PlayerController::getRestitution() const
+{
+    return m_restitution;
+}
+
+
+PlayerController::PlayerState PlayerController::getPlayerState() const
+{
+    return m_playerState;
+}
+
+void PlayerController::setPlayerState(PlayerController::PlayerState state)
+{
+    std::cout << "\n old player state: " << m_playerState << "    new player state: " << state << "\n";
+    m_playerState = state;
+}
+
 
 // helper class
 class HitBodyVector : public std::vector<Body*>
@@ -266,439 +264,417 @@ void PlayerController::submitConstraint( Ogre::Real timestep, int threadindex )
 
     Ogre::Vector3 pos;
     Ogre::Quaternion ori;
-    Ogre::Real mass;
-    Ogre::Vector3 inertia;
-    Ogre::Vector3 vel;
-    Ogre::Vector3 omega;
-    Ogre::Vector3 torqueAcc;
+    Ogre::Real invMass;
+    Ogre::Vector3 invInertia;
+    Ogre::Vector3 frontDir, upDir, strafeDir;
 
+    m_body->getInvMass(invMass, invInertia);
     m_body->getPositionOrientation(pos,ori);
-    m_body->getMassMatrix(mass, inertia);
-    vel = m_body->getVelocity();
-    omega = m_body->getOmega();
-    torqueAcc = m_body->getTorqueAcceleration();
 
-
-    // ----- "up vector joint" -----
-    Ogre::Quaternion yawOri;
-    yawOri.FromAngleAxis(ori.getYaw(), Ogre::Vector3::UNIT_Y);
-    Ogre::Vector3 yawX = yawOri * Ogre::Vector3::UNIT_X;
-    Ogre::Vector3 yawZ = yawOri * Ogre::Vector3::UNIT_Z;
-    Ogre::Radian relAngleErrorX, relAngleErrorZ;
-    Ogre::Vector3 dirErrorX, dirErrorZ;
-    ori.xAxis().getRotationTo(yawX, yawZ).ToAngleAxis(relAngleErrorX, dirErrorX);
-    ori.zAxis().getRotationTo(yawZ, yawX).ToAngleAxis(relAngleErrorZ, dirErrorZ);
-    if( abs(relAngleErrorX.valueRadians()) < 0.001f )
-        addAngularRow(Ogre::Radian(0.0f), yawZ);
-    else
-        addAngularRow(relAngleErrorX, dirErrorX);
-    if( abs(relAngleErrorZ.valueRadians()) < 0.001f )
-        addAngularRow(Ogre::Radian(0.0f), yawX);
-    else
-        addAngularRow(relAngleErrorZ, dirErrorZ);
-
-
-    // ----------- calculate torque -----------
-    Ogre::Quaternion targetOri;
-    targetOri.FromAngleAxis(m_heading, Ogre::Vector3::UNIT_Y);
-    Ogre::Radian yawDiff = ((ori*Ogre::Vector3::UNIT_Z).getRotationTo(targetOri*Ogre::Vector3::UNIT_Z)).getYaw();
-    Ogre::Real turnOmega = yawDiff.valueRadians() / timestep;
-    Ogre::Vector3 torque = Ogre::Vector3::UNIT_Y * ((turnOmega - omega.y) * inertia.y/timestep - torqueAcc.y);
-    m_body->addTorque(torque);
+    Ogre::Quaternion localFrameRotation = m_localFrame.extractQuaternion();
+    frontDir = localFrameRotation * Ogre::Vector3::NEGATIVE_UNIT_Z;
+    upDir = localFrameRotation * Ogre::Vector3::UNIT_Y;
+    strafeDir = localFrameRotation * Ogre::Vector3::UNIT_X;
 
 
 
-    // ----------- find floor -----------
-    //! perhaps calculate SLOPE differently, a convexcast with a rotated box should do it, but we'll see if it is needed!
-    Ogre::Vector3 findFloorCastP1 = pos - Ogre::Vector3::UNIT_Y*m_maxStepHeight;
-    // go a bit up from current position
-    Ogre::Vector3 findFloorCastP0 = pos + Ogre::Vector3::UNIT_Y*m_maxStepHeight;
-    FindFloorRaycast findFloorCast(this, findFloorCastP0, findFloorCastP1, true);
-    if( findFloorCast.getHitCount() > 0 )
+    // save the gravity before the collision force is applied
+    m_gravity = m_body->getForceAcceleration();
+    m_gravity *= invMass;
+
+
+    // if the body has rotated by some amount, there will be a plane of rotation
+    Ogre::Vector3 realUp = ori*(localFrameRotation*Ogre::Vector3::UNIT_Y);
+    Ogre::Vector3 lateralDir = realUp.crossProduct(upDir);
+    Ogre::Real mag = lateralDir.length();
+    if( mag > 1.0e-3f)
     {
-        // slope:
-        if( Ogre::Math::ASin(findFloorCast.getFirstHit().mNormal.y) < m_maxSlope )
+        // if the side vector is not zero, it means the body has rotated
+        lateralDir /= mag;
+        Ogre::Radian angle = Ogre::Math::ASin(mag);
+        // add an angular constraint to correct the error angle
+        addAngularRow(angle, lateralDir);
+
+
+        // in theory only one correction is needed, but this produces instability as the body may move sideway.
+        // a lateral correction prevent this from happening.
+        Ogre::Vector3 frontDir = lateralDir.crossProduct(upDir);
+        addAngularRow(Ogre::Radian(0), lateralDir);
+    }
+    else
+    {
+        // if the angle error is very small then two angular correction along the plane axis do the trick
+        addAngularRow( Ogre::Radian(0), strafeDir );
+        addAngularRow( Ogre::Radian(0), frontDir );
+    }
+
+
+    
+    // calculate/set velocity (more complicated velocity calculation is done in the "kinematic motion" functions (feedbackCollector, playerOnLand, playerOnFreeFall, playerOnIllegalSlope
+    if( m_playerState == PS_ONLAND )
+    {
+        Ogre::Vector3 vel = m_body->getVelocity();
+        Ogre::Vector3 desiredVel = frontDir* m_forwardSpeed + upDir * (vel.dotProduct(upDir)) + strafeDir * m_sideSpeed;
+        
+        m_body->setVelocity(desiredVel);
+    }
+}
+
+
+void PlayerController::feedbackCollector( Ogre::Real timestep, int threadIndex )
+{
+    Ogre::Vector3 pos, frontDir, upDir, targetFrontDir, targetOmega;
+    Ogre::Quaternion ori, localFrameRotation;
+    Ogre::Radian turnAngle, turnOmega;
+
+    localFrameRotation = m_localFrame.extractQuaternion();
+
+    m_body->getPositionOrientation(pos, ori);
+    frontDir = ori*(localFrameRotation*Ogre::Vector3::NEGATIVE_UNIT_Z);
+    upDir = ori*(localFrameRotation*Ogre::Vector3::UNIT_Y);
+
+    targetFrontDir = localFrameRotation*Ogre::Quaternion(m_heading, Ogre::Vector3::UNIT_Y)*Ogre::Vector3::NEGATIVE_UNIT_Z;
+    turnAngle = Ogre::Radian(Ogre::Math::ASin( std::min( std::max( frontDir.crossProduct(targetFrontDir).dotProduct(upDir), -1.0f), 1.0f)));
+    turnOmega = turnAngle / timestep;
+
+    targetOmega = turnOmega.valueRadians() * (localFrameRotation*Ogre::Vector3::UNIT_Y);
+    m_body->setOmega(targetOmega);
+
+
+
+
+    switch( m_playerState )
+    {
+        case PS_ONFREEFALL:
+            playerOnFreeFall(timestep, threadIndex);
+            break;
+        case PS_ONLAND:
+            playerOnLand(timestep, threadIndex );
+            break;
+        case PS_ONILLEGALRAMP:
+            playerOnIllegalRamp(timestep, threadIndex);
+            break;
+    }
+
+}
+
+
+Ogre::Vector3 PlayerController::calculateVelocity(const Ogre::Vector3& targetVel_, Ogre::Real timestep, const Ogre::Vector3& upDir, Ogre::Real elevation, int threadindex)
+{
+    int contactCount;
+    Ogre::Real hitParam, timestepInv(1.0f/timestep);
+    Ogre::Vector3 pos, targetVel(targetVel_), destination;
+    Ogre::Quaternion ori;
+    StaticConvexCast staticConvexCast(this);
+
+    m_body->getPositionOrientation(pos, ori);
+    pos += upDir*elevation;
+    destination = pos + timestep * targetVel;
+
+
+    // see if it hit an obstacle
+    staticConvexCast.go(m_bodySensorShape, pos, ori, destination, m_maxContactsCount, threadindex);
+    contactCount = staticConvexCast.getContactsCount();
+    for( int iterations = 0; iterations < m_maxCollisionsIteration && contactCount; iterations++ )
+    {
+        int flag;
+        Ogre::Real time;
+        flag = 0;
+
+        // if the player will hit an obstacle in this direction then we need to change the velocity direction
+        // we will declare a collision at the player origin.
+        Ogre::Vector3 step;
+        step = destination - pos;
+        Ogre::Vector3 obstaclePos;
+        obstaclePos = pos + step*staticConvexCast.getDistanceToFirstHit();
+
+        // calculate the travel time, and subtract from time remaining
+        time = staticConvexCast.getDistanceToFirstHit() * step.dotProduct(targetVel) / targetVel.squaredLength();
+        for(int i = 0; i < contactCount; i++ )
         {
-            // try some more raycasts...
-            FindFloorRaycast findFloorCast_0(this, findFloorCastP0+0.1*Ogre::Vector3::UNIT_X, findFloorCastP1+0.1*Ogre::Vector3::UNIT_X, true);
-            FindFloorRaycast findFloorCast_1(this, findFloorCastP0-0.1*Ogre::Vector3::UNIT_X, findFloorCastP1-0.1*Ogre::Vector3::UNIT_X, true);
-            FindFloorRaycast findFloorCast_2(this, findFloorCastP0+0.1*Ogre::Vector3::UNIT_Z, findFloorCastP1+0.1*Ogre::Vector3::UNIT_Z, true);
-            FindFloorRaycast findFloorCast_3(this, findFloorCastP0-0.1*Ogre::Vector3::UNIT_Z, findFloorCastP1-0.1*Ogre::Vector3::UNIT_Z, true);
-            if( findFloorCast_0.getHitCount() > 0 && Ogre::Math::ASin(findFloorCast_0.getFirstHit().mNormal.y) < m_maxSlope )
+            Ogre::Real reboundVel;
+            Ogre::Real penetrationVel;
+            BasicConvexcast::ConvexcastContactInfo info;
+            info = staticConvexCast.getInfoAt(i);
+
+            // flatten contact normal
+            info.mContactNormal -= upDir * upDir.dotProduct(info.mContactNormal);
+            info.mContactNormal.normalise();
+
+            // calculate the reflection velocity
+            penetrationVel = -0.5f*timestepInv*std::min( info.mContactPenetration, 0.1f );
+            reboundVel = targetVel.dotProduct(info.mContactNormal) * (1.0f + m_restitution) + penetrationVel;
+            if( reboundVel < 0.0f )
             {
-                findFloorCastP0 += 0.1*Ogre::Vector3::UNIT_X;
-                findFloorCastP1 += 0.1*Ogre::Vector3::UNIT_X;
-                findFloorCast = findFloorCast_0;
-            }
-            else if( findFloorCast_1.getHitCount() > 0 && Ogre::Math::ASin(findFloorCast_1.getFirstHit().mNormal.y) < m_maxSlope )
-            {
-                findFloorCastP0 -= 0.1*Ogre::Vector3::UNIT_X;
-                findFloorCastP1 -= 0.1*Ogre::Vector3::UNIT_X;
-                findFloorCast = findFloorCast_1;
-            }
-            else if( findFloorCast_2.getHitCount() > 0 && Ogre::Math::ASin(findFloorCast_2.getFirstHit().mNormal.y) < m_maxSlope )
-            {
-                findFloorCastP0 += 0.1*Ogre::Vector3::UNIT_Z;
-                findFloorCastP1 += 0.1*Ogre::Vector3::UNIT_Z;
-                findFloorCast = findFloorCast_2;
-            }
-            else if( findFloorCast_3.getHitCount() > 0 && Ogre::Math::ASin(findFloorCast_3.getFirstHit().mNormal.y) < m_maxSlope )
-            {
-                findFloorCastP0 -= 0.1*Ogre::Vector3::UNIT_Z;
-                findFloorCastP1 -= 0.1*Ogre::Vector3::UNIT_Z;
-                findFloorCast = findFloorCast_3;
+                flag = 1;
+                targetVel -= reboundVel * info.mContactNormal;
             }
         }
-        
-        if( Ogre::Math::ASin(findFloorCast.getFirstHit().mNormal.y) > m_maxSlope )
-        
+
+        contactCount = 0;
+        if( (time > 1.0e-2f * timestep) && flag )
         {
-            // desired velocity
-            Ogre::Vector3 desiredVel = ori*(Ogre::Vector3::UNIT_Z * m_forwardSpeed + Ogre::Vector3::UNIT_Y*vel.y + Ogre::Vector3::UNIT_X * m_sideSpeed);
+            destination = pos + targetVel * timestep;
+            staticConvexCast.go(m_bodySensorShape, pos, ori, destination, m_maxContactsCount, threadindex);
+            contactCount = staticConvexCast.getContactsCount();
+        }
 
-            if( m_isInJumpState )
-                desiredVel = vel;
-            // ------------------------ here should be an else!! -------------------------
-            // only apply hitVel if we are not in the air, in the original this is different!
-            else
-            {
+    }
 
-                // hit-body:
-                Ogre::Vector3 hitPoint = findFloorCastP0 + (findFloorCastP1-findFloorCastP0) * findFloorCast.getFirstHit().mDistance;
-                Ogre::Vector3 hitOmega = findFloorCast.getFirstHit().mBody->getOmega();
-                Ogre::Vector3 hitVel = findFloorCast.getFirstHit().mBody->getVelocity();
-                Ogre::Vector3 hitPos;
-                Ogre::Quaternion hitOri;
-                findFloorCast.getFirstHit().mBody->getPositionOrientation(hitPos, hitOri);
-
-                hitVel += hitOmega * (hitPoint - hitPos).length();
-                desiredVel += hitVel;
-            }
-
-
-
-            // look ahead for obstacles in along the horizontal of the desired velocity
-            Ogre::Vector3 horizontalDesiredVel = desiredVel;
-            horizontalDesiredVel.y = 0;
-
-
-
-
-
-
-            // ----------------- DYNAMIC CONVEXCAST ---------------------
-
-            // first cast directly in front of the player
-            Ogre::Vector3 startCast = pos;
-            Ogre::Vector3 endCast = startCast;
-            DynamicConvexCast dynamicConvexCast(this);
-            HitBodyVector hitBodyVec;
-            hitBodyVec.reserve(m_maxContactsCount);
-/*
-            endCast = startCast + horizontalDesiredVel*timestep;
-            dynamicConvexCast.go(m_dynamicsSensorShape, startCast, yawOri, endCast, m_maxContactsCount, threadindex);
-
-            for(int iterations = 0; iterations < m_maxCollisionsIteration; iterations++)
-            {
-                bool velocCorrection;
-                Ogre::Real timeToFirstContact;
-                int numOfContacts;
-
-
-                numOfContacts = dynamicConvexCast.getContactsCount();
-                if( numOfContacts == 0 )
-                    break;
-
-                timeToFirstContact = (dynamicConvexCast.getInfoAt(0).mContactPoint - startCast).dotProduct(horizontalDesiredVel) / 
-                                     horizontalDesiredVel.squaredLength();
-                velocCorrection = false;
-
-
-                // correct velocity if the body cannot be pushed and calculate impulse if it can be pushed
-                for(int i = 0; i < numOfContacts; i++)
-                {
-                    Ogre::Real hitMass;
-                    Ogre::Vector3 hitInertia;
-                    Ogre::Vector3 hitNormal;
-                    Body* hitBody = dynamicConvexCast.getInfoAt(i).mBody;
-                    hitBody->getMassMatrix(hitMass, hitInertia);
-                    hitNormal = dynamicConvexCast.getInfoAt(i).mContactNormal;
-                    hitNormal.y = 0;
-                    hitNormal.normalise();
-
-                    if( !canPushBody(hitBody) )
-                    {
-                        Ogre::Real reboundVel, penetrationVel;
-                        Ogre::Real penetration;
-                        penetration = dynamicConvexCast.getInfoAt(i).mContactPenetration;
-                        penetration = std::max(penetration, 0.1f);
-                        penetrationVel = -0.5f/timestep * penetration;
-
-                        reboundVel = horizontalDesiredVel.dotProduct(hitNormal) * (1.0f+m_restitution) + penetrationVel;
-                        if( reboundVel < 0.0f )
-                        {
-                            velocCorrection = true;
-                            horizontalDesiredVel -= hitNormal*reboundVel;
-                        }
-                    }
-                    else // if( !canPushBody(body) )  -> can push body
-                    {
-                        Ogre::Real relVel, projVel, massWeigh, momentumDamper, playerNormalVel;
-                        Ogre::Vector3 hitCenterOfMass, hitPos, hitContactPointVel;
-                        Ogre::Quaternion hitOri;
-
-                        hitBody->getPositionOrientation(hitPos, hitOri);
-                        hitCenterOfMass = hitBody->getCenterOfMass();
-                        // calculate hitContactPointVel
-                        hitCenterOfMass = hitOri*hitCenterOfMass;
-                        hitContactPointVel = hitBody->getOmega() * (dynamicConvexCast.getInfoAt(i).mContactPoint - hitCenterOfMass);
-                        hitContactPointVel.y = 0.0f; //! WHY??
-                        hitContactPointVel += hitBody->getVelocity();
-
-                        massWeigh = mass / (mass + hitMass);
-                        massWeigh = std::min(massWeigh, 0.5f);
-
-                        projVel = hitContactPointVel.dotProduct(hitNormal);
-                        playerNormalVel = horizontalDesiredVel.dotProduct(hitNormal);
-                        relVel = playerNormalVel * massWeigh - projVel;
-                        if( relVel < 0.0f )
-                        {
-                            momentumDamper = 0.1f;
-                            velocCorrection = true;
-                            // correct horizontalDesiredVel
-                            horizontalDesiredVel -= hitNormal*( relVel * (1.0f - momentumDamper) + playerNormalVel*(1.0f - massWeigh) );
-
-                            //apply impulse to hit body
-                            hitBody->addImpulse(hitNormal*relVel*momentumDamper, hitCenterOfMass); // not the real CenterOffMass any more!
-                        }
-                    }
-                }
-
-
-
-                // now restore hit body state and apply a force to archive the hit impulse
-                hitBodyVec.getCollidingBodiesFromConvexcast(dynamicConvexCast);
-                for(int i = 0; i < hitBodyVec.size(); i++)
-                {
-                    Ogre::Real hitMass;
-                    Ogre::Vector3 hitInertia;
-                    Body* hitBody = hitBodyVec[i];
-                    hitBody->getMassMatrix(hitMass, hitInertia);
-
-                    if( canPushBody(hitBody) && mass > 1.0e-3f )
-                    {
-                        Ogre::Vector3 hitPos, force, torque;
-                        Ogre::Quaternion hitOri;
-
-                        hitBody->getPositionOrientation(hitPos, hitOri);
-                        
-                        // calculate the force and the torque to archive the desired push
-                        force = (vel - hitBody->getVelocity())*mass/timestep - hitBody->getForceAcceleration();
-                        hitBody->addForce(force);
-                        
-                        torque = (omega - hitBody->getOmega())/timestep * (hitOri*hitInertia) - hitBody->getTorqueAcceleration();
-                        hitBody->addTorque(torque);
-                    }
-                }
-
-
-                // has the horizontalDesiredVel changed, so we need a new cast?
-                if( timeToFirstContact > 0.01*timestep && velocCorrection )
-                {
-                    endCast = startCast + horizontalDesiredVel*timestep;
-                    dynamicConvexCast.go(m_dynamicsSensorShape, startCast, yawOri, endCast, m_maxContactsCount, threadindex);
-                }
-            }
-*/
-
-            // ----------------- STATIC CONVEXCAST ---------------------
-            StaticConvexCast staticConvexCast(this);
-            startCast.y += 0.5f*m_maxStepHeight;
-            endCast = startCast + horizontalDesiredVel*timestep;
-/*
-            staticConvexCast.go(m_horizontalSensorShape, startCast, yawOri, endCast, m_maxContactsCount, threadindex);
-            for(int iterations = 0; iterations < m_maxCollisionsIteration; iterations++)
-            {
-                bool velocCorrection;
-                Ogre::Real timeToFirstContact;
-                int numOfContacts;
-
-
-                numOfContacts = staticConvexCast.getContactsCount();
-                if( numOfContacts == 0 )
-                    break;
-
-                timeToFirstContact = (staticConvexCast.getInfoAt(0).mContactPoint - startCast).dotProduct(horizontalDesiredVel) / 
-                                     horizontalDesiredVel.squaredLength();
-                velocCorrection = false;
-
-
-                // correct velocity (like body that can't be pushed above!)
-                for(int i = 0; i < numOfContacts; i++)
-                {
-                    Ogre::Real hitMass;
-                    Ogre::Vector3 hitInertia;
-                    Ogre::Vector3 hitNormal;
-                    Ogre::Real reboundVel, penetrationVel;
-                    Ogre::Real penetration;
-
-                    Body* hitBody = staticConvexCast.getInfoAt(i).mBody;
-                    hitBody->getMassMatrix(hitMass, hitInertia);
-                    hitNormal = staticConvexCast.getInfoAt(i).mContactNormal;
-                    hitNormal.y = 0;
-                    hitNormal.normalise();
-
-                    penetration = staticConvexCast.getInfoAt(i).mContactPenetration;
-                    penetration = std::max(penetration, 0.1f);
-                    penetrationVel = -0.5f/timestep * penetration;
-
-                    reboundVel = horizontalDesiredVel.dotProduct(hitNormal) * (1.0f+m_restitution) + penetrationVel;
-                    if( reboundVel < 0.0f )
-                    {
-                        velocCorrection = true;
-                        horizontalDesiredVel -= hitNormal*reboundVel;
-                    }
-                }
-
-
-                // has the horizontalDesiredVel changed, so we need a new cast?
-                if( timeToFirstContact > 0.01*timestep && velocCorrection )
-                {
-                    endCast = startCast + horizontalDesiredVel*timestep;
-                    staticConvexCast.go(m_horizontalSensorShape, startCast, yawOri, endCast, m_maxContactsCount, threadindex);
-                }
-            }
-*/
-
-
-            // ----------------- STEP RECOGNITION AND GROUND TRACKING ---------------------
-            // now determine the ground tracking, predict the destination position
-            if( m_isInJumpState )
-            {
-                // player of in the air look ahead for the land
-                startCast = pos + horizontalDesiredVel*timestep + Ogre::Vector3::UNIT_Y*m_maxStepHeight*0.5f;
-                endCast = startCast - Ogre::Vector3::UNIT_Y*m_maxStepHeight;
-
-                staticConvexCast.go(m_verticalSensorShape, startCast, yawOri, endCast, 1, threadindex);
-                
-//! TODO: remove this... bug in newton?    
-Ogre::Real distanceToFirstHit = staticConvexCast.getDistanceToFirstHit();
-if( distanceToFirstHit > 0.01f )
-{
-
-                // found land
-                if( staticConvexCast.getContactsCount() > 0 )
-                {
-                    Ogre::Real dist, correctionVel;
-                    dist = - m_maxStepHeight * (0.5f - 1.0f*staticConvexCast.getDistanceToFirstHit());
-                    correctionVel = dist/timestep - vel.y;
-                    addLinearRow(pos, pos, Ogre::Vector3::UNIT_Y);
-                    setRowAcceleration(correctionVel/timestep);
-                    m_isInJumpState = false;
-                }
+    return targetVel;
 }
-            }
-            else // m_isInJumpState
+
+
+void PlayerController::playerOnFreeFall( Ogre::Real timestep, int threadIndex )
+{
+    Ogre::Vector3 pos, castTarget, castStart;
+    Ogre::Quaternion ori, localFrameRotation;
+    Ogre::Vector3 upDir, frontDir;
+    Ogre::Vector3 targetVel;
+    Ogre::Real dist;
+    StaticConvexCast staticConvexCast(this);
+
+    
+    m_body->getPositionOrientation(pos, ori);
+    upDir = ori*(localFrameRotation*Ogre::Vector3::UNIT_Y);
+    frontDir = ori*(localFrameRotation*Ogre::Vector3::NEGATIVE_UNIT_Z);
+
+    targetVel = m_body->getVelocity();
+    // make sure the velocity will not penetrate other bodies:
+    targetVel = calculateVelocity(targetVel, timestep, upDir, m_stairHeight, threadIndex);
+
+    // player of in free fall look ahead for land
+    dist = upDir.dotProduct(targetVel*timestep);
+
+    castStart = pos - upDir*m_kinematicCushion;
+    castTarget = castStart + upDir*dist;
+    staticConvexCast.go(m_bodyFloorSensorShape, castStart, ori, castTarget, 1, threadIndex);
+    if( staticConvexCast.getContactsCount() > 0 )
+    {
+std::cout << "\n found contact.\n";
+        // player is about to land, snap position to the ground
+        Ogre::Vector3 newPos = pos + upDir * staticConvexCast.getDistanceToFirstHit() * dist;
+        m_body->setPositionOrientation(newPos, ori);
+
+        Ogre::Vector3 contactNormal = staticConvexCast.getInfoAt(0).mContactNormal;
+        if( upDir.angleBetween( contactNormal ) > m_maxSlope )
+        {
+            setPlayerState(PS_ONILLEGALRAMP);
+        }
+        else
+        {
+            setPlayerState(PS_ONLAND);
+            targetVel -= upDir * upDir.dotProduct(targetVel);
+        }
+    }
+
+    m_body->setVelocity(targetVel);
+}
+
+
+
+void PlayerController::playerOnIllegalRamp( Ogre::Real timestep, int threadIndex )
+{
+    Ogre::Vector3 pos, realPos, castStart, castTarget;
+    Ogre::Quaternion ori, localFrameRotation;
+    Ogre::Vector3 upDir, frontDir;
+    Ogre::Vector3 targetVel, step;
+    StaticConvexCast staticConvexCast(this);
+    AllBodyConvexCast allBodyConvexCast(this);
+
+    localFrameRotation = m_localFrame.extractQuaternion();
+    
+    m_body->getPositionOrientation(pos, ori);
+    upDir = ori*(localFrameRotation*Ogre::Vector3::UNIT_Y);
+    frontDir = ori*(localFrameRotation*Ogre::Vector3::NEGATIVE_UNIT_Z);
+
+
+    targetVel = m_body->getVelocity();
+
+    //apply free fall gravity force to the body along the ramp
+    castStart = pos + upDir*m_stairHeight;
+    castTarget = pos - upDir*m_stairHeight;
+    staticConvexCast.go(m_bodyFloorSensorShape, castStart, ori, castTarget, m_maxContactsCount, threadIndex);
+    if( staticConvexCast.getContactsCount() > 0 )
+    {
+        targetVel -= m_gravity*timestep;
+        Ogre::Vector3 floorNormal = staticConvexCast.getInfoAt(0).mContactNormal;
+        Ogre::Vector3 gravityForce = m_gravity - floorNormal*(floorNormal.dotProduct(m_gravity));
+        targetVel -= floorNormal * floorNormal.dotProduct(m_gravity) + gravityForce * timestep;
+    }
+
+    // make sure the body velocity will not penetrate other bodies
+    targetVel = calculateVelocity(targetVel, timestep, upDir, m_stairHeight, threadIndex);
+
+
+    step = targetVel * timestep;
+    castStart = pos + step + upDir*(m_stairHeight - m_kinematicCushion);
+    castTarget = castStart - upDir * 2.0f * m_stairHeight;
+    allBodyConvexCast.go(m_bodyFloorSensorShape, castStart, ori, castTarget, 1, threadIndex);
+    if( allBodyConvexCast.getContactsCount() == 0 )
+    {
+        setPlayerState(PS_ONFREEFALL);
+    }
+    else
+    {
+        Ogre::Real dist = allBodyConvexCast.getDistanceToFirstHit();
+        if( dist <= 1.0e-3f )
+            ;
+        else
+        {
+            bool isFuturePosInRamp;
+            Ogre::Vector3 newPos;
+            
+            newPos = castStart + (castTarget - castStart)*dist - step + upDir * m_kinematicCushion;
+            m_body->setPositionOrientation(pos, ori);
+
+            Ogre::Vector3 floorNormal = allBodyConvexCast.getInfoAt(0).mContactNormal;
+
+            isFuturePosInRamp = upDir.angleBetween(floorNormal) > m_maxSlope;
+            if( !isFuturePosInRamp )
             {
-                // player is moving on the ground, look ahead for stair steps
-                startCast = pos + horizontalDesiredVel*timestep + Ogre::Vector3::UNIT_Y*m_maxStepHeight;
-                endCast = startCast - Ogre::Vector3::UNIT_Y*m_maxStepHeight*2.0f;
+                setPlayerState(PS_ONLAND);
+            }
+        }
+    }
 
-                AllBodyConvexCast allBodyConvexCast(this);
-                allBodyConvexCast.go(m_verticalSensorShape, startCast, yawOri, endCast, 1, threadindex);
+    m_body->setVelocity(targetVel);
+}
 
-                if( allBodyConvexCast.getContactsCount() == 0 )
+
+void PlayerController::playerOnLand( Ogre::Real timestep, int threadIndex )
+{
+    Ogre::Vector3 pos, realPos, castStart, castTarget;
+    Ogre::Quaternion ori, localFrameRotation;
+    Ogre::Vector3 upDir, frontDir;
+    Ogre::Vector3 targetVel, step;
+    Ogre::Real distanceToFirstHit;
+    AllBodyConvexCast allBodyConvexCast(this);
+
+    localFrameRotation = m_localFrame.extractQuaternion();
+    
+    m_body->getPositionOrientation(pos, ori);
+    upDir = ori*(localFrameRotation*Ogre::Vector3::UNIT_Y);
+    frontDir = ori*(localFrameRotation*Ogre::Vector3::NEGATIVE_UNIT_Z);
+
+
+    targetVel = m_body->getVelocity();
+
+
+    // subtract gravity contribution
+    targetVel -= m_gravity*timestep;
+    // make sure the body velocity will not penetrate other bodies
+    targetVel = calculateVelocity(targetVel, timestep, upDir, m_stairHeight, threadIndex);
+
+    step = targetVel * timestep;
+
+    castStart = pos + step + upDir * (m_stairHeight - m_kinematicCushion);
+    castTarget = castStart - upDir * 2.0f * m_stairHeight;
+    allBodyConvexCast.go(m_bodyFloorSensorShape, castStart, ori, castTarget, 1, threadIndex);
+    distanceToFirstHit = allBodyConvexCast.getDistanceToFirstHit();
+    if( allBodyConvexCast.getContactsCount() == 0 )
+    {
+        setPlayerState(PS_ONFREEFALL);
+    }
+    else
+    {
+        if( distanceToFirstHit <= 1.0e-3f )
+            ;
+        else
+        {
+            bool isFuturePosInRamp;
+
+            Ogre::Vector3 floorNormal = allBodyConvexCast.getInfoAt(0).mContactNormal;
+
+            isFuturePosInRamp = upDir.angleBetween(floorNormal) > m_maxSlope;
+            if( !isFuturePosInRamp )
+            {
+                AllBodyConvexCast allBodyConvexCast2(this);
+                Ogre::Vector3 castStart2, castTarget2;
+                
+                castStart2 = pos + upDir*(m_stairHeight - m_kinematicCushion);
+                castTarget2 = castStart2 - upDir*2.0f*m_stairHeight;
+                BodyVector filterBodies;
+                filterBodies.push_back(allBodyConvexCast.getInfoAt(0).mBody);
+                
+                allBodyConvexCast2.go(m_bodyFloorSensorShape, castStart2, ori, castTarget2, 1, threadIndex, filterBodies);
+
+                if( distanceToFirstHit < allBodyConvexCast2.getDistanceToFirstHit() && allBodyConvexCast2.getContactsCount() > 0 )
                 {
-                    //m_isInJumpState = true;
+                    setPlayerState(PS_ONILLEGALRAMP);
                 }
                 else
                 {
-                    m_isInJumpState = false;
+                    // the player hit the edge of a forbidden ramp
 
-
-                    Ogre::Real distanceToFirstHit = allBodyConvexCast.getDistanceToFirstHit();
-                    // found "step"
-
-                    if( distanceToFirstHit < 0.01f )
+                    int iterations, contactCount = 1;
+                    Ogre::Vector3 savedTargetVel;
+                    savedTargetVel = targetVel;
+                    for( iterations = 0; iterations < m_maxCollisionsIteration && contactCount; iterations++ )
                     {
-                        // something when wrong because the vertical sensor shape is colliding
-                        // at origin of the predicted destination
-                        // this should never happens as a precaution set the vertical body velocity to zero
-                        Ogre::Vector3 vel = m_body->getVelocity();
-                        vel.y = 0.0f;
-                        m_body->setVelocity(vel);
-                    }
-                    else
-                    {
-                        Ogre::Real dist, correctionVel;
-                        // "the player will hit surface, make shure it is grounded" (?)
-                        dist = - m_maxStepHeight * (1.0f - 3.0f*distanceToFirstHit);
-/*
-                        // check if the contact violates the maxSlope constraint
-                        if( Ogre::Math::ASin( allBodyConvexCast.getInfoAt(0).mContactNormal.y ) < m_maxSlope )
+                        Ogre::Real projectVel;
+                        Ogre::Vector3 castStart3, castTarget3;
+                        AllBodyConvexCast allBodyConvexCast3(this);
+
+                        floorNormal -= upDir*floorNormal.dotProduct(upDir);
+                        floorNormal.normalise();
+
+                        projectVel = targetVel.dotProduct(floorNormal);
+                        targetVel -= floorNormal * projectVel;
+
+                        step = targetVel * timestep;
+                        castStart3 = pos + step + upDir*(m_stairHeight - m_kinematicCushion);
+                        castTarget3 = castStart3 - upDir*2.0f * m_stairHeight;
+
+                        allBodyConvexCast3.go(m_bodyFloorSensorShape, castStart3, ori, castTarget3, 1, threadIndex, filterBodies);
+                        contactCount = allBodyConvexCast3.getContactsCount();
+                        if( contactCount > 0 )
                         {
-                            // we are hitting stiff slope
-                            // cast a ray at the hit point to verify this is a face normal and not and edge of vertex normal
-                            // that can be pointing in the wrong direction
-                            Ogre::Vector3 hitPos, localNormal, origin, retCollisionLocalNormal, p0, p1;
-                            Ogre::Real retCollisionDist;
-                            int retCollisionColId;
-                            Ogre::Quaternion hitOri, hitOriInv;
-                            const OgreNewt::Collision* collision;
-                            
-                            Body* hitBody = allBodyConvexCast.getInfoAt(0).mBody;
-                            hitBody->getPositionOrientation(hitPos, hitOri);
-                            
-                            hitOriInv = hitOri.Inverse();
-                            localNormal = hitOriInv*allBodyConvexCast.getInfoAt(0).mContactNormal;
-                            origin = hitOriInv*(allBodyConvexCast.getInfoAt(0).mContactPoint - hitPos);
-                            
-                            collision = hitBody->getCollision();
+                            distanceToFirstHit = allBodyConvexCast3.getDistanceToFirstHit();
+                            castStart = castStart3;
+                            castTarget = castTarget3;
 
-                            p0 = origin + localNormal*0.1f;
-                            p1 = origin - localNormal*0.1f;
-
-                            retCollisionDist = CollisionTools::CollisionRayCast(collision, p0, p1, retCollisionLocalNormal, retCollisionColId);
-                            if( retCollisionDist < 1.0f ) // this is always true
-                            {
-                                if( retCollisionLocalNormal.dotProduct(localNormal) < 0.9f ) // this is really an illegal slope
-                                {
-                                    horizontalDesiredVel = Ogre::Vector3::ZERO;
-                                    dist= 0.0f; // this sets correctionVel for steps to 0
-                                }
-                            }
+                            floorNormal = allBodyConvexCast3.getInfoAt(0).mContactNormal;
+                            filterBodies.push_back(allBodyConvexCast3.getInfoAt(0).mBody);
+                            
+                            if( upDir.angleBetween( floorNormal ) < m_maxSlope )
+                                contactCount = 1;
                             else
-                            {
-                                dist= 0.0f; // this sets correctionVel for steps to 0
-                            }
+                                contactCount = 0;
                         }
-*/
-
-                        // move up for step
-
-                        correctionVel = dist / timestep - vel.y;
-std::cout << "distToFirstHit: " << distanceToFirstHit << "    \tdist: " << dist << "    \tvel.y: " << vel.y << "    \tCorrectionVel: " << correctionVel << std::endl;
-                        addLinearRow(pos, pos, Ogre::Vector3::UNIT_Y);
-                        setRowAcceleration( correctionVel / timestep );
                     }
+
+
+                    if( iterations >= m_maxCollisionsIteration )
+                    {
+                        Ogre::Vector3 targetVel1 = calculateVelocity(savedTargetVel, timestep, upDir, 0.0f, threadIndex);
+                        Ogre::Vector3 err = targetVel1 - targetVel;
+                        if( err.squaredLength() < 1.0e-6f )
+                        {
+                            setPlayerState(PS_ONILLEGALRAMP);
+                        }
+                        else
+                        {
+                            targetVel = targetVel1;
+                            distanceToFirstHit = 0.0f;
+                            step = Ogre::Vector3::ZERO;
+                            pos -= upDir*m_kinematicCushion;
+                        }
+                    }
+                    
                 }
             }
 
-
-            // calculate force needed for desired velocity
-            horizontalDesiredVel.y = 0.0f;
-            Ogre::Vector3 force = m_body->calculateInverseDynamicsForce(timestep, horizontalDesiredVel);
-            Ogre::Vector3 forceAcc = m_body->getForceAcceleration();
-            force -= forceAcc;
-            force.y = 0;
-            m_body->addForce(force);
+            Ogre::Vector3 newPos = pos + (castTarget - castStart)*distanceToFirstHit + upDir*m_kinematicCushion;
+            newPos -= step;
+            m_body->setPositionOrientation(newPos, ori);
 
         }
     }
-    
 
+
+    m_body->setVelocity(targetVel);
 }
-
 
 }   // end NAMESPACE OgreNewt
 

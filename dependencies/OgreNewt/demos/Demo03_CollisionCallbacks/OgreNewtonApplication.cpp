@@ -79,7 +79,7 @@ void OgreNewtonApplication::createScene()
 	floor->setCastShadows( false );
 
 	//Ogre::Vector3 siz(100.0, 10.0, 100.0);
-	OgreNewt::CollisionPtr col = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::TreeCollision( m_World, floor, true ));
+	OgreNewt::CollisionPtr col = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::TreeCollision( m_World, floor, true, 0 ));
 	OgreNewt::Body* bod = new OgreNewt::Body( m_World, col );
 	
 #ifdef OGRENEWT_NO_COLLISION_SHAREDPTR
@@ -125,7 +125,7 @@ void OgreNewtonApplication::createFrameListener()
 	mFrameListener = new OgreNewtonFrameListener( mWindow, mCamera, mSceneMgr, m_World);
 	mRoot->addFrameListener(mFrameListener);
 
-	mNewtonListener = new OgreNewt::BasicFrameListener( mWindow, m_World, 60 );
+	mNewtonListener = new OgreNewt::BasicFrameListener( mWindow, m_World, 600 );
 	mRoot->addFrameListener(mNewtonListener);
 }
 

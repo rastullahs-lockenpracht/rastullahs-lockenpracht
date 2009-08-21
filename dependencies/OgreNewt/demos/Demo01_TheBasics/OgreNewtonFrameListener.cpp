@@ -80,7 +80,7 @@ bool OgreNewtonFrameListener::frameStarted(const FrameEvent &evt)
 			//ent->setNormaliseNormals(true);
 
 			// again, make the collision shape.
-			OgreNewt::ConvexCollisionPtr col = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::Cylinder(m_World, 1, 1));
+			OgreNewt::ConvexCollisionPtr col = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::Cylinder(m_World, 1, 1, 0));
 			
 			// then make the rigid body.
 			OgreNewt::Body* body = new OgreNewt::Body( m_World, col );
@@ -124,6 +124,10 @@ bool OgreNewtonFrameListener::frameStarted(const FrameEvent &evt)
         debug.clearRaycastsRecorded();
         debug.stopRaycastRecording();
     }
+
+
+    if (mKeyboard->isKeyDown(OIS::KC_T))
+        m_World->setThreadCount( m_World->getThreadCount() % 2 + 1);
 
 	if (mKeyboard->isKeyDown(OIS::KC_ESCAPE))
 		return false;

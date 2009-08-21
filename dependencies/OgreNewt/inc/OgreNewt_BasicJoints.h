@@ -490,6 +490,28 @@ namespace PrebuiltCustomJoints
         Ogre::Quaternion mLocalOrient1;
     };
 
+    //! CustomDryRollingFriction
+    /*!
+     * This joint is usefully to simulate the rolling friction of a rolling ball over a flat surface.
+     * Normally this is not important for non spherical objects, but for games like poll, pinball, bolling, golf
+     * or any other where the movement of balls is the main objective the rolling friction is a real big problem.
+    */
+    /* // not tested yet
+    class _OgreNewtExport CustomDryRollingFriction : public OgreNewt::CustomJoint
+    {
+        public:
+            CustomDryRollingFriction( OgreNewt::Body* child, Ogre::Real radius, Ogre::Real rollingFrictionCoefficient );
+            ~CustomDryRollingFriction();
+
+            void submitConstraint( Ogre::Real timestep, int threadIndex );
+
+        private:
+            Ogre::Real mFrictionCoefficient;
+            Ogre::Real mFrictionTorque;
+            OgreNewt::Body* mChild;
+    };
+    */
+
 }   // end NAMESPACE PrebuiltCustomJoints
 
 

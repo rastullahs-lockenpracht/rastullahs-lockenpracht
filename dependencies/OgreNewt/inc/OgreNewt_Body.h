@@ -179,8 +179,9 @@ public:
         generally in a physics engine you shouldn't directly set the location/rotation of a Body, because this defies physics laws.  this command exists to set up bodies initially.
         \param orient quaternion representing body orientation in world space.
         \param pos vector representing body position in world space. 
+        \param threadIndex only set the thread-index if you don't want the node to be updated immediatly but queued (Ogre doesn't support modifying nodes from several threads)
     */
-    void setPositionOrientation( const Ogre::Vector3& pos, const Ogre::Quaternion& orient );
+    void setPositionOrientation( const Ogre::Vector3& pos, const Ogre::Quaternion& orient , int threadIndex = -1);
 
     //! set the mass and inertia for the body.
     /*!
@@ -409,6 +410,21 @@ public:
     */
     NewtonCollision *getNewtonCollision() const { return NewtonBodyGetCollision( m_body ); }
 
+    //! Call this to signify that the position/orientation of the attached node needs to be updated
+    /*!
+     * This function actually adds this body to a list of bodies that need to be updated. This is done automaticalle after the next world update
+     * using the updateNode method.
+     * This function is needed for multithreading support
+     * \param forceNodeUpdate even request an update if there's already an update request
+    */
+    void requestNodeUpdate(int threadIndex, bool forceNodeUpdate = false);
+
+    //! Return if an node update was requested
+    bool isNodeUpdateNeeded() const {return m_nodeupdateneeded;}
+
+    //! update the position of the node (if attached) and sets m_nodeupdateneeded to false
+    void updateNode();
+
 protected:
 
     NewtonBody*                     m_body;
@@ -424,6 +440,7 @@ protected:
     
     int                             m_type;
     Ogre::Node*                     m_node;
+    bool                            m_nodeupdateneeded;
 
     ForceCallback                   m_forcecallback;
     TransformCallback               m_transformcallback;

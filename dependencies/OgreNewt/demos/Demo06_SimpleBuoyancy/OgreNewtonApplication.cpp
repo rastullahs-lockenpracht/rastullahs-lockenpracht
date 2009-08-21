@@ -75,7 +75,7 @@ void OgreNewtonApplication::createScene()
 
 
 	//Ogre::Vector3 siz(100.0, 10.0, 100.0);
-	OgreNewt::CollisionPtr col = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::TreeCollision( m_World, floor, true ));
+	OgreNewt::CollisionPtr col = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::TreeCollision( m_World, floor, true, 0 ));
 	OgreNewt::Body* bod = new OgreNewt::Body( m_World, col );
 #ifdef OGRENEWT_NO_COLLISION_SHAREDPTR
 	delete col;
@@ -193,7 +193,7 @@ OgreNewt::Body* OgreNewtonApplication::makeSimpleBox( Ogre::Vector3& size, Ogre:
 	box1node->attachObject( box1 );
 	box1node->setScale( size );
 
-	OgreNewt::ConvexCollisionPtr col = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::Box( m_World, size ));
+	OgreNewt::ConvexCollisionPtr col = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::Box( m_World, size, 0 ));
 	OgreNewt::Body* bod = new OgreNewt::Body( m_World, col );
 
 

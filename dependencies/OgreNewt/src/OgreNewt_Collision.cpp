@@ -70,9 +70,9 @@ ConvexModifierCollision::ConvexModifierCollision(const World* world) : ConvexCol
 {
 }
 
-ConvexModifierCollision::ConvexModifierCollision(const World* world, const ConvexCollisionPtr col) : ConvexCollision(world)
+ConvexModifierCollision::ConvexModifierCollision(const World* world, const ConvexCollisionPtr col, int id) : ConvexCollision(world)
 {
-    m_col = NewtonCreateConvexHullModifier( world->getNewtonWorld(), col->getNewtonCollision() );
+    m_col = NewtonCreateConvexHullModifier( world->getNewtonWorld(), col->getNewtonCollision(), id );
 }
 
 ConvexModifierCollision::~ConvexModifierCollision()

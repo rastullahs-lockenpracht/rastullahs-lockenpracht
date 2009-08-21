@@ -74,7 +74,7 @@ bool OgreNewtonFrameListener::frameStarted(const FrameEvent &evt)
 
 			ent->setMaterialName( "Simple/dirt01" );
 
-			OgreNewt::Collision* col = new OgreNewt::CollisionPrimitives::Ellipsoid( m_World, Ogre::Vector3(1,1,1) );
+			OgreNewt::Collision* col = new OgreNewt::CollisionPrimitives::Ellipsoid( m_World, Ogre::Vector3(1,1,1), 0 );
 			OgreNewt::Body* body = new OgreNewt::Body( m_World, col );
 
 			Ogre::Vector3 inertia = OgreNewt::MomentOfInertia::CalcSphereSolid( 10.0, 1.0 );
@@ -138,6 +138,10 @@ bool OgreNewtonFrameListener::frameStarted(const FrameEvent &evt)
         debug.stopRaycastRecording();
     }
 
+
+
+    if (mKeyboard->isKeyDown(OIS::KC_T))
+        m_World->setThreadCount( m_World->getThreadCount() % 2 + 1);
 
 
 	if (mKeyboard->isKeyDown(OIS::KC_ESCAPE))

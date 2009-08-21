@@ -62,6 +62,7 @@ CustomJoint::CustomJoint( unsigned int maxDOF, const Body* body0, const Body* bo
 
     NewtonJointSetUserData (m_joint, this);
     NewtonJointSetDestructor (m_joint, destructor);
+    NewtonUserJointSetFeedbackCollectorCallback( m_joint, CustomJoint::newtonFeedbackCollector );
 
 }
 
@@ -118,7 +119,31 @@ void CustomJoint::localToGlobal( const Ogre::Quaternion& localOrient, const Ogre
     globalOrient = bodyOrient * localOrient;
 }
 
-    
+
+void CustomJoint::globalToLocal( const Ogre::Quaternion& globalOrient, const Ogre::Vector3& globalPos, Ogre::Quaternion& localOrient, Ogre::Vector3& localPos, int bodyIndex ) const
+{
+    localOrient = Ogre::Quaternion::IDENTITY;
+    localPos= Ogre::Vector3::ZERO;
+
+    const Body* bdy = NULL;
+    if (bodyIndex == 0)
+        bdy = m_body0;
+    else if (m_body1)
+        bdy = m_body1;
+
+    Ogre::Quaternion bodyOrient = Ogre::Quaternion::IDENTITY;
+    Ogre::Vector3 bodyPos = Ogre::Vector3::ZERO;
+
+    if (bdy)
+        bdy->getPositionOrientation( bodyPos, bodyOrient );
+
+    Ogre::Quaternion bodyOrientInv = bodyOrient.Inverse();
+
+    localOrient = bodyOrientInv * globalOrient;
+    localPos = bodyOrientInv * (globalPos - bodyPos);
+}
+
+
 
 void CustomJoint::addLinearRow( const Ogre::Vector3& pt0, const Ogre::Vector3& pt1, const Ogre::Vector3& dir ) const
 {
@@ -185,6 +210,13 @@ void _CDECL CustomJoint::newtonSubmitConstraint( const NewtonJoint* me, float ti
     CustomJoint* j = (CustomJoint*)NewtonJointGetUserData( me );
 
     j->submitConstraint( (Ogre::Real)timeStep, threadIndex );
+}
+
+void _CDECL CustomJoint::newtonFeedbackCollector( const NewtonJoint* me, float timeStep, int threadIndex )
+{
+    CustomJoint* j = (CustomJoint*)NewtonJointGetUserData( me );
+
+    j->feedbackCollector( (Ogre::Real)timeStep, threadIndex );
 }
 
 

@@ -69,12 +69,13 @@ public:
     */
     const World* getWorld() const {return m_world;}
 
-    //! set a user ID for collision callback identification
-    /*!
-        you can set different IDs for each piece in a compound collision object, and then use these IDs in a collision callback to
-        determine which part is currently colliding.
-    */
-    void setUserID( unsigned id ) const { NewtonCollisionSetUserID( m_col, id); }
+//    this is not possible any more (since newton 2.04), you can only set the id when creating the collision
+//    //! set a user ID for collision callback identification
+//    /*!
+//        you can set different IDs for each piece in a compound collision object, and then use these IDs in a collision callback to
+//        determine which part is currently colliding.
+//    */
+//    void setUserID( unsigned id ) const { NewtonCollisionSetUserID( m_col, id); }
 
     //! get user ID, for collision callback identification
     unsigned getUserID() const { return NewtonCollisionGetUserID( m_col ); }
@@ -156,7 +157,7 @@ public:
     ConvexModifierCollision( const OgreNewt::World* world );
 
     //! constructor
-    ConvexModifierCollision( const OgreNewt::World* world, const OgreNewt::ConvexCollisionPtr col );
+    ConvexModifierCollision( const OgreNewt::World* world, const OgreNewt::ConvexCollisionPtr col, int id );
 
     //! destructor
     ~ConvexModifierCollision();

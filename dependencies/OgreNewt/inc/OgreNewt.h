@@ -9,9 +9,9 @@
 
     main header file.
 
-    current version:  2.00  ( I only raised the version number to indicate that this is for Newton2.0! )
+    current version:  2.04.0
 
-        Newton version: 2.0 beta (31.01.2009)
+        Newton version: 2.04 (beta)
 
         Ogre version: Shoggoth (1.6.x)
 
@@ -41,7 +41,7 @@
 #include "OgreNewt_BodyInAABBIterator.h"
 #include "OgreNewt_Debugger.h"
 
-/*! \mainpage OgreNewt Library version 2.00
+/*! \mainpage OgreNewt Library version 2.06.0 (for newton version 2.06)
 
     \section into_sec Introduction
 
@@ -52,8 +52,6 @@
     Problems and missing features in this version
         - HeightFieldCollision
         - PlayerController not finished
-        - the convexcast seems to have difficulties with more than one contact (I've segfault when debugging it with the OgreNewt::Debugger...)
-          I added a hack, it only creates one contact at the maximum at the moment! <-- this is probably due to an error in newton
         - this library supports the newton functions for multithreading but there are several functions/classes in this
           library itself, that are not thread safe (I don't need multiple threads)
           especially the world-updates are not threadsafe in ogre (see newton forum, someone posted a solution there!)
@@ -69,6 +67,14 @@
     \section new New in this version
 
     New in this version
+        - CustomJoint:
+            - added globalToLocal function
+            - feedbackCollector callback
+        - first attempts to support multithreading
+            - update the nodes of the bodies after the newton world update, because Ogre doesn't support multithreaded access to nodes
+            - linux: added a pthread-mutex for Ogre in OgreNewt::World, so it can be used for access to Ogre from multiple threads
+        - updated to newton 2.04 -- interface breaking changes (not compatible with newton 2.03!)
+        - set the collision id when creating a collision
         - this version uses cmake > 2.6.2!
         - shared pointers for collisions, if you don't want to use shared pointers define OGRENEWT_NO_COLLISION_SHAREDPTR
         - uses Ogre::Any instead of void* as userdata, if you want to use void* define OGRENEWT_NO_OGRE_ANY
@@ -83,6 +89,7 @@
               (call world->getDebugger() / world->getBodyInAABBIterator() to use these classes!)
         - added support for trigger-volumes (ConvexCollision::setAsTriggerVolume ...)
         - added support for convexcasts
+            - more than one contacts are now supported (removed the hack that prevented a segfault due to an error in newton)
         - added additional debugging features:
             - raycast/convexcast debugging
             - information about each body as billboard above it

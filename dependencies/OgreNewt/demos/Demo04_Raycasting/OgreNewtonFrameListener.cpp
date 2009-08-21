@@ -180,6 +180,10 @@ bool OgreNewtonFrameListener::frameStarted(const FrameEvent &evt)
 
 
 
+    if (mKeyboard->isKeyDown(OIS::KC_T))
+        m_World->setThreadCount( m_World->getThreadCount() % 2 + 1);
+
+
 	if (mKeyboard->isKeyDown(OIS::KC_ESCAPE))
 		return false;
 

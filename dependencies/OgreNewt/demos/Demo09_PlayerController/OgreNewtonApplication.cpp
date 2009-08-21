@@ -1,22 +1,20 @@
 /*
 	OgreNewt library - connecting Ogre and Newton!
 
-	Demo02_Joints - basic demo that shows how to connect rigid bodies via joints.
+	Demo09_PlayerController
 */
-
 #include "OgreNewtonApplication.h"
 #include "OgreNewtonFrameListener.h"
-#include "MyCustomBallSocket.h"
 
 #include <OgreNewt.h>
 #include <OgreNewt_BasicFrameListener.h>
-
 
 
 OgreNewtonApplication::OgreNewtonApplication(void)
 {
 	// create OgreNewt world.
 	m_World = new OgreNewt::World();
+    mPlayer = NULL;
 
 	mEntityCount = 0;
 
@@ -25,6 +23,8 @@ OgreNewtonApplication::OgreNewtonApplication(void)
 OgreNewtonApplication::~OgreNewtonApplication(void)
 {
 	// destroy world.
+    if( mPlayer )
+        delete mPlayer;
 	delete m_World;
 }
 
@@ -32,6 +32,32 @@ OgreNewtonApplication::~OgreNewtonApplication(void)
 
 void OgreNewtonApplication::createScene()
 {
+
+	// setup CEGUI
+	mGUIRenderer = new CEGUI::OgreCEGUIRenderer( mWindow, Ogre::RENDER_QUEUE_OVERLAY, false, 3000, mSceneMgr );
+	new CEGUI::System( mGUIRenderer );
+
+	// load up CEGUI stuff...
+	try
+	{
+		using namespace CEGUI;
+		CEGUI::Logger::getSingleton().setLoggingLevel( CEGUI::Informative );
+
+		CEGUI::SchemeManager::getSingleton().loadScheme((CEGUI::utf8*)"TaharezLookSkin.scheme");
+        CEGUI::System::getSingleton().setDefaultMouseCursor((CEGUI::utf8*)"TaharezLook", (CEGUI::utf8*)"MouseArrow");
+        CEGUI::System::getSingleton().setDefaultFont((CEGUI::utf8*)"BlueHighway-10");
+
+		CEGUI::Window* sheet = CEGUI::WindowManager::getSingleton().createWindow( (CEGUI::utf8*)"DefaultWindow", (CEGUI::utf8*)"root_wnd" );
+		CEGUI::System::getSingleton().setGUISheet( sheet );
+
+		//makeGUI();
+		//setupGUI();
+	
+	}
+	catch (CEGUI::Exception)
+	{}
+
+
 	// sky box.
 	mSceneMgr->setSkyBox(true, "Examples/CloudyNoonSkyBox");
 	
@@ -46,55 +72,33 @@ void OgreNewtonApplication::createScene()
 	floornode = mSceneMgr->getRootSceneNode()->createChildSceneNode( "FloorNode" );
 	floornode->attachObject( floor );
 	floor->setMaterialName( "Simple/BeachStones" );
-
 	floor->setCastShadows( false );
 
-	//-------------------------------------------------------------
-	// add some other objects.
-	Entity* floor2;
-	SceneNode* floornode2;
-	floor2 = mSceneMgr->createEntity("Floor2", "simple_terrain.mesh" );
-	floornode2 = floornode->createChildSceneNode( "FloorNode2" );
-	floornode2->attachObject( floor2 );
-	floor2->setMaterialName( "Simple/BeachStones" );
-	floor2->setCastShadows( false );
-	floornode2->setPosition( Ogre::Vector3(80.0f, 0.0f, 0.0f) );
+	
 
-	Entity* floor3;
-	SceneNode* floornode3;
-	floor3 = mSceneMgr->createEntity("Floor3", "simple_terrain.mesh" );
-	floornode3 = floornode->createChildSceneNode( "FloorNode3" );
-	floornode3->attachObject( floor3 );
-	floor3->setMaterialName( "Simple/BeachStones" );
-	floor3->setCastShadows( false );
-	floornode3->setPosition( Ogre::Vector3(-80.0f, -5.0f, 0.0f) );
-	floornode3->setOrientation( Ogre::Quaternion( Ogre::Degree(15.0f), Ogre::Vector3::UNIT_Z ) );
-	//-------------------------------------------------------------
 
-	// using the new "SceneParser" TreeCollision primitive.  this will automatically parse an entire tree of
-	// SceneNodes (parsing all children), and add collision for all meshes in the tree.
-	OgreNewt::CollisionPrimitives::TreeCollisionSceneParser* stat_col = new OgreNewt::CollisionPrimitives::TreeCollisionSceneParser( m_World );
-	stat_col->parseScene( floornode, true, 0 );
-	OgreNewt::Body* bod = new OgreNewt::Body( m_World, OgreNewt::CollisionPtr(stat_col) );
+	//Ogre::Vector3 siz(100.0, 10.0, 100.0);
+	OgreNewt::CollisionPtr col = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::TreeCollision( m_World, floor, true, 0 ));
+	OgreNewt::Body* bod = new OgreNewt::Body( m_World, col );
 #ifdef OGRENEWT_NO_COLLISION_SHAREDPTR
-	delete stat_col;
+	delete col;
 #endif
 	
+	//floornode->setScale( siz );
 	bod->attachNode( floornode );
-	bod->setPositionOrientation( Ogre::Vector3(0.0,-20.0,0.0), Ogre::Quaternion::IDENTITY );
-
+	bod->setPositionOrientation( Ogre::Vector3(0.0,-10.0,0.0), Ogre::Quaternion::IDENTITY );
 
 
 	// make a simple rope.
-	Ogre::Vector3 size(3,1.5,1.5);
-	Ogre::Vector3 pos(0,3,0);
+	Ogre::Vector3 size(3,1.0,1.0);
+	Ogre::Vector3 pos(0,1,0);
 	Ogre::Quaternion orient = Ogre::Quaternion::IDENTITY;
 
 	// loop through, making bodies and connecting them.
 	OgreNewt::Body* parent = NULL;
 	OgreNewt::Body* child = NULL;
 
-	for (int x=0;x<5;x++)
+	for (int x=0;x<8;x++)
 	{
 		// make the next box.
 		child = makeSimpleBox(size, pos, orient);
@@ -107,12 +111,12 @@ void OgreNewtonApplication::createScene()
 
 		if (parent)
 		{
-			joint = new MyCustomBallSocket(child, parent, pos-Ogre::Vector3(size.x/2,0,0), Ogre::Vector3(Ogre::Vector3::UNIT_X) );
+			joint = new OgreNewt::BasicJoints::BallAndSocket( m_World, child, parent, pos-Ogre::Vector3(size.x/2,0,0) );
 		}
 		else
 		{
 			// no parent, this is the first joint, so just pass NULL as the parent, to stick it to the "world"
-			joint = new MyCustomBallSocket(child, NULL, pos-Ogre::Vector3(size.x/2,0,0), Ogre::Vector3(Ogre::Vector3::UNIT_X) );
+			joint = new OgreNewt::BasicJoints::BallAndSocket( m_World, child, NULL, pos-Ogre::Vector3(size.x/2,0,0) );
 		}
 
 		// offset pos a little more.
@@ -122,13 +126,19 @@ void OgreNewtonApplication::createScene()
 		parent = child;
 	}
 
-	
-	
+	for (int i=0; i<15;i++)
+	{
+		pos = Ogre::Vector3( 10-rand()%20, 4+rand()%2, 10-rand()%20 );
+		size = Ogre::Vector3( 1+rand()%3, 1+rand()%3, 1+rand()%3 );
+
+		OgreNewt::Body* bod = makeSimpleBox( size, pos, orient );
+	}
+
+    makePlayer();
 
 	
-
 	// position camera
-	mCamera->setPosition(0.0, -3.0, 20.0);
+	mCamera->setPosition(0.0, -3.0, 23.0);
 
 	//make a light
 	Ogre::Light* light;
@@ -144,11 +154,20 @@ void OgreNewtonApplication::createScene()
 
 void OgreNewtonApplication::createFrameListener()
 {
-	mFrameListener = new OgreNewtonFrameListener( mWindow, mCamera, mSceneMgr, m_World);
+	mFrameListener = new OgreNewtonFrameListener( mWindow, mCamera, mSceneMgr, m_World, mPlayer);
 	mRoot->addFrameListener(mFrameListener);
 
 	mNewtonListener = new OgreNewt::BasicFrameListener( mWindow, m_World, 60 );
 	mRoot->addFrameListener(mNewtonListener);
+}
+
+void OgreNewtonApplication::destroyScene()
+{
+	CEGUI::System* sys = CEGUI::System::getSingletonPtr();
+	delete sys;
+
+	// CEGUI Cleanup
+	delete mGUIRenderer;
 }
 
 
@@ -168,10 +187,10 @@ OgreNewt::Body* OgreNewtonApplication::makeSimpleBox( Ogre::Vector3& size, Ogre:
 
 	// base mass on the size of the object.
 	Ogre::Real mass = size.x * size.y * size.z * 2.5;
-		
 	// calculate the inertia based on box formula and mass
 	Ogre::Vector3 inertia, offset;
     col->calculateInertialMatrix(inertia, offset);
+
 #ifdef OGRENEWT_NO_COLLISION_SHAREDPTR
 	delete col;
 #endif
@@ -187,5 +206,34 @@ OgreNewt::Body* OgreNewtonApplication::makeSimpleBox( Ogre::Vector3& size, Ogre:
 	bod->setPositionOrientation( pos, orient );
 
 	return bod;
+}
+
+void OgreNewtonApplication::makePlayer()
+{
+    Entity* ellipsoid;
+    SceneNode* node;
+
+    ellipsoid = mSceneMgr->createEntity( "PlayerControllerEntity", "ellipsoid.mesh");
+    node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+    node->attachObject( ellipsoid );
+    node->setScale(Ogre::Vector3(1,2.5,1));
+    
+    OgreNewt::ConvexCollisionPtr col = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid( m_World, Ogre::Vector3(1,2.5,1), 0 ));
+    OgreNewt::Body* bod = new OgreNewt::Body( m_World, col );
+    Ogre::Vector3 inertia, offset;
+    col->calculateInertialMatrix(inertia, offset);
+#ifdef OGRENEWT_NO_COLLISION_SHAREDPTR
+	delete col;
+#endif
+    bod->attachNode(node);
+    bod->setMassMatrix( 50, 50*inertia );
+    bod->setCenterOfMass(offset);
+    bod->setStandardForceCallback();
+
+    ellipsoid->setMaterialName("Simple/dirt01");
+
+    bod->setPositionOrientation(Ogre::Vector3(0,20,20), Ogre::Quaternion::IDENTITY);
+
+    mPlayer = new OgreNewt::PlayerController(bod, 0.4);
 }
 

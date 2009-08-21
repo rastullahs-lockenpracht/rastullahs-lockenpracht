@@ -27,7 +27,7 @@ void ConveyorBelt::init( Ogre::String& name, Ogre::SceneManager* mgr, OgreNewt::
 	mNode->setScale( size );
 
 	// create the collision object for the conveyor belt.
-	OgreNewt::CollisionPtr col = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Box( world, size ));
+	OgreNewt::CollisionPtr col = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::Box( world, size, 0 ));
 	mBody = new OgreNewt::Body( world, col, conveyorType );
 #ifdef OGRENEWT_NO_COLLISION_SHAREDPTR
 	delete col;

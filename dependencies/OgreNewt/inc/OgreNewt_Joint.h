@@ -125,12 +125,17 @@ public:
     //! must be over-written for a functioning joint.
     virtual void submitConstraint( Ogre::Real timeStep, int threadIndex ) = 0;
 
+    //! can be overwritten, empty as default
+    virtual void feedbackCollector( Ogre::Real timeSte, int threadIndex ) {}
 
     //! find the local orientation and position of the joint with regards to the 2 bodies in the joint.
     void pinAndDirToLocal( const Ogre::Vector3& pinpt, const Ogre::Vector3& pindir, Ogre::Quaternion& localOrient0, Ogre::Vector3& localPos0, Ogre::Quaternion& localOrient1, Ogre::Vector3& localPos1 ) const;
 
     //! find the global orientation and position of the joint with regards to the a body in the joint.
     void localToGlobal( const Ogre::Quaternion& localOrient, const Ogre::Vector3& localPos, Ogre::Quaternion& globalOrient, Ogre::Vector3& globalPos, int bodyIndex = 0 ) const;
+
+    //! find the local orientation and position of the joint with regards to the a body in the joint.
+    void globalToLocal( const Ogre::Quaternion& localOrient, const Ogre::Vector3& localPos, Ogre::Quaternion& globalOrient, Ogre::Vector3& globalPos, int bodyIndex = 0 ) const;
 
     //! add a linear row to the constraint.
     void addLinearRow( const Ogre::Vector3& pt0, const Ogre::Vector3& pt1, const Ogre::Vector3& dir ) const;
@@ -177,6 +182,7 @@ private:
     //! newton callback.  used internally.
     static void _CDECL newtonSubmitConstraint( const NewtonJoint* me, float timeStep, int threadIndex );
     static void _CDECL newtonGetInfo( const NewtonJoint* me, NewtonJointRecord* info );
+    static void _CDECL newtonFeedbackCollector( const NewtonJoint* me, float timeStep, int threadIndex );
 
 };
 

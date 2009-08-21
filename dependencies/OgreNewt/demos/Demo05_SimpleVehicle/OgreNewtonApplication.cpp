@@ -48,7 +48,7 @@ void OgreNewtonApplication::createScene()
 	floor->setCastShadows( false );
 
 	//Ogre::Vector3 siz(100.0, 10.0, 100.0);
-	OgreNewt::Collision* col = new OgreNewt::CollisionPrimitives::TreeCollision( m_World, floornode, false );
+	OgreNewt::Collision* col = new OgreNewt::CollisionPrimitives::TreeCollision( m_World, floornode, false, 0 );
 	OgreNewt::Body* bod = new OgreNewt::Body( m_World, col );
 	delete col;
 	

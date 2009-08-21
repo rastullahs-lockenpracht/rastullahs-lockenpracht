@@ -73,7 +73,7 @@ void OgreNewtonApplication::createScene()
 	// using the new "SceneParser" TreeCollision primitive.  this will automatically parse an entire tree of
 	// SceneNodes (parsing all children), and add collision for all meshes in the tree.
 	OgreNewt::CollisionPrimitives::TreeCollisionSceneParser* stat_col = new OgreNewt::CollisionPrimitives::TreeCollisionSceneParser( m_World );
-	stat_col->parseScene( floornode, true );
+	stat_col->parseScene( floornode, true, 0 );
 	OgreNewt::Body* bod = new OgreNewt::Body( m_World, OgreNewt::CollisionPtr(stat_col) );
 #ifdef OGRENEWT_NO_COLLISION_SHAREDPTR
 	delete stat_col;
@@ -162,7 +162,7 @@ OgreNewt::Body* OgreNewtonApplication::makeSimpleBox( Ogre::Vector3& size, Ogre:
 	box1node->setScale( size );
 //	box1->setNormaliseNormals(true);
 
-	OgreNewt::ConvexCollisionPtr col = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::Box( m_World, size ));
+	OgreNewt::ConvexCollisionPtr col = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::Box( m_World, size, 0 ));
 	OgreNewt::Body* bod = new OgreNewt::Body( m_World, col );
 
 

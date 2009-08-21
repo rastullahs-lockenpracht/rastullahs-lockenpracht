@@ -604,6 +604,51 @@ void CustomRigidJoint::submitConstraint( Ogre::Real timeStep, int threadIndex )
     addAngularRow( angle, globalOrient0 * Ogre::Vector3::UNIT_X );
 }
 
+/*
+CustomDryRollingFriction::CustomDryRollingFriction( OgreNewt::Body* child, Ogre::Real radius, Ogre::Real rollingFrictionCoefficient ) :
+    OgreNewt::CustomJoint(1, child, NULL),
+    mChild(child)
+{
+    Ogre::Real mass;
+    Ogre::Vector3 inertia;
+
+    child->getMassMatrix( mass, inertia );
+
+    mFrictionCoefficient =  rollingFrictionCoefficient;
+    mFrictionTorque = inertia.x * radius;
+}
+
+CustomDryRollingFriction::~CustomDryRollingFriction()
+{
+}
+
+
+// copied from CustomDryRollingFriction joint in newton
+void CustomDryRollingFriction::submitConstraint( Ogre::Real timestep, int threadIndex )
+{
+    Ogre::Vector3 omega;
+    Ogre::Real omegaMag;
+    Ogre::Real torqueFriction;
+
+
+    omega = mChild->getOmega();
+    omegaMag = omega.length();
+
+    if( omegaMag > 0.1f )
+    {
+        addAngularRow(Ogre::Radian(0), omega.normalisedCopy());
+        setRowAcceleration( -omegaMag/timestep );
+        torqueFriction = mFrictionTorque*mFrictionCoefficient;
+        setRowMinimumFriction(-torqueFriction);
+        setRowMaximumFriction(torqueFriction);
+    }
+    else
+    {
+        mChild->setOmega(omega*0.2f);
+    }
+
+}
+*/
 
 
 }   // end NAMESPACE PrebuiltCustomJoints

@@ -1,5 +1,6 @@
 #include "OgreNewt_World.h"
 #include "OgreNewt_MaterialID.h"
+#include "OgreNewt_Body.h"
 #include "OgreNewt_BodyInAABBIterator.h"
 
 namespace OgreNewt
@@ -7,12 +8,16 @@ namespace OgreNewt
 
 
 // Constructor
-World::World() :
+World::World(NewtonAllocMemory newtonAlloc, NewtonFreeMemory newtonFree) :
     m_bodyInAABBIterator(this)
 {
+#ifndef WIN32
+    pthread_mutex_init(&m_ogreMutex, 0);
+#endif
+
     m_limits = Ogre::AxisAlignedBox(Ogre::Vector3(-100,-100,-100), Ogre::Vector3(100,100,100));
 
-    m_world = NewtonCreate( NULL, NULL );
+    m_world = NewtonCreate( newtonAlloc, newtonFree );
 
     if (!m_world)
     {
@@ -54,7 +59,26 @@ World::~World()
 // update
 void World::update( Ogre::Real t_step )
 {
+    m_bodyUpdateNodeRequests.resize(getThreadCount());
+
+
     NewtonUpdate( m_world, (float)t_step );
+
+
+    for( BodyVectorVector::iterator it = m_bodyUpdateNodeRequests.begin(); it != m_bodyUpdateNodeRequests.end(); it++ )
+    {
+        for( BodyVector::iterator body = it->begin(); body != it->end(); body++ )
+        {
+            if( (*body)->isNodeUpdateNeeded() )
+                (*body)->updateNode();
+        }
+        it->clear();
+    }
+}
+
+void World::addBodyUpdateNodeRequest( int threadIndex, OgreNewt::Body* body ) const
+{
+    m_bodyUpdateNodeRequests.at(threadIndex).push_back(body);
 }
 
 void World::setWorldSize( const Ogre::Vector3& min, const Ogre::Vector3& max )

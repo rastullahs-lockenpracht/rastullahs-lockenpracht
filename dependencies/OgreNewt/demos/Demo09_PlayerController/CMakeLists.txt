@@ -1,0 +1,5 @@
+ADD_EXECUTABLE(Demo09_PlayerController demo09.cpp OgreNewtonApplication.cpp OgreNewtonFrameListener.cpp)
+
+TARGET_LINK_LIBRARIES(Demo09_PlayerController ${OGRE_LIBRARIES} ${CEGUI_LIBRARIES} ${OGRENEWT_LIBRARIES} ${OIS_LIBRARIES} ${CEGUIOGRE_LIBRARIES})
+
+#INSTALL(TARGETS Demo09_PlayerController RUNTIME DESTINATION ${CMAKE_SOURCE_DIR}/bin)

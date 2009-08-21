@@ -284,7 +284,6 @@ void Debugger::startRaycastRecording(bool markhitbodies)
 {
     m_recordraycasts = true;
     m_markhitbodies = markhitbodies;
-    clearRaycastsRecorded();
 }
 
 bool Debugger::isRaycastRecording()
@@ -339,7 +338,6 @@ void Debugger::addRay(const Ogre::Vector3 &startpt, const Ogre::Vector3 &endpt)
     std::ostringstream oss;
     oss << "__OgreNewt__Raycast_Debugger__Lines__Raycastline__" << i++ << "__";
     Ogre::ManualObject *line = new Ogre::ManualObject(oss.str());
-    mRecordedRaycastObjects.push_back(line);
 
     line->begin("BaseWhiteNoLighting", Ogre::RenderOperation::OT_LINE_LIST );
     line->colour(m_raycol);
@@ -347,7 +345,14 @@ void Debugger::addRay(const Ogre::Vector3 &startpt, const Ogre::Vector3 &endpt)
     line->position(endpt);
     line->end();
 
-    m_raycastsnode->attachObject(line);    
+#ifndef WIN32
+    m_world->ogreCriticalSectionLock();
+#endif
+    mRecordedRaycastObjects.push_back(line);
+    m_raycastsnode->attachObject(line);
+#ifndef WIN32
+    m_world->ogreCriticalSectionUnlock();
+#endif
 }
 
 void Debugger::addConvexRay(const OgreNewt::ConvexCollisionPtr& col, const Ogre::Vector3 &startpt, const Ogre::Quaternion &colori, const Ogre::Vector3 &endpt)
@@ -360,7 +365,6 @@ void Debugger::addConvexRay(const OgreNewt::ConvexCollisionPtr& col, const Ogre:
     std::ostringstream oss;
     oss << "__OgreNewt__Raycast_Debugger__Lines__Convexcastlines__" << i++ << "__";
     Ogre::ManualObject *line = new Ogre::ManualObject(oss.str());
-    mRecordedRaycastObjects.push_back(line);
 
     line->begin("BaseWhiteNoLighting", Ogre::RenderOperation::OT_LINE_LIST );
     line->colour(m_convexcol);
@@ -397,7 +401,16 @@ void Debugger::addConvexRay(const OgreNewt::ConvexCollisionPtr& col, const Ogre:
 
 
     line->end();
+
+
+#ifndef WIN32
+    m_world->ogreCriticalSectionLock();
+#endif
+    mRecordedRaycastObjects.push_back(line);
     m_raycastsnode->attachObject(line);
+#ifndef WIN32
+    m_world->ogreCriticalSectionUnlock();
+#endif
 }
 
 void Debugger::addDiscardedBody(const OgreNewt::Body* body)
@@ -413,7 +426,6 @@ void Debugger::addDiscardedBody(const OgreNewt::Body* body)
     std::ostringstream oss;
     oss << "__OgreNewt__Raycast_Debugger__Lines__DiscardedBody__" << i++ << "__";
     Ogre::ManualObject *line = new Ogre::ManualObject(oss.str());
-    mRecordedRaycastObjects.push_back(line);
 
     line->begin("BaseWhiteNoLighting", Ogre::RenderOperation::OT_LINE_LIST );
     line->colour(m_prefilterdiscardedcol);
@@ -423,7 +435,16 @@ void Debugger::addDiscardedBody(const OgreNewt::Body* body)
     NewtonCollisionForEachPolygonDo( body->getCollision()->getNewtonCollision() , &matrix[0], newtonPerPoly, line );
 
     line->end();
+
+
+#ifndef WIN32
+    m_world->ogreCriticalSectionLock();
+#endif
+    mRecordedRaycastObjects.push_back(line);
     m_raycastsnode->attachObject(line);
+#ifndef WIN32
+    m_world->ogreCriticalSectionUnlock();
+#endif
 }
 
 void Debugger::addHitBody(const OgreNewt::Body* body)
@@ -439,7 +460,6 @@ void Debugger::addHitBody(const OgreNewt::Body* body)
     std::ostringstream oss;
     oss << "__OgreNewt__Raycast_Debugger__Lines__HitBody__" << i++ << "__";
     Ogre::ManualObject *line = new Ogre::ManualObject(oss.str());
-    mRecordedRaycastObjects.push_back(line);
 
     line->begin("BaseWhiteNoLighting", Ogre::RenderOperation::OT_LINE_LIST );
     line->colour(m_hitbodycol);
@@ -449,7 +469,15 @@ void Debugger::addHitBody(const OgreNewt::Body* body)
     NewtonCollisionForEachPolygonDo( body->getCollision()->getNewtonCollision() , &matrix[0], newtonPerPoly, line );
 
     line->end();
+
+#ifndef WIN32
+    m_world->ogreCriticalSectionLock();
+#endif
+    mRecordedRaycastObjects.push_back(line);
     m_raycastsnode->attachObject(line);
+#ifndef WIN32
+    m_world->ogreCriticalSectionUnlock();
+#endif
 }
 
 }   // end namespace OgreNewt

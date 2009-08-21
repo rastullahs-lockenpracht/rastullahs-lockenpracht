@@ -11,6 +11,9 @@
 #ifndef _INCLUDE_OGRENEWT_WORLD
 #define _INCLUDE_OGRENEWT_WORLD
 
+#ifndef WIN32
+#include <pthread.h>
+#endif
 
 #include "OgreNewt_Prerequisites.h"
 #include "OgreNewt_BodyInAABBIterator.h"
@@ -64,7 +67,7 @@ public:
 
 public:
     //! Standard Constructor, creates the world.
-    World();
+    World( NewtonAllocMemory newtonAlloc = NULL, NewtonFreeMemory newtonFree = NULL );
 
     //! Standard Destructor, destroys the world.
     ~World();       
@@ -127,6 +130,13 @@ public:
     */
     void setPlatformArchitecture( int mode ) { NewtonSetPlatformArchitecture( m_world, mode ); }
 
+    //! get the architecture used for physics calculations.
+    /*!
+        \param description returns a description-string for the currently used mode
+        \return int representing the current mode
+    */
+    int getPlatformArchitecture(Ogre::String& description) { char desc[265]; int mode = NewtonGetPlatformArchitecture( m_world, desc ); description = desc; return mode;}
+
     //! get the number of bodies in the simulation.
     /*!
         returns the number of bodies in the simulation.
@@ -139,17 +149,20 @@ public:
     //! multithread settings
     void setMultithreadSolverOnSingleIsland( int mode ) { NewtonSetMultiThreadSolverOnSingleIsland( m_world, mode ); }
 
-    //! set the number of threads for the physics simulation to use.
+    //! get multithread settings
+    int getMultithreadSolverOnSingleIsland( ) const { return NewtonGetMultiThreadSolverOnSingleIsland( m_world ); }
+
+    //! set the number of threads for the physics simulation to use, don't do this while world update
     void setThreadCount(int threads) { NewtonSetThreadsCount( m_world, threads ); }
 
     //! get the number of threads the simulation is using.
     int getThreadCount() const { return NewtonGetThreadsCount( m_world ); }
 
     //! notify an entrance to a critical section of code.
-    void criticalSectionLock() { NewtonWorldCriticalSectionLock( m_world ); }
+    void criticalSectionLock() const { NewtonWorldCriticalSectionLock( m_world ); }
 
     //! notify the exit of a critical section of code.
-    void cricicalSectionUnlock() { NewtonWorldCriticalSectionUnlock( m_world ); }
+    void criticalSectionUnlock() const { NewtonWorldCriticalSectionUnlock( m_world ); }
 
     //! set minimum framerate
     void setMinimumFrameRate( Ogre::Real frame ) { NewtonSetMinimumFrameRate( m_world, frame ); }
@@ -205,16 +218,49 @@ public:
     */
     Debugger& getDebugger() const {return *m_debugger;}
 
+    //! adds an update request for the body, this means that after the next world update the function body->updateNode will be called, if the bodie needs updating
+    void addBodyUpdateNodeRequest( int threadIndex, OgreNewt::Body* body ) const ;
+
+
+#ifndef WIN32
+    //! notify an entrance to a critical section of code concerning Ogre (and only concerning Ogre!)
+    /*!
+     * This function is only used in OgreNewt and can be used by the user, it is independent of Ogre's own thread support...
+    */
+    void ogreCriticalSectionLock() const { pthread_mutex_lock(&m_ogreMutex); }
+
+    //! notify the exit of a critical section of code concerning Ogre (and only concerning Ogre!)
+    /*!
+     * This function is only used in OgreNewt and can be used by the user, it is independent of Ogre's own thread support...
+    */
+    void ogreCriticalSectionUnlock() const { pthread_mutex_unlock(&m_ogreMutex); }
+
+    //! notify an entrance to a critical section of code concerning Ogre (and only concerning Ogre!)
+    /*!
+     * This function is only used in OgreNewt and can be used by the user, it is independent of Ogre's own thread support...
+     * \return true if not already locked
+    */
+    // bool ogreCriticalSectionTryLock() const { return (EBUSY != pthread_mutex_trylock(&m_ogreMutex)); }
+#endif
+
 protected:
     
     NewtonWorld* m_world;
     MaterialID* m_defaultMatID;
 
     LeaveWorldCallback m_leaveCallback;
-    
+
     BodyInAABBIterator m_bodyInAABBIterator;
 
+    typedef std::vector< OgreNewt::Body* > BodyVector;
+    typedef std::vector< BodyVector > BodyVectorVector;
+    mutable BodyVectorVector m_bodyUpdateNodeRequests;
+
     mutable Debugger* m_debugger;
+
+#ifndef WIN32
+    mutable pthread_mutex_t m_ogreMutex;
+#endif
 
 private:
 
