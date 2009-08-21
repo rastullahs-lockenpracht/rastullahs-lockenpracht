@@ -32,32 +32,28 @@ namespace rl
         Actor* a1 = NULL;
         Actor* a2 = NULL;
 
-        try
-        {
+        if( contactJoint.getBody0()->getUserData().getType() == typeid(Actor*) )
             a1 = Ogre::any_cast<Actor*>(contactJoint.getBody0()->getUserData());
-        }
-        catch(...)
-        {
-            LOG_WARNING(Logger::CORE, "Found collision with a OgreNewt::Body that doesn't have an Actor as UserData in PhysicsGenericContactCallback::contactsProcess");
-        }
-        try
-        {
+        if( contactJoint.getBody1()->getUserData().getType() == typeid(Actor*) )
             a2 = Ogre::any_cast<Actor*>(contactJoint.getBody1()->getUserData());
-        }
-        catch(...)
-        {
-            LOG_WARNING(Logger::CORE, "Found collision with a OgreNewt::Body that doesn't have an Actor as UserData in PhysicsGenericContactCallback::contactsProcess");
-        }
 
-        if (a1 && a1->getPhysicalThing()->getContactListener())
+        PhysicalThing *pt1 = NULL;
+        PhysicalThing *pt2 = NULL;
+
+        if( a1 )
+            pt1 = a1->getPhysicalThing();
+        if( a2 )
+            pt2 = a2->getPhysicalThing();
+
+        if (pt1 && pt1->getContactListener())
         {
-            a1->getPhysicalThing()->getContactListener()->
-                contactOccured(a1->getPhysicalThing(), a2->getPhysicalThing());
+            pt1->getContactListener()->
+                contactOccured(pt1, pt2);
         }
-        if (a2 && a2->getPhysicalThing()->getContactListener())
+        if (pt2 && pt2->getContactListener())
         {
-            a2->getPhysicalThing()->getContactListener()->
-                contactOccured(a2->getPhysicalThing(), a1->getPhysicalThing());
+            pt2->getContactListener()->
+                contactOccured(pt1, pt2);
         }
     }
 }

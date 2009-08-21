@@ -59,23 +59,23 @@ PhysicsRagDoll::RagBone::RagBone( PhysicsRagDoll* creator, OgreNewt::World* worl
 	switch (shape)
 	{
 	case PhysicsRagDoll::RagBone::BS_BOX:
-		col = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::Box( world, size ));
+		col = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::Box( world, size, 0 ));
 		break;
 
 	case PhysicsRagDoll::RagBone::BS_CAPSULE:
-		col = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::Capsule( world, size.y, size.x, orient, pos ));
+		col = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::Capsule( world, size.y, size.x, 0, orient, pos ));
 		break;
 
 	case PhysicsRagDoll::RagBone::BS_CONE:
-		col = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::Cone( world, size.y, size.x, orient, pos ));
+		col = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::Cone( world, size.y, size.x, 0, orient, pos ));
 		break;
 
 	case PhysicsRagDoll::RagBone::BS_CYLINDER:
-		col = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::Cylinder( world, size.y, size.x, orient, pos ));
+		col = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::Cylinder( world, size.y, size.x, 0, orient, pos ));
 		break;
 
 	case PhysicsRagDoll::RagBone::BS_ELLIPSOID:
-		col = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid( world, size ));
+		col = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::Ellipsoid( world, size, 0 ));
 		break;
 
 	case PhysicsRagDoll::RagBone::BS_CONVEXHULL:
@@ -83,7 +83,7 @@ PhysicsRagDoll::RagBone::RagBone( PhysicsRagDoll* creator, OgreNewt::World* worl
 		break;
 
 	default:
-		col = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::Box( world, size ));
+		col = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::Box( world, size, 0 ));
 		break;
 	}
 
@@ -246,7 +246,7 @@ OgreNewt::ConvexCollisionPtr PhysicsRagDoll::RagBone::_makeConvexHull( OgreNewt:
 	//////////////////////////////////////////////////////////////////////////////////
     OgreNewt::ConvexCollisionPtr col;
     if( numVerts > 0 )
-    	col = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::ConvexHull( world, verts, numVerts ));
+    	col = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::ConvexHull( world, verts, numVerts, 0 ));
 
 	delete []verts;
 

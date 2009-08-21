@@ -136,31 +136,8 @@ namespace rl {
         mMessageType_SaveGameLoading_Handler = MessagePump::getSingleton().addMessageHandler<MessageType_SaveGameLoading>(
             boost::bind(&MovementControlState::beforeLoadingSaveGame, this));
 
-        // Kamera-Groesse beziehen
-        CameraObject* ogreCam = static_cast<CameraObject*>(
-            mCameraActor->getControlledObject());
-        AxisAlignedBox camAabb = ogreCam->getDefaultSize();
-        // Radius berechnen
-        Real camRadius = (camAabb.getMaximum().z - camAabb.getMinimum().z) / 2.0f;
-        camRadius *= 1.1f;
-        Vector3 verts[80];
-        int k = 0;
-        for(int i = 0; i < 16; i++)
-        {
-            int n;
-            n = abs(abs(i-8)-8)+1;
-            for(int j = 0; j < n; j++)
-            {
-                Real h = (i-7.5f)/7.5f;
-                Degree angle(360.0f/(n+1)*j);
-                Real rad = Math::Sqrt(1-h*h);
-                verts[k++] = camRadius*Vector3(rad*Math::Cos(angle),rad*Math::Sin(angle),h);
-            }
-        }
-        //! TODO: remove this workaround (newton-bug: "spheres don't cast"!)
-        mCameraCastCollision = OgreNewt::ConvexCollisionPtr(new OgreNewt::CollisionPrimitives::ConvexHull(mCamBody->getWorld(), verts, 80));
-        //mCameraCastCollision = new OgreNewt::CollisionPrimitives::Ellipsoid(mCamBody->getWorld(), Vector3::UNIT_SCALE * camRadius);
-        // we could use the real collision of the camera here...
+        mCameraCastCollision = boost::dynamic_pointer_cast<OgreNewt::ConvexCollision>(mCamBody->getCollision());
+        RlAssert1( mCameraCastCollision );
     }
 
     //------------------------------------------------------------------------

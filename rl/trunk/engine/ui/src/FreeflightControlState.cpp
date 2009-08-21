@@ -66,7 +66,7 @@ namespace rl {
 		mCharacterActor->getPhysicalThing()->unfreeze();
 
 // for testing the OgreNewt player controller
-//        delete mOgreNewtPlayerController;
+        delete mOgreNewtPlayerController;
 
         mOgreNewtPlayerController = NULL;
         mCameraActor->getPhysicalThing()->setPhysicsController(NULL);
@@ -90,7 +90,7 @@ namespace rl {
 		mCharacterActor->getPhysicalThing()->freeze();
 
 // for testing the OgreNewt player controller
-//        mOgreNewtPlayerController = new OgreNewt::PlayerController(mCharBody);
+        mOgreNewtPlayerController = new OgreNewt::PlayerController(mCharBody, 0.4);
 
         resetCamera();
 
@@ -175,6 +175,8 @@ namespace rl {
                     mCameraActor->getPosition()
                     + mCameraActor->getWorldOrientation() * Vector3::NEGATIVE_UNIT_Z * 2
                     - 1.5 * Vector3::UNIT_Y);
+                mCharacterActor->getPhysicalThing()->setVelocity(Vector3::ZERO);
+                mCharacterActor->getPhysicalThing()->_getBody()->setOmega(Vector3::ZERO);
             }
         }
 
@@ -220,8 +222,8 @@ namespace rl {
         if (mPitch < mPitchRange.first) mPitch = mPitchRange.first;
         if (mPitch > mPitchRange.second) mPitch = mPitchRange.second;
 
-//if( mCollisionsEnabled )
-//    mOgreNewtPlayerController->setVelocity(mDesiredVelocity.z, mDesiredVelocity.x, mYaw);
+if( mCollisionsEnabled )
+    mOgreNewtPlayerController->setVelocity(mDesiredVelocity.z, mDesiredVelocity.x, mYaw);
 
         mCameraActor->setOrientation(Quaternion::IDENTITY);
         mCameraActor->yaw(mYaw.valueDegrees());
@@ -243,13 +245,13 @@ namespace rl {
         if( mCollisionsEnabled )
         {
             CreatureControllerManager::getSingleton().detachController(mCharacter);
-            PhysicsManager::getSingleton().destroyPhysicsProxy(mCharacterActor->getPhysicalThing());
-            PhysicsManager::getSingleton().createPhysicsProxy_RagDoll(mCharacterActor->getPhysicalThing());
+//            PhysicsManager::getSingleton().destroyPhysicsProxy(mCharacterActor->getPhysicalThing());
+//            PhysicsManager::getSingleton().createPhysicsProxy_RagDoll(mCharacterActor->getPhysicalThing());
         }
         else
         {
-            PhysicsManager::getSingleton().destroyPhysicsProxy(mCharacterActor->getPhysicalThing());
-            PhysicsManager::getSingleton().createPhysicsProxy(mCharacterActor->getPhysicalThing());
+//            PhysicsManager::getSingleton().destroyPhysicsProxy(mCharacterActor->getPhysicalThing());
+//            PhysicsManager::getSingleton().createPhysicsProxy(mCharacterActor->getPhysicalThing());
             CreatureControllerManager::getSingleton().getCreatureController(mCharacter);
         }
 

@@ -343,7 +343,7 @@ namespace rl
                 collision = collisions[0];
                 break;
             default:
-                collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::CompoundCollision(mWorld, collisions));
+                collision = OgreNewt::CollisionPtr(new OgreNewt::CollisionPrimitives::CompoundCollision(mWorld, collisions, 0));
                 break;
         }
 

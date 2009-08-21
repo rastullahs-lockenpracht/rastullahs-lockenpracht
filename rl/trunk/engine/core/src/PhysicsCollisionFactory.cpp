@@ -390,7 +390,7 @@ namespace rl
                         Ogre::Matrix4 transformation = oldInvTransformation*newTransformation;
 
                         OgreNewt::ConvexModifierCollision *convexModCol = new OgreNewt::ConvexModifierCollision(
-                                PhysicsManager::getSingleton()._getNewtonWorld(),convexCacheIt->second.col);
+                                PhysicsManager::getSingleton()._getNewtonWorld(),convexCacheIt->second.col, 0);
                         convexModCol->setScalarMatrix(transformation);
 
                         // set the convexcollision-ptr, so centerOfMass and inertia can be calculated
@@ -538,7 +538,7 @@ namespace rl
         // a box collision primitiv has got it's coordinate system at it's center, so we need to shift it
         OgreNewt::ConvexCollisionPtr rval(new OgreNewt::CollisionPrimitives::Box(
             PhysicsManager::getSingleton()._getNewtonWorld(),
-            aabb.getSize(), orientation, offsetInGlobalSpace));
+            aabb.getSize(), 0, orientation, offsetInGlobalSpace));
 
        return rval;
     }
@@ -552,7 +552,7 @@ namespace rl
 
         OgreNewt::ConvexCollisionPtr rval(new OgreNewt::CollisionPrimitives::Pyramid(
             PhysicsManager::getSingleton()._getNewtonWorld(),
-            aabb.getSize(), orientation, offsetInGlobalSpace));
+            aabb.getSize(), 0, orientation, offsetInGlobalSpace));
 
        return rval;
     }
@@ -571,7 +571,7 @@ namespace rl
         // a sphere primitiv has got its coordinate system at its center, so shift it with radius
         OgreNewt::ConvexCollisionPtr rval(new OgreNewt::CollisionPrimitives::Ellipsoid(
             PhysicsManager::getSingleton()._getNewtonWorld(),
-            Vector3(radius, radius, radius), orientation, offsetInGlobalSpace));
+            Vector3(radius, radius, radius), 0, orientation, offsetInGlobalSpace));
  
        return rval;
     }
@@ -592,7 +592,7 @@ namespace rl
         // an ellipsoid primitiv has got its coordinate system at its center, so shift it with radius
         OgreNewt::ConvexCollisionPtr rval(new OgreNewt::CollisionPrimitives::Ellipsoid(
             PhysicsManager::getSingleton()._getNewtonWorld(),
-            s, orientation, offsetInGlobalSpace));
+            s, 0, orientation, offsetInGlobalSpace));
 
        return rval;
     }
@@ -615,7 +615,7 @@ namespace rl
         // additionally it is x axis aligned, so rotate it 90 degrees around z axis
         OgreNewt::ConvexCollisionPtr rval(new OgreNewt::CollisionPrimitives::Capsule(
             PhysicsManager::getSingleton()._getNewtonWorld(),
-            radius, height, orientation, offsetInGlobalSpace));
+            radius, height, 0, orientation, offsetInGlobalSpace));
 
         return rval;
     }
@@ -632,7 +632,7 @@ namespace rl
         // calculate the convex hull of the animated mesh
         OgreNewt::ConvexCollisionPtr rval(new OgreNewt::CollisionPrimitives::ConvexHull(
                     PhysicsManager::getSingleton()._getNewtonWorld(),
-                    entity, orientation, offsetInGlobalSpace));
+                    entity, 0, orientation, offsetInGlobalSpace));
 
         return rval;
     }
@@ -705,7 +705,7 @@ namespace rl
         {
             rval = OgreNewt::CollisionPtr( new OgreNewt::CollisionPrimitives::TreeCollision(
                         PhysicsManager::getSingleton()._getNewtonWorld(),
-                        entity, true ));
+                        entity, true, 0 ));
 
             if( !nocache )
             {
