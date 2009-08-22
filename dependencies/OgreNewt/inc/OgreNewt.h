@@ -9,9 +9,9 @@
 
     main header file.
 
-    current version:  2.04.0
+    current version:  2.07.0
 
-        Newton version: 2.04 (beta)
+        Newton version: 2.07 (beta)
 
         Ogre version: Shoggoth (1.6.x)
 
@@ -41,7 +41,7 @@
 #include "OgreNewt_BodyInAABBIterator.h"
 #include "OgreNewt_Debugger.h"
 
-/*! \mainpage OgreNewt Library version 2.06.0 (for newton version 2.06)
+/*! \mainpage OgreNewt Library version 2.07.0 (for newton version 2.07)
 
     \section into_sec Introduction
 
@@ -52,15 +52,14 @@
     Problems and missing features in this version
         - HeightFieldCollision
         - PlayerController not finished
+        - player controller demo needs to be improved
         - this library supports the newton functions for multithreading but there are several functions/classes in this
           library itself, that are not thread safe (I don't need multiple threads)
-          especially the world-updates are not threadsafe in ogre (see newton forum, someone posted a solution there!)
         - the copied MovableText class (in Tools::OgreAddons) seems to have some graphics error (it's used
           to show the debugging information above each body)
         - I didn't test several features:
             - vehicle
             - joints
-            - collision-serializer
             - treecollision raycastcallback 
 
 
@@ -69,6 +68,9 @@
     New in this version
         - ConvexCast:
             - added "NormalOnHitPoint"
+        - added player controller demo
+        - updated to newton 2.07 -- interface breaking changes!
+            - added shape-id parameters for collisions (you need to set the shape id if you create the collision, cannot be changed later)
         - CustomJoint:
             - added globalToLocal function
             - feedbackCollector callback
