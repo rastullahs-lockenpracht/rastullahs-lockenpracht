@@ -312,6 +312,9 @@ namespace OgreNewt
             info.mContactNormal.x = mReturnInfoList[hitnum].m_normal[0];
             info.mContactNormal.y = mReturnInfoList[hitnum].m_normal[1];
             info.mContactNormal.z = mReturnInfoList[hitnum].m_normal[2];
+            info.mContactNormalOnHitPoint.x = mReturnInfoList[hitnum].m_normalOnHitPoint[0];
+            info.mContactNormalOnHitPoint.y = mReturnInfoList[hitnum].m_normalOnHitPoint[1];
+            info.mContactNormalOnHitPoint.z = mReturnInfoList[hitnum].m_normalOnHitPoint[2];
             info.mContactPoint.x = mReturnInfoList[hitnum].m_point[0];
             info.mContactPoint.y = mReturnInfoList[hitnum].m_point[1];
             info.mContactPoint.z = mReturnInfoList[hitnum].m_point[2];

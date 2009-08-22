@@ -67,6 +67,8 @@
     \section new New in this version
 
     New in this version
+        - ConvexCast:
+            - added "NormalOnHitPoint"
         - CustomJoint:
             - added globalToLocal function
             - feedbackCollector callback

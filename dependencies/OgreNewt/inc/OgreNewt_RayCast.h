@@ -227,12 +227,13 @@ public:
     class _OgreNewtExport ConvexcastContactInfo
     {
     public:
-        //Ogre::Real              mDistance;              //!< dist from point1 of the raycast, in range [0,1].
-        OgreNewt::Body*         mBody;                  //!< pointer to body intersected with
-        int                     mCollisionID;           //!< collision ID of the primitive hit by the ray (for compound collision bodies)
-        Ogre::Vector3           mContactNormal;         //!< normal of intersection.
-        Ogre::Vector3           mContactPoint;          //!< point of the contact in global space
-        Ogre::Real              mContactPenetration;    //!< contact penetration at collision point
+        //Ogre::Real              mDistance;                  //!< dist from point1 of the raycast, in range [0,1].
+        OgreNewt::Body*         mBody;                      //!< pointer to body intersected with
+        int                     mCollisionID;               //!< collision ID of the primitive hit by the ray (for compound collision bodies)
+        Ogre::Vector3           mContactNormal;             //!< normal of intersection.
+        Ogre::Vector3           mContactNormalOnHitPoint;   //!< surface normal at the surface of the hit body
+        Ogre::Vector3           mContactPoint;              //!< point of the contact in global space
+        Ogre::Real              mContactPenetration;        //!< contact penetration at collision point
 
         ConvexcastContactInfo();
         ~ConvexcastContactInfo();

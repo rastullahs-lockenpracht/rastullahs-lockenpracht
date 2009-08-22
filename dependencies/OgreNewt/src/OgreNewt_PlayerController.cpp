@@ -127,8 +127,7 @@ bool PlayerController::convexStaticCastPreFilter(OgreNewt::Body *body, BodyVecto
     Ogre::Vector3 inertia;
     body->getMassMatrix(mass, inertia);
 
-    //if( mass != 0.0f || body == m_body )
-    if( body == m_body )
+    if( mass != 0.0f || body == m_body )
         return false;
 
     for( int i = 0; i < filterBodies.size(); i++ )
@@ -500,7 +499,7 @@ void PlayerController::playerOnIllegalRamp( Ogre::Real timestep, int threadIndex
         targetVel -= m_gravity*timestep;
         Ogre::Vector3 floorNormal = staticConvexCast.getInfoAt(0).mContactNormal;
         Ogre::Vector3 gravityForce = m_gravity - floorNormal*(floorNormal.dotProduct(m_gravity));
-        targetVel -= floorNormal * floorNormal.dotProduct(m_gravity) + gravityForce * timestep;
+        targetVel += gravityForce*timestep - floorNormal * floorNormal.dotProduct(targetVel);
     }
 
     // make sure the body velocity will not penetrate other bodies
@@ -586,8 +585,8 @@ void PlayerController::playerOnLand( Ogre::Real timestep, int threadIndex )
 
             Ogre::Vector3 floorNormal = allBodyConvexCast.getInfoAt(0).mContactNormal;
 
-            isFuturePosInRamp = upDir.angleBetween(floorNormal) > m_maxSlope;
-            if( !isFuturePosInRamp )
+            isFuturePosInRamp = upDir.angleBetween(floorNormal) < m_maxSlope;
+            if( isFuturePosInRamp )
             {
                 AllBodyConvexCast allBodyConvexCast2(this);
                 Ogre::Vector3 castStart2, castTarget2;
@@ -599,7 +598,7 @@ void PlayerController::playerOnLand( Ogre::Real timestep, int threadIndex )
                 
                 allBodyConvexCast2.go(m_bodyFloorSensorShape, castStart2, ori, castTarget2, 1, threadIndex, filterBodies);
 
-                if( distanceToFirstHit < allBodyConvexCast2.getDistanceToFirstHit() && allBodyConvexCast2.getContactsCount() > 0 )
+                if( distanceToFirstHit >= allBodyConvexCast2.getDistanceToFirstHit() && allBodyConvexCast2.getContactsCount() > 0 )
                 {
                     setPlayerState(PS_ONILLEGALRAMP);
                 }
@@ -610,7 +609,7 @@ void PlayerController::playerOnLand( Ogre::Real timestep, int threadIndex )
                     int iterations, contactCount = 1;
                     Ogre::Vector3 savedTargetVel;
                     savedTargetVel = targetVel;
-                    for( iterations = 0; iterations < m_maxCollisionsIteration && contactCount; iterations++ )
+                    for( iterations = 0; (iterations < m_maxCollisionsIteration) && contactCount; iterations++ )
                     {
                         Ogre::Real projectVel;
                         Ogre::Vector3 castStart3, castTarget3;
@@ -658,14 +657,14 @@ void PlayerController::playerOnLand( Ogre::Real timestep, int threadIndex )
                             targetVel = targetVel1;
                             distanceToFirstHit = 0.0f;
                             step = Ogre::Vector3::ZERO;
-                            pos -= upDir*m_kinematicCushion;
+                            castStart -= upDir*m_kinematicCushion;
                         }
                     }
                     
                 }
             }
 
-            Ogre::Vector3 newPos = pos + (castTarget - castStart)*distanceToFirstHit + upDir*m_kinematicCushion;
+            Ogre::Vector3 newPos = castStart + (castTarget - castStart)*distanceToFirstHit + upDir*m_kinematicCushion;
             newPos -= step;
             m_body->setPositionOrientation(newPos, ori);
 
