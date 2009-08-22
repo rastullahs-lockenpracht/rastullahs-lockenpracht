@@ -163,9 +163,14 @@ namespace OgreNewt
             \param orient world orientation of the collision.
             \param pos world position of the collision.
         */
-        _OgreNewtExport Ogre::AxisAlignedBox CollisionCalculateAABB( const OgreNewt::CollisionPtr& col, const Ogre::Quaternion& orient, const Ogre::Vector3& pos );
+        _OgreNewtExport Ogre::AxisAlignedBox CollisionCalculateFittingAABB( const OgreNewt::CollisionPtr& col,
+                const Ogre::Quaternion& orient = Ogre::Quaternion::IDENTITY,
+                const Ogre::Vector3& pos = Ogre::Vector3::ZERO );
 
-    }   // end namespace "ColliionTools"
+        //! Get a vertex of the collision in the given direction
+        _OgreNewtExport Ogre::Vector3 CollisionSupportVertex( const OgreNewt::CollisionPtr& col, const Ogre::Vector3& dir );
+
+    }   // end namespace "CollisionTools"
 
     namespace Springs
     {

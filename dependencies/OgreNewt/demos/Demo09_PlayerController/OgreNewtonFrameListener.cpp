@@ -53,18 +53,17 @@ bool OgreNewtonFrameListener::frameStarted(const FrameEvent &evt)
     OgreNewt::Debugger& debug(m_World->getDebugger());
     if (mKeyboard->isKeyDown(OIS::KC_F3))
     {
-        //debug.showDebugInformation();
         debug.startRaycastRecording();
         debug.clearRaycastsRecorded();
+        debug.showDebugInformation();
     }
     else
     {
-        //debug.hideDebugInformation();
         debug.clearRaycastsRecorded();
         debug.stopRaycastRecording();
+        debug.hideDebugInformation();
     }
 
-debug.startRaycastRecording();
 
 
     if (mKeyboard->isKeyDown(OIS::KC_T))

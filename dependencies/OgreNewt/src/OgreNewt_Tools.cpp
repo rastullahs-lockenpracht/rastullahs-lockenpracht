@@ -202,15 +202,33 @@ namespace OgreNewt
             return NewtonCollisionRayCast( col->getNewtonCollision(), &startPt.x, &endPt.x, &retNorm.x, &retColID );
         }
 
-        Ogre::AxisAlignedBox CollisionCalculateAABB( const OgreNewt::CollisionPtr& col, const Ogre::Quaternion& orient, const Ogre::Vector3& pos )
+        Ogre::AxisAlignedBox CollisionCalculateFittingAABB( const OgreNewt::CollisionPtr& col, const Ogre::Quaternion& orient, const Ogre::Vector3& pos )
         {
-            float matrix[16];
-            Converters::QuatPosToMatrix( orient, pos, matrix );
-            Ogre::Vector3 min, max;
+            Ogre::Vector3 max, min;
 
-            NewtonCollisionCalculateAABB( col->getNewtonCollision(), matrix, &min.x, &max.x );
+            for( int i = 0; i < 3; i++ )
+            {
+                Ogre::Vector3 currentDir, supportVertex;
 
-            return Ogre::AxisAlignedBox( min, max );
+                currentDir = Ogre::Vector3::ZERO;
+                currentDir[i] = 1;
+                currentDir = orient*currentDir;
+                supportVertex = CollisionSupportVertex( col, currentDir ) - pos;
+                max[i] = supportVertex.dotProduct(currentDir);
+
+                currentDir *= -1.0f;
+                supportVertex = CollisionSupportVertex( col, currentDir ) - pos;
+                min[i] = -supportVertex.dotProduct(currentDir);
+            }
+
+            return Ogre::AxisAlignedBox(min, max);
+        }
+
+        Ogre::Vector3 CollisionSupportVertex( const OgreNewt::CollisionPtr& col, const Ogre::Vector3& dir )
+        {
+            Ogre::Vector3 ret;
+            NewtonCollisionSupportVertex( col->getNewtonCollision(), &dir.x, &ret.x );
+            return ret;
         }
 
     }   // end namespace "CollisionTools"

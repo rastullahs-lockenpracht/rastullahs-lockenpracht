@@ -84,6 +84,9 @@ public:
     void makeUnique();
 
     //! get the Axis-Aligned Bounding Box for this collision shape.
+    /*!
+     * \warning The returned AABB can be too large! If you need an AABB that fits exactly use the OgreNewt::CollisionTools::CalculateFittingAABB function
+    */
     Ogre::AxisAlignedBox getAABB( const Ogre::Quaternion& orient = Ogre::Quaternion::IDENTITY, const Ogre::Vector3& pos = Ogre::Vector3::ZERO ) const;
 
     //! Returns the Collisiontype for this Collision

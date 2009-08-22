@@ -47,9 +47,9 @@ void PlayerController::updateGeometry()
 {
     m_localFrame.setScale( Ogre::Vector3::UNIT_SCALE );
     m_localFrame.setTrans(  m_body->getCenterOfMass() );
-    Ogre::AxisAlignedBox playerAabb = m_body->getCollision()->getAABB( m_localFrame.extractQuaternion() );
+    Ogre::AxisAlignedBox playerAabb = CollisionTools::CollisionCalculateFittingAABB( m_body->getCollision(), m_localFrame.extractQuaternion() );
     Ogre::Real playerHeight = playerAabb.getSize().y;
-    Ogre::Real playerRadius = std::max(playerAabb.getSize().x, playerAabb.getSize().z);
+    Ogre::Real playerRadius = std::max(playerAabb.getSize().x, playerAabb.getSize().z) / 2.0f;
     
     m_maxRadius = playerRadius + m_kinematicCushion;
 
@@ -577,15 +577,13 @@ void PlayerController::playerOnLand( Ogre::Real timestep, int threadIndex )
     }
     else
     {
-        if( distanceToFirstHit <= 1.0e-3f )
-            ;
-        else
+        if( distanceToFirstHit > 1.0e-3f )
         {
             bool isFuturePosInRamp;
 
             Ogre::Vector3 floorNormal = allBodyConvexCast.getInfoAt(0).mContactNormal;
 
-            isFuturePosInRamp = upDir.angleBetween(floorNormal) < m_maxSlope;
+            isFuturePosInRamp = upDir.angleBetween(floorNormal) > m_maxSlope;
             if( isFuturePosInRamp )
             {
                 AllBodyConvexCast allBodyConvexCast2(this);
@@ -636,7 +634,7 @@ void PlayerController::playerOnLand( Ogre::Real timestep, int threadIndex )
                             floorNormal = allBodyConvexCast3.getInfoAt(0).mContactNormal;
                             filterBodies.push_back(allBodyConvexCast3.getInfoAt(0).mBody);
                             
-                            if( upDir.angleBetween( floorNormal ) < m_maxSlope )
+                            if( upDir.angleBetween( floorNormal ) > m_maxSlope )
                                 contactCount = 1;
                             else
                                 contactCount = 0;

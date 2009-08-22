@@ -66,6 +66,8 @@
     \section new New in this version
 
     New in this version
+        - removed CollisionTools::CollisionCalculateAABB (because there's col->getAABB() ) and added a function to calculate the correct AABB
+          CollisionTools::CollisionCalculateFittingAABB
         - ConvexCast:
             - added "NormalOnHitPoint"
         - added player controller demo
