@@ -19,7 +19,7 @@
 
 #include "CoreSubsystem.h"
 
-#include <OgreEnvironment.h>
+#include <MmOgreEnvironment.h>
 
 #include "ActorManager.h"
 #include "AnimationManager.h"

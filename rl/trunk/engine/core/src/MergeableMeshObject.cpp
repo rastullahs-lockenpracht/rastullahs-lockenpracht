@@ -17,7 +17,7 @@
 
 #include "MergeableMeshObject.h"
 
-#include <MeshMergeTool.h>
+#include <MmMeshMergeTool.h>
 
 #include "CoreSubsystem.h"
 #include "World.h"
@@ -83,7 +83,7 @@ namespace rl
                         LOG_ERROR(Logger::CORE, "Mesh '" + curMeshfile + "' could not be found for merging.");
                     }
 				}
-				newMesh = mm.bake(newMeshName);
+				newMesh = mm.merge(newMeshName);
 			}
 
 
