@@ -118,7 +118,7 @@ namespace rl {
 
         LOG_MESSAGE2(Logger::UI,
             "Initializing CEGUI Renderer.", "UiSubsystem::initializeUiSubsystem");
-		mGuiRenderer = &OgreRenderer::bootstrapSystem(*CoreSubsystem::getSingleton().getRenderWindow());
+		mGuiRenderer = &OgreRenderer::create(*CoreSubsystem::getSingleton().getRenderWindow());
 
         LOG_MESSAGE2(Logger::UI,
             "Initializing CEGUI System.", "UiSubsystem::initializeUiSubsystem");

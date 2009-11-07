@@ -305,7 +305,10 @@ namespace rl
         addPlugin("Plugin_ParticleFX", mOgrePluginDirectory);
         addPlugin("Plugin_OctreeSceneManager", mOgrePluginDirectory);
 		addPlugin("Plugin_CgProgramManager", mOgrePluginDirectory);
+	}
 
+	void ConfigurationManager::loadModulesConfig()
+	{
         // Load the module list
         ConfigFile* configfile = new ConfigFile();
         configfile->load(fs::path(mModulesRootDirectory + "/" + mModulesCfgFile).native_directory_string());

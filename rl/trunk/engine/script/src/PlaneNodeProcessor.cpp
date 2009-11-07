@@ -31,7 +31,7 @@ namespace rl
 	{
 	}
 
-	bool PlaneNodeProcessor::processNode(const TiXmlElement *nodeElem, bool loadGameObjects)
+	bool PlaneNodeProcessor::processNode(const TiXmlElement *nodeElem, const Ogre::String& resourceGroup, bool loadGameObjects)
 	{
 		if (!hasNodeName(nodeElem, "plane"))
         {
@@ -93,7 +93,7 @@ namespace rl
 		plane->d = 0;
 		plane->normal = Vector3::UNIT_Y;
 
-		MeshManager::getSingleton().createPlane(entName + "Mesh", "custom", *plane, scale.x, scale.y, 10, 10, true, 1, 1, 1, Vector3::UNIT_Z);
+		MeshManager::getSingleton().createPlane(entName + "Mesh", resourceGroup, *plane, scale.x, scale.y, 10, 10, true, 1, 1, 1, Vector3::UNIT_Z);
 
 		Entity* ent = CoreSubsystem::getSingleton().getWorld()->getSceneManager()->createEntity(entName, entName + "Mesh");
 

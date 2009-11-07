@@ -147,13 +147,13 @@ namespace rl {
                 processSceneNodes(getChildNamed(dataDocumentContent, "nodes"), loadGameObjects);
 
 			    ZoneProcessor zp;
-			    zp.processNode(getChildNamed(dataDocumentContent, "zones"), loadGameObjects);
+				zp.processNode(getChildNamed(dataDocumentContent, "zones"), mResourceGroup, loadGameObjects);
 
 			    EnvironmentProcessor ep;
-			    ep.processNode(getChildNamed(dataDocumentContent, "environment"), loadGameObjects);
+			    ep.processNode(getChildNamed(dataDocumentContent, "environment"), mResourceGroup, loadGameObjects);
 
 			    WaypointProcessor wp;
-			    wp.processNode(getChildNamed(dataDocumentContent, "waypoints"), loadGameObjects);
+			    wp.processNode(getChildNamed(dataDocumentContent, "waypoints"), mResourceGroup, loadGameObjects);
 
                 LOG_MESSAGE(Logger::SCRIPT, "Map " + mapresource + " loaded");
 
@@ -271,7 +271,7 @@ namespace rl {
             	const TiXmlElement* curElem = cur->ToElement();
 
                 std::list<AbstractMapNodeProcessor*>::iterator it = mNodeProcessors.begin();
-                while (it != mNodeProcessors.end() && !(*it)->processNode(curElem, loadGameObjects))
+                while (it != mNodeProcessors.end() && !(*it)->processNode(curElem, mResourceGroup, loadGameObjects))
                 {
                     ++it;
                 }

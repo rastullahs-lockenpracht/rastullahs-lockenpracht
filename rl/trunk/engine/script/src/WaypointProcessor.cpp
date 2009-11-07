@@ -25,7 +25,7 @@ using namespace Ogre;
 
 namespace rl
 {
-	bool WaypointProcessor::processNode(const TiXmlElement* nodeElem, bool loadGameObjects)
+	bool WaypointProcessor::processNode(const TiXmlElement* nodeElem, const Ogre::String& resourceGroup, bool loadGameObjects)
 	{
 		if (nodeElem == NULL)
 		{

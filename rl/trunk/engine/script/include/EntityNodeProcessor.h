@@ -33,7 +33,7 @@ namespace rl
     public:
         EntityNodeProcessor(const Ogre::String& resourcegroup);
 
-        virtual bool processNode(const TiXmlElement* nodeElem, bool loadGameObjects);
+        virtual bool processNode(const TiXmlElement* nodeElem, const Ogre::String& resourceGroup, bool loadGameObjects);
 
     private:
         Ogre::String mResourceGroup;

@@ -31,7 +31,7 @@ namespace rl
     {
     }
 
-    bool EntityNodeProcessor::processNode(const TiXmlElement* nodeElem, bool loadGameObjects)
+    bool EntityNodeProcessor::processNode(const TiXmlElement* nodeElem, const Ogre::String& resourceGroup, bool loadGameObjects)
     {
         if (!hasNodeName(nodeElem, "entity"))
         {

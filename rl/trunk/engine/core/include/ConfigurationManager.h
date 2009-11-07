@@ -216,9 +216,16 @@ namespace rl
              * Loads configuration files from the configuration directories
              *
              * Loads up to four configuration files (systemwide, user, current
-             * directory, module) and sets certain settings for the game
+             * directory) and sets certain settings for the game
              */
             void loadConfig();
+
+            /**
+             * Loads module configuration files 
+             *
+			 * NOTE: run loadConfig() beforehand to get the path to that configuration file
+             */
+			void loadModulesConfig();
 
             /**
              * Saves a configuration file in OS specific directory

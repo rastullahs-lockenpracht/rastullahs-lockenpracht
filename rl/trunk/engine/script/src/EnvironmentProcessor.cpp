@@ -26,7 +26,7 @@ using namespace Ogre;
 
 namespace rl
 {
-	bool EnvironmentProcessor::processNode(const TiXmlElement* nodeElem, bool loadGameObjects)
+	bool EnvironmentProcessor::processNode(const TiXmlElement* nodeElem, const Ogre::String& resourceGroup, bool loadGameObjects)
 	{
 		if (nodeElem)
 		{

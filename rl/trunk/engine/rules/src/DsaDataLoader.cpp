@@ -77,6 +77,7 @@ namespace rl {
             {
                 Talent* t = processTalent(gruppe, talenteXml[talentIdx]);
                 //numTalent++;
+				LOG_MESSAGE("DsaDataLoader", "Found talent " + t->getName());
 				DsaManager::getSingleton()._addTalent(t);
             }
 		}

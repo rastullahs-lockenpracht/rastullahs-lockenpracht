@@ -24,7 +24,7 @@ namespace rl
     class GameObjectNodeProcessor : public AbstractMapNodeProcessor
     {
     public:
-        virtual bool processNode(const TiXmlElement* nodeElem, bool loadGameObjects);
+        virtual bool processNode(const TiXmlElement* nodeElem, const Ogre::String& resourceGroup, bool loadGameObjects);
     };
 }
 

@@ -30,7 +30,7 @@ using namespace Ogre;
 namespace rl
 {
 
-	bool ZoneProcessor::processNode(const TiXmlElement* zonesElem, bool loadGameObjects)
+	bool ZoneProcessor::processNode(const TiXmlElement* zonesElem, const Ogre::String& resourceGroup, bool loadGameObjects)
 	{
 		if (zonesElem == NULL)
 		{

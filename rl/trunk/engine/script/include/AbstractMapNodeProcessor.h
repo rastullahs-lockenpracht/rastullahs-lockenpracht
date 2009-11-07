@@ -30,7 +30,7 @@ namespace rl
     public:
         virtual ~AbstractMapNodeProcessor();
         
-        virtual bool processNode(const TiXmlElement* nodeElem, bool loadGameObjects) = 0;
+		virtual bool processNode(const TiXmlElement* nodeElem, const Ogre::String& resourceGroup, bool loadGameObjects) = 0;
         
         void setRootSceneNode(Ogre::SceneNode* node);
 

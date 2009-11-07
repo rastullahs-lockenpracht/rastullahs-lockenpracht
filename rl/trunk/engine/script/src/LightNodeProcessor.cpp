@@ -24,7 +24,7 @@ using namespace Ogre;
 
 namespace rl
 {
-    bool LightNodeProcessor::processNode(const TiXmlElement* nodeElem, bool loadGameObjects)
+    bool LightNodeProcessor::processNode(const TiXmlElement* nodeElem, const Ogre::String& resourceGroup, bool loadGameObjects)
     {
         if (!hasNodeName(nodeElem, "light"))
         {

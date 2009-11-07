@@ -54,7 +54,7 @@ const TiXmlElement* XmlProcessor::getChildNamed(const TiXmlElement* parent, cons
 
 	for (const TiXmlNode* cur = parent->FirstChild(); cur; cur = cur->NextSibling())
 	{
-		if (cur->Type() == TiXmlNode::ELEMENT && cur->Value() == name)
+		if (cur->Type() == TiXmlNode::ELEMENT && cur->ValueTStr() == name)
 		{
 			return cur->ToElement();
 		}
@@ -69,7 +69,7 @@ TiXmlElement* XmlProcessor::getChildNamed(TiXmlElement* parent, const char* cons
 
 	for (TiXmlNode* cur = parent->FirstChild(); cur; cur = cur->NextSibling())
 	{
-		if (cur->Type() == TiXmlNode::ELEMENT && cur->Value() == name)
+		if (cur->Type() == TiXmlNode::ELEMENT && cur->ValueTStr() == name)
 		{
 			return cur->ToElement();
 		}
@@ -128,7 +128,8 @@ void XmlProcessor::setValueAsString(TiXmlElement *element, const CeGuiString &va
 CeGuiString XmlProcessor::getValueAsString(const TiXmlElement* element) const
 {
     RlAssert(element != NULL, "XmlProcessor::getValueAsString: Element must not be NULL");
-	return element->FirstChild()->Value();
+	const utf8* value = reinterpret_cast<const utf8*>(element->FirstChild()->Value());
+	return value ? CeGuiString(value) : CeGuiString();
 }
 
 std::string XmlProcessor::getValueAsStdString(const TiXmlElement* element) const
@@ -308,8 +309,8 @@ void XmlProcessor::setAttributeValueAsString(TiXmlElement *element, const char *
 CeGuiString XmlProcessor::getAttributeValueAsString(const TiXmlElement* element, const char* const name) const
 {
     RlAssert(element != NULL, "XmlProcessor::getAttributeValueAsString: Element must not be NULL");
-	CeGuiString rVal(element->Attribute(name));
-	return rVal;
+	const utf8* value = reinterpret_cast<const utf8*>(element->Attribute(name));
+	return value ? CeGuiString(value) : CeGuiString();
 }
 
 void XmlProcessor::setAttributeValueAsStdString(TiXmlElement *element, const char *const name, const std::string &value) const
@@ -321,7 +322,8 @@ void XmlProcessor::setAttributeValueAsStdString(TiXmlElement *element, const cha
 std::string XmlProcessor::getAttributeValueAsStdString(const TiXmlElement* element, const char* const name) const
 {
     RlAssert(element != NULL, "XmlProcessor::getAttributeValueAsStdString: Element must not be NULL");
-	return element->Attribute(name);
+	const char* value = element->Attribute(name);
+	return value ? std::string(value) : std::string("");
 }
 
 void XmlProcessor::setAttributeValueAsBool(TiXmlElement *element, const char *const name, bool value) const

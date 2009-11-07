@@ -36,7 +36,7 @@ namespace rl
     public:
         PlaneNodeProcessor();
 
-        virtual bool processNode(const TiXmlElement* nodeElem, bool loadGameObjects);
+        virtual bool processNode(const TiXmlElement* nodeElem, const Ogre::String& resourceGroup, bool loadGameObjects);
 
     private:
 

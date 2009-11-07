@@ -436,43 +436,49 @@ namespace rl
         CeGuiString id = getAttributeValueAsString(switchOptXml, "id");
         DialogOptionSelection* option = dynamic_cast<DialogOptionSelection*>(dialogPrototype->getOption(id));
 
-        if (!option) Throw(IllegalArgumentException, CeGuiString("No switchoption with ID "+ id).c_str());
+        if (!option)
+		{
+			Throw(IllegalArgumentException, CeGuiString("No switchoption with ID "+ id).c_str());
+		}
 
-        for (const TiXmlNode* cur = switchOptXml->FirstChild(); cur != NULL; cur = cur->NextSibling())
+        for (const TiXmlNode* cur = switchOptXml->FirstChild(); cur; cur = cur->NextSibling())
         {
-            DialogVariable* variable = processVariableClasses(cur->ToElement());
-            if (variable != NULL)
-            {
-                option->setVariable(variable);
-            }
-            else if (hasNodeName(cur, "case"))
-            {
-                DialogCondition* condition = processCase(cur->ToElement());
-                for (const TiXmlNode* caseChild = cur->FirstChild(); caseChild != NULL; caseChild = caseChild->NextSibling())
-                {
-                    DialogOption* optionCase = processOptionClasses(caseChild, dialogPrototype);
-                    if (optionCase)
-                    {
-                        option->addElement(condition, optionCase);
-                        break;
-                    }
-                }
-            }
-            // process translations
-            else if (hasNodeName(cur, "t"))
-            {
-                const TiXmlElement* translation = cur->ToElement();
-                // check loca
-                if (getAttributeValueAsStdString(translation, "language") ==
-                   ConfigurationManager::getSingleton().getStringSetting("Localization", "language"))
-                {
-                    std::string label = getAttributeValueAsStdString(translation, "label");
-                    if (!label.empty())
-                    {
-                        option->setLabel(label);
-                    }
-                }
-            }
+			if (cur->Type() == TiXmlNode::ELEMENT)
+			{
+				DialogVariable* variable = processVariableClasses(cur->ToElement());
+				if (variable != NULL)
+				{
+					option->setVariable(variable);
+				}
+				else if (hasNodeName(cur, "case"))
+				{
+					DialogCondition* condition = processCase(cur->ToElement());
+					for (const TiXmlNode* caseChild = cur->FirstChild(); caseChild != NULL; caseChild = caseChild->NextSibling())
+					{
+						DialogOption* optionCase = processOptionClasses(caseChild, dialogPrototype);
+						if (optionCase)
+						{
+							option->addElement(condition, optionCase);
+							break;
+						}
+					}
+				}
+				// process translations
+				else if (hasNodeName(cur, "t"))
+				{
+					const TiXmlElement* translation = cur->ToElement();
+					// check loca
+					if (getAttributeValueAsStdString(translation, "language") ==
+					   ConfigurationManager::getSingleton().getStringSetting("Localization", "language"))
+					{
+						std::string label = getAttributeValueAsStdString(translation, "label");
+						if (!label.empty())
+						{
+							option->setLabel(label);
+						}
+					}
+				}
+			}
         }
 
         return option;
