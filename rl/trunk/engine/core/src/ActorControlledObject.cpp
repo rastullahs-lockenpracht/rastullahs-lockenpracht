@@ -41,7 +41,7 @@ namespace rl {
     {
         if (mMovableObject != NULL)
         {
-            mMovableObject->setUserObject(actor);
+            mMovableObject->setUserAny(Ogre::Any(actor));
         }
     }
 
@@ -49,7 +49,7 @@ namespace rl {
     {
         if (mMovableObject != NULL)
         {
-            return static_cast<Actor*>(mMovableObject->getUserObject());
+            return any_cast<Actor*>(mMovableObject->getUserAny());
         }
         return NULL;
     }

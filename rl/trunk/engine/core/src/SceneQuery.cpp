@@ -173,8 +173,11 @@ namespace rl
         for (SceneQueryResultMovableList::const_iterator it = result.movables.begin(),
             end = result.movables.end(); it != end; ++it)
         {
-            Actor* actor = dynamic_cast<Actor*>((*it)->getUserObject());
-            if (actor != NULL) mResult.push_back(actor);
+            Actor* actor = any_cast<Actor*>((*it)->getUserAny());
+            if (actor)
+            {
+            	mResult.push_back(actor);
+            }
         }
 
         return mResult;
@@ -247,8 +250,11 @@ namespace rl
             Vector3 movablePos = (*it)->getParentNode()->_getDerivedPosition();
             if (forward.dotProduct(movablePos - mPosition) > 0.0f)
             {
-                Actor* actor = dynamic_cast<Actor*>((*it)->getUserObject());
-                if (actor != NULL) mResult.push_back(actor);
+                Actor* actor = any_cast<Actor*>((*it)->getUserAny());
+                if (actor != NULL)
+                {
+                	mResult.push_back(actor);
+                }
             }
         }
 
@@ -291,8 +297,8 @@ namespace rl
 	bool OgreRaySceneQuery::queryResult(
 		Ogre::MovableObject* obj, Ogre::Real distance)
 	{
-        Actor* actor = dynamic_cast<Actor*>(obj->getUserObject());
-        if (actor != NULL)
+        Actor* actor = any_cast<Actor*>(obj->getUserAny());
+        if (actor)
 		{
 			mResult.push_back(actor);
 		}

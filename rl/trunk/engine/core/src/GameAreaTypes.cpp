@@ -75,10 +75,10 @@ namespace rl {
         for (it = movList.begin(); it != movList.end(); ++it)
         {
             MovableObject* mov = *it;
-            if( mov->getUserObject() != NULL )
+            if (!mov->getUserAny().isNull())
             {
                 // Zur Zeit sind die einzigen an Movables gekn¸pfte Objekte Actoren
-                Actor* act = dynamic_cast<Actor*>( mov->getUserObject() );
+                Actor* act = any_cast<Actor*>(mov->getUserAny());
                 retMap.insert(ActorPair(act->getName(),act));
             }
         }
