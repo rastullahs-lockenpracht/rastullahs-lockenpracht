@@ -15,8 +15,6 @@
  */
 #include "stdinc.h"
 
-#include <xercesc/dom/DOM.hpp>
-
 #ifdef __APPLE__
 #   include <CEGUI/CEGUIPropertyHelper.h>
 #else
@@ -40,7 +38,6 @@
 
 using namespace Ogre;
 using namespace std;
-using namespace XERCES_CPP_NAMESPACE;
 
 namespace rl
 {
@@ -64,21 +61,22 @@ namespace rl
 
     void DialogLoaderImpl::parseDialog(DataStreamPtr& stream, const Ogre::String& groupName)
     {
-        initializeXml();
-
-        DOMDocument* doc = loadDocument(stream);
+        TiXmlDocument* doc = loadDocument(stream);
         if (doc)
         {
-            DOMNodeList* dialogNodes = doc->getElementsByTagName(AutoXMLCh("dialog").data());
-
-            for (XMLSize_t i = 0; i < dialogNodes->getLength(); ++i)
-            {
-                DOMNode* cur = dialogNodes->item(i);
-                processDialog(static_cast<DOMElement*>(cur));
-            }
+        	doc->Accept(this);
         }
+        delete doc;
+    }
 
-        shutdownXml();
+    bool DialogLoaderImpl::VisitEnter(const TiXmlElement &element, const TiXmlAttribute *firstAttribute)
+    {
+    	if (element.ValueTStr() == "dialog")
+    	{
+    		processDialog(&element);
+    		return false;
+    	}
+    	return true;
     }
 
     Dialog* DialogLoaderImpl::createDialog(const String& name, const CreatureList& participants) const
@@ -94,7 +92,7 @@ namespace rl
         return it->second->createDialog(participants);
     }
 
-    void DialogLoaderImpl::processDialog(DOMElement* dialogElem)
+    void DialogLoaderImpl::processDialog(const TiXmlElement* dialogElem)
     {
         DialogPrototype* dialogPrototype = new DialogPrototype();
         Ogre::String name = getAttributeValueAsStdString(dialogElem, "name");
@@ -106,32 +104,32 @@ namespace rl
         processElementNodes(dialogElem, "response", dialogPrototype);
         processElementNodes(dialogElem, "switchresponse", dialogPrototype);
 
-        for (DOMNode* curChild = dialogElem->getFirstChild(); curChild != NULL; curChild = curChild->getNextSibling())
+        for (const TiXmlNode* curChild = dialogElem->FirstChild(); curChild != NULL; curChild = curChild->NextSibling())
         {
             if (hasNodeName(curChild, "variable"))
             {
-                createDialogVariable(static_cast<DOMElement*>(curChild), dialogPrototype);
+                createDialogVariable(curChild->ToElement(), dialogPrototype);
             }
             else if (hasNodeName(curChild, "option"))
             {
-                processOption(static_cast<DOMElement*>(curChild), dialogPrototype, true);
+                processOption(curChild->ToElement(), dialogPrototype, true);
             }
             else if (hasNodeName(curChild, "switchoption"))
             {
-                processSwitchOption(static_cast<DOMElement*>(curChild), dialogPrototype);
+                processSwitchOption(curChild->ToElement(), dialogPrototype);
             }
             else if (hasNodeName(curChild, "response"))
             {
-                processResponse(static_cast<DOMElement*>(curChild), dialogPrototype, true);
+                processResponse(curChild->ToElement(), dialogPrototype, true);
             }
             else if (hasNodeName(curChild, "switchresponse"))
             {
-                processSwitchResponse(static_cast<DOMElement*>(curChild), dialogPrototype);
+                processSwitchResponse(curChild->ToElement(), dialogPrototype);
             }
             else if (hasNodeName(curChild, "start"))
             {
-                for (DOMNode* curChildChild = curChild->getFirstChild(); curChildChild != NULL;
-                     curChildChild = curChildChild->getNextSibling())
+                for (const TiXmlNode* curChildChild = curChild->FirstChild(); curChildChild != NULL;
+                     curChildChild = curChildChild->NextSibling())
                 {
                     DialogResponse* response = processResponseClasses(curChildChild, dialogPrototype);
                     if (response)
@@ -142,12 +140,12 @@ namespace rl
             }
             else if (hasNodeName(curChild, "persons"))
             {
-                for (DOMNode* curChildChild = curChild->getFirstChild(); curChildChild != NULL;
-                                     curChildChild = curChildChild->getNextSibling())
+                for (const TiXmlNode* curChildChild = curChild->FirstChild(); curChildChild != NULL;
+                                     curChildChild = curChildChild->NextSibling())
                 {
                     if (hasNodeName(curChildChild, "person"))
                     {
-                        dialogPrototype->addParticipant(processPerson(static_cast<DOMElement*>(curChildChild)));
+                        dialogPrototype->addParticipant(processPerson(curChildChild->ToElement()));
                     }
                 }
             }
@@ -155,12 +153,12 @@ namespace rl
         LOG_MESSAGE(Logger::AI, "Processed Dialog "+ name);
     }
 
-    void DialogLoaderImpl::processElementNodes(XERCES_CPP_NAMESPACE::DOMElement* dialogXml, const Ogre::String& nodeName, DialogPrototype* dialogPrototype)
+    void DialogLoaderImpl::processElementNodes(const TiXmlElement* dialogXml, const Ogre::String& nodeName, DialogPrototype* dialogPrototype)
     {
-        DOMNodeList* dialogElemNodes = dialogXml->getElementsByTagName(AutoXMLCh(nodeName.c_str()).data());
-        for (XMLSize_t i = 0; i < dialogElemNodes->getLength(); ++i)
+        XmlElementList dialogElemNodes = getElementsByTagName(dialogXml, nodeName.c_str());
+        for (XmlElementList::iterator it = dialogElemNodes.begin(); it != dialogElemNodes.end(); ++it)
         {
-            DOMElement* dialogElemXml = static_cast<DOMElement*>(dialogElemNodes->item(i));
+            const TiXmlElement* dialogElemXml = *it;
             if (!hasAttribute(dialogElemXml, "id"))
             {
                 Throw(WrongFormatException, "option/switchoption/response/switchresponse node without id found");
@@ -205,25 +203,25 @@ namespace rl
 
     }
 
-    DialogResponse* DialogLoaderImpl::processResponseClasses(DOMNode *node, DialogPrototype *dialogPrototype)
+    DialogResponse* DialogLoaderImpl::processResponseClasses(const TiXmlNode *node, DialogPrototype *dialogPrototype)
     {
         DialogResponse* response = NULL;
         if (hasNodeName(node, "response"))
         {
-            response = processResponse(static_cast<DOMElement*>(node), dialogPrototype, true);
+            response = processResponse(node->ToElement(), dialogPrototype, true);
         }
         else if (hasNodeName(node, "gotoresponse"))
         {
-            response = processResponse(static_cast<DOMElement*>(node), dialogPrototype, false);
+            response = processResponse(node->ToElement(), dialogPrototype, false);
         }
         else if (hasNodeName(node, "switchresponse"))
         {
-            response = processSwitchResponse(static_cast<DOMElement*>(node), dialogPrototype);
+            response = processSwitchResponse(node->ToElement(), dialogPrototype);
         }
         return response;
     }
 
-    DialogResponse* DialogLoaderImpl::processResponse(DOMElement *responseXml, DialogLoaderImpl::DialogPrototype *dialogPrototype, bool subelements)
+    DialogResponse* DialogLoaderImpl::processResponse(const TiXmlElement *responseXml, DialogLoaderImpl::DialogPrototype *dialogPrototype, bool subelements)
     {
         CeGuiString id = getAttributeValueAsString(responseXml, "id");
 
@@ -232,12 +230,12 @@ namespace rl
         if (!response)  Throw(IllegalArgumentException, CeGuiString("No response with ID "+ id).c_str());
 
         bool languageDefined = false;
-        DOMElement* defaultLanguage = NULL;
+        const TiXmlElement* defaultLanguage = NULL;
         if (subelements)
         {
             bool paragraphsDefined = false;
 
-            for (DOMNode* cur = responseXml->getFirstChild(); cur != NULL; cur = cur->getNextSibling())
+            for (const TiXmlNode* cur = responseXml->FirstChild(); cur != NULL; cur = cur->NextSibling())
             {
                 DialogOption* option = processOptionClasses(cur, dialogPrototype);
                 if (option)
@@ -255,13 +253,13 @@ namespace rl
 
                 if (hasNodeName(cur, "p"))
                 {
-                    response->addParagraph(processParagraph(static_cast<DOMElement*>(cur)));
+                    response->addParagraph(processParagraph(cur->ToElement()));
                     paragraphsDefined = true;
                 }
                 // process translations
                 else if (hasNodeName(cur, "t"))
                 {
-                    DOMElement* translation = static_cast<DOMElement*>(cur);
+                	const TiXmlElement* translation = cur->ToElement();
                     // check loca
                     if (getAttributeValueAsStdString(translation, "language")
                        == ConfigurationManager::getSingleton().getStringSetting("Localization", "language"))
@@ -278,7 +276,7 @@ namespace rl
                 }
                 else if (hasNodeName(cur, "gotoresponse"))
                 {
-                    CeGuiString id = getAttributeValueAsString(static_cast<DOMElement*>(cur), "id");
+                    CeGuiString id = getAttributeValueAsString(cur->ToElement(), "id");
                     response->addParagraph(new DialogGotoResponse(dialogPrototype->getResponse(id)));
                 }
             }
@@ -301,24 +299,24 @@ namespace rl
         return response;
     }
 
-    DialogResponse* DialogLoaderImpl::processSwitchResponse(XERCES_CPP_NAMESPACE::DOMElement* switchRespXml, DialogPrototype* dialogPrototype)
+    DialogResponse* DialogLoaderImpl::processSwitchResponse(const TiXmlElement* switchRespXml, DialogPrototype* dialogPrototype)
     {
         CeGuiString id = getAttributeValueAsString(switchRespXml, "id");
         DialogSelection<DialogResponse>* response = dynamic_cast<DialogSelection<DialogResponse>*>(dialogPrototype->getResponse(id));
 
         if (!response)  Throw(IllegalArgumentException, CeGuiString("No switchresponse with ID "+ id).c_str());
 
-        for (DOMNode* cur = switchRespXml->getFirstChild(); cur != NULL; cur = cur->getNextSibling())
+        for (const TiXmlNode* cur = switchRespXml->FirstChild(); cur != NULL; cur = cur->NextSibling())
         {
-            DialogVariable* variable = processVariableClasses(static_cast<DOMElement*>(cur));
+            DialogVariable* variable = processVariableClasses(cur->ToElement());
             if (variable != NULL)
             {
                 response->setVariable(variable);
             }
             else if (hasNodeName(cur, "case"))
             {
-                DialogCondition* condition = processCase(static_cast<DOMElement*>(cur));
-                for (DOMNode* caseChild = cur->getFirstChild(); caseChild != NULL; caseChild = caseChild->getNextSibling())
+                DialogCondition* condition = processCase(cur->ToElement());
+                for (const TiXmlNode* caseChild = cur->FirstChild(); caseChild != NULL; caseChild = caseChild->NextSibling())
                 {
                     DialogResponse* responseCase = processResponseClasses(caseChild, dialogPrototype);
                     if (responseCase)
@@ -334,26 +332,26 @@ namespace rl
         return response;
     }
 
-    DialogOption* DialogLoaderImpl::processOptionClasses(DOMNode *node, DialogPrototype *dialogPrototype)
+    DialogOption* DialogLoaderImpl::processOptionClasses(const TiXmlNode *node, DialogPrototype *dialogPrototype)
     {
         DialogOption* option = NULL;
         if (hasNodeName(node, "option"))
         {
-            option = processOption(static_cast<DOMElement*>(node), dialogPrototype, true);
+            option = processOption(node->ToElement(), dialogPrototype, true);
         }
         else if (hasNodeName(node, "optionref"))
         {
-            option = processOption(static_cast<DOMElement*>(node), dialogPrototype, false);
+            option = processOption(node->ToElement(), dialogPrototype, false);
         }
         else if (hasNodeName(node, "switchoption"))
         {
-            option = processSwitchOption(static_cast<DOMElement*>(node), dialogPrototype);
+            option = processSwitchOption(node->ToElement(), dialogPrototype);
         }
 
         return option;
     }
 
-    DialogOption* DialogLoaderImpl::processOption(DOMElement *optionXml, DialogLoaderImpl::DialogPrototype *dialogPrototype, bool subelements)
+    DialogOption* DialogLoaderImpl::processOption(const TiXmlElement *optionXml, DialogLoaderImpl::DialogPrototype *dialogPrototype, bool subelements)
     {
         CeGuiString id = getAttributeValueAsString(optionXml, "id");
 
@@ -362,13 +360,13 @@ namespace rl
         if (!option)    Throw(IllegalArgumentException, CeGuiString("No option with ID "+ id).c_str());
 
         bool languageDefined = false;
-        DOMElement* defaultLanguage = NULL;
+        const TiXmlElement* defaultLanguage = NULL;
 
         if (subelements)
         {
             bool paragraphsDefined = false;
 
-            for (DOMNode* cur = optionXml->getFirstChild(); cur != NULL; cur = cur->getNextSibling())
+            for (const TiXmlNode* cur = optionXml->FirstChild(); cur != NULL; cur = cur->NextSibling())
             {
                 DialogResponse* response = processResponseClasses(cur, dialogPrototype);
                 if (response)
@@ -377,17 +375,17 @@ namespace rl
                 }
                 else if (hasNodeName(cur, "if"))
                 {
-                    option->setPrecondition(processIf(static_cast<DOMElement*>(cur)));
+                    option->setPrecondition(processIf(cur->ToElement()));
                 }
                 else if (hasNodeName(cur, "p"))
                 {
-                    option->addParagraph(processParagraph(static_cast<DOMElement*>(cur)));
+                    option->addParagraph(processParagraph(cur->ToElement()));
                     paragraphsDefined = true;
                 }
                 // process translations
                 else if (hasNodeName(cur, "t"))
                 {
-                    DOMElement* translation = static_cast<DOMElement*>(cur);
+                    const TiXmlElement* translation = cur->ToElement();
                     // check locale
                     if (getAttributeValueAsStdString(translation, "language")
                        == ConfigurationManager::getSingleton().getStringSetting("Localization", "language"))
@@ -433,24 +431,24 @@ namespace rl
         return option;
     }
 
-    DialogOption* DialogLoaderImpl::processSwitchOption(DOMElement *switchOptXml, DialogLoaderImpl::DialogPrototype *dialogPrototype)
+    DialogOption* DialogLoaderImpl::processSwitchOption(const TiXmlElement *switchOptXml, DialogLoaderImpl::DialogPrototype *dialogPrototype)
     {
         CeGuiString id = getAttributeValueAsString(switchOptXml, "id");
         DialogOptionSelection* option = dynamic_cast<DialogOptionSelection*>(dialogPrototype->getOption(id));
 
         if (!option) Throw(IllegalArgumentException, CeGuiString("No switchoption with ID "+ id).c_str());
 
-        for (DOMNode* cur = switchOptXml->getFirstChild(); cur != NULL; cur = cur->getNextSibling())
+        for (const TiXmlNode* cur = switchOptXml->FirstChild(); cur != NULL; cur = cur->NextSibling())
         {
-            DialogVariable* variable = processVariableClasses(static_cast<DOMElement*>(cur));
+            DialogVariable* variable = processVariableClasses(cur->ToElement());
             if (variable != NULL)
             {
                 option->setVariable(variable);
             }
             else if (hasNodeName(cur, "case"))
             {
-                DialogCondition* condition = processCase(static_cast<DOMElement*>(cur));
-                for (DOMNode* caseChild = cur->getFirstChild(); caseChild != NULL; caseChild = caseChild->getNextSibling())
+                DialogCondition* condition = processCase(cur->ToElement());
+                for (const TiXmlNode* caseChild = cur->FirstChild(); caseChild != NULL; caseChild = caseChild->NextSibling())
                 {
                     DialogOption* optionCase = processOptionClasses(caseChild, dialogPrototype);
                     if (optionCase)
@@ -463,7 +461,7 @@ namespace rl
             // process translations
             else if (hasNodeName(cur, "t"))
             {
-                DOMElement* translation = static_cast<DOMElement*>(cur);
+                const TiXmlElement* translation = cur->ToElement();
                 // check loca
                 if (getAttributeValueAsStdString(translation, "language") ==
                    ConfigurationManager::getSingleton().getStringSetting("Localization", "language"))
@@ -480,23 +478,23 @@ namespace rl
         return option;
     }
 
-    void DialogLoaderImpl::createDialogVariable(DOMElement *variableXml, DialogLoaderImpl::DialogPrototype *dialogPrototype)
+    void DialogLoaderImpl::createDialogVariable(const TiXmlElement *variableXml, DialogLoaderImpl::DialogPrototype *dialogPrototype)
     {
         XmlPropertyReader reader;
         PropertyEntry entry = reader.processProperty(variableXml);
         dialogPrototype->setProperty(entry.first, entry.second);
     }
 
-    DialogCondition* DialogLoaderImpl::processIf(DOMElement *ifXml)
+    DialogCondition* DialogLoaderImpl::processIf(const TiXmlElement *ifXml)
     {
         DialogCondition* cond = NULL;
         DialogVariable* var = NULL;
 
-        for (DOMNode* cur = ifXml->getFirstChild(); cur != NULL; cur = cur->getNextSibling())
+        for (const TiXmlNode* cur = ifXml->FirstChild(); cur != NULL; cur = cur->NextSibling())
         {
-            if (cur->getNodeType() == DOMNode::ELEMENT_NODE)
+            if (cur->Type() == TiXmlNode::ELEMENT)
             {
-                DOMElement* curElem = static_cast<DOMElement*>(cur);
+                const TiXmlElement* curElem = cur->ToElement();
 
                 DialogCondition* curCond = processConditionClasses(curElem);
                 if (curCond)
@@ -516,7 +514,7 @@ namespace rl
         return cond;
     }
 
-    DialogParagraph* DialogLoaderImpl::processParagraph(DOMElement* paragraphXml)
+    DialogParagraph* DialogLoaderImpl::processParagraph(const TiXmlElement* paragraphXml)
     {
         Ogre::String voicefile = "";
         CeGuiString person = "";
@@ -531,15 +529,15 @@ namespace rl
         return new DialogParagraph(getValueAsString(paragraphXml), person, voicefile);
     }
 
-    DialogCondition* DialogLoaderImpl::processCase(DOMElement *caseXml)
+    DialogCondition* DialogLoaderImpl::processCase(const TiXmlElement *caseXml)
     {
         DialogCondition* cond = NULL;
 
-        for (DOMNode* cur = caseXml->getFirstChild(); cur != NULL; cur = cur->getNextSibling())
+        for (const TiXmlNode* cur = caseXml->FirstChild(); cur != NULL; cur = cur->NextSibling())
         {
-            if (cur->getNodeType() == DOMNode::ELEMENT_NODE)
+            if (cur->Type() == TiXmlNode::ELEMENT)
             {
-                DialogCondition* curCond = processConditionClasses(static_cast<DOMElement*>(cur));
+                DialogCondition* curCond = processConditionClasses(cur->ToElement());
                 if (curCond)
                 {
                     cond = curCond;
@@ -695,7 +693,7 @@ namespace rl
             && (mName.empty() || creature->getName() == mName);
     }
 
-    DialogCondition* DialogLoaderImpl::processConditionClasses(DOMElement* conditionXml)
+    DialogCondition* DialogLoaderImpl::processConditionClasses(const TiXmlElement* conditionXml)
     {
         if (hasNodeName(conditionXml, "equals"))
         {
@@ -732,7 +730,7 @@ namespace rl
         return NULL;
     }
 
-    DialogVariable* DialogLoaderImpl::processVariableClasses(DOMElement* variableXml)
+    DialogVariable* DialogLoaderImpl::processVariableClasses(const TiXmlElement* variableXml)
     {
         if (hasNodeName(variableXml, "dialogvariable"))
         {
@@ -776,11 +774,11 @@ namespace rl
     }
 
 
-    DialogImplication* DialogLoaderImpl::processImplicationClasses(DOMNode* implicationXml)
+    DialogImplication* DialogLoaderImpl::processImplicationClasses(const TiXmlNode* implicationXml)
     {
-        if (implicationXml->getNodeType() == DOMNode::ELEMENT_NODE)
+        if (implicationXml->Type() == TiXmlNode::ELEMENT)
         {
-            DOMElement* implicationElem = static_cast<DOMElement*>(implicationXml);
+        	const TiXmlElement* implicationElem = implicationXml->ToElement();
 
             if (hasNodeName(implicationElem, "setvariable"))
             {
@@ -826,18 +824,18 @@ namespace rl
         return NULL;
     }
 
-    void DialogLoaderImpl::processTranslation(DialogElement* element, DOMNode* translationXml)
+    void DialogLoaderImpl::processTranslation(DialogElement* element, const TiXmlNode* translationXml)
     {
-        for (DOMNode* cur = translationXml->getFirstChild(); cur != NULL; cur = cur->getNextSibling())
+        for (const TiXmlNode* cur = translationXml->FirstChild(); cur != NULL; cur = cur->NextSibling())
         {
             if (hasNodeName(cur, "p"))
             {
-                element->addParagraph(processParagraph(static_cast<DOMElement*>(cur)));
+                element->addParagraph(processParagraph(cur->ToElement()));
             }
         }
     }
 
-    DialogLoaderImpl::DialogParticipant* DialogLoaderImpl::processPerson(DOMElement* personXml)
+    DialogLoaderImpl::DialogParticipant* DialogLoaderImpl::processPerson(const TiXmlElement* personXml)
     {
         CeGuiString personId(""), goClass(""), name("");
         int goId = -1;

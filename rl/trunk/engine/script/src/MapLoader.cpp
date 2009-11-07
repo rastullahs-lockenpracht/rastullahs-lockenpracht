@@ -17,8 +17,6 @@
 
 #include "MapLoader.h"
 
-#include <xercesc/dom/DOM.hpp>
-
 #include "AbstractMapNodeProcessor.h"
 #include "CoreSubsystem.h"
 #include "EntityNodeProcessor.h"
@@ -40,12 +38,9 @@
 #include "PlaneNodeProcessor.h"
 
 using namespace Ogre;
-using namespace XERCES_CPP_NAMESPACE;
 using std::list;
 
 namespace rl {
-
-    using XERCES_CPP_NAMESPACE::DOMDocument; //XXX: for VS 2003/2005
 
     const CeGuiString MapLoader::PROPERTY_ACTIVEMAPS = "activemaps";
 
@@ -132,16 +127,16 @@ namespace rl {
         {
             LOG_MESSAGE(Logger::RULES, "Loading map " + mapresource);
 
-  		    initializeXml();
-
-            DOMDocument* doc = loadDocument(mapresource, mResourceGroup);
+            TiXmlDocument* doc = loadDocument(mapresource, mResourceGroup);
 
             if (doc)
             {
                 setRootSceneNode(CoreSubsystem::getSingleton().getWorld()
                         ->getSceneManager()->getRootSceneNode()->createChildSceneNode(mapresource));
 
-                if(getAttributeValueAsString(doc->getDocumentElement(), "formatVersion") != "0.4.0")
+                TiXmlElement* dataDocumentContent = doc->RootElement();
+
+                if(getAttributeValueAsString(dataDocumentContent, "formatVersion") != "0.4.0")
                     LOG_ERROR(Logger::SCRIPT, "Map format version doesn't match with the required version");
 
 			    CoreSubsystem::getSingleton().getWorld()->initializeDefaultCamera();
@@ -149,7 +144,6 @@ namespace rl {
 
                 LOG_MESSAGE(Logger::RULES, "Processing nodes");
 
-                DOMElement* dataDocumentContent = doc->getDocumentElement();
                 processSceneNodes(getChildNamed(dataDocumentContent, "nodes"), loadGameObjects);
 
 			    ZoneProcessor zp;
@@ -163,11 +157,11 @@ namespace rl {
 
                 LOG_MESSAGE(Logger::SCRIPT, "Map " + mapresource + " loaded");
 
-                if(hasAttribute(doc->getDocumentElement(), "scenescript"))
+                if(hasAttribute(dataDocumentContent, "scenescript"))
                 {
-                    if(getAttributeValueAsString(doc->getDocumentElement(), "scenescript").length() != 0)
+                    if(getAttributeValueAsString(dataDocumentContent, "scenescript").length() != 0)
                     {
-                        if(!CoreSubsystem::getSingleton().getRubyInterpreter()->executeFile(getAttributeValueAsStdString(doc->getDocumentElement(), "scenescript")))
+                        if(!CoreSubsystem::getSingleton().getRubyInterpreter()->executeFile(getAttributeValueAsStdString(dataDocumentContent, "scenescript")))
                             LOG_MESSAGE(Logger::SCRIPT, "Executed init script of map " + mapresource);
                         else
                             LOG_ERROR(Logger::SCRIPT, "Error while executing init script of map " + mapresource);
@@ -183,8 +177,6 @@ namespace rl {
                 LOG_ERROR(Logger::RULES, "Map resource '" + mapresource + "' not found");
             }
 
-            shutdownXml();
-            
             mLoadedMaps.push_back(mapresource);
         }
         else
@@ -256,7 +248,7 @@ namespace rl {
         return keys;
     }
 
-    void MapLoader::processSceneNodes(DOMElement* nodesElem, bool loadGameObjects)
+    void MapLoader::processSceneNodes(const TiXmlElement* nodesElem, bool loadGameObjects)
     {
 		if (nodesElem == NULL)
 		{
@@ -264,16 +256,19 @@ namespace rl {
 		}
 
         setLoadingPercentage(0, "Loading map nodes");
-        Ogre::Real numChildren = nodesElem->getChildNodes()->getLength();
+        Ogre::Real numChildren = 0;
+        for (const TiXmlNode* cur = nodesElem->FirstChild(); cur != NULL; cur = cur->NextSibling())
+        {
+        	numChildren++;
+        }
+
         int count = 0;
 
-        for (DOMNode* cur = nodesElem->getFirstChild();
-            cur != NULL;
-            cur = cur->getNextSibling())
+        for (const TiXmlNode* cur = nodesElem->FirstChild(); cur != NULL; cur = cur->NextSibling())
         {
-            if (cur->getNodeType() == DOMNode::ELEMENT_NODE)
+            if (cur->Type() == TiXmlNode::ELEMENT)
             {
-                DOMElement* curElem = static_cast<DOMElement*>(cur);
+            	const TiXmlElement* curElem = cur->ToElement();
 
                 list<AbstractMapNodeProcessor*>::iterator it = mNodeProcessors.begin();
                 while (it != mNodeProcessors.end() && !(*it)->processNode(curElem, loadGameObjects))
@@ -284,7 +279,7 @@ namespace rl {
                 if (it == mNodeProcessors.end())
                 {
                     LOG_WARNING(Logger::RULES,
-                        "Node " + transcodeToString(curElem->getNodeName()) + " could not be processed.");
+                        "Node " + Ogre::String(curElem->Value()) + " could not be processed.");
                 }
             }
 

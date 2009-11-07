@@ -17,30 +17,22 @@
 
 #include "SceneLoader.h"
 
-#include <xercesc/dom/DOM.hpp>
-
 #include "Scene.h"
-
-using namespace XERCES_CPP_NAMESPACE;
 
 namespace rl
 {
 
 Scene* SceneLoader::loadScene(Ogre::DataStreamPtr &data)
 {
-    initializeXml();
-
-    DOMDocument* doc = loadDocument(data);
-    DOMElement* root = doc->getDocumentElement();
+    TiXmlDocument* doc = loadDocument(data);
+    TiXmlElement* root = doc->RootElement();
     Scene* scene = new Scene(getAttributeValueAsString(root, "name"));
     
-    DOMNodeList* children = root->getChildNodes();
-    for (XMLSize_t i = 0; i < children->getLength(); ++i)
+    for (TiXmlNode* cur = root->FirstChild(); cur; cur = cur->NextSibling())
     {
-        DOMNode* cur = children->item(i);
-        if (cur->getNodeType() == DOMNode::ELEMENT_NODE)
+        if (cur->Type() == TiXmlNode::ELEMENT)
         {
-            DOMElement* elem = static_cast<DOMElement*>(cur);
+            TiXmlElement* elem = cur->ToElement();
             if (hasNodeName(elem, "map"))
             {
                 scene->addMap(getAttributeValueAsStdString(elem, "file"));
@@ -48,7 +40,7 @@ Scene* SceneLoader::loadScene(Ogre::DataStreamPtr &data)
         }
     }
 
-    shutdownXml();
+    delete doc;
 
     return scene;
 }

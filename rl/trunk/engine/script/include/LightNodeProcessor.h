@@ -16,8 +16,6 @@
 #ifndef __LightNodeProcessor_H__
 #define __LightNodeProcessor_H__
 
-#include <xercesc/dom/DOMElement.hpp>
-
 #include "ScriptPrerequisites.h"
 #include "AbstractMapNodeProcessor.h"
 
@@ -27,7 +25,7 @@ namespace rl
     class LightNodeProcessor : public AbstractMapNodeProcessor
     {
     public:
-        virtual bool processNode(XERCES_CPP_NAMESPACE::DOMElement* nodeElem, bool loadGameObjects);
+        virtual bool processNode(const TiXmlElement* nodeElem, bool loadGameObjects);
     };
 }
 

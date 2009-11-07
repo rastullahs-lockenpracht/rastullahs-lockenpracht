@@ -25,7 +25,7 @@ namespace rl
 	class WaypointProcessor : private AbstractMapNodeProcessor
 	{
 	public:
-		virtual bool processNode(XERCES_CPP_NAMESPACE::DOMElement* nodeElem, bool loadGameObjects);
+		virtual bool processNode(const TiXmlElement* nodeElem, bool loadGameObjects);
 	};
 }
 

@@ -16,10 +16,7 @@
 #ifndef __AbstractMapNodeProcessor_H__
 #define __AbstractMapNodeProcessor_H__
 
-#include <xercesc/dom/DOMElement.hpp>
-
 #include "ScriptPrerequisites.h"
-
 
 #include "XmlPropertyReader.h"
 
@@ -33,7 +30,7 @@ namespace rl
     public:
         virtual ~AbstractMapNodeProcessor();
         
-        virtual bool processNode(XERCES_CPP_NAMESPACE::DOMElement* nodeElem, bool loadGameObjects) = 0;
+        virtual bool processNode(const TiXmlElement* nodeElem, bool loadGameObjects) = 0;
         
         void setRootSceneNode(Ogre::SceneNode* node);
 
@@ -41,10 +38,10 @@ namespace rl
         AbstractMapNodeProcessor();
     
         Ogre::String getRandomName(const Ogre::String& baseName) const;
-        Ogre::Vector3 processVector3(XERCES_CPP_NAMESPACE::DOMElement* nodeElem) const;
-		Ogre::Vector2 processVector2(XERCES_CPP_NAMESPACE::DOMElement* nodeElem) const;
-        Ogre::Quaternion processQuaternion(XERCES_CPP_NAMESPACE::DOMElement* nodeElem) const;
-        Ogre::ColourValue processColour(XERCES_CPP_NAMESPACE::DOMElement* colElem) const;
+        Ogre::Vector3 processVector3(const TiXmlElement* nodeElem) const;
+		Ogre::Vector2 processVector2(const TiXmlElement* nodeElem) const;
+        Ogre::Quaternion processQuaternion(const TiXmlElement* nodeElem) const;
+        Ogre::ColourValue processColour(const TiXmlElement* colElem) const;
         
         Ogre::SceneNode* getRootSceneNode() const;
         

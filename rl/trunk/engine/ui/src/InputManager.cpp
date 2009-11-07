@@ -17,8 +17,6 @@
 
 #include "InputManager.h"
 
-#include <xercesc/dom/DOM.hpp>
-
 #ifdef __APPLE__
 #   include <OIS/OISInputManager.h>
 #else
@@ -267,20 +265,15 @@ namespace rl {
 
     void InputManager::loadKeyMapping(const Ogre::String& filename)
     {
-        using namespace XERCES_CPP_NAMESPACE;
-        using XERCES_CPP_NAMESPACE::DOMDocument;
         using std::make_pair;
 
-        initializeXml();
+        TiXmlDocument* doc = loadDocument(filename);
+        TiXmlElement* dataDocumentContent = doc->RootElement();
 
-        DOMDocument* doc = loadDocument(filename);
-        DOMElement* dataDocumentContent = doc->getDocumentElement();
-
-        DOMNodeList* keymaps
-            = dataDocumentContent->getElementsByTagName(AutoXMLCh("Key").data());
-        for (unsigned int idx = 0; idx < keymaps->getLength(); idx++)
+        XmlElementList keymaps = getElementsByTagName(dataDocumentContent, "Key");
+        for (unsigned int idx = 0; idx < keymaps.size(); idx++)
         {
-            DOMElement* key = static_cast<DOMElement*>(keymaps->item(idx));
+            const TiXmlElement* key = keymaps[idx];
             int keycode = getAttributeValueAsInteger(key, "KeyCode");
 
             CeGuiString s;
@@ -305,8 +298,6 @@ namespace rl {
             s = getAttributeValueAsString(key, "KeyDescription");
             mKeyNames.insert(make_pair(keycode, s));
         }
-
-        shutdownXml();
     }
 
     const CEGUI::utf8& InputManager::getKeyChar(int scancode, int modifiers) const

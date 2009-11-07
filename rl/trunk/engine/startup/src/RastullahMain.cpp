@@ -14,8 +14,6 @@
 *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
 */
 
-#include <xercesc/util/XMemory.hpp>    // Muss vor Ogre stehen (zumindest fuer VS)
-
 #include <stdexcept>
 #include <errno.h>
 

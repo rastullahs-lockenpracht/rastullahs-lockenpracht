@@ -16,10 +16,11 @@
 #include "AiPrerequisites.h"
 
 #include <list>
+#include <tinyxml.h>
 
+#include "Creature.h"
 #include "Properties.h"
 #include "XmlProcessor.h"
-#include "Creature.h"
 
 namespace rl
 {
@@ -33,14 +34,15 @@ namespace rl
     class DialogVariable;
 	class Property;
 
-    class DialogLoaderImpl : private XmlProcessor
+	class DialogLoaderImpl : private XmlProcessor, public TiXmlVisitor
     {
     public:
         DialogLoaderImpl();
-        ~DialogLoaderImpl();
+        virtual ~DialogLoaderImpl();
 
         Dialog* createDialog(const Ogre::String& name, const CreatureList& participants) const;
         void parseDialog(Ogre::DataStreamPtr& stream, const Ogre::String& groupName);
+        virtual bool VisitEnter(const TiXmlElement &element, const TiXmlAttribute *firstAttribute);
 
     private:
         class DialogParticipant
@@ -83,23 +85,23 @@ namespace rl
             PropertyRecord mPropertyVariables;
         };
 
-        void processDialog(XERCES_CPP_NAMESPACE::DOMElement* dialogXml);
-        DialogResponse* processResponseClasses(XERCES_CPP_NAMESPACE::DOMNode *node, DialogPrototype* dialogPrototype);
-        DialogResponse* processResponse(XERCES_CPP_NAMESPACE::DOMElement* responseXml, DialogPrototype* dialogPrototype, bool subelements);
-        DialogResponse* processSwitchResponse(XERCES_CPP_NAMESPACE::DOMElement* switchRespXml, DialogPrototype* dialogPrototype);
-        DialogOption* processOptionClasses(XERCES_CPP_NAMESPACE::DOMNode *node, DialogPrototype *dialogPrototype);
-        DialogOption* processOption(XERCES_CPP_NAMESPACE::DOMElement* optionXml, DialogPrototype* dialogPrototype, bool subelements);
-        DialogOption* processSwitchOption(XERCES_CPP_NAMESPACE::DOMElement* switchOptXml, DialogPrototype* dialogPrototype);
-        DialogCondition* processIf(XERCES_CPP_NAMESPACE::DOMElement *ifXml);
-        DialogCondition* processCase(XERCES_CPP_NAMESPACE::DOMElement *caseXml);
-        DialogVariable* processVariableClasses(XERCES_CPP_NAMESPACE::DOMElement* variableXml);
-        DialogCondition* processConditionClasses(XERCES_CPP_NAMESPACE::DOMElement* conditionXml);
-        DialogParagraph* processParagraph(XERCES_CPP_NAMESPACE::DOMElement* paragraphXml);
-        DialogImplication* processImplicationClasses(XERCES_CPP_NAMESPACE::DOMNode* implicationXml);
-        DialogParticipant* processPerson(XERCES_CPP_NAMESPACE::DOMElement* personXml);
-        void processTranslation(DialogElement* element, XERCES_CPP_NAMESPACE::DOMNode* translationXml);
-        void createDialogVariable(XERCES_CPP_NAMESPACE::DOMElement* variableXml, DialogPrototype* dialogPrototype);
-        void processElementNodes(XERCES_CPP_NAMESPACE::DOMElement* dialogXml, const Ogre::String& nodeName, DialogPrototype* dialogPrototype);
+        void processDialog(const TiXmlElement* dialogXml);
+        DialogResponse* processResponseClasses(const TiXmlNode *node, DialogPrototype* dialogPrototype);
+        DialogResponse* processResponse(const TiXmlElement* responseXml, DialogPrototype* dialogPrototype, bool subelements);
+        DialogResponse* processSwitchResponse(const TiXmlElement* switchRespXml, DialogPrototype* dialogPrototype);
+        DialogOption* processOptionClasses(const TiXmlNode *node, DialogPrototype *dialogPrototype);
+        DialogOption* processOption(const TiXmlElement* optionXml, DialogPrototype* dialogPrototype, bool subelements);
+        DialogOption* processSwitchOption(const TiXmlElement* switchOptXml, DialogPrototype* dialogPrototype);
+        DialogCondition* processIf(const TiXmlElement *ifXml);
+        DialogCondition* processCase(const TiXmlElement *caseXml);
+        DialogVariable* processVariableClasses(const TiXmlElement* variableXml);
+        DialogCondition* processConditionClasses(const TiXmlElement* conditionXml);
+        DialogParagraph* processParagraph(const TiXmlElement* paragraphXml);
+        DialogImplication* processImplicationClasses(const TiXmlNode* implicationXml);
+        DialogParticipant* processPerson(const TiXmlElement* personXml);
+        void processTranslation(DialogElement* element, const TiXmlNode* translationXml);
+        void createDialogVariable(const TiXmlElement* variableXml, DialogPrototype* dialogPrototype);
+        void processElementNodes(const TiXmlElement* dialogXml, const Ogre::String& nodeName, DialogPrototype* dialogPrototype);
 
         std::map<Ogre::String, DialogPrototype*> mDialogs;
 

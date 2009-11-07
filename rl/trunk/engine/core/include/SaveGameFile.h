@@ -17,10 +17,8 @@
 #ifndef __SaveGameFile_H__
 #define __SaveGameFile_H__
 
-
-
 #include "CorePrerequisites.h"
-#include <xercesc/framework/XMLFormatter.hpp>
+
 #include <ctime>
 
 #include "Property.h"
@@ -47,7 +45,6 @@ namespace rl
         //access to file
         Ogre::DataStreamPtr &getDataStream();
         void closeDataStream();
-        XERCES_CPP_NAMESPACE::XMLFormatTarget* getFormatTarget();
         void deleteFileFromStorage();
 
         //data to be saved

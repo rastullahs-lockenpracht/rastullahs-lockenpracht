@@ -24,7 +24,6 @@
 #include <CEGUIPropertyHelper.h>
 
 
-using namespace XERCES_CPP_NAMESPACE;
 using namespace Ogre;
 
 namespace rl {
@@ -37,7 +36,7 @@ namespace rl {
     {
     }
 
-    DOMDocument* XmlPropertyWriter::getDocument()
+    TiXmlDocument* XmlPropertyWriter::getDocument()
     {
         return mDocument;
     }
@@ -52,9 +51,9 @@ namespace rl {
         mPropertyRecords.push_back(set);
     }
 
-    DOMElement* XmlPropertyWriter::processProperty(DOMElement* parent, const PropertyEntry& entry)
+    TiXmlElement* XmlPropertyWriter::processProperty(TiXmlElement* parent, const PropertyEntry& entry)
     {
-        DOMElement* element = NULL;
+    	TiXmlElement* element = NULL;
         if(!entry.second.isEmpty())
         {
             if(entry.second.isArray())
@@ -67,7 +66,7 @@ namespace rl {
             }
             else
             {
-                element = appendChildElement(mDocument, parent, "property");
+                element = appendChildElement(parent, "property");
                 if(!entry.first.empty())
                     setAttribute(element, "name", entry.first.c_str());
 
@@ -97,16 +96,16 @@ namespace rl {
         return element;
     }
 
-    DOMElement* XmlPropertyWriter::processPropertyRecord(DOMElement* parent, const char* const name, const PropertyRecord& set)
+    TiXmlElement* XmlPropertyWriter::processPropertyRecord(TiXmlElement* parent, const char* const name, const PropertyRecord& set)
     {
         PropertyMap map = set.toPropertyMap();
 
         return processPropertyMap(parent, name, map);
     }
 
-    DOMElement* XmlPropertyWriter::processPropertyArray(DOMElement *parent, const char *const name, const PropertyArray& vector)
+    TiXmlElement* XmlPropertyWriter::processPropertyArray(TiXmlElement *parent, const char *const name, const PropertyArray& vector)
     {
-        DOMElement* element = appendChildElement(mDocument, parent, "property");
+    	TiXmlElement* element = appendChildElement(parent, "property");
         if(name[0] != '\0')
             setAttribute(element, "name", name);
         setAttribute(element, "type", "ARRAY");
@@ -119,9 +118,9 @@ namespace rl {
         return element;
     }
 
-    DOMElement* XmlPropertyWriter::processPropertyMap(DOMElement *parent, const char *const name, const PropertyMap& map)
+    TiXmlElement* XmlPropertyWriter::processPropertyMap(TiXmlElement *parent, const char *const name, const PropertyMap& map)
     {
-        DOMElement* element = appendChildElement(mDocument, parent, "property");
+    	TiXmlElement* element = appendChildElement(parent, "property");
         if(name[0] != '\0')
             setAttribute(element, "name", name);
         setAttribute(element, "type", "MAP");
@@ -134,7 +133,7 @@ namespace rl {
         return element;
     }
 
-    void XmlPropertyWriter::writeEachPropertyToElem(DOMElement* parent, const rl::PropertyMap &map)
+    void XmlPropertyWriter::writeEachPropertyToElem(TiXmlElement* parent, const rl::PropertyMap &map)
     {
         PropertyMap::const_iterator it_properties;
         for(it_properties = map.begin(); it_properties != map.end(); it_properties++)

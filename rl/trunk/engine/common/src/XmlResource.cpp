@@ -20,7 +20,6 @@
 #include "XmlResourceManager.h"
 #include "XmlProcessor.h"
 
-using namespace XERCES_CPP_NAMESPACE;
 using namespace Ogre;
 
 namespace rl {
@@ -29,8 +28,7 @@ XmlResource::XmlResource(
         ResourceManager* creator, const Ogre::String& name, ResourceHandle handle,
         const Ogre::String& group, bool isManual, ManualResourceLoader* loader)
 	: Resource(creator, name, handle, group, isManual, loader),
-	mCharBuffer(NULL),
-	mXmlBuffer(NULL)
+	mCharBuffer(NULL)
 {
 }
 
@@ -45,18 +43,12 @@ void XmlResource::loadImpl()
 	DataStreamPtr ds = Ogre::ResourceGroupManager::getSingleton().openResource(mName, mGroup);
 	mSize = ds->size();
 	
-	mCharBuffer = new XMLByte[mSize];
+	mCharBuffer = new char[mSize];
 	ds->read(mCharBuffer, mSize);
-
-	mXmlBuffer = new MemBufInputSource(
-        mCharBuffer,
-	    static_cast<const unsigned int>(mSize), "rl::XmlResourceManager");
 }
 
 void XmlResource::unloadImpl()
 {
-	delete mXmlBuffer;
-    mXmlBuffer = 0;
 	delete[] mCharBuffer;
     mCharBuffer = 0;
 }
@@ -66,45 +58,15 @@ size_t XmlResource::calculateSize() const
 {
     return mSize;
 }
-/**
- * @todo both parseby methods could be merged in one template method, to avoid redundancy
- */
-bool XmlResource::parseBy(XERCES_CPP_NAMESPACE::XercesDOMParser* parser, XmlProcessor* const errorHandler)
+
+const char* XmlResource::getContent()
 {
-	if (!isLoaded())
+	if (!mCharBuffer)
+	{
 		load();
+	}
 
-    if (errorHandler 
-        && parser->getErrorHandler() == NULL)
-    {
-        parser->setErrorHandler(errorHandler);
-    }
-
-    parser->parse(*mXmlBuffer);
-    if(parser->getErrorCount() > 0)
-    {
-        return false;
-    }
-    return true;
-}
-
-bool XmlResource::parseBy(XERCES_CPP_NAMESPACE::SAX2XMLReader* parser, XmlProcessor* const errorHandler)
-{
-	if (!isLoaded())
-		load();
-
-    if (errorHandler 
-        && parser->getErrorHandler() == NULL)
-    {
-        parser->setErrorHandler(errorHandler);
-    }
-
-    parser->parse(*mXmlBuffer);
-    if(parser->getErrorCount() > 0)
-    {
-        return false;
-    }
-    return true;
+	return mCharBuffer;
 }
 
 XmlPtr::XmlPtr(const ResourcePtr& res) : SharedPtr<XmlResource>()

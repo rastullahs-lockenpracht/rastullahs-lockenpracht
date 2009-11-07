@@ -16,8 +16,6 @@
 #ifndef __PlaneNodeProcessor_H__
 #define __PlaneNodeProcessor_H__
 
-#include <xercesc/dom/DOMElement.hpp>
-
 #include "ScriptPrerequisites.h"
 
 #ifdef __APPLE__
@@ -38,12 +36,12 @@ namespace rl
     public:
         PlaneNodeProcessor();
 
-        virtual bool processNode(XERCES_CPP_NAMESPACE::DOMElement* nodeElem, bool loadGameObjects);
+        virtual bool processNode(const TiXmlElement* nodeElem, bool loadGameObjects);
 
     private:
 
-        void createCollision(Ogre::Entity* entity, XERCES_CPP_NAMESPACE::DOMElement* physicsProxyElem);
-		void createRenderToTextures(Ogre::Entity* entity, Ogre::Plane* plane, Ogre::MaterialPtr mat, XERCES_CPP_NAMESPACE::DOMElement* rttElem);
+        void createCollision(Ogre::Entity* entity, const TiXmlElement* physicsProxyElem);
+		void createRenderToTextures(Ogre::Entity* entity, Ogre::Plane* plane, Ogre::MaterialPtr mat, const TiXmlElement* rttElem);
 	};
 
 	class PlaneReflectionTextureListener : public Ogre::RenderTargetListener

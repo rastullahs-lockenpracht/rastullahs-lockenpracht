@@ -17,8 +17,6 @@
 
 #include "PlaneNodeProcessor.h"
 
-#include <xercesc/dom/DOM.hpp>
-
 #include "CoreSubsystem.h"
 #include "PhysicsManager.h"
 #include "World.h"
@@ -26,7 +24,6 @@
 //#include <OgreMaterialManager.h>
 
 using namespace Ogre;
-using namespace XERCES_CPP_NAMESPACE;
 
 namespace rl
 {
@@ -34,7 +31,7 @@ namespace rl
 	{
 	}
 
-	bool PlaneNodeProcessor::processNode(DOMElement *nodeElem, bool loadGameObjects)
+	bool PlaneNodeProcessor::processNode(const TiXmlElement *nodeElem, bool loadGameObjects)
 	{
 		if (!hasNodeName(nodeElem, "plane"))
         {
@@ -46,7 +43,7 @@ namespace rl
 		LOG_DEBUG(Logger::RULES,
             "Processing plane node "
                 + entName);
-		if(entName=="")
+		if (entName=="")
 		{
 			entName = getRandomName("Plane");
 		}
@@ -55,7 +52,7 @@ namespace rl
 		Vector3 position(Vector3::ZERO);
 		Vector2 scale(1,1);
 
-		DOMElement* oriElem = getChildNamed(nodeElem, "rotation");
+		const TiXmlElement* oriElem = getChildNamed(nodeElem, "rotation");
         if (oriElem != NULL)
         {
             orientation = processQuaternion(oriElem);
@@ -65,7 +62,7 @@ namespace rl
             LOG_WARNING(Logger::RULES, "No orientation given for plane, used Identity");
         }
 
-		DOMElement* posElem = getChildNamed(nodeElem, "position");
+        const TiXmlElement* posElem = getChildNamed(nodeElem, "position");
         if (posElem != NULL)
         {
             position = processVector3(posElem);
@@ -75,7 +72,7 @@ namespace rl
             LOG_WARNING(Logger::RULES, "No position given for plane, used (0,0,0)");
         }
 
-		DOMElement* scaleElem = getChildNamed(nodeElem, "scale");
+        const TiXmlElement* scaleElem = getChildNamed(nodeElem, "scale");
         if (posElem != NULL)
         {
             scale = processVector2(scaleElem);
@@ -108,10 +105,10 @@ namespace rl
 
 		createCollision(ent, getChildNamed(nodeElem, "physicsproxy"));
 		
-		DOMElement* materialElem = getChildNamed(nodeElem, "material");
-		if(materialElem)
+		const TiXmlElement* materialElem = getChildNamed(nodeElem, "material");
+		if (materialElem)
 		{	
-			if(getChildNamed(nodeElem, "renderToTexture"))
+			if (getChildNamed(nodeElem, "renderToTexture"))
 			{
 				Ogre::String matName = getAttributeValueAsStdString(materialElem, "name");
 				MaterialPtr material = static_cast<MaterialPtr>(MaterialManager::getSingleton().getByName(matName))->clone(matName + entName);
@@ -128,14 +125,14 @@ namespace rl
 		return true;
 	}
 
-	void PlaneNodeProcessor::createCollision(Ogre::Entity *entity, DOMElement *physicsProxyElem)
+	void PlaneNodeProcessor::createCollision(Ogre::Entity *entity, const TiXmlElement *physicsProxyElem)
 	{
 		bool collisionEnabled = false;
 		if (physicsProxyElem == NULL || !hasAttribute(physicsProxyElem, "collision"))
 			collisionEnabled = false;
-		else if(getAttributeValueAsBool(physicsProxyElem, "collision"))
+		else if (getAttributeValueAsBool(physicsProxyElem, "collision"))
 			collisionEnabled = true;
-		if(collisionEnabled)
+		if (collisionEnabled)
 		{
 			std::vector<OgreNewt::CollisionPtr> collisions;
 			OgreNewt::CollisionPtr collision = OgreNewt::CollisionPtr();
@@ -164,9 +161,9 @@ namespace rl
 		}
 	}
 
-	void PlaneNodeProcessor::createRenderToTextures(Ogre::Entity* entity, Plane* plane, MaterialPtr material, XERCES_CPP_NAMESPACE::DOMElement* rttElem)
+	void PlaneNodeProcessor::createRenderToTextures(Ogre::Entity* entity, Plane* plane, MaterialPtr material, const TiXmlElement* rttElem)
 	{
-		if(rttElem == NULL)
+		if (rttElem == NULL)
 			return;
 
 		Camera* cam = CoreSubsystem::getSingleton().getWorld()->getSceneManager()->createCamera("Cam" + entity->getName());
@@ -178,7 +175,7 @@ namespace rl
 
 		AliasTextureNamePairList aliases;
 
-		if(getAttributeValueAsBool(rttElem, "reflection"))
+		if (getAttributeValueAsBool(rttElem, "reflection"))
 		{
 			TexturePtr texture = Ogre::TextureManager::getSingleton().createManual( "Reflection" + entity->getName(), 
 				ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, TEX_TYPE_2D, 
@@ -193,7 +190,7 @@ namespace rl
 
 			cam->enableCustomNearClipPlane((MovablePlane*)plane);
 		}
-		if(getAttributeValueAsBool(rttElem, "refraction"))
+		if (getAttributeValueAsBool(rttElem, "refraction"))
 		{
 			TexturePtr texture = Ogre::TextureManager::getSingleton().createManual( "Refraction" + entity->getName(), 
 				ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, TEX_TYPE_2D, 
@@ -209,7 +206,7 @@ namespace rl
 			plane->normal = Vector3::NEGATIVE_UNIT_Y;
 			cam->enableCustomNearClipPlane((MovablePlane*)plane);
 		}
-		if(!material->applyTextureAliases(aliases))
+		if (!material->applyTextureAliases(aliases))
 			LOG_ERROR("PLANE", "Texture Aliase konnten nicht angewandt werden");
 	}
 

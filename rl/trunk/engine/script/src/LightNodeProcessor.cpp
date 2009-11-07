@@ -21,11 +21,10 @@
 #include "ActorManager.h"
 
 using namespace Ogre;
-using namespace XERCES_CPP_NAMESPACE;
 
 namespace rl
 {
-    bool LightNodeProcessor::processNode(XERCES_CPP_NAMESPACE::DOMElement* nodeElem, bool loadGameObjects)
+    bool LightNodeProcessor::processNode(const TiXmlElement* nodeElem, bool loadGameObjects)
     {
         if (!hasNodeName(nodeElem, "light"))
         {
@@ -61,7 +60,7 @@ namespace rl
         }
         Actor* lightActor = ActorManager::getSingleton().createLightActor(name, type);
 
-        DOMElement* posElem = getChildNamed(nodeElem, "position");
+        const TiXmlElement* posElem = getChildNamed(nodeElem, "position");
         if (posElem != NULL)
         {
             lightActor->placeIntoScene(processVector3(posElem));
@@ -76,19 +75,19 @@ namespace rl
         light->setCastShadows(shadowCaster);
         light->setActive(visible);
 
-        DOMElement* diffElem = getChildNamed(nodeElem, "colourDiffuse");
+        const TiXmlElement* diffElem = getChildNamed(nodeElem, "colourDiffuse");
         if (diffElem != NULL)
         {
             light->setDiffuseColour(processColour(diffElem));
         }
 
-        DOMElement* specElem = getChildNamed(nodeElem, "colourSpecular");
+        const TiXmlElement* specElem = getChildNamed(nodeElem, "colourSpecular");
         if (specElem != NULL)
         {
             light->setSpecularColour(processColour(specElem));
         }
 
-        DOMElement* attElem = getChildNamed(nodeElem, "lightAttenuation");
+        const TiXmlElement* attElem = getChildNamed(nodeElem, "lightAttenuation");
         if (attElem != NULL)
         {
             if (hasAttribute(attElem, "range")
@@ -108,7 +107,7 @@ namespace rl
 
         if (stype == "directional")
         {
-            DOMElement* dirElem = getChildNamed(nodeElem, "direction");
+        	const TiXmlElement* dirElem = getChildNamed(nodeElem, "direction");
             if (dirElem != NULL)
             {
                 light->setDirection(processVector3(dirElem));
@@ -120,7 +119,7 @@ namespace rl
         }
         else if (stype == "spot")
         {
-            DOMElement* rangeElem = getChildNamed(nodeElem, "spotlightrange");
+        	const TiXmlElement* rangeElem = getChildNamed(nodeElem, "spotlightrange");
             if (rangeElem != NULL)
             {
                 Ogre::Real innerAngle = getAttributeValueAsReal(rangeElem, "inner");

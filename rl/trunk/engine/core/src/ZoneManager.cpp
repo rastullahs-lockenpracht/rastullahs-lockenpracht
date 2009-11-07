@@ -559,11 +559,9 @@ namespace rl
         return "zonemanager";
     }
 
-    using namespace XERCES_CPP_NAMESPACE;
-
     void ZoneManager::writeData(SaveGameFileWriter* writer)
     {
-        DOMElement* zoneManagerNode = writer->appendChildElement(writer->getDocument(), writer->getDocument()->getDocumentElement(), getXmlNodeIdentifier().c_str());
+        TiXmlElement* zoneManagerNode = writer->appendChildElement(writer->getDocument()->RootElement(), getXmlNodeIdentifier().c_str());
 
         // look at all zones if they need to be saved
         for(ZoneMap::iterator zone = mZones.begin(); zone != mZones.end(); zone++)
@@ -571,7 +569,7 @@ namespace rl
             // does this zone wants to be saved
             if( zone->second->needsToBeSaved() )
             {
-                DOMElement* zoneNode = writer->appendChildElement(writer->getDocument(), zoneManagerNode, "zone");
+                TiXmlElement* zoneNode = writer->appendChildElement(zoneManagerNode, "zone");
                 writer->setAttributeValueAsStdString(zoneNode, "name", zone->first);
                     
                 
@@ -579,7 +577,7 @@ namespace rl
                 GameAreaEventSourceList::iterator gam; ;
                 for( gam = zone->second->getEventSources().begin(); gam != zone->second->getEventSources().end(); gam++)
                 {
-                    DOMElement* areaNode = writer->appendChildElement(writer->getDocument(), zoneNode, "area");
+                    TiXmlElement* areaNode = writer->appendChildElement(zoneNode, "area");
                     writer->writeEachPropertyToElem(areaNode, (*gam)->mProperties.toPropertyMap());
                 }
 
@@ -611,41 +609,27 @@ namespace rl
 
         // load zones
         // initialize xmlreader
-        reader->initializeXml();
+        XmlElementList rootNodeList = reader->getElementsByTagName(reader->getDocument(), getXmlNodeIdentifier().c_str());
 
-        DOMNodeList* rootNodeList = reader->getDocument()->getDocumentElement()->getElementsByTagName(AutoXMLCh(getXmlNodeIdentifier().c_str()).data());
-
-        if(rootNodeList->getLength())
+        if (!rootNodeList.empty())
         {
-            DOMNodeList* xmlZones = static_cast<DOMElement*>(rootNodeList->item(0))->getElementsByTagName(AutoXMLCh("zone").data());
-            if(xmlZones->getLength())
-            {
-                for(XMLSize_t childIdx1 = 0; childIdx1 < xmlZones->getLength(); childIdx1++)
-                {
-                    DOMNode* xmlZone = xmlZones->item(childIdx1);
-                    if(xmlZone->getNodeType() == DOMNode::ELEMENT_NODE)
-                    {
-                        Ogre::String name = reader->getAttributeValueAsStdString(static_cast<DOMElement*>(xmlZone), "name");
-                        Zone* zone = createZone(name, true);
+            XmlElementList xmlZones = reader->getElementsByTagName(rootNodeList[0], "zone");
 
-                        DOMNodeList* xmlAreas = static_cast<DOMElement*>(xmlZone)->getElementsByTagName(AutoXMLCh("area").data());
-                        if( xmlAreas->getLength() )
-                        {
-                            for(XMLSize_t childIdx2 = 0; childIdx2 < xmlAreas->getLength(); childIdx2++)
-                            {
-                                DOMNode* xmlArea = xmlAreas->item(childIdx2);
-                                PropertyRecordPtr properties = reader->getPropertiesAsRecord(static_cast<DOMElement*>(xmlArea));
-                                parseAreaProperties(name, properties);
-                            }
-                        }
-                    }
-                }
-            }
+			for (XmlElementList::iterator it = xmlZones.begin(); it != xmlZones.end(); ++it)
+			{
+				const TiXmlElement* xmlZone = *it;
+				Ogre::String name = reader->getAttributeValueAsStdString(xmlZone, "name");
+				Zone* zone = createZone(name, true);
+
+				XmlElementList xmlAreas = reader->getElementsByTagName(xmlZone, "area");
+				for (XmlElementList::iterator itA = xmlAreas.begin(); itA != xmlAreas.end(); ++itA)
+				{
+					const TiXmlElement* xmlArea = *itA;
+					PropertyRecordPtr properties = reader->getPropertiesAsRecord(xmlArea);
+					parseAreaProperties(name, properties);
+				}
+			}
         }
-
-
-        // close xmlreader
-        reader->shutdownXml();
     }
 
     void ZoneManager::parseAreaProperties(const Ogre::String& name, const PropertyRecordPtr properties)

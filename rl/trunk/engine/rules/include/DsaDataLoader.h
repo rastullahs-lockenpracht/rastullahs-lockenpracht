@@ -17,9 +17,6 @@
 #ifndef __XdimlLoader_H__
 #define __XdimlLoader_H__
 
-#include <xercesc/dom/DOMDocument.hpp>
-#include <xercesc/dom/DOMElement.hpp>
-
 #include "XmlProcessor.h"
 
 namespace rl {
@@ -29,8 +26,7 @@ namespace rl {
 	class Kampftechnik;
 
     class XdimlLoader 
-        : public Ogre::ScriptLoader,
-        private XmlProcessor
+        : public Ogre::ScriptLoader, private XmlProcessor
 	{
     public:
         XdimlLoader();
@@ -42,14 +38,14 @@ namespace rl {
     private:
 		int getEBeFromString(const Ogre::String& eBeString);
 
-		void initializeTalente(XERCES_CPP_NAMESPACE::DOMElement* rootTalente);
-		Talent* processTalent(int gruppe, XERCES_CPP_NAMESPACE::DOMElement* talentXml);
+		void initializeTalente(const TiXmlElement* rootTalente);
+		Talent* processTalent(int gruppe, const TiXmlElement* talentXml);
 
-		void initializeCreatures(XERCES_CPP_NAMESPACE::DOMElement* rootCreatures);
-		Creature* processCreature(XERCES_CPP_NAMESPACE::DOMElement* talentXml);
+		void initializeCreatures(const TiXmlElement* rootCreatures);
+		Creature* processCreature(const TiXmlElement* talentXml);
 			
-		void initializeKampftechniken(XERCES_CPP_NAMESPACE::DOMElement* rootKampftechniken);
-		Kampftechnik* processKampftechnik(XERCES_CPP_NAMESPACE::DOMElement* kampftechnikXml);
+		void initializeKampftechniken(const TiXmlElement* rootKampftechniken);
+		Kampftechnik* processKampftechnik(const TiXmlElement* kampftechnikXml);
 
         Ogre::StringVector mScriptPatterns;
     };

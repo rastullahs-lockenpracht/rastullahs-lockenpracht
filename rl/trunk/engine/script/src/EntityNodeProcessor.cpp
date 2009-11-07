@@ -17,14 +17,11 @@
 
 #include "EntityNodeProcessor.h"
 
-#include <xercesc/dom/DOM.hpp>
-
 #include "CoreSubsystem.h"
 #include "PhysicsManager.h"
 #include "World.h"
 
 using namespace Ogre;
-using namespace XERCES_CPP_NAMESPACE;
 
 namespace rl
 {
@@ -34,7 +31,7 @@ namespace rl
     {
     }
 
-    bool EntityNodeProcessor::processNode(XERCES_CPP_NAMESPACE::DOMElement* nodeElem, bool loadGameObjects)
+    bool EntityNodeProcessor::processNode(const TiXmlElement* nodeElem, bool loadGameObjects)
     {
         if (!hasNodeName(nodeElem, "entity"))
         {
@@ -66,7 +63,7 @@ namespace rl
         Vector3 position(Vector3::ZERO);
         Quaternion orientation(Quaternion::IDENTITY);
 
-        DOMElement* posElem = getChildNamed(nodeElem, "position");
+        const TiXmlElement* posElem = getChildNamed(nodeElem, "position");
         if (posElem != NULL)
         {
             position = processVector3(posElem);
@@ -76,7 +73,7 @@ namespace rl
             LOG_WARNING(Logger::SCRIPT, "No position given for entity, used (0,0,0)");
         }
 
-        DOMElement* oriElem = getChildNamed(nodeElem, "rotation");
+        const TiXmlElement* oriElem = getChildNamed(nodeElem, "rotation");
         if (oriElem != NULL)
         {
             orientation = processQuaternion(oriElem);
@@ -118,7 +115,7 @@ namespace rl
 
         parentNode->attachObject(newEnt);
 
-        DOMElement* scaleElem = getChildNamed(nodeElem, "scale");
+        const TiXmlElement* scaleElem = getChildNamed(nodeElem, "scale");
         if (scaleElem != NULL)
         {
             parentNode->scale(processVector3(scaleElem));
@@ -127,21 +124,17 @@ namespace rl
         // in order for the scale to work correctly the collision needs to be created after the scale was applied
         createCollision(newEnt, meshFile, getChildNamed(nodeElem, "physicsproxy"));
 
-		AutoXMLCh animation("animation");
-		DOMNodeList* list = nodeElem->getElementsByTagName(animation.data());
-		for (XMLSize_t idx = 0; idx < list->getLength(); idx++)
+		XmlElementList list = getElementsByTagName(nodeElem, "animation");
+		for (size_t idx = 0; idx < list.size(); idx++)
 		{
-			DOMNode* cur = list->item(idx);
-			if (cur->getNodeType() == DOMNode::ELEMENT_NODE)
-			{
-				processAnimation(newEnt, static_cast<DOMElement*>(cur));
-			}
+			const TiXmlElement* cur = list[idx];
+			processAnimation(newEnt, cur);
 		}
 
         return true;
     }
 
-    void EntityNodeProcessor::createCollision(Entity* entity, Ogre::String meshName, DOMElement* physicsProxyElem)
+    void EntityNodeProcessor::createCollision(Entity* entity, Ogre::String meshName, const TiXmlElement* physicsProxyElem)
 	{
         Ogre::String physicsProxyTypeAsString;
         if (physicsProxyElem == NULL || !hasAttribute(physicsProxyElem, "type"))
@@ -347,7 +340,7 @@ namespace rl
 */
     }
 
-	void EntityNodeProcessor::processAnimation(Ogre::Entity* entity, DOMElement *animationElem)
+	void EntityNodeProcessor::processAnimation(Ogre::Entity* entity, const TiXmlElement *animationElem)
 	{
 		///@todo EntityNodeProcessor::processAnimation
 	}

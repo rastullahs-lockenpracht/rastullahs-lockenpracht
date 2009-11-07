@@ -21,25 +21,24 @@
 #include "Landmark.h"
 #include "LandmarkPath.h"
 
-using namespace XERCES_CPP_NAMESPACE;
 using namespace Ogre;
 
 namespace rl
 {
-	bool WaypointProcessor::processNode(DOMElement* nodeElem, bool loadGameObjects)
+	bool WaypointProcessor::processNode(const TiXmlElement* nodeElem, bool loadGameObjects)
 	{
 		if (nodeElem == NULL)
 		{
 			return false;
 		}
 
-		for (DOMNode* cur = nodeElem->getFirstChild(); cur != NULL; cur = cur->getNextSibling())
+		for (const TiXmlNode* cur = nodeElem->FirstChild(); cur != NULL; cur = cur->NextSibling())
 		{
-			if (cur->getNodeType() == DOMNode::ELEMENT_NODE && hasNodeName(cur, "landmark"))
+			if (cur->Type() == TiXmlNode::ELEMENT && hasNodeName(cur, "landmark"))
 			{
-				DOMElement* elem = static_cast<DOMElement*>(cur);
+				const TiXmlElement* elem = cur->ToElement();
 				Ogre::String name = getAttributeValueAsStdString(elem, "name");
-				DOMElement* posChild = getChildNamed(elem, "position");
+				const TiXmlElement* posChild = getChildNamed(elem, "position");
 				if (name != "" && posChild != NULL)
 				{
 					AiSubsystem::getSingleton().createLandmark(
@@ -48,23 +47,23 @@ namespace rl
 			}
 		}
 
-		for (DOMNode* cur = nodeElem->getFirstChild(); cur != NULL; cur = cur->getNextSibling())
+		for (const TiXmlNode* cur = nodeElem->FirstChild(); cur != NULL; cur = cur->NextSibling())
 		{
-			if (cur->getNodeType() == DOMNode::ELEMENT_NODE && hasNodeName(cur, "landmarkgraph"))
+			if (cur->Type() == TiXmlNode::ELEMENT && hasNodeName(cur, "landmarkgraph"))
 			{
-				DOMElement* elem = static_cast<DOMElement*>(cur);
+				const TiXmlElement* elem = cur->ToElement();
 				///@todo process waypointgraph
 				Ogre::String name;
 
 				LandmarkPath* path = AiSubsystem::getSingleton().createLandmarkPath(name);
 
-				for (DOMNode* curPathChild = nodeElem->getFirstChild();
-					curPathChild != NULL; curPathChild = curPathChild->getNextSibling())
+				for (const TiXmlNode* curPathChild = nodeElem->FirstChild();
+					curPathChild != NULL; curPathChild = curPathChild->NextSibling())
 				{
-					if (curPathChild->getNodeType() == DOMNode::ELEMENT_NODE
+					if (curPathChild->Type() == TiXmlNode::ELEMENT
 						&& hasNodeName(curPathChild, "landmark"))
 					{
-						DOMElement* curLmElem = static_cast<DOMElement*>(curPathChild);
+						const TiXmlElement* curLmElem = curPathChild->ToElement();
 						Landmark* lm = AiSubsystem::getSingleton().getLandmark(
 							getAttributeValueAsStdString(curLmElem, "name"));
 

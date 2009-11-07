@@ -22,11 +22,10 @@
 #include "ParticleSystemObject.h"
 
 using namespace Ogre;
-using namespace XERCES_CPP_NAMESPACE;
 
 namespace rl
 {
-    bool ParticleSystemNodeProcessor::processNode(XERCES_CPP_NAMESPACE::DOMElement* nodeElem, bool loadGameObjects)
+    bool ParticleSystemNodeProcessor::processNode(const TiXmlElement* nodeElem, bool loadGameObjects)
     {
 		if (!hasNodeName(nodeElem, "particlesystem"))
 		{

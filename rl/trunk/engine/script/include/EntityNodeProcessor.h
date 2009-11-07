@@ -16,8 +16,6 @@
 #ifndef __EntityNodeProcessor_H__
 #define __EntityNodeProcessor_H__
 
-#include <xercesc/dom/DOMElement.hpp>
-
 #include "ScriptPrerequisites.h"
 
 #ifdef __APPLE__
@@ -35,13 +33,13 @@ namespace rl
     public:
         EntityNodeProcessor(const Ogre::String& resourcegroup);
 
-        virtual bool processNode(XERCES_CPP_NAMESPACE::DOMElement* nodeElem, bool loadGameObjects);
+        virtual bool processNode(const TiXmlElement* nodeElem, bool loadGameObjects);
 
     private:
         Ogre::String mResourceGroup;
 
-        void createCollision(Ogre::Entity* entity, Ogre::String meshFile, XERCES_CPP_NAMESPACE::DOMElement* physicsProxyElem);
-		void processAnimation(Ogre::Entity* entity, XERCES_CPP_NAMESPACE::DOMElement *animationElem);
+        void createCollision(Ogre::Entity* entity, Ogre::String meshFile, const TiXmlElement* physicsProxyElem);
+		void processAnimation(Ogre::Entity* entity, const TiXmlElement *animationElem);
 	};
 }
 

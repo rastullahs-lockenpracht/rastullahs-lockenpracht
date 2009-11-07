@@ -41,11 +41,9 @@ namespace rl
         return "triggerfactory";
     }
 
-    using namespace XERCES_CPP_NAMESPACE;
-
     void TriggerFactory::writeData(SaveGameFileWriter* writer)
     {
-        DOMElement* triggerParentNode = writer->appendChildElement(writer->getDocument(), writer->getDocument()->getDocumentElement(), getXmlNodeIdentifier().c_str());
+        TiXmlElement* triggerParentNode = writer->appendChildElement(writer->getDocument()->RootElement(), getXmlNodeIdentifier().c_str());
 
         const ZoneManager::ZoneMap &zoneMap(ZoneManager::getSingleton().getAllZones());
         ZoneManager::ZoneMap::const_iterator zone;
@@ -57,9 +55,9 @@ namespace rl
             // search for triggers in a zone
             for(std::list<Trigger*>::iterator trigger = allTriggers.begin(); trigger != allTriggers.end(); trigger++)
             {
-                if((*trigger)->needsToBeSaved())
+                if ((*trigger)->needsToBeSaved())
                 {
-                    DOMElement* triggerNode = writer->appendChildElement(writer->getDocument(), triggerParentNode, "trigger");
+                    TiXmlElement* triggerNode = writer->appendChildElement(triggerParentNode, "trigger");
                     writer->setAttributeValueAsStdString(triggerNode, "name", (*trigger)->getName());
                     writer->setAttributeValueAsStdString(triggerNode, "classname", (*trigger)->getClassName());
                     writer->setAttributeValueAsStdString(triggerNode, "zone", zone->first);
@@ -83,10 +81,10 @@ namespace rl
             // search for triggers in a zone
             for(std::list<Trigger*>::iterator trigger = allTriggers.begin(); trigger != allTriggers.end(); trigger++)
             {
-                if((*trigger)->needsToBeSaved())
+                if ((*trigger)->needsToBeSaved())
                 {
                     zone->second->removeTrigger((*trigger));
-                    if((*trigger)->deleteIfZoneDestroyed())
+                    if ((*trigger)->deleteIfZoneDestroyed())
                     {
                         //ScriptWrapper::getSingleton().owned((*trigger));
                         delete (*trigger);
@@ -96,52 +94,43 @@ namespace rl
             }
         }
 
+        XmlElementList rootNodeList = reader->getElementsByTagName(reader->getDocument(), getXmlNodeIdentifier().c_str());
 
-
-
-        // initialize xmlreader
-        reader->initializeXml();
-
-        DOMNodeList* rootNodeList = reader->getDocument()->getDocumentElement()->getElementsByTagName(AutoXMLCh(getXmlNodeIdentifier().c_str()).data());
-
-        if(rootNodeList->getLength())
+        if (!rootNodeList.empty())
         {
-            DOMNodeList* xmlTriggerFactory = static_cast<DOMElement*>(rootNodeList->item(0))->getElementsByTagName(AutoXMLCh("trigger").data());
-            if(xmlTriggerFactory->getLength())
-            {
-                for(XMLSize_t childIdx1 = 0; childIdx1 < xmlTriggerFactory->getLength(); childIdx1++)
-                {
-                    DOMNode* xmlTrigger = xmlTriggerFactory->item(childIdx1);
-                    if(xmlTrigger->getNodeType() == DOMNode::ELEMENT_NODE)
-                    {
-                        Ogre::String classname = reader->getAttributeValueAsStdString(static_cast<DOMElement*>(xmlTrigger), "classname");
-                        Ogre::String name = reader->getAttributeValueAsStdString(static_cast<DOMElement*>(xmlTrigger), "name");
-                        Ogre::String zoneName = reader->getAttributeValueAsStdString(static_cast<DOMElement*>(xmlTrigger), "zone");
+            XmlElementList xmlTriggerFactory = reader->getElementsByTagName(rootNodeList[0], "trigger");
+			for (XmlElementList::iterator it = xmlTriggerFactory.begin(); it != xmlTriggerFactory.end(); ++it)
+			{
+				const TiXmlNode* xmlTrigger = *it;
+				if (xmlTrigger->Type() == TiXmlNode::ELEMENT)
+				{
+					const TiXmlElement* xmlTriggerElem = xmlTrigger->ToElement();
+					Ogre::String classname = reader->getAttributeValueAsStdString(xmlTriggerElem, "classname");
+					Ogre::String name = reader->getAttributeValueAsStdString(xmlTriggerElem, "name");
+					Ogre::String zoneName = reader->getAttributeValueAsStdString(xmlTriggerElem, "zone");
 
-                        PropertyRecordPtr properties = reader->getPropertiesAsRecord(static_cast<DOMElement*>(xmlTrigger));
+					PropertyRecordPtr properties = reader->getPropertiesAsRecord(xmlTriggerElem);
 
 
-                        Trigger *trigger = createTrigger(classname, name);
-                        if( trigger ) // if not, there is an error-msg from the script!
-                        {
-                            trigger->setProperties(properties);
-                            Zone *zone = ZoneManager::getSingleton().getZone(zoneName);
-                            if(zone == NULL)
-                            {
-                                LOG_ERROR(Logger::SCRIPT, "Tried to load trigger for zone '"+zoneName+"', but the zone could not be found!");
-                                delete trigger;
-                            }
-                            else
-                                zone->addTrigger(trigger);
-                        }
+					Trigger *trigger = createTrigger(classname, name);
+					if (trigger) // if not, there is an error-msg from the script!
+					{
+						trigger->setProperties(properties);
+						Zone *zone = ZoneManager::getSingleton().getZone(zoneName);
+						if (zone == NULL)
+						{
+							LOG_ERROR(Logger::SCRIPT, "Tried to load trigger for zone '"+zoneName+"', but the zone could not be found!");
+							delete trigger;
+						}
+						else
+						{
+							zone->addTrigger(trigger);
+						}
+					}
 
-                    }
-                }
-            }
+				}
+			}
         }
-
-        // close xmlreader
-        reader->shutdownXml();
     }
 
     int TriggerFactory::getPriority() const

@@ -17,13 +17,6 @@
 #ifndef __XmlResource_H__
 #define __XmlResource_H__
 
-#pragma warning (push)
-#pragma warning (disable : 4244)
-#include <xercesc/framework/MemBufInputSource.hpp>
-#include <xercesc/parsers/XercesDOMParser.hpp>
-#include <xercesc/sax2/SAX2XMLReader.hpp>
-#pragma warning (pop)
-
 #include "CommonPrerequisites.h"
 #include "XmlProcessor.h"
 
@@ -43,8 +36,7 @@ namespace rl {
 
         virtual ~XmlResource();
 
-        bool parseBy(XERCES_CPP_NAMESPACE::XercesDOMParser* parser, XmlProcessor* const proc = NULL);
-        bool parseBy(XERCES_CPP_NAMESPACE::SAX2XMLReader* parser, XmlProcessor* const proc = NULL);
+        const char* getContent();
 
     protected:
         size_t calculateSize() const;
@@ -53,8 +45,7 @@ namespace rl {
         void unloadImpl();
 
     private:
-        XERCES_CPP_NAMESPACE::MemBufInputSource* mXmlBuffer;
-        XMLByte* mCharBuffer;
+        char* mCharBuffer;
     };
 
     class _RlCommonExport XmlPtr :

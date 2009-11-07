@@ -21,8 +21,6 @@
 
 template<> rl::GlobalProperties* Ogre::Singleton<rl::GlobalProperties>::ms_Singleton = 0;
 
-using namespace XERCES_CPP_NAMESPACE;
-
 namespace rl
 {
     GlobalProperties::GlobalProperties()
@@ -66,26 +64,21 @@ namespace rl
 
     void GlobalProperties::writeData(SaveGameFileWriter* writer)
     {
-        DOMElement* elem = writer->appendChildElement(writer->getDocument(), writer->getDocument()->getDocumentElement(), getXmlNodeIdentifier().c_str());
-
+        TiXmlElement* elem = writer->appendChildElement(writer->getDocument()->RootElement(), getXmlNodeIdentifier().c_str());
         writer->writeEachPropertyToElem(elem, mProperties.toPropertyMap());
     }
 
     void GlobalProperties::readData(SaveGameFileReader* reader)
     {
-        reader->initializeXml();
-        
-        DOMNodeList* rootNodeList = reader->getDocument()->getDocumentElement()->getElementsByTagName(AutoXMLCh(getXmlNodeIdentifier().c_str()).data());
-        if(rootNodeList->getLength())
+        XmlElementList rootNodeList = reader->getElementsByTagName(reader->getDocument(), getXmlNodeIdentifier().c_str());
+        if (!rootNodeList.empty())
         {
-            DOMElement* elem = static_cast<DOMElement*>(rootNodeList->item(0));
+        	const TiXmlElement* elem = rootNodeList[0];
 
             PropertyRecordPtr properties = reader->getPropertiesAsRecord(elem);
 
             setProperties(properties);
         }
-
-        reader->shutdownXml();
     }
 
     int GlobalProperties::getPriority() const

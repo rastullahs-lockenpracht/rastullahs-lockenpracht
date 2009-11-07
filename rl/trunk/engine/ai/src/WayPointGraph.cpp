@@ -18,7 +18,6 @@
 #include "WayPointGraph.h"
 
 #include <algorithm>
-#include <xercesc/dom/DOM.hpp>
 
 #include "ConfigurationManager.h"
 #include "ContentModule.h"
@@ -97,29 +96,24 @@ void WayPointGraph::addDirectedConnection(WayPointNode* wp1, const WayPointNode*
 
 void WayPointGraph::load(const Ogre::String& filename, const Ogre::String& resourceGroup)
 {
-    using namespace XERCES_CPP_NAMESPACE;
-
     Ogre::String group = resourceGroup;
     if (group.empty())
     {
         group = CoreSubsystem::getSingleton().getActiveAdventureModule()->getId();
     }
 
-    initializeXml();
-
-    DOMDocument* doc = loadDocument(filename, group);
+    TiXmlDocument* doc = loadDocument(filename, group);
     if (doc)
     {
-        DOMElement* rootElem = doc->getDocumentElement();
+        TiXmlElement* rootElem = doc->RootElement();
 
-        DOMElement* nodesElem = getChildNamed(rootElem, "waypointnodes");
+        TiXmlElement* nodesElem = getChildNamed(rootElem, "waypointnodes");
         std::map<int, WayPointNode*> lookupTable;
-        for (DOMNode* curNode = nodesElem->getFirstChild(); curNode; curNode = curNode->getNextSibling())
+        for (TiXmlNode* curNode = nodesElem->FirstChild(); curNode; curNode = curNode->NextSibling())
         {
-            if (curNode->getNodeType() == DOMNode::ELEMENT_NODE
-                || hasNodeName(curNode, "node"))
+            if (curNode->Type() == TiXmlNode::ELEMENT || hasNodeName(curNode, "node"))
             {
-                DOMElement* curElem = static_cast<DOMElement*>(curNode);
+                TiXmlElement* curElem = static_cast<TiXmlElement*>(curNode);
 
                 Vector3 pos = getValueAsVector3(curElem);
                 CeGuiString typeS = getAttributeValueAsString(curElem, "type");
@@ -140,21 +134,18 @@ void WayPointGraph::load(const Ogre::String& filename, const Ogre::String& resou
             }
         }
 
-        DOMElement* edgesElem = getChildNamed(rootElem, "waypointedges");
-        for (DOMNode* curNode = edgesElem->getFirstChild(); curNode; curNode = curNode->getNextSibling())
+        TiXmlElement* edgesElem = getChildNamed(rootElem, "waypointedges");
+        for (TiXmlNode* curNode = edgesElem->FirstChild(); curNode; curNode = curNode->NextSibling())
         {
-            if (curNode->getNodeType() == DOMNode::ELEMENT_NODE
-                || hasNodeName(curNode, "edge"))
+            if (curNode->Type() == TiXmlNode::ELEMENT || hasNodeName(curNode, "edge"))
             {
-                DOMElement* curElem = static_cast<DOMElement*>(curNode);
+                TiXmlElement* curElem = static_cast<TiXmlElement*>(curNode);
                 int source = getAttributeValueAsInteger(curElem, "source");
                 int destination = getAttributeValueAsInteger(curElem, "destination");
                 addDirectedConnection(lookupTable[source], lookupTable[destination]);
             }
         }
     }
-
-    shutdownXml();
 }
 
 const WayPointNode* WayPointGraph::getNearestWayPoint(const Vector3& position) const

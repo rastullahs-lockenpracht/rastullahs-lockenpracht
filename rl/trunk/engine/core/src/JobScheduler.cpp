@@ -173,7 +173,7 @@ namespace rl
 
     void JobScheduler::removeJob(unsigned long ticket)
     {
-        JobQueue::iterator it = std::find_if(mJobQueue.begin(), mJobQueue.end(),
+        JobQueue::iterator it = std::find_if (mJobQueue.begin(), mJobQueue.end(),
             std::bind2nd(FindJobEntryByTicket(), ticket));
         if (it != mJobQueue.end())
         {
@@ -182,7 +182,7 @@ namespace rl
         }
         else
         {
-			it = std::find_if(mAddedJobs.begin(), mAddedJobs.end(),
+			it = std::find_if (mAddedJobs.begin(), mAddedJobs.end(),
 				std::bind2nd(FindJobEntryByTicket(), ticket));
 			if (it != mAddedJobs.end())
 			{
@@ -202,17 +202,15 @@ namespace rl
         return NAME;
     }
 
-    using namespace XERCES_CPP_NAMESPACE;
-
     void JobScheduler::writeData(SaveGameFileWriter* writer)
     {
-        DOMElement* jobSchedulerParentNode = writer->appendChildElement(writer->getDocument(), writer->getDocument()->getDocumentElement(), getXmlNodeIdentifier().c_str());
+        TiXmlElement* jobSchedulerParentNode = writer->appendChildElement(writer->getDocument()->RootElement(), getXmlNodeIdentifier().c_str());
 
         for(JobQueue::const_iterator iter = mJobQueue.begin(); iter != mJobQueue.end(); iter++)
         {
-            if( iter->job->getPersistenceType() == Job::PERSISTENT && !(iter->markedToRemove) )
+            if ( iter->job->getPersistenceType() == Job::PERSISTENT && !(iter->markedToRemove) )
             {
-                DOMElement* jobNode = writer->appendChildElement(writer->getDocument(), jobSchedulerParentNode, "job");
+                TiXmlElement* jobNode = writer->appendChildElement(jobSchedulerParentNode, "job");
                 writer->setAttributeValueAsInteger(jobNode, "priority", iter->priority);
                 writer->setAttributeValueAsInteger(jobNode, "tokens", iter->tokens);
                 writer->setAttributeValueAsInteger(jobNode, "start", iter->start);
@@ -246,15 +244,15 @@ namespace rl
         // delete and discard old jobs
         for( JobQueue::iterator iter = mJobQueue.begin(); iter != mJobQueue.end(); iter++ )
         {
-            if( iter->job->getPersistenceType() == Job::PERSISTENT )
+            if ( iter->job->getPersistenceType() == Job::PERSISTENT )
             {
                 // delete the job, but do not discard it!
                 iter->markedToRemove = true;
             }
-            else if( iter->job->getPersistenceType() == Job::FINISH_WHEN_GAME_LOADED )
+            else if ( iter->job->getPersistenceType() == Job::FINISH_WHEN_GAME_LOADED )
             {
                 // discard the job, then delete it
-                if( iter->job->isDiscardable() )
+                if ( iter->job->isDiscardable() )
                     iter->job->discard();
                 iter->markedToRemove = true;
             }
@@ -263,22 +261,19 @@ namespace rl
         
         // load jobs from savegamefile
 
-        reader->initializeXml();
-
-
-        DOMNodeList* rootNodeList = reader->getDocument()->getDocumentElement()->getElementsByTagName(AutoXMLCh(getXmlNodeIdentifier().c_str()).data());
+        XmlElementList rootNodeList = reader->getElementsByTagName(reader->getDocument()->RootElement(), getXmlNodeIdentifier().c_str());
         
-        if(rootNodeList->getLength())
+        if (!rootNodeList.empty())
         {
-            DOMNodeList* xmlJobs = static_cast<DOMElement*>(rootNodeList->item(0))->getElementsByTagName(AutoXMLCh("job").data());
-            if (xmlJobs->getLength())
+            XmlElementList xmlJobs = reader->getElementsByTagName(rootNodeList[0], "job");
+            if (!xmlJobs.empty())
             {
-                for (XMLSize_t childIdx1 = 0; childIdx1 < xmlJobs->getLength(); childIdx1++)
+                for (XmlElementList::iterator it = xmlJobs.begin(); it != xmlJobs.end(); ++it)
                 {
-                    DOMNode* xmlJob_ = xmlJobs->item(childIdx1);
-                    if (xmlJob_->getNodeType() == DOMNode::ELEMENT_NODE)
+                    const TiXmlNode* xmlJob_ = *it;
+                    if (xmlJob_->Type() == TiXmlNode::ELEMENT)
                     {
-                        DOMElement* xmlJob = static_cast<DOMElement*>(xmlJob_);
+                    	const TiXmlElement* xmlJob = xmlJob_->ToElement();
                         JobPriority priority;
                         unsigned short tokens;
                         int start, end;
@@ -331,8 +326,6 @@ namespace rl
                 }
             }
         }
-
-        reader->shutdownXml();
     }
 
     int JobScheduler::getPriority() const

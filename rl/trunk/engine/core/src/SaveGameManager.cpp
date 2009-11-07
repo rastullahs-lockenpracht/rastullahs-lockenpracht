@@ -25,11 +25,7 @@
 
 #include "XmlProcessor.h"
 
-#include <xercesc/framework/LocalFileFormatTarget.hpp>
-
 template<> rl::SaveGameManager* Ogre::Singleton<rl::SaveGameManager>::ms_Singleton = 0;
-
-using namespace XERCES_CPP_NAMESPACE;
 
 namespace rl
 {

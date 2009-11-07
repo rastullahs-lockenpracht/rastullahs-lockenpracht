@@ -17,8 +17,6 @@
 #ifndef __UiPrerequisites_H__
 #define __UiPrerequisites_H__
 
-#include <xercesc/util/XMemory.hpp>	// Muss vor Ogre stehen (zumindest f�r VS)
-
 #undef _assert
 
 #include <vector>

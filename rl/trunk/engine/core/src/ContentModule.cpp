@@ -217,19 +217,17 @@ namespace rl
         return "ContentModule";
     }
 
-    using namespace XERCES_CPP_NAMESPACE;
-
     void ContentModule::writeData(SaveGameFileWriter* writer)
     {
-        if(!this->isCommon())
+        if (!this->isCommon())
         {
             LOG_MESSAGE(Logger::CORE, "Saving ContentLoaders");
-            DOMElement* contentLoadersNode = writer->appendChildElement(writer->getDocument(), writer->getDocument()->getDocumentElement(), getXmlNodeIdentifier().c_str());
+            TiXmlElement* contentLoadersNode = writer->appendChildElement(writer->getDocument()->RootElement(), getXmlNodeIdentifier().c_str());
             writer->setAttributeValueAsString(contentLoadersNode, "name", mName);
 
             for(ContentLoaderVector::const_iterator it = mContentLoaders.begin(); it != mContentLoaders.end(); ++it)
             {
-                DOMElement* contentLoaderNode = writer->appendChildElement(writer->getDocument(), contentLoadersNode, "contentloader");
+                TiXmlElement* contentLoaderNode = writer->appendChildElement(contentLoadersNode, "contentloader");
                 writer->setAttributeValueAsString(contentLoaderNode, "classname", Property((*it)->getClassName()));
                 writer->writeEachPropertyToElem(contentLoaderNode, (*it)->getAllProperties()->toPropertyMap());
             }

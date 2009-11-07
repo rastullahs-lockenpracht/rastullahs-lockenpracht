@@ -26,8 +26,6 @@
 #include "LandmarkPath.h"
 #include "WayPointGraphManager.h"
 
-#include <xercesc/util/PlatformUtils.hpp>
-
 #include "XmlProcessor.h"
 #include "XmlResourceManager.h"
 #include "ContentModule.h"
@@ -35,7 +33,6 @@
 
 using namespace Ogre;
 using namespace OpenSteer;
-using namespace XERCES_CPP_NAMESPACE;
 
 template<> rl::AiSubsystem* Singleton<rl::AiSubsystem>::ms_Singleton = 0;
 

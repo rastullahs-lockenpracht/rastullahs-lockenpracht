@@ -21,13 +21,12 @@
 #include "World.h"
 #include "XmlProcessor.h"
 
-using namespace XERCES_CPP_NAMESPACE;
 using namespace Ogre;
 
 
 namespace rl
 {
-	bool EnvironmentProcessor::processNode(XERCES_CPP_NAMESPACE::DOMElement* nodeElem, bool loadGameObjects)
+	bool EnvironmentProcessor::processNode(const TiXmlElement* nodeElem, bool loadGameObjects)
 	{
 		if (nodeElem)
 		{
@@ -38,7 +37,7 @@ namespace rl
 		return true;
 	}
 
-	void EnvironmentProcessor::processSkySettings(XERCES_CPP_NAMESPACE::DOMElement* skyElem)
+	void EnvironmentProcessor::processSkySettings(const TiXmlElement* skyElem)
 	{
         if (skyElem)
 		{
@@ -70,7 +69,7 @@ namespace rl
 				    Ogre::Real curvature = 10;
 				    Ogre::Real tiling = 8;
 
-				    DOMElement* domeSettings = getChildNamed(skyElem, "skydomesettings");
+				    const TiXmlElement* domeSettings = getChildNamed(skyElem, "skydomesettings");
 				    if (domeSettings != NULL)
 				    {
 					    if (hasAttribute(domeSettings, "curvature"))
@@ -98,7 +97,7 @@ namespace rl
 	}
 
 
-	void EnvironmentProcessor::processFogSettings(XERCES_CPP_NAMESPACE::DOMElement* fogElem)
+	void EnvironmentProcessor::processFogSettings(const TiXmlElement* fogElem)
 	{
         if (fogElem)
         {
@@ -110,7 +109,7 @@ namespace rl
 			    return;
 		    }
 
-		    DOMElement* colourElem = getChildNamed(fogElem, "colour");
+		    const TiXmlElement* colourElem = getChildNamed(fogElem, "colour");
 		    if (colourElem == NULL)
 		    {
 			    LOG_ERROR(Logger::RULES, "No fog colour set.");

@@ -18,7 +18,6 @@
 
 #include "SaveGameFile.h"
 #include "SaveGameManager.h"
-#include <xercesc/framework/LocalFileFormatTarget.hpp>
 
 #include <ConfigurationManager.h>
 #include <CoreSubsystem.h>
@@ -85,12 +84,6 @@ namespace rl
         Ogre::ResourceGroupManager::getSingleton().destroyResourceGroup("SaveGame");
 
         Ogre::ResourceGroupManager::getSingleton()._unregisterScriptLoader(this);
-    }
-
-    XERCES_CPP_NAMESPACE::XMLFormatTarget* SaveGameFile::getFormatTarget()
-    {
-        ///@todo: encryption
-        return new XERCES_CPP_NAMESPACE::LocalFileFormatTarget(this->buildFilename().c_str());
     }
 
     void SaveGameFile::deleteFileFromStorage()

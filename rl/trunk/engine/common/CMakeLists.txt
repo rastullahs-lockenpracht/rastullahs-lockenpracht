@@ -1,6 +1,6 @@
 INCLUDE_DIRECTORIES(
 ${CMAKE_CURRENT_SOURCE_DIR}/include
-${XERCESC_INCLUDE_DIR}
+${TINYXML_INCLUDE_DIR}
 ${OGRE_INCLUDE_DIRS}
 ${CEGUI_INCLUDE_DIRS})
 
@@ -11,12 +11,10 @@ src/EventSource.cpp
 src/GameTask.cpp
 src/Logger.cpp
 src/MathUtil.cpp
-src/OgreXercesInput.cpp
 src/Properties.cpp
 src/Property.cpp
 src/ScriptWrapper.cpp
 src/WriteableDataStream.cpp
-src/WriteableDataStreamFormatTarget.cpp
 src/WriteableFileSystemArchiv.cpp
 src/XmlProcessor.cpp
 src/XmlPropertyReader.cpp
@@ -26,7 +24,7 @@ src/XmlResourceManager.cpp)
 
 ADD_LIBRARY(RlCommon SHARED ${RlCommon_LIB_SRCS})
 
-TARGET_LINK_LIBRARIES(RlCommon ${XERCESC_LIBRARIES} ${OGRE_LIBRARIES} ${CEGUI_LIBRARIES} ${Boost_FILESYSTEM_LIBRARY})
+TARGET_LINK_LIBRARIES(RlCommon ${TINYXML_LIBRARY} ${OGRE_LIBRARIES} ${CEGUI_LIBRARIES} ${Boost_FILESYSTEM_LIBRARY})
 
 SET_TARGET_PROPERTIES(RlCommon PROPERTIES
 	VERSION ${RL_MAJOR_VERSION}.${RL_MINOR_VERSION}.${RL_PATCH_VERSION}

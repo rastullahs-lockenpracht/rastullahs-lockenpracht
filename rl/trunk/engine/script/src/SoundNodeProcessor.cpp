@@ -18,11 +18,10 @@
 #include "SoundNodeProcessor.h"
 
 using namespace Ogre;
-using namespace XERCES_CPP_NAMESPACE;
 
 namespace rl
 {
-    bool SoundNodeProcessor::processNode(XERCES_CPP_NAMESPACE::DOMElement* nodeElem, bool loadGameObjects)
+    bool SoundNodeProcessor::processNode(const TiXmlElement* nodeElem, bool loadGameObjects)
     {
         if (!hasNodeName(nodeElem, "sound"))
         {
@@ -32,8 +31,6 @@ namespace rl
         LOG_DEBUG(Logger::RULES,
             "Processing sound node "
                 + getAttributeValueAsStdString(nodeElem, "name"));
-
-
 
         return false;
     }

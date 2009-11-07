@@ -15,7 +15,6 @@
 */
 #include "stdinc.h" //precompiled header
 
-// Xerces geht vor allen Ogre includes...
 #include "XmlResourceManager.h"
 
 #include "GenericWorld.h"

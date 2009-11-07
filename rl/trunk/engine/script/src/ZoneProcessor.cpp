@@ -25,25 +25,24 @@
 #include "Zone.h"
 #include "ZoneManager.h"
 
-using namespace XERCES_CPP_NAMESPACE;
 using namespace Ogre;
 
 namespace rl
 {
 
-	bool ZoneProcessor::processNode(DOMElement* zonesElem, bool loadGameObjects)
+	bool ZoneProcessor::processNode(const TiXmlElement* zonesElem, bool loadGameObjects)
 	{
 		if (zonesElem == NULL)
 		{
 			return false; // no zones
 		}
 
-        for (DOMNode* cur = zonesElem->getFirstChild(); cur != NULL; cur = cur->getNextSibling())
+        for (const TiXmlNode* cur = zonesElem->FirstChild(); cur != NULL; cur = cur->NextSibling())
         {
-            if (cur->getNodeType() == DOMNode::ELEMENT_NODE
+            if (cur->Type() == TiXmlNode::ELEMENT
 				&& hasNodeName(cur, "zone"))
             {
-				DOMElement* curZoneElem = static_cast<DOMElement*>(cur);
+            	const TiXmlElement* curZoneElem = cur->ToElement();
 				if (hasAttribute(curZoneElem, "name"))
 				{
 					Ogre::String name = getAttributeValueAsStdString(curZoneElem, "name");
@@ -62,12 +61,12 @@ namespace rl
                         }
 
                         // multiple areas
-                        for(DOMNode* curArea = cur->getFirstChild(); curArea != NULL; curArea = curArea->getNextSibling())
+                        for (const TiXmlNode* curArea = cur->FirstChild(); curArea != NULL; curArea = curArea->NextSibling())
                         {
-                            if (curArea->getNodeType() == DOMNode::ELEMENT_NODE
+                            if (curArea->Type() == TiXmlNode::ELEMENT
                                 && hasNodeName(curArea, "area"))
                             {
-                                DOMElement *curAreaElem = static_cast<DOMElement*>(curArea);
+                            	const TiXmlElement *curAreaElem = curArea->ToElement();
                                 if (hasAttribute(curAreaElem, "type"))
                                 {
                                     // type
@@ -83,7 +82,7 @@ namespace rl
 
                                     // position
                                     Vector3 position = Vector3::ZERO;
-                                    DOMElement* positionElem = getChildNamed(curAreaElem, "position");
+                                    const TiXmlElement* positionElem = getChildNamed(curAreaElem, "position");
                                     if (positionElem)
                                     {
                                         position = getValueAsVector3(positionElem);
@@ -91,7 +90,7 @@ namespace rl
 
                                     //scale, rotation, offset
                                     Vector3 scale = Vector3::UNIT_SCALE;
-                                    DOMElement* scaleElem = getChildNamed(curAreaElem, "scale");
+                                    const TiXmlElement* scaleElem = getChildNamed(curAreaElem, "scale");
                                     if (!scaleElem)
                                     {
                                         scaleElem = getChildNamed(curAreaElem, "size");
@@ -103,14 +102,14 @@ namespace rl
                                     }
 
                                     Vector3 offset = Vector3::ZERO;
-                                    DOMElement* offsetElem = getChildNamed(curAreaElem, "offset");
+                                    const TiXmlElement* offsetElem = getChildNamed(curAreaElem, "offset");
                                     if (offsetElem)
                                     {
                                         offset = getValueAsVector3(offsetElem);
                                     }
 
                                     Quaternion rotation = Quaternion::IDENTITY;
-                                    DOMElement* rotationElem = getChildNamed(curAreaElem, "rotation");
+                                    const TiXmlElement* rotationElem = getChildNamed(curAreaElem, "rotation");
                                     if (rotationElem)
                                     {
                                         rotation = getValueAsQuaternion(rotationElem);
@@ -118,7 +117,7 @@ namespace rl
 
                                     //transition distance
                                     Real transitionDistance = 0;
-                                    DOMElement* transitionElem = getChildNamed(curAreaElem, "transition_distance");
+                                    const TiXmlElement* transitionElem = getChildNamed(curAreaElem, "transition_distance");
                                     if (transitionElem)
                                     {
                                         transitionDistance = getValueAsReal(transitionElem);
@@ -199,11 +198,11 @@ namespace rl
 
 					if (zone)
 					{
-						for (DOMNode* cur = curZoneElem->getFirstChild(); cur != NULL; cur = cur->getNextSibling())
+						for (const TiXmlNode* cur = curZoneElem->FirstChild(); cur != NULL; cur = cur->NextSibling())
 						{
-							if (cur->getNodeType() == DOMNode::ELEMENT_NODE)
+							if (cur->Type() == TiXmlNode::ELEMENT)
 							{
-								DOMElement* curElem = static_cast<DOMElement*>(cur);
+								const TiXmlElement* curElem = cur->ToElement();
 								if (hasNodeName(curElem, "light"))
 								{
 									Ogre::String name = getAttributeValueAsStdString(curElem, "name");
@@ -226,11 +225,11 @@ namespace rl
 										->createTrigger(classname, name);
 
                                     // add trigger properties
-                                    for( DOMNode* curProperty = cur->getFirstChild(); curProperty != NULL; curProperty = curProperty->getNextSibling())
+                                    for (const TiXmlNode* curProperty = cur->FirstChild(); curProperty != NULL; curProperty = curProperty->NextSibling())
                                     {
                                         if (hasNodeName(curProperty, "property"))
                                         {
-                                            PropertyEntry propEntry = processProperty(static_cast<DOMElement*>(curProperty));
+                                            PropertyEntry propEntry = processProperty(curProperty->ToElement());
                                             if (propEntry.first != "")
                                             {
                                                 trigger->setProperty(propEntry.first, propEntry.second);

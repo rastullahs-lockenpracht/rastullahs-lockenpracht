@@ -17,17 +17,14 @@
 
 #include "GameObjectNodeProcessor.h"
 
-#include <xercesc/dom/DOM.hpp>
-
 #include "GameObject.h"
 #include "GameObjectManager.h"
 
 using namespace Ogre;
-using namespace XERCES_CPP_NAMESPACE;
 
 namespace rl
 {
-    bool GameObjectNodeProcessor::processNode(XERCES_CPP_NAMESPACE::DOMElement* nodeElem, bool loadGameObjects)
+    bool GameObjectNodeProcessor::processNode(const TiXmlElement* nodeElem, bool loadGameObjects)
     {
         if (!hasNodeName(nodeElem, "gameobject"))
         {
@@ -61,28 +58,25 @@ namespace rl
                 return true;
             }
 
-            DOMElement* posElem = getChildNamed(nodeElem, "position");
+            const TiXmlElement* posElem = getChildNamed(nodeElem, "position");
             if (posElem != NULL)
             {
                 Vector3 pos = processVector3(posElem);
                 go->setPosition(pos);
             }
 
-            DOMElement* oriElem = getChildNamed(nodeElem, "rotation");
+            const TiXmlElement* oriElem = getChildNamed(nodeElem, "rotation");
             if (oriElem != NULL)
             {
                 Quaternion ori = processQuaternion(oriElem);
                 go->setOrientation(ori);
             }
 
-            DOMNodeList* goElChildNodes = nodeElem->getChildNodes();
-            for (XMLSize_t idx = 0; idx < goElChildNodes->getLength(); idx++)
+            for (const TiXmlNode* cur = nodeElem->FirstChild(); cur; cur = cur->NextSibling())
             {
-                DOMNode* cur = goElChildNodes->item(idx);
-                if (cur->getNodeType() == DOMNode::ELEMENT_NODE
-                    && hasNodeName(cur, "property"))
+                if (cur->Type() == TiXmlNode::ELEMENT && hasNodeName(cur, "property"))
                 {
-                    PropertyEntry propEntry = processProperty(static_cast<DOMElement*>(cur));
+                    PropertyEntry propEntry = processProperty(cur->ToElement());
                     if (propEntry.first != "")
                     {
                         go->setProperty(propEntry.first, propEntry.second);

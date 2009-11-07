@@ -74,7 +74,7 @@ namespace rl {
         Ogre::StringVector mDefaultMaps;
 
         void setRootSceneNode(Ogre::SceneNode* node);
-        void processSceneNodes(XERCES_CPP_NAMESPACE::DOMElement* nodesElem, bool loadGameObjects);
+        void processSceneNodes(const TiXmlElement* nodesElem, bool loadGameObjects);
         void setLoadingPercentage(Ogre::Real percentage, const Ogre::String& text = "");
         bool changeScene(Ogre::StringVector mapsresources);
         void initialize(const Ogre::String& resourceGroup);

@@ -33,7 +33,6 @@
 #	endif
 #endif
 
-
 #undef _assert
 
 #undef max

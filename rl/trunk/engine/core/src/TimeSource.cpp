@@ -180,17 +180,15 @@ namespace rl
 		return "time_sources";
 	}
 
-	using namespace XERCES_CPP_NAMESPACE;
-
     void TimeSourceManager::writeData(SaveGameFileWriter* writer)
 	{
-		DOMElement* timesources = writer->appendChildElement(writer->getDocument(), 
-			writer->getDocument()->getDocumentElement(), getXmlNodeIdentifier().c_str());
+		TiXmlElement* timesources = writer->appendChildElement(
+			writer->getDocument(), getXmlNodeIdentifier().c_str());
 
-		for(std::map<TimeSource::TimeSourceType, TimeSource*>::const_iterator it_time_sources = mTimeSources.begin(); 
+		for (std::map<TimeSource::TimeSourceType, TimeSource*>::const_iterator it_time_sources = mTimeSources.begin();
 			it_time_sources != mTimeSources.end(); it_time_sources++)
         {
-            DOMElement* timesource = writer->appendChildElement(writer->getDocument(), timesources, "time_source");
+            TiXmlElement* timesource = writer->appendChildElement(timesources, "time_source");
 			writer->setAttributeValueAsInteger(timesource, "ID", it_time_sources->first);
 			Property time((int)it_time_sources->second->getClock());
 
@@ -202,33 +200,25 @@ namespace rl
 
 	void TimeSourceManager::readData(SaveGameFileReader* reader)
 	{
-		reader->initializeXml();
+		XmlElementList rootNodeList = reader->getElementsByTagName(reader->getDocument()->RootElement(), getXmlNodeIdentifier().c_str());
 
-		DOMNodeList* rootNodeList = reader->getDocument()->getDocumentElement()->getElementsByTagName(AutoXMLCh(getXmlNodeIdentifier().c_str()).data());
-
-		if(rootNodeList->getLength())
+		if (!rootNodeList.empty())
         {
-			DOMNodeList* xmlTimeSources = static_cast<DOMElement*>(rootNodeList->item(0))->getElementsByTagName(AutoXMLCh("gameobject").data()); //there should be only one "gameobjects" node
-            if(xmlTimeSources->getLength())
-            {
-				for(XMLSize_t childIdx = 0; childIdx < xmlTimeSources->getLength(); childIdx++)
+			XmlElementList xmlTimeSources = reader->getElementsByTagName(rootNodeList[0], "gameobject"); //there should be only one "gameobjects" node
+			for (XmlElementList::iterator it = xmlTimeSources.begin(); it != xmlTimeSources.end(); ++it)
+			{
+				const TiXmlElement* xmlTimeSource = *it;
+				TimeSource::TimeSourceType ID = (TimeSource::TimeSourceType)reader->getAttributeValueAsInteger(
+					xmlTimeSource, "ID");
+				PropertyRecordPtr properties = reader->getPropertiesAsRecord(xmlTimeSource);
+
+				std::map<TimeSource::TimeSourceType, TimeSource*>::const_iterator it_time_sources = mTimeSources.find(ID);
+				if (it_time_sources != mTimeSources.end())
 				{
-					DOMNode* xmlTimeSource = xmlTimeSources->item(childIdx);
-					if(xmlTimeSource->getNodeType() == DOMNode::ELEMENT_NODE)
-                    {
-						TimeSource::TimeSourceType ID = (TimeSource::TimeSourceType)reader->getAttributeValueAsInteger(
-							static_cast<DOMElement*>(xmlTimeSource), "ID");
-                        PropertyRecordPtr properties = reader->getPropertiesAsRecord(static_cast<DOMElement*>(xmlTimeSource));
-	
-						std::map<TimeSource::TimeSourceType, TimeSource*>::const_iterator it_time_sources = mTimeSources.find(ID);
-						if(it_time_sources != mTimeSources.end())
-							it_time_sources->second->setClock(properties->toPropertyMap()["time"].toInt());
-                    }
+					it_time_sources->second->setClock(properties->toPropertyMap()["time"].toInt());
 				}
 			}
 		}
-
-		reader->shutdownXml();
 	}
     
     int TimeSourceManager::getPriority() const

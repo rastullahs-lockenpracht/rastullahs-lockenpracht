@@ -17,7 +17,6 @@
 
 #include "DialogManager.h"
 
-
 #include "Creature.h"
 #include "Dialog.h"
 #include "DialogLoader.h"
@@ -27,7 +26,6 @@
 
 using namespace Ogre;
 using namespace std;
-using namespace XERCES_CPP_NAMESPACE;
 
 template<>
     rl::DialogManager* Ogre::Singleton<rl::DialogManager>::ms_Singleton = NULL;

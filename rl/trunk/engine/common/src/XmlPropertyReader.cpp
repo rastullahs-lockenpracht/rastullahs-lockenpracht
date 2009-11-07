@@ -16,8 +16,6 @@
 
 #include "stdinc.h" //precompiled header
 
-#include <xercesc/dom/DOM.hpp>
-
 #include "Properties.h"
 
 #include "XmlProcessor.h"
@@ -25,8 +23,6 @@
 
 #include <CEGUIPropertyHelper.h>
 
-
-using namespace XERCES_CPP_NAMESPACE;
 using namespace Ogre;
 
 namespace rl {
@@ -41,43 +37,45 @@ XmlPropertyReader::~XmlPropertyReader()
 
 void XmlPropertyReader::parseGameObjectFile(Ogre::DataStreamPtr &stream, const Ogre::String &groupName)
 {
-    initializeXml();
+    TiXmlDocument* doc = loadDocument(stream);
+    doc->Accept(this);
+}
 
-    XERCES_CPP_NAMESPACE::DOMDocument* doc = loadDocument(stream);
+bool XmlPropertyReader::VisitEnter(const TiXmlElement &element, const TiXmlAttribute *firstAttribute)
+{
+	if (element.ValueTStr() == "gameobjectclass")
+	{
+		processGameObjectClassNode(element);
+		return false;
+	}
+	return true;
+}
 
-    DOMNodeList* godefsXml = doc->getDocumentElement()->getElementsByTagName(AutoXMLCh("gameobjectclass").data());
-    for (unsigned int idx = 0; idx < godefsXml->getLength(); idx++)
-    {
-		PropertyRecordPtr ps(new PropertyRecord());
-		DOMElement* curNode = static_cast<DOMElement*>(godefsXml->item(idx));
-		
-		const DOMNamedNodeMap* godefAttrs = curNode->getAttributes();
-		for (XMLSize_t attrIdx = 0; attrIdx < godefAttrs->getLength(); attrIdx++)
+void XmlPropertyReader::processGameObjectClassNode(const TiXmlElement &element)
+{
+	PropertyRecordPtr ps(new PropertyRecord());
+
+	for (const TiXmlAttribute* curAttr = element.FirstAttribute(); curAttr; curAttr = curAttr->Next())
+	{
+		PropertyEntry entry = processProperty(curAttr);
+		if (entry.first != "")
 		{
-			PropertyEntry entry = processProperty(static_cast<DOMAttr*>(godefAttrs->item(attrIdx)));
-            if (entry.first != "")
-            {
-                ps->setProperty(entry.first, entry.second);
-            }
+			ps->setProperty(entry.first, entry.second);
 		}
+	}
 
-        DOMNodeList* godefChildren = curNode->getChildNodes();
-        for (XMLSize_t childIdx = 0; childIdx < godefChildren->getLength(); childIdx++)
-        {
-            DOMNode* curChild = godefChildren->item(childIdx);
-            if (curChild->getNodeType() == DOMNode::ELEMENT_NODE)
-            {
-                PropertyEntry entry = processProperty(static_cast<DOMElement*>(curChild));
-                if (entry.first != "")
-                {
-                    ps->setProperty(entry.first, entry.second);
-                }
-            }
-        }
-        mPropertyRecords.push_back(ps);
-    }
-	
-    shutdownXml();
+	for (const TiXmlNode* curChild = element.FirstChild(); curChild; curChild = curChild->NextSibling())
+	{
+		if (curChild->Type() == TiXmlNode::ELEMENT)
+		{
+			PropertyEntry entry = processProperty(curChild->ToElement());
+			if (entry.first != "")
+			{
+				ps->setProperty(entry.first, entry.second);
+			}
+		}
+	}
+	mPropertyRecords.push_back(ps);
 }
 
 PropertyRecordVector XmlPropertyReader::getPropertyRecords()
@@ -85,14 +83,12 @@ PropertyRecordVector XmlPropertyReader::getPropertyRecords()
     return mPropertyRecords;
 }
 
-PropertyEntry XmlPropertyReader::processProperty(XERCES_CPP_NAMESPACE::DOMAttr* domAttr) const
+PropertyEntry XmlPropertyReader::processProperty(const TiXmlAttribute* attribute) const
 {
-	return std::make_pair(
-		transcodeToStdString(domAttr->getName()), 
-		Property(transcodeToString(domAttr->getValue())));
+	return std::make_pair(attribute->Name(), Property(CeGuiString(attribute->Value())));
 }
 
-PropertyEntry XmlPropertyReader::processProperty(XERCES_CPP_NAMESPACE::DOMElement* domElem) const
+PropertyEntry XmlPropertyReader::processProperty(const TiXmlElement* domElem) const
 {
     if (!hasAttribute(domElem, "type"))
     {
@@ -184,12 +180,12 @@ PropertyEntry XmlPropertyReader::processProperty(XERCES_CPP_NAMESPACE::DOMElemen
 	else if (type == "ARRAY")
 	{
 		std::vector<Property> vecVal;
-		for (DOMNode* curChild  = domElem->getFirstChild(); curChild != NULL;
-			curChild = curChild->getNextSibling())
+		for (const TiXmlNode* curChild  = domElem->FirstChild(); curChild;
+			curChild = curChild->NextSibling())
 		{
-			if (curChild->getNodeType() == DOMNode::ELEMENT_NODE)
+			if (curChild->Type() == TiXmlNode::ELEMENT)
 			{
-				PropertyEntry entry = processProperty(static_cast<DOMElement*>(curChild));
+				PropertyEntry entry = processProperty(curChild->ToElement());
 				vecVal.push_back(entry.second);
 			}
 		}
@@ -225,12 +221,12 @@ PropertyEntry XmlPropertyReader::processProperty(XERCES_CPP_NAMESPACE::DOMElemen
 	else if (type == "MAP")
 	{
 		PropertyMap mapVal;
-		for (DOMNode* curChild  = domElem->getFirstChild(); curChild != NULL;
-			curChild = curChild->getNextSibling())
+		for (const TiXmlNode* curChild  = domElem->FirstChild(); curChild;
+					curChild = curChild->NextSibling())
 		{
-			if (curChild->getNodeType() == DOMNode::ELEMENT_NODE)
+			if (curChild->Type() == TiXmlNode::ELEMENT)
 			{
-				DOMElement* curElem = static_cast<DOMElement*>(curChild);
+				const TiXmlElement* curElem = curChild->ToElement();
 				CeGuiString key = getAttributeValueAsString(curElem, "name");
 				PropertyEntry entry = processProperty(curElem);
 				mapVal[key] = entry.second;
@@ -242,17 +238,16 @@ PropertyEntry XmlPropertyReader::processProperty(XERCES_CPP_NAMESPACE::DOMElemen
     return std::make_pair(key, prop);
 }
 
-PropertyRecordPtr XmlPropertyReader::getPropertiesAsRecord(DOMElement *parent)
+PropertyRecordPtr XmlPropertyReader::getPropertiesAsRecord(const TiXmlElement *parent)
 {
     PropertyRecordPtr ps(new PropertyRecord());
 
-    DOMNodeList* propertyDefChildren = parent->getChildNodes();
-    for (XMLSize_t childIdx = 0; childIdx < propertyDefChildren->getLength(); childIdx++)
-    {
-        DOMNode* curChild = propertyDefChildren->item(childIdx);
-        if (curChild->getNodeType() == DOMNode::ELEMENT_NODE)
-        {
-            PropertyEntry entry = processProperty(static_cast<DOMElement*>(curChild));
+	for (const TiXmlNode* curChild = parent->FirstChild(); curChild;
+				curChild = curChild->NextSibling())
+	{
+		if (curChild->Type() == TiXmlNode::ELEMENT)
+		{
+            PropertyEntry entry = processProperty(curChild->ToElement());
             if (entry.first != "")
             {
                 ps->setProperty(entry.first, entry.second);

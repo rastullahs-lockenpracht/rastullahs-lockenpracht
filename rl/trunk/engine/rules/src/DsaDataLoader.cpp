@@ -15,14 +15,11 @@
  */
 #include "stdinc.h" //precompiled header
 
-#include <xercesc/dom/DOM.hpp>
-
 // #include "XdimlLoader.h"
 #include "DsaDataLoader.h"
 
 
 #include "XmlProcessor.h"
-#include "OgreXercesInput.h"
 
 #include "DsaManager.h"
 #include "Talent.h"
@@ -33,12 +30,9 @@
 
 #include "Exception.h"
 
-using namespace XERCES_CPP_NAMESPACE;
 using namespace Ogre;
 
 namespace rl {
-
-	using XERCES_CPP_NAMESPACE::DOMDocument; //XXX: Warum brauche ich das unter VS 2003?
 
     XdimlLoader::XdimlLoader()
         : ScriptLoader()
@@ -50,17 +44,12 @@ namespace rl {
 
     void XdimlLoader::parseScript(Ogre::DataStreamPtr &stream, const Ogre::String &groupName)
     {
-        initializeXml();
-
-		DOMDocument* doc = loadDocument(stream);
-		DOMElement* dataDocumentContent = getChildNamed(
-            doc->getDocumentElement(), "Inhalt");
+		TiXmlDocument* doc = loadDocument(stream);
+		TiXmlElement* dataDocumentContent = getChildNamed(doc->RootElement(), "Inhalt");
 
 		initializeTalente(getChildNamed(dataDocumentContent, "Talente"));
 		initializeKampftechniken(getChildNamed(dataDocumentContent, "Kampftechniken"));
 		initializeCreatures(getChildNamed(dataDocumentContent, "Personen"));
-
-        shutdownXml();
     }
 
     const StringVector& XdimlLoader::getScriptPatterns() const
@@ -73,42 +62,41 @@ namespace rl {
         return 1000.0;
     }
 
-    void XdimlLoader::initializeTalente(DOMElement* rootTalente)
+    void XdimlLoader::initializeTalente(const TiXmlElement* rootTalente)
     {
 		if (rootTalente == NULL)
 			return;
 
-	    DOMNodeList* talentGruppen =
-            rootTalente->getElementsByTagName(AutoXMLCh("Talentgruppe").data());
-        for (unsigned int gruppe = 0; gruppe < talentGruppen->getLength(); gruppe++)
+	    XmlElementList talentGruppen = getElementsByTagName(rootTalente, "Talentgruppe");
+        for (unsigned int gruppe = 0; gruppe < talentGruppen.size(); gruppe++)
 		{
-			DOMElement* gruppeData = static_cast<DOMElement*>(talentGruppen->item(gruppe));
-			DOMNodeList* talenteXml =
-                gruppeData->getElementsByTagName(AutoXMLCh("Talent").data());
+        	const TiXmlElement* gruppeData = talentGruppen[gruppe];
+			XmlElementList talenteXml = getElementsByTagName(gruppeData, "Talent");
             //int numTalent = 0;
-            for (unsigned int talentIdx = 0; talentIdx < talenteXml->getLength(); talentIdx++)
+            for (unsigned int talentIdx = 0; talentIdx < talenteXml.size(); talentIdx++)
             {
-                Talent* t = processTalent(gruppe, static_cast<DOMElement*>(talenteXml->item(talentIdx)));
+                Talent* t = processTalent(gruppe, talenteXml[talentIdx]);
                 //numTalent++;
 				DsaManager::getSingleton()._addTalent(t);
             }
 		}
     }
 
-    Talent* XdimlLoader::processTalent(int gruppe, DOMElement* talentXml)
+    Talent* XdimlLoader::processTalent(int gruppe, const TiXmlElement* talentXml)
     {
 		CeGuiString desc = getValueAsString(getChildNamed(talentXml, "Beschreibung"));
         CeGuiString probe = getValueAsString(getChildNamed(talentXml, "Probe"));
         CeGuiString art = getValueAsString(getChildNamed(talentXml, "Art"));
-		DOMElement* eBeNode = getChildNamed(talentXml, "eBE");
-        DOMElement* ausweichTalenteNode = static_cast<DOMElement*>(getChildNamed(talentXml, "Ausweichtalente"));
+        const TiXmlElement* eBeNode = getChildNamed(talentXml, "eBE");
+        const TiXmlElement* ausweichTalenteNode = getChildNamed(talentXml, "Ausweichtalente");
 
 		int ebe = EBE_KEINE_BE;
         if (eBeNode != NULL)
-			ebe = getEBeFromString(AutoChar(eBeNode->getFirstChild()->getNodeValue()).data());
+        {
+			ebe = getEBeFromString(eBeNode->FirstChild()->Value());
+        }
 
-		CeGuiString name = transcodeToString(
-            talentXml->getAttribute(AutoXMLCh("ID").data()));
+		CeGuiString name = getAttributeValueAsString(talentXml, "ID");
         EigenschaftTripel eigenschaften;
 		eigenschaften.first = probe.substr(0,2);
         eigenschaften.second = probe.substr(3,2);
@@ -119,16 +107,13 @@ namespace rl {
         Talent::AusweichTalente ausweichTalente;
         if( ausweichTalenteNode )
         {
-	        DOMNodeList* ausweichTalentGruppen =
-                ausweichTalenteNode->getElementsByTagName(AutoXMLCh("Ausweichtalent").data());
-            for( unsigned int ausweich = 0; ausweich < ausweichTalentGruppen->getLength(); ausweich++ )
+	        XmlElementList ausweichTalentGruppen = getElementsByTagName(ausweichTalenteNode, "Ausweichtalent");
+            for( unsigned int ausweich = 0; ausweich < ausweichTalentGruppen.size(); ausweich++ )
             {
-			    DOMElement* ausweichData = static_cast<DOMElement*>(ausweichTalentGruppen->item(ausweich));
-	            CeGuiString ausweichName = transcodeToString(
-                    ausweichData->getAttribute(AutoXMLCh("ID").data()));
+            	const TiXmlElement* ausweichData = ausweichTalentGruppen[ausweich];
+	            CeGuiString ausweichName = getAttributeValueAsString(ausweichData, "ID");
 
-                ausweichTalente[ausweichName] = 
-                    getValueAsInteger(getChildNamed(ausweichData, "Aufschlag"));
+                ausweichTalente[ausweichName] = getValueAsInteger(getChildNamed(ausweichData, "Aufschlag"));
             }
         }
 
@@ -147,35 +132,41 @@ namespace rl {
 	int XdimlLoader::getEBeFromString(const Ogre::String& eBeString)
 	{
 		if (eBeString.length() == 0)
+		{
 			return EBE_KEINE_BE;
+		}
 
 		if (!(eBeString.substr(0, 2).compare("BE")) == 0)
+		{
 			Throw(IllegalArgumentException, "Ungueltige EBE-Angabe.");
+		}
 
 		Ogre::String ebe = eBeString.substr(2);
 		if (ebe.compare("x2") == 0)
+		{
 			return EBE_BEx2;
+		}
 		if (ebe.compare("") == 0)
+		{
 			return 0;
+		}
 		return atoi(ebe.c_str());
 	}
 
-    void XdimlLoader::initializeKampftechniken(DOMElement* rootKampftechniken)
+    void XdimlLoader::initializeKampftechniken(const TiXmlElement* rootKampftechniken)
     {
 		if (rootKampftechniken == NULL)
 			return;
 
-		DOMNodeList* kampfarten =
-            rootKampftechniken->getElementsByTagName(AutoXMLCh("Kampfart").data());
-		for (unsigned int art = 0; art < kampfarten->getLength(); art++)
+		XmlElementList kampfarten = getElementsByTagName(rootKampftechniken, "Kampfart");
+		for (unsigned int art = 0; art < kampfarten.size(); art++)
 		{
-			DOMElement* artData = static_cast<DOMElement*>(kampfarten->item(art));
-			DOMNodeList* kampftechnikenXml =
-                artData->getElementsByTagName(AutoXMLCh("Kampftechnik").data());
+			const TiXmlElement* artData = kampfarten[art];
+			XmlElementList kampftechnikenXml = getElementsByTagName(artData, "Kampftechnik");
 			int numKampftechnik = 0;
-			for (unsigned int kampftechnikIdx = 0; kampftechnikIdx < kampftechnikenXml->getLength(); kampftechnikIdx++)
+			for (unsigned int kampftechnikIdx = 0; kampftechnikIdx < kampftechnikenXml.size(); kampftechnikIdx++)
 			{
-				Kampftechnik* k = processKampftechnik(static_cast<DOMElement*>(kampftechnikenXml->item(kampftechnikIdx)));
+				Kampftechnik* k = processKampftechnik(kampftechnikenXml[kampftechnikIdx]);
 				numKampftechnik++;
 				DsaManager::getSingleton()._addKampftechnik(k);
 			}
@@ -183,51 +174,40 @@ namespace rl {
 
 	}
 
-	Kampftechnik* XdimlLoader::processKampftechnik(DOMElement* kampftechnikXml)
+	Kampftechnik* XdimlLoader::processKampftechnik(const TiXmlElement* kampftechnikXml)
 	{
 		CeGuiString desc = getValueAsString(getChildNamed(kampftechnikXml, "Beschreibung"));
 		CeGuiString art = getValueAsString(getChildNamed(kampftechnikXml, "Art"));
-		DOMElement* eBeNode = getChildNamed(kampftechnikXml, "eBE");
+		const TiXmlElement* eBeNode = getChildNamed(kampftechnikXml, "eBE");
 		int ebe = EBE_KEINE_BE;
 		if (eBeNode != NULL)
-			ebe = getEBeFromString(AutoChar(eBeNode->getFirstChild()->getNodeValue()).data());
+		{
+			ebe = getEBeFromString(getValueAsStdString(eBeNode));
+		}
 
-		CeGuiString name = transcodeToString(
-            kampftechnikXml->getAttribute(AutoXMLCh("ID").data()));
+		CeGuiString name = getAttributeValueAsString(kampftechnikXml, "ID");
 
-		Kampftechnik* k = new Kampftechnik(
-			name,
-			desc,
-			ebe);
-
+		Kampftechnik* k = new Kampftechnik(name, desc, ebe);
 		return k;
-
 	}
 
 
-	void XdimlLoader::initializeCreatures(DOMElement* rootPersons)
+	void XdimlLoader::initializeCreatures(const TiXmlElement* rootPersons)
 	{
 		if (rootPersons == NULL)
 			return;
 
-		DOMNodeList* personenXml = rootPersons->getElementsByTagName(AutoXMLCh("Person").data());
-		for (unsigned int idx = 0; idx < personenXml->getLength(); idx++)
+		XmlElementList personenXml = getElementsByTagName(rootPersons, "Person");
+		for (unsigned int idx = 0; idx < personenXml.size(); idx++)
 		{
-			Creature* p =
-				processCreature(
-					static_cast<DOMElement*>(personenXml->item(idx)));
+			Creature* p = processCreature(personenXml[idx]);
 			DsaManager::getSingleton()._addCreature(p);
 		}
 
 	}
 
-	Creature* XdimlLoader::processCreature(DOMElement* personXml)
+	Creature* XdimlLoader::processCreature(const TiXmlElement* personXml)
 	{
-		AutoXMLCh TALENT = "Talent";
-		AutoXMLCh ID = "ID";
-		AutoXMLCh ABGELEITETER_WERT = "AbgeleiteterWert";
-		AutoXMLCh EIGENSCHAFT = "Eigenschaft";
-
 		CeGuiString name =
 			getValueAsString(getChildNamed(personXml, "Name"));
 		CeGuiString desc =
@@ -239,14 +219,12 @@ namespace rl {
         rval->setDescription(desc);
 
 		// Eigenschaften laden
-		DOMNodeList* eigensch =
-			getChildNamed(personXml, "Eigenschaften")->
-				getElementsByTagName(EIGENSCHAFT.data());
+		XmlElementList eigensch = getElementsByTagName(getChildNamed(personXml, "Eigenschaften"), "Eigenschaft");
 		// Die Eigenschaftsnamen mssen durch ihre Abkrzung ersetzt werden.
-		for (unsigned int idx = 0; idx < eigensch->getLength(); idx++)
+		for (unsigned int idx = 0; idx < eigensch.size(); idx++)
 		{
-			DOMElement* eigenschXml = static_cast<DOMElement*>(eigensch->item(idx));
-			CeGuiString eigName = transcodeToString(eigenschXml->getAttribute(ID.data()));
+			const TiXmlElement* eigenschXml = eigensch[idx];
+			CeGuiString eigName = getAttributeValueAsString(eigenschXml, "ID");
 			if (eigName == DsaManager::getSingleton().getEigenschaft(E_MUT)->getName())
 				eigName = DsaManager::getSingleton().getEigenschaft(E_MUT)->getNameAbbreviation();
 			if (eigName == DsaManager::getSingleton().getEigenschaft(E_KLUGHEIT)->getName())
@@ -269,16 +247,14 @@ namespace rl {
 		}
 
 		// Abgeleitete Werte laden
-		DOMNodeList* werte =
-			getChildNamed(personXml, "AbgeleiteteWerte")->
-				getElementsByTagName(ABGELEITETER_WERT.data());
-		for (unsigned int idx = 0; idx < werte->getLength(); idx++)
+		XmlElementList werte = getElementsByTagName(getChildNamed(personXml, "AbgeleiteteWerte"), "AbgeleiteterWert");
+		for (unsigned int idx = 0; idx < werte.size(); idx++)
 		{
-			DOMElement* wertXml = static_cast<DOMElement*>(werte->item(idx));
+			const TiXmlElement* wertXml = werte[idx];
 			int basis = getValueAsInteger(getChildNamed(wertXml, "Basiswert"));
 			int wert = getValueAsInteger(getChildNamed(wertXml, "Wert"));
 
-			AutoChar wertId = wertXml->getAttribute(ID.data());
+			std::string wertId = getAttributeValueAsStdString(wertXml, "ID");
 			if (strcmp(wertId.data(), "Lebensenergie") == 0)
 				rval->setWert(rl::Creature::WERT_MOD_LE, wert - basis);
 			else if (strcmp(wertId.data(), "Ausdauer") == 0)
@@ -302,23 +278,17 @@ namespace rl {
 		// Talente laden
 		// Talente, die direkt unter <Person> angeordnet sind,
         // ergeben bereits die zusammengefassten Werte
-		DOMNodeList* talente =
-			getChildNamed(personXml, "Talente")->
-				getElementsByTagName(TALENT.data());
-		for (unsigned int idx = 0; idx < talente->getLength(); idx++)
+		XmlElementList talente = getElementsByTagName(getChildNamed(personXml, "Talente"), "Talent");
+		for (unsigned int idx = 0; idx < talente.size(); idx++)
 		{
-			DOMElement* talentXml = static_cast<DOMElement*>(talente->item(idx));
+			const TiXmlElement* talentXml = talente[idx];
 
-			CeGuiString talentName = transcodeToString(
-                talentXml->getAttribute(ID.data()));
+			CeGuiString talentName = getAttributeValueAsString(talentXml, "ID");
 
-			Talent* tal =
-				DsaManager::getSingleton().getTalent(talentName);
+			Talent* tal = DsaManager::getSingleton().getTalent(talentName);
 
 			rval->addTalent(talentName);
-			rval->setTalent(
-				talentName,
-				getValueAsInteger(getChildNamed(talentXml, "Wert")));
+			rval->setTalent(talentName,	getValueAsInteger(getChildNamed(talentXml, "Wert")));
 		}
 		return rval;
 	}

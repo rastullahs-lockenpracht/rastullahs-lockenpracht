@@ -16,15 +16,11 @@
 
 #include "stdinc.h"
 
-#include <xercesc/dom/DOM.hpp>
-
 #include "SaveGameFileReader.h"
 #include "SaveGameManager.h"
 #include "SaveGameData.h"
 
 #include "CoreSubsystem.h"
-
-using namespace XERCES_CPP_NAMESPACE;
 
 namespace rl
 {
@@ -34,12 +30,10 @@ namespace rl
 
     void SaveGameFileReader::parseSaveGameFile(SaveGameFile* file, const SaveGameDataOrderMap &map)
     {
-        initializeXml();
-
         mDocument = loadDocument(file->getDataStream());
 
-        int version = getAttributeValueAsInteger(mDocument->getDocumentElement(), "Engineversion");
-        if(version >= CoreSubsystem::getSingleton().getEngineBuildNumber())
+        int version = getAttributeValueAsInteger(mDocument->RootElement(), "Engineversion");
+        if (version >= CoreSubsystem::getSingleton().getEngineBuildNumber())
             LOG_MESSAGE(Logger::CORE, "Loading save game: Engine version is ok");
         else
             LOG_ERROR(Logger::CORE, "Loading save game: Save game version is newer then engine version! Loading save game could crash");
@@ -52,31 +46,28 @@ namespace rl
 
         file->closeDataStream(); //make the save game writable
 
-        mDocument = NULL;
-
-        shutdownXml();
+		mDocument = NULL;
+        delete mDocument;
     }
 
     void SaveGameFileReader::parseSaveGameFileHeader(Ogre::DataStreamPtr &stream, const Ogre::String &groupName, SaveGameFile* file)
     {
-        initializeXml();
-
-        if(stream->size())
+        if (stream->size())
         {
-            DOMDocument* doc = loadDocument(stream);
+            TiXmlDocument* doc = loadDocument(stream);
 
-             DOMNodeList* headerDefsXml = doc->getDocumentElement()->getElementsByTagName(AutoXMLCh("header").data());
-             if(headerDefsXml->getLength())
+             XmlElementList headerDefsXml = getElementsByTagName(mDocument->RootElement(), "header");
+             if (!headerDefsXml.empty())
              {
-                 DOMElement* elem = static_cast<DOMElement*>(headerDefsXml->item(0));
-                 /*DOMNodeList* headerDefChildren = elem->getChildNodes();
+            	 const TiXmlElement* elem = headerDefsXml[0];
+                 /*TiXmlNodeList* headerDefChildren = elem->getChildNodes();
                  for(XMLSize_t childIdx = 0; childIdx < headerDefChildren->getLength(); childIdx++)
                  {
-                     DOMNode* curChild = headerDefChildren->item(childIdx);
-                     if (curChild->getNodeType() == DOMNode::ELEMENT_NODE)
+                     TiXmlNode* curChild = headerDefChildren->item(childIdx);
+                     if (curChild->getNodeType() == TiXmlNode::ELEMENT_NODE)
                      {
-                         PropertyEntry entry = processProperty(static_cast<DOMElement*>(curChild));
-                         if(entry.first != "")
+                         PropertyEntry entry = processProperty(static_cast<TiXmlElement*>(curChild));
+                         if (entry.first != "")
                          {
                             file->setProperty(entry.first, entry.second);
                          }
@@ -85,26 +76,20 @@ namespace rl
                  PropertyRecordPtr set = getPropertiesAsRecord(elem);
                  file->setProperties(set);
              }
+             delete doc;
         }
-
-        shutdownXml();
     }
 
     PropertyRecordPtr SaveGameFileReader::getAllPropertiesAsRecord(SaveGameData* data)
     {
         PropertyRecordPtr properties(new PropertyRecord());
 
-        initializeXml();
+        XmlElementList rootNodeList = getElementsByTagName(mDocument->RootElement(), data->getXmlNodeIdentifier().c_str());
 
-        DOMNodeList* rootNodeList = getDocument()->getDocumentElement()->getElementsByTagName(AutoXMLCh(data->getXmlNodeIdentifier().c_str()).data());
-
-        if (rootNodeList->getLength())
+        if (!rootNodeList.empty())
         {
-            DOMNode* xmlPropElem = rootNodeList->item(0);
-            properties = getPropertiesAsRecord(static_cast<DOMElement*>(xmlPropElem));
+            properties = getPropertiesAsRecord(rootNodeList[0]);
         }
-
-        shutdownXml();
 
         return properties;
     }

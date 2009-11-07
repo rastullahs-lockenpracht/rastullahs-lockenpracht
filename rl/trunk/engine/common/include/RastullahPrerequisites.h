@@ -59,4 +59,6 @@ bool max(T1 m1, T2 m2) { return (m1 < m2)?m2:m1; }
 #    endif
 #endif
 
+#define TIXML_USE_STL 1  // Let TinyXML use STL strings
+
 #endif

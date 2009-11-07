@@ -96,6 +96,7 @@ public:
     virtual const Ogre::StringVector &getScriptPatterns(void) const;
     virtual void parseScript(Ogre::DataStreamPtr &,const Ogre::String &);
     virtual Ogre::Real getLoadingOrder(void) const;
+
 private:
     Ogre::StringVector mScriptPatterns;
 
@@ -112,7 +113,7 @@ private:
     void fireJournalChanged(JournalEntry* entry, int reason);
 
     //loading quests from xml
-    virtual Quest* processQuest(XERCES_CPP_NAMESPACE::DOMElement* dialogXml, Quest* parent);
+    virtual Quest* processQuest(TiXmlElement* dialogXml, Quest* parent);
 };
 
 }

@@ -25,9 +25,9 @@ namespace rl
 	class EnvironmentProcessor : private AbstractMapNodeProcessor
 	{
 	public:
-		virtual bool processNode(XERCES_CPP_NAMESPACE::DOMElement* nodeElem, bool loadGameObjects);
-		void processFogSettings(XERCES_CPP_NAMESPACE::DOMElement* fogElem);
-		void processSkySettings(XERCES_CPP_NAMESPACE::DOMElement* fogElem);
+		virtual bool processNode(const TiXmlElement* nodeElem, bool loadGameObjects);
+		void processFogSettings(const TiXmlElement* fogElem);
+		void processSkySettings(const TiXmlElement* fogElem);
 	};
 }
 

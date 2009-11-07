@@ -19,9 +19,7 @@
 
 #include "CommonPrerequisites.h"
 
-#include <xercesc/dom/DOM.hpp>
-#include <xercesc/dom/DOMAttr.hpp>
-#include <xercesc/dom/DOMElement.hpp>
+#include <tinyxml.h>
 
 #include "Properties.h"
 #include "XmlProcessor.h"
@@ -40,25 +38,22 @@ namespace rl
         XmlPropertyWriter();
         virtual ~XmlPropertyWriter();
 
-        XERCES_CPP_NAMESPACE::DOMDocument* getDocument();
+        TiXmlDocument* getDocument();
 
         PropertyRecordPtr getPropertyRecords();
         void setPropertyRecords(PropertyRecordVector sets);
         void addPropertyRecord(PropertyRecordPtr set);
 
-        XERCES_CPP_NAMESPACE::DOMElement* processProperty(XERCES_CPP_NAMESPACE::DOMElement* parent, const PropertyEntry& entry);
-        XERCES_CPP_NAMESPACE::DOMElement* processPropertyRecord(XERCES_CPP_NAMESPACE::DOMElement* parent, const char* const name, const PropertyRecord& set);
-        XERCES_CPP_NAMESPACE::DOMElement* processPropertyArray(XERCES_CPP_NAMESPACE::DOMElement* parent, const char* const name, const PropertyArray& vector);
-        XERCES_CPP_NAMESPACE::DOMElement* processPropertyMap(XERCES_CPP_NAMESPACE::DOMElement* parent, const char* const name, const PropertyMap& map);
+        TiXmlElement* processProperty(TiXmlElement* parent, const PropertyEntry& entry);
+        TiXmlElement* processPropertyRecord(TiXmlElement* parent, const char* const name, const PropertyRecord& set);
+        TiXmlElement* processPropertyArray(TiXmlElement* parent, const char* const name, const PropertyArray& vector);
+        TiXmlElement* processPropertyMap(TiXmlElement* parent, const char* const name, const PropertyMap& map);
 
-        void writeEachPropertyToElem(XERCES_CPP_NAMESPACE::DOMElement* parent, const PropertyMap &map);
+        void writeEachPropertyToElem(TiXmlElement* parent, const PropertyMap &map);
     protected:
         PropertyRecordVector mPropertyRecords;
 
-        XERCES_CPP_NAMESPACE::DOMDocument* mDocument;
-        XERCES_CPP_NAMESPACE::DOMImplementation* mImplementation;
-        XERCES_CPP_NAMESPACE::DOMWriter* mWriter;
-        XERCES_CPP_NAMESPACE::XMLFormatTarget* mTarget;
+        TiXmlDocument* mDocument;
 
         Property getProperty(const Ogre::String& key, const CeGuiString& value);
     };

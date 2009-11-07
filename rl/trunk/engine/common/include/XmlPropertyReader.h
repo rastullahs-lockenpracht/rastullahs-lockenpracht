@@ -19,8 +19,7 @@
 
 #include "CommonPrerequisites.h"
 
-#include <xercesc/dom/DOMAttr.hpp>
-#include <xercesc/dom/DOMElement.hpp>
+#include <tinyxml.h>
 
 #include "Properties.h"
 #include "XmlProcessor.h"
@@ -33,7 +32,7 @@ namespace rl
     typedef std::pair<Ogre::String, Property> PropertyEntry;
 
     class _RlCommonExport XmlPropertyReader
-         : public XmlProcessor
+         : public XmlProcessor, public TiXmlVisitor
     {
     public:
         XmlPropertyReader();
@@ -42,14 +41,16 @@ namespace rl
         void parseGameObjectFile(Ogre::DataStreamPtr &stream, const Ogre::String &groupName);
         PropertyRecordVector getPropertyRecords();
 
-        PropertyEntry processProperty(XERCES_CPP_NAMESPACE::DOMElement* domElem) const;
-		PropertyEntry processProperty(XERCES_CPP_NAMESPACE::DOMAttr* domAttr) const;
+        PropertyEntry processProperty(const TiXmlElement* domElem) const;
+		PropertyEntry processProperty(const TiXmlAttribute* domAttr) const;
 
-        virtual PropertyRecordPtr getPropertiesAsRecord(XERCES_CPP_NAMESPACE::DOMElement* parent);
+        virtual PropertyRecordPtr getPropertiesAsRecord(const TiXmlElement* parent);
+        virtual bool VisitEnter(const TiXmlElement &element, const TiXmlAttribute *firstAttribute);
     private:
         PropertyRecordVector mPropertyRecords;
 
         Property getProperty(const Ogre::String& key, const CeGuiString& value);
+        void processGameObjectClassNode(const TiXmlElement &element);
     };
 } // namespace rl
 

@@ -22,7 +22,6 @@
 #include "SaveGameManager.h"
 
 using namespace std;
-using namespace XERCES_CPP_NAMESPACE;
 
 namespace rl {
     const Ogre::String QuestBook::PROPERTY_QUESTS = "quests";
@@ -203,13 +202,13 @@ namespace rl {
     PropertyArray QuestBook::getQuestsProperty(const Quest* rootQuest) const
     {
         PropertyArray parray;
-        if(rootQuest->hasSubquests())
+        if (rootQuest->hasSubquests())
         {
             QuestVector quests = rootQuest->getSubquests();
             for(unsigned int i = 0; i < quests.size(); i++)
             {
                 PropertyMap map = quests[i]->getAllProperties()->toPropertyMap();
-                if(quests[i]->hasSubquests())
+                if (quests[i]->hasSubquests())
                     map.insert(std::pair<CeGuiString, Property>("quests", getQuestsProperty(quests[i])));
                 parray.push_back(map);
             }
@@ -271,7 +270,7 @@ namespace rl {
             }
 
             quest->setProperties(curVal);
-            if(curVal.find("quests") != curVal.end())
+            if (curVal.find("quests") != curVal.end())
             {
                 setQuestsProperty(curVal["quests"], quest);
             }            
@@ -354,23 +353,22 @@ namespace rl {
 
     void QuestBook::parseScript(Ogre::DataStreamPtr& stream,const Ogre::String& groupname)
     {
-        initializeXml();
-
-        DOMDocument* doc = loadDocument(stream);
+        TiXmlDocument* doc = loadDocument(stream);
         if (doc)
         {
-            for (DOMNode* cur = doc->getDocumentElement()->getFirstChild(); cur != NULL; cur = cur->getNextSibling())
+            for (TiXmlNode* cur = doc->RootElement()->FirstChild(); cur != NULL; cur = cur->NextSibling())
             {
-                if(hasNodeName(cur, "quest"))
+                if (hasNodeName(cur, "quest"))
                 {
-                    processQuest(static_cast<DOMElement*>(cur), mRootQuest);
+                    processQuest(cur->ToElement(), mRootQuest);
                 }
             }
+            delete doc;
         }
         else
+        {
             LOG_ERROR(Logger::RULES,"Quests XML is not valid!");
-
-        shutdownXml();
+        }
     }
 
     Ogre::Real QuestBook::getLoadingOrder(void) const
@@ -378,28 +376,34 @@ namespace rl {
         return 1000;
     }
 
-    Quest* QuestBook::processQuest(XERCES_CPP_NAMESPACE::DOMElement* questXml, Quest* parent)
+    Quest* QuestBook::processQuest(TiXmlElement* questXml, Quest* parent)
     {
         Quest* quest = new Quest(getAttributeValueAsString(questXml, "id"));
         parent->addSubquest(quest);
         quest->setKnown(false);
         quest->setState(Quest::OPEN);
-        for (DOMNode* cur = questXml->getFirstChild(); cur != NULL; cur = cur->getNextSibling())
+        for (TiXmlNode* cur = questXml->FirstChild(); cur != NULL; cur = cur->NextSibling())
         {
-            if(hasNodeName(cur, "name"))
-                quest->setProperty(Quest::PROPERTY_NAME,  Property(getValueAsString(static_cast<DOMElement*>(cur))));
-            
-            if(hasNodeName(cur, "description"))
-                quest->setProperty(Quest::PROPERTY_DESCRIPTION, Property(getValueAsString(static_cast<DOMElement*>(cur))));
-            
-            if(hasNodeName(cur, "known"))
-                quest->setKnown(getValueAsBool(static_cast<DOMElement*>(cur)));                
-            
-            if(hasNodeName(cur, "state"))
-                quest->setState(Quest::getStateFromName(getValueAsString(static_cast<DOMElement*>(cur))));
-
-            if(hasNodeName(cur, "quest"))
-                processQuest(static_cast<DOMElement*>(cur), quest);
+            if (hasNodeName(cur, "name"))
+            {
+                quest->setProperty(Quest::PROPERTY_NAME,  Property(getValueAsString(cur->ToElement())));
+            }
+            else if (hasNodeName(cur, "description"))
+            {
+                quest->setProperty(Quest::PROPERTY_DESCRIPTION, Property(getValueAsString(cur->ToElement())));
+            }
+            else if (hasNodeName(cur, "known"))
+            {
+                quest->setKnown(getValueAsBool(cur->ToElement()));
+            }
+            else if (hasNodeName(cur, "state"))
+            {
+                quest->setState(Quest::getStateFromName(getValueAsString(cur->ToElement())));
+            }
+            else if (hasNodeName(cur, "quest"))
+            {
+                processQuest(cur->ToElement(), quest);
+            }
         }
 
         return quest;

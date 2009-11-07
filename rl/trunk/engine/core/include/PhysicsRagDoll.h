@@ -17,7 +17,7 @@
 #ifndef __PhysicsRagdoll_H__
 #define __PhysicsRagdoll_H__
 
-#include <xercesc/dom/DOMElement.hpp>
+#include <tinyxml.h>
 
 #include "CorePrerequisites.h"
 #include "PhysicsManager.h"
@@ -179,7 +179,7 @@ private:
 	RagBone* _addBone( OgreNewt::World* world, RagBone* parent, Ogre::Vector3 dir, RagBone::BoneShape shape, Ogre::Vector3 size, Ogre::Real mass, Ogre::Bone* ogrebone, Actor* parentActor );
 
 	//! recursive function for creating bones and joints
-	RagBone* _addAllBones( RagBone* parent, XERCES_CPP_NAMESPACE::DOMElement* boneElem, Actor* parentActor );
+	RagBone* _addAllBones( RagBone* parent, TiXmlElement* boneElem, Actor* parentActor );
 
     //! add a joint between two bodies
 	void _joinBones( PhysicsRagDoll::JointType type, RagBone* parent, RagBone* child, Ogre::Vector3 pos, Ogre::Vector3 pin, Ogre::Real limit1, Ogre::Real limit2, OgreNewt::World* world );

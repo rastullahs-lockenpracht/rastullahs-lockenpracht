@@ -17,9 +17,7 @@
 
 #include "AbstractMapNodeProcessor.h"
 
-
 using namespace Ogre;
-using namespace XERCES_CPP_NAMESPACE;
 
 namespace rl
 {
@@ -33,7 +31,7 @@ namespace rl
     {
     }
 
-    Vector3 AbstractMapNodeProcessor::processVector3(DOMElement* vec3Elem) const
+    Vector3 AbstractMapNodeProcessor::processVector3(const TiXmlElement* vec3Elem) const
     {
         Vector3 rval(Vector3::ZERO);
         if (vec3Elem != NULL)
@@ -55,7 +53,7 @@ namespace rl
         return rval;
     }
 
-	Vector2 AbstractMapNodeProcessor::processVector2(DOMElement* vec2Elem) const
+	Vector2 AbstractMapNodeProcessor::processVector2(const TiXmlElement* vec2Elem) const
     {
         Vector2 rval(Vector2::ZERO);
         if (vec2Elem != NULL)
@@ -73,7 +71,7 @@ namespace rl
         return rval;
     }
 
-    Quaternion AbstractMapNodeProcessor::processQuaternion(DOMElement* quatElem) const
+    Quaternion AbstractMapNodeProcessor::processQuaternion(const TiXmlElement* quatElem) const
     {
         Quaternion rval(Quaternion::IDENTITY);
         if (quatElem != NULL)
@@ -99,7 +97,7 @@ namespace rl
         return rval;
     }
 
-    ColourValue AbstractMapNodeProcessor::processColour(DOMElement* colElem) const
+    ColourValue AbstractMapNodeProcessor::processColour(const TiXmlElement* colElem) const
     {
         ColourValue rval(1, 1, 1, 1);
         if (colElem != NULL)
