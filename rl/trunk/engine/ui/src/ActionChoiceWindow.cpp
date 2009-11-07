@@ -253,12 +253,6 @@ namespace rl {
 
 		CEGUI::UVector2 size = button->getSize();
 		button->setPosition(pos - size * UVector2(cegui_reldim(0.5), cegui_reldim(0.5)));
-		LOG_DEBUG2(Logger::UI,
-			(button->getText()+" "+
-            StringConverter::toString(button->getPixelRect().d_left) + ", " +
-            StringConverter::toString(button->getPixelRect().d_top)).c_str(),
-			"createButton");
-
 		return static_cast<PushButton*>(button);
 	}
 
@@ -321,7 +315,7 @@ namespace rl {
 		ActionNode* root = new ActionNode(false);
 		root->setGroup(rootGroup);
 
-		set<ActionGroup*> groups;
+		std::set<ActionGroup*> groups;
 		ActionVector rest;
 
 		for (ActionVector::const_iterator iter = actions.begin(); iter != actions.end(); iter++)
@@ -329,10 +323,14 @@ namespace rl {
 			Action* action = *iter;
 
 			ActionGroup* group = action->getGroup();
-			if (group == NULL || group == rootGroup )
+			if (group == NULL || group == rootGroup ) 
+			{
 				rest.push_back(action);
+			}
 			else if (groups.find(group) == groups.end())
+			{
 				groups.insert(group);
+			}
 		}
 
 		if (actions.size() / 1.2 <= rest.size() + groups.size())
@@ -341,7 +339,7 @@ namespace rl {
 			rest = actions;
 		}
 
-		for (set<ActionGroup*>::iterator groupIter = groups.begin();
+		for (std::set<ActionGroup*>::iterator groupIter = groups.begin();
 			 groupIter != groups.end(); groupIter++)
 		{
 			ActionVector actionsThisGroup;

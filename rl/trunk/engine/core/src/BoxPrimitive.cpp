@@ -52,7 +52,7 @@ namespace rl {
     {
         ManualObject* manualObject = getManualObject();
         manualObject->clear();
-        vector<Vector3> corners;
+		std::vector<Vector3> corners;
         corners.reserve(8);
 
         Vector3 vmin = mSize.getMinimum();

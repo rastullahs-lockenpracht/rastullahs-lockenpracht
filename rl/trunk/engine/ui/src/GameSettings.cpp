@@ -177,14 +177,14 @@ namespace rl
     {
         Root* root = Ogre::Root::getSingletonPtr();
         
-        RenderSystemList* renderers = root->getAvailableRenderers();
-        RenderSystem* renderer = root->getRenderSystem();
+        const RenderSystemList& renderers = root->getAvailableRenderers();
+		Ogre::RenderSystem* renderer = root->getRenderSystem();
         
-        createElements(mVideoRenderer, renderers->size());
+        createElements(mVideoRenderer, renderers.size());
 
-        for (int i = 0; i < renderers->size(); ++i)
+        for (unsigned int i = 0; i < renderers.size(); ++i)
         {
-            RenderSystem* cur = renderers->operator[](i);
+			Ogre::RenderSystem* cur = renderers[i];
             ListboxItem* item = mVideoRenderer->getListboxItemFromIndex(i);
             item->setText(cur->getName());
             if (cur == renderer)
@@ -196,19 +196,19 @@ namespace rl
         ConfigOptionMap config = renderer->getConfigOptions();
         
         setOption(config, "Full Screen", mVideoFullscreen);
-        vector<RadioButton*> videoColorDepth;
+        std::vector<RadioButton*> videoColorDepth;
         videoColorDepth.push_back(mVideoColorDepth32);
         videoColorDepth.push_back(mVideoColorDepth16);
         
         setOption(config, "Colour Depth", videoColorDepth);
-        vector<RadioButton*> videoAntiAliasing;
+        std::vector<RadioButton*> videoAntiAliasing;
         videoAntiAliasing.push_back(mVideoFsaa0);
         videoAntiAliasing.push_back(mVideoFsaa2);
         videoAntiAliasing.push_back(mVideoFsaa4);
         videoAntiAliasing.push_back(mVideoFsaa8);
         setOption(config, "FSAA", videoAntiAliasing);
         
-        vector<RadioButton*> videoRttMode;
+		std::vector<RadioButton*> videoRttMode;
         videoRttMode.push_back(mVideoRttModeFBO);
         videoRttMode.push_back(mVideoRttModePBuffer);
         videoRttMode.push_back(mVideoRttModeCopy);
@@ -250,7 +250,7 @@ namespace rl
                 }
             }
             
-            for (int i = 0; i < combobox->getItemCount(); ++i)
+            for (unsigned int i = 0; i < combobox->getItemCount(); ++i)
             {
                 ListboxItem* item = combobox->getListboxItemFromIndex(i);
                 item->setText(curOption.possibleValues[i]);

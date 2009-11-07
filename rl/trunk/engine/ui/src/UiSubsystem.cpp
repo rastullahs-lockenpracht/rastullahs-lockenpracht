@@ -22,7 +22,8 @@
 #ifdef __APPLE__
 #   include <OgreCEGUIRenderer/OgreCEGUIRenderer.h>
 #else
-#   include <OgreCEGUIRenderer.h>
+#   include <CEGUIOgreRenderer.h>
+#   include <CEGUIOgreResourceProvider.h>
 #endif
 
 #include "Actor.h"
@@ -100,8 +101,8 @@ namespace rl {
         delete mWindowManager;
         
 
-        delete mGuiSystem;
-        delete mGuiRenderer;
+        mGuiSystem->destroy();
+        mGuiRenderer->destroySystem();
     }
 
     void UiSubsystem::initializeSubsystem()
@@ -117,15 +118,14 @@ namespace rl {
 
         LOG_MESSAGE2(Logger::UI,
             "Initializing CEGUI Renderer.", "UiSubsystem::initializeUiSubsystem");
-        mGuiRenderer = new OgreCEGUIRenderer(CoreSubsystem::getSingleton().getRenderWindow(),
-            Ogre::RENDER_QUEUE_OVERLAY, false, 3000, sceneMgr);
+		mGuiRenderer = &OgreRenderer::bootstrapSystem(*CoreSubsystem::getSingleton().getRenderWindow());
 
         LOG_MESSAGE2(Logger::UI,
             "Initializing CEGUI System.", "UiSubsystem::initializeUiSubsystem");
-        mGuiResourceProvider = mGuiRenderer->createResourceProvider();
+        mGuiResourceProvider = &mGuiRenderer->createOgreResourceProvider();
         
-        mGuiSystem = new System(mGuiRenderer, mGuiResourceProvider,
-            NULL, NULL, (utf8*)"cegui.config", ConfigurationManager::getSingleton().getCeguiLogFile());
+		mGuiSystem = &System::create(*mGuiRenderer, mGuiResourceProvider,
+            NULL, NULL, NULL, (utf8*)"cegui.config", ConfigurationManager::getSingleton().getCeguiLogFile());
         CEGUI::Logger::getSingleton().setLoggingLevel(
             rl::Logger::getSingleton().getCeGuiLogDetail());
         LOG_MESSAGE2(Logger::UI,
@@ -169,7 +169,7 @@ namespace rl {
         LOG_MESSAGE2(Logger::UI, "WindowFactory initialized.", "UiSubsystem::initializeUiSubsystem");
     }
 
-    CEGUI::OgreCEGUIRenderer* UiSubsystem::getGUIRenderer()
+    CEGUI::OgreRenderer* UiSubsystem::getGUIRenderer()
     {
         return mGuiRenderer;
     }

@@ -20,9 +20,9 @@
 
 #include <boost/bind.hpp>
 #include <elements/CEGUIFrameWindow.h>
+#include <elements/CEGUIListboxTextItem.h>
 
 #include "RubyInterpreter.h"
-#include "ListboxWrappedTextItem.h"
 #include "InputManager.h"
 #include "CoreSubsystem.h"
 #include "JobScheduler.h"
@@ -32,7 +32,6 @@ using namespace Ogre;
 
 using CEGUI::utf8; using CEGUI::ListboxTextItem;
 using CEGUI::KeyEventArgs; using CEGUI::Key; using CEGUI::colour;
-using CEGUI::ListboxWrappedTextItem; using CEGUI::TextFormatting;
 
 namespace rl
 {

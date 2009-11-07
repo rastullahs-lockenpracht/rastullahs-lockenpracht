@@ -70,7 +70,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMain_d.lib xerces-c_2D.lib CEGUIBase_d.lib"
+				AdditionalDependencies="OgreMain_d.lib tinyxmld_STL.lib CEGUIBase_d.lib"
 				OutputFile="./lib/$(ConfigurationName)/RlCommon.dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="..\..\dependencies\ogrenew\lib;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\cegui_mk2\lib\$(PlatformName)\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib\;..\..\dependencies\boost\lib"
@@ -157,7 +157,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMain.lib xerces-c_2.lib CEGUIBase.lib"
+				AdditionalDependencies="OgreMain.lib tinyxml_STL.lib CEGUIBase.lib"
 				OutputFile="./lib/$(ConfigurationName)/RlCommon.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\dependencies\ogrenew\lib;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\cegui_mk2\lib\$(PlatformName)\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib\;..\..\dependencies\boost\lib"
@@ -242,7 +242,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMain.lib xerces-c_2.lib CEGUIBase.lib"
+				AdditionalDependencies="OgreMain.lib tinyxml_STL.lib CEGUIBase.lib"
 				OutputFile="./lib/$(ConfigurationName)/RlCommon.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\..\dependencies\ogrenew\lib;..\..\dependencies\xerces\lib;&quot;..\..\dependencies\cegui_mk2\lib\$(PlatformName)\$(ConfigurationName)&quot;;..\..\dependencies\cegui_mk2\lib\;..\..\dependencies\boost\lib"
@@ -321,10 +321,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\src\OgreXercesInput.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\src\Properties.cpp"
 				>
 			</File>
@@ -366,10 +362,6 @@
 			</File>
 			<File
 				RelativePath=".\src\WriteableDataStream.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\src\WriteableDataStreamFormatTarget.cpp"
 				>
 			</File>
 			<File
@@ -453,10 +445,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\OgreXercesInput.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\Properties.h"
 				>
 			</File>
@@ -486,10 +474,6 @@
 			</File>
 			<File
 				RelativePath=".\include\WriteableDataStream.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\WriteableDataStreamFormatTarget.h"
 				>
 			</File>
 			<File

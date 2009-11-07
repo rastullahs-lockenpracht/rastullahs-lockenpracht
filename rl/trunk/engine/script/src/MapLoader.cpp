@@ -64,7 +64,7 @@ namespace rl {
 
     MapLoader::~MapLoader()
     {
-        for (list<AbstractMapNodeProcessor*>::const_iterator it = mNodeProcessors.begin();
+        for (std::list<AbstractMapNodeProcessor*>::const_iterator it = mNodeProcessors.begin();
             it != mNodeProcessors.end(); ++it)
         {
             delete *it;
@@ -270,7 +270,7 @@ namespace rl {
             {
             	const TiXmlElement* curElem = cur->ToElement();
 
-                list<AbstractMapNodeProcessor*>::iterator it = mNodeProcessors.begin();
+                std::list<AbstractMapNodeProcessor*>::iterator it = mNodeProcessors.begin();
                 while (it != mNodeProcessors.end() && !(*it)->processNode(curElem, loadGameObjects))
                 {
                     ++it;
@@ -297,7 +297,7 @@ namespace rl {
     void MapLoader::setRootSceneNode(SceneNode* node)
     {
         mRootSceneNode = node;
-        for (list<AbstractMapNodeProcessor*>::const_iterator it = mNodeProcessors.begin();
+        for (std::list<AbstractMapNodeProcessor*>::const_iterator it = mNodeProcessors.begin();
             it != mNodeProcessors.end(); ++it)
         {
             (*it)->setRootSceneNode(node);

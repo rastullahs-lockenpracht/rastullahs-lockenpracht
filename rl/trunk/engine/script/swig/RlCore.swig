@@ -571,7 +571,7 @@ public:
     void setOrientation( const Ogre::Quaternion& );
     
     rl::ActorControlledObject* getControlledObject();
-    Ogre::UserDefinedObject* getGameObject() const;
+    rl::ActorNotifiedObject* getGameObject() const;
     rl::PhysicalThing* getPhysicalThing() const;
 
     void setScale( Ogre::Real sx, Ogre::Real sy, Ogre::Real sz );

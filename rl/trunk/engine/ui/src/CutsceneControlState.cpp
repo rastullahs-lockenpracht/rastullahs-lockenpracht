@@ -97,7 +97,7 @@ namespace rl {
             return nullPos;
         }
         
-        for (vector<CameraPosition>::const_iterator it = mPositions.begin(), end = mPositions.end(); it != end; ++it)
+		for (std::vector<CameraPosition>::const_iterator it = mPositions.begin(), end = mPositions.end(); it != end; ++it)
         {
             
         }

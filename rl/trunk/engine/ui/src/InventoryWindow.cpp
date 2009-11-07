@@ -410,13 +410,12 @@ namespace rl {
 			ItemDragContainer* dragcont = static_cast<ItemDragContainer*>(
 				evtArgs.dragDropItem);
 			Item* item = dragcont->getItem();
-			Ogre::Vector3 targetPosWindow(
-				dragcont->getPixelRect().d_left / getRoot()->getPixelSize().d_width,
-				dragcont->getPixelRect().d_top / getRoot()->getPixelSize().d_height,
-				-1);
 
+			CEGUI::Vector2 relPos = dragcont->getPosition().asRelative(getRoot()->getPixelSize());
 
-                        CEGUI::WindowManager::getSingleton().destroyWindow(dragcont);
+			Ogre::Vector3 targetPosWindow(relPos.d_x, relPos.d_y,-1);
+
+            CEGUI::WindowManager::getSingleton().destroyWindow(dragcont);
 //            dragcont->destroyWindow();
 
 			Ogre::Vector3 targetPosWorldSpace =

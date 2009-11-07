@@ -54,9 +54,9 @@ namespace rl
         {
             Element* elem = new Element(this);
             mCharacterWindow->addChildWindow(elem->getWindow());
-            CEGUI::Rect size = elem->getWindow()->getPixelRect();
+            CEGUI::Size size = elem->getWindow()->getPixelSize();
             size_t windowNum = mCharacterWindows.size();
-            elem->getWindow()->setPosition(UVector2(UDim(0, 0), UDim(0, windowNum * size.getHeight())));
+			elem->getWindow()->setPosition(UVector2(UDim(0, 0), UDim(0, windowNum * size.d_height)));
             elem->setVisible(true);
             elem->getWindow()->subscribeEvent(
                  Window::EventMouseClick,
@@ -73,7 +73,7 @@ namespace rl
             delete elem;
         }
         
-        for (int i = 0; i < party.size(); ++i)
+        for (unsigned int i = 0; i < party.size(); ++i)
         {
             mCharacterWindows[i]->setCreature(party[i]);
         }

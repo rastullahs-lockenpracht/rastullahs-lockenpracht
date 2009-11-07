@@ -17,9 +17,10 @@
 
 #include "GameLoggerWindow.h"
 
+#include <elements/CEGUIListboxTextItem.h>
+
 #include "Creature.h"
 #include "GameEventLog.h"
-#include "ListboxWrappedTextItem.h"
 #include "RulesMessages.h"
 
 namespace rl {
@@ -51,7 +52,7 @@ namespace rl {
 
 	void GameLoggerWindow::logEvent(const CeGuiString& text, const CEGUI::colour color)
 	{
-		CEGUI::ListboxWrappedTextItem* item = new CEGUI::ListboxWrappedTextItem(text);
+		CEGUI::ListboxTextItem* item = new CEGUI::ListboxTextItem(text);
 		item->setTextColours(color);
 		mLog->addItem(item);
 		mLog->ensureItemIsVisible(item);

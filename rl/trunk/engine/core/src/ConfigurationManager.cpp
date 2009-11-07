@@ -220,7 +220,7 @@ namespace rl
             ConfigFile* configfile = new ConfigFile();
 
             // Split the path at the ':' character
-            std::vector<Ogre::String> cfg_paths = Ogre::StringUtil::split(mRastullahCfgPath, ":");
+            Ogre::StringVector cfg_paths = Ogre::StringUtil::split(mRastullahCfgPath, ":");
 
             for (unsigned int i = 0; i < cfg_paths.size(); i++)
             {

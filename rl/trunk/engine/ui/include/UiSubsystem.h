@@ -27,8 +27,7 @@
 // Gar nicht schˆn, aber ansonsten gibt es unnˆtige Abh‰ngigkeiten,
 // wenn man die Header hier inkludiert.
 namespace CEGUI {
-    class OgreCEGUIRenderer;
-    class OgreCEGUIResourceProvider;
+    class OgreRenderer;
     class System;
 }
 
@@ -51,7 +50,7 @@ namespace rl {
         /** Default Deconstructor */
         virtual ~UiSubsystem();
 
-        CEGUI::OgreCEGUIRenderer* getGUIRenderer();
+        CEGUI::OgreRenderer* getGUIRenderer();
 
         void initializeSubsystem();
 
@@ -78,7 +77,7 @@ namespace rl {
         WindowFactory* mWindowFactory;
         WindowManager* mWindowManager;
 
-        CEGUI::OgreCEGUIRenderer* mGuiRenderer;
+        CEGUI::OgreRenderer* mGuiRenderer;
         CEGUI::ResourceProvider* mGuiResourceProvider;
         CEGUI::System* mGuiSystem;
         

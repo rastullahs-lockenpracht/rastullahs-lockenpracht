@@ -49,7 +49,7 @@ void InGameMenuWindow::createMenu(MenuBase* menu)
 	CEGUI::WindowManager* windowMan = CEGUI::WindowManager::getSingletonPtr();
 
 	const ActionVector actions = ActionManager::getSingleton().getInGameGlobalActions();
-	map<CeGuiString, PopupMenu*> menuGroups;
+	std::map<CeGuiString, PopupMenu*> menuGroups;
 
 	for (ActionVector::const_iterator actIter = actions.begin(); actIter != actions.end(); actIter++)
 	{
@@ -58,7 +58,7 @@ void InGameMenuWindow::createMenu(MenuBase* menu)
 		if (group != NULL)
 		{
 			PopupMenu* menuGrp;
-			map<CeGuiString, PopupMenu*>::iterator grpIter = menuGroups.find(group->getName());
+			std::map<CeGuiString, PopupMenu*>::iterator grpIter = menuGroups.find(group->getName());
 			if (grpIter != menuGroups.end())
 			{
 				menuGrp = (*grpIter).second;

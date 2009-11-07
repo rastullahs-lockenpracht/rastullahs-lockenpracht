@@ -118,7 +118,7 @@ namespace rl
         clearLevelGeometry();
 
         // remove all physical things
-        for( vector<PhysicalThing*>::iterator it = mPhysicalThings.begin(); it != mPhysicalThings.end(); it++ )
+		for (std::vector<PhysicalThing*>::iterator it = mPhysicalThings.begin(); it != mPhysicalThings.end(); it++ )
         {
             delete (*it);
         }
@@ -269,10 +269,10 @@ namespace rl
 
     void PhysicsManager::removeAndDestroyPhysicalThing(PhysicalThing* thing)
     {
-        vector<PhysicalThing*>::iterator it = find(mPhysicalThings.begin(),
+        std::vector<PhysicalThing*>::iterator it = find(mPhysicalThings.begin(),
             mPhysicalThings.end(), thing);
 
-        if( it != mPhysicalThings.end() )
+        if (it != mPhysicalThings.end())
         {
             PhysicalThing* phys = *it;
             mPhysicalThings.erase(it);
@@ -388,7 +388,7 @@ namespace rl
 
 	void PhysicsManager::destroyPhysicsProxy(PhysicalThing* pt)
 	{
-        vector<PhysicalThing*>::iterator it = find(mPhysicalThings.begin(),
+        std::vector<PhysicalThing*>::iterator it = find(mPhysicalThings.begin(),
             mPhysicalThings.end(), pt);
 		if (it != mPhysicalThings.end())
 		{

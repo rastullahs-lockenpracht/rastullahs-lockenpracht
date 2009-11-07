@@ -194,10 +194,10 @@ namespace rl
         }
 
         // Find out, what Renderer plugins are available
-        RenderSystemList* rsl = mOgreRoot->getAvailableRenderers();
+        RenderSystemList rsl = mOgreRoot->getAvailableRenderers();
         RenderSystemList::iterator it;
 
-        for (it = rsl->begin(); it < rsl->end(); it++)
+        for (it = rsl.begin(); it != rsl.end(); it++)
         {
             if ((*it)->getName() == ConfigurationManager::getSingleton().getStringSetting(
                 "Video", "Render System"))

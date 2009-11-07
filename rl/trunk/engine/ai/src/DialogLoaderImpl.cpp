@@ -640,7 +640,7 @@ namespace rl
             }
 
 
-            for (list<DialogLoaderImpl::DialogParticipant*>::iterator it = mParticipantFilter.begin();
+            for (std::list<DialogLoaderImpl::DialogParticipant*>::iterator it = mParticipantFilter.begin();
                     it != mParticipantFilter.end(); ++it)
             {
                 if ((*it)->isMatching(curCr))

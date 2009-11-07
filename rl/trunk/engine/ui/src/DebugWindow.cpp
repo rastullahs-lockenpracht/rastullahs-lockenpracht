@@ -164,7 +164,7 @@ namespace rl
 
     void DebugWindow::updateFps()
     {
-        const RenderTarget::FrameStats& stats = CoreSubsystem::getSingleton().getRenderWindow()->getStatistics();
+		const Ogre::RenderTarget::FrameStats& stats = CoreSubsystem::getSingleton().getRenderWindow()->getStatistics();
 
         Ogre::String textSt = "Current FPS: " +
             StringConverter::toString(stats.lastFPS)+

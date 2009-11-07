@@ -163,10 +163,9 @@ namespace rl {
 			Item* item = dragcont->getItem();
 
 
-            int x = evtArgs.dragDropItem->getPixelRect().d_left;
-            int y = evtArgs.dragDropItem->getPixelRect().d_top;
-            x -= mContentWindow->getPixelRect().d_left;
-            y -= mContentWindow->getPixelRect().d_top;
+			CEGUI::Vector2 relPos = evtArgs.dragDropItem->getPosition().asAbsolute(evtArgs.dragDropItem->getParentPixelSize()) - 
+									mContentWindow->getPosition().asAbsolute(mContentWindow->getParentPixelSize());
+			int x = relPos.d_x, y = relPos.d_y;
 
             // übergangspixel
             x += 14;

@@ -86,12 +86,12 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="RlCore.lib RlRules.lib msvcrt-ruby18.lib OgreMain_d.lib OgreGuiRenderer_d.lib CEGUIBase_d.lib xerces-c_2D.lib OgreNewt_d.lib Newton.lib OIS_d.lib"
+				AdditionalDependencies="RlCore.lib RlRules.lib msvcrt-ruby18.lib OgreMain_d.lib CEGUIOgreRenderer_d.lib CEGUIBase_d.lib tinyxmld_STL.lib OgreNewt_d.lib Newton.lib OIS_d.lib"
 				ShowProgress="0"
 				OutputFile="$(OutDir)/RlUI.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\uicomponents\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;..\..\dependencies\OgreNewt\lib;..\..\dependencies\NewtonSDK\sdk\x32\dll_vs9;..\..\dependencies\ois\dll;&quot;..\..\dependencies\ogrenew\lib\$(ConfigurationName)&quot;"
+				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\uicomponents\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;..\..\dependencies\OgreNewt\lib;..\..\dependencies\NewtonSDK\sdk\x32\dll_vs9;..\..\..\dependencies\NewtonSDK\sdk\x32\dll_vs9;..\..\dependencies\ois\dll;&quot;..\..\dependencies\ogrenew\lib\$(ConfigurationName)&quot;"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
@@ -195,11 +195,11 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="RlCore.lib RlRules.lib msvcrt-ruby18.lib OgreMain.lib OgreGuiRenderer.lib CEGUIBase.lib xerces-c_2.lib OgreNewt.lib Newton.lib OIS.lib"
+				AdditionalDependencies="RlCore.lib RlRules.lib msvcrt-ruby18.lib OgreMain.lib CEGUIOgreRenderer.lib CEGUIBase.lib tinyxml_STL.lib OgreNewt.lib Newton.lib OIS.lib"
 				OutputFile="$(OutDir)/RlUI.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\uicomponents\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;..\..\dependencies\OgreNewt\lib;..\..\dependencies\NewtonSDK\sdk\x32\dll_vs9;..\..\dependencies\ois\dll;&quot;..\..\dependencies\ogrenew\lib\$(ConfigurationName)&quot;"
+				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\uicomponents\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;..\..\dependencies\OgreNewt\lib;..\..\dependencies\NewtonSDK\sdk\x32\dll_vs9;..\..\..\dependencies\NewtonSDK\sdk\x32\dll_vs9;..\..\dependencies\ois\dll;&quot;..\..\dependencies\ogrenew\lib\$(ConfigurationName)&quot;"
 				ProgramDatabaseFile=""
 				SubSystem="2"
 				RandomizedBaseAddress="1"
@@ -298,11 +298,11 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="true"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="RlCore.lib RlRules.lib msvcrt-ruby18.lib OgreMain.lib OgreGuiRenderer.lib CEGUIBase.lib xerces-c_2.lib OgreNewt.lib Newton.lib OIS.lib"
+				AdditionalDependencies="RlCore.lib RlRules.lib msvcrt-ruby18.lib OgreMain.lib CEGUIOgreRenderer.lib CEGUIBase.lib tinyxml_STL.lib OgreNewt.lib Newton.lib OIS.lib"
 				OutputFile="$(OutDir)/RlUI.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\uicomponents\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;..\..\dependencies\OgreNewt\lib;..\..\dependencies\NewtonSDK\sdk\x32\dll_vs9;..\..\dependencies\ois\dll;&quot;..\..\dependencies\ogrenew\lib\$(ConfigurationName)&quot;"
+				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\uicomponents\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;..\..\dependencies\OgreNewt\lib;..\..\dependencies\NewtonSDK\sdk\x32\dll_vs9;..\..\..\dependencies\NewtonSDK\sdk\x32\dll_vs9;..\..\dependencies\ois\dll;&quot;..\..\dependencies\ogrenew\lib\$(ConfigurationName)&quot;"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(TargetDir)$(TargetName).pdb"
 				SubSystem="2"
@@ -519,10 +519,6 @@
 				</File>
 				<File
 					RelativePath=".\include\JournalWindow.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\ListboxWrappedTextItem.h"
 					>
 				</File>
 				<File
@@ -772,10 +768,6 @@
 				</File>
 				<File
 					RelativePath=".\src\JournalWindow.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\src\ListboxWrappedTextItem.cpp"
 					>
 				</File>
 				<File

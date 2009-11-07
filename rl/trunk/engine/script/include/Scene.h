@@ -43,7 +43,7 @@ namespace rl {
 
     private:
         CeGuiString mName;
-        std::vector<Ogre::String> mMaps;
+        Ogre::StringVector mMaps;
     };
 
 }

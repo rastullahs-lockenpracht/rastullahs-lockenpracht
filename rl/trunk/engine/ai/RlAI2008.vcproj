@@ -74,10 +74,10 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="false"
 				AdditionalOptions="/NODEFAULTLIB:MSVCRT&#x0D;&#x0A;"
-				AdditionalDependencies="OgreMain_d.lib OgreNewt_d.lib CEGUIBase_d.lib opensteerd.lib RlCommon.lib RlCore.lib RlRules.lib Newton.lib xerces-c_2D.lib"
+				AdditionalDependencies="OgreMain_d.lib OgreNewt_d.lib CEGUIBase_d.lib opensteerd.lib RlCommon.lib RlCore.lib RlRules.lib Newton.lib tinyxmld_STL.lib"
 				OutputFile="$(OutDir)/RlAI.dll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;..\common\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib\;..\..\dependencies\ogrenewt\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\opensteer\lib;..\..\dependencies\boost\lib;..\..\dependencies\NewtonSDK\sdk\x32\dll_vs9;..\..\dependencies\xerces\lib"
+				AdditionalLibraryDirectories="&quot;..\common\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib\;..\..\dependencies\ogrenewt\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\opensteer\lib;..\..\dependencies\boost\lib;..\..\dependencies\NewtonSDK\sdk\x32\dll_vs9;..\..\..\dependencies\NewtonSDK\sdk\x32\dll_vs9;..\..\dependencies\xerces\lib"
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
 				ProgramDatabaseFile="$(OutDir)/RlAI.pdb"
@@ -161,10 +161,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMain.lib OgreNewt.lib CEGUIBase.lib opensteer.lib RlCommon.lib RlCore.lib RlRules.lib Newton.lib xerces-c_2.lib"
+				AdditionalDependencies="OgreMain.lib OgreNewt.lib CEGUIBase.lib opensteer.lib RlCommon.lib RlCore.lib RlRules.lib Newton.lib tinyxml_STL.lib"
 				OutputFile="$(OutDir)/RlAI.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\common\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib\;..\..\dependencies\ogrenewt\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\opensteer\lib;..\..\dependencies\boost\lib;..\..\dependencies\NewtonSDK\sdk\x32\dll_vs9;..\..\dependencies\xerces\lib"
+				AdditionalLibraryDirectories="&quot;..\common\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib\;..\..\dependencies\ogrenewt\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\opensteer\lib;..\..\dependencies\boost\lib;..\..\dependencies\NewtonSDK\sdk\x32\dll_vs9;..\..\..\dependencies\NewtonSDK\sdk\x32\dll_vs9;..\..\dependencies\xerces\lib"
 				GenerateDebugInformation="false"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -246,10 +246,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OgreMain.lib OgreNewt.lib CEGUIBase.lib opensteer.lib RlCommon.lib RlCore.lib RlRules.lib Newton.lib MadaBot.lib xerces-c_2.lib"
+				AdditionalDependencies="OgreMain.lib OgreNewt.lib CEGUIBase.lib opensteer.lib RlCommon.lib RlCore.lib RlRules.lib Newton.lib MadaBot.lib tinyxml_STL.lib"
 				OutputFile="$(OutDir)/RlAI.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\common\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib\;..\..\dependencies\ogrenewt\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\opensteer\lib;..\..\dependencies\boost\lib;..\..\dependencies\NewtonSDK\sdk\x32\dll_vs9;..\..\dependencies\xerces\lib"
+				AdditionalLibraryDirectories="&quot;..\common\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\rules\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib\;..\..\dependencies\ogrenewt\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\opensteer\lib;..\..\dependencies\boost\lib;..\..\dependencies\NewtonSDK\sdk\x32\dll_vs9;..\..\..\dependencies\NewtonSDK\sdk\x32\dll_vs9;..\..\dependencies\xerces\lib"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"

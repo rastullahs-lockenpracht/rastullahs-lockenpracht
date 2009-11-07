@@ -19,6 +19,7 @@
 
 #include <boost/bind.hpp>
 #include <elements/CEGUIFrameWindow.h>
+#include <elements/CEGUIListboxTextItem.h>
 
 #include "Exception.h"
 #include "ConfigurationManager.h"
@@ -30,7 +31,6 @@
 #include "DialogResponse.h"
 #include "GameLoggerWindow.h"
 #include "InputManager.h"
-#include "ListboxWrappedTextItem.h"
 #include "UiSubsystem.h"
 
 
@@ -67,11 +67,11 @@ namespace rl {
 
 		// Add 2 ListboxItems, one for the nsc responses, 
 		// one for the player selections
-		mPlayerText = new ListboxWrappedTextItem("", 6);
+		mPlayerText = new ListboxTextItem("", 6);
 		mPlayerText->setTextColours(COLOR_PLAYER_CHARACTER);
 		mQuestion->addItem(mPlayerText);
 
-		mNscText = new ListboxWrappedTextItem("", 0);
+		mNscText = new ListboxTextItem("", 0);
 		mNscText->setTextColours(COLOR_NON_PLAYER_CHARACTER);
 		mQuestion->addItem(mNscText);
 	}
@@ -100,7 +100,7 @@ namespace rl {
 		{
             DialogOption* cur = *itr;
 
-			ListboxWrappedTextItem* item = NULL;
+			ListboxTextItem* item = NULL;
             CeGuiString text;
             if (cur->getLabel().empty())
             {
@@ -126,19 +126,19 @@ namespace rl {
 
 			if (optionCount < mDialogOptions->getItemCount())
 			{
-				item = static_cast<ListboxWrappedTextItem*>(
+				item = static_cast<ListboxTextItem*>(
 					mDialogOptions->getListboxItemFromIndex(optionCount));
                 item->setText(text);
                 item->setUserData(cur);
 			}
 			else
 			{
-				item = new ListboxWrappedTextItem(text, 6, true);
+				item = new ListboxTextItem(text, 6, NULL, true);
                 item->setUserData(cur);
 				mDialogOptions->addItem(item);
 			}
 
-			item->setTextFormatting(CEGUI::WordWrapLeftAligned);
+			//item->setTextFormatting(CEGUI::WordWrapLeftAligned);
 			mDialogOptions->handleUpdatedItemData();
 
 			++optionCount;

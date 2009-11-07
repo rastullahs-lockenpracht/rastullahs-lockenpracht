@@ -451,15 +451,7 @@ namespace rl {
             LOG_MESSAGE(
                 Logger::UI,
                 wnd->getName()
-                + (wnd->isVisible() ? " vis" : " nvis")
-                + " @"
-                + StringConverter::toString(wnd->getPixelRect().getPosition().d_x)
-                + ", "
-                + StringConverter::toString(wnd->getPixelRect().getPosition().d_y)
-                + " "
-                + StringConverter::toString(wnd->getPixelSize().d_width)
-                + ", "
-                + StringConverter::toString(wnd->getPixelSize().d_height));
+                + (wnd->isVisible() ? " vis" : " nvis"));
         }
     }
 

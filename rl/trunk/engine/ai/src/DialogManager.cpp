@@ -51,8 +51,8 @@ namespace rl
 			mDialogLoader);
 		delete mDialogLoader;
         SaveGameManager::getSingleton().unregisterSaveGameData(this);
-		map<DialogConfiguration, Dialog*>::iterator itr = mDialogStates.begin();
-		map<DialogConfiguration, Dialog*>::iterator end = mDialogStates.end();
+		std::map<DialogConfiguration, Dialog*>::iterator itr = mDialogStates.begin();
+		std::map<DialogConfiguration, Dialog*>::iterator end = mDialogStates.end();
 		for(; itr != end; ++itr)
 		{
 			delete itr->second;
@@ -66,7 +66,7 @@ namespace rl
         if (key == DialogManager::PROPERTY_DIALOGS)
         {
             PropertyArray vec;
-            for (map<DialogConfiguration, Dialog*>::const_iterator it
+            for (std::map<DialogConfiguration, Dialog*>::const_iterator it
                 = mDialogStates.begin(); it != mDialogStates.end(); ++it)
             {
                 PropertyMap curDialogProp;
@@ -152,7 +152,7 @@ namespace rl
             participants.push_back(*it);
         }
 
-        map<DialogConfiguration, Dialog*>::iterator it
+        std::map<DialogConfiguration, Dialog*>::iterator it
             = mDialogStates.find(DialogConfiguration(name, participants));
 
         Dialog* dialog;

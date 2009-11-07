@@ -108,14 +108,15 @@ private:
 
 XmlElementList XmlProcessor::getElementsByTagName(const TiXmlElement* parent, const char* const name) const
 {
+	XmlElementFinder finder(name);
+	parent->Accept(&finder);
+	return finder.getResult();
 }
-
 
 XmlElementList XmlProcessor::getElementsByTagName(const TiXmlDocument* parent, const char* const name) const
 {
 	return getElementsByTagName(parent->RootElement(), name);
 }
-
 
 void XmlProcessor::setValueAsString(TiXmlElement *element, const CeGuiString &value) const
 {
@@ -152,7 +153,7 @@ const utf8* XmlProcessor::getValueAsUtf8(const TiXmlElement* element) const
 bool XmlProcessor::hasAttribute(const TiXmlElement* element,const char* const name) const
 {
     RlAssert(element != NULL, "XmlProcessor::hasAttribute: Element must not be NULL");
-    return element->Attribute(name);
+    return element->Attribute(name) != NULL;
 }
 
 bool XmlProcessor::hasNodeName(const TiXmlNode* node, const char* const name) const

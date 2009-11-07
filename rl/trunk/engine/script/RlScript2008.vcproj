@@ -67,10 +67,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="RlCore.lib RlAi.lib RlUi.lib RlRules.lib OgreMain_d.lib msvcrt-ruby18.lib CEGUIBase_d.lib xerces-c_2D.lib OgreNewt_d.lib Newton.lib"
+				AdditionalDependencies="RlCore.lib RlAi.lib RlUi.lib RlRules.lib OgreMain_d.lib msvcrt-ruby18.lib CEGUIBase_d.lib tinyxmld_STL.lib OgreNewt_d.lib Newton.lib"
 				OutputFile="$(OutDir)/RlScript.dll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\ui\lib\$(ConfigurationName)&quot;;&quot;..\ai\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;..\..\dependencies\OgreNewt\lib;..\..\dependencies\NewtonSDK\sdk\x32\dll_vs9"
+				AdditionalLibraryDirectories="&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\ui\lib\$(ConfigurationName)&quot;;&quot;..\ai\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;..\..\dependencies\OgreNewt\lib;..\..\dependencies\NewtonSDK\sdk\x32\dll_vs9;..\..\..\dependencies\NewtonSDK\sdk\x32\dll_vs9"
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
 				ProgramDatabaseFile="$(OutDir)/RlScript.pdb"
@@ -152,10 +152,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="RlCore.lib RlAi.lib RlUi.lib RlRules.lib OgreMain.lib msvcrt-ruby18.lib CEGUIBase.lib xerces-c_2.lib OgreNewt.lib Newton.lib"
+				AdditionalDependencies="RlCore.lib RlAi.lib RlUi.lib RlRules.lib OgreMain.lib msvcrt-ruby18.lib CEGUIBase.lib tinyxml_STL.lib OgreNewt.lib Newton.lib"
 				OutputFile="$(OutDir)/RlScript.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\ui\lib\$(ConfigurationName)&quot;;&quot;..\ai\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;..\..\dependencies\OgreNewt\lib;..\..\dependencies\NewtonSDK\sdk\x32\dll_vs9"
+				AdditionalLibraryDirectories="&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\ui\lib\$(ConfigurationName)&quot;;&quot;..\ai\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;..\..\dependencies\OgreNewt\lib;..\..\dependencies\NewtonSDK\sdk\x32\dll_vs9;..\..\..\dependencies\NewtonSDK\sdk\x32\dll_vs9"
 				GenerateDebugInformation="false"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -235,10 +235,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="RlCore.lib RlAi.lib RlUi.lib RlRules.lib OgreMain.lib msvcrt-ruby18.lib CEGUIBase.lib xerces-c_2.lib OgreNewt.lib Newton.lib"
+				AdditionalDependencies="RlCore.lib RlAi.lib RlUi.lib RlRules.lib OgreMain.lib msvcrt-ruby18.lib CEGUIBase.lib tinyxml_STL.lib OgreNewt.lib Newton.lib"
 				OutputFile="$(OutDir)/RlScript.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\ui\lib\$(ConfigurationName)&quot;;&quot;..\ai\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;..\..\dependencies\OgreNewt\lib;..\..\dependencies\NewtonSDK\sdk\x32\dll_vs9"
+				AdditionalLibraryDirectories="&quot;..\rules\lib\$(ConfigurationName)&quot;;&quot;..\core\lib\$(ConfigurationName)&quot;;&quot;..\ui\lib\$(ConfigurationName)&quot;;&quot;..\ai\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\xerces\lib;..\..\dependencies\OgreNewt\lib;..\..\dependencies\NewtonSDK\sdk\x32\dll_vs9;..\..\..\dependencies\NewtonSDK\sdk\x32\dll_vs9"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -526,7 +526,7 @@
 					<Tool
 						Name="VCCustomBuildTool"
 						Description="[SWIG] RubyWrapper erzeugen."
-						CommandLine="cd &quot;$(InputDir)&quot;&#x0D;&#x0A;&quot;$(ProjectDir)..\..\dependencies\swig\swig.exe&quot; -o &quot;$(InputDir)$(InputName)_wrap.cxx&quot; -c++ -ruby -minherit -v -Wall  &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+						CommandLine="cd &quot;$(InputDir)&quot;&#x0D;&#x0A;&quot;$(ProjectDir)..\..\..\dependencies\swig\swig.exe&quot; -o &quot;$(InputDir)$(InputName)_wrap.cxx&quot; -c++ -ruby -minherit -v -Wall  &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="&quot;$(InputDir)TypeMaps.i&quot;;&quot;$(InputDir)RlCore.swig&quot;;&quot;$(InputDir)RlDialog.swig&quot;;&quot;$(InputDir)RlCommon.swig&quot;;&quot;$(InputDir)RlRules.swig&quot;;&quot;$(InputDir)RlScript.swig&quot;;&quot;$(InputDir)RlSound.swig&quot;;&quot;$(InputDir)RlUi.swig&quot;;&quot;$(InputDir)RlAi.swig&quot;"
 						Outputs="&quot;$(InputDir)$(InputName)_wrap.cxx&quot;"
 					/>

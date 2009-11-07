@@ -70,10 +70,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="msvcrt-ruby18.lib xerces-c_2D.lib OgreMain_d.lib CEGUIBase_d.lib RlCore.lib OgreNewt_d.lib Newton.lib"
+				AdditionalDependencies="msvcrt-ruby18.lib tinyxmld_STL.lib OgreMain_d.lib CEGUIBase_d.lib RlCore.lib OgreNewt_d.lib Newton.lib"
 				OutputFile="$(OutDir)/RlRules.dll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\xerces\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\OgreNewt\lib;..\..\dependencies\NewtonSDK\sdk\x32\dll_vs9"
+				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\xerces\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\OgreNewt\lib;..\..\dependencies\NewtonSDK\sdk\x32\dll_vs9;..\..\..\dependencies\NewtonSDK\sdk\x32\dll_vs9"
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
 				ProgramDatabaseFile="$(OutDir)/RlRules.pdb"
@@ -157,10 +157,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="msvcrt-ruby18.lib OgreMain.lib xerces-c_2.lib CEGUIBase.lib RlCore.lib OgreNewt.lib Newton.lib"
+				AdditionalDependencies="msvcrt-ruby18.lib OgreMain.lib tinyxml_STL.lib CEGUIBase.lib RlCore.lib OgreNewt.lib Newton.lib"
 				OutputFile="$(OutDir)/RlRules.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\xerces\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\OgreNewt\lib;..\..\dependencies\NewtonSDK\sdk\x32\dll_vs9"
+				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\xerces\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\OgreNewt\lib;..\..\dependencies\NewtonSDK\sdk\x32\dll_vs9;..\..\..\dependencies\NewtonSDK\sdk\x32\dll_vs9"
 				GenerateDebugInformation="false"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -242,10 +242,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="msvcrt-ruby18.lib OgreMain.lib xerces-c_2.lib CEGUIBase.lib RlCore.lib OgreNewt.lib Newton.lib"
+				AdditionalDependencies="msvcrt-ruby18.lib OgreMain.lib tinyxml_STL.lib CEGUIBase.lib RlCore.lib OgreNewt.lib Newton.lib"
 				OutputFile="$(OutDir)/RlRules.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\xerces\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\OgreNewt\lib;..\..\dependencies\NewtonSDK\sdk\x32\dll_vs9"
+				AdditionalLibraryDirectories="&quot;..\core\lib\$(ConfigurationName)&quot;;..\..\dependencies\ogrenew\lib;..\..\dependencies\ruby\lib;..\..\dependencies\xerces\lib;..\..\dependencies\cegui_mk2\lib;..\..\dependencies\boost\lib;..\..\dependencies\OgreNewt\lib;..\..\dependencies\NewtonSDK\sdk\x32\dll_vs9;..\..\..\dependencies\NewtonSDK\sdk\x32\dll_vs9"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"

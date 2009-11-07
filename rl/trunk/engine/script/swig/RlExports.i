@@ -30,9 +30,6 @@
 #	endif
 #endif
 
-// Has to be included before Ogre, MemoryManager issues...
-#include <xercesc/util/XMemory.hpp>	
-
 // Exporting the function for getting ruby instances
 VALUE RL_RubyInstanceFor(void* ptr) 
 {
