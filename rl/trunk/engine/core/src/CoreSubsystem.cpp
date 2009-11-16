@@ -199,7 +199,7 @@ namespace rl
 #else 
         RenderSystemList rsl = *mOgreRoot->getAvailableRenderers();
 #endif        
-        for (RenderSystemList::iterator it = rsl.begin(); it != rsl.end(); it++)
+        for (RenderSystemList::const_iterator it = rsl.begin(); it != rsl.end(); it++)
         {
             if ((*it)->getName() == ConfigurationManager::getSingleton().getStringSetting(
                 "Video", "Render System"))

@@ -22,8 +22,8 @@
 #ifdef __APPLE__
 #   include <OgreCEGUIRenderer/OgreCEGUIRenderer.h>
 #else
-#   include <CEGUIOgreRenderer.h>
-#   include <CEGUIOgreResourceProvider.h>
+#   include <RendererModules/Ogre/CEGUIOgreRenderer.h>
+#   include <RendererModules/Ogre/CEGUIOgreResourceProvider.h>
 #endif
 
 #include "Actor.h"

@@ -47,7 +47,6 @@ src/ItemDragContainer.cpp
 src/ItemDescriptionDragContainer.cpp
 src/ItemIconDragContainer.cpp
 src/JournalWindow.cpp
-src/ListboxWrappedTextItem.cpp
 src/LogWindow.cpp
 src/MainMenuWindow.cpp
 src/MainMenuEngineWindow.cpp
