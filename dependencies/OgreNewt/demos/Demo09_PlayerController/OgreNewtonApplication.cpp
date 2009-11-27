@@ -134,6 +134,25 @@ void OgreNewtonApplication::createScene()
 		OgreNewt::Body* bod = makeSimpleBox( size, pos, orient );
 	}
 
+
+    // player playground
+
+    bod = NULL;
+    for( int i = 0; i < 20; i++ )
+    {
+        bod = makeSimpleBox( Ogre::Vector3(4.0, 0.4, 1.0), Ogre::Vector3(15.0, -10.0+i*0.4, -2.0-i*0.4), Ogre::Quaternion::IDENTITY);
+        bod->setMassMatrix(0, Ogre::Vector3::ZERO);
+    }
+
+    bod = makeSimpleBox( Ogre::Vector3(10.0, 0.4, 10.0), Ogre::Vector3(-17.0, -8.0, -15.0), Ogre::Quaternion(Ogre::Degree(60), Ogre::Vector3::UNIT_X));
+    bod->setMassMatrix(0, Ogre::Vector3::ZERO);
+
+    bod = makeSimpleBox( Ogre::Vector3(10.0, 0.4, 10.0), Ogre::Vector3(-27.0, -8.5, -15.0), Ogre::Quaternion(Ogre::Degree(20), Ogre::Vector3::UNIT_X));
+    bod->setMassMatrix(0, Ogre::Vector3::ZERO);
+    
+    bod = makeSimpleBox( Ogre::Vector3(10.0, 0.4, 10.0), Ogre::Vector3(-37.0, -8.0, -15.0), Ogre::Quaternion(Ogre::Degree(80), Ogre::Vector3::UNIT_Y) * Ogre::Quaternion(Ogre::Degree(50), Ogre::Vector3::UNIT_X));
+    bod->setMassMatrix(0, Ogre::Vector3::ZERO);
+
     makePlayer();
 
 	
@@ -171,7 +190,7 @@ void OgreNewtonApplication::destroyScene()
 }
 
 
-OgreNewt::Body* OgreNewtonApplication::makeSimpleBox( Ogre::Vector3& size, Ogre::Vector3& pos, Ogre::Quaternion& orient )
+OgreNewt::Body* OgreNewtonApplication::makeSimpleBox( const Ogre::Vector3& size, const Ogre::Vector3& pos, const Ogre::Quaternion& orient )
 {
 	Entity* box1;
 	SceneNode* box1node;

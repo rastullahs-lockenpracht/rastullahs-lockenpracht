@@ -351,9 +351,9 @@ void Body::addGlobalForce( const Ogre::Vector3& force, const Ogre::Vector3& pos 
     getPositionOrientation( bodypos, bodyorient );
 
     Ogre::Vector3 localMassCenter = getCenterOfMass();
-    Ogre::Vector3 globalMassCenter = bodyorient * localMassCenter;
+    Ogre::Vector3 globalMassCenter = bodypos + bodyorient * localMassCenter;
 
-    Ogre::Vector3 topoint = pos - bodypos - globalMassCenter;
+    Ogre::Vector3 topoint = pos - globalMassCenter;
     Ogre::Vector3 torque = topoint.crossProduct( force );
 
     addForce( force );

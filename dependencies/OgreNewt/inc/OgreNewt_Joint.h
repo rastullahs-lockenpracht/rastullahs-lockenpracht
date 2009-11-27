@@ -25,7 +25,7 @@ namespace OgreNewt
 /*!
     this class is inherited by all other specific joint types.
 */
-class _OgreNewtExport Joint
+class _OgreNewtExport Joint : public _DestructorCallback<Joint>
 {
 public:
 

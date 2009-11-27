@@ -265,15 +265,18 @@ void PlayerController::submitConstraint( Ogre::Real timestep, int threadindex )
     Ogre::Quaternion ori;
     Ogre::Real invMass;
     Ogre::Vector3 invInertia;
-    Ogre::Vector3 frontDir, upDir, strafeDir;
+    Ogre::Vector3 localFrontDir, localUpDir, localStrafeDir, globalFrontDir, globalUpDir, globalStrafeDir;
 
     m_body->getInvMass(invMass, invInertia);
     m_body->getPositionOrientation(pos,ori);
 
     Ogre::Quaternion localFrameRotation = m_localFrame.extractQuaternion();
-    frontDir = localFrameRotation * Ogre::Vector3::NEGATIVE_UNIT_Z;
-    upDir = localFrameRotation * Ogre::Vector3::UNIT_Y;
-    strafeDir = localFrameRotation * Ogre::Vector3::UNIT_X;
+    localFrontDir = localFrameRotation * Ogre::Vector3::NEGATIVE_UNIT_Z;
+    localUpDir = localFrameRotation * Ogre::Vector3::UNIT_Y;
+    localStrafeDir = localFrameRotation * Ogre::Vector3::UNIT_X;
+    globalFrontDir = ori*localFrontDir;
+    globalUpDir = ori*localUpDir;
+    globalStrafeDir = ori*localStrafeDir;
 
 
 
@@ -283,8 +286,7 @@ void PlayerController::submitConstraint( Ogre::Real timestep, int threadindex )
 
 
     // if the body has rotated by some amount, there will be a plane of rotation
-    Ogre::Vector3 realUp = ori*(localFrameRotation*Ogre::Vector3::UNIT_Y);
-    Ogre::Vector3 lateralDir = realUp.crossProduct(upDir);
+    Ogre::Vector3 lateralDir = globalUpDir.crossProduct(localUpDir);
     Ogre::Real mag = lateralDir.length();
     if( mag > 1.0e-3f)
     {
@@ -297,14 +299,14 @@ void PlayerController::submitConstraint( Ogre::Real timestep, int threadindex )
 
         // in theory only one correction is needed, but this produces instability as the body may move sideway.
         // a lateral correction prevent this from happening.
-        Ogre::Vector3 frontDir = lateralDir.crossProduct(upDir);
+        Ogre::Vector3 frontDir = lateralDir.crossProduct(globalUpDir);
         addAngularRow(Ogre::Radian(0), lateralDir);
     }
     else
     {
         // if the angle error is very small then two angular correction along the plane axis do the trick
-        addAngularRow( Ogre::Radian(0), strafeDir );
-        addAngularRow( Ogre::Radian(0), frontDir );
+        addAngularRow( Ogre::Radian(0), globalStrafeDir );
+        addAngularRow( Ogre::Radian(0), globalFrontDir );
     }
 
 
@@ -313,7 +315,7 @@ void PlayerController::submitConstraint( Ogre::Real timestep, int threadindex )
     if( m_playerState == PS_ONLAND )
     {
         Ogre::Vector3 vel = m_body->getVelocity();
-        Ogre::Vector3 desiredVel = frontDir* m_forwardSpeed + upDir * (vel.dotProduct(upDir)) + strafeDir * m_sideSpeed;
+        Ogre::Vector3 desiredVel = globalFrontDir* m_forwardSpeed + globalUpDir * (vel.dotProduct(globalUpDir)) + globalStrafeDir * m_sideSpeed;
         
         m_body->setVelocity(desiredVel);
     }
@@ -525,7 +527,7 @@ void PlayerController::playerOnIllegalRamp( Ogre::Real timestep, int threadIndex
             Ogre::Vector3 newPos;
             
             newPos = castStart + (castTarget - castStart)*dist - step + upDir * m_kinematicCushion;
-            m_body->setPositionOrientation(pos, ori);
+            m_body->setPositionOrientation(newPos, ori);
 
             Ogre::Vector3 floorNormal = allBodyConvexCast.getInfoAt(0).mContactNormal;
 
@@ -596,7 +598,7 @@ void PlayerController::playerOnLand( Ogre::Real timestep, int threadIndex )
                 
                 allBodyConvexCast2.go(m_bodyFloorSensorShape, castStart2, ori, castTarget2, 1, threadIndex, filterBodies);
 
-                if( distanceToFirstHit >= allBodyConvexCast2.getDistanceToFirstHit() && allBodyConvexCast2.getContactsCount() > 0 )
+                if( distanceToFirstHit >= allBodyConvexCast2.getDistanceToFirstHit() || allBodyConvexCast2.getContactsCount() == 0 )
                 {
                     setPlayerState(PS_ONILLEGALRAMP);
                 }
@@ -623,7 +625,7 @@ void PlayerController::playerOnLand( Ogre::Real timestep, int threadIndex )
                         castStart3 = pos + step + upDir*(m_stairHeight - m_kinematicCushion);
                         castTarget3 = castStart3 - upDir*2.0f * m_stairHeight;
 
-                        allBodyConvexCast3.go(m_bodyFloorSensorShape, castStart3, ori, castTarget3, 1, threadIndex, filterBodies);
+                        allBodyConvexCast3.go(m_bodyFloorSensorShape, castStart3, ori, castTarget3, 1, threadIndex);
                         contactCount = allBodyConvexCast3.getContactsCount();
                         if( contactCount > 0 )
                         {

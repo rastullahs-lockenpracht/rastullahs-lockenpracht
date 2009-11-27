@@ -35,7 +35,7 @@ namespace OgreNewt
         this class represents a NewtonBody rigid body!
 */
 //! main class for all Rigid Bodies in the system.
-class _OgreNewtExport Body
+class _OgreNewtExport Body : public _DestructorCallback<Body>
 {
 public:
     //! custom force callback.

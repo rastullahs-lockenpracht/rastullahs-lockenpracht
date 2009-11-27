@@ -30,7 +30,7 @@ protected:
 	void destroyScene();
 
 	// our custom function to simplify making simpe dynamics rigid body boxes.
-	OgreNewt::Body* makeSimpleBox( Ogre::Vector3& size, Ogre::Vector3& pos, Ogre::Quaternion& orient );
+	OgreNewt::Body* makeSimpleBox( const Ogre::Vector3& size, const Ogre::Vector3& pos, const Ogre::Quaternion& orient );
 
     void makePlayer();
 

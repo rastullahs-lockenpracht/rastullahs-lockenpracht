@@ -66,6 +66,7 @@
     \section new New in this version
 
     New in this version
+        - added a destructor callback for OgreNewt::Joint and OgreNewt::Body (because these can be destroyed indirectly through newton callbacks!)
         - removed CollisionTools::CollisionCalculateAABB (because there's col->getAABB() ) and added a function to calculate the correct AABB
           CollisionTools::CollisionCalculateFittingAABB
         - ConvexCast:

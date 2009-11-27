@@ -25,7 +25,7 @@ namespace OgreNewt
 /*!
     this class represents a basic vehicle, meant to be inherited by the user, with functionality added.
 */
-    class _OgreNewtExport Vehicle
+    class _OgreNewtExport Vehicle : public _DestructorCallback<Vehicle>
     {
     public:
 
