@@ -9,9 +9,9 @@
 
     main header file.
 
-    current version:  2.07.0
+    current version:  2.07.1
 
-        Newton version: 2.07 (beta)
+        Newton version: at least 2.07 (beta)
 
         Ogre version: Shoggoth (1.6.x)
 
