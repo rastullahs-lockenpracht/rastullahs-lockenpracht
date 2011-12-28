@@ -1,9 +1,0 @@
-import Basic_Normalmapping_Spec from Basic_Normalmapping_Spec.material
-
-
-material men_human_female_armor_garethplatte : Basic_Normalmapping_Spec
-{
-set_texture_alias DiffuseMap obj_Garetherplatte_diffuse.png
-set_texture_alias NormalMap obj_Garetherplatte_normal.png
-set_texture_alias SpecMap obj_Garetherplatte_spec.png
-}

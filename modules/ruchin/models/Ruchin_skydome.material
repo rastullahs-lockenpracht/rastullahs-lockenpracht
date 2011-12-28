@@ -1,7 +1,0 @@
-import Skydome_shader from Skydome.material
-
-
-material Ruchin_skydome : Skydome_shader
-{
-
-}

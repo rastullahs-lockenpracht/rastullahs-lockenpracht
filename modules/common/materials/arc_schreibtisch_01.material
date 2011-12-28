@@ -1,7 +1,0 @@
-import Basic_Vertex_Shader from Basic_Vertex_Shader.program
-
-
-material arc_schreibtisch_01: Basic_Vertex_Shader
-{
-set_texture_alias diffuse zeugs_02_schreibtisch01_tischkleinrund.dds
-}

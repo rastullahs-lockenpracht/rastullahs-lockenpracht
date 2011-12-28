@@ -1,9 +1,0 @@
-import Basic_Vertex_Shader_Sprite from Basic_Vertex_Shader.program
-
-
-material nat_grasplanes_02: Basic_Vertex_Shader_Sprite
-{
-
-set_texture_alias diffuse gras_planes.dds
-}
-

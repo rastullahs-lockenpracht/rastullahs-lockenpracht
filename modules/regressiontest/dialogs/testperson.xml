@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<aiml-startup version='1.0'>
-	<bot name='TestPerson' voice=''>
-		<learn src='testdialog.aiml'/>
-	</bot>
-</aiml-startup>
-

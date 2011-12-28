@@ -1,6 +1,0 @@
-import Basic_Vertex_Shader from Basic_Vertex_Shader.program
-
-material stuhl: Basic_Vertex_Shader
-{
-set_texture_alias diffuse stuhl.dds 
-}
