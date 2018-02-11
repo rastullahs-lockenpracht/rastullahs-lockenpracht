@@ -15,13 +15,14 @@
 #include <OgreSkeletonSerializer.h>
 #include <OgreSkeletonManager.h>
 #include <OgreEntity.h>
+#include <OgreSceneNode.h>
 
 #include "MergeMesh.h"
 #include "MergeSkeleton.h"
 
 using namespace Ogre;
 
-template<> rl::MeshCombiner* Singleton<rl::MeshCombiner>::ms_Singleton = 0;
+template<> rl::MeshCombiner* Singleton<rl::MeshCombiner>::msSingleton = nullptr;
 
 namespace rl {
 
@@ -117,7 +118,7 @@ namespace rl {
             log( "Loading: " + *it );
             try
             {
-                SkeletonPtr skel = SkeletonManager::getSingleton().load(
+                SkeletonPtr skel = SkeletonManager::getSingleton().getByName(
                     *it, ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME );
 
                 if( !skel.isNull() )
@@ -152,7 +153,7 @@ namespace rl {
 
 		// Konfigurationsdialog anzeigen/oder alte Konfiguration laden
 		if( Root::getSingleton().restoreConfig()
-			|| Root::getSingleton().showConfigDialog() )
+            || Root::getSingleton().showConfigDialog(nullptr) )
 		{
 			Root::getSingleton().initialise( false, "MeshCombiner" );            
 		}

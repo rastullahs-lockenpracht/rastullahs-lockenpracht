@@ -4,6 +4,7 @@
 #include <OgreHardwareBufferManager.h>
 #include <OgreBone.h>
 #include <OgreAnimation.h>
+#include <OgreKeyFrame.h>
 
 #include "MeshCombiner.h"
 

@@ -8,7 +8,7 @@
 
 
 namespace rl {
-    class MeshCombiner : protected Ogre::Singleton<MeshCombiner>
+    class MeshCombiner : public Ogre::Singleton<MeshCombiner>
 	{
 		public:
 			MeshCombiner();
