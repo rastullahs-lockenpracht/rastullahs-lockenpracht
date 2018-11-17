@@ -1,0 +1,6 @@
+[submodule "dependencies/ogre"]
+	path = dependencies/ogre
+	url = https://github.com/OGRECave/ogre.git
+[submodule "dependencies/newton"]
+	path = dependencies/newton
+	url = https://github.com/rastullahs-lockenpracht/newton.git
