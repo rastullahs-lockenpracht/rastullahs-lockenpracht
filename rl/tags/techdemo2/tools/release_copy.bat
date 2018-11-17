@@ -1,1 +1,0 @@
-@call copy_dependencies.bat .. release ..\rl_dist

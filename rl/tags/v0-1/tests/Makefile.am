@@ -1,2 +1,0 @@
-SUBDIRS =  coretests rulestests multimediatests
-
