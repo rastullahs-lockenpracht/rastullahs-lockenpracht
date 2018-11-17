@@ -77,7 +77,7 @@ public:
         \param col pointer to an OgreNewt::Collision object that represents the shape of the rigid body.
         \param bodytype simple integer value used to identify the type of rigid body, useful for determining bodies in callbacks.
     */
-    Body( const World* W, const OgreNewt::CollisionPtr& col, int bodytype = 0 );
+    Body( const World* W, const OgreNewt::CollisionPtr& col, int bodytype = 0, const Ogre::Vector3 &pos = Ogre::Vector3::ZERO, const Ogre::Quaternion &orient = Ogre::Quaternion::IDENTITY );
 
     //! destructor
     ~Body();

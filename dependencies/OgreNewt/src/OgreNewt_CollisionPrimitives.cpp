@@ -5,10 +5,12 @@
 
 #ifdef __APPLE__
 #   include <Ogre/OgreEntity.h>
+#   include <Ogre/OgreMesh.h>
 #   include <Ogre/OgreSubMesh.h>
 #   include <Ogre/OgreSceneNode.h>
 #else
 #   include <OgreEntity.h>
+#   include <OgreMesh.h>
 #   include <OgreSubMesh.h>
 #   include <OgreSceneNode.h>
 #endif
@@ -516,7 +518,7 @@ namespace OgreNewt
         }
 
 
-        float _CDECL TreeCollision::newtonRayCastCallback(float interception, float *normal, int faceId, void *userData)
+        float _CDECL TreeCollision::newtonRayCastCallback(const NewtonBody* const body, const NewtonCollision* const treeCollision, float interception, float *normal, int faceId, void *userData)
         {
             Body* bod = ((Raycast*)userData)->m_treecollisioncallback_lastbody;
             

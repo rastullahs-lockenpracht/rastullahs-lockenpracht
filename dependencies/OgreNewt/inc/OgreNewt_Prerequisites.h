@@ -22,6 +22,7 @@
 #   include <Ogre/OgreRenderable.h>
 #   include <Ogre/OgreNode.h>
 #   include <Ogre/OgreFrameListener.h>
+#   include <Ogre/Overlay/OgreFont.h>
 #   ifndef OGRENEWT_NO_OGRE_ANY
 #       include <Ogre/OgreAny.h>
 #   endif
@@ -32,6 +33,7 @@
 #include <OgreRenderable.h>
 #include <OgreNode.h>
 #include <OgreFrameListener.h>
+#include <Overlay/OgreFont.h>
 #   ifndef OGRENEWT_NO_OGRE_ANY
 #       include <OgreAny.h>
 #   endif

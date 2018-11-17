@@ -2,6 +2,8 @@
 #include "OgreNewt_CollisionPrimitives.h"
 #include "OgreNewt_World.h"
 
+#include <OgreDataStream.h>
+
 namespace OgreNewt
 {
   CollisionSerializer::CollisionSerializer()
@@ -14,24 +16,28 @@ namespace OgreNewt
   }
 
 
-  void CollisionSerializer::exportCollision(const CollisionPtr& collision, const Ogre::String& filename)
+  void CollisionSerializer::exportCollision(const CollisionPtr& collision, const Ogre::String& filename, Endian endianMode)
   {
     if( !collision )
         OGRE_EXCEPT(Ogre::Exception::ERR_INVALIDPARAMS, "Argument collision is NULL","CollisionSerializer::exportCollision");
 
-    mpfFile=fopen(filename.c_str(),"wb");
-    
-    if (!mpfFile)
-    {
-        OGRE_EXCEPT(Ogre::Exception::ERR_INVALIDPARAMS, "Unable to open file " + filename + " for writing","CollisionSerializer::exportCollision");
-    }
+    std::fstream *f = new std::fstream ();
+    f->open(filename.c_str(), std::ios::binary | std::ios::out);
+    Ogre::DataStreamPtr stream(new Ogre::FileStreamDataStream(f));
 
-    NewtonCollisionSerialize(collision->getWorld()->getNewtonWorld(), collision->m_col, &CollisionSerializer::_newtonSerializeCallback, this);
-
-
-    fclose(mpfFile);
+    exportCollision(collision, stream, endianMode);
+ 
+    stream->close();
   }
 
+  void CollisionSerializer::exportCollision(const CollisionPtr& collision, Ogre::DataStreamPtr stream,
+      Endian endianMode)
+  {
+      mStream = stream;
+      determineEndianness(endianMode);
+
+      NewtonCollisionSerialize(collision->getWorld()->getNewtonWorld(), collision->m_col, &CollisionSerializer::_newtonSerializeCallback, this);
+  }
 
   CollisionPtr CollisionSerializer::importCollision(Ogre::DataStreamPtr& stream, OgreNewt::World* world)
   {

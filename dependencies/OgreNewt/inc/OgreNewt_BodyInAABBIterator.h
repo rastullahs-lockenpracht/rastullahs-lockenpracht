@@ -66,7 +66,7 @@ private:
     //! this function is declared private, so nobody can use it!
     const BodyInAABBIterator& operator=(const BodyInAABBIterator& a) { return a; } // actually this function must *not* be called...
 
-    static void _CDECL newtonIterator( const NewtonBody* body );
+    static void _CDECL newtonIterator( const NewtonBody* body, void* const userData );
 };
 
 

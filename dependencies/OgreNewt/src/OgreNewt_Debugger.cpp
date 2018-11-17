@@ -371,9 +371,9 @@ void Debugger::addConvexRay(const OgreNewt::ConvexCollisionPtr& col, const Ogre:
 
     // aab1
     Ogre::AxisAlignedBox aab1 = col->getAABB(colori, startpt);
-    const Ogre::Vector3* corners1 = aab1.getAllCorners();
+    const auto& corners1 = aab1.getAllCorners();
     Ogre::AxisAlignedBox aab2 = col->getAABB(colori, endpt);
-    const Ogre::Vector3* corners2 = aab2.getAllCorners();
+    const auto& corners2 = aab2.getAllCorners();
     for(int i = 0; i < 4; i++)
     {
         line->position(corners1[i]); line->position(corners1[(i+1)%4]);

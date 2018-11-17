@@ -395,11 +395,12 @@ namespace rl
     {
 for(OgreNewt::Contact contact = contactJoint.getFirstContact(); contact; contact = contact.getNext() )
 {
-
         // own collision handling (floor, in order to get information for mAbstractLocation)
+        OgreNewt::Body* charBody = mCreature->getActor()->getPhysicalThing()->_getBody();
+
         Vector3 point;
         Vector3 normal;
-        contact.getPositionAndNormal(point, normal);
+        contact.getPositionAndNormal(charBody, point, normal);
 
         // determine if this contact is with the floor.
         // Meaning the contact normal has an angle to UNIT_Y of 20 or less.
@@ -407,7 +408,6 @@ for(OgreNewt::Contact contact = contactJoint.getFirstContact(); contact; contact
 
         Vector3 charPos;
         Quaternion charOri;
-        OgreNewt::Body* charBody = mCreature->getActor()->getPhysicalThing()->_getBody();
         charBody->getPositionOrientation(charPos, charOri);
         bool isFloorCollision(false);
 

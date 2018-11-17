@@ -186,7 +186,7 @@ public:
     Ogre::AxisAlignedBox getWorldSize() { return m_limits; }
 
     //! get the Newton SDK version.
-    int getVersion() const { return NewtonWorldGetVersion( m_world ); }
+    int getVersion() const { return NewtonWorldGetVersion(); }
 
     //! set the leave world callback
     /*!

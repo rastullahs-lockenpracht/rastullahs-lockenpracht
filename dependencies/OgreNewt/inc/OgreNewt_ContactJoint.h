@@ -100,7 +100,7 @@ public:
     unsigned getFaceAttribute() const { return NewtonMaterialGetContactFaceAttribute( m_material ); }
 
     //! get the Collision ID of a body currently colliding
-    unsigned getBodyCollisionID( OgreNewt::Body* body ) const { return NewtonMaterialGetBodyCollisionID( m_material, body->getNewtonBody() ); }
+    //unsigned getBodyCollisionID( OgreNewt::Body* body ) const { return NewtonMaterialGetBodyCollisionID( m_material, body->getNewtonBody() ); }
 
     //! speed of the collision
     Ogre::Real getNormalSpeed() const { return (Ogre::Real)NewtonMaterialGetContactNormalSpeed( m_material ); }
@@ -112,10 +112,10 @@ public:
     Ogre::Vector3 getForce() const;
 
     //! get positoin and normal of the collision
-    void getPositionAndNormal( Ogre::Vector3& pos, Ogre::Vector3& norm ) const { NewtonMaterialGetContactPositionAndNormal(m_material, &pos.x, &norm.x); }
+    void getPositionAndNormal( OgreNewt::Body* body, Ogre::Vector3& pos, Ogre::Vector3& norm ) const { NewtonMaterialGetContactPositionAndNormal(m_material, body->getNewtonBody(), &pos.x, &norm.x); }
 
     //! get the tangent vectors of the collision
-    void getTangentDirections( Ogre::Vector3& dir0, Ogre::Vector3& dir1 ) const { NewtonMaterialGetContactTangentDirections(m_material, &dir0.x, &dir1.x); }
+    void getTangentDirections( OgreNewt::Body* body, Ogre::Vector3& dir0, Ogre::Vector3& dir1 ) const { NewtonMaterialGetContactTangentDirections(m_material, body->getNewtonBody(), &dir0.x, &dir1.x); }
 
     //! get tangent speed of the collision
     Ogre::Real getTangentSpeed( int index ) const { return (Ogre::Real)NewtonMaterialGetContactTangentSpeed( m_material, index ); }

@@ -59,7 +59,7 @@ Contact Contact::getNext() const
 Ogre::Vector3 Contact::getForce() const 
 {
     Ogre::Vector3 force;
-    NewtonMaterialGetContactForce( m_material, &force.x );
+    NewtonMaterialGetContactForce( m_material, getBody0()->getNewtonBody(), &force.x );
     return force;
 }
 

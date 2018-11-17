@@ -333,7 +333,7 @@ namespace OgreNewt
             }
 
             //! used internally
-            static float _CDECL newtonRayCastCallback(float distance, float* normal, int faceId, void* userData);
+            static float _CDECL newtonRayCastCallback( const NewtonBody * const body, const NewtonCollision * const treeCollision, float distance, float* normal, int faceId, void* userData );
 
         private:
             static void setRayCastCallbackactive( bool active , const NewtonCollision *col );

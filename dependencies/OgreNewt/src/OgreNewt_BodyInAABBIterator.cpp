@@ -15,11 +15,11 @@ BodyInAABBIterator::BodyInAABBIterator(const OgreNewt::World* world) :
 void BodyInAABBIterator::go( const Ogre::AxisAlignedBox &aabb, IteratorCallback callback) const
 {
     m_callback = callback;
-    NewtonWorldForEachBodyInAABBDo(m_world->getNewtonWorld(), &aabb.getMinimum().x, &aabb.getMaximum().x, BodyInAABBIterator::newtonIterator);
+    NewtonWorldForEachBodyInAABBDo(m_world->getNewtonWorld(), &aabb.getMinimum().x, &aabb.getMaximum().x, BodyInAABBIterator::newtonIterator, NULL);
 }
 
 
-void _CDECL BodyInAABBIterator::newtonIterator( const NewtonBody* newtonBody )
+void _CDECL BodyInAABBIterator::newtonIterator( const NewtonBody* newtonBody, void* const userData )
 {
     const OgreNewt::Body* body = (const OgreNewt::Body*) NewtonBodyGetUserData(newtonBody);
     const NewtonWorld* newtonWorld = NewtonBodyGetWorld(newtonBody);

@@ -9,7 +9,7 @@ namespace OgreNewt
 {
 
     
-Body::Body( const World* W, const OgreNewt::CollisionPtr& col, int bodytype ) 
+Body::Body( const World* W, const OgreNewt::CollisionPtr& col, int bodytype, const Ogre::Vector3& pos, const Ogre::Quaternion& orient )
 {
     m_world = W;
     m_collision = col;
@@ -25,7 +25,10 @@ Body::Body( const World* W, const OgreNewt::CollisionPtr& col, int bodytype )
 
     m_nodeupdateneeded = false;
 
-    m_body = NewtonCreateBody( m_world->getNewtonWorld(), col->getNewtonCollision() ); 
+    float matrix[16];
+    OgreNewt::Converters::QuatPosToMatrix( orient, pos, &matrix[0] );
+
+    m_body = NewtonCreateBody( m_world->getNewtonWorld(), col->getNewtonCollision(), matrix );
 
     NewtonBodySetUserData( m_body, this );
     NewtonBodySetDestructorCallback( m_body, newtonDestructor );

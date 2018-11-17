@@ -36,8 +36,8 @@ namespace OgreNewt
     /*!
     Serialize the Collision to a file with the given name.
     */
-    void exportCollision(const OgreNewt::CollisionPtr& collision, const Ogre::String& filename);
-
+    void exportCollision(const OgreNewt::CollisionPtr& collision, const Ogre::String& filename, Endian endianMode = ENDIAN_NATIVE);
+    void exportCollision(const CollisionPtr& collision, Ogre::DataStreamPtr stream, Endian endianMode = ENDIAN_NATIVE);
     /*!
     Deserialize the Collision from a DataStream.
     this will create a NEW Collision object

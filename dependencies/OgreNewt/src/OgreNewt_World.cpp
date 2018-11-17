@@ -17,7 +17,8 @@ World::World(NewtonAllocMemory newtonAlloc, NewtonFreeMemory newtonFree) :
 
     m_limits = Ogre::AxisAlignedBox(Ogre::Vector3(-100,-100,-100), Ogre::Vector3(100,100,100));
 
-    m_world = NewtonCreate( newtonAlloc, newtonFree );
+    NewtonSetMemorySystem(newtonAlloc, newtonFree);
+    m_world = NewtonCreate();
 
     if (!m_world)
     {

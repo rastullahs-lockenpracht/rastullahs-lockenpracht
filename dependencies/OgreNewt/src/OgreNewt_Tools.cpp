@@ -4,17 +4,17 @@
 #include <iostream>
 
 #ifdef __APPLE__
-#   include <Ogre/OgreFontManager.h>
 #   include <Ogre/OgreMaterialManager.h>
 #   include <Ogre/OgreCamera.h>
 #   include <Ogre/OgreHardwareBufferManager.h>
 #   include <Ogre/OgreRoot.h>
+#   include <Ogre/Overlay/OgreFontManager.h>
 #else
-#   include <OgreFontManager.h>
 #   include <OgreMaterialManager.h>
 #   include <OgreCamera.h>
 #   include <OgreHardwareBufferManager.h>
 #   include <OgreRoot.h>
+#   include <Overlay/OgreFontManager.h>
 #endif
 
 namespace OgreNewt
