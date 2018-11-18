@@ -25,9 +25,9 @@
 namespace rl {
 
 /** 
-	Diese Klasse ermöglicht eine einfache Steuerung von Animationseinstellungen
+	Diese Klasse ermoeglicht eine einfache Steuerung von Animationseinstellungen
 	und ist die Basisklasse erweiterter Animationen.
-	@remarks Instanzen werden über den AnimationManager erzeugt
+	@remarks Instanzen werden ueber den AnimationManager erzeugt
 	@see AnimationManager
 */
 class _RlCoreExport BaseAnimation
@@ -39,37 +39,37 @@ class _RlCoreExport BaseAnimation
             @param paused       Startet pausiert wenn true
 		*/
         BaseAnimation(Ogre::Real length, Ogre::Real speed, unsigned int timesToPlay, bool paused );
-		/**	Ein Konstruktor, für eine später festlegbare Animation
+		/**	Ein Konstruktor, fuer eine spaeter festlegbare Animation
   		 */
 		BaseAnimation();
 
 		/// Virtueller Destruktor
 		virtual ~BaseAnimation();
         
-		/// Gibt zurück ob die Animation pausiert ist
+		/// Gibt zurueck ob die Animation pausiert ist
         virtual bool isPaused() const;
 		/** Pausieren/Fortsetzen der Animation
-			@param	isPaused	Zukünftiger Status
-			@remarks	Löst einen AnimationPaused/Unpaused Event aus
+			@param	isPaused	Zukuenftiger Status
+			@remarks	Loest einen AnimationPaused/Unpaused Event aus
 		*/
         virtual void setPaused(bool isPaused);
 
-		/// Gibt zurück ob die globale Beschleunigung ignoriert wird
+		/// Gibt zurueck ob die globale Beschleunigung ignoriert wird
 		virtual bool isIgnoringGlobalSpeed() const;
 		/**	Setzt die Ignoranz
-			@param		isIgnoringGlobalSpeed Die zukünftige Ignoranz der globalen Geschwindigkeit
-			@remarks	Möglichkeit die globale SlowMotion zu umgehen
-						Nützlich für Statusanzeigen, oder ähnliche konstante Animationen
+			@param		isIgnoringGlobalSpeed Die zukuenftige Ignoranz der globalen Geschwindigkeit
+			@remarks	Moeglichkeit die globale SlowMotion zu umgehen
+						Nuetzlich fuer Statusanzeigen, oder aehnliche konstante Animationen
 		*/
 		virtual void setIgnoringGlobalSpeed(bool isIgnoringGlobalSpeed);
 
-		/// Gibt die aktuelle Geschwindigkeit zurück
+		/// Gibt die aktuelle Geschwindigkeit zurueck
 		virtual Ogre::Real getSpeed() const;
 		/**	Setzt die aktuelle Geschwindigkeit der Animation
 			@param speed die Geschwindigkeit
 			@remarks	1.0 ist die normale Geschwindigkeit der Animation 
 						(mLength in Sekunden), negative Werte spielen die 
-						Animation rückwärts ab. Bei 0 herrscht Stillstand.
+						Animation rueckwaerts ab. Bei 0 herrscht Stillstand.
 		*/
 		virtual void setSpeed(Ogre::Real speed);
 		/// Negiert die aktuelle Geschwindigkeit
@@ -80,29 +80,29 @@ class _RlCoreExport BaseAnimation
 			@remarks	Bei 0 wird die Animation beliebig oft wiederholt
 		*/
 		virtual void setTimesToPlay(unsigned int timesToPlay);
-		/// Gibt die Anzahl der bereits vollständig abgespielten Wiederholungen zurück
+		/// Gibt die Anzahl der bereits vollstaendig abgespielten Wiederholungen zurueck
 		virtual unsigned int getTimesPlayed() const;
-		/** Setzt die Abspielzeit zurück
-			Löst dabei auch eine mögliche Pause auf, und spult die Animation zurück
+		/** Setzt die Abspielzeit zurueck
+			Loest dabei auch eine moegliche Pause auf, und spult die Animation zurueck
 		*/
 		virtual void resetTimesPlayed();
-		/// Gibt zurück wieviel Wiederholungen insgesamt abzuspielen sind
+		/// Gibt zurueck wieviel Wiederholungen insgesamt abzuspielen sind
 		virtual unsigned int getTimesToPlay() const;
-		/// Gibt zurück wieviele Wiederholungen noch durchzuführen sind
+		/// Gibt zurueck wieviele Wiederholungen noch durchzufuehren sind
 		virtual unsigned int getTimesToPlayLeft() const;
-		/// Gibt die Abspieldauer zurück (intern)
+		/// Gibt die Abspieldauer zurueck (intern)
 		virtual Ogre::Real getTimePlayed() const;
 
 		/** Setzt das Delay vor dem ersten Abspielen der Animation.
-		    @param delay Die Verzögerung in Sekunden  */
+		    @param delay Die Verzoegerung in Sekunden  */
 		virtual void setDelay(Ogre::Real delay);
-		/// Gibt die Verzögerung vor dem Ersten Abspielen in Sekunden zurück.
+		/// Gibt die Verzoegerung vor dem Ersten Abspielen in Sekunden zurueck.
 		virtual Ogre::Real getDelay() const;
 
-		/// Zeit hinzufügen - wird vom AnimationManager aufgerufen
+		/// Zeit hinzufuegen - wird vom AnimationManager aufgerufen
 		void addTime(Ogre::Real timePassed);
 
-        /// addTime für alle Unterklassen
+        /// addTime fuer alle Unterklassen
 		virtual void doAddTime(Ogre::Real timePassed) = 0;
 
         /// Starte die Animation
@@ -131,7 +131,7 @@ class _RlCoreExport BaseAnimation
 
         /// Looping setzen
 		virtual void setLoop( bool loop );
-		/// Looping zurückgeben
+		/// Looping zurueckgeben
 		virtual bool isLoop() const;
 };
 

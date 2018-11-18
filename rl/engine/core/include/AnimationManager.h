@@ -34,7 +34,7 @@ class MeshObject;
 
 
 /** 
-	Diese Klasse verwaltet sämtliche Animationen und kümmert sich um das Starten und Stoppen dieser
+	Diese Klasse verwaltet saemtliche Animationen und kuemmert sich um das Starten und Stoppen dieser
 	@see Animation, TrackAnimation
 */
 class _RlCoreExport AnimationManager
@@ -44,7 +44,7 @@ class _RlCoreExport AnimationManager
 public:
 	/// Interpolations-Modus, Spline ist besser, braucht auch mehr Perfomance
 	enum InterpolationMode { IM_LINEAR, IM_SPLINE };
-	/// RotationsInterpolations-Modus, Spherical ist genauer, aber aufwändiger
+	/// RotationsInterpolations-Modus, Spherical ist genauer, aber aufwaendiger
 	enum RotationInterpolationMode { RIM_LINEAR, RIM_SPHERICAL };
 
     /** Default Constructor */
@@ -52,8 +52,8 @@ public:
 	/** Default Deconstructor */
     virtual ~AnimationManager();
 
-	/** Erzeugt eine Animation, trägt diese ein und beginnt
-		sofort mit dem Abspielen, wenn gewünscht.
+	/** Erzeugt eine Animation, traegt diese ein und beginnt
+		sofort mit dem Abspielen, wenn gewuenscht.
 		@param	animState Der AnimationState
 		@param	speed	Die Geschwindigkeit, 1.0 Originalgeschw.
 		@param	timesToPlay	Die Wiederholungen
@@ -62,7 +62,7 @@ public:
 	*/
     MeshAnimation* addMeshAnimation(Ogre::AnimationState* animState, MeshObject* mesh,
         Ogre::Real speed=1.0, unsigned int timesToPlay=0, bool paused=false ); 
-	/** Gibt die Animation zurück, die zum AnimationState gehört 
+	/** Gibt die Animation zurueck, die zum AnimationState gehoert 
      *  @returns NULL wenn es die Animation nicht gibt
      */
 	BaseAnimation* getAnimation(Ogre::AnimationState* animState) const;
@@ -76,7 +76,7 @@ public:
 		des Actors zugeordnet wird.
 		@param	actor	Der zugeordnete Actor
 		@param	name	Der einzigartige Name der Animation
-		@param	length	Die gewünschte Länge des Tracks
+		@param	length	Die gewuenschte Laenge des Tracks
 	*/
 	TrackAnimation* createTrackAnimation(Actor* actor,
 	    const Ogre::String& name, Ogre::Real length );
@@ -95,33 +95,33 @@ public:
 	void removeAllTrackAnimations( Actor* act );
 	
 
-    /// Blendet von Animation 'from' zu 'to' über
+    /// Blendet von Animation 'from' zu 'to' ueber
     FadeAnimation* fadeAnimation( MeshAnimation* from, 
         MeshAnimation* to, Ogre::Real time );
-    /** Blendet Animationen von nach über, wenn loopDuration nicht
-      * größer 0 ist, wird hier die Dauer der Animation genommen 
-      *  @todo Rückwärts anschauen, Geschwindigkeit */
+    /** Blendet Animationen von nach ueber, wenn loopDuration nicht
+      * groesser 0 ist, wird hier die Dauer der Animation genommen 
+      *  @todo Rueckwaerts anschauen, Geschwindigkeit */
     FadeAnimation* fadeAnimation( MeshAnimation* fromLoop, 
         MeshAnimation* blendAnim, MeshAnimation* toLoop, Ogre::Real loopDuration = 0.0 );
 
 
-	/** Globale Beschleunigung, für SlowMotion oder andere sinnige Effekte
+	/** Globale Beschleunigung, fuer SlowMotion oder andere sinnige Effekte
 		@param speed Der Beschleunigungsfaktor. 
-		@remarks Negative Werte lassen das Spiel nicht rückwärts laufen, nur
+		@remarks Negative Werte lassen das Spiel nicht rueckwaerts laufen, nur
 			die Animationen.
 	*/
 	void setGlobalAnimationSpeed( Ogre::Real speed );
-	/// Gibt die globale Beschleunigung zurück
+	/// Gibt die globale Beschleunigung zurueck
 	Ogre::Real getGlobalAnimationSpeed( ) const;
 	
-	/// Setzt den StandardInterpolationsModus für neue Animationen
+	/// Setzt den StandardInterpolationsModus fuer neue Animationen
 	void setDefaultInterpolationMode( AnimationManager::InterpolationMode im );
-	/// Gibt den StandardInterpolationsModus für neue Animationen zurück
+	/// Gibt den StandardInterpolationsModus fuer neue Animationen zurueck
 	AnimationManager::InterpolationMode getDefaultInterpolationMode() const;
 
-	/// Setzt den StandardRotationsInterpolationsModus für neue Animationen
+	/// Setzt den StandardRotationsInterpolationsModus fuer neue Animationen
 	void setDefaultRotationInterpolationMode( AnimationManager::RotationInterpolationMode rim );
-	/// Gibt den Standard RotationsInterpolationsModus für neue Animationen zurück
+	/// Gibt den Standard RotationsInterpolationsModus fuer neue Animationen zurueck
 	AnimationManager::RotationInterpolationMode getDefaultRotationInterpolationMode() const;
 
 	/// Geerbt von GameTask, wird in jedem Frame mit der vergangenen Zeit aufgerufen

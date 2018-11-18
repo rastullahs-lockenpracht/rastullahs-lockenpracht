@@ -33,15 +33,15 @@ namespace rl {
 class MeshObject;
 
 /** 
-	Diese Klasse ermöglicht eine einfache Steuerung von Animationseinstellungen
+	Diese Klasse ermoeglicht eine einfache Steuerung von Animationseinstellungen
 	und ist die Basisklasse erweiterter Animationen.
-	@remarks Instanzen werden über den AnimationManager erzeugt
+	@remarks Instanzen werden ueber den AnimationManager erzeugt
 	@see AnimationManager
 */
 class _RlCoreExport MeshAnimation : public BaseAnimation
 {
     public:
-		/**	Der Basiskonstruktor, für MeshObject, die einen AnimationState mitbringen
+		/**	Der Basiskonstruktor, fuer MeshObject, die einen AnimationState mitbringen
 			@param animState	AnimationState, intern
 			@param speed		Geschwindigkeit, auch negativ
 			@param timesToPlay	Abspielanzahl, 0 = unendlich

@@ -15,7 +15,7 @@
  */
 
 
-/// Basis jedes Objektes im Spiel, welches veränderlich ist und einen abspeicherbaren Status haben soll
+/// Basis jedes Objektes im Spiel, welches veraenderlich ist und einen abspeicherbaren Status haben soll
 
 #ifndef __SaveAble_H__
 #define __SaveAble_H__

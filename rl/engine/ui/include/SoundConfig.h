@@ -44,7 +44,7 @@ namespace rl
         void update();
         void setDriverPage(const CeGuiString& drivername);
 		
-		// Die Combobox, aus der gewählt wird.
+		// Die Combobox, aus der gewaehlt wird.
 		CEGUI::Combobox*	mDriverBox;
 		CEGUI::Slider*		mVolumeSound;
 		CEGUI::Slider*		mVolumeMusic;

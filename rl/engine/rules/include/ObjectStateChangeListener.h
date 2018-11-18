@@ -25,7 +25,7 @@
 namespace rl {
 
 /** ObjectStateChangeListener
- *  Eine Basisklasse für Listener die auf ObjectStateChangeEvents lauschen
+ *  Eine Basisklasse fuer Listener die auf ObjectStateChangeEvents lauschen
  *
  *  @see ObjectStateChangeEvent, ObjectStateChangeEventSource, GameObject
  */
@@ -35,11 +35,11 @@ public:
     /// Dekonstruktor
     virtual ~ObjectStateChangeListener();
 
-     /// Kümmert sich um das Aufrufen benannter Methoden aus Reasons
+     /// Kuemmert sich um das Aufrufen benannter Methoden aus Reasons
 	virtual bool eventRaised(ObjectStateChangeEvent *anEvent);
 
-    /** Diese Methode wird aufgerufen, wenn sich der Status des Objectes geändert hat
-      * @param anEvent Der auslösende Event
+    /** Diese Methode wird aufgerufen, wenn sich der Status des Objectes geaendert hat
+      * @param anEvent Der ausloesende Event
       */  
 	virtual void objectStateChanged(ObjectStateChangeEvent* anEvent) = 0;
 };

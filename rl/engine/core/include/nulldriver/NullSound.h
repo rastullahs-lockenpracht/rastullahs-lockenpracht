@@ -41,7 +41,7 @@ namespace rl {
         /// Entlaedt den Sound.
         virtual void unload() throw (RuntimeException);
  
-        // Wir geben zurück, wie lange der Sound ist.
+        // Wir geben zurueck, wie lange der Sound ist.
 		virtual float getLength() const;
     
         /// Moveable-Typ

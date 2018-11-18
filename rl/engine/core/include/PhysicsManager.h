@@ -87,14 +87,14 @@ namespace rl {
 
         /**
          * @param geomType Grundform der Geometrie des Objektes
-         * @param size Größe des Objektes in cm
+         * @param size Groesse des Objektes in cm
          * @param mass die Masse in kg, wenn <= 0.0 ist es ein statisches Objekt
          * @param offsetMode bestimmt, wo der lokale Koordinatenursprung sitzt.
          * @param hullModifer soll ein Collision in NewtonConvexHullModifier gewrapped werden?
          *        Das ist bei sich schnell bewegenden bodies hilfreich um tunneling zu verhindern.
          *
          * @todo Geometry-Kapselung verallgemeinern. z.B. funktioniert Capusle
-         *       momentan nur dann gut, wenn die Höhe die Y-Achse ist.
+         *       momentan nur dann gut, wenn die Hoehe die Y-Achse ist.
          */
         /*PhysicalThing* createPhysicalThing(const int geomType, PhysicalObject* po,
             Ogre::Real mass, OffsetMode offsetMode = OM_BOTTOMCENTERED, bool hullModifier = false);*/
@@ -102,7 +102,7 @@ namespace rl {
             Ogre::Real mass, bool hullModifier = false);
 
 		/**
-		 * Erschafft den entgültigen Physikproxy
+		 * Erschafft den entgueltigen Physikproxy
 		 */
 		void createPhysicsProxy(PhysicalThing* pt);
 
@@ -130,9 +130,9 @@ namespace rl {
         bool isEnabled() const;
         void setEnabled(bool enabled);
 
-		/// Levelgeometrie hinzufügen
+		/// Levelgeometrie hinzufuegen
         void addLevelGeometry(Ogre::Entity* ent, const std::vector<OgreNewt::CollisionPtr> &collisions);
-		/// Komplette Levelgeometrie auflösen
+		/// Komplette Levelgeometrie aufloesen
 		void clearLevelGeometry();
 		
         void toggleDebugMode();
@@ -151,7 +151,7 @@ namespace rl {
 
         virtual const Ogre::String& getName() const;
 
-        // gibt die AxisAlignedBox der Welt zurück
+        // gibt die AxisAlignedBox der Welt zurueck
         const Ogre::AxisAlignedBox &getWorldAab(void)
         {
             return mWorldAABB;

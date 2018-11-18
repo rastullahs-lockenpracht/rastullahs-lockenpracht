@@ -61,9 +61,9 @@ namespace rl {
 		/// Setzt die Geschwindigkeit der Soundquelle.
 		virtual void setVelocity(const Ogre::Vector3&);
         
-        /// Gibt den FMOD Channel zurück.
+        /// Gibt den FMOD Channel zurueck.
         FMOD::Channel* getFmodChannel() const;
-        /// Gibt den FMOD Sound zurück.
+        /// Gibt den FMOD Sound zurueck.
         FMOD::Sound* getFmodSound() const;
 
         virtual void play(bool destroyWhenDone=false);

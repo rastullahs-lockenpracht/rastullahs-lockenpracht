@@ -76,12 +76,12 @@ namespace rl
         virtual void onStateChange(GameObjectState oldState, GameObjectState newState);
 
 	private:
-		// Rüstungsschutz
+		// Ruestungsschutz
 		// Kopf
 		int mKo;
 		// Brust
 		int mBr;
-		// Rücken
+		// Ruecken
 		int mRue;
 		// Bauch und Unterleib
 		int mBa;
@@ -96,7 +96,7 @@ namespace rl
 		// Gesamt nach Zonenmodell
 		int mGes;
 
-		// Gesamtrüstung nach einfachem Modell
+		// Gesamtruestung nach einfachem Modell
 		int mGRS;
 		// Gesamtbehinderung nach einfachem Modell
 		int mGBE;

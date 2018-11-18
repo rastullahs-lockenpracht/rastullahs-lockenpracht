@@ -110,7 +110,7 @@ namespace rl {
         /// optimal distance to the character
         Ogre::Real mDesiredDistance;
         std::pair<Ogre::Real, Ogre::Real> mDistanceRange;
-        Ogre::Degree mCamYaw; // für VM_FREE_CAMERA
+        Ogre::Degree mCamYaw; // fuer VM_FREE_CAMERA
         Ogre::Degree mCamVirtualYaw; // helps to simulate strafe+forward/backward movement
         Ogre::Degree mCamRearViewYaw; // helps to create smooth rear view effect
         Ogre::Degree mNewCamVirtualYaw; // s.o.

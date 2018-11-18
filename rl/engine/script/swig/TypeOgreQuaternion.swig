@@ -17,7 +17,7 @@
 /* Typemaps fuer Quaternion.
  * Ein Quaternion wird auf 
  *  - Ein Array aus einem 3-elementigen Array 
- *    für die Rotationsachse und einem Wert für den Winkel abgebildet
+ *    fuer die Rotationsachse und einem Wert fuer den Winkel abgebildet
  *  - 
  * 
  */

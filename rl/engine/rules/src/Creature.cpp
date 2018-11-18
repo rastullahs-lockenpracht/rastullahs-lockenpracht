@@ -67,7 +67,7 @@ namespace rl
 	const std::string Creature::ALL_TALENTE = "alle Talente";
 	const Creature::Wert Creature::WERT_MOD_AE = "ModAE";
     const Creature::Wert Creature::WERT_MOD_LE = "ModLE";
-    const Creature::Wert Creature::WERT_MOD_AU = "ModAU";
+    const Creature::Wert Creature::WERTaeaeaaa_MOD_AU = "ModAU";
     const Creature::Wert Creature::WERT_MOD_MR = "ModMR";
     const Creature::Wert Creature::WERT_MOD_AT = "ModAT";
     const Creature::Wert Creature::WERT_MOD_PA = "ModPA";
@@ -77,7 +77,7 @@ namespace rl
     const Creature::Wert Creature::WERT_BE = "BE";
     const Creature::Wert Creature::WERT_RS = "RS";
     const Creature::Wert Creature::WERT_INI = "INI";
-    const Creature::Wert Creature::WERT_KAMPFUNFAEHIGKEITSSCHWELLE ="Kampfunfähigkeitsschwelle";
+    const Creature::Wert Creature::WERT_KAMPFUNFAEHIGKEITSSCHWELLE ="Kampfunfaehigkeitsschwelle";
     const Creature::Wert Creature::WERT_REGENERATION = "Regeneration";
 
 
@@ -701,7 +701,7 @@ namespace rl
 		}
 
 
-        // Vor dem Vergleich hat man den Talentwert übrig.
+        // Vor dem Vergleich hat man den Talentwert uebrig.
 		int eBe = DsaManager::getSingleton().getTalent(talentName)->calculateEbe(mEffectManager->getMod(WERT_BE, Effect::MODTYPE_SUM));
 		int taW = getTalent(talentName);
 		int rval = taW - modifier - mEffectManager->getMod(talentName, Effect::MODTYPE_PROBENMOD, spezialisierung)
@@ -724,7 +724,7 @@ namespace rl
         rval = diff2 < 0 ? rval + diff2 : rval;
         rval = diff3 < 0 ? rval + diff3 : rval;
 
-		// TaP* niemals größer als TaW (MFF14)
+		// TaP* niemals groesser als TaW (MFF14)
 		if (rval > taW) rval = taW;
         return rval;
     }
@@ -795,11 +795,11 @@ namespace rl
 		int eBe = (int)floor(float(DsaManager::getSingleton().getKampftechnik(kampftechnikName)->calculateEbe(getWert(WERT_BE))) / 2.0);
 
 		int probe = DsaManager::getSingleton().rollD20();
-		if (probe == 1) /// @todo Bestätigen
+		if (probe == 1) /// @todo Bestaetigen
 		{
 			rval = RESULT_GLUECKLICH;
 		}
-		else if (probe == 20) /// @todo Bestätigen
+		else if (probe == 20) /// @todo Bestaetigen
 		{
 			rval = RESULT_PATZER;
 		}
@@ -825,13 +825,13 @@ namespace rl
 		int eBe = (int)ceil(float(DsaManager::getSingleton().getKampftechnik(kampftechnikName)->calculateEbe(getWert(WERT_BE))) / 2.0);
 
 		int probe = DsaManager::getSingleton().rollD20();
-		if (probe == 1) /// @todo Bestätigen
+		if (probe == 1) /// @todo Bestaetigen
 		{
 			rval = RESULT_GLUECKLICH;
 		}
 		else if (probe == 20)
 		{
-			rval = RESULT_PATZER; /// @todo Bestätigen
+			rval = RESULT_PATZER; /// @todo Bestaetigen
 		}
 		else
 		{
@@ -959,7 +959,7 @@ namespace rl
            mErschoepfung += DsaManager::getSingleton().rollD6();
            ///@todo set incapacitated
         }
-        // bei Überanstrengung, kostet alles doppelte Au!!!!!
+        // bei ueberanstrengung, kostet alles doppelte Au!!!!!
         if( mErschoepfung > getEigenschaft("KO") )
             aup *= 2;
         modifyAu(-aup);

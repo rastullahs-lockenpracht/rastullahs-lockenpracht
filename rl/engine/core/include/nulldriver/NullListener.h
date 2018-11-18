@@ -23,7 +23,7 @@
 namespace rl {
     
    /** Diese Klasse dient der Interkation mit Ogre3d und Fmod3
-    * und kapselt den Hörer.
+    * und kapselt den Hoerer.
     * @author Josch
     * @date 06-29-2005
     * @version 1.0

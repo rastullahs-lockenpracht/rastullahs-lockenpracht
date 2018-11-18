@@ -29,10 +29,10 @@ class GameObject;
 
 /** 
  *  ObjectStateChangeEvent
- *  Ein Event der ausgelöst wird, wenn sich eine Eigenschaft eines GameObjects verändert hat 
+ *  Ein Event der ausgeloest wird, wenn sich eine Eigenschaft eines GameObjects veraendert hat 
  *
  *  @see ObjectStateChangeListener, ObjectStateChangeEventSource
- *  @todo Feldgenauigkeit, also auch noch im Ereignis zu kodieren, was verändert wurde
+ *  @todo Feldgenauigkeit, also auch noch im Ereignis zu kodieren, was veraendert wurde
  */
 class _RlRulesExport ObjectStateChangeEvent : public virtual EventObject 
 {
@@ -46,9 +46,9 @@ public:
 
     /// Setzt das verursachenden Object des Events
     void setProvokingObject(GameObject* obj ) {  mObject = obj; };
-    /// Gibt das verursachende Object des Events zurück
+    /// Gibt das verursachende Object des Events zurueck
     GameObject* getProvokingObject() const { return mObject; };
-    /// Gibt die Eventquelle zurück
+    /// Gibt die Eventquelle zurueck
     ObjectStateChangeEventSource* getSource() const;
 private:
     /// Das verursachende Object

@@ -98,10 +98,10 @@ namespace rl {
 
         // Event-Quelle erzeugen
         GameAreaEventSource* gam = new GameAreaEventSource( at, actor );
-        // In die Menge einfügen
+        // In die Menge einfuegen
         mAreaEventSources.insert( gam );
 		ScriptWrapper::getSingleton().owned( gam );
-        // Und Listener anhängen
+        // Und Listener anhaengen
         gam->addAreaListener( list );
 
         // add to newton collision list
@@ -131,10 +131,10 @@ namespace rl {
 
         // Event-Quelle erzeugen
         GameAreaEventSource* gam = new GameAreaEventSource( at, actor );
-        // In die Menge einfügen
+        // In die Menge einfuegen
         mAreaEventSources.insert( gam );
 		ScriptWrapper::getSingleton().owned( gam );
-        // Und Listener anhängen
+        // Und Listener anhaengen
         gam->addAreaListener( list );
 
         // add to newton collision list
@@ -164,10 +164,10 @@ namespace rl {
 
         // Event-Quelle erzeugen
         GameAreaEventSource* gam = new GameAreaEventSource( at, actor );
-        // In die Menge einfügen
+        // In die Menge einfuegen
         mAreaEventSources.insert( gam );
 		ScriptWrapper::getSingleton().owned( gam );
-        // Und Listener anhängen
+        // Und Listener anhaengen
         gam->addAreaListener( list );
 
         // add to newton collision list
@@ -187,7 +187,7 @@ namespace rl {
             // Sind alle Listener weggeworfen?
             if( !gam->hasListeners() )
             {
-				// Später löschen
+				// Spaeter loeschen
 				mQueuedDeletionSources.insert( gam );
             }
 
@@ -220,7 +220,7 @@ namespace rl {
             // Ist das der Actor?
             if( gam->getActor() == actor )
             {
-				// Später löschen
+				// Spaeter loeschen
 
                 mQueuedDeletionSources.insert( gam );
             }
@@ -240,7 +240,7 @@ namespace rl {
 			ScriptWrapper::getSingleton().deleted( gam );
 			mQueuedDeletionSources.erase(mQueuedDeletionSources.begin());
 
-            // gegebenenfalls bodymap-eintrag löschen
+            // gegebenenfalls bodymap-eintrag loeschen
             if( gam->getGameAreaType()->getBody() )
             {
                 NewtonBodyGameAreaMap::iterator it = mBodyGameAreaMap.find(gam->getGameAreaType()->getBody());
@@ -248,9 +248,9 @@ namespace rl {
                     mBodyGameAreaMap.erase(it);
             }
 
-			// Die Area-Art löschen
+			// Die Area-Art loeschen
 			delete gam->getGameAreaType();
-			// Das Objekt löschen
+			// Das Objekt loeschen
 			delete gam;
 		}
 
@@ -294,7 +294,7 @@ namespace rl {
             return;
         }
 
-        LOG_WARNING(Logger::CORE, "Der Kollisionskörper konnte keiner GameArea zugeordnet werden!");
+        LOG_WARNING(Logger::CORE, "Der Kollisionskoerper konnte keiner GameArea zugeordnet werden!");
 
         // there should be no contacts (trigger-volume!), so we don't need to do anything here!
     }

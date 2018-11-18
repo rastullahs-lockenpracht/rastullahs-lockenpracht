@@ -737,7 +737,7 @@ namespace rl {
         static const Creature::Wert Creature::WERT_BE = "BE";
         static const Creature::Wert Creature::WERT_RS = "RS";
         static const Creature::Wert Creature::WERT_INI = "INI";
-        static const Creature::Wert Creature::WERT_KAMPFUNFAEHIGKEITSSCHWELLE ="Kampfunfähigkeitsschwelle"; 
+        static const Creature::Wert Creature::WERT_KAMPFUNFAEHIGKEITSSCHWELLE ="Kampfunfaehigkeitsschwelle"; 
         static const Creature::Wert Creature::WERT_REGENERATION = "Regeneration";
         
         

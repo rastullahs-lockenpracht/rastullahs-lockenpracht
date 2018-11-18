@@ -194,7 +194,7 @@ namespace rl
 
 
         LOG_ERROR(Logger::RULES,
-            "Der Kollisionskörper konnte keinem CreatureController zugeordnet werden.");
+            "Der Kollisionskoerper konnte keinem CreatureController zugeordnet werden.");
     }
 
     const Ogre::String& CreatureControllerManager::getName() const

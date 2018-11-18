@@ -32,13 +32,13 @@ public:
     /// Destruktor
 	virtual ~QuestListener();
 
-    /// Kümmert sich um das Aufrufen benannter Methoden aus Reasons
+    /// Kuemmert sich um das Aufrufen benannter Methoden aus Reasons
 	virtual bool eventRaised(QuestEvent *anEvent);
 
 	virtual bool eventRaised(JournalEvent *anEvent);
 
-	/** Diese Methode wird aufgerufen, wenn sich der Status des Quests geändert hat
-      * @param anEvent Der auslösende Event
+	/** Diese Methode wird aufgerufen, wenn sich der Status des Quests geaendert hat
+      * @param anEvent Der ausloesende Event
       */  
 	virtual void questStateChanged(QuestEvent* anEvent) = 0;
 	virtual void questPartsDoneChanged(QuestEvent* anEvent) = 0;

@@ -29,8 +29,8 @@ namespace rl {
 	class PhysicalThing;
 
 /** GameAreaType
- * Verwaltet verschiedene Flaechenarten und Methoden die Aktoren innerhalb dieser Flächen zu
- * sammeln. Dabei lassen sich die gefundenen Aktoren über Masken beschränken.
+ * Verwaltet verschiedene Flaechenarten und Methoden die Aktoren innerhalb dieser Flaechen zu
+ * sammeln. Dabei lassen sich die gefundenen Aktoren ueber Masken beschraenken.
  *
  *  @see GameAreaListener, GameAreaEventSource, GameEventManager, GameAreaEvent
  */

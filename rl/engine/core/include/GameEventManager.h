@@ -51,32 +51,32 @@ public:
     virtual ~GameEventManager();
 
     /** Wird vom Gameloop aufgerufen, wenn nicht pausiert
-     * Führt die Anfragen der eingetragenen GameAreaEventSource durch
+     * Fuehrt die Anfragen der eingetragenen GameAreaEventSource durch
      * @param elapsedTime Die vergangene Zeit
      */
     virtual void run( Ogre::Real elapsedTime );
 
-    /** DEPRECATED! Fügt eine Sphere Area hinzu, und hängt einen Listener an
+    /** DEPRECATED! Fuegt eine Sphere Area hinzu, und haengt einen Listener an
     *
     * @param actor Der Actor um den herum die Kugel aufgespannt werden soll
     * @param queryMask Die Maske um die SzenenAnfrage zu beschleunigen
     * @param radius Der Radius der Kugel
-    * @param list Der neu hinzuzufügende Listener
-    * @param forceNew erstellt auf jeden Fall eine neue GameAreaEventSource (z.B. für den ZoneManager)
-    * @retval Die GameAreaEventSource, der der Listener hinzugefügt wurde
+    * @param list Der neu hinzuzufuegende Listener
+    * @param forceNew erstellt auf jeden Fall eine neue GameAreaEventSource (z.B. fuer den ZoneManager)
+    * @retval Die GameAreaEventSource, der der Listener hinzugefuegt wurde
     */
     GameAreaEventSource* addSphereAreaListener( Actor* actor, Ogre::Real radius,
         GameAreaListener* list, unsigned long queryMask = 0xFFFFFFFF, bool forceNew = false);
 
-    /** Fügt eine neue Mesh-Area hinzu und hängt einen Listener an
+    /** Fuegt eine neue Mesh-Area hinzu und haengt einen Listener an
     *
     * @param actor der actor um den herum die area gelegt werden soll, kann NULL sein
-    * @param ent die Entity mit dem Mesh, das für die Area verwendet werden soll, falls NULL wird das mesh des actors verwendet
-    * @param geom der Geometrietype, sinnvoll wäre GT_CONVEXHULL (eventuell GT_MESH)
+    * @param ent die Entity mit dem Mesh, das fuer die Area verwendet werden soll, falls NULL wird das mesh des actors verwendet
+    * @param geom der Geometrietype, sinnvoll waere GT_CONVEXHULL (eventuell GT_MESH)
     * @param list Der neu hinzuzufpgende Listener
     * @param queryMask Die Querymaske, welche Aktoren von der Area betroffen sind
-    * @param forceNew erstellt auf jeden Fall eine neue GameAreaEventSource (z.B. für den ZoneManager)
-    * @retval Die GameAreaEventSource, der der Listener hinzugefügt wurde
+    * @param forceNew erstellt auf jeden Fall eine neue GameAreaEventSource (z.B. fuer den ZoneManager)
+    * @retval Die GameAreaEventSource, der der Listener hinzugefuegt wurde
     */
 	GameAreaEventSource* addMeshAreaListener( Actor* actor,
         Ogre::Entity* ent, GeometryType geom, GameAreaListener* list, 
@@ -90,15 +90,15 @@ public:
         Ogre::Vector3 offset = Ogre::Vector3::ZERO, Ogre::Quaternion orientation = Ogre::Quaternion::IDENTITY,
         bool forceNew = false);
 
-    /** Fügt eine neue Area hinzu und hängt einen Listener an
+    /** Fuegt eine neue Area hinzu und haengt einen Listener an
     *
     * @param actor Der Actor um den herum die Area aufgespannt werden soll, kann NULL sein
-    * @param aabb Die Größe der Area
-    * @param geom der Geometrietype, möglich sind GT_BOX, GT_ELLIPSOID, GT_SPHERE, GT_PYRAMID
+    * @param aabb Die Groesse der Area
+    * @param geom der Geometrietype, moeglich sind GT_BOX, GT_ELLIPSOID, GT_SPHERE, GT_PYRAMID
     * @param list Der neu hinzuzufpgende Listener
     * @param queryMask Die Querymaske, welche Aktoren von der Area betroffen sind
-    * @param forceNew erstellt auf jeden Fall eine neue GameAreaEventSource (z.B. für den ZoneManager)
-    * @retval Die GameAreaEventSource, der der Listener hinzugefügt wurde
+    * @param forceNew erstellt auf jeden Fall eine neue GameAreaEventSource (z.B. fuer den ZoneManager)
+    * @retval Die GameAreaEventSource, der der Listener hinzugefuegt wurde
     */
 	GameAreaEventSource* addAreaListener( Actor* actor, 
         Ogre::AxisAlignedBox aabb, GeometryType geom, GameAreaListener* list, 
@@ -110,7 +110,7 @@ public:
     *
     * @param list Der Listener an den GameAreaEventSource
     * @note Dabei werden alle GameAreaEventSource, an denen keine
-            Listener befestigt sind, entfernt und gelöscht.
+            Listener befestigt sind, entfernt und geloescht.
     */
     void removeAreaListener( GameAreaListener* list );
 
@@ -119,7 +119,7 @@ public:
     */
     void removeAreaEventSource( GameAreaEventSource *gam );
 
-    /** Entfernt alle Areas die an einen Actor geknüpft sind
+    /** Entfernt alle Areas die an einen Actor geknuepft sind
       *
       * @param actor Der Actor der GameAreaEventSource
       */

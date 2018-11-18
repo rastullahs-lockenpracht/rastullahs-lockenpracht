@@ -83,9 +83,9 @@ namespace rl {
         void setPriority(const int priority);
         // Gets the priority of this sound
         const int getPriority() const;
-		/// Lädt den Ton
+		/// Laedt den Ton
 		void load();
-        /// Entlädt den Sound.
+        /// Entlaedt den Sound.
         void unload();
         /// Aktivieren
         virtual void setActive(bool active);

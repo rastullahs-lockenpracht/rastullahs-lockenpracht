@@ -32,9 +32,9 @@ namespace rl {
 class ZoneManager;
 /** 
  * GameAreaEventSource
- * Die Quelle für Ereignisse die das betreten/verlassen eines Areals betreffen.
+ * Die Quelle fuer Ereignisse die das betreten/verlassen eines Areals betreffen.
  * Hier werden die Actoren die sich zur letzten Abfrage innerhalb des Areals befanden
- * aufbewahrt, um die Differenzen bestimmen zu können, und die Abfragemethode verwaltet
+ * aufbewahrt, um die Differenzen bestimmen zu koennen, und die Abfragemethode verwaltet
  *
  *  @see GameAreaListener, GameAreaEvent, GameEventManager, GameAreaTypes
  */
@@ -43,23 +43,23 @@ class _RlCoreExport GameAreaEventSource : public virtual EventSource
 public:
     /** Konstruktor
      *  @param areaType Die Art des abzufragenden Areals 
-     *  @param act Der Actor, an den das Zentrum des Areals geknüpft ist, kann NULL sein für unbewegte areas
+     *  @param act Der Actor, an den das Zentrum des Areals geknuepft ist, kann NULL sein fuer unbewegte areas
      */
     GameAreaEventSource( GameAreaType* areaType, Actor* act = NULL);
     /// Dekonstruktor
     virtual ~GameAreaEventSource();
 
     /** Wird vom GameEventManager aufgerufen um die Szenenabfrage zu starten
-     *  Berechnet die verlassenden/betretenden Aktoren und löst mittels
+     *  Berechnet die verlassenden/betretenden Aktoren und loest mittels
      *  doDispatchEvents die Ereignisse aus.
      *
-     *  @notice Sollte nicht eigenständig aufgerufen werden
+     *  @notice Sollte nicht eigenstaendig aufgerufen werden
      */
     void performQuery( Ogre::Real timePassed );
 
-    /** Fügt einen GameAreaListener hinzu, der zukünftig bei GameAreaEvents benachrichtigt wird 
+    /** Fuegt einen GameAreaListener hinzu, der zukuenftig bei GameAreaEvents benachrichtigt wird 
      *
-     * @param list Der hinzuzufügende Listener
+     * @param list Der hinzuzufuegende Listener
      */
     void addAreaListener( GameAreaListener*  list );
     /** Entfernt einen GameAreaListener
@@ -68,16 +68,16 @@ public:
     */
     void removeAreaListener( GameAreaListener* list );
 
-    /// Gibt zurück ob sich Listener angemeldet haben
+    /// Gibt zurueck ob sich Listener angemeldet haben
     bool hasListeners( ) const;
 
-    /// Gibt die Art des Areals zurück
+    /// Gibt die Art des Areals zurueck
     GameAreaType* getGameAreaType() { return mAreaType; };
-    /// Gibt die Actoren die bei der letzten Abfrage innerhalb des Areals waren zurück
+    /// Gibt die Actoren die bei der letzten Abfrage innerhalb des Areals waren zurueck
     const ActorMap& getInsideAreaList() const { return mInsideAreaList; };
-    /// Gibt den Actor zurück, den das Areal umgibt
+    /// Gibt den Actor zurueck, den das Areal umgibt
     Actor* getActor() const { return mActor; };
-    /// gibt an ob die ga gelöscht werden kann, wenn die dazugehörige zone gelöscht wird
+    /// gibt an ob die ga geloescht werden kann, wenn die dazugehoerige zone geloescht wird
     virtual bool destroyIfZoneDestroyed() const {return true;}
     /// loescht den Actor aus der liste der actoren, die sich gerade in der gamearea befinden
     void notifyActorDeleted(Actor* actor);
@@ -90,9 +90,9 @@ protected:
     PropertyRecord mProperties;
 private:
     long mId;
-    /** Verteilt die Events an die angefügten Listener
-    * Für jeden Actor wird ein einzelnes Ereigniss generiert, zuerst für alle
-    * verlassenden Actoren, dann für die betretenden
+    /** Verteilt die Events an die angefuegten Listener
+    * Fuer jeden Actor wird ein einzelnes Ereigniss generiert, zuerst fuer alle
+    * verlassenden Actoren, dann fuer die betretenden
     *
     * @param enteringActors Die neu hinzugekommenen Actoren
     * @param leavingActors Die verlassenden Actoren
@@ -105,7 +105,7 @@ private:
     /// Der Typ des Areals
     GameAreaType* mAreaType;
 
-    /// Der EventCaster der die Verteilung an die Listener übernimmt
+    /// Der EventCaster der die Verteilung an die Listener uebernimmt
     EventCaster<GameAreaEvent> mAreaEventCaster;
     /// Die Aktoren innerhalb des Areals
     ActorMap mInsideAreaList;

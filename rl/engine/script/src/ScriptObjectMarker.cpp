@@ -63,11 +63,11 @@ namespace rl {
         ValueCountMap::iterator iter = m_RubyRefCountMap.find( val );
         unsigned int refCount = 1;
 
-        // Es gab schon einen RefCount, dann diesen hochzählen
+        // Es gab schon einen RefCount, dann diesen hochzaehlen
         if( iter != m_RubyRefCountMap.end() )
             refCount = iter->second + 1;
 
-        // In Liste einfügen
+        // In Liste einfuegen
         m_RubyRefCountMap.insert( ValueCountPair( val, refCount ) );
 
         // refCount wurde 1, beim GC anmelden
@@ -87,7 +87,7 @@ namespace rl {
             return;
 
         ValueCountMap::iterator iter = m_RubyRefCountMap.find( val );
-        // Gibt es überhaupt noch einen RefCount?
+        // Gibt es ueberhaupt noch einen RefCount?
         if( iter == m_RubyRefCountMap.end() )
             return;
 
@@ -97,7 +97,7 @@ namespace rl {
         // Noch nicht 0
         if( refCount > 0 )
         {
-            // Herunterzählen
+            // Herunterzaehlen
             refCount = refCount--;
             // Neu einspeichern
             m_RubyRefCountMap.insert( ValueCountPair(val, refCount ) );
@@ -107,7 +107,7 @@ namespace rl {
         {
             // Austragen aus RefCountliste
             m_RubyRefCountMap.erase( val );
-            // Aus dem GC-Array löschen
+            // Aus dem GC-Array loeschen
             rb_ary_delete(mRubyArray, val );
         }
     }
@@ -123,18 +123,18 @@ namespace rl {
 
 			// Austragen aus RefCountliste
             m_RubyRefCountMap.erase( val );
-            // Aus dem GC-Array löschen
+            // Aus dem GC-Array loeschen
             rb_ary_delete(mRubyArray, val );
 
-			// Aus dem RubyArray löschen
+			// Aus dem RubyArray loeschen
 			rb_ary_delete(mRubyArray, val );
 
             RL_RubyRemoveTracking( ptr );
 
 			RData* test = RDATA( val );
-			/// @todo altes klass löschen? Wie denn nur, ist nen VALUE
+			/// @todo altes klass loeschen? Wie denn nur, ist nen VALUE
 			test->basic.klass = rb_cNilClass;
-			// Nicht löschen, ist der ptr
+			// Nicht loeschen, ist der ptr
 			test->data = NULL;
 
         }

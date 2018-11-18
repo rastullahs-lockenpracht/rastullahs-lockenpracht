@@ -65,7 +65,7 @@ namespace rl {
 
     Actor::~Actor()
     {
-        // Alle möglichen Area-Verknüpfungen entfernen
+        // Alle moeglichen Area-Verknuepfungen entfernen
         GameEventManager::getSingleton().removeAllAreas(this);
         // Aus allen moeglichen areas entfernen
         std::list<GameAreaEventSource*>::iterator iter;
@@ -157,7 +157,7 @@ namespace rl {
     {
         if( act->getActor() != NULL )
             Throw(IllegalStateException,
-            "Aktor "+mName+": Das anzufügende Objekt ist bereits an einem Aktor befestigt.");
+            "Aktor "+mName+": Das anzufuegende Objekt ist bereits an einem Aktor befestigt.");
         if( this->getControlledObject() != NULL )
             Throw(IllegalStateException,
             "Aktor "+mName+": Es ist bereits ein Objekt an diesem Aktor befestigt.");
@@ -472,9 +472,9 @@ namespace rl {
             {
                 MeshObject* meshObj = dynamic_cast<MeshObject*>( getControlledObject() );
 
-                // ... und größer/kleiner als normal skaliert wird ...
+                // ... und groesser/kleiner als normal skaliert wird ...
                 if( vec != Vector3(1,1,1) )
-                    // ... müssen die Normalen neu berechnet werden.
+                    // ... muessen die Normalen neu berechnet werden.
 					meshObj->getEntity()->setNormaliseNormals( true );
                 else
                     meshObj->getEntity()->setNormaliseNormals( false );
@@ -531,7 +531,7 @@ namespace rl {
             if( mSceneNode->getParentSceneNode() != NULL )
                 mSceneNode->getParentSceneNode()->removeChild( mSceneNode );
 
-            // Überprüfen ob Childs am Node fest sind
+            // ueberpruefen ob Childs am Node fest sind
             bool childsInNode = false;
             ChildSet::const_iterator iter =  mChildren.begin();
             for( iter; iter != mChildren.end(); ++iter )
@@ -616,10 +616,10 @@ namespace rl {
 
         if( actor == NULL )
             Throw(NullPointerException,
-            "Aktor "+mName+": Der anzufügende Aktor darf nicht NULL sein." );
+            "Aktor "+mName+": Der anzufuegende Aktor darf nicht NULL sein." );
         if( actor->mParent != NULL )
             Throw(NullPointerException,
-            "Aktor "+mName+": Der Aktor ist bereits an einen anderen Aktor angefügt." );
+            "Aktor "+mName+": Der Aktor ist bereits an einen anderen Aktor angefuegt." );
 
         // Verschiebung durch den Child-Slot berechnen
         // Kontrolliert der Aktor ein Objekt && Ist dieses ein Mesh
@@ -650,7 +650,7 @@ namespace rl {
 					Vector3 vec = bone->_getDerivedPosition();
 					Quaternion quat = bone->_getDerivedOrientation();
 
-					// Durch den Bone ExtraOffset hinzufügen
+					// Durch den Bone ExtraOffset hinzufuegen
 					offsetOrientationMod = offsetOrientation *  quat;
 					offsetPositionMod = ( offsetOrientationMod * (-vec) ) + offsetPosition;
 				}
@@ -665,7 +665,7 @@ namespace rl {
 			}
         }
 
-        // Das wirkliche Anfügen
+        // Das wirkliche Anfuegen
         // Ist es ein nicht Standard-Slot && Kontrolliert der Aktor ein Objekt && Ist dieses ein Mesh
         if( slot.compare(DEFAULT_SLOT_NAME) != 0 &&
             getControlledObject() != NULL &&
@@ -698,7 +698,7 @@ namespace rl {
             // Der Aktor wurde an einem Bone befestigt
             actor->mBone = ent->getSkeleton()->getBone( slot );
         }
-        // Wenn hier kein MeshObjekt dran ist, trotzdem irgendwie zusammenfügen
+        // Wenn hier kein MeshObjekt dran ist, trotzdem irgendwie zusammenfuegen
         else
         {
             actor->placeIntoNode( mSceneNode,  offsetPositionMod, offsetOrientationMod );
@@ -734,7 +734,7 @@ namespace rl {
                 "Aktor " + mName + ": Der Aktor ist kein Kind dieses Aktors");
         }
 
-        // Ist es an einem Bone angefügt
+        // Ist es an einem Bone angefuegt
         if (actor->mBone && mActorControlledObject && mActorControlledObject->isMeshObject())
         {
             MovableObject* movObj = actor->getControlledObject()->getMovableObject();
@@ -743,7 +743,7 @@ namespace rl {
             actor->mBone = 0;
             return;
         }
-        // Ganz normal über SceneNodes verknüpft
+        // Ganz normal ueber SceneNodes verknuepft
         else
         {
             mSceneNode->removeChild( actor->_getSceneNode() );
@@ -789,13 +789,13 @@ namespace rl {
     {
         if( parent == NULL )
             Throw(NullPointerException,
-            "Aktor "+mName+": Kann nicht an einen leeren parentNode angehängt werden.");
+            "Aktor "+mName+": Kann nicht an einen leeren parentNode angehaengt werden.");
         if( mBone )
             Throw(IllegalArgumentException,
-            "Aktor "+mName+": Der Aktor ist bereits an einen Bone angehängt.");
+            "Aktor "+mName+": Der Aktor ist bereits an einen Bone angehaengt.");
         if( mSceneNode && mSceneNode->isInSceneGraph() )
             Throw(IllegalArgumentException,
-            "Aktor "+mName+": Der Aktor ist bereits in die Szene angehängt.");
+            "Aktor "+mName+": Der Aktor ist bereits in die Szene angehaengt.");
 
         // SceneNode erzeugen, falls nicht schon einer vorhanden
         if( !mSceneNode )
@@ -814,7 +814,7 @@ namespace rl {
             mActorControlledObject->_attachSceneNode(mSceneNode);
         }
 
-        // Physikverknüpfung anpassen
+        // Physikverknuepfung anpassen
         if (mPhysicalThing && mActorControlledObject)
         {
             PhysicsManager::getSingleton().createPhysicsProxy(mPhysicalThing);

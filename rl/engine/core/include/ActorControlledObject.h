@@ -23,15 +23,15 @@ namespace rl {
 
     class Actor;
 
-    /** Abstrakte Basisklasse für alle Objekte, die man zur
-     * Visualisierung, Höhrbarmachung an einen Aktor heften
+    /** Abstrakte Basisklasse fuer alle Objekte, die man zur
+     * Visualisierung, Hoehrbarmachung an einen Aktor heften
      * kann. Zwischen Actor und ActorControlledObject eine
      * 1:1-Beziehung.
      * 
      * Derzeit werden hier im Wesentlichen die OgreMovables
-     * gekapselt, aber auch für Soundquellen ist diese Klasse
+     * gekapselt, aber auch fuer Soundquellen ist diese Klasse
      * geeignet. Eigene Klasse, die gekapselt werden sollen
-     * müssen von Ogre::MovableObject erben.
+     * muessen von Ogre::MovableObject erben.
      */
     class _RlCoreExport ActorControlledObject
     {
@@ -43,7 +43,7 @@ namespace rl {
         /** Diese Methode wird intern benutzt, damit
          * der Aktor sich dieses Objekt zu eigen machen
          * kann.
-         * @warning Wenn diese Methode überschrieben wird immer
+         * @warning Wenn diese Methode ueberschrieben wird immer
          * auch ActorControlledObject::_setActor() aufrufen.
          */
         virtual void _setActor(Actor* actor);
@@ -71,7 +71,7 @@ namespace rl {
          */
         virtual Ogre::String getObjectType() const = 0;
 
-        /** Ermöglicht ein Highlighten des ActorControlled */
+        /** Ermoeglicht ein Highlighten des ActorControlled */
         virtual void setHighlighted( bool highlight ) {};
 
 		virtual bool isMeshObject() const;

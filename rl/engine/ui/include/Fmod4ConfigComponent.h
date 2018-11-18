@@ -35,7 +35,7 @@ namespace rl
         bool handleOutputChanged();
         bool handleSpeakerChanged();
 
-        // Die Combobox, aus der gewählt wird.
+        // Die Combobox, aus der gewaehlt wird.
         CEGUI::Combobox* mOutput;
         CEGUI::Combobox* mDriver;
         CEGUI::Combobox* mSpeaker;

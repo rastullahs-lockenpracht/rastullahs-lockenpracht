@@ -28,11 +28,11 @@ class GameAreaEventSource;
 
 /** 
  *  GameAreaEvent
- *  Ein Event der ausgelöst wird, wenn ein Actor ein zuvor beim GameEventManager
- *  registriertes Areal betritt/verlässt.
- *  Dabei wird für jeden Actor der in der Abfragezeit den Radius verlassen/betreten
- *  hat ein einzelner Event ausgelöst. Dabei werden zuerst die verlassenden und danach
- *  die betretenden Actoren übermittelt.
+ *  Ein Event der ausgeloest wird, wenn ein Actor ein zuvor beim GameEventManager
+ *  registriertes Areal betritt/verlaesst.
+ *  Dabei wird fuer jeden Actor der in der Abfragezeit den Radius verlassen/betreten
+ *  hat ein einzelner Event ausgeloest. Dabei werden zuerst die verlassenden und danach
+ *  die betretenden Actoren uebermittelt.
  *
  *  @see GameAreaListener, GameAreaEventSource, GameEventManager, GameAreaTypes
  */
@@ -54,9 +54,9 @@ public:
 
     /// Setzt den verursachenden Actor des Events
     void setProvokingActor(Actor* act ) {  mActor = act; };
-    /// Gibt den verursachenden Actor des Events zurück
+    /// Gibt den verursachenden Actor des Events zurueck
     Actor* getProvokingActor() const { return mActor; };
-    /// Gibt die Eventquelle zurück
+    /// Gibt die Eventquelle zurueck
     GameAreaEventSource* getSource() const;
 private:
     /// Der verursachende Actor

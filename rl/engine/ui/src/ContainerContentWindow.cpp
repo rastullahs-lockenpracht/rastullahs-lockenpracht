@@ -167,7 +167,7 @@ namespace rl {
 									mContentWindow->getPosition().asAbsolute(mContentWindow->getParentPixelSize());
 			int x = relPos.d_x, y = relPos.d_y;
 
-            // übergangspixel
+            // uebergangspixel
             x += 14;
             y += 14;
 

@@ -35,8 +35,8 @@ namespace rl {
         ScriptWrapper();
         virtual ~ScriptWrapper();
 
-        /// Ermöglicht dem Script-Repository benachrichtigt zu werden, wenn
-        /// die Löschung eines Actors bevorsteht.
+        /// Ermoeglicht dem Script-Repository benachrichtigt zu werden, wenn
+        /// die Loeschung eines Actors bevorsteht.
         void setScriptWrapperInstance( ScriptWrapperInstance* list );
 		
 

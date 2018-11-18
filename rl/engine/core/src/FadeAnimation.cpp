@@ -119,7 +119,7 @@ bool FadeAnimation::containsAnimation( BaseAnimation* anim ) const
     return false;
 }
 
-/// FIXME - was macht Rückwärts?
+/// FIXME - was macht Rueckwaerts?
 void FadeAnimation::doAddTime( Ogre::Real timePassed )
 {
     for( FadeOptionsSet::iterator it = mFadeOptions.begin();

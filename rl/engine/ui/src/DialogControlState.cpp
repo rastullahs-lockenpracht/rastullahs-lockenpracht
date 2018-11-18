@@ -154,9 +154,9 @@ namespace rl {
         if (elapsedTime <= 0.0)
             return;
 
-        // Aktuellen Abstand zur gewünschten Position berechnen
+        // Aktuellen Abstand zur gewuenschten Position berechnen
         Vector3 posDistance = (mTargetCameraPosition - mCameraActor->_getSceneNode()->getPosition());
-        // Ist eine Anpassung nötig?
+        // Ist eine Anpassung noetig?
         if (posDistance != Vector3::ZERO)
         {
             // Die Kameraanpassgeschwindigkeit

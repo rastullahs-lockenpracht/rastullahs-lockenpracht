@@ -76,7 +76,7 @@ namespace rl
         recalculateDialogCamera(mCurrentSpeaker, mCurrentListeners);
         Actor* actor = mCurrentSpeaker->getActor();
 
-        // Ungefähre Lesedauer bestimmen
+        // Ungefaehre Lesedauer bestimmen
         float fadeTime = getShowTextLength(text);
         if (soundFile.length() == 0)
         {
@@ -102,7 +102,7 @@ namespace rl
             mSoundObject = new SoundObject(SoundManager::getSingleton().getActiveDriver()->
                     createSound(soundFile, ST_SAMPLE), soundFile);
 
-            // An Sprecher hängen
+            // An Sprecher haengen
             actor->_getSceneNode()->attachObject(mSoundObject->getMovableObject());
             actor->_getSceneNode()->_update(true, false);
             mSoundObject->_setActor(actor);
@@ -217,7 +217,7 @@ namespace rl
 
     float DialogController::getShowTextLength(const CeGuiString& text) const
     {
-        return 0.019f * text.length() + // Zeit fürs Text lesen
+        return 0.019f * text.length() + // Zeit fuers Text lesen
                0.25f;                   // Fade in
     }
 

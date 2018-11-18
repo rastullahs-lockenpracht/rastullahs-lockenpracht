@@ -25,7 +25,7 @@
 namespace rl {
 
 class _RlCoreExport Actor;
-/** Diese Klasse stellt eine Möglichkeit zur Verfügung, einfach Tracks zu erzeugen denen
+/** Diese Klasse stellt eine Moeglichkeit zur Verfuegung, einfach Tracks zu erzeugen denen
 	Aktoren folgen.
 */
 class _RlCoreExport TrackAnimation : public BaseAnimation
@@ -34,7 +34,7 @@ public:
 	/** Konstruktor, der einen neuen Track erstellt
 		@param name		Der (einzigartige) Name der Animation
 		@param node		Der Knoten der gesteuert werden soll
-		@param length	Die gesamte Länge der Animation
+		@param length	Die gesamte Laenge der Animation
 		@remarks Konstruktor sollte nicht direkt aufgerufen werden, 
 		sondern vom AnimationManager.
 	 */
@@ -43,7 +43,7 @@ public:
 	/// Virtueller Destruktor
 	virtual ~TrackAnimation();
 
-	/// Überschriebe von BaseAnimation
+	/// ueberschriebe von BaseAnimation
 	virtual void doAddTime( Ogre::Real timePassed );
 	
 	/** Setzt ein neues Keyframe an einer Zeitposition
@@ -57,7 +57,7 @@ public:
 		@param	yPos	Die y-Position
 		@param	zPos	Die z-Position
 		@remarks Sollte das KeyFrame nichts existieren, wird das 
-			davorliegende KeyFrame überschrieben
+			davorliegende KeyFrame ueberschrieben
 	*/
     void setKeyFrameTranslation( Ogre::Real timePos,
         Ogre::Real xPos, Ogre::Real yPos, Ogre::Real zPos );
@@ -68,7 +68,7 @@ public:
 		@param	yRotAxis Die Achsendefinition
 		@param	angleUnits Die Drehung ( in Grad )
 		@remarks Sollte das KeyFrame nichts existieren, wird der
-			davorliegende KeyFrame überschrieben
+			davorliegende KeyFrame ueberschrieben
 	*/
     void setKeyFrameRotation( Ogre::Real timePos,
         Ogre::Real xRotAxis, Ogre::Real yRotAxis, Ogre::Real zRotAxis,
@@ -82,28 +82,28 @@ public:
 		@param	yScale	Die y-Skalierung
 		@param	zScale	Die z-Skalierung
 		@remarks Sollte das KeyFrame nichts existieren, wird das 
-			davorliegende KeyFrame überschrieben
+			davorliegende KeyFrame ueberschrieben
 	*/
     void setKeyFrameScale( Ogre::Real timePos,
         Ogre::Real xScale, Ogre::Real yScale, Ogre::Real zScale);
 
 	/// Setzt die Art der Interpolation (InterpolationMode aus AnimationManager
 	void setInterpolationMode( AnimationManager::InterpolationMode im );
-	/// Gibt die Art der Interpolation zurück
+	/// Gibt die Art der Interpolation zurueck
 	AnimationManager::InterpolationMode getInterpolationMode() const;
 
 	/// Setzt die Art der RotationsInterpolation (RotationInterpolationMode aus AnimationManager)
 	void setRotationInterpolationMode(
 	    AnimationManager::RotationInterpolationMode im );
-	/// Gibt die Art der RotationsInterpolation zurück 
+	/// Gibt die Art der RotationsInterpolation zurueck 
 	AnimationManager::RotationInterpolationMode getRotationInterpolationMode() const;
 
-	/// Setzt ob bei Rotation der kürzeste Weg benutzt werden soll
+	/// Setzt ob bei Rotation der kuerzeste Weg benutzt werden soll
 	void setUseShortestRotationPath ( bool useShortestPath );
-	/// Gibt zurück ob bei Rotation der kürzeste Weg benutzt werden soll
+	/// Gibt zurueck ob bei Rotation der kuerzeste Weg benutzt werden soll
 	bool getUseShortestRotationPath () const;
 
-	/// Teste ob der Track zu einem bestimmten Actor gehört
+	/// Teste ob der Track zu einem bestimmten Actor gehoert
 	Actor* getActor( ) const ;
     Ogre::AnimationState* getAnimationState() const;
 

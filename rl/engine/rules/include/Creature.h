@@ -711,8 +711,8 @@ namespace rl
 
 
             /**
-             * Gibt an, ob die Creature mit den Händen an den Gegenstand herankommt,
-             * ihn also berühren kann, mit ihm interagieren etc
+             * Gibt an, ob die Creature mit den Haenden an den Gegenstand herankommt,
+             * ihn also beruehren kann, mit ihm interagieren etc
             **/
             virtual bool canReachItem(const Item* item) const;
 
@@ -722,9 +722,9 @@ namespace rl
             **/
             typedef std::pair<Ogre::String, Ogre::Real> AnimationSpeedPair;
             /**
-             * Gibt die Animation aus der AnimationsMap für den CreatureController zurück
+             * Gibt die Animation aus der AnimationsMap fuer den CreatureController zurueck
              * @return Wenn kein spezieller Wert gefunden wurde, wird als Animationsname
-             * der Schlüsse name und eine Geschwindigkeit von 1 zurueckgegeben
+             * der Schluesse name und eine Geschwindigkeit von 1 zurueckgegeben
             **/
             AnimationSpeedPair getAnimation(const CeGuiString& name) const;
 
@@ -801,7 +801,7 @@ namespace rl
             typedef std::map<const CeGuiString , SonderfertigkeitenStateSet*> SonderfertigkeitMap;
             /**
                     * Die Animationen, die der CreatureController bei einer Bewegung der Kreatur
-                    * abspielt. Der Schlüssel ist Bezeichner der von einer Bewegungsart des
+                    * abspielt. Der Schluessel ist Bezeichner der von einer Bewegungsart des
                     * CreatureControllers verwendet wird, der Wert gibt den echten Namen der Animation
                     * an.
             **/
@@ -809,7 +809,7 @@ namespace rl
             /**
                     * Die (relative oder absolute) Geschwindigkeit einer Animationen, die der
                     * CreatureController bei einer Bewegung der Kreatur
-                    * abspielt. Der Schlüssel ist Bezeichner, der von einer Bewegungsart des
+                    * abspielt. Der Schluessel ist Bezeichner, der von einer Bewegungsart des
                     * CreatureControllers verwendet wird.
             **/
             typedef std::map<const CeGuiString, Ogre::Real> AnimationSpeedsMap;

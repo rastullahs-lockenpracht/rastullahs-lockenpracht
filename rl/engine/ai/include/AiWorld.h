@@ -73,7 +73,7 @@ namespace rl
 	};
 
 
-    /** Wrapper für Newton-World
+    /** Wrapper fuer Newton-World
 	 */
     class NewtonWorldAsObstacle : public OpenSteer::Obstacle,
         public DebugVisualisable

@@ -44,9 +44,9 @@ public:
 	/// Dekonstruktor
     virtual ~ObjectStateChangeEventSource();
 
-    /** Fügt einen ObjectStateChangeListener hinzu, der zukünftig bei ObjectStateChangeEvents benachrichtigt wird 
+    /** Fuegt einen ObjectStateChangeListener hinzu, der zukuenftig bei ObjectStateChangeEvents benachrichtigt wird 
      *
-     * @param list Der hinzuzufügende Listener
+     * @param list Der hinzuzufuegende Listener
      */
     void addObjectStateChangeListener( ObjectStateChangeListener*  list );
     /** Entfernt einen ObjectStateChangeListener
@@ -55,10 +55,10 @@ public:
     */
     void removeObjectStateChangeListener( ObjectStateChangeListener* list );
 
-    /// Gibt zurück ob sich Listener angemeldet haben
+    /// Gibt zurueck ob sich Listener angemeldet haben
     bool hasListeners( ) const;
 
-    /// Gibt das Objekt zurück, das überwacht wird
+    /// Gibt das Objekt zurueck, das ueberwacht wird
     GameObject* getObject() const { return mObject; }
 
     void fireObjectStateChangeEvent();
@@ -68,9 +68,9 @@ protected:
 private: 
     /// Alle Events entfernen
     void removeObjectStateChangeListener(  );
-    /// Der EventCaster der die Verteilung an die Listener übernimmt
+    /// Der EventCaster der die Verteilung an die Listener uebernimmt
     EventCaster<ObjectStateChangeEvent> mObjectStateChangeEventCaster;
-    /// Das Object der überwacht wird
+    /// Das Object der ueberwacht wird
     GameObject* mObject;
 };
 

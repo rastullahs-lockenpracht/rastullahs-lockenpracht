@@ -27,7 +27,7 @@ namespace rl {
     /**
     * @brief Ein Tagebucheintrag
     * @todo Mit Zeitstempel versehen
-    * @todo Mit Quest verknüpfbar machen
+    * @todo Mit Quest verknuepfbar machen
     */
     class _RlRulesExport JournalEntry
     {

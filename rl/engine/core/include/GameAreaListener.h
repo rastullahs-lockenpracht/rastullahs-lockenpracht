@@ -25,7 +25,7 @@
 namespace rl {
 
 /** GameAreaListener
- *  Eine Basisklasse für Listener die auf GameAreaEvents lauschen
+ *  Eine Basisklasse fuer Listener die auf GameAreaEvents lauschen
  *
  *  @see GameAreaEvent, GameAreaEventSource, GameEventManager, GameAreaTypes
  */
@@ -46,7 +46,7 @@ public:
     */
     virtual void areaEntered(GameAreaEvent *anEvent) = 0;
 
-    /// Kümmert sich um das Aufrufen benannter Methoden aus Reasons
+    /// Kuemmert sich um das Aufrufen benannter Methoden aus Reasons
     virtual bool eventRaised(GameAreaEvent *anEvent);
 };
 }

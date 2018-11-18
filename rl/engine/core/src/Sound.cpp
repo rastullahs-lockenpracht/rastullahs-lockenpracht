@@ -88,8 +88,8 @@ void Sound::set3d(bool is3d)
     mIs3d = is3d;
 }
 
-/** SoundResource zurückgeben.
- * @return Der Pointer auf die zugehörige Soundresource.
+/** SoundResource zurueckgeben.
+ * @return Der Pointer auf die zugehoerige Soundresource.
  * @author JoSch
  * @date 08-08-2005
  */

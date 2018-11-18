@@ -25,7 +25,7 @@ using namespace Ogre;
 namespace rl {
 
 /**
- * @param listener. Der Listener, Besitz wird übernommen.
+ * @param listener. Der Listener, Besitz wird uebernommen.
  * @author JoSch
  * @date 03-16-2005
  */

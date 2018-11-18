@@ -20,8 +20,8 @@
 #include "CommonPrerequisites.h"
 
 namespace rl {
-/** Diese Klasse ist die Basisklasse aller Synchronisierten Aufgaben, die jeden Frame ausgeführt werden.
-	Dazu gehören zum Beispiel Animationen.
+/** Diese Klasse ist die Basisklasse aller Synchronisierten Aufgaben, die jeden Frame ausgefuehrt werden.
+	Dazu gehoeren zum Beispiel Animationen.
 */
 class _RlCommonExport GameTask
 {
@@ -45,7 +45,7 @@ class _RlCommonExport GameTask
 
         bool isInterruptable() const;
         
-		/// Gibt zurück ob dieser GameTask pausiert ist
+		/// Gibt zurueck ob dieser GameTask pausiert ist
         bool isPaused() const;
 
 		/// Pausiert/Unpausiert den GameTask

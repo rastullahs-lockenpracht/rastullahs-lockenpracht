@@ -1,4 +1,4 @@
-/* Sleep.h - Plattformunabhaengigkeit für sleep
+/* Sleep.h - Plattformunabhaengigkeit fuer sleep
  * (C) 2003-2008. Team Pantheon. www.team-pantheon.de
  * 
  *  This program is free software; you can redistribute it and/or modify
@@ -25,7 +25,7 @@
 namespace rl {
 /**
  * @param sleeptime Die Zeit in Millisekunden.
- * Legen den aktuellen Thread für sleeptime Millisekungen schlafen.
+ * Legen den aktuellen Thread fuer sleeptime Millisekungen schlafen.
  */
 inline void msleep(unsigned long sleeptime)
 {

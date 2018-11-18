@@ -26,13 +26,13 @@ namespace rl
 	class _RlRulesExport ActionGroup;
 
     /**
-    * @brief Abstrakte Basisklasse für Aktionen an Spielobjekten.
+    * @brief Abstrakte Basisklasse fuer Aktionen an Spielobjekten.
     * Spielobjekte (GameObject) besitzen einen Satz von Aktionen, die man auf
     * ihnen anwenden kann. Diese werden von dieser Klasse gekapselt.
     * Konkrete Aktionen erben von dieser Klasse und muessen
     * doAction() ueberschreiben. Diese Klasse wird in Ruby ueberschrieben.
 	*
-	* Identifikation von Aktionen geschieht über Name und Klassenname
+	* Identifikation von Aktionen geschieht ueber Name und Klassenname
     */
     class _RlRulesExport Action
     {
@@ -58,7 +58,7 @@ namespace rl
 
         /**
         * @param name Name, mit der die Aktion dem Benutzer
-        *             gegenüber dargestellt wird.
+        *             gegenueber dargestellt wird.
         *             Die gleiche, die intern verwendet wird.
         * @param descritpion Eine naehere Beschreibung.
         */
@@ -69,14 +69,14 @@ namespace rl
         const CeGuiString getDescription() const;
 
 		/**
-		 * Gibt den Klassennamen der (Ruby-)Klasse zurück, muss in Ruby überschrieben werden
+		 * Gibt den Klassennamen der (Ruby-)Klasse zurueck, muss in Ruby ueberschrieben werden
 		 *
 		 * @return Name der Ruby-Klasse
 		 */
 		//virtual const CeGuiString getClassName() const;
 
         /**
-         * @return Die Art des auszuwaehlenden Zieles für die Aktion.
+         * @return Die Art des auszuwaehlenden Zieles fuer die Aktion.
          * @todo rval sollte eigentlich ein enum sein.
          *       SWIG mag das so aber lieber.
          */
@@ -85,19 +85,19 @@ namespace rl
         /**
          * Prueft, ob die Aktion vom actor mit dem object auch
          * durchgefuehrt werden kann.
-         * @param object Das benutzte Object, für diese Aktion.
+         * @param object Das benutzte Object, fuer diese Aktion.
          * @param actor Der Benutzer des Objektes.
          * @param target Das (erste) Ziele der Aktion.
          *
-         * @return true, falls die Aktion möglich ist, false sonst.
+         * @return true, falls die Aktion moeglich ist, false sonst.
          */
         virtual bool canDo(GameObject* object, Creature* actor, GameObject* target = NULL) const;
 
         /**
-         * Die Aktion wird ausgeführt. Diese Methode wird in Ruby
-         * überschrieben. Ableitende Klassen sollten dabei nicht neue
-         * öffentliche Methoden einführen.
-         * @param object Das benutzte Object, für diese Aktion.
+         * Die Aktion wird ausgefuehrt. Diese Methode wird in Ruby
+         * ueberschrieben. Ableitende Klassen sollten dabei nicht neue
+         * oeffentliche Methoden einfuehren.
+         * @param object Das benutzte Object, fuer diese Aktion.
          *        Das kann auch ein Zauberspruch, etc sein.
          * @param actor Der Benutzer des Objektes.
          * @param target Das (erste) Ziele der Aktion.

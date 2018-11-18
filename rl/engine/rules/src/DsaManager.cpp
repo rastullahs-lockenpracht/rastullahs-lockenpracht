@@ -96,7 +96,7 @@ namespace rl
         mEigenschaften[E_KONSTITUTION] = new Eigenschaft(
             (utf8*)"Konstitution", (utf8*)"KO", (utf8*)"");
         mEigenschaften[E_KOERPERKRAFT] = new Eigenschaft(
-            (utf8*)"Körperkraft", (utf8*)"KK", (utf8*)"");
+            (utf8*)"Koerperkraft", (utf8*)"KK", (utf8*)"");
     }
 
     void DsaManager::initializeTalente()

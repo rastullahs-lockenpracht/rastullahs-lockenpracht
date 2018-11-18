@@ -91,7 +91,7 @@ public:
    
    /// Die Ereignisquelle zurueckgeben
    rl::EventSource *getSource() const;
-   /// Die ID des Grundes für den Event.
+   /// Die ID des Grundes fuer den Event.
    const unsigned int getReason() const;
    /// Die ID setzen
    void setReason(const unsigned int reason);

@@ -141,7 +141,7 @@ namespace rl {
         }
         else
         {
-            WindowFactory::getSingleton().showMessageWindow("Bitte einen Namen für den Spielstand eingeben");
+            WindowFactory::getSingleton().showMessageWindow("Bitte einen Namen fuer den Spielstand eingeben");
         }
 
 

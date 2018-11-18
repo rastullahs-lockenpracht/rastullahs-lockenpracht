@@ -49,7 +49,7 @@ SoundDriver::~SoundDriver()
     }
 }
 
-/// Die Standardlautstärke für Musik einstellen
+/// Die Standardlautstaerke fuer Musik einstellen
 void SoundDriver::setDefaultMusicVolume(const Ogre::Real& vol)
 {
     mDefaultMusicVolume = vol;
@@ -60,13 +60,13 @@ void SoundDriver::setDefaultMusicVolume(const Ogre::Real& vol)
     }
 }
 
-/// Die Standardlautstärke für Musik zurückgeben.
+/// Die Standardlautstaerke fuer Musik zurueckgeben.
 const Ogre::Real SoundDriver::getDefaultMusicVolume() const
 {
     return mDefaultMusicVolume;
 }
 
-/// Die Standardlautstärke für Musik einstellen
+/// Die Standardlautstaerke fuer Musik einstellen
 void SoundDriver::setDefaultSoundVolume(const Ogre::Real& vol)
 {
     mDefaultSoundVolume = vol;
@@ -77,7 +77,7 @@ void SoundDriver::setDefaultSoundVolume(const Ogre::Real& vol)
     }
 }
 
-/// Die Standardlautstärke für Musik zurückgeben.
+/// Die Standardlautstaerke fuer Musik zurueckgeben.
 const Ogre::Real SoundDriver::getDefaultSoundVolume() const
 {
     return mDefaultSoundVolume;

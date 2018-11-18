@@ -163,7 +163,7 @@ void analyzeParameters(int argc, char** argv,
         if (strncmp(argv[argIdx], "--dev", 5) == 0)
             developerMode = true;
         else if (strncmp(argv[argIdx], "--module", 8) == 0
-                && argc > argIdx + 1) // Nächster Parameter existiert
+                && argc > argIdx + 1) // Naechster Parameter existiert
             startModule = argv[argIdx + 1];
     }
 }

@@ -41,7 +41,7 @@ namespace rl
 		// Rassen-, Kultur- und Vor-/Nachteils modifikatoren
 		int mPermanentModifier;
 		// Modifikatoren durch Effekte. Bei einer Neubereuchnung der Grundwerte (AT-Basis, AE etc) wird dieser Modifikator ignoriert
-		// @todo Aussagekräftigeren Namen finden.
+		// @todo Aussagekraeftigeren Namen finden.
 		int mModifierWithoutRecalculation;
 	};
 }

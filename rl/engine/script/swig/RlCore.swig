@@ -513,9 +513,9 @@ public:
     void setPriority(const int priority);
     // Gets the priority of this sound
     const int getPriority() const;
-	/// Lädt den Ton
+	/// Laedt den Ton
 	void load();
-    /// Entlädt den Sound.
+    /// Entlaedt den Sound.
     void unload();
     /// Aktivieren
     virtual void setActive(bool active);
@@ -877,7 +877,7 @@ typedef std::map<CeGuiString, SoundResourcePtr> SoundCache;
 class SoundStitching
 {
 public:
-    // Einige Standardwerte für Soundprioritäten.
+    // Einige Standardwerte fuer Soundprioritaeten.
     enum SOUND_PRIORITY {
         PRIO_SPEECH = 30,
         PRIO_MUSIC = 75,

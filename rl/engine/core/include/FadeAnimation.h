@@ -44,10 +44,10 @@ class AnimationFadeOptions
         Ogre::Real mWeightEnd;
 };
 
-/** Eine Klasse zum automatischen Überblenden zwischen zwei (oder mehr) Animationen.
-  * Zur Zeit nur lineares Überblenden. 
-  * @todo Möglicherweise mit Animation verschmelzen oder selbe Basis geben...
-  * Jede Animation benötigt - FadeAnfang, FadeEnde
+/** Eine Klasse zum automatischen ueberblenden zwischen zwei (oder mehr) Animationen.
+  * Zur Zeit nur lineares ueberblenden. 
+  * @todo Moeglicherweise mit Animation verschmelzen oder selbe Basis geben...
+  * Jede Animation benoetigt - FadeAnfang, FadeEnde
   */
 class _RlCoreExport FadeAnimation : public BaseAnimation
 {
@@ -56,16 +56,16 @@ public:
 	FadeAnimation();
 	virtual ~FadeAnimation();
 
-    /// Fügt eine Animtion hinzu, die zwischen d
+    /// Fuegt eine Animtion hinzu, die zwischen d
     void addAnimation( MeshAnimation* anim, Ogre::Real timeStart, 
         Ogre::Real timeEnd, Ogre::Real weightStart, Ogre::Real weightEnd );
     void removeAnimation( MeshAnimation* anim );
-    /// Überschrieben von MeshAnimation
+    /// ueberschrieben von MeshAnimation
 	virtual void doAddTime( Ogre::Real timePassed );
 
-	/// Gibt zurück ob dieser Fader nach Beendigung automatisch gelöscht wird
+	/// Gibt zurueck ob dieser Fader nach Beendigung automatisch geloescht wird
 	bool isDeleteOnFinish() const;
-	/**	Löscht diesen Fader nach Beendigung automatisch */
+	/**	Loescht diesen Fader nach Beendigung automatisch */
 	void setDeleteOnFinish( bool deleteOnFinish );
     /// Checks if one of the blended Animations is anim
     bool containsAnimation( BaseAnimation* anim ) const;
@@ -73,7 +73,7 @@ private:
     typedef std::set<AnimationFadeOptions*> FadeOptionsSet;
 
     FadeOptionsSet mFadeOptions;
-	/// Löschen wenn das Faden beendet ist
+	/// Loeschen wenn das Faden beendet ist
 	bool mDeleteOnFinish;	
     bool mFadeSoft;
     bool mDeleteAnimationsOnFinish;

@@ -84,7 +84,7 @@ namespace rl
 		mActions.erase(iter);
 
 		LOG_MESSAGE(Logger::RULES,
-			"Action "+actionName+" beim ActionManager gelöscht");
+			"Action "+actionName+" beim ActionManager geloescht");
 	}
 
 	Action* ActionManager::getAction(const CeGuiString actionName) const

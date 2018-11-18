@@ -82,7 +82,7 @@ MeshObject* MeshAnimation::getMeshObject()
 
 void MeshAnimation::resetTimesPlayed()
 {
-	// Zurückspulen
+	// Zurueckspulen
 	if( mSpeed < 0 )
 		mAnimState->setTimePosition( mLength );
 	else if( mSpeed > 0 )

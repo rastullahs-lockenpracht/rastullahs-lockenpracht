@@ -26,7 +26,7 @@ namespace rl {
     class ListenerMovable;
     
     
-    /** Klasse für alle Listenerobjekte, die man an einen Aktor
+    /** Klasse fuer alle Listenerobjekte, die man an einen Aktor
      *  heften kann. Zwischen Actor und ActorControlledObject
      *  besteht eine 1:1-Beziehung.
      */
@@ -41,9 +41,9 @@ namespace rl {
         
         /**
          * Interne Methode. Wird vom Aktor aufgerufen, wenn sich dessen
-         * Status geändert hat. (Position, Orientierung, etc)
+         * Status geaendert hat. (Position, Orientierung, etc)
          * Die Standardimplementierung macht nichts, kann aber
-         * von abgeleiteten Klassen überschrieben werden.
+         * von abgeleiteten Klassen ueberschrieben werden.
          */
         virtual void _update();
         

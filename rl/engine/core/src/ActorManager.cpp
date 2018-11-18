@@ -76,7 +76,7 @@ namespace rl {
         {
             Actor* actor = it->second;
 
-            // Nur die Actoren verändern, deren Distanz nicht geändert wurde
+            // Nur die Actoren veraendern, deren Distanz nicht geaendert wurde
             if( actor->getRenderingDistance() == mActorRenderingDistance )
             {
                 actor->setRenderingDistance( dist );
@@ -307,7 +307,7 @@ namespace rl {
         {
             LOG_ERROR(Logger::CORE,
                 "ActorManager - Die Kamera '"
-                + name + "' für den Aktor '"
+                + name + "' fuer den Aktor '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getFullDescription());
         }
@@ -315,7 +315,7 @@ namespace rl {
         {
             LOG_ERROR(Logger::CORE,
                 "ActorManager - Die Kamera '"
-                + name + "' für den Aktor '"
+                + name + "' fuer den Aktor '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getMessage());
         }
@@ -397,14 +397,14 @@ namespace rl {
         catch (Ogre::Exception& e)
         {
             LOG_ERROR(Logger::CORE, "ActorManager - Das Mesh '"
-                + meshname + "' für den Aktor '"
+                + meshname + "' fuer den Aktor '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getFullDescription());
         }
         catch (rl::Exception& e)
         {
             LOG_ERROR(Logger::CORE, "ActorManager - Das Mesh '"
-                + meshname + "' für den Aktor '"
+                + meshname + "' fuer den Aktor '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getMessage());
         }
@@ -434,13 +434,13 @@ namespace rl {
         }
         catch (Ogre::Exception& e)
         {
-            LOG_ERROR(Logger::CORE, "ActorManager - Das BoxPrimitive für den Aktor '"
+            LOG_ERROR(Logger::CORE, "ActorManager - Das BoxPrimitive fuer den Aktor '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getFullDescription());
         }
         catch (rl::Exception& e)
         {
-            LOG_ERROR(Logger::CORE, "ActorManager - Das BoxPrimitive für den Aktor '"
+            LOG_ERROR(Logger::CORE, "ActorManager - Das BoxPrimitive fuer den Aktor '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getMessage());
         }
@@ -463,7 +463,7 @@ namespace rl {
         {
             LOG_ERROR(Logger::CORE,
                 "ActorManager - Das Partikelsystem '"
-                + partname + "' für den Aktor '"
+                + partname + "' fuer den Aktor '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getFullDescription());
         }
@@ -471,7 +471,7 @@ namespace rl {
         {
             LOG_ERROR(Logger::CORE,
                 "ActorManager - Das Partikelsystem '"
-                + partname + "' für den Aktor '"
+                + partname + "' fuer den Aktor '"
                 + uniquename + "' konnte nicht erstellt werden. Grund: "
                 + e.getMessage());
         }

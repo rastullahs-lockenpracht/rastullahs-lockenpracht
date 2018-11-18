@@ -25,7 +25,7 @@ using namespace Ogre;
 
 namespace rl
 {
-    // auch wenn Fallen nicht möglich ist (auf dem Boden und bewusstlos / Tod)
+    // auch wenn Fallen nicht moeglich ist (auf dem Boden und bewusstlos / Tod)
     LieDownMovement::LieDownMovement(CreatureController *creature) :
         AbstractMovement(creature)
     {

@@ -23,7 +23,7 @@
 namespace rl {
     
    /** Diese Klasse dient der Interaktion mit Ogre3d und
-    * kapselt den Hörer.
+    * kapselt den Hoerer.
     * @author Josch
     * @date 06-29-2005
     * @version 1.0
@@ -36,7 +36,7 @@ namespace rl {
         ListenerMovable(const Ogre::String& name);
         /// Destruktor
         virtual ~ListenerMovable() = 0;
-        /// Name zurückgeben
+        /// Name zurueckgeben
         virtual const Ogre::String& getName() const;
         /// Moveable-Typ
         virtual const Ogre::String& getMovableType() const;
@@ -85,7 +85,7 @@ namespace rl {
         Ogre::Vector3 mVelocity;
         /// Orientierung
         Ogre::Quaternion mOrientation;
-        /// Hauptlautstärke
+        /// Hauptlautstaerke
         int mGain;
 
     private:

@@ -87,7 +87,7 @@ namespace rl {
 		}
 		mButtons.clear();
 		LOG_DEBUG2(Logger::UI,
-			"Buttons gelöscht", "ActionChoiceWindow::showActionsOfObject");
+			"Buttons geloescht", "ActionChoiceWindow::showActionsOfObject");
 
 		CEGUI::UVector2 center(cegui_reldim(0.5), cegui_reldim(0.5));
 		static float RADIUS = 0.10;

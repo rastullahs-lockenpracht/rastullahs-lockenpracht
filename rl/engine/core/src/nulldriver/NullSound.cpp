@@ -74,7 +74,7 @@ bool NullSound::isValid() const throw (RuntimeException)
 }
 
 /**
- * @return Die gesamte Spiellänge des Sounds
+ * @return Die gesamte Spiellaenge des Sounds
  * @author JoSch
  * @date 03-18-2005
  */
