@@ -4,3 +4,6 @@
 [submodule "dependencies/newton"]
 	path = dependencies/newton
 	url = https://github.com/rastullahs-lockenpracht/newton.git
+[submodule "dependencies/meshmagick"]
+	path = dependencies/meshmagick
+	url = https://github.com/blakharaz/meshmagick.git
