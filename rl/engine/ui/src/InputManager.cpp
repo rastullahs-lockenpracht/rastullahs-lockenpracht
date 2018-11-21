@@ -570,13 +570,13 @@ namespace rl
     {
         using std::make_pair;
 
-        TiXmlDocument* doc = loadDocument(filename);
-        TiXmlElement* dataDocumentContent = doc->RootElement();
+        tinyxml2::XMLDocument* doc = loadDocument(filename);
+        tinyxml2::XMLElement* dataDocumentContent = doc->RootElement();
 
         XmlElementList keymaps = getElementsByTagName(dataDocumentContent, "Key");
         for (unsigned int idx = 0; idx < keymaps.size(); idx++)
         {
-            const TiXmlElement* key = keymaps[idx];
+            const tinyxml2::XMLElement* key = keymaps[idx];
             int keycode = getAttributeValueAsInteger(key, "KeyCode");
 
             CeGuiString s;

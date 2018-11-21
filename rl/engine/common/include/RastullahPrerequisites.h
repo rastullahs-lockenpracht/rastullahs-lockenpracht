@@ -61,6 +61,4 @@ template <class T1, class T2> bool max(T1 m1, T2 m2)
 #endif
 #endif
 
-#define TIXML_USE_STL 1 // Let TinyXML use STL strings
-
 #endif

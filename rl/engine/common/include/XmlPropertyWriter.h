@@ -19,7 +19,7 @@
 
 #include "CommonPrerequisites.h"
 
-#include <tinyxml.h>
+#include <tinyxml2.h>
 
 #include "Properties.h"
 #include "XmlProcessor.h"
@@ -37,23 +37,26 @@ namespace rl
         XmlPropertyWriter();
         virtual ~XmlPropertyWriter();
 
-        TiXmlDocument* getDocument();
+        tinyxml2::XMLDocument* getDocument();
 
         PropertyRecordPtr getPropertyRecords();
         void setPropertyRecords(PropertyRecordVector sets);
         void addPropertyRecord(PropertyRecordPtr set);
 
-        TiXmlElement* processProperty(TiXmlElement* parent, const PropertyEntry& entry);
-        TiXmlElement* processPropertyRecord(TiXmlElement* parent, const char* const name, const PropertyRecord& set);
-        TiXmlElement* processPropertyArray(TiXmlElement* parent, const char* const name, const PropertyArray& vector);
-        TiXmlElement* processPropertyMap(TiXmlElement* parent, const char* const name, const PropertyMap& map);
+        tinyxml2::XMLElement* processProperty(tinyxml2::XMLElement* parent, const PropertyEntry& entry);
+        tinyxml2::XMLElement* processPropertyRecord(
+            tinyxml2::XMLElement* parent, const char* const name, const PropertyRecord& set);
+        tinyxml2::XMLElement* processPropertyArray(
+            tinyxml2::XMLElement* parent, const char* const name, const PropertyArray& vector);
+        tinyxml2::XMLElement* processPropertyMap(
+            tinyxml2::XMLElement* parent, const char* const name, const PropertyMap& map);
 
-        void writeEachPropertyToElem(TiXmlElement* parent, const PropertyMap& map);
+        void writeEachPropertyToElem(tinyxml2::XMLElement* parent, const PropertyMap& map);
 
     protected:
         PropertyRecordVector mPropertyRecords;
 
-        TiXmlDocument* mDocument;
+        tinyxml2::XMLDocument* mDocument;
 
         Property getProperty(const Ogre::String& key, const CeGuiString& value);
     };

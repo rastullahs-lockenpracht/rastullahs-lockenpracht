@@ -29,7 +29,8 @@ namespace rl
     public:
         virtual ~AbstractMapNodeProcessor();
 
-        virtual bool processNode(const TiXmlElement* nodeElem, const Ogre::String& resourceGroup, bool loadGameObjects)
+        virtual bool processNode(
+            const tinyxml2::XMLElement* nodeElem, const Ogre::String& resourceGroup, bool loadGameObjects)
             = 0;
 
         void setRootSceneNode(Ogre::SceneNode* node);
@@ -38,10 +39,10 @@ namespace rl
         AbstractMapNodeProcessor();
 
         Ogre::String getRandomName(const Ogre::String& baseName) const;
-        Ogre::Vector3 processVector3(const TiXmlElement* nodeElem) const;
-        Ogre::Vector2 processVector2(const TiXmlElement* nodeElem) const;
-        Ogre::Quaternion processQuaternion(const TiXmlElement* nodeElem) const;
-        Ogre::ColourValue processColour(const TiXmlElement* colElem) const;
+        Ogre::Vector3 processVector3(const tinyxml2::XMLElement* nodeElem) const;
+        Ogre::Vector2 processVector2(const tinyxml2::XMLElement* nodeElem) const;
+        Ogre::Quaternion processQuaternion(const tinyxml2::XMLElement* nodeElem) const;
+        Ogre::ColourValue processColour(const tinyxml2::XMLElement* colElem) const;
 
         Ogre::SceneNode* getRootSceneNode() const;
 

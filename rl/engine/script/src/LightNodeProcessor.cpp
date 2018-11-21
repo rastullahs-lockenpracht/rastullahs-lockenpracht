@@ -25,7 +25,7 @@ using namespace Ogre;
 namespace rl
 {
     bool LightNodeProcessor::processNode(
-        const TiXmlElement* nodeElem, const Ogre::String& resourceGroup, bool loadGameObjects)
+        const tinyxml2::XMLElement* nodeElem, const Ogre::String& resourceGroup, bool loadGameObjects)
     {
         if (!hasNodeName(nodeElem, "light"))
         {
@@ -59,7 +59,7 @@ namespace rl
         }
         Actor* lightActor = ActorManager::getSingleton().createLightActor(name, type);
 
-        const TiXmlElement* posElem = getChildNamed(nodeElem, "position");
+        const tinyxml2::XMLElement* posElem = getChildNamed(nodeElem, "position");
         if (posElem != NULL)
         {
             lightActor->placeIntoScene(processVector3(posElem));
@@ -74,19 +74,19 @@ namespace rl
         light->setCastShadows(shadowCaster);
         light->setActive(visible);
 
-        const TiXmlElement* diffElem = getChildNamed(nodeElem, "colourDiffuse");
+        const tinyxml2::XMLElement* diffElem = getChildNamed(nodeElem, "colourDiffuse");
         if (diffElem != NULL)
         {
             light->setDiffuseColour(processColour(diffElem));
         }
 
-        const TiXmlElement* specElem = getChildNamed(nodeElem, "colourSpecular");
+        const tinyxml2::XMLElement* specElem = getChildNamed(nodeElem, "colourSpecular");
         if (specElem != NULL)
         {
             light->setSpecularColour(processColour(specElem));
         }
 
-        const TiXmlElement* attElem = getChildNamed(nodeElem, "lightAttenuation");
+        const tinyxml2::XMLElement* attElem = getChildNamed(nodeElem, "lightAttenuation");
         if (attElem != NULL)
         {
             if (hasAttribute(attElem, "range") && hasAttribute(attElem, "constant") && hasAttribute(attElem, "linear")
@@ -104,7 +104,7 @@ namespace rl
 
         if (stype == "directional")
         {
-            const TiXmlElement* dirElem = getChildNamed(nodeElem, "direction");
+            const tinyxml2::XMLElement* dirElem = getChildNamed(nodeElem, "direction");
             if (dirElem != NULL)
             {
                 light->setDirection(processVector3(dirElem));
@@ -116,7 +116,7 @@ namespace rl
         }
         else if (stype == "spot")
         {
-            const TiXmlElement* rangeElem = getChildNamed(nodeElem, "spotlightrange");
+            const tinyxml2::XMLElement* rangeElem = getChildNamed(nodeElem, "spotlightrange");
             if (rangeElem != NULL)
             {
                 Ogre::Real innerAngle = getAttributeValueAsReal(rangeElem, "inner");

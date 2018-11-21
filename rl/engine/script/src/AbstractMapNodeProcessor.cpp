@@ -31,7 +31,7 @@ namespace rl
     {
     }
 
-    Vector3 AbstractMapNodeProcessor::processVector3(const TiXmlElement* vec3Elem) const
+    Vector3 AbstractMapNodeProcessor::processVector3(const tinyxml2::XMLElement* vec3Elem) const
     {
         Vector3 rval(Vector3::ZERO);
         if (vec3Elem != NULL)
@@ -53,7 +53,7 @@ namespace rl
         return rval;
     }
 
-    Vector2 AbstractMapNodeProcessor::processVector2(const TiXmlElement* vec2Elem) const
+    Vector2 AbstractMapNodeProcessor::processVector2(const tinyxml2::XMLElement* vec2Elem) const
     {
         Vector2 rval(Vector2::ZERO);
         if (vec2Elem != NULL)
@@ -71,7 +71,7 @@ namespace rl
         return rval;
     }
 
-    Quaternion AbstractMapNodeProcessor::processQuaternion(const TiXmlElement* quatElem) const
+    Quaternion AbstractMapNodeProcessor::processQuaternion(const tinyxml2::XMLElement* quatElem) const
     {
         Quaternion rval(Quaternion::IDENTITY);
         if (quatElem != NULL)
@@ -97,7 +97,7 @@ namespace rl
         return rval;
     }
 
-    ColourValue AbstractMapNodeProcessor::processColour(const TiXmlElement* colElem) const
+    ColourValue AbstractMapNodeProcessor::processColour(const tinyxml2::XMLElement* colElem) const
     {
         ColourValue rval(1, 1, 1, 1);
         if (colElem != NULL)
@@ -124,7 +124,6 @@ namespace rl
 
     Ogre::String AbstractMapNodeProcessor::getRandomName(const Ogre::String& baseName) const
     {
-        //        int rnd = rand();
         static int ival = 0;
         std::stringstream rval;
         rval << baseName << "_" << ++ival;

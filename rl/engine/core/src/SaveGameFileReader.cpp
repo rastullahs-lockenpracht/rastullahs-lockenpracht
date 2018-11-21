@@ -56,19 +56,19 @@ namespace rl
     {
         if (stream->size())
         {
-            TiXmlDocument* doc = loadDocument(stream);
+            tinyxml2::XMLDocument* doc = loadDocument(stream);
 
             XmlElementList headerDefsXml = getElementsByTagName(mDocument->RootElement(), "header");
             if (!headerDefsXml.empty())
             {
-                const TiXmlElement* elem = headerDefsXml[0];
-                /*TiXmlNodeList* headerDefChildren = elem->getChildNodes();
+                const tinyxml2::XMLElement* elem = headerDefsXml[0];
+                /*tinyxml2::XMLNodeList* headerDefChildren = elem->getChildNodes();
                 for(XMLSize_t childIdx = 0; childIdx < headerDefChildren->getLength(); childIdx++)
                 {
-                    TiXmlNode* curChild = headerDefChildren->item(childIdx);
-                    if (curChild->getNodeType() == TiXmlNode::ELEMENT_NODE)
+                    tinyxml2::XMLNode* curChild = headerDefChildren->item(childIdx);
+                    if (curChild->getNodeType() == tinyxml2::XMLNode::ELEMENT_NODE)
                     {
-                        PropertyEntry entry = processProperty(static_cast<TiXmlElement*>(curChild));
+                        PropertyEntry entry = processProperty(static_cast<tinyxml2::XMLElement*>(curChild));
                         if (entry.first != "")
                         {
                            file->setProperty(entry.first, entry.second);

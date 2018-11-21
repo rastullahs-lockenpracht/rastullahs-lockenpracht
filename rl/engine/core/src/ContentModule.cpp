@@ -216,13 +216,14 @@ namespace rl
         if (!this->isCommon())
         {
             LOG_MESSAGE(Logger::CORE, "Saving ContentLoaders");
-            TiXmlElement* contentLoadersNode
+            tinyxml2::XMLElement* contentLoadersNode
                 = writer->appendChildElement(writer->getDocument()->RootElement(), getXmlNodeIdentifier().c_str());
             writer->setAttributeValueAsString(contentLoadersNode, "name", mName);
 
             for (ContentLoaderVector::const_iterator it = mContentLoaders.begin(); it != mContentLoaders.end(); ++it)
             {
-                TiXmlElement* contentLoaderNode = writer->appendChildElement(contentLoadersNode, "contentloader");
+                tinyxml2::XMLElement* contentLoaderNode
+                    = writer->appendChildElement(contentLoadersNode, "contentloader");
                 writer->setAttributeValueAsString(contentLoaderNode, "classname", Property((*it)->getClassName()));
                 writer->writeEachPropertyToElem(contentLoaderNode, (*it)->getAllProperties()->toPropertyMap());
             }

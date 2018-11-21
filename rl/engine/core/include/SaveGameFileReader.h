@@ -17,7 +17,7 @@
 #ifndef _SaveGameFileReader_H_
 #define _SaveGameFileReader_H_
 
-#include <tinyxml.h>
+#include <tinyxml2.h>
 
 #include "SaveGameFile.h"
 #include "XmlPropertyReader.h"
@@ -30,7 +30,7 @@ namespace rl
     class _RlCoreExport SaveGameFileReader : public XmlPropertyReader
     {
     protected:
-        TiXmlDocument* mDocument;
+        tinyxml2::XMLDocument* mDocument;
 
     public:
         SaveGameFileReader();
@@ -39,7 +39,7 @@ namespace rl
 
         PropertyRecordPtr getAllPropertiesAsRecord(SaveGameData* data);
 
-        TiXmlDocument* getDocument()
+        tinyxml2::XMLDocument* getDocument()
         {
             return mDocument;
         }

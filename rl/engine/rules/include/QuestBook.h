@@ -113,7 +113,7 @@ namespace rl
         void fireJournalChanged(JournalEntry* entry, int reason);
 
         // loading quests from xml
-        virtual Quest* processQuest(TiXmlElement* dialogXml, Quest* parent);
+        virtual Quest* processQuest(tinyxml2::XMLElement* dialogXml, Quest* parent);
     };
 }
 #endif

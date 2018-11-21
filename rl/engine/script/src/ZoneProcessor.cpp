@@ -29,20 +29,19 @@ using namespace Ogre;
 
 namespace rl
 {
-
     bool ZoneProcessor::processNode(
-        const TiXmlElement* zonesElem, const Ogre::String& resourceGroup, bool loadGameObjects)
+        const tinyxml2::XMLElement* zonesElem, const Ogre::String& resourceGroup, bool loadGameObjects)
     {
         if (zonesElem == NULL)
         {
             return false; // no zones
         }
 
-        for (const TiXmlNode* cur = zonesElem->FirstChild(); cur != NULL; cur = cur->NextSibling())
+        for (const tinyxml2::XMLNode* cur = zonesElem->FirstChild(); cur != NULL; cur = cur->NextSibling())
         {
-            if (cur->Type() == TiXmlNode::ELEMENT && hasNodeName(cur, "zone"))
+            const tinyxml2::XMLElement* curZoneElem = cur->ToElement();
+            if (curZoneElem && hasNodeName(curZoneElem, "zone"))
             {
-                const TiXmlElement* curZoneElem = cur->ToElement();
                 if (hasAttribute(curZoneElem, "name"))
                 {
                     Ogre::String name = getAttributeValueAsStdString(curZoneElem, "name");
@@ -61,12 +60,12 @@ namespace rl
                         }
 
                         // multiple areas
-                        for (const TiXmlNode* curArea = cur->FirstChild(); curArea != NULL;
+                        for (const tinyxml2::XMLNode* curArea = cur->FirstChild(); curArea != NULL;
                              curArea = curArea->NextSibling())
                         {
-                            if (curArea->Type() == TiXmlNode::ELEMENT && hasNodeName(curArea, "area"))
+                            const tinyxml2::XMLElement* curAreaElem = curArea->ToElement();
+                            if (curAreaElem && hasNodeName(curAreaElem, "area"))
                             {
-                                const TiXmlElement* curAreaElem = curArea->ToElement();
                                 if (hasAttribute(curAreaElem, "type"))
                                 {
                                     // type
@@ -82,7 +81,7 @@ namespace rl
 
                                     // position
                                     Vector3 position = Vector3::ZERO;
-                                    const TiXmlElement* positionElem = getChildNamed(curAreaElem, "position");
+                                    const tinyxml2::XMLElement* positionElem = getChildNamed(curAreaElem, "position");
                                     if (positionElem)
                                     {
                                         position = getValueAsVector3(positionElem);
@@ -90,7 +89,7 @@ namespace rl
 
                                     // scale, rotation, offset
                                     Vector3 scale = Vector3::UNIT_SCALE;
-                                    const TiXmlElement* scaleElem = getChildNamed(curAreaElem, "scale");
+                                    const tinyxml2::XMLElement* scaleElem = getChildNamed(curAreaElem, "scale");
                                     if (!scaleElem)
                                     {
                                         scaleElem = getChildNamed(curAreaElem, "size");
@@ -102,14 +101,14 @@ namespace rl
                                     }
 
                                     Vector3 offset = Vector3::ZERO;
-                                    const TiXmlElement* offsetElem = getChildNamed(curAreaElem, "offset");
+                                    const tinyxml2::XMLElement* offsetElem = getChildNamed(curAreaElem, "offset");
                                     if (offsetElem)
                                     {
                                         offset = getValueAsVector3(offsetElem);
                                     }
 
                                     Quaternion rotation = Quaternion::IDENTITY;
-                                    const TiXmlElement* rotationElem = getChildNamed(curAreaElem, "rotation");
+                                    const tinyxml2::XMLElement* rotationElem = getChildNamed(curAreaElem, "rotation");
                                     if (rotationElem)
                                     {
                                         rotation = getValueAsQuaternion(rotationElem);
@@ -117,7 +116,7 @@ namespace rl
 
                                     // transition distance
                                     Real transitionDistance = 0;
-                                    const TiXmlElement* transitionElem
+                                    const tinyxml2::XMLElement* transitionElem
                                         = getChildNamed(curAreaElem, "transition_distance");
                                     if (transitionElem)
                                     {
@@ -202,11 +201,12 @@ namespace rl
 
                     if (zone)
                     {
-                        for (const TiXmlNode* cur = curZoneElem->FirstChild(); cur != NULL; cur = cur->NextSibling())
+                        for (const tinyxml2::XMLNode* cur = curZoneElem->FirstChild(); cur != NULL;
+                             cur = cur->NextSibling())
                         {
-                            if (cur->Type() == TiXmlNode::ELEMENT)
+                            const tinyxml2::XMLElement* curElem = cur->ToElement();
+                            if (curElem)
                             {
-                                const TiXmlElement* curElem = cur->ToElement();
                                 if (hasNodeName(curElem, "light"))
                                 {
                                     Ogre::String name = getAttributeValueAsStdString(curElem, "name");
@@ -228,7 +228,7 @@ namespace rl
                                             classname, name);
 
                                     // add trigger properties
-                                    for (const TiXmlNode* curProperty = cur->FirstChild(); curProperty != NULL;
+                                    for (const tinyxml2::XMLNode* curProperty = cur->FirstChild(); curProperty != NULL;
                                          curProperty = curProperty->NextSibling())
                                     {
                                         if (hasNodeName(curProperty, "property"))

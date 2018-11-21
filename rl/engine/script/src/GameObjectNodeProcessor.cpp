@@ -25,7 +25,7 @@ using namespace Ogre;
 namespace rl
 {
     bool GameObjectNodeProcessor::processNode(
-        const TiXmlElement* nodeElem, const Ogre::String& resourceGroup, bool loadGameObjects)
+        const tinyxml2::XMLElement* nodeElem, const Ogre::String& resourceGroup, bool loadGameObjects)
     {
         if (!hasNodeName(nodeElem, "gameobject"))
         {
@@ -56,25 +56,26 @@ namespace rl
                 return true;
             }
 
-            const TiXmlElement* posElem = getChildNamed(nodeElem, "position");
+            const tinyxml2::XMLElement* posElem = getChildNamed(nodeElem, "position");
             if (posElem != NULL)
             {
                 Vector3 pos = processVector3(posElem);
                 go->setPosition(pos);
             }
 
-            const TiXmlElement* oriElem = getChildNamed(nodeElem, "rotation");
+            const tinyxml2::XMLElement* oriElem = getChildNamed(nodeElem, "rotation");
             if (oriElem != NULL)
             {
                 Quaternion ori = processQuaternion(oriElem);
                 go->setOrientation(ori);
             }
 
-            for (const TiXmlNode* cur = nodeElem->FirstChild(); cur; cur = cur->NextSibling())
+            for (const tinyxml2::XMLNode* cur = nodeElem->FirstChild(); cur; cur = cur->NextSibling())
             {
-                if (cur->Type() == TiXmlNode::ELEMENT && hasNodeName(cur, "property"))
+                const tinyxml2::XMLElement* elem = cur->ToElement();
+                if (elem && hasNodeName(elem, "property"))
                 {
-                    PropertyEntry propEntry = processProperty(cur->ToElement());
+                    PropertyEntry propEntry = processProperty(elem);
                     if (propEntry.first != "")
                     {
                         go->setProperty(propEntry.first, propEntry.second);

@@ -38,13 +38,14 @@ namespace rl
 
     void XmlPropertyReader::parseGameObjectFile(Ogre::DataStreamPtr& stream, const Ogre::String& groupName)
     {
-        TiXmlDocument* doc = loadDocument(stream);
+        tinyxml2::XMLDocument* doc = loadDocument(stream);
         doc->Accept(this);
     }
 
-    bool XmlPropertyReader::VisitEnter(const TiXmlElement& element, const TiXmlAttribute* firstAttribute)
+    bool XmlPropertyReader::VisitEnter(
+        const tinyxml2::XMLElement& element, const tinyxml2::XMLAttribute* firstAttribute)
     {
-        if (element.ValueTStr() == "gameobjectclass")
+        if (element.Value() == std::string("gameobjectclass"))
         {
             processGameObjectClassNode(element);
             return false;
@@ -52,11 +53,11 @@ namespace rl
         return true;
     }
 
-    void XmlPropertyReader::processGameObjectClassNode(const TiXmlElement& element)
+    void XmlPropertyReader::processGameObjectClassNode(const tinyxml2::XMLElement& element)
     {
         PropertyRecordPtr ps(new PropertyRecord());
 
-        for (const TiXmlAttribute* curAttr = element.FirstAttribute(); curAttr; curAttr = curAttr->Next())
+        for (const tinyxml2::XMLAttribute* curAttr = element.FirstAttribute(); curAttr; curAttr = curAttr->Next())
         {
             PropertyEntry entry = processProperty(curAttr);
             if (entry.first != "")
@@ -65,11 +66,13 @@ namespace rl
             }
         }
 
-        for (const TiXmlNode* curChild = element.FirstChild(); curChild; curChild = curChild->NextSibling())
+        for (const tinyxml2::XMLNode* curChild = element.FirstChild(); curChild; curChild = curChild->NextSibling())
         {
-            if (curChild->Type() == TiXmlNode::ELEMENT)
+            const tinyxml2::XMLElement* curElem = curChild->ToElement();
+
+            if (curElem)
             {
-                PropertyEntry entry = processProperty(curChild->ToElement());
+                PropertyEntry entry = processProperty(curElem);
                 if (entry.first != "")
                 {
                     ps->setProperty(entry.first, entry.second);
@@ -84,12 +87,12 @@ namespace rl
         return mPropertyRecords;
     }
 
-    PropertyEntry XmlPropertyReader::processProperty(const TiXmlAttribute* attribute) const
+    PropertyEntry XmlPropertyReader::processProperty(const tinyxml2::XMLAttribute* attribute) const
     {
         return std::make_pair(attribute->Name(), Property(CeGuiString(attribute->Value())));
     }
 
-    PropertyEntry XmlPropertyReader::processProperty(const TiXmlElement* domElem) const
+    PropertyEntry XmlPropertyReader::processProperty(const tinyxml2::XMLElement* domElem) const
     {
         if (!hasAttribute(domElem, "type"))
         {
@@ -175,11 +178,13 @@ namespace rl
         else if (type == "ARRAY")
         {
             std::vector<Property> vecVal;
-            for (const TiXmlNode* curChild = domElem->FirstChild(); curChild; curChild = curChild->NextSibling())
+            for (const tinyxml2::XMLNode* curChild = domElem->FirstChild(); curChild;
+                 curChild = curChild->NextSibling())
             {
-                if (curChild->Type() == TiXmlNode::ELEMENT)
+                const tinyxml2::XMLElement* curElem = curChild->ToElement();
+                if (curElem)
                 {
-                    PropertyEntry entry = processProperty(curChild->ToElement());
+                    PropertyEntry entry = processProperty(curElem);
                     vecVal.push_back(entry.second);
                 }
             }
@@ -215,11 +220,12 @@ namespace rl
         else if (type == "MAP")
         {
             PropertyMap mapVal;
-            for (const TiXmlNode* curChild = domElem->FirstChild(); curChild; curChild = curChild->NextSibling())
+            for (const tinyxml2::XMLNode* curChild = domElem->FirstChild(); curChild;
+                 curChild = curChild->NextSibling())
             {
-                if (curChild->Type() == TiXmlNode::ELEMENT)
+                const tinyxml2::XMLElement* curElem = curChild->ToElement();
+                if (curElem)
                 {
-                    const TiXmlElement* curElem = curChild->ToElement();
                     CeGuiString key = getAttributeValueAsString(curElem, "name");
                     PropertyEntry entry = processProperty(curElem);
                     mapVal[key] = entry.second;
@@ -231,15 +237,16 @@ namespace rl
         return std::make_pair(key, prop);
     }
 
-    PropertyRecordPtr XmlPropertyReader::getPropertiesAsRecord(const TiXmlElement* parent)
+    PropertyRecordPtr XmlPropertyReader::getPropertiesAsRecord(const tinyxml2::XMLElement* parent)
     {
         PropertyRecordPtr ps(new PropertyRecord());
 
-        for (const TiXmlNode* curChild = parent->FirstChild(); curChild; curChild = curChild->NextSibling())
+        for (const tinyxml2::XMLNode* curChild = parent->FirstChild(); curChild; curChild = curChild->NextSibling())
         {
-            if (curChild->Type() == TiXmlNode::ELEMENT)
+            const tinyxml2::XMLElement* curElem = curChild->ToElement();
+            if (curElem)
             {
-                PropertyEntry entry = processProperty(curChild->ToElement());
+                PropertyEntry entry = processProperty(curElem);
                 if (entry.first != "")
                 {
                     ps->setProperty(entry.first, entry.second);

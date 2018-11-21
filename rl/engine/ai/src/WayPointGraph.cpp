@@ -102,19 +102,19 @@ namespace rl
             group = CoreSubsystem::getSingleton().getActiveAdventureModule()->getId();
         }
 
-        TiXmlDocument* doc = loadDocument(filename, group);
+        tinyxml2::XMLDocument* doc = loadDocument(filename, group);
         if (doc)
         {
-            TiXmlElement* rootElem = doc->RootElement();
+            tinyxml2::XMLElement* rootElem = doc->RootElement();
 
-            TiXmlElement* nodesElem = getChildNamed(rootElem, "waypointnodes");
+            tinyxml2::XMLElement* nodesElem = getChildNamed(rootElem, "waypointnodes");
             std::map<int, WayPointNode*> lookupTable;
-            for (TiXmlNode* curNode = nodesElem->FirstChild(); curNode; curNode = curNode->NextSibling())
+            for (tinyxml2::XMLNode* curNode = nodesElem->FirstChild(); curNode; curNode = curNode->NextSibling())
             {
-                if (curNode->Type() == TiXmlNode::ELEMENT || hasNodeName(curNode, "node"))
-                {
-                    TiXmlElement* curElem = static_cast<TiXmlElement*>(curNode);
+                tinyxml2::XMLElement* curElem = curNode->ToElement();
 
+                if (curElem && hasNodeName(curElem, "node"))
+                {
                     Vector3 pos = getValueAsVector3(curElem);
                     CeGuiString typeS = getAttributeValueAsString(curElem, "type");
                     int id = getAttributeValueAsInteger(curElem, "id");
@@ -134,12 +134,14 @@ namespace rl
                 }
             }
 
-            TiXmlElement* edgesElem = getChildNamed(rootElem, "waypointedges");
-            for (TiXmlNode* curNode = edgesElem->FirstChild(); curNode; curNode = curNode->NextSibling())
+            tinyxml2::XMLElement* edgesElem = getChildNamed(rootElem, "waypointedges");
+            for (tinyxml2::XMLNode* curNode = edgesElem->FirstChild(); curNode; curNode = curNode->NextSibling())
             {
-                if (curNode->Type() == TiXmlNode::ELEMENT || hasNodeName(curNode, "edge"))
+                tinyxml2::XMLElement* curElem = curNode->ToElement();
+
+                if (curElem && hasNodeName(curNode, "edge"))
                 {
-                    TiXmlElement* curElem = static_cast<TiXmlElement*>(curNode);
+                    tinyxml2::XMLElement* curElem = static_cast<tinyxml2::XMLElement*>(curNode);
                     int source = getAttributeValueAsInteger(curElem, "source");
                     int destination = getAttributeValueAsInteger(curElem, "destination");
                     addDirectedConnection(lookupTable[source], lookupTable[destination]);

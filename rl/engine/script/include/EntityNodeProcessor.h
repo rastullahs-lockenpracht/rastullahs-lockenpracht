@@ -33,13 +33,14 @@ namespace rl
     public:
         EntityNodeProcessor(const Ogre::String& resourcegroup);
 
-        virtual bool processNode(const TiXmlElement* nodeElem, const Ogre::String& resourceGroup, bool loadGameObjects);
+        virtual bool processNode(
+            const tinyxml2::XMLElement* nodeElem, const Ogre::String& resourceGroup, bool loadGameObjects);
 
     private:
         Ogre::String mResourceGroup;
 
-        void createCollision(Ogre::Entity* entity, Ogre::String meshFile, const TiXmlElement* physicsProxyElem);
-        void processAnimation(Ogre::Entity* entity, const TiXmlElement* animationElem);
+        void createCollision(Ogre::Entity* entity, Ogre::String meshFile, const tinyxml2::XMLElement* physicsProxyElem);
+        void processAnimation(Ogre::Entity* entity, const tinyxml2::XMLElement* animationElem);
     };
 }
 

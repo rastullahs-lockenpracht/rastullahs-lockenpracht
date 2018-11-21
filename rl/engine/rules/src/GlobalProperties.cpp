@@ -63,7 +63,7 @@ namespace rl
 
     void GlobalProperties::writeData(SaveGameFileWriter* writer)
     {
-        TiXmlElement* elem
+        tinyxml2::XMLElement* elem
             = writer->appendChildElement(writer->getDocument()->RootElement(), getXmlNodeIdentifier().c_str());
         writer->writeEachPropertyToElem(elem, mProperties.toPropertyMap());
     }
@@ -74,7 +74,7 @@ namespace rl
             = reader->getElementsByTagName(reader->getDocument(), getXmlNodeIdentifier().c_str());
         if (!rootNodeList.empty())
         {
-            const TiXmlElement* elem = rootNodeList[0];
+            const tinyxml2::XMLElement* elem = rootNodeList[0];
 
             PropertyRecordPtr properties = reader->getPropertiesAsRecord(elem);
 

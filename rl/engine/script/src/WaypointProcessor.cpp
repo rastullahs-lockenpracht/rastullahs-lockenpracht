@@ -26,20 +26,20 @@ using namespace Ogre;
 namespace rl
 {
     bool WaypointProcessor::processNode(
-        const TiXmlElement* nodeElem, const Ogre::String& resourceGroup, bool loadGameObjects)
+        const tinyxml2::XMLElement* nodeElem, const Ogre::String& resourceGroup, bool loadGameObjects)
     {
         if (nodeElem == NULL)
         {
             return false;
         }
 
-        for (const TiXmlNode* cur = nodeElem->FirstChild(); cur != NULL; cur = cur->NextSibling())
+        for (const tinyxml2::XMLNode* cur = nodeElem->FirstChild(); cur != NULL; cur = cur->NextSibling())
         {
-            if (cur->Type() == TiXmlNode::ELEMENT && hasNodeName(cur, "landmark"))
+            const tinyxml2::XMLElement* elem = cur->ToElement();
+            if (elem && hasNodeName(elem, "landmark"))
             {
-                const TiXmlElement* elem = cur->ToElement();
                 Ogre::String name = getAttributeValueAsStdString(elem, "name");
-                const TiXmlElement* posChild = getChildNamed(elem, "position");
+                const tinyxml2::XMLElement* posChild = getChildNamed(elem, "position");
                 if (name != "" && posChild != NULL)
                 {
                     AiSubsystem::getSingleton().createLandmark(name, processVector3(posChild));
@@ -47,22 +47,22 @@ namespace rl
             }
         }
 
-        for (const TiXmlNode* cur = nodeElem->FirstChild(); cur != NULL; cur = cur->NextSibling())
+        for (const tinyxml2::XMLNode* cur = nodeElem->FirstChild(); cur != NULL; cur = cur->NextSibling())
         {
-            if (cur->Type() == TiXmlNode::ELEMENT && hasNodeName(cur, "landmarkgraph"))
+            const tinyxml2::XMLElement* elem = cur->ToElement();
+            if (elem && hasNodeName(elem, "landmarkgraph"))
             {
-                const TiXmlElement* elem = cur->ToElement();
                 ///@todo process waypointgraph
                 Ogre::String name;
 
                 LandmarkPath* path = AiSubsystem::getSingleton().createLandmarkPath(name);
 
-                for (const TiXmlNode* curPathChild = nodeElem->FirstChild(); curPathChild != NULL;
+                for (const tinyxml2::XMLNode* curPathChild = nodeElem->FirstChild(); curPathChild != NULL;
                      curPathChild = curPathChild->NextSibling())
                 {
-                    if (curPathChild->Type() == TiXmlNode::ELEMENT && hasNodeName(curPathChild, "landmark"))
+                    const tinyxml2::XMLElement* curLmElem = curPathChild->ToElement();
+                    if (curLmElem && hasNodeName(curLmElem, "landmark"))
                     {
-                        const TiXmlElement* curLmElem = curPathChild->ToElement();
                         Landmark* lm
                             = AiSubsystem::getSingleton().getLandmark(getAttributeValueAsStdString(curLmElem, "name"));
 

@@ -1,0 +1,65 @@
+# Find TinyXML2 (A small XML DOM library)
+#
+# This module defines
+# TINYXML2_FOUND       - TinyXML was found
+# TINYXML2_INCLUDE_DIR - Directory containing TinyXML header files
+# TINYXML2_LIBRARY     - Library name of TinyXML library
+#
+# Redistribution and use is allowed according to the terms of the BSD license.
+# For details see the accompanying COPYING-CMAKE-SCRIPTS file.
+
+# On a new cmake run, we do not need to be verbose
+IF(TINYXML2_INCLUDE_DIR AND TINYXML2_LIBRARY)
+	SET(TINYXML2_FOUND_QUIETLY TRUE)
+ENDIF(TINYXML2_INCLUDE_DIR AND TINYXML2_LIBRARY)
+
+IF(WIN32)
+
+ELSE(WIN32)
+	IF(NOT TINYXML2_FOUND)
+		SET(TINYXML2_INCLUDE_SEARCH_DIRS
+		    /usr/include
+		    /usr/local/include
+		    /opt/include
+		    /opt/tinyxml2/include)
+		SET(TINYXML2_LIBRARY_SEARCH_DIRS
+		    /usr/lib
+		    /usr/lib64
+		    /usr/x86_linux-gnu
+		    /usr/local/lib
+		    /usr/local/lib64
+		    /opt/tinyxml2/lib
+		    /opt/tinyxml2/lib64)
+		SET(TINYXML2_INC_DIR_SUFFIXES PATH_SUFFIXES tinyxml)
+		FIND_PATH(TINYXML2_INCLUDE_DIR tinyxml2.h
+		          PATHS ${TINYXML2_INCLUDE_SEARCH_DIRS}
+		          PATH_SUFFIXES ${TINYXML2_INC_DIR_SUFFIXES})
+                SET(TINYXML2_LIBRARY tinyxml2)
+		FIND_PATH(TINYXML2_LIBRARY_DIRS libtinyxml2.a
+		             PATHS ${TINYXML2_LIBRARY_SEARCH_DIRS}
+		             PATH_SUFFIXES ${TINYXML2_LIB_DIR_SUFFIXES}})
+	ENDIF(NOT TINYXML2_FOUND)
+ENDIF(WIN32)
+
+SET(TINYXML2_INCLUDE_DIR ${TINYXML2_INCLUDE_DIR} CACHE STRING "Directory containing TinyXML header files")
+SET(TINYXML2_LIBRARY ${TINYXML2_LIBRARY} CACHE STRING "Library name of TinyXML library")
+
+IF(TINYXML2_INCLUDE_DIR AND TINYXML2_LIBRARY_DIRS)
+	SET(TINYXML2_FOUND TRUE)
+ENDIF(TINYXML2_INCLUDE_DIR AND TINYXML2_LIBRARY_DIRS)
+
+IF(TINYXML2_FOUND)
+	IF(NOT TINYXML2_FIND_QUIETLY)
+		MESSAGE(STATUS "  libraries: ${TINYXML2_LIBRARY} from ${TINYXML2_LIBRARY_DIRS}")
+		MESSAGE(STATUS "  includes: ${TINYXML2_INCLUDE_DIR}")
+	ENDIF(NOT TINYXML2_FIND_QUIETLY)
+ELSE(TINYXML2_FOUND)
+	IF(TINYXML2_FIND_REQUIRED)
+		IF(NOT TINYXML2_LIBRARY_DIRS)
+			MESSAGE(SEND_ERROR, "TinyXML library could not be found.")
+		ENDIF(NOT TINYXML2_LIBRARY)
+		IF(NOT TINYXML2_INCLUDE_DIR)
+			MESSAGE(SEND_ERROR "TinyXML include files could not be found.")
+		ENDIF(NOT TINYXML2_INCLUDE_DIR)
+	ENDIF(TINYXML2_FIND_REQUIRED)
+ENDIF(TINYXML2_FOUND)

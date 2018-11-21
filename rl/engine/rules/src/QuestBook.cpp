@@ -349,10 +349,10 @@ namespace rl
 
     void QuestBook::parseScript(Ogre::DataStreamPtr& stream, const Ogre::String& groupname)
     {
-        TiXmlDocument* doc = loadDocument(stream);
+        tinyxml2::XMLDocument* doc = loadDocument(stream);
         if (doc)
         {
-            for (TiXmlNode* cur = doc->RootElement()->FirstChild(); cur != NULL; cur = cur->NextSibling())
+            for (tinyxml2::XMLNode* cur = doc->RootElement()->FirstChild(); cur != NULL; cur = cur->NextSibling())
             {
                 if (hasNodeName(cur, "quest"))
                 {
@@ -372,13 +372,13 @@ namespace rl
         return 1000;
     }
 
-    Quest* QuestBook::processQuest(TiXmlElement* questXml, Quest* parent)
+    Quest* QuestBook::processQuest(tinyxml2::XMLElement* questXml, Quest* parent)
     {
         Quest* quest = new Quest(getAttributeValueAsString(questXml, "id"));
         parent->addSubquest(quest);
         quest->setKnown(false);
         quest->setState(Quest::OPEN);
-        for (TiXmlNode* cur = questXml->FirstChild(); cur != NULL; cur = cur->NextSibling())
+        for (tinyxml2::XMLNode* cur = questXml->FirstChild(); cur != NULL; cur = cur->NextSibling())
         {
             if (hasNodeName(cur, "name"))
             {

@@ -44,8 +44,8 @@ namespace rl
 
     void XdimlLoader::parseScript(Ogre::DataStreamPtr& stream, const Ogre::String& groupName)
     {
-        TiXmlDocument* doc = loadDocument(stream);
-        TiXmlElement* dataDocumentContent = getChildNamed(doc->RootElement(), "Inhalt");
+        tinyxml2::XMLDocument* doc = loadDocument(stream);
+        tinyxml2::XMLElement* dataDocumentContent = getChildNamed(doc->RootElement(), "Inhalt");
 
         initializeTalente(getChildNamed(dataDocumentContent, "Talente"));
         initializeKampftechniken(getChildNamed(dataDocumentContent, "Kampftechniken"));
@@ -62,7 +62,7 @@ namespace rl
         return 1000.0;
     }
 
-    void XdimlLoader::initializeTalente(const TiXmlElement* rootTalente)
+    void XdimlLoader::initializeTalente(const tinyxml2::XMLElement* rootTalente)
     {
         if (rootTalente == NULL)
             return;
@@ -70,7 +70,7 @@ namespace rl
         XmlElementList talentGruppen = getElementsByTagName(rootTalente, "Talentgruppe");
         for (unsigned int gruppe = 0; gruppe < talentGruppen.size(); gruppe++)
         {
-            const TiXmlElement* gruppeData = talentGruppen[gruppe];
+            const tinyxml2::XMLElement* gruppeData = talentGruppen[gruppe];
             XmlElementList talenteXml = getElementsByTagName(gruppeData, "Talent");
             // int numTalent = 0;
             for (unsigned int talentIdx = 0; talentIdx < talenteXml.size(); talentIdx++)
@@ -83,13 +83,13 @@ namespace rl
         }
     }
 
-    Talent* XdimlLoader::processTalent(int gruppe, const TiXmlElement* talentXml)
+    Talent* XdimlLoader::processTalent(int gruppe, const tinyxml2::XMLElement* talentXml)
     {
         CeGuiString desc = getValueAsString(getChildNamed(talentXml, "Beschreibung"));
         CeGuiString probe = getValueAsString(getChildNamed(talentXml, "Probe"));
         CeGuiString art = getValueAsString(getChildNamed(talentXml, "Art"));
-        const TiXmlElement* eBeNode = getChildNamed(talentXml, "eBE");
-        const TiXmlElement* ausweichTalenteNode = getChildNamed(talentXml, "Ausweichtalente");
+        const tinyxml2::XMLElement* eBeNode = getChildNamed(talentXml, "eBE");
+        const tinyxml2::XMLElement* ausweichTalenteNode = getChildNamed(talentXml, "Ausweichtalente");
 
         int ebe = EBE_KEINE_BE;
         if (eBeNode != NULL)
@@ -111,7 +111,7 @@ namespace rl
             XmlElementList ausweichTalentGruppen = getElementsByTagName(ausweichTalenteNode, "Ausweichtalent");
             for (unsigned int ausweich = 0; ausweich < ausweichTalentGruppen.size(); ausweich++)
             {
-                const TiXmlElement* ausweichData = ausweichTalentGruppen[ausweich];
+                const tinyxml2::XMLElement* ausweichData = ausweichTalentGruppen[ausweich];
                 CeGuiString ausweichName = getAttributeValueAsString(ausweichData, "ID");
 
                 ausweichTalente[ausweichName] = getValueAsInteger(getChildNamed(ausweichData, "Aufschlag"));
@@ -147,7 +147,7 @@ namespace rl
         return atoi(ebe.c_str());
     }
 
-    void XdimlLoader::initializeKampftechniken(const TiXmlElement* rootKampftechniken)
+    void XdimlLoader::initializeKampftechniken(const tinyxml2::XMLElement* rootKampftechniken)
     {
         if (rootKampftechniken == NULL)
             return;
@@ -155,7 +155,7 @@ namespace rl
         XmlElementList kampfarten = getElementsByTagName(rootKampftechniken, "Kampfart");
         for (unsigned int art = 0; art < kampfarten.size(); art++)
         {
-            const TiXmlElement* artData = kampfarten[art];
+            const tinyxml2::XMLElement* artData = kampfarten[art];
             XmlElementList kampftechnikenXml = getElementsByTagName(artData, "Kampftechnik");
             int numKampftechnik = 0;
             for (unsigned int kampftechnikIdx = 0; kampftechnikIdx < kampftechnikenXml.size(); kampftechnikIdx++)
@@ -167,11 +167,11 @@ namespace rl
         }
     }
 
-    Kampftechnik* XdimlLoader::processKampftechnik(const TiXmlElement* kampftechnikXml)
+    Kampftechnik* XdimlLoader::processKampftechnik(const tinyxml2::XMLElement* kampftechnikXml)
     {
         CeGuiString desc = getValueAsString(getChildNamed(kampftechnikXml, "Beschreibung"));
         CeGuiString art = getValueAsString(getChildNamed(kampftechnikXml, "Art"));
-        const TiXmlElement* eBeNode = getChildNamed(kampftechnikXml, "eBE");
+        const tinyxml2::XMLElement* eBeNode = getChildNamed(kampftechnikXml, "eBE");
         int ebe = EBE_KEINE_BE;
         if (eBeNode != NULL)
         {
@@ -184,7 +184,7 @@ namespace rl
         return k;
     }
 
-    void XdimlLoader::initializeCreatures(const TiXmlElement* rootPersons)
+    void XdimlLoader::initializeCreatures(const tinyxml2::XMLElement* rootPersons)
     {
         if (rootPersons == NULL)
             return;
@@ -197,7 +197,7 @@ namespace rl
         }
     }
 
-    Creature* XdimlLoader::processCreature(const TiXmlElement* personXml)
+    Creature* XdimlLoader::processCreature(const tinyxml2::XMLElement* personXml)
     {
         CeGuiString name = getValueAsString(getChildNamed(personXml, "Name"));
         CeGuiString desc = getValueAsString(getChildNamed(personXml, "Beschreibung"));
@@ -212,7 +212,7 @@ namespace rl
         // Die Eigenschaftsnamen mssen durch ihre Abkrzung ersetzt werden.
         for (unsigned int idx = 0; idx < eigensch.size(); idx++)
         {
-            const TiXmlElement* eigenschXml = eigensch[idx];
+            const tinyxml2::XMLElement* eigenschXml = eigensch[idx];
             CeGuiString eigName = getAttributeValueAsString(eigenschXml, "ID");
             if (eigName == DsaManager::getSingleton().getEigenschaft(E_MUT)->getName())
                 eigName = DsaManager::getSingleton().getEigenschaft(E_MUT)->getNameAbbreviation();
@@ -239,7 +239,7 @@ namespace rl
         XmlElementList werte = getElementsByTagName(getChildNamed(personXml, "AbgeleiteteWerte"), "AbgeleiteterWert");
         for (unsigned int idx = 0; idx < werte.size(); idx++)
         {
-            const TiXmlElement* wertXml = werte[idx];
+            const tinyxml2::XMLElement* wertXml = werte[idx];
             int basis = getValueAsInteger(getChildNamed(wertXml, "Basiswert"));
             int wert = getValueAsInteger(getChildNamed(wertXml, "Wert"));
 
@@ -270,7 +270,7 @@ namespace rl
         XmlElementList talente = getElementsByTagName(getChildNamed(personXml, "Talente"), "Talent");
         for (unsigned int idx = 0; idx < talente.size(); idx++)
         {
-            const TiXmlElement* talentXml = talente[idx];
+            const tinyxml2::XMLElement* talentXml = talente[idx];
 
             CeGuiString talentName = getAttributeValueAsString(talentXml, "ID");
 

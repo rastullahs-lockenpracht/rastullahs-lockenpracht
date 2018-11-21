@@ -26,7 +26,7 @@ using namespace Ogre;
 namespace rl
 {
     bool ParticleSystemNodeProcessor::processNode(
-        const TiXmlElement* nodeElem, const Ogre::String& resourceGroup, bool loadGameObjects)
+        const tinyxml2::XMLElement* nodeElem, const Ogre::String& resourceGroup, bool loadGameObjects)
     {
         if (!hasNodeName(nodeElem, "particlesystem"))
         {
