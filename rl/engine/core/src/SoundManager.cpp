@@ -29,7 +29,10 @@
 #include "SoundDriver.h"
 #include "SoundResource.h"
 
+#ifdef USE_FMOD4
 #include "Fmod4Driver.h"
+#endif
+
 #include "NullDriver.h"
 
 using namespace std;
@@ -60,8 +63,10 @@ namespace rl
         registerDriver(nullDriver);
         setActiveDriver(nullDriver);
 
+#ifdef USE_FMOD4
         Fmod4Driver* fmod4Driver = new Fmod4Driver(this);
         registerDriver(fmod4Driver);
+#endif
 
         mResourceType = "Sound";
         ResourceGroupManager::getSingleton()._registerResourceManager(mResourceType, this);
