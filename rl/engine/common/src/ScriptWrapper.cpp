@@ -20,7 +20,7 @@
 
 using namespace Ogre;
 
-template <> rl::ScriptWrapper* Singleton<rl::ScriptWrapper>::ms_Singleton = 0;
+template <> rl::ScriptWrapper* Singleton<rl::ScriptWrapper>::msSingleton = 0;
 
 namespace rl
 {

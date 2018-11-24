@@ -42,12 +42,12 @@ namespace rl
         , mAlignment(MovableText::ALIGN_LEFT)
 
     {
-        if (name == StringUtil::BLANK)
+        if (name == Ogre::BLANKSTRING)
         {
             Throw(IllegalArgumentException, "Trying to create MovableText without name");
         }
 
-        if (caption == StringUtil::BLANK)
+        if (caption == Ogre::BLANKSTRING)
         {
             Throw(IllegalArgumentException, "Trying to create MovableText without caption");
         }

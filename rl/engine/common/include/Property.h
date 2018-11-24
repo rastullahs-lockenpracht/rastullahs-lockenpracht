@@ -111,28 +111,7 @@ namespace rl
         Ogre::String mName;
     };
 
-    class _RlCommonExport PropertyPtr : public Ogre::SharedPtr<Property>
-    {
-    public:
-        PropertyPtr()
-            : Ogre::SharedPtr<Property>()
-        {
-        }
-        explicit PropertyPtr(Property* rep)
-            : Ogre::SharedPtr<Property>(rep)
-        {
-        }
-        PropertyPtr(const PropertyPtr& res)
-            : Ogre::SharedPtr<Property>(res)
-        {
-        }
-
-    protected:
-        void destroy()
-        {
-            Ogre::SharedPtr<Property>::destroy();
-        }
-    };
+    using PropertyPtr = std::shared_ptr<Property>;
 
 #if CEGUI_STRING_CLASS == CEGUI_STRING_CLASS_UNICODE
     template <typename T> PropertyMap convertToPropertyMap(const std::map<const CeGuiString, T>& input)

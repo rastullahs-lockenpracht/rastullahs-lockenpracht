@@ -49,7 +49,7 @@
 #include "WindowManager.h"
 
 using namespace Ogre;
-template <> rl::UiSubsystem* Singleton<rl::UiSubsystem>::ms_Singleton = 0;
+template <> rl::UiSubsystem* Singleton<rl::UiSubsystem>::msSingleton = 0;
 
 // this function needs to be in the CEGUI-namespace
 namespace CEGUI

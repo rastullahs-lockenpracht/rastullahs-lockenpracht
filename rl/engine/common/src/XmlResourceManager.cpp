@@ -20,7 +20,7 @@
 
 using namespace Ogre;
 
-template <> rl::XmlResourceManager* Singleton<rl::XmlResourceManager>::ms_Singleton = 0;
+template <> rl::XmlResourceManager* Singleton<rl::XmlResourceManager>::msSingleton = 0;
 
 namespace rl
 {

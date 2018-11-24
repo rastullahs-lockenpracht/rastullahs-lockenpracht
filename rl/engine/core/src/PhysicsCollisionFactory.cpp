@@ -45,11 +45,11 @@ namespace rl
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
         mCachePathName = Ogre::String(Ogre::String(::getenv("HOME")) + "/.rastullah/cache/");
-        fs::path cachePath(mCachePathName, fs::portable_posix_name);
 #else
         mCachePathName = Ogre::String(ConfigurationManager::getSingleton().getModulesRootDirectory() + "/cache/");
-        fs::path cachePath(mCachePathName);
 #endif
+
+        fs::path cachePath(mCachePathName);
 
         if (!fs::exists(cachePath))
             fs::create_directory(cachePath);
@@ -656,11 +656,7 @@ namespace rl
             time_t meshFileModified = Ogre::ResourceGroupManager::getSingleton().resourceModifiedTime(
                 entity->getMesh()->getGroup(), entity->getMesh()->getName());
 
-#if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
-            fs::path cacheFilePath(mCachePathName + filename, fs::portable_posix_name);
-#else
             fs::path cacheFilePath(mCachePathName + filename);
-#endif
 
             time_t cacheFileModified = 0;
             if (fs::exists(cacheFilePath))

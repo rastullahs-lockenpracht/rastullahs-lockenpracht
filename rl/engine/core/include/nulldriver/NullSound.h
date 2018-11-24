@@ -38,9 +38,9 @@ namespace rl
         virtual ~NullSound();
 
         /// Laedt den Sound.
-        virtual void load() throw(RuntimeException);
+        virtual void load();
         /// Entlaedt den Sound.
-        virtual void unload() throw(RuntimeException);
+        virtual void unload();
 
         // Wir geben zurueck, wie lange der Sound ist.
         virtual float getLength() const;
@@ -85,31 +85,13 @@ namespace rl
 
     protected:
         // Sind wir gueltig?
-        virtual bool isValid() const throw(RuntimeException);
+        virtual bool isValid() const;
 
     private:
         // Shared class-level name for Movable type
         static Ogre::String msMovableType;
     };
 
-    class _RlCoreExport NullSoundPtr : public Ogre::SharedPtr<NullSound>
-    {
-    public:
-        NullSoundPtr()
-            : Ogre::SharedPtr<NullSound>()
-        {
-        }
-        explicit NullSoundPtr(NullSound* rep)
-            : Ogre::SharedPtr<NullSound>(rep)
-        {
-        }
-        NullSoundPtr(const NullSoundPtr& res)
-            : Ogre::SharedPtr<NullSound>(res)
-        {
-        }
-
-    protected:
-        void destroy();
-    };
+    using NullSoundPtr = Ogre::SharedPtr<NullSound>;
 }
 #endif

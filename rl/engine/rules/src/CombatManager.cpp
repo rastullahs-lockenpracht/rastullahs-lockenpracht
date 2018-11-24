@@ -24,7 +24,7 @@
 
 using namespace Ogre;
 
-template <> rl::CombatManager* Singleton<rl::CombatManager>::ms_Singleton = 0;
+template <> rl::CombatManager* Singleton<rl::CombatManager>::msSingleton = 0;
 
 namespace rl
 {

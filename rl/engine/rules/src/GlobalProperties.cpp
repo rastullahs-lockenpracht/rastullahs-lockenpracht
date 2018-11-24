@@ -19,7 +19,7 @@
 #include "GlobalProperties.h"
 #include "SaveGameManager.h"
 
-template <> rl::GlobalProperties* Ogre::Singleton<rl::GlobalProperties>::ms_Singleton = 0;
+template <> rl::GlobalProperties* Ogre::Singleton<rl::GlobalProperties>::msSingleton = 0;
 
 namespace rl
 {

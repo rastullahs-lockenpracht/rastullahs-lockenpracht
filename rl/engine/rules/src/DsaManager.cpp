@@ -30,7 +30,7 @@
 
 #include <cstdlib>
 
-template <> rl::DsaManager* Ogre::Singleton<rl::DsaManager>::ms_Singleton = 0;
+template <> rl::DsaManager* Ogre::Singleton<rl::DsaManager>::msSingleton = 0;
 
 using namespace std;
 using namespace Ogre;

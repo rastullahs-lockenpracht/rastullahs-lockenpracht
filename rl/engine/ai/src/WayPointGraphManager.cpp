@@ -22,7 +22,7 @@
 using namespace std;
 using namespace Ogre;
 
-template <> rl::WayPointGraphManager* Singleton<rl::WayPointGraphManager>::ms_Singleton = 0;
+template <> rl::WayPointGraphManager* Singleton<rl::WayPointGraphManager>::msSingleton = 0;
 
 namespace rl
 {

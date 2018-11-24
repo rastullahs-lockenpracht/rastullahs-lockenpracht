@@ -554,15 +554,17 @@ namespace rl
     tinyxml2::XMLDocument* XmlProcessor::loadDocument(
         const Ogre::String& resourceName, const Ogre::String& resourceGroup)
     {
-        XmlPtr res = XmlResourceManager::getSingleton().getByName(resourceName);
-        if (res.isNull())
+        XmlPtr res = std::dynamic_pointer_cast<XmlResource>(
+            XmlResourceManager::getSingleton().getResourceByName(resourceName));
+        if (!res)
         {
             Ogre::String group = ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME;
             if (resourceGroup != "" && ResourceGroupManager::getSingleton().resourceExists(resourceGroup, resourceName))
             {
                 group = resourceGroup;
             }
-            res = XmlResourceManager::getSingleton().create(resourceName, group);
+            res = std::dynamic_pointer_cast<XmlResource>(
+                XmlResourceManager::getSingleton().createOrRetrieve(resourceName, group).first);
         }
 
         tinyxml2::XMLDocument* doc = parseToXmlDocument(res->getContent());

@@ -27,7 +27,7 @@
 
 using namespace Ogre;
 
-template <> rl::GameLoop* Singleton<rl::GameLoop>::ms_Singleton = 0;
+template <> rl::GameLoop* Singleton<rl::GameLoop>::msSingleton = 0;
 
 namespace rl
 {
@@ -156,7 +156,7 @@ namespace rl
         mGameTime = elapsedTime;
 
         // Let Ogre handle Windows/XServer events.
-        WindowEventUtilities::messagePump();
+        //        Ogre::WindowEventUtilities::messagePump();
 
         // Render the next frame
         Root::getSingleton().renderOneFrame();

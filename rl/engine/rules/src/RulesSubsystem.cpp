@@ -34,7 +34,8 @@
 #include "PartyManager.h"
 #include "QuestBook.h"
 
-template <> rl::RulesSubsystem* Singleton<rl::RulesSubsystem>::ms_Singleton = 0;
+template <> rl::RulesSubsystem* Singleton<rl::RulesSubsystem>::msSingleton = 0;
+
 namespace rl
 {
     RulesSubsystem::RulesSubsystem()

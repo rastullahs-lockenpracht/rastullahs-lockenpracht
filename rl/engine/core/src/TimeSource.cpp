@@ -21,7 +21,7 @@
 #include "GameLoop.h"
 #include "SaveGameManager.h"
 
-template <> rl::TimeSourceManager* Ogre::Singleton<rl::TimeSourceManager>::ms_Singleton = 0;
+template <> rl::TimeSourceManager* Ogre::Singleton<rl::TimeSourceManager>::msSingleton = 0;
 
 namespace rl
 {

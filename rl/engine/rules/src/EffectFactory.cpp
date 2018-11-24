@@ -17,7 +17,7 @@
 
 #include "EffectFactory.h"
 
-template <> rl::EffectFactoryManager* Ogre::Singleton<rl::EffectFactoryManager>::ms_Singleton = 0;
+template <> rl::EffectFactoryManager* Ogre::Singleton<rl::EffectFactoryManager>::msSingleton = 0;
 
 namespace rl
 {

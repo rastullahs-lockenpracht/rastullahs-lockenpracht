@@ -34,7 +34,7 @@
 #include "Weapon.h"
 #include "XmlPropertyReader.h"
 
-template <> rl::GameObjectManager* Ogre::Singleton<rl::GameObjectManager>::ms_Singleton = NULL;
+template <> rl::GameObjectManager* Ogre::Singleton<rl::GameObjectManager>::msSingleton = NULL;
 
 namespace rl
 {

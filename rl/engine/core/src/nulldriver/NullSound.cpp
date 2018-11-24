@@ -51,7 +51,7 @@ namespace rl
      * @author JoSch
      * @date 07-12-2005
      */
-    void NullSound::load() throw(RuntimeException)
+    void NullSound::load()
     {
     }
 
@@ -59,7 +59,7 @@ namespace rl
      * @author JoSch
      * @date 07-22-2005
      */
-    void NullSound::unload() throw(RuntimeException)
+    void NullSound::unload()
     {
     }
 
@@ -68,7 +68,7 @@ namespace rl
      * @author JoSch
      * @date 07-12-2005
      */
-    bool NullSound::isValid() const throw(RuntimeException)
+    bool NullSound::isValid() const
     {
         return true;
     }
@@ -81,11 +81,6 @@ namespace rl
     float NullSound::getLength() const
     {
         return 0.0;
-    }
-
-    void NullSoundPtr::destroy()
-    {
-        SharedPtr<NullSound>::destroy();
     }
 
     /**

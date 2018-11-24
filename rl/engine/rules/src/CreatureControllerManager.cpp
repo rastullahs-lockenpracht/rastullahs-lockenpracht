@@ -25,7 +25,7 @@
 
 using namespace Ogre;
 
-template <> rl::CreatureControllerManager* Singleton<rl::CreatureControllerManager>::ms_Singleton = 0;
+template <> rl::CreatureControllerManager* Singleton<rl::CreatureControllerManager>::msSingleton = 0;
 
 namespace rl
 {

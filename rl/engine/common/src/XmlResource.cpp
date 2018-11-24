@@ -66,38 +66,4 @@ namespace rl
 
         return mCharBuffer;
     }
-
-    XmlPtr::XmlPtr(const ResourcePtr& res)
-        : SharedPtr<XmlResource>()
-    {
-        // lock & copy other mutex pointer
-        OGRE_LOCK_MUTEX(*res.OGRE_AUTO_MUTEX_NAME)
-        OGRE_COPY_AUTO_SHARED_MUTEX(res.OGRE_AUTO_MUTEX_NAME)
-        pRep = static_cast<XmlResource*>(res.getPointer());
-        pUseCount = res.useCountPointer();
-        if (pUseCount != 0)
-            ++(*pUseCount);
-    }
-
-    XmlPtr& XmlPtr::operator=(const ResourcePtr& res)
-    {
-        if (pRep == static_cast<XmlResource*>(res.getPointer()))
-            return *this;
-        release();
-
-        // lock & copy other mutex pointer
-        OGRE_LOCK_MUTEX(*res.OGRE_AUTO_MUTEX_NAME)
-        OGRE_COPY_AUTO_SHARED_MUTEX(res.OGRE_AUTO_MUTEX_NAME)
-        pRep = static_cast<XmlResource*>(res.getPointer());
-        pUseCount = res.useCountPointer();
-        if (pUseCount != 0)
-            ++(*pUseCount);
-
-        return *this;
-    }
-
-    void XmlPtr::destroy()
-    {
-        SharedPtr<XmlResource>::destroy();
-    }
 }

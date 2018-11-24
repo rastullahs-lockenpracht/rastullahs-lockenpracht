@@ -25,7 +25,7 @@
 
 using namespace Ogre;
 
-template <> rl::GameEventManager* Ogre::Singleton<rl::GameEventManager>::ms_Singleton = 0;
+template <> rl::GameEventManager* Ogre::Singleton<rl::GameEventManager>::msSingleton = 0;
 
 namespace rl
 {

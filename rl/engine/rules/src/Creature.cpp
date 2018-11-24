@@ -67,7 +67,7 @@ namespace rl
     const std::string Creature::ALL_TALENTE = "alle Talente";
     const Creature::Wert Creature::WERT_MOD_AE = "ModAE";
     const Creature::Wert Creature::WERT_MOD_LE = "ModLE";
-    const Creature::Wert Creature::WERTaeaeaaa_MOD_AU = "ModAU";
+    const Creature::Wert Creature::WERT_MOD_AU = "ModAU";
     const Creature::Wert Creature::WERT_MOD_MR = "ModMR";
     const Creature::Wert Creature::WERT_MOD_AT = "ModAT";
     const Creature::Wert Creature::WERT_MOD_PA = "ModPA";

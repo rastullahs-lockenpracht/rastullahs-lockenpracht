@@ -58,9 +58,9 @@ namespace rl
         virtual ~SoundStitching();
 
         /// Laedt den Sound.
-        virtual void load() throw(RuntimeException) = 0;
+        virtual void load() = 0;
         /// Entlaedt den Sound.
-        virtual void unload() throw(RuntimeException) = 0;
+        virtual void unload() = 0;
 
         virtual float getLength() const;
 
@@ -71,7 +71,7 @@ namespace rl
         // Setzen des 3D-Flags.
         void set3d(bool is3d);
         // Sind wir gueltig
-        virtual bool isValid() const throw(RuntimeException) = 0;
+        virtual bool isValid() const = 0;
 
         // Sollen der Sound wiederholt werden?
         bool isLooping() const;

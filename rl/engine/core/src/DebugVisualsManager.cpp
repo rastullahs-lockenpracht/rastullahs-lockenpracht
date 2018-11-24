@@ -21,7 +21,7 @@
 
 using namespace Ogre;
 
-template <> rl::DebugVisualsManager* Singleton<rl::DebugVisualsManager>::ms_Singleton = 0;
+template <> rl::DebugVisualsManager* Singleton<rl::DebugVisualsManager>::msSingleton = 0;
 
 namespace rl
 {

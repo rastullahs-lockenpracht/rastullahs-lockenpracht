@@ -42,7 +42,7 @@ using namespace Ogre;
  * @author JoSch
  * @date 04-26-2004
  */
-template <> rl::SoundManager* Singleton<rl::SoundManager>::ms_Singleton = 0;
+template <> rl::SoundManager* Singleton<rl::SoundManager>::msSingleton = 0;
 
 namespace rl
 {

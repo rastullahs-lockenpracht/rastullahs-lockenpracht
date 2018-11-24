@@ -25,7 +25,7 @@
 #include "GameLoop.h"
 #include "UiSubsystem.h"
 
-template <> rl::WindowManager* Ogre::Singleton<rl::WindowManager>::ms_Singleton = 0;
+template <> rl::WindowManager* Ogre::Singleton<rl::WindowManager>::msSingleton = 0;
 
 using namespace CEGUI;
 

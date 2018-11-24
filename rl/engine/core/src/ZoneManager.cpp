@@ -32,7 +32,7 @@
 
 using namespace Ogre;
 
-template <> rl::ZoneManager* Ogre::Singleton<rl::ZoneManager>::ms_Singleton = 0;
+template <> rl::ZoneManager* Ogre::Singleton<rl::ZoneManager>::msSingleton = 0;
 
 namespace rl
 {

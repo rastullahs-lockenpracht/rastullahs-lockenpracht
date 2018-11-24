@@ -22,7 +22,7 @@ extern void RL_RubyRemoveTracking(void* ptr);
 
 #include "Exception.h"
 
-template <> rl::ScriptObjectMarker* Ogre::Singleton<rl::ScriptObjectMarker>::ms_Singleton = 0;
+template <> rl::ScriptObjectMarker* Ogre::Singleton<rl::ScriptObjectMarker>::msSingleton = 0;
 
 namespace rl
 {

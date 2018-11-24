@@ -24,30 +24,12 @@
 #include "ConfigurationManager.h"
 #include "CoreSubsystem.h"
 
-template <> rl::ConfigurationManager* Ogre::Singleton<rl::ConfigurationManager>::ms_Singleton = 0;
+#include <iostream>
+
+template <> rl::ConfigurationManager* Ogre::Singleton<rl::ConfigurationManager>::msSingleton = 0;
 
 namespace rl
 {
-    ConfigurationManager* ConfigurationManager::getSingletonPtr()
-    {
-        if (ms_Singleton == NULL)
-        {
-            ms_Singleton = new ConfigurationManager();
-        }
-
-        return ms_Singleton;
-    }
-
-    ConfigurationManager& ConfigurationManager::getSingleton()
-    {
-        if (ms_Singleton == NULL)
-        {
-            ms_Singleton = new ConfigurationManager();
-        }
-
-        return *ms_Singleton;
-    }
-
     ConfigurationManager::ConfigurationManager()
     {
         // Filenames for log and configuration files
@@ -206,7 +188,7 @@ namespace rl
         setRastullahCfgPath();
         // On Linux, we create the .rastullah directory
 #if OGRE_PLATFORM != OGRE_PLATFORM_WIN32
-        fs::path rastullahCfgDirectory(Ogre::String(::getenv("HOME")) + "/.rastullah", fs::portable_posix_name);
+        fs::path rastullahCfgDirectory(Ogre::String(::getenv("HOME")) + "/.rastullah");
 
         if (!fs::exists(rastullahCfgDirectory))
         {
@@ -310,7 +292,7 @@ namespace rl
     {
         // Load the module list
         ConfigFile* configfile = new ConfigFile();
-        configfile->load(fs::path(mModulesRootDirectory + "/" + mModulesCfgFile).native_directory_string());
+        configfile->load(fs::path(mModulesRootDirectory + "/" + mModulesCfgFile).generic_string());
 
         ConfigFile::SettingsIterator it = configfile->getSettingsIterator();
         for (ConfigFile::SettingsIterator it = configfile->getSettingsIterator(); it.hasMoreElements(); it.moveNext())
@@ -400,12 +382,7 @@ namespace rl
 
     void ConfigurationManager::setExecutable(const Ogre::String& path)
     {
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-        return;
         fs::path exeAbsolute(path);
-#else
-        fs::path exeAbsolute(path, fs::portable_posix_name);
-#endif
         mExecutablePath = exeAbsolute.branch_path().string();
         std::cout << "ConfigurationManager "
                   << "Executable is " << path << " " << mExecutablePath;
@@ -456,14 +433,8 @@ namespace rl
     {
         try
         {
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
             std::cout << "Checking for " << fs::complete(filename).string() << std::endl;
             return fs::exists(filename);
-#else
-            std::cout << "Checking for " << fs::complete(fs::path(filename, fs::portable_posix_name)).string()
-                      << std::endl;
-            return fs::exists(fs::path(filename, fs::portable_posix_name));
-#endif
         }
         catch (fs::filesystem_error&)
         {

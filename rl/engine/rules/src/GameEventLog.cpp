@@ -21,7 +21,7 @@
 
 using namespace Ogre;
 
-template <> rl::GameEventLog* Singleton<rl::GameEventLog>::ms_Singleton = 0;
+template <> rl::GameEventLog* Singleton<rl::GameEventLog>::msSingleton = 0;
 
 namespace rl
 {

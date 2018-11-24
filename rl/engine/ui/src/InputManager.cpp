@@ -60,7 +60,7 @@ using namespace OIS;
 using CEGUI::System;
 using namespace std;
 
-template <> rl::InputManager* Singleton<rl::InputManager>::ms_Singleton = 0;
+template <> rl::InputManager* Singleton<rl::InputManager>::msSingleton = 0;
 
 namespace
 {

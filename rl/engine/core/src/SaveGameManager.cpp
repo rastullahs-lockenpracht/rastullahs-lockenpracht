@@ -25,7 +25,7 @@
 
 #include "XmlProcessor.h"
 
-template <> rl::SaveGameManager* Ogre::Singleton<rl::SaveGameManager>::ms_Singleton = 0;
+template <> rl::SaveGameManager* Ogre::Singleton<rl::SaveGameManager>::msSingleton = 0;
 
 namespace rl
 {

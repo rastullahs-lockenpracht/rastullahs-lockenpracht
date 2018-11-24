@@ -27,7 +27,7 @@
 using namespace Ogre;
 using namespace std;
 
-template <> rl::DialogManager* Ogre::Singleton<rl::DialogManager>::ms_Singleton = NULL;
+template <> rl::DialogManager* Ogre::Singleton<rl::DialogManager>::msSingleton = NULL;
 
 namespace rl
 {

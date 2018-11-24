@@ -21,7 +21,6 @@
 
 namespace rl
 {
-
     /** Diese Basisklasse kapselt eine fmod-Source fuer
      * den ResourceManager von Ogre
      * @author Josch
@@ -55,26 +54,6 @@ namespace rl
         Ogre::DataStreamPtr mDataStream;
     };
 
-    class _RlCoreExport SoundResourcePtr : public Ogre::SharedPtr<SoundResource>
-    {
-    public:
-        SoundResourcePtr()
-            : Ogre::SharedPtr<SoundResource>()
-        {
-        }
-        explicit SoundResourcePtr(SoundResource* rep)
-            : Ogre::SharedPtr<SoundResource>(rep)
-        {
-        }
-        SoundResourcePtr(const SoundResourcePtr& res)
-            : Ogre::SharedPtr<SoundResource>(res)
-        {
-        }
-        SoundResourcePtr(const Ogre::ResourcePtr& res);
-        SoundResourcePtr& operator=(const Ogre::ResourcePtr& res);
-
-    protected:
-        void destroy();
-    };
+    using SoundResourcePtr = Ogre::SharedPtr<SoundResource>;
 }
 #endif

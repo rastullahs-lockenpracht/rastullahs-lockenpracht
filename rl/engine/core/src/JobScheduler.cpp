@@ -24,7 +24,7 @@
 
 using namespace Ogre;
 
-template <> rl::JobScheduler* Singleton<rl::JobScheduler>::ms_Singleton = 0;
+template <> rl::JobScheduler* Singleton<rl::JobScheduler>::msSingleton = 0;
 
 namespace rl
 {

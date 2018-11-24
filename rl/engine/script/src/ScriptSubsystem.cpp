@@ -25,11 +25,10 @@
 
 using Ogre::Singleton;
 
-template <> rl::ScriptSubsystem* Singleton<rl::ScriptSubsystem>::ms_Singleton = NULL;
+template <> rl::ScriptSubsystem* Singleton<rl::ScriptSubsystem>::msSingleton = NULL;
 
 namespace rl
 {
-
     ScriptSubsystem::ScriptSubsystem()
         : mScriptObjectMarker(NULL)
         , mTriggerFactory(NULL)

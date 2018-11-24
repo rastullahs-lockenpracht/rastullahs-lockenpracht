@@ -176,11 +176,7 @@ namespace rl
 
         Ogre::RenderSystem* renderer = root->getRenderSystem();
 
-#if OGRE_VERSION_MINOR == 7 || OGRE_VERSION_MINOR == 8
         const RenderSystemList& renderers = root->getAvailableRenderers();
-#else
-        const RenderSystemList renderers = *root->getAvailableRenderers();
-#endif
         createElements(mVideoRenderer, renderers.size());
 
         for (unsigned int i = 0; i < renderers.size(); ++i)

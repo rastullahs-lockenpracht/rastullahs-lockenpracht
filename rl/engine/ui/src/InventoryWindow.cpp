@@ -453,10 +453,9 @@ namespace rl
                 }
                 if (cont)
                 {
-                    Ogre::Rectangle aabb
-                        = getCeGuiRectFromWorldAABB(camera, (*it)->getActor()->_getSceneNode()->_getWorldAABB());
+                    auto aabb = getCeGuiRectFromWorldAABB(camera, (*it)->getActor()->_getSceneNode()->_getWorldAABB());
                     UVector2 posCont
-                        = UVector2(UDim((aabb.left + aabb.right) / 2.0, 0), UDim((aabb.top + aabb.bottom) / 2.0, 0));
+                        = UVector2(UDim((aabb.left + aabb.right) / 2.0F, 0), UDim((aabb.top + aabb.bottom) / 2.0F, 0));
                     posCont -= CeGuiHelper::toPosition(cont->getSize()) * 0.5F;
                     cont->setPosition(posCont);
                     cont->setVisible(true);
@@ -510,7 +509,7 @@ namespace rl
                     }
                     if (cont)
                     {
-                        Ogre::Rectangle aabb
+                        auto aabb
                             = getCeGuiRectFromWorldAABB(camera, (*it)->getActor()->_getSceneNode()->_getWorldAABB());
                         UVector2 posCont = UVector2(
                             UDim((aabb.left + aabb.right) / 2.0F, 0), UDim((aabb.top + aabb.bottom) / 2.0F, 0));

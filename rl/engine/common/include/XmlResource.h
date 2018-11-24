@@ -22,7 +22,6 @@
 
 namespace rl
 {
-
     class _RlCommonExport XmlResource : public Ogre::Resource
     {
     public:
@@ -43,27 +42,7 @@ namespace rl
         char* mCharBuffer;
     };
 
-    class _RlCommonExport XmlPtr : public Ogre::SharedPtr<XmlResource>
-    {
-    public:
-        XmlPtr()
-            : Ogre::SharedPtr<XmlResource>()
-        {
-        }
-        explicit XmlPtr(XmlResource* rep)
-            : Ogre::SharedPtr<XmlResource>(rep)
-        {
-        }
-        XmlPtr(const XmlPtr& res)
-            : Ogre::SharedPtr<XmlResource>(res)
-        {
-        }
-        XmlPtr(const Ogre::ResourcePtr& res);
-        XmlPtr& operator=(const Ogre::ResourcePtr& res);
-
-    protected:
-        void destroy();
-    };
+    using XmlPtr = std::shared_ptr<XmlResource>;
 }
 
 #endif

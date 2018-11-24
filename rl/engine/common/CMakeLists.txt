@@ -15,7 +15,6 @@ src/Properties.cpp
 src/Property.cpp
 src/ScriptWrapper.cpp
 src/WriteableDataStream.cpp
-src/WriteableFileSystemArchiv.cpp
 src/XmlProcessor.cpp
 src/XmlPropertyReader.cpp
 src/XmlPropertyWriter.cpp
