@@ -1,0 +1,87 @@
+language: cpp
+dist: xenial
+compiler: gcc
+os: linux
+addons:
+  apt:
+    sources:
+    - sourceline: "deb http://archive.ubuntu.com/ubuntu/ xenial multiverse"
+    - sourceline: "deb http://archive.ubuntu.com/ubuntu/ xenial-backports universe"
+    packages:
+    - cmake
+    - libboost-all-dev
+    - libfreetype6-dev
+    - libgl1-mesa-dev
+    - libgles2-mesa-dev
+    - libglew-dev
+    - libglm-dev
+    - libglu1-mesa-dev 
+    - libois-dev
+    - libopenal-dev
+    - libtinyxml2-dev
+    - libxaw7-dev
+    - libxrandr-dev
+    - libxt-dev
+    - libzzip-dev
+    - mercurial
+    - mesa-common-dev
+    - nvidia-cg-dev
+    - ruby-dev
+    - swig
+cache:
+    - apt
+env:
+  global:
+    - MAKEFLAGS="-k -j2"
+    - CEGUI_REVISION="v0"
+    - CMAKE_FLAGS="-DCMAKE_CXX_STANDARD=11 -DOGRE_BUILD_TESTS=OFF -DOGRE_BUILD_TOOLS=OFF -DOGRE_BUILD_SAMPLES=OFF -DOGRE_BUILD_COMPONENT_JAVA=OFF -DOGRE_BUILD_COMPONENT_MESHLODGENERATOR=OFF -DOGRE_BUILD_COMPONENT_PYTHON=OFF -DOGRE_BUILD_PLUGIN_BSP=OFF -DOGRE_BUILD_PLUGIN_CG=OFF -DOGRE_BUILD_PLUGIN_EXRCODEC=OFF -DOGRE_BUILD_PLUGIN_OCTREE=OFF -DOGRE_BUILD_PLUGIN_PCZ=OFF -DOGRE_BUILD_PLUGIN_PFX=OFF -DOGRE_BUILD_RENDERSYSTEM_D3D11=OFF -DOGRE_BUILD_RENDERSYSTEM_D3D9=OFF -DOGRE_BUILD_RENDERSYSTEM_GLES2=OFF"
+
+before_script:
+    # checkout missing dependencies
+    - hg clone https://bitbucket.org/cegui/cegui -b ${CEGUI_REVISION} dependencies/cegui
+
+    # build dependencies - OGRE
+    - mkdir -p build/ogre
+    - cd build/ogre
+    - cmake ../../dependencies/ogre $CMAKE_FLAGS
+    - cmake --build .
+    - sudo cmake --build . -- install
+    - cd ../..
+
+    # build dependencies - CEGUI
+    - mkdir -p build/cegui
+    - cd build/cegui
+    - cmake ../../dependencies/cegui $CMAKE_FLAGS
+    - cmake --build .
+    - sudo cmake --build . -- install
+    - cd ../..
+
+    # build dependencies - newton
+    - mkdir -p build/newton
+    - cd build/newton
+    - cmake ../../dependencies/newton $CMAKE_FLAGS
+    - cmake --build .
+    - sudo cmake --build . -- install
+    - cd ../..
+
+    # build dependencies - OgreNewt
+    - mkdir -p build/OgreNewt
+    - cd build/OgreNewt
+    - cmake ../../dependencies/OgreNewt $CMAKE_FLAGS
+    - cmake --build .
+    - sudo cmake --build . -- install
+    - cd ../..
+
+    # build dependencies - meshmagick
+    - mkdir -p build/meshmagick
+    - cd build/meshmagick
+    - cmake ../../dependencies/meshmagick $CMAKE_FLAGS
+    - cmake --build .
+    - sudo cmake --build . -- install
+    - cd ../..
+
+script:
+    - mkdir -p build/rastullah
+    - cd build/rastullah
+    - cmake ../../rastullahs-lockenpracht/rl $CMAKE_FLAGS
+    - cmake --build .
