@@ -18,9 +18,8 @@
 #include "ConfigurationManager.h"
 #include "Console.h"
 
-#include <boost/bind.hpp>
-#include <elements/CEGUIFrameWindow.h>
-#include <elements/CEGUIListboxTextItem.h>
+#include <CEGUI/widgets/FrameWindow.h>
+#include <CEGUI/widgets/ListboxTextItem.h>
 
 #include "CoreSubsystem.h"
 #include "InputManager.h"
@@ -30,11 +29,10 @@
 
 using namespace Ogre;
 
-using CEGUI::colour;
+using CEGUI::Colour;
 using CEGUI::Key;
 using CEGUI::KeyEventArgs;
 using CEGUI::ListboxTextItem;
-using CEGUI::utf8;
 
 namespace rl
 {
@@ -47,12 +45,13 @@ namespace rl
         mDisplay->setShowVertScrollbar(true);
         mCommandLine = getEditbox("Console/Inputbox");
 
-        mWindow->subscribeEvent(FrameWindow::EventKeyDown, boost::bind(&Console::handleKeyDown, this, _1));
-        mCommandLine->subscribeEvent(Editbox::EventKeyDown, boost::bind(&Console::handleKeyDown, this, _1));
-        mWindow->subscribeEvent(FrameWindow::EventKeyUp, boost::bind(&Console::handleKeyUp, this, _1));
-        mCommandLine->subscribeEvent(Editbox::EventKeyUp, boost::bind(&Console::handleKeyUp, this, _1));
-        mWindow->subscribeEvent(FrameWindow::EventCloseClicked, boost::bind(&Console::hideWindow, this));
-        mWindow->subscribeEvent(FrameWindow::EventActivated, boost::bind(&Console::handleActivated, this, _1));
+        mWindow->subscribeEvent(FrameWindow::EventKeyDown, &Console::handleKeyDown, this);
+        mCommandLine->subscribeEvent(Editbox::EventKeyDown, &Console::handleKeyDown, this);
+        mWindow->subscribeEvent(FrameWindow::EventKeyUp, &Console::handleKeyUp, this);
+        mCommandLine->subscribeEvent(Editbox::EventKeyUp, &Console::handleKeyUp, this);
+        mWindow->subscribeEvent(
+            FrameWindow::EventCloseClicked, &AbstractWindow::hideWindow, static_cast<AbstractWindow*>(this));
+        mWindow->subscribeEvent(FrameWindow::EventActivated, &Console::handleActivated, this);
 
         mWindow->setAlwaysOnTop(true);
 
@@ -157,7 +156,7 @@ namespace rl
 
             mHistory.push_back(command);
             mHistoryMarker = mHistory.size();
-            mCommandLine->setText((utf8*)"");
+            mCommandLine->setText("");
             return true;
         }
 
@@ -202,7 +201,7 @@ namespace rl
         LOG_MESSAGE2(Logger::UI, output.c_str(), "Console");
     }
 
-    void Console::appendTextRow(const CeGuiString& text, const colour color)
+    void Console::appendTextRow(const CeGuiString& text, const Colour color)
     {
         const float MIN_SPACE_POS = 0.5;
 
@@ -266,7 +265,7 @@ namespace rl
             mHistoryMarker = (unsigned int)(mHistoryMarker + skip);
 
         if (mHistoryMarker == mHistory.size())
-            mCommandLine->setText((utf8*)"");
+            mCommandLine->setText("");
         else
             mCommandLine->setText(mHistory[mHistoryMarker]);
     }

@@ -56,6 +56,9 @@ steps:
 
 - script: |
     hg clone https://bitbucket.org/cegui/cegui -b $(CEGUI_REVISION) dependencies/cegui
+    pushd dependencies/cegui
+    hg import ../cegui_patch_cpp11.diff --no-commit
+    popd
     mkdir -p build/cegui
     pushd build/cegui
     cmake ../../dependencies/cegui $(CEGUI_CMAKE_FLAGS)

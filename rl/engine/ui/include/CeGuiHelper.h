@@ -18,19 +18,43 @@
 #define __RL_CEGUI_HELPER_H__
 
 #include "UiPrerequisites.h"
+
+#include <CEGUI/Size.h>
+#include <CEGUI/Vector.h>
+
 namespace rl
 {
     class CeGuiHelper
     {
     public:
-        static CEGUI::UVector2 asAbsolute(const CEGUI::Vector2& position)
+        static CEGUI::UVector2 asAbsolute(int x, int y)
         {
-            return CEGUI::UVector2(CEGUI::UDim(0, position.d_x), CEGUI::UDim(0, position.d_y));
+            return CEGUI::UVector2(CEGUI::UDim(0, x), CEGUI::UDim(0, y));
         }
 
-        static CEGUI::UVector2 asRelative(const CEGUI::Vector2& position)
+        static CEGUI::UVector2 asAbsolute(const CEGUI::UVector2& position, const CEGUI::Sizef& size)
         {
-            return CEGUI::UVector2(CEGUI::UDim(position.d_x, 0), CEGUI::UDim(position.d_y, 0));
+            return CEGUI::UVector2(
+                CEGUI::UDim(0, static_cast<int>(position.d_x.d_scale * size.d_width + position.d_x.d_offset)),
+                CEGUI::UDim(0, static_cast<int>(position.d_y.d_scale * size.d_height + position.d_y.d_offset)));
+        }
+
+        static CEGUI::UVector2 asRelative(float x, float y)
+        {
+            return CEGUI::UVector2(CEGUI::UDim(x, 0), CEGUI::UDim(y, 0));
+        }
+
+        static CEGUI::UVector2 asRelative(const CEGUI::UVector2& position, const CEGUI::Sizef& size)
+        {
+            auto w = position.d_x.d_scale * size.d_width + position.d_x.d_offset;
+            auto h = position.d_y.d_scale * size.d_height + position.d_y.d_offset;
+
+            return CEGUI::UVector2(CEGUI::UDim(size.d_width / w, 0), CEGUI::UDim(size.d_height / h, 0));
+        }
+
+        template <typename T> static CEGUI::Vector2<T> toPosition(const CEGUI::Size<T>& size)
+        {
+            return CEGUI::Vector2<T>(size.d_width, size.d_height);
         }
     };
 }

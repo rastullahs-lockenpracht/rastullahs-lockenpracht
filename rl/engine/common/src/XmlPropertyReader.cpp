@@ -21,7 +21,7 @@
 #include "XmlProcessor.h"
 #include "XmlPropertyReader.h"
 
-#include <CEGUIPropertyHelper.h>
+#include <CEGUI/PropertyHelper.h>
 
 using namespace Ogre;
 
@@ -115,12 +115,12 @@ namespace rl
         }
         else if (type == "INT")
         {
-            const int intVal = CEGUI::PropertyHelper::stringToInt(value);
+            const int intVal = CEGUI::PropertyHelper<int>::fromString(value);
             prop = Property(intVal);
         }
         else if (type == "REAL" || type == "FLOAT")
         {
-            const Ogre::Real realVal = CEGUI::PropertyHelper::stringToFloat(value);
+            const Ogre::Real realVal = CEGUI::PropertyHelper<float>::fromString(value);
             prop = Property(realVal);
         }
         else if (type == "VECTOR3")
@@ -131,9 +131,9 @@ namespace rl
             Ogre::Vector3 vec(Ogre::Vector3::ZERO);
             if (comma1 != CeGuiString::npos && comma2 != CeGuiString::npos)
             {
-                vec.x = CEGUI::PropertyHelper::stringToFloat(value.substr(0, comma1));
-                vec.y = CEGUI::PropertyHelper::stringToFloat(value.substr(comma1 + 1, comma2 - comma1 - 1));
-                vec.z = CEGUI::PropertyHelper::stringToFloat(value.substr(comma2 + 1));
+                vec.x = CEGUI::PropertyHelper<float>::fromString(value.substr(0, comma1));
+                vec.y = CEGUI::PropertyHelper<float>::fromString(value.substr(comma1 + 1, comma2 - comma1 - 1));
+                vec.z = CEGUI::PropertyHelper<float>::fromString(value.substr(comma2 + 1));
             }
             prop = Property(vec);
         }
@@ -146,21 +146,21 @@ namespace rl
             Ogre::Quaternion quat(Ogre::Quaternion::IDENTITY);
             if (comma1 != CeGuiString::npos && comma2 != CeGuiString::npos && comma3 != CeGuiString::npos)
             {
-                quat.w = CEGUI::PropertyHelper::stringToFloat(value.substr(0, comma1));
-                quat.x = CEGUI::PropertyHelper::stringToFloat(value.substr(comma1 + 1, comma2 - comma1 - 1));
-                quat.y = CEGUI::PropertyHelper::stringToFloat(value.substr(comma2 + 1, comma3 - comma2 - 1));
-                quat.z = CEGUI::PropertyHelper::stringToFloat(value.substr(comma3 + 1));
+                quat.w = CEGUI::PropertyHelper<float>::fromString(value.substr(0, comma1));
+                quat.x = CEGUI::PropertyHelper<float>::fromString(value.substr(comma1 + 1, comma2 - comma1 - 1));
+                quat.y = CEGUI::PropertyHelper<float>::fromString(value.substr(comma2 + 1, comma3 - comma2 - 1));
+                quat.z = CEGUI::PropertyHelper<float>::fromString(value.substr(comma3 + 1));
             }
             else if (comma1 != CeGuiString::npos && comma2 != CeGuiString::npos && comma3 == CeGuiString::npos)
             {
                 Quaternion rotX, rotY, rotZ;
 
-                rotX.FromAngleAxis(
-                    Ogre::Degree(CEGUI::PropertyHelper::stringToFloat(value.substr(0, comma1))), Ogre::Vector3::UNIT_X);
-                rotY.FromAngleAxis(
-                    Ogre::Degree(CEGUI::PropertyHelper::stringToFloat(value.substr(comma1 + 1, comma2 - comma1 - 1))),
+                rotX.FromAngleAxis(Ogre::Degree(CEGUI::PropertyHelper<float>::fromString(value.substr(0, comma1))),
+                    Ogre::Vector3::UNIT_X);
+                rotY.FromAngleAxis(Ogre::Degree(CEGUI::PropertyHelper<float>::fromString(
+                                       value.substr(comma1 + 1, comma2 - comma1 - 1))),
                     Ogre::Vector3::UNIT_Y);
-                rotZ.FromAngleAxis(Ogre::Degree(CEGUI::PropertyHelper::stringToFloat(value.substr(comma2 + 1))),
+                rotZ.FromAngleAxis(Ogre::Degree(CEGUI::PropertyHelper<float>::fromString(value.substr(comma2 + 1))),
                     Ogre::Vector3::UNIT_Z);
 
                 quat = rotX * rotY * rotZ;
@@ -169,7 +169,7 @@ namespace rl
         }
         else if (type == "BOOL")
         {
-            const bool boolVal = CEGUI::PropertyHelper::stringToBool(value);
+            const bool boolVal = CEGUI::PropertyHelper<bool>::fromString(value);
             prop = Property(boolVal);
         }
         else if (type == "ARRAY")
@@ -192,8 +192,8 @@ namespace rl
             std::pair<int, int> intpairVal = std::make_pair(0, 0);
             if (comma1 != CeGuiString::npos)
             {
-                intpairVal = std::make_pair(CEGUI::PropertyHelper::stringToInt(value.substr(0, comma1)),
-                    CEGUI::PropertyHelper::stringToInt(value.substr(comma1 + 1)));
+                intpairVal = std::make_pair(CEGUI::PropertyHelper<int>::fromString(value.substr(0, comma1)),
+                    CEGUI::PropertyHelper<int>::fromString(value.substr(comma1 + 1)));
             }
             prop = Property(intpairVal);
         }
@@ -205,9 +205,10 @@ namespace rl
             Tripel<int> intTripel(0, 0, 0);
             if (comma1 != CeGuiString::npos && comma2 != CeGuiString::npos)
             {
-                intTripel.first = CEGUI::PropertyHelper::stringToFloat(value.substr(0, comma1));
-                intTripel.second = CEGUI::PropertyHelper::stringToFloat(value.substr(comma1 + 1, comma2 - comma1 - 1));
-                intTripel.third = CEGUI::PropertyHelper::stringToFloat(value.substr(comma2 + 1));
+                intTripel.first = CEGUI::PropertyHelper<int>::fromString(value.substr(0, comma1));
+                intTripel.second
+                    = CEGUI::PropertyHelper<int>::fromString(value.substr(comma1 + 1, comma2 - comma1 - 1));
+                intTripel.third = CEGUI::PropertyHelper<int>::fromString(value.substr(comma2 + 1));
             }
             prop = Property(intTripel);
         }

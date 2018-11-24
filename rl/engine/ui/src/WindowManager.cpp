@@ -16,7 +16,7 @@
 #include "stdinc.h" //precompiled header
 
 #include "WindowManager.h"
-#include <CEGUIWindowManager.h>
+#include <CEGUI/WindowManager.h>
 
 #include "AbstractWindow.h"
 #include "CoreMessages.h"
@@ -47,7 +47,7 @@ namespace rl
         {
             AbstractWindow* window = *it;
             LOG_MESSAGE(Logger::UI, "Delete window " + window->getName());
-            // AbstractWindow::getRoot()->removeChildWindow(window->getWindow());
+            // AbstractWindow::getRoot()->removeChild(window->getWindow());
             // CEGUI::WindowManager::getSingleton().destroyWindow(window->getWindow());
         }
         mWindowList.clear();
@@ -106,14 +106,15 @@ namespace rl
             mNumActiveWindowsKeyboardInput += isVisible ? +1 : -1;
         }
 
-        if (mNumActiveWindowsMouseInput == 1)
-        {
-            CEGUI::MouseCursor::getSingleton().show();
-        }
-        else if (mNumActiveWindowsMouseInput == 0)
-        {
-            CEGUI::MouseCursor::getSingleton().hide();
-        }
+        // TODO
+        //        if (mNumActiveWindowsMouseInput == 1)
+        //        {
+        //            CEGUI::MouseCursor::getSingleton().show();
+        //        }
+        //        else if (mNumActiveWindowsMouseInput == 0)
+        //        {
+        //            CEGUI::MouseCursor::getSingleton().hide();
+        //        }
     }
 
     int WindowManager::getWindowInputMask() const

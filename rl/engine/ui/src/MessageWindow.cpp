@@ -15,10 +15,10 @@
  */
 #include "stdinc.h" //precompiled header
 
-#include <boost/bind.hpp>
-
-#include "CEGUIPropertyHelper.h"
+#include "CEGUI/PropertyHelper.h"
 #include "MessageWindow.h"
+
+#include <boost/bind.hpp>
 
 using namespace CEGUI;
 
@@ -68,10 +68,10 @@ namespace rl
 
     void MessageWindow::setButtons(const CeGuiStringVector& texts)
     {
-        for (int btnCount = 1; btnCount <= 3; ++btnCount)
+        for (unsigned int btnCount = 1; btnCount <= 3; ++btnCount)
         {
-            Window* buttonPanel
-                = getWindow(("MessageWindow/ButtonPanel_" + CEGUI::PropertyHelper::intToString(btnCount)).c_str());
+            Window* buttonPanel = getWindow(
+                ("MessageWindow/ButtonPanel_" + CEGUI::PropertyHelper<unsigned int>::toString(btnCount)).c_str());
 
             if (btnCount == texts.size())
             {

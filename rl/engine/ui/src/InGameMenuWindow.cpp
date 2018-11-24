@@ -17,9 +17,9 @@
 
 #include "InGameMenuWindow.h"
 
-#include <CEGUIWindowManager.h>
+#include <CEGUI/WindowManager.h>
+#include <CEGUI/widgets/PopupMenu.h>
 #include <boost/bind.hpp>
-#include <elements/CEGUIPopupMenu.h>
 
 #include "Action.h"
 #include "ActionManager.h"
@@ -69,11 +69,11 @@ namespace rl
                     MenuItem* grpItem = static_cast<MenuItem*>(windowMan->createWindow(
                         "RastullahLook/MenuItem", getNamePrefix() + "IngameMenu/" + group->getName()));
                     grpItem->setText(group->getName());
-                    menu->addChildWindow(grpItem);
+                    menu->addChild(grpItem);
 
                     menuGrp = static_cast<PopupMenu*>(windowMan->createWindow(
                         "RastullahLook/PopupMenu", getNamePrefix() + "IngameMenu/Menu" + group->getName()));
-                    grpItem->addChildWindow(menuGrp);
+                    grpItem->addChild(menuGrp);
 
                     menuGroups[group->getName()] = menuGrp;
                 }
@@ -81,7 +81,7 @@ namespace rl
                 MenuItem* item = static_cast<MenuItem*>(windowMan->createWindow("RastullahLook/MenuItem",
                     getNamePrefix() + "IngameMenu/" + group->getName() + "/" + action->getName()));
                 item->setText(action->getDescription());
-                menuGrp->addChildWindow(item);
+                menuGrp->addChild(item);
 
                 setAction(item, action);
             }

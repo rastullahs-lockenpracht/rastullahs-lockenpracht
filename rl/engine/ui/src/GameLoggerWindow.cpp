@@ -17,7 +17,7 @@
 
 #include "GameLoggerWindow.h"
 
-#include <elements/CEGUIListboxTextItem.h>
+#include <CEGUI/widgets/ListboxTextItem.h>
 
 #include "Creature.h"
 #include "GameEventLog.h"
@@ -25,11 +25,10 @@
 
 namespace rl
 {
-
-    CEGUI::colour GameLoggerWindow::COLOR_QUEST(0xFFFF7F7F);
-    CEGUI::colour GameLoggerWindow::COLOR_COMBAT(0xFFFFFF7F);
-    CEGUI::colour GameLoggerWindow::COLOR_DIALOG(0xFFFF7FFF);
-    CEGUI::colour GameLoggerWindow::COLOR_DEFAULT(0xFFFFFFFF);
+    CEGUI::Colour GameLoggerWindow::COLOR_QUEST(0xFFFF7F7F);
+    CEGUI::Colour GameLoggerWindow::COLOR_COMBAT(0xFFFFFF7F);
+    CEGUI::Colour GameLoggerWindow::COLOR_DIALOG(0xFFFF7FFF);
+    CEGUI::Colour GameLoggerWindow::COLOR_DEFAULT(0xFFFFFFFF);
 
     GameLoggerWindow::GameLoggerWindow()
         : AbstractWindow("gameloggerwindow.xml", WIT_NONE)
@@ -43,14 +42,14 @@ namespace rl
 
     bool GameLoggerWindow::onLogEntryAdded(GameEventType evt, const CeGuiString& text)
     {
-        CEGUI::colour col = evt == GET_QUEST
+        CEGUI::Colour col = evt == GET_QUEST
             ? COLOR_QUEST
             : evt == GET_COMBAT ? COLOR_COMBAT : evt == GET_DIALOG ? COLOR_DIALOG : COLOR_DEFAULT;
         logEvent(text, col);
         return true;
     }
 
-    void GameLoggerWindow::logEvent(const CeGuiString& text, const CEGUI::colour color)
+    void GameLoggerWindow::logEvent(const CeGuiString& text, const CEGUI::Colour color)
     {
         CEGUI::ListboxTextItem* item = new CEGUI::ListboxTextItem(text);
         item->setTextColours(color);

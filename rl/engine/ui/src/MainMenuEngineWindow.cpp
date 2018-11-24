@@ -15,8 +15,6 @@
  */
 #include "stdinc.h" //precompiled header
 
-#include <boost/bind.hpp>
-
 #include "UiPrerequisites.h"
 
 #include "CoreSubsystem.h"
@@ -27,7 +25,6 @@ using namespace Ogre;
 
 namespace rl
 {
-
     MainMenuEngineWindow::MainMenuEngineWindow()
         : AbstractWindow("mainmenuenginewindow.xml", WIT_NONE, false)
     {

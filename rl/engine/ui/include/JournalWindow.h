@@ -24,7 +24,6 @@
 
 namespace rl
 {
-
     class JournalWindow : public AbstractWindow, public QuestListener
     {
     public:
@@ -50,7 +49,7 @@ namespace rl
 
         CeGuiString mSelectionBrush;
         CeGuiString mSelectionImageset;
-        CEGUI::colour mSelectionColour;
+        CEGUI::Colour mSelectionColour;
 
         void updateQuests();
         void selectQuest(CEGUI::ListboxItem* item);

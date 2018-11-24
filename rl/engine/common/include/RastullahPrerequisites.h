@@ -30,9 +30,9 @@
 #include <Ogre/OgreTagPoint.h>
 #else
 #include <Ogre.h>
-#include <OgreFont.h>
-#include <OgreFontManager.h>
 #include <OgreTagPoint.h>
+#include <Overlay/OgreFont.h>
+#include <Overlay/OgreFontManager.h>
 #endif
 
 #if OGRE_PLATFORM != OGRE_PLATFORM_WIN32

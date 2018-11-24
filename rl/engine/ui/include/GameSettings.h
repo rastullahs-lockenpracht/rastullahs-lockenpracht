@@ -86,11 +86,12 @@ namespace rl
         void update();
 
         void setOption(
-            const Ogre::ConfigOptionMap& configuration, const Ogre::String& option, CEGUI::Checkbox* checkbox);
+            const Ogre::ConfigOptionMap& configuration, const Ogre::String& option, CEGUI::ToggleButton* checkbox);
         void setOption(
             const Ogre::ConfigOptionMap& configuration, const Ogre::String& option, CEGUI::Combobox* combobox);
         void setOption(const Ogre::ConfigOptionMap& configuration, const Ogre::String& option,
             std::vector<CEGUI::RadioButton*> radioGroup);
+
         void createElements(CEGUI::Combobox* combobox, size_t count);
 
         std::list<SoundDriverConfigComponent*>
@@ -104,7 +105,7 @@ namespace rl
 
         CEGUI::Combobox* mVideoRenderer;
         CEGUI::Combobox* mVideoResolution;
-        CEGUI::Checkbox* mVideoFullscreen;
+        CEGUI::ToggleButton* mVideoFullscreen;
         CEGUI::RadioButton *mVideoColorDepth32, *mVideoColorDepth16;
         CEGUI::RadioButton *mVideoFsaa0, *mVideoFsaa2, *mVideoFsaa4, *mVideoFsaa8;
         CEGUI::RadioButton *mVideoRttModeFBO, *mVideoRttModePBuffer, *mVideoRttModeCopy;

@@ -46,8 +46,8 @@ namespace rl
     private:
         bool handleDialogSelectOption();
 
-        static const CEGUI::colour COLOR_PLAYER_CHARACTER;
-        static const CEGUI::colour COLOR_NON_PLAYER_CHARACTER;
+        static const CEGUI::Colour COLOR_PLAYER_CHARACTER;
+        static const CEGUI::Colour COLOR_NON_PLAYER_CHARACTER;
 
         DialogControlState* mController;
 

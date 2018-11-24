@@ -18,11 +18,10 @@
 
 #include "AbstractWindow.h"
 #include "UiPrerequisites.h"
-#include <elements/CEGUIMenuItem.h>
+#include <CEGUI/widgets/MenuItem.h>
 
 namespace rl
 {
-
     class ContentModule;
     class MainMenuEngineWindow;
 

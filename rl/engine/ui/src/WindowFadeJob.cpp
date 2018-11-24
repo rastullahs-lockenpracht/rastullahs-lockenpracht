@@ -21,7 +21,7 @@
 #include "CeGuiHelper.h"
 #include "ItemDragContainer.h"
 #include "WindowManager.h"
-#include <CEGUIWindowManager.h>
+#include <CEGUI/WindowManager.h>
 
 using namespace CEGUI;
 using namespace Ogre;

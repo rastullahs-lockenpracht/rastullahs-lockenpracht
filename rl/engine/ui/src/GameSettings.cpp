@@ -22,8 +22,8 @@
 #include <CEGUI/elements/CEGUIFrameWindow.h>
 #include <CEGUI/elements/CEGUIListboxTextItem.h>
 #else
-#include <elements/CEGUIFrameWindow.h>
-#include <elements/CEGUIListboxTextItem.h>
+#include <CEGUI/widgets/FrameWindow.h>
+#include <CEGUI/widgets/ListboxTextItem.h>
 #endif
 
 #include <iostream>
@@ -218,7 +218,8 @@ namespace rl
         setOption(config, "Video Mode", mVideoResolution);
     }
 
-    void GameSettings::setOption(const ConfigOptionMap& configuration, const Ogre::String& option, Checkbox* checkbox)
+    void GameSettings::setOption(
+        const ConfigOptionMap& configuration, const Ogre::String& option, ToggleButton* checkbox)
     {
         ConfigOptionMap::const_iterator cfi = configuration.find(option);
         if (cfi != configuration.end())

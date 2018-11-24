@@ -48,8 +48,8 @@ namespace rl
     bool LogWindow::update()
     {
         mErrorLog->setText(Logger::getSingleton().getErrorLog());
-        mErrorLog->setCaratIndex(1999999999);
-        mErrorLog->ensureCaratIsVisible();
+        mErrorLog->setCaretIndex(1999999999);
+        mErrorLog->ensureCaretIsVisible();
         // TODO: ogre.log und rastullah.log
 
         return true;

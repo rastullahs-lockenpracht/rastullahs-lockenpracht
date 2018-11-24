@@ -18,8 +18,8 @@
 
 #include "Property.h"
 
-#include "CEGUIPropertyHelper.h"
 #include "Exception.h"
+#include <CEGUI/PropertyHelper.h>
 
 using namespace boost;
 using namespace Ogre;
@@ -202,7 +202,7 @@ namespace rl
     {
         if (isBool())
         {
-            mValue = CEGUI::PropertyHelper::stringToBool(str);
+            mValue = CEGUI::PropertyHelper<bool>::fromString(str);
         }
         else if (isString())
         {
@@ -210,11 +210,11 @@ namespace rl
         }
         else if (isInt())
         {
-            mValue = CEGUI::PropertyHelper::stringToInt(str);
+            mValue = CEGUI::PropertyHelper<int>::fromString(str);
         }
         else if (isReal())
         {
-            mValue = CEGUI::PropertyHelper::stringToFloat(str);
+            mValue = CEGUI::PropertyHelper<float>::fromString(str);
         }
         else if (isVector3())
         {

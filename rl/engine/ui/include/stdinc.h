@@ -51,8 +51,8 @@
 #include <Ogre.h>
 #include <OgreNewt.h>
 
-#include <CEGUILogger.h>
-#include <CEGUIString.h>
+#include <CEGUI/Logger.h>
+#include <CEGUI/String.h>
 
 #include <boost/any.hpp>
 #include <boost/bind.hpp>

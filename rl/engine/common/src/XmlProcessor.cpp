@@ -16,7 +16,7 @@
 
 #include "stdinc.h" //precompiled header
 
-#include <CEGUIPropertyHelper.h>
+#include <CEGUI/PropertyHelper.h>
 
 #include "XmlProcessor.h"
 
@@ -254,8 +254,8 @@ namespace rl
         std::pair<int, int> intPairVal = std::make_pair(0, 0);
         if (comma1 != CeGuiString::npos)
         {
-            intPairVal = std::make_pair(CEGUI::PropertyHelper::stringToInt(value.substr(0, comma1)),
-                CEGUI::PropertyHelper::stringToInt(value.substr(comma1 + 1)));
+            intPairVal = std::make_pair(CEGUI::PropertyHelper<int>::fromString(value.substr(0, comma1)),
+                CEGUI::PropertyHelper<int>::fromString(value.substr(comma1 + 1)));
         }
 
         return intPairVal;
@@ -282,9 +282,9 @@ namespace rl
         Tripel<int> intTripel(0, 0, 0);
         if (comma1 != CeGuiString::npos && comma2 != CeGuiString::npos)
         {
-            intTripel.first = CEGUI::PropertyHelper::stringToFloat(value.substr(0, comma1));
-            intTripel.second = CEGUI::PropertyHelper::stringToFloat(value.substr(comma1 + 1, comma2 - comma1 - 1));
-            intTripel.third = CEGUI::PropertyHelper::stringToFloat(value.substr(comma2 + 1));
+            intTripel.first = CEGUI::PropertyHelper<float>::fromString(value.substr(0, comma1));
+            intTripel.second = CEGUI::PropertyHelper<float>::fromString(value.substr(comma1 + 1, comma2 - comma1 - 1));
+            intTripel.third = CEGUI::PropertyHelper<float>::fromString(value.substr(comma2 + 1));
         }
 
         return intTripel;
@@ -313,8 +313,12 @@ namespace rl
     CeGuiString XmlProcessor::getAttributeValueAsString(const TiXmlElement* element, const char* const name) const
     {
         RlAssert(element != NULL, "XmlProcessor::getAttributeValueAsString: Element must not be NULL");
+#if CEGUI_STRING_CLASS == CEGUI_STRING_CLASS_UNICODE
         const utf8* value = reinterpret_cast<const utf8*>(element->Attribute(name));
         return value ? CeGuiString(value) : CeGuiString();
+#else
+        return getAttributeValueAsStdString(element, name);
+#endif
     }
 
     void XmlProcessor::setAttributeValueAsStdString(
@@ -376,9 +380,9 @@ namespace rl
     void XmlProcessor::setValueAsIntegerPair(TiXmlElement* element, IntPair value) const
     {
         RlAssert(element != NULL, "XmlProcessor::setValueAsIntegerPair: Element must not be NULL");
-        CeGuiString temp
-            = CEGUI::PropertyHelper::intToString(value.first) + ',' + CEGUI::PropertyHelper::intToString(value.second);
         element->LinkEndChild(new TiXmlText(temp.c_str()));
+        CeGuiString temp = CEGUI::PropertyHelper<int>::toString(value.first) + ','
+            + CEGUI::PropertyHelper<int>::toString(value.second);
     }
 
     IntPair XmlProcessor::getValueAsIntegerPair(const TiXmlElement* element) const
@@ -390,8 +394,8 @@ namespace rl
         std::pair<int, int> intPairVal = std::make_pair(0, 0);
         if (comma1 != CeGuiString::npos)
         {
-            intPairVal = std::make_pair(CEGUI::PropertyHelper::stringToInt(value.substr(0, comma1)),
-                CEGUI::PropertyHelper::stringToInt(value.substr(comma1 + 1)));
+            intPairVal = std::make_pair(CEGUI::PropertyHelper<int>::fromString(value.substr(0, comma1)),
+                CEGUI::PropertyHelper<int>::fromString(value.substr(comma1 + 1)));
         }
         return intPairVal;
     }
@@ -400,9 +404,10 @@ namespace rl
     {
         RlAssert(element != NULL, "XmlProcessor::setValueAsIntegerTriple: Element must not be NULL");
         RlAssert(element != NULL, "XmlProcessor::setValueAsIntegerPair: Element must not be NULL");
-        CeGuiString temp = CEGUI::PropertyHelper::intToString(value.first) + ','
-            + CEGUI::PropertyHelper::intToString(value.second) + ',' + CEGUI::PropertyHelper::intToString(value.third);
         element->LinkEndChild(new TiXmlText(temp.c_str()));
+        CeGuiString temp = CEGUI::PropertyHelper<int>::toString(value.first) + ','
+            + CEGUI::PropertyHelper<int>::toString(value.second) + ','
+            + CEGUI::PropertyHelper<int>::toString(value.third);
     }
 
     Tripel<int> XmlProcessor::getValueAsIntegerTriple(const TiXmlElement* element) const
@@ -443,9 +448,9 @@ namespace rl
         Ogre::Vector3 vec(0, 0, 0);
         if (comma1 != CeGuiString::npos && comma2 != CeGuiString::npos)
         {
-            vec.x = CEGUI::PropertyHelper::stringToFloat(value.substr(0, comma1));
-            vec.y = CEGUI::PropertyHelper::stringToFloat(value.substr(comma1 + 1, comma2 - comma1 - 1));
-            vec.z = CEGUI::PropertyHelper::stringToFloat(value.substr(comma2 + 1));
+            vec.x = CEGUI::PropertyHelper<float>::fromString(value.substr(0, comma1));
+            vec.y = CEGUI::PropertyHelper<float>::fromString(value.substr(comma1 + 1, comma2 - comma1 - 1));
+            vec.z = CEGUI::PropertyHelper<float>::fromString(value.substr(comma2 + 1));
         }
 
         return vec;
@@ -509,22 +514,22 @@ namespace rl
         Ogre::Quaternion quat(Ogre::Quaternion::IDENTITY);
         if (comma1 != CeGuiString::npos && comma2 != CeGuiString::npos && comma3 != CeGuiString::npos)
         {
-            quat.w = CEGUI::PropertyHelper::stringToFloat(value.substr(0, comma1));
-            quat.x = CEGUI::PropertyHelper::stringToFloat(value.substr(comma1 + 1, comma2 - comma1 - 1));
-            quat.y = CEGUI::PropertyHelper::stringToFloat(value.substr(comma2 + 1, comma3 - comma2 - 1));
-            quat.z = CEGUI::PropertyHelper::stringToFloat(value.substr(comma3 + 1));
+            quat.w = CEGUI::PropertyHelper<float>::fromString(value.substr(0, comma1));
+            quat.x = CEGUI::PropertyHelper<float>::fromString(value.substr(comma1 + 1, comma2 - comma1 - 1));
+            quat.y = CEGUI::PropertyHelper<float>::fromString(value.substr(comma2 + 1, comma3 - comma2 - 1));
+            quat.z = CEGUI::PropertyHelper<float>::fromString(value.substr(comma3 + 1));
         }
         else if (comma1 != CeGuiString::npos && comma2 != CeGuiString::npos && comma3 == CeGuiString::npos)
         {
             Quaternion rotX, rotY, rotZ;
 
             rotX.FromAngleAxis(
-                Ogre::Degree(CEGUI::PropertyHelper::stringToFloat(value.substr(0, comma1))), Ogre::Vector3::UNIT_X);
+                Ogre::Degree(CEGUI::PropertyHelper<float>::fromString(value.substr(0, comma1))), Ogre::Vector3::UNIT_X);
             rotY.FromAngleAxis(
-                Ogre::Degree(CEGUI::PropertyHelper::stringToFloat(value.substr(comma1 + 1, comma2 - comma1 - 1))),
+                Ogre::Degree(CEGUI::PropertyHelper<float>::fromString(value.substr(comma1 + 1, comma2 - comma1 - 1))),
                 Ogre::Vector3::UNIT_Y);
-            rotZ.FromAngleAxis(
-                Ogre::Degree(CEGUI::PropertyHelper::stringToFloat(value.substr(comma2 + 1))), Ogre::Vector3::UNIT_Z);
+            rotZ.FromAngleAxis(Ogre::Degree(CEGUI::PropertyHelper<float>::fromString(value.substr(comma2 + 1))),
+                Ogre::Vector3::UNIT_Z);
 
             quat = rotX * rotY * rotZ;
         }

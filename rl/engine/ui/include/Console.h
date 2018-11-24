@@ -26,7 +26,6 @@
 
 namespace rl
 {
-
     class RubyInterpreter;
 
     /** This is a Console System
@@ -54,7 +53,7 @@ namespace rl
         bool handleKeyDown(const CEGUI::EventArgs& e);
         bool handleKeyUp(const CEGUI::EventArgs& e);
         bool handleActivated(const CEGUI::EventArgs& e);
-        void appendTextRow(const CeGuiString& text, const CEGUI::colour color);
+        void appendTextRow(const CeGuiString& text, const CEGUI::Colour color);
 
         std::vector<CeGuiString> mHistory;
         unsigned int mHistoryMarker;

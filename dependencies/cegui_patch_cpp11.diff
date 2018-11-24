@@ -1,0 +1,38 @@
+diff -r fdb23c8a311b CMakeLists.txt
+--- a/CMakeLists.txt	Sun Oct 28 20:32:03 2018 +0100
++++ b/CMakeLists.txt	Sun Nov 25 21:30:01 2018 +0000
+@@ -71,7 +71,9 @@
+     set (CMAKE_FIND_FRAMEWORK LAST)
+ endif()
+ 
+-if (CMAKE_COMPILER_IS_GNUCXX OR (CMAKE_CXX_COMPILER_ID STREQUAL "Clang"))
++if (CMAKE_CXX_STANDARD)
++    message(STATUS "Using C++ standard ${CMAKE_CXX_STANDARD}")
++elseif (CMAKE_COMPILER_IS_GNUCXX OR (CMAKE_CXX_COMPILER_ID STREQUAL "Clang"))
+     set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99")
+     set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++03")
+ elseif (NOT CMAKE_VERSION VERSION_LESS "3.1")
+diff -r fdb23c8a311b cegui/include/CEGUI/RendererModules/Ogre/GeometryBuffer.h
+--- a/cegui/include/CEGUI/RendererModules/Ogre/GeometryBuffer.h	Sun Oct 28 20:32:03 2018 +0100
++++ b/cegui/include/CEGUI/RendererModules/Ogre/GeometryBuffer.h	Sun Nov 25 21:30:01 2018 +0000
+@@ -84,7 +84,7 @@
+     bool isClippingActive() const;
+ 
+ protected:
+-    //! convert CEGUI::colour into something Ogre can use
++    //! convert CEGUI::Colour into something Ogre can use
+     Ogre::RGBA colourToOgre(const Colour& col) const;
+     //! update cached matrix
+     void updateMatrix() const;
+diff -r fdb23c8a311b cegui/src/widgets/ItemListBase.cpp
+--- a/cegui/src/widgets/ItemListBase.cpp	Sun Oct 28 20:32:03 2018 +0100
++++ b/cegui/src/widgets/ItemListBase.cpp	Sun Nov 25 21:30:01 2018 +0000
+@@ -365,7 +365,7 @@
+     // if destruction has already begun, we don't need to do anything.
+     // everything has to go anyway
+     // make sure it is removed from the itemlist if we have an ItemEntry
+-    if (!d_destructionStarted && e.window->testClassName("ItemEntry"))
++    if (!d_destructionStarted && e.window->getType() == "ItemEntry")
+     {
+         ItemEntryList::iterator pos = std::find(d_listItems.begin(), d_listItems.end(), e.window);
+ 

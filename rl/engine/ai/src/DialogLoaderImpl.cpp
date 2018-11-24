@@ -18,7 +18,7 @@
 #ifdef __APPLE__
 #include <CEGUI/CEGUIPropertyHelper.h>
 #else
-#include <CEGUIPropertyHelper.h>
+#include <CEGUI/PropertyHelper.h>
 #endif
 
 #include "DialogLoaderImpl.h"

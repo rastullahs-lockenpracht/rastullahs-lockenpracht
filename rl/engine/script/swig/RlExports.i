@@ -43,7 +43,7 @@ void RL_RubyRemoveTracking(void* ptr)
 
 #include "FixRubyHeaders.h"
 
-#include <CEGUIExceptions.h>
+#include <CEGUI/Exceptions.h>
 #include <vector>
 
 %}

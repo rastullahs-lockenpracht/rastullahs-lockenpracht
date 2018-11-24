@@ -69,7 +69,7 @@ namespace rl
         int getSystemCode(const CeGuiString& name);
         void loadKeyMapping(const Ogre::String& filename);
         void buildCommandMapping(const Ogre::NameValuePairList& keylist);
-        typedef std::map<int, CEGUI::utf8> KeyCharMap;
+        typedef std::map<int, CeGuiString::value_type> KeyCharMap;
         typedef std::map<int, CeGuiString> KeyNameMap;
 
         virtual const Ogre::String& getName() const;

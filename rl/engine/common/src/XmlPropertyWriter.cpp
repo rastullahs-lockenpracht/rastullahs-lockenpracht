@@ -21,7 +21,7 @@
 #include "Properties.h"
 #include "XmlPropertyWriter.h"
 
-#include <CEGUIPropertyHelper.h>
+#include <CEGUI/PropertyHelper.h>
 
 using namespace Ogre;
 

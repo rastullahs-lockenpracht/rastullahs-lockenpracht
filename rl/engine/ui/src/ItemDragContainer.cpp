@@ -17,8 +17,8 @@
 
 #include "ItemDragContainer.h"
 
-#include <CEGUIEventSet.h>
-#include <CEGUIWindowManager.h>
+#include <CEGUI/EventSet.h>
+#include <CEGUI/WindowManager.h>
 
 #include "AbstractWindow.h"
 #include "Creature.h"
@@ -74,13 +74,13 @@ namespace rl
 
                     if (getParent())
                     {
-                        getParent()->removeChildWindow(this);
+                        getParent()->removeChild(this);
                     }
 
                     removeAllEvents();
                     if( mContentWindow )
                     mContentWindow->removeAllEvents();
-                    removeChildWindow(mContentWindow);
+                    removeChild(mContentWindow);
                     CEGUI::WindowManager::getSingleton().destroyWindow(mContentWindow);
                     CEGUI::WindowManager::getSingleton().destroyWindow(this);
         */
@@ -96,7 +96,7 @@ namespace rl
             hide();
             if (getParent())
             {
-                getParent()->removeChildWindow(this);
+                getParent()->removeChild(this);
             }
 
             JobScheduler::getSingleton().addJob(
@@ -133,13 +133,6 @@ namespace rl
     Inventory* ItemDragContainer::getItemParentInventory() const
     {
         return mInventory;
-    }
-
-    bool ItemDragContainer::testClassName_impl(const CEGUI::String& class_name) const
-    {
-        if (class_name == "ItemDragContainer")
-            return true;
-        return DragContainer::testClassName_impl(class_name);
     }
 
     Item* ItemDragContainer::getItem() const

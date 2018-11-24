@@ -17,9 +17,9 @@
 
 #include "JournalWindow.h"
 
-#include <CEGUIPropertyHelper.h>
+#include <CEGUI/PropertyHelper.h>
+#include <CEGUI/widgets/ListboxTextItem.h>
 #include <boost/bind.hpp>
-#include <elements/CEGUIListboxTextItem.h>
 
 #include "Quest.h"
 #include "QuestBook.h"
@@ -169,7 +169,7 @@ namespace rl
         questName.append(quest->getName());
 
         ListboxTextItem* item = new ListboxTextItem(questName, 0, quest);
-        item->setSelectionBrushImage(mSelectionImageset, mSelectionBrush);
+        // TODO: item->setSelectionBrushImage(CEGUI::ImageManager mSelectionImageset, mSelectionBrush);
         mQuests->addItem(item);
         QuestVector quests = quest->getSubquests();
         for (QuestVector::iterator it = quests.begin(); it != quests.end(); it++)
@@ -228,7 +228,7 @@ namespace rl
     void JournalWindow::addJournalEntry(JournalEntry* entry)
     {
         ListboxTextItem* item = new ListboxTextItem(entry->getCaption(), 0, entry);
-        item->setSelectionBrushImage(mSelectionImageset, mSelectionBrush);
+        // TODO: item->setSelectionBrushImage(mSelectionImageset, mSelectionBrush);
         mJournalEntries->addItem(item);
     }
 }

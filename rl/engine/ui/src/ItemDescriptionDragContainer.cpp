@@ -17,8 +17,6 @@
 
 #include "ItemDescriptionDragContainer.h"
 
-#include <boost/bind.hpp>
-
 #include "AbstractWindow.h"
 #include "Item.h"
 
@@ -29,7 +27,6 @@ namespace CEGUI
 
 namespace rl
 {
-
     const CeGuiString ItemDescriptionDragContainer::WidgetTypeName("ItemDescriptionDragContainer");
 
     ItemDescriptionDragContainer::ItemDescriptionDragContainer(const CeGuiString& type, const CeGuiString& name)
@@ -38,7 +35,7 @@ namespace rl
         CeGuiString prefix = name;
 
         mContentWindow = this; // AbstractWindow::loadWindow("itemdescriptiondragcontainer.xml", prefix);
-        addChildWindow(mContentWindow);
+        addChild(mContentWindow);
         mContentWindow->setDestroyedByParent(true);
     }
 
@@ -60,10 +57,9 @@ namespace rl
         mContentWindow->getChild(name + "/Description")->setText(item->getDescription());
 
         mContentWindow->subscribeEvent(
-            Window::EventMouseClick, boost::bind(&ItemDragContainer::_handleItemMouseClick, this, _1, item));
-
-        mContentWindow->subscribeEvent(
-            Window::EventMouseDoubleClick, boost::bind(&ItemDragContainer::_handleItemDoubleClick, this, _1, item));
+            Window::EventMouseClick, [this, item](const CEGUI::EventArgs& args) { _handleItemMouseClick(args, item); });
+        mContentWindow->subscribeEvent(Window::EventMouseDoubleClick,
+            [this, item](const CEGUI::EventArgs& args) { _handleItemDoubleClick(args, item); });
 
         setSize(mContentWindow->getSize());
     }

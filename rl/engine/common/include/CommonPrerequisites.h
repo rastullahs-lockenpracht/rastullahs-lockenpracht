@@ -42,7 +42,7 @@
 #ifdef __APPLE__
 #include <CEGUI/CEGUIString.h>
 #else
-#include <CEGUIString.h>
+#include <CEGUI/String.h>
 #endif
 
 namespace rl

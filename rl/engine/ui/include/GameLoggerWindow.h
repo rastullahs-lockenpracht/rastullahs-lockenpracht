@@ -23,6 +23,8 @@
 #include "MessagePump.h"
 #include "RulesConstants.h"
 
+#include <CEGUI/Colour.h>
+
 namespace rl
 {
 
@@ -35,15 +37,15 @@ namespace rl
         bool onLogEntryAdded(GameEventType evt, const CeGuiString& msg);
 
     private:
-        static CEGUI::colour COLOR_DEFAULT;
-        static CEGUI::colour COLOR_COMBAT;
-        static CEGUI::colour COLOR_DIALOG;
-        static CEGUI::colour COLOR_QUEST;
+        static CEGUI::Colour COLOR_DEFAULT;
+        static CEGUI::Colour COLOR_COMBAT;
+        static CEGUI::Colour COLOR_DIALOG;
+        static CEGUI::Colour COLOR_QUEST;
 
         MessagePump::ScopedConnection mLogEntryAddedConnection;
         CEGUI::Listbox* mLog;
 
-        void logEvent(const CeGuiString& text, const CEGUI::colour color);
+        void logEvent(const CeGuiString& text, const CEGUI::Colour color);
     };
 }
 

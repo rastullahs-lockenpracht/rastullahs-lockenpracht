@@ -15,8 +15,6 @@
  */
 #include "stdinc.h" //precompiled header
 
-#include <boost/bind.hpp>
-
 #include "UiPrerequisites.h"
 
 #include "SoundManager.h"
@@ -29,13 +27,12 @@ using namespace Ogre;
 
 namespace rl
 {
-
     PlaylistWindow::PlaylistWindow()
         : AbstractWindow("playlistwindow.xml", WIT_MOUSE_INPUT)
     {
         mPlaylistTable = getMultiColumnList("PlaylistSheet/PlaylistSheet/Table");
-        mPlaylistTable->addColumn((utf8*)"Name", 0, cegui_reldim(0.5));
-        mPlaylistTable->addColumn((utf8*)"Dauer", 1, cegui_reldim(0.3));
+        mPlaylistTable->addColumn("Name", 0, cegui_reldim(0.5F));
+        mPlaylistTable->addColumn("Dauer", 1, cegui_reldim(0.3F));
         mPlaylistTable->setUserSortControlEnabled(false);
 
         /* getWindow("PlaylistWindow")->subscribeEvent(
@@ -43,9 +40,9 @@ namespace rl
                 boost::bind(&MainMenuWindow::handleChooseModules, this)); */
 
         getWindow("PlaylistSheet/ButtonSheet/Play")
-            ->subscribeEvent(Window::EventMouseClick, boost::bind(&PlaylistWindow::handlePlay, this));
+            ->subscribeEvent(Window::EventMouseClick, &PlaylistWindow::handlePlay, this);
         getWindow("PlaylistSheet/ButtonSheet/Quit")
-            ->subscribeEvent(Window::EventMouseClick, boost::bind(&PlaylistWindow::handleQuit, this));
+            ->subscribeEvent(Window::EventMouseClick, &PlaylistWindow::handleQuit, this);
         bindDestroyWindowToClick(getWindow("PlaylistSheet"));
         bindDestroyWindowToXButton();
 

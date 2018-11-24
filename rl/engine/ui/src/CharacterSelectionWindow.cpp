@@ -41,7 +41,7 @@ namespace rl
         {
             Element* elem = mCharacterWindows.back();
             mCharacterWindows.pop_back();
-            mCharacterWindow->removeChildWindow(elem->getWindow());
+            mCharacterWindow->removeChild(elem->getWindow());
             delete elem;
         }
     }
@@ -53,8 +53,8 @@ namespace rl
         while (party.size() > mCharacterWindows.size())
         {
             Element* elem = new Element(this);
-            mCharacterWindow->addChildWindow(elem->getWindow());
-            CEGUI::Size size = elem->getWindow()->getPixelSize();
+            mCharacterWindow->addChild(elem->getWindow());
+            auto size = elem->getWindow()->getPixelSize();
             size_t windowNum = mCharacterWindows.size();
             elem->getWindow()->setPosition(UVector2(UDim(0, 0), UDim(0, windowNum * size.d_height)));
             elem->setVisible(true);
@@ -68,7 +68,7 @@ namespace rl
         {
             Element* elem = mCharacterWindows.back();
             mCharacterWindows.pop_back();
-            mCharacterWindow->removeChildWindow(elem->getWindow());
+            mCharacterWindow->removeChild(elem->getWindow());
             delete elem;
         }
 

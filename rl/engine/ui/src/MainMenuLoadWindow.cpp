@@ -21,9 +21,9 @@
  * Implementation of the Save/Load dialog
  */
 
-#include <CEGUIWindowManager.h>
+#include <CEGUI/WindowManager.h>
+#include <CEGUI/widgets/ListboxTextItem.h>
 #include <boost/bind.hpp>
-#include <elements/CEGUIListboxTextItem.h>
 
 #include "MainMenuLoadWindow.h"
 
@@ -52,9 +52,9 @@ namespace rl
         mSaveGameTable = getMultiColumnList("MainMenuLoadWindow/FileSheet/SaveGameTable");
         RlAssert(mSaveGameTable != NULL, "MainMenuLoadWindow/FileSheet/SaveGameTable is null");
 
-        mSaveGameTable->addColumn((utf8*)"Filename", 0, cegui_reldim(0.35));
-        mSaveGameTable->addColumn((utf8*)"Module", 1, cegui_reldim(0.3));
-        mSaveGameTable->addColumn((utf8*)"Date", 2, cegui_reldim(0.35));
+        mSaveGameTable->addColumn("Filename", 0, cegui_reldim(0.35F));
+        mSaveGameTable->addColumn("Module", 1, cegui_reldim(0.3F));
+        mSaveGameTable->addColumn("Date", 2, cegui_reldim(0.35F));
 
         mSaveGameTable->setSelectionMode(MultiColumnList::RowSingle);
         mSaveGameTable->subscribeEvent(
@@ -138,10 +138,9 @@ namespace rl
 
     bool MainMenuLoadWindow::handleSelectSaveGame()
     {
-        mSaveGameTable->getFirstSelectedItem()->setSelectionColours(CEGUI::colour(0.0f, 0.0f, 1.0f));
+        mSaveGameTable->getFirstSelectedItem()->setSelectionColours(CEGUI::Colour(0.0f, 0.0f, 1.0f));
         /*if(mSaveGameTable->getFirstSelectedItem())
             mFilename->setText(mSaveGameTable->getFirstSelectedItem()->getText());*/
         return true;
     }
-
 } // namespace rl

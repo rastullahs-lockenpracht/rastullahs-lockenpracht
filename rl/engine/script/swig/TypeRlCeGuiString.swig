@@ -19,38 +19,11 @@
 */
 %typemap(typecheck) rl::CeGuiString, const rl::CeGuiString, rl::CeGuiString*, rl::CeGuiString&, const rl::CeGuiString*, const rl::CeGuiString& = char *;
 
-%typemap(in) rl::CeGuiString, const rl::CeGuiString 
-	"Check_Type($input, T_STRING);
-    $1 = rl::CeGuiString(
-		reinterpret_cast<CEGUI::utf8*>(StringValuePtr($input)));"
+%apply std::string { rl::CeGuiString };
+%apply const std::string { const rl::CeGuiString };
 
-%typemap(out) rl::CeGuiString, const rl::CeGuiString 
-     "$result = rb_str_buf_new2($1.c_str());"
+%apply std::string* { rl::CeGuiString* };
+// Not defined yet %apply const rl::CeGuiString* { const rl::CeGuiString* };
 
-
-%typemap(in) rl::CeGuiString*, rl::CeGuiString&, const rl::CeGuiString*, const rl::CeGuiString& 
-    "Check_Type($input, T_STRING);
-    $1 = new rl::CeGuiString(
-		reinterpret_cast<CEGUI::utf8*>(StringValuePtr($input)));"
-
-%typemap(freearg) rl::CeGuiString*, rl::CeGuiString&, const rl::CeGuiString*, const rl::CeGuiString&
-   "delete $1;"
-
-%typemap(out) rl::CeGuiString*, rl::CeGuiString&,  const rl::CeGuiString*, const rl::CeGuiString& 
-     "$result = rb_str_buf_new2($1->c_str());"
-
-%typemap(varout) rl::CeGuiString, const rl::CeGuiString 
-     "$result = rb_str_buf_new2($1.c_str());"
-
-%typemap(directorin) rl::CeGuiString, const rl::CeGuiString &, rl::CeGuiString & 
-	"$input = rb_str_buf_new2($1.c_str());"
-
-%typemap(directorin) rl::CeGuiString *, const rl::CeGuiString * 
-	"$input = rb_str_buf_new2($1->c_str());"
-
-%typemap(directorout) rl::CeGuiString, const rl::CeGuiString 
-    "$result = rl::CeGuiString(reinterpret_cast<CEGUI::utf8*>(StringValuePtr($input)));"
-
-%typemap(directorout) const rl::CeGuiString &, rl::CeGuiString&  
-    "$result = new rl::CeGuiString();
-     $result->append(reinterpret_cast<CEGUI::utf8*>(StringValuePtr($input)));"
+%apply std::string& { rl::CeGuiString& };
+%apply const std::string& { const rl::CeGuiString& };

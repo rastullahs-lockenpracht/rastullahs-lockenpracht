@@ -69,7 +69,7 @@ namespace rl
 
         CeGuiString mSelectionBrush;
         CeGuiString mSelectionImageset;
-        CEGUI::colour mSelectionColour;
+        CEGUI::Colour mSelectionColour;
     };
 }
 

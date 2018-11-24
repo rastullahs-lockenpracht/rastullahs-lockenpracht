@@ -19,26 +19,25 @@
 
 #include "UiPrerequisites.h"
 
-#include <CEGUIWindow.h>
-#include <elements/CEGUICheckbox.h>
-#include <elements/CEGUIComboDropList.h>
-#include <elements/CEGUICombobox.h>
-#include <elements/CEGUIEditbox.h>
-#include <elements/CEGUIListbox.h>
-#include <elements/CEGUIMenuBase.h>
-#include <elements/CEGUIMenuItem.h>
-#include <elements/CEGUIMultiColumnList.h>
-#include <elements/CEGUIMultiLineEditbox.h>
-#include <elements/CEGUIProgressBar.h>
-#include <elements/CEGUIPushButton.h>
-#include <elements/CEGUIRadioButton.h>
-#include <elements/CEGUIScrollablePane.h>
-#include <elements/CEGUISlider.h>
-#include <elements/CEGUITabControl.h>
+#include <CEGUI/Window.h>
+#include <CEGUI/widgets/ComboDropList.h>
+#include <CEGUI/widgets/Combobox.h>
+#include <CEGUI/widgets/Editbox.h>
+#include <CEGUI/widgets/Listbox.h>
+#include <CEGUI/widgets/MenuBase.h>
+#include <CEGUI/widgets/MenuItem.h>
+#include <CEGUI/widgets/MultiColumnList.h>
+#include <CEGUI/widgets/MultiLineEditbox.h>
+#include <CEGUI/widgets/ProgressBar.h>
+#include <CEGUI/widgets/PushButton.h>
+#include <CEGUI/widgets/RadioButton.h>
+#include <CEGUI/widgets/ScrollablePane.h>
+#include <CEGUI/widgets/Slider.h>
+#include <CEGUI/widgets/TabControl.h>
+#include <CEGUI/widgets/ToggleButton.h>
 
 namespace rl
 {
-
     class WindowUpdateTask;
 
     /**
@@ -83,7 +82,7 @@ namespace rl
         CEGUI::ScrollablePane* getScrollablePane(const char* name);
         CEGUI::Slider* getSlider(const char* name);
         CEGUI::TabControl* getTabControl(const char* name);
-        CEGUI::Checkbox* getCheckbox(const char* name);
+        CEGUI::ToggleButton* getCheckbox(const char* name);
 
         int getWindowInputType();
 
@@ -104,6 +103,8 @@ namespace rl
             return false;
         }
 
+        bool hideWindow();
+
     protected:
         AbstractWindow(const CeGuiString& xmlfile, int inputType, bool closeOnEscape = true, bool modal = false);
 
@@ -111,7 +112,6 @@ namespace rl
 
         void centerWindow();
         bool destroyWindow();
-        bool hideWindow();
 
         void bindDestroyWindowToClick(CEGUI::Window* button);
         void bindHideWindowToClick(CEGUI::Window* button);

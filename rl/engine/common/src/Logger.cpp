@@ -87,6 +87,7 @@ namespace rl
             log(level, "[" + component + "::" + ident + "] " + message);
     }
 
+#if CEGUI_STRING_CLASS == CEGUI_STRING_CLASS_UNICODE
     void Logger::log(const Logger::LogLevel level, const Ogre::String& component, const CeGuiString& message,
         const Ogre::String& ident)
     {
@@ -95,6 +96,7 @@ namespace rl
         else
             log(level, "[" + component + "::" + ident + "] " + message.c_str());
     }
+#endif
 
     void Logger::log(
         const Logger::LogLevel level, const Ogre::String& component, const char* message, const Ogre::String& ident)

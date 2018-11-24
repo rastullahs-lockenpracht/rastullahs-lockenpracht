@@ -15,20 +15,16 @@
  */
 #include "stdinc.h" //precompiled header
 
-#include <boost/bind.hpp>
-
 #include "CloseConfirmationWindow.h"
 #include "GameLoop.h"
 
 namespace rl
 {
-
     CloseConfirmationWindow::CloseConfirmationWindow()
         : AbstractWindow("closeconfirmationwindow.xml", WIT_MOUSE_INPUT | WIT_KEYBOARD_INPUT, true, true)
     {
         getPushButton("CloseConfirmationWindow/YesButton")
-            ->subscribeEvent(
-                CEGUI::Window::EventMouseClick, boost::bind(&CloseConfirmationWindow::handleConfirm, this));
+            ->subscribeEvent(CEGUI::Window::EventMouseClick, &CloseConfirmationWindow::handleConfirm, this);
 
         bindDestroyWindowToXButton();
         bindDestroyWindowToClick(getPushButton("CloseConfirmationWindow/NoButton"));

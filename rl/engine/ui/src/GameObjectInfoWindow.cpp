@@ -22,7 +22,7 @@
  */
 #include "GameObjectInfoWindow.h"
 
-#include <CEGUIWindowManager.h>
+#include <CEGUI/WindowManager.h>
 #include <boost/bind.hpp>
 
 #include "Action.h"
@@ -88,11 +88,11 @@ namespace rl
     {
         static int BUTTON_HEIGHT = 15;
         Window* btn = CEGUI::WindowManager::getSingleton().createWindow("RastullahLook/Button");
-        btn->setSize(UVector2(cegui_reldim(1), cegui_absdim(BUTTON_HEIGHT)));
+        btn->setSize(USize(cegui_reldim(1), cegui_absdim(BUTTON_HEIGHT)));
         btn->setPosition(UVector2(cegui_reldim(0), cegui_absdim((BUTTON_HEIGHT + 1) * mNumActionButtons)));
         btn->setText(action->getDescription());
         btn->setTooltipText(action->getDescription());
-        mActionButtonsArea->addChildWindow(btn);
+        mActionButtonsArea->addChild(btn);
         mNumActionButtons++;
         btn->subscribeEvent(
             Window::EventMouseClick, boost::bind(&GameObjectInfoWindow::handleActivateAction, this, action));
