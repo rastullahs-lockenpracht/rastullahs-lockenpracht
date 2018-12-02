@@ -46,7 +46,7 @@ rl::Property convertValueToProperty(VALUE input)
     }
     else if (TYPE(input) == T_ARRAY)
     {
-		int length = RARRAY(input)->len;
+		int length = RARRAY_LEN(input);
 		if (length > 0)
 		{
 			VALUE firstVal = rb_ary_entry(input, 0);

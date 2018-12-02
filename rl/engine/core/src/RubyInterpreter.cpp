@@ -121,11 +121,11 @@ namespace rl
     {
         if (errorcode != 0)
         {
-            VALUE info = rb_inspect(ruby_errinfo);
+            VALUE info = rb_inspect(rb_errinfo());
             rb_backtrace();
             if (intro.length() > 0)
                 LOG_ERROR(Logger::CORE, intro);
-            LOG_ERROR(Logger::CORE, STR2CSTR(info));
+            LOG_ERROR(Logger::CORE, rb_string_value_cstr(&info));
         }
     }
 
@@ -159,6 +159,7 @@ namespace rl
 
     CeGuiString RubyInterpreter::val2ceguistr(const VALUE rval)
     {
-        return CeGuiString((CEGUI::utf8*)STR2CSTR(rb_funcall(rval, rb_intern("to_s"), 0)));
+        VALUE val = rb_funcall(rval, rb_intern("to_s"), 0);
+        return CeGuiString(rb_string_value_cstr(&val));
     }
 }

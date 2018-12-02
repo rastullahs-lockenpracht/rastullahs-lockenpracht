@@ -18,7 +18,7 @@
 void convertRubyToOgreStringVector(VALUE input, Ogre::StringVector& vec)
 {
   Check_Type(input, T_ARRAY);
-  int len = RARRAY(input)->len;
+  int len = RARRAY_LEN(input);
   for (int i=0; i!=len; i++) 
   {
     VALUE inst = rb_ary_entry(input, i);

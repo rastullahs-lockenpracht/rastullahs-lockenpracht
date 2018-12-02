@@ -26,11 +26,11 @@ static int checkRubyColourValue( VALUE input )
 {
    bool correct = 
        TYPE(input) == T_ARRAY   && 
-       RARRAY(input)->len == 4  &&
-       SWIG_FLOAT_P( RARRAY(input)->ptr[0] ) &&
-       SWIG_FLOAT_P( RARRAY(input)->ptr[1] ) &&
-       SWIG_FLOAT_P( RARRAY(input)->ptr[2] ) &&
-       SWIG_FLOAT_P( RARRAY(input)->ptr[3] );
+       RARRAY_LEN(input) == 4  &&
+       SWIG_FLOAT_P( RARRAY_PTR(input)[0] ) &&
+       SWIG_FLOAT_P( RARRAY_PTR(input)[1] ) &&
+       SWIG_FLOAT_P( RARRAY_PTR(input)[2] ) &&
+       SWIG_FLOAT_P( RARRAY_PTR(input)[3] );
 
     return (correct ? 1 : 0);
 }
@@ -48,8 +48,8 @@ static int checkRubyColourValue( VALUE input )
 // Helper method for filling the ColourValue
 static void convertRubyToColourValue( VALUE input, Ogre::ColourValue* cv ) 
 {
-   int length = RARRAY(input)->len;
-   VALUE* it = RARRAY(input)->ptr;
+   int length = RARRAY_LEN(input);
+   VALUE* it = RARRAY_PTR(input);
    if (length > 0) {
       cv->r = NUM2DBL(*it);
       it++;

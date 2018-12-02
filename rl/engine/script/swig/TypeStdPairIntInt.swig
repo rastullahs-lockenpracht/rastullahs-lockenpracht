@@ -18,7 +18,7 @@
 	std::pair<int,int>*, std::pair<int,int>&, 
 	const std::pair<int,int>*, const std::pair<int,int>&, 
 	std::pair<int,int>, const std::pair<int,int>
-"   $1 = TYPE($input) == T_ARRAY && RARRAY($input)->len == 2 ? 1 : 0; "
+"   $1 = TYPE($input) == T_ARRAY && RARRAY_LEN($input) == 2 ? 1 : 0; "
 
 
 %typemap(in) std::pair<int,int>*, std::pair<int,int>&,

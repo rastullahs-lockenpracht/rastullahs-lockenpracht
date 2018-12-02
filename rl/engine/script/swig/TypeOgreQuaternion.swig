@@ -30,7 +30,7 @@ static int checkRubyQuaternion( VALUE input )
 
 	if (TYPE(input) == T_ARRAY)
 	{
-		int length = RARRAY(input)->len;
+                int length = RARRAY_LEN(input);
 
 		if (length == 2)
 		{
@@ -39,10 +39,10 @@ static int checkRubyQuaternion( VALUE input )
 
 			if( SWIG_FLOAT_P(degree) &&
 				TYPE(arr) == T_ARRAY && 
-				RARRAY(arr)->len == 3 &&
-				SWIG_FLOAT_P( RARRAY(arr)->ptr[0] ) &&
-				SWIG_FLOAT_P( RARRAY(arr)->ptr[1] ) &&
-				SWIG_FLOAT_P( RARRAY(arr)->ptr[2] ) )
+                                RARRAY_LEN(arr) == 3 &&
+                                SWIG_FLOAT_P( RARRAY_PTR(arr)[0] ) &&
+                                SWIG_FLOAT_P( RARRAY_PTR(arr)[1] ) &&
+                                SWIG_FLOAT_P( RARRAY_PTR(arr)[2] ) )
 			{
 				correct = true;
 			}
@@ -53,7 +53,7 @@ static int checkRubyQuaternion( VALUE input )
 			
 			for (int i = 0; i < length; i++)
 			{
-				if( !SWIG_FLOAT_P( RARRAY(input)->ptr[0] ) )
+                                if( !SWIG_FLOAT_P( RARRAY_PTR(input)[0] ) )
 				{
 					correct = false;
 					break;
@@ -79,7 +79,7 @@ static int checkRubyQuaternion( VALUE input )
 // Helper method for converting ruby input to a Quaternion
 static void convertRubyToQuaternion( VALUE input, Ogre::Quaternion* quat )
 {
-   if (RARRAY(input)->len == 2)
+   if (RARRAY_LEN(input) == 2)
    {
 	   VALUE axisVal = rb_ary_entry(input, 0);
 	   Ogre::Vector3 axis(
@@ -91,7 +91,7 @@ static void convertRubyToQuaternion( VALUE input, Ogre::Quaternion* quat )
 	      
 	   quat->FromAngleAxis(Ogre::Degree(angle), axis);
    }
-   else if (RARRAY(input)->len == 3)
+   else if (RARRAY_LEN(input) == 3)
    {
        Ogre::Quaternion rotX, rotY, rotZ;
        rotX.FromAngleAxis(
@@ -107,7 +107,7 @@ static void convertRubyToQuaternion( VALUE input, Ogre::Quaternion* quat )
 	   *quat = rotX * rotY * rotZ;
 	   quat->normalise();
    }
-   else if (RARRAY(input)->len == 4)
+   else if (RARRAY_LEN(input) == 4)
    {
 	   quat->w = NUM2DBL(rb_ary_entry(input, 0));
 	   quat->x = NUM2DBL(rb_ary_entry(input, 1));

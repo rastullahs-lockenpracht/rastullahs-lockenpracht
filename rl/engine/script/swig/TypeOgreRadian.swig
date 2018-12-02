@@ -20,7 +20,7 @@
 %typemap(in) Ogre::Radian, const Ogre::Radian, Ogre::Radian&, const Ogre::Radian& 
 %{
     if (TYPE($input) == T_FLOAT) {
-		$1 = Ogre::Degree(RFLOAT($input)->value);
+                $1 = Ogre::Degree(NUM2DBL($input));
     } else if (TYPE($input) == T_FIXNUM) {
 		$1 = Ogre::Degree(FIX2INT($input));
     } else {
@@ -31,7 +31,7 @@
 %typemap(in) Ogre::Radian*, const Ogre::Radian*, Ogre::Radian&, const Ogre::Radian&
 %{
     if (TYPE($input) == T_FLOAT) {
-		$1 = new Ogre::Radian(Ogre::Degree(RFLOAT($input)->value));
+                $1 = new Ogre::Radian(Ogre::Degree(NUM2DBL($input)));
     } else if (TYPE($input) == T_FIXNUM) {
 		$1 = new Ogre::Radian(Ogre::Degree(FIX2INT($input)));
     } else {
