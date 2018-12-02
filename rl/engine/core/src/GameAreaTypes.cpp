@@ -233,7 +233,7 @@ namespace rl
         mBody = new OgreNewt::Body(PhysicsManager::getSingleton()._getNewtonWorld(), col);
         mBody->setMaterialGroupID(PhysicsManager::getSingleton().getMaterialID("gamearea"));
 
-        boost::dynamic_pointer_cast<OgreNewt::ConvexCollision>(col)->setAsTriggerVolume(true);
+        std::static_pointer_cast<OgreNewt::ConvexCollision>(col)->setAsTriggerVolume(true);
     }
 
     GameSimpleCollisionAreaType::GameSimpleCollisionAreaType(
@@ -244,6 +244,6 @@ namespace rl
         mBody = new OgreNewt::Body(PhysicsManager::getSingleton()._getNewtonWorld(), col);
         mBody->setMaterialGroupID(PhysicsManager::getSingleton().getMaterialID("gamearea"));
 
-        boost::dynamic_pointer_cast<OgreNewt::ConvexCollision>(col)->setAsTriggerVolume(true);
+        std::static_pointer_cast<OgreNewt::ConvexCollision>(col)->setAsTriggerVolume(true);
     }
 }
