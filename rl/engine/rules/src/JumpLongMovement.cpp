@@ -16,6 +16,8 @@
 #include "stdinc.h" //precompiled header
 
 #include "JumpLongMovement.h"
+#include "PhysicalThing.h"
+#include "PhysicsManager.h"
 
 using namespace std;
 using namespace Ogre;
@@ -52,7 +54,7 @@ namespace rl
         // the person will only achieve this width if it is running
         // retrieve run movement
         AbstractMovement* run = mMovingCreature->getMovementFromId(CreatureController::MT_RENNEN);
-        if (run != NULL)
+        if (run != nullptr)
         {
             Real vel(0);
             run->calculateBaseVelocity(vel);

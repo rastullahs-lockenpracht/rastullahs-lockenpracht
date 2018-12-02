@@ -16,6 +16,7 @@
 #include "stdinc.h" //precompiled header
 
 #include "JumpHighMovement.h"
+#include "PhysicalThing.h"
 
 using namespace std;
 using namespace Ogre;

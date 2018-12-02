@@ -16,10 +16,11 @@
 #define __PHYSICSCONTROLLER_H__
 
 #include "CorePrerequisites.h"
-#include "PhysicalThing.h"
 
 namespace rl
 {
+    class PhysicalThing;
+
     /** abstract baseclass for PhysicalObject with an external force/torque control.
      * Derived objects register with PhysicalManager. Whenever force/torque is
      * going to be applied to the object controlled by a PhysicsController, the

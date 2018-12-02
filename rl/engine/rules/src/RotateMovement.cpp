@@ -15,6 +15,7 @@
  */
 #include "stdinc.h" //precompiled header
 
+#include "PhysicalThing.h"
 #include "RotateMovement.h"
 
 using namespace std;

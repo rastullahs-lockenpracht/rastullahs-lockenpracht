@@ -17,6 +17,8 @@
 
 #include "StandAroundMovement.h"
 
+#include "PhysicalThing.h"
+
 using namespace std;
 using namespace Ogre;
 
@@ -25,8 +27,8 @@ namespace rl
     StandAroundMovement::StandAroundMovement(CreatureController* creature)
         : AbstractMovement(creature)
         , mVelocity(Vector3::ZERO)
-        , mRotationMovement(NULL)
-        , mStepRecognitionMovement(NULL)
+        , mRotationMovement(nullptr)
+        , mStepRecognitionMovement(nullptr)
     {
         mAnimStehenLinks = creature->getCreature()->getAnimation("stehen_links");
         mAnimStehenRechts = creature->getCreature()->getAnimation("stehen_rechts");

@@ -199,13 +199,13 @@ namespace rl
         OgreNewt::CollisionPtr createCollision(Ogre::Entity* entity, const GeometryType& geomType = GT_NONE,
             const Ogre::String& animName = "", const Ogre::Vector3& offset = Ogre::Vector3::ZERO,
             const Ogre::Quaternion& orientation = Ogre::Quaternion::IDENTITY, const Ogre::Real mass = 0,
-            Ogre::Vector3* inertia = NULL, Ogre::Vector3* centerOfMass = NULL, bool nocache = false);
+            Ogre::Vector3* inertia = nullptr, Ogre::Vector3* centerOfMass = nullptr, bool nocache = false);
 
         /// calls PhysicsCollisionFactory::createCollisionFromAABB
         OgreNewt::CollisionPtr createCollision(const Ogre::String& name, const Ogre::AxisAlignedBox& aabb,
             const GeometryType& geomType = GT_NONE, const Ogre::Vector3& offset = Ogre::Vector3::ZERO,
             const Ogre::Quaternion& orientation = Ogre::Quaternion::IDENTITY, const Ogre::Real mass = 0,
-            Ogre::Vector3* inertia = NULL, Ogre::Vector3* centerOfMass = NULL, bool nocache = false);
+            Ogre::Vector3* inertia = nullptr, Ogre::Vector3* centerOfMass = nullptr, bool nocache = false);
 
         /** converts a string identifying a collision property into an enum.
          * Mainly for making string definitions of the collision property

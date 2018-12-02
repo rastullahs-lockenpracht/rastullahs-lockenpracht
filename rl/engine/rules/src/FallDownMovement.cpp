@@ -17,6 +17,7 @@
 
 #include "DsaManager.h"
 #include "FallDownMovement.h"
+#include "PhysicsManager.h"
 
 using namespace std;
 using namespace Ogre;
