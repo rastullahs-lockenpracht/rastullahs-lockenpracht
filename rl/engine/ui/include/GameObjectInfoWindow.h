@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -23,16 +23,17 @@
 #ifndef __GameObjectInfoWindow_H__
 #define __GameObjectInfoWindow_H__
 
-#include "UiPrerequisites.h"
 #include "AbstractWindow.h"
+#include "UiPrerequisites.h"
 
 #include <vector>
 
-namespace rl {
+namespace rl
+{
 
-	class Action;
-	class Creature;
-	class GameObject;
+    class Action;
+    class Creature;
+    class GameObject;
     class Property;
 
     /**
@@ -42,16 +43,15 @@ namespace rl {
      * through the property set of the given object.
      */
     class _RlUiExport GameObjectInfoWindow : public AbstractWindow
-	{
-	public:
-
+    {
+    public:
         /**
          * Constructor of the GameObject window
          *
          * @param object The GameObject to be displayed
          */
-		GameObjectInfoWindow(GameObject* object, Creature* character);
-		
+        GameObjectInfoWindow(GameObject* object, Creature* character);
+
         /**
          * Destructor of the GameObject window
          */
@@ -61,20 +61,20 @@ namespace rl {
          * Initializes the window with the specified game object and
          * fills the window with the properties of the GameObject.
          */
-		virtual void initialize();
+        virtual void initialize();
 
-	private:
-		GameObject* mGameObject;
-		Creature* mCharacter;
+    private:
+        GameObject* mGameObject;
+        Creature* mCharacter;
 
-		CEGUI::Window* mIcon;
-		CEGUI::MultiLineEditbox* mDescription;
-		CEGUI::Window* mActionButtonsArea;
-		int mNumActionButtons;
+        CEGUI::Window* mIcon;
+        CEGUI::MultiLineEditbox* mDescription;
+        CEGUI::Window* mActionButtonsArea;
+        int mNumActionButtons;
 
-		void addActionButton(Action* action);
-		bool handleActivateAction(Action* action) const;
-	};
+        void addActionButton(Action* action);
+        bool handleActivateAction(Action* action) const;
+    };
 }
 
 #endif

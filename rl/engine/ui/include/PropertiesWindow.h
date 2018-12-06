@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -23,13 +23,14 @@
 #ifndef __PropertiesWindow_H__
 #define __PropertiesWindow_H__
 
-#include "UiPrerequisites.h"
 #include "AbstractWindow.h"
+#include "UiPrerequisites.h"
 
-namespace rl {
+namespace rl
+{
 
     class Property;
-	class PropertyHolder;
+    class PropertyHolder;
 
     /**
      * The Property window class
@@ -38,113 +39,95 @@ namespace rl {
      * through the property set of the given object.
      */
     class _RlUiExport PropertiesWindow : public AbstractWindow
-	{
-	public:
-
+    {
+    public:
         /**
          * Constructor of the Property window
          */
-		PropertiesWindow(PropertyHolder* ph);
-		
+        PropertiesWindow(PropertyHolder* ph);
+
         /**
          * Destructor of the Property window
          */
         virtual ~PropertiesWindow();
 
-		/**
-		 * Refreshes the shown data
-		 */
-		void update();
-	
-	private:
+        /**
+         * Refreshes the shown data
+         */
+        void update();
 
+    private:
         /**
          * Initializes the window with the specified game object and
          * fills the window with the properties of the PropertyHolder.
          *
          * @param object The PropertyHolder to be displayed
          */
-		void initialize(PropertyHolder* object);
+        void initialize(PropertyHolder* object);
 
-		/**
+        /**
          * Fills the header part of the window with the Name and Description
          * property of the PropertyHolder.
          *
          * @param object The PropertyHolder to be displayed
          */
         void fillHeader(PropertyHolder* object);
- 
+
         /**
          * Adds an Int value to the property table.
          *
          * @param key The property to add.
          */
-        void addPropertyInt(const Property& prop, 
-            CEGUI::MultiColumnList* table,
-            const CeGuiString& key = "");
+        void addPropertyInt(const Property& prop, CEGUI::MultiColumnList* table, const CeGuiString& key = "");
 
         /**
          * Adds the IntPair values to the property table.
          *
          * @param key The property to add.
          */
-        void addPropertyIntPair(const Property& prop, 
-            CEGUI::MultiColumnList* table,
-            const CeGuiString& key = "");
+        void addPropertyIntPair(const Property& prop, CEGUI::MultiColumnList* table, const CeGuiString& key = "");
 
         /**
          * Adds the IntTriple values to the property table.
          *
          * @param key The property to add.
          */
-        void addPropertyIntTriple(const Property& prop, 
-            CEGUI::MultiColumnList* table,
-            const CeGuiString& key = "");
+        void addPropertyIntTriple(const Property& prop, CEGUI::MultiColumnList* table, const CeGuiString& key = "");
 
         /**
          * Adds a String value to the property table.
          *
          * @param key The property to add.
          */
-        void addPropertyString(const Property& prop, 
-            CEGUI::MultiColumnList* table,
-            const CeGuiString& key = "");
+        void addPropertyString(const Property& prop, CEGUI::MultiColumnList* table, const CeGuiString& key = "");
 
         /**
          * Adds a Bool value to the property table.
          *
          * @param key The property to add.
          */
-        void addPropertyBool(const Property& prop, 
-            CEGUI::MultiColumnList* table,
-            const CeGuiString& key = "");
+        void addPropertyBool(const Property& prop, CEGUI::MultiColumnList* table, const CeGuiString& key = "");
 
         /**
          * Adds a Real value to the property table.
          *
          * @param key The property to add.
          */
-        void addPropertyReal(const Property& prop, 
-            CEGUI::MultiColumnList* table,
-            const CeGuiString& key = "");
+        void addPropertyReal(const Property& prop, CEGUI::MultiColumnList* table, const CeGuiString& key = "");
 
         /**
          * Adds the Vector3 values to the property table.
          *
          * @param key The property to add.
          */
-        void addPropertyArray3(const Property& prop, 
-            CEGUI::MultiColumnList* table,
-            const CeGuiString& key = "");
+        void addPropertyArray3(const Property& prop, CEGUI::MultiColumnList* table, const CeGuiString& key = "");
 
         /**
          * Adds the Quaternion values to the property table.
          *
          * @param key The property to add.
          */
-        void addPropertyQuaternion(const Property& prop, 
-            CEGUI::MultiColumnList* table,
-            const CeGuiString& key = "");
+        void addPropertyQuaternion(const Property& prop, CEGUI::MultiColumnList* table, const CeGuiString& key = "");
 
         /**
          * Adds a new tab to the tabpane and lists
@@ -152,14 +135,12 @@ namespace rl {
          *
          * @param key The property to add.
          */
-        void addPropertyArray(const Property& prop,
-            const CeGuiString& key = "");
+        void addPropertyArray(const Property& prop, const CeGuiString& key = "");
 
-        
-        CEGUI::TabControl *mTabPane;        //!< TabControl for the property tabs
-        CEGUI::MultiColumnList *mMainTable; //!< Main table for the PropertyHolder properties 
-		PropertyHolder* mObject;
-	};
+        CEGUI::TabControl* mTabPane; //!< TabControl for the property tabs
+        CEGUI::MultiColumnList* mMainTable; //!< Main table for the PropertyHolder properties
+        PropertyHolder* mObject;
+    };
 }
 
 #endif

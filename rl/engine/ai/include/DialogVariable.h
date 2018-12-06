@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -24,7 +24,7 @@ namespace rl
 {
     class Dialog;
 
-	class _RlAiExport DialogVariable
+    class _RlAiExport DialogVariable
     {
     public:
         const Property& getValue(Dialog* dialog);
@@ -47,7 +47,7 @@ namespace rl
     {
     public:
         DialogPropertyVariable(const Ogre::String& propertyName);
-        
+
     protected:
         virtual Property calculateValue(Dialog* dialog);
 
@@ -86,7 +86,7 @@ namespace rl
     {
     public:
         TalentProbeVariable(const CeGuiString& talent, int modifier, const CeGuiString& target);
-        
+
     protected:
         virtual Property calculateValue(Dialog* dialog);
 
@@ -95,18 +95,18 @@ namespace rl
         CeGuiString mTarget;
         int mModifier;
     };
-	
-	class RandomVariable : public DialogVariable
-	{
-	public:
-		RandomVariable(int maximum);
-		
-	protected:
-		virtual Property calculateValue(Dialog* dialog);
-		
-	private:
-		int mMaximum;
-	};
+
+    class RandomVariable : public DialogVariable
+    {
+    public:
+        RandomVariable(int maximum);
+
+    protected:
+        virtual Property calculateValue(Dialog* dialog);
+
+    private:
+        int mMaximum;
+    };
 }
 
 #endif //__DialogVariable_H__

@@ -25,7 +25,11 @@ namespace rl
     class ListenerMovable;
     class SoundDriverConfigComponent;
 
-    typedef enum {ST_SAMPLE, ST_STREAM} SoundType;
+    typedef enum
+    {
+        ST_SAMPLE,
+        ST_STREAM
+    } SoundType;
 
     /// Abstract super class of all API specific sound drivers.
     class _RlCoreExport SoundDriver
@@ -58,19 +62,19 @@ namespace rl
          *  @param res the resource from which to create the sound.
          *  @param type whether to create the sound as sample or stream.
          */
-        virtual Sound* createSound(SoundResourcePtr res, SoundType type=ST_SAMPLE);
+        virtual Sound* createSound(SoundResourcePtr res, SoundType type = ST_SAMPLE);
 
         /// @overload
-        virtual Sound* createSound(const Ogre::String& res, SoundType type=ST_SAMPLE);
+        virtual Sound* createSound(const Ogre::String& res, SoundType type = ST_SAMPLE);
 
         /// Create a sound stitching object
-        virtual SoundStitching* createSoundStitching(unsigned int numSlots, const CeGuiString &name);
+        virtual SoundStitching* createSoundStitching(unsigned int numSlots, const CeGuiString& name);
 
         /// Destroy a sound created by this driver. Do not call the Sound destructor yourself!
         virtual void destroySound(Sound*);
 
         /// Einen Soundlistener erzeugen
-        virtual ListenerMovable *createListener(const Ogre::String &name) = 0;
+        virtual ListenerMovable* createListener(const Ogre::String& name) = 0;
 
         /// Set attenuation of the volume with distance. f influences
         /// volume like this: relative volume = 1/(f*distance)
@@ -117,7 +121,7 @@ namespace rl
         /**
          * Sets an eax preset, the preset is defined by a string
          * @retval true if successfull
-        */
+         */
         virtual bool setEaxPreset(const Ogre::String& name) = 0;
 
     protected:
@@ -129,9 +133,9 @@ namespace rl
         SoundSet mStreamSet;
         SoundSet mSampleSet;
 
-        Ogre::Real mDefaultMusicVolume;               ///!< Music volume
-        Ogre::Real mDefaultSoundVolume;               ///!< Sound effect volume
-        Ogre::Real mMasterVolume;                     ///!< Master volume
+        Ogre::Real mDefaultMusicVolume; ///!< Music volume
+        Ogre::Real mDefaultSoundVolume; ///!< Sound effect volume
+        Ogre::Real mMasterVolume; ///!< Master volume
         SoundDriverConfigComponent* mConfigComponent; ///!< Configuration dialog for driver specific settings
     };
 }

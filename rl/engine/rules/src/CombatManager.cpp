@@ -1,18 +1,18 @@
 /* This source file is part of Rastullahs Lockenpracht.
-* Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
-* 
-*  This program is free software; you can redistribute it and/or modify
-*  it under the terms of the Clarified Artistic License.
-*
-*  This program is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  Clarified Artistic License for more details.
-*
-*  You should have received a copy of the Clarified Artistic License
-*  along with this program; if not you can get it here
-*  http://www.jpaulmorrison.com/fbp/artistic2.htm.
-*/
+ * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the Clarified Artistic License.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  Clarified Artistic License for more details.
+ *
+ *  You should have received a copy of the Clarified Artistic License
+ *  along with this program; if not you can get it here
+ *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
+ */
 #include "stdinc.h"
 
 #include "CombatManager.h"
@@ -24,33 +24,34 @@
 
 using namespace Ogre;
 
-template<> rl::CombatManager* Singleton<rl::CombatManager>::ms_Singleton = 0;
+template <> rl::CombatManager* Singleton<rl::CombatManager>::ms_Singleton = 0;
 
 namespace rl
 {
 
-    CombatManager::CombatManager() : mCurrentCombat(NULL)
+    CombatManager::CombatManager()
+        : mCurrentCombat(NULL)
     {
-		Kampfaktion* ka = new AttackeAktion();
-		mKampfaktionen.insert(std::make_pair(ka->getName(), ka));
-		ka = new ParadeAktion();
-		mKampfaktionen.insert(std::make_pair(ka->getName(), ka));
-		ka = new AusweichenAktion();
-		mKampfaktionen.insert(std::make_pair(ka->getName(), ka));
-		ka = new BewegenAktion();
-		mKampfaktionen.insert(std::make_pair(ka->getName(), ka));
-		ka = new FolgenAktion();
-		mKampfaktionen.insert(std::make_pair(ka->getName(), ka));
+        Kampfaktion* ka = new AttackeAktion();
+        mKampfaktionen.insert(std::make_pair(ka->getName(), ka));
+        ka = new ParadeAktion();
+        mKampfaktionen.insert(std::make_pair(ka->getName(), ka));
+        ka = new AusweichenAktion();
+        mKampfaktionen.insert(std::make_pair(ka->getName(), ka));
+        ka = new BewegenAktion();
+        mKampfaktionen.insert(std::make_pair(ka->getName(), ka));
+        ka = new FolgenAktion();
+        mKampfaktionen.insert(std::make_pair(ka->getName(), ka));
     }
 
     CombatManager::~CombatManager()
     {
-		for (std::map<CeGuiString, Kampfaktion*>::iterator it = mKampfaktionen.begin();
-			it != mKampfaktionen.end(); ++it)
-		{
-			delete it->second;
-		}
-		mKampfaktionen.clear();
+        for (std::map<CeGuiString, Kampfaktion*>::iterator it = mKampfaktionen.begin(); it != mKampfaktionen.end();
+             ++it)
+        {
+            delete it->second;
+        }
+        mKampfaktionen.clear();
     }
 
     Combat* CombatManager::startCombat()
@@ -68,7 +69,7 @@ namespace rl
     void CombatManager::stopCombat()
     {
         delete mCurrentCombat;
-		mCurrentCombat = NULL;
+        mCurrentCombat = NULL;
     }
 
     Combat* CombatManager::getCurrentCombat() const
@@ -111,8 +112,7 @@ namespace rl
 
     void CombatManager::unregisterCombatantFactory(CombatantFactory* factory)
     {
-        for (CombatantFactoryMap::iterator it = mCombatantFactories.begin();
-            it != mCombatantFactories.end(); ++it)
+        for (CombatantFactoryMap::iterator it = mCombatantFactories.begin(); it != mCombatantFactories.end(); ++it)
         {
             if (it->second == factory)
             {
@@ -122,16 +122,16 @@ namespace rl
         }
     }
 
-	Kampfaktion* CombatManager::getKampfaktion(const CeGuiString& name)
-	{
-		std::map<CeGuiString, Kampfaktion*>::const_iterator it = mKampfaktionen.find(name);
-		if (it != mKampfaktionen.end())
-		{
-			return it->second;
-		}
-		else
-		{
-			return NULL;
-		}
-	}
+    Kampfaktion* CombatManager::getKampfaktion(const CeGuiString& name)
+    {
+        std::map<CeGuiString, Kampfaktion*>::const_iterator it = mKampfaktionen.find(name);
+        if (it != mKampfaktionen.end())
+        {
+            return it->second;
+        }
+        else
+        {
+            return NULL;
+        }
+    }
 }

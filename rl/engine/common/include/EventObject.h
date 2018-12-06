@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -21,36 +21,36 @@
 
 #include "EventSource.h"
 
-namespace rl {
-/**
- * Dieses Klasse ist eine Basisklasse fuer alle Ereignisse.
- * @author JoSch
- * @date 10-05-2004
- * @version 1.0
- */
-class _RlCommonExport EventObject {
-private:
-   /// Die Quelle des Ereignisses.
-   EventSource *mSource; 
-   /// Die ID des Grundes fuer den Event.
-   unsigned int mReason;
-   
-    
-public:
-    /// Der Konstruktor.
-	EventObject(EventSource *source);
-	/// Der Konstruktor.
-	EventObject(EventSource *source, const unsigned int reason );
-    /// Der Destruktor.
-	virtual ~EventObject();
-   
-   /// Die Ereignisquelle zurueckgeben
-   EventSource *getSource() const;
-   /// Die ID des Grundes fuer den Event.
-   const unsigned int getReason() const;
-   /// Die ID setzen
-   void setReason(const unsigned int reason);
-};
+namespace rl
+{
+    /**
+     * Dieses Klasse ist eine Basisklasse fuer alle Ereignisse.
+     * @author JoSch
+     * @date 10-05-2004
+     * @version 1.0
+     */
+    class _RlCommonExport EventObject
+    {
+    private:
+        /// Die Quelle des Ereignisses.
+        EventSource* mSource;
+        /// Die ID des Grundes fuer den Event.
+        unsigned int mReason;
 
+    public:
+        /// Der Konstruktor.
+        EventObject(EventSource* source);
+        /// Der Konstruktor.
+        EventObject(EventSource* source, const unsigned int reason);
+        /// Der Destruktor.
+        virtual ~EventObject();
+
+        /// Die Ereignisquelle zurueckgeben
+        EventSource* getSource() const;
+        /// Die ID des Grundes fuer den Event.
+        const unsigned int getReason() const;
+        /// Die ID setzen
+        void setReason(const unsigned int reason);
+    };
 }
 #endif // EVENTOBJECT_H

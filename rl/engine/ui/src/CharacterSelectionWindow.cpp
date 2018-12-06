@@ -26,15 +26,15 @@ using namespace CEGUI;
 namespace rl
 {
     CharacterSelectionWindow::CharacterSelectionWindow()
-    : AbstractWindow("characterselectionwindow.xml", WIT_MOUSE_INPUT, false)
+        : AbstractWindow("characterselectionwindow.xml", WIT_MOUSE_INPUT, false)
     {
         mCharacterWindow = getWindow("CharacterSelectionWindow/Characters");
-        mCharacterAddedConnection = MessagePump::getSingleton().
-            addMessageHandler<MessageType_PlayerCharAdded>(boost::bind(&CharacterSelectionWindow::update, this));
-        mCharacterRemovedConnection = MessagePump::getSingleton().
-            addMessageHandler<MessageType_PlayerCharRemoved>(boost::bind(&CharacterSelectionWindow::update, this));
+        mCharacterAddedConnection = MessagePump::getSingleton().addMessageHandler<MessageType_PlayerCharAdded>(
+            boost::bind(&CharacterSelectionWindow::update, this));
+        mCharacterRemovedConnection = MessagePump::getSingleton().addMessageHandler<MessageType_PlayerCharRemoved>(
+            boost::bind(&CharacterSelectionWindow::update, this));
     }
-    
+
     CharacterSelectionWindow::~CharacterSelectionWindow()
     {
         while (0 > mCharacterWindows.size())
@@ -43,28 +43,27 @@ namespace rl
             mCharacterWindows.pop_back();
             mCharacterWindow->removeChildWindow(elem->getWindow());
             delete elem;
-        }        
+        }
     }
-    
+
     bool CharacterSelectionWindow::update()
     {
         Party party = PartyManager::getSingleton().getCharacters();
-        
+
         while (party.size() > mCharacterWindows.size())
         {
             Element* elem = new Element(this);
             mCharacterWindow->addChildWindow(elem->getWindow());
             CEGUI::Size size = elem->getWindow()->getPixelSize();
             size_t windowNum = mCharacterWindows.size();
-			elem->getWindow()->setPosition(UVector2(UDim(0, 0), UDim(0, windowNum * size.d_height)));
+            elem->getWindow()->setPosition(UVector2(UDim(0, 0), UDim(0, windowNum * size.d_height)));
             elem->setVisible(true);
-            elem->getWindow()->subscribeEvent(
-                 Window::EventMouseClick,
-                 boost::bind(&CharacterSelectionWindow::handleClickOnCharacter, this, windowNum));
-            
+            elem->getWindow()->subscribeEvent(Window::EventMouseClick,
+                boost::bind(&CharacterSelectionWindow::handleClickOnCharacter, this, windowNum));
+
             mCharacterWindows.push_back(elem);
         }
-        
+
         while (party.size() < mCharacterWindows.size())
         {
             Element* elem = mCharacterWindows.back();
@@ -72,15 +71,15 @@ namespace rl
             mCharacterWindow->removeChildWindow(elem->getWindow());
             delete elem;
         }
-        
+
         for (unsigned int i = 0; i < party.size(); ++i)
         {
             mCharacterWindows[i]->setCreature(party[i]);
         }
-        
+
         return true;
     }
-    
+
     bool CharacterSelectionWindow::handleClickOnCharacter(size_t index)
     {
         Party party = PartyManager::getSingleton().getCharacters();
@@ -89,21 +88,21 @@ namespace rl
     }
 
     CharacterSelectionWindow::Element::Element(CharacterSelectionWindow* parent)
-    :  AbstractWindow("characterselectionwindow_character.xml", WIT_NONE, false), 
-       mParent(parent),
-       mCreature(NULL),
-       mTextName(NULL)
+        : AbstractWindow("characterselectionwindow_character.xml", WIT_NONE, false)
+        , mParent(parent)
+        , mCreature(NULL)
+        , mTextName(NULL)
     {
         mTextName = getWindow("CharacterSelectionWindow/Character/Name");
         mPortrait = getWindow("CharacterSelectionWindow/Character/Picture");
         mLP = getProgressBar("CharacterSelectionWindow/Character/LP");
     }
-    
+
     CharacterSelectionWindow::Element::~Element()
     {
         setCreature(NULL);
     }
-    
+
     void CharacterSelectionWindow::Element::setCreature(Creature* creature)
     {
         if (mCreature)
@@ -111,38 +110,36 @@ namespace rl
             mCreature->removeObjectStateChangeListener(this);
         }
 
-        
-        if (creature) 
+        if (creature)
         {
             creature->addObjectStateChangeListener(this);
             mTextName->setText(creature->getName());
             mPortrait->setProperty("Image", creature->getImageName());
         }
-        else 
+        else
         {
             mTextName->setText("");
         }
 
         mCreature = creature;
-        update();            
+        update();
     }
-    
+
     void CharacterSelectionWindow::Element::objectStateChanged(ObjectStateChangeEvent* evt)
     {
         update();
     }
-    
-    
+
     void CharacterSelectionWindow::Element::update()
     {
         float lep;
         if (!mCreature || mCreature->getLeMax() <= 0)
         {
-            lep = 0.0;        
+            lep = 0.0;
         }
         else
         {
-            lep = (float)mCreature->getLe() / (float)mCreature->getLeMax();        
+            lep = (float)mCreature->getLe() / (float)mCreature->getLeMax();
         }
         mLP->setProgress(lep);
     }

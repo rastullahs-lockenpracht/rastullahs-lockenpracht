@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -21,7 +21,8 @@
 
 #include "CorePrerequisites.h"
 
-namespace rl {
+namespace rl
+{
 
     class _RlCoreExport GenericWorld : public World
     {
@@ -30,9 +31,8 @@ namespace rl {
         ~GenericWorld();
 
         virtual void clearScene();
-        virtual void initializeDefaultCamera();	
-		virtual void setCastShadows(bool enabled);
+        virtual void initializeDefaultCamera();
+        virtual void setCastShadows(bool enabled);
     };
-
 }
 #endif

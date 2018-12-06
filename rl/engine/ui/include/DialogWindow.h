@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -19,44 +19,44 @@
 
 #include "UiPrerequisites.h"
 
-#include <vector>
 #include <map>
+#include <vector>
 
 #include "AbstractWindow.h"
 #include "DialogResponse.h"
 
-namespace rl {
+namespace rl
+{
 
-	class DialogControlState;
+    class DialogControlState;
 
-	class _RlUiExport DialogWindow : public AbstractWindow
-	{
-	public:
-		DialogWindow(DialogControlState* controller);
+    class _RlUiExport DialogWindow : public AbstractWindow
+    {
+    public:
+        DialogWindow(DialogControlState* controller);
 
-		void setName(const CeGuiString& name);
-		void setImage(const CeGuiString& imageset, const CeGuiString& image);
+        void setName(const CeGuiString& name);
+        void setImage(const CeGuiString& imageset, const CeGuiString& image);
         void setAvailableOptions(const DialogResponse::Options& options);
-		void setChosenOption(const CeGuiString& option);
-		void setResponse(const CeGuiString& response);
-		void setDialogEnd();
-		int getSelectedOptionIndex() const;
+        void setChosenOption(const CeGuiString& option);
+        void setResponse(const CeGuiString& response);
+        void setDialogEnd();
+        int getSelectedOptionIndex() const;
 
-	private:
+    private:
         bool handleDialogSelectOption();
 
-		static const CEGUI::colour COLOR_PLAYER_CHARACTER;
-		static const CEGUI::colour COLOR_NON_PLAYER_CHARACTER;
+        static const CEGUI::colour COLOR_PLAYER_CHARACTER;
+        static const CEGUI::colour COLOR_NON_PLAYER_CHARACTER;
 
         DialogControlState* mController;
 
-		CEGUI::Listbox* mDialogOptions;
-		CEGUI::Window* mImage;
-		CEGUI::Listbox* mQuestion;
-		CEGUI::Window* mName;
-		CEGUI::ListboxTextItem* mPlayerText;
-		CEGUI::ListboxTextItem* mNscText;
-	};
-
+        CEGUI::Listbox* mDialogOptions;
+        CEGUI::Window* mImage;
+        CEGUI::Listbox* mQuestion;
+        CEGUI::Window* mName;
+        CEGUI::ListboxTextItem* mPlayerText;
+        CEGUI::ListboxTextItem* mNscText;
+    };
 }
 #endif

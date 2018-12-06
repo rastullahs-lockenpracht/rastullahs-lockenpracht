@@ -17,156 +17,154 @@
 #ifndef __CoreSubsystem_H__
 #define __CoreSubsystem_H__
 
-
 #include <map>
 
-#include "EventSource.h"
-#include "EventCaster.h"
 #include "CorePrerequisites.h"
+#include "EventCaster.h"
+#include "EventSource.h"
 #include "World.h"
 
-namespace rl {
-
-class RubyInterpreter;
-class World;
-class CoreEvent;
-class CoreEventListener;
-class Actor;
-class ContentModule;
-class ScriptWrapper;
-class PhysicsManager;
-class MessagePump;
-class GameLoop;
-class AnimationManager;
-class ActorManager;
-class GameEventManager;
-class XmlResourceManager;
-class SoundManager;
-class DebugVisualsManager;
-class SaveGameManager;
-class JobScheduler;
-class ZoneManager;
-class TimeSourceManager;
-
-typedef _RlCoreExport std::map<Ogre::String, ContentModule*> ModuleMap;
-
-/** CoreSubsystem.
-    @remarks
-        It follows the Singleton Pattern,
-        and initialises the game context.
-*/
-class _RlCoreExport CoreSubsystem : public Ogre::Singleton<CoreSubsystem>
+namespace rl
 {
-public:
-    /** Default Constructor */
-    CoreSubsystem();
-    /** Default Deconstructor */
-    virtual ~CoreSubsystem();
 
-    /** Starts the Game */
-    void startCore();
+    class RubyInterpreter;
+    class World;
+    class CoreEvent;
+    class CoreEventListener;
+    class Actor;
+    class ContentModule;
+    class ScriptWrapper;
+    class PhysicsManager;
+    class MessagePump;
+    class GameLoop;
+    class AnimationManager;
+    class ActorManager;
+    class GameEventManager;
+    class XmlResourceManager;
+    class SoundManager;
+    class DebugVisualsManager;
+    class SaveGameManager;
+    class JobScheduler;
+    class ZoneManager;
+    class TimeSourceManager;
 
-    /** Renders one frame (for internal use) */
-    void renderOneFrame(bool executeTasks = true);
+    typedef _RlCoreExport std::map<Ogre::String, ContentModule*> ModuleMap;
 
-    World* getWorld();
-
-    // obsolete
-    // void loadMap(const Ogre::String& type, const Ogre::String& filename, const Ogre::String& module);
-
-    RubyInterpreter* getRubyInterpreter();
-
-    ContentModule* getActiveAdventureModule() const;
-    ContentModule* getModule(const Ogre::String& moduleId) const;
-    const ModuleMap& getAllModules() const;
-    void startAdventureModule(ContentModule* module);
-    void setDefaultActiveModule(const Ogre::String& moduleId);
-    const Ogre::String& getDefaultActiveModule() const;
-    void registerModule(ContentModule* module);
-
-    void setDeveloperMode(bool developerMode);
-    bool getDeveloperMode() const;
-
-    /** Saves a timestamped png Screenshot
-        @param sName The filename (extended with the timestamp)
+    /** CoreSubsystem.
+        @remarks
+            It follows the Singleton Pattern,
+            and initialises the game context.
     */
-    void makeScreenshot(const Ogre::String& sName);
+    class _RlCoreExport CoreSubsystem : public Ogre::Singleton<CoreSubsystem>
+    {
+    public:
+        /** Default Constructor */
+        CoreSubsystem();
+        /** Default Deconstructor */
+        virtual ~CoreSubsystem();
 
-    void setScheme(const Ogre::String& schemeName);
+        /** Starts the Game */
+        void startCore();
 
-    bool isInitialized() const;
+        /** Renders one frame (for internal use) */
+        void renderOneFrame(bool executeTasks = true);
 
-    const Ogre::String getEngineVersionString() const;
-    const Ogre::String getEngineVersionName() const;
-    long         getEngineBuildNumber() const;
+        World* getWorld();
 
-    /**
-     * Retrieves a pointer to the current render window.
-     *
-     * @return pointer to render window
-     */
-    Ogre::RenderWindow* getRenderWindow() const;
+        // obsolete
+        // void loadMap(const Ogre::String& type, const Ogre::String& filename, const Ogre::String& module);
 
-	/// Sets the pause state of the game
-	/// @param paused <code>true</code> if the game should be paused, <code>false</code> if it should be continued
-	void setPaused(bool paused);
+        RubyInterpreter* getRubyInterpreter();
 
-    void setTimeFactor(const Ogre::Real& factor = 1.0F);
+        ContentModule* getActiveAdventureModule() const;
+        ContentModule* getModule(const Ogre::String& moduleId) const;
+        const ModuleMap& getAllModules() const;
+        void startAdventureModule(ContentModule* module);
+        void setDefaultActiveModule(const Ogre::String& moduleId);
+        const Ogre::String& getDefaultActiveModule() const;
+        void registerModule(ContentModule* module);
 
-    void _setCurrentScene(const CeGuiString& scene);
-    const CeGuiString& getCurrentScene() const;
-    void loadPlugin(const Ogre::String& plugin);
+        void setDeveloperMode(bool developerMode);
+        bool getDeveloperMode() const;
 
-private:
-    World* mWorld;
-    RubyInterpreter* mRubyInterpreter;
-    ModuleMap mModules;
-    ContentModule* mActiveAdventureModule;
-    Ogre::String mDefaultActiveModule;
-    Ogre::RenderWindow* mRenderWindow;            //!< Render window for OGRE
-    CeGuiString mCurrentScene;
+        /** Saves a timestamped png Screenshot
+            @param sName The filename (extended with the timestamp)
+        */
+        void makeScreenshot(const Ogre::String& sName);
 
-    RL_LONGLONG mClockStartTime;
+        void setScheme(const Ogre::String& schemeName);
 
-    bool mDeveloperMode;
-    bool mInitialized;
-    std::vector<Ogre::Technique*> mDefaultTechniques;
+        bool isInitialized() const;
 
-    // The singletons of this subsystem
-    Ogre::Root* mOgreRoot;
-    ScriptWrapper* mScriptWrapper;
-    XmlResourceManager* mXmlResourceManager;
-    PhysicsManager* mPhysicsManager;
-    MessagePump* mMessagePump;
-    GameLoop* mGameLoop;
-    AnimationManager* mAnimationManager;
-    ActorManager* mActorManager;
-    GameEventManager* mGameEventManager;
-    SoundManager* mSoundManager;
-    DebugVisualsManager* mDebugVisualsManager;
-    SaveGameManager* mSaveGameManager;
-    JobScheduler* mJobScheduler;
-	ZoneManager* mZoneManager;
-    TimeSourceManager* mTimeSourceManager;
+        const Ogre::String getEngineVersionString() const;
+        const Ogre::String getEngineVersionName() const;
+        long getEngineBuildNumber() const;
 
-    /** Runs the setup methods  */
-    bool initializeCoreSubsystem();
+        /**
+         * Retrieves a pointer to the current render window.
+         *
+         * @return pointer to render window
+         */
+        Ogre::RenderWindow* getRenderWindow() const;
 
-    /** Loads all needed ressources */
-    void initializeResources();
+        /// Sets the pause state of the game
+        /// @param paused <code>true</code> if the game should be paused, <code>false</code> if it should be continued
+        void setPaused(bool paused);
 
-    void loadPlugins();
-    void unloadPlugins();
+        void setTimeFactor(const Ogre::Real& factor = 1.0F);
 
-    /**
-     * Sammelt alle Default-Techniques, um sie sp‰ter bei jedem aktivierten Scheme
-     * benutzen zu kˆnnen
-     */
-    void updateDefaultScheme();
+        void _setCurrentScene(const CeGuiString& scene);
+        const CeGuiString& getCurrentScene() const;
+        void loadPlugin(const Ogre::String& plugin);
 
-    void loadModule(ContentModule* module);
-};
+    private:
+        World* mWorld;
+        RubyInterpreter* mRubyInterpreter;
+        ModuleMap mModules;
+        ContentModule* mActiveAdventureModule;
+        Ogre::String mDefaultActiveModule;
+        Ogre::RenderWindow* mRenderWindow; //!< Render window for OGRE
+        CeGuiString mCurrentScene;
 
+        RL_LONGLONG mClockStartTime;
+
+        bool mDeveloperMode;
+        bool mInitialized;
+        std::vector<Ogre::Technique*> mDefaultTechniques;
+
+        // The singletons of this subsystem
+        Ogre::Root* mOgreRoot;
+        ScriptWrapper* mScriptWrapper;
+        XmlResourceManager* mXmlResourceManager;
+        PhysicsManager* mPhysicsManager;
+        MessagePump* mMessagePump;
+        GameLoop* mGameLoop;
+        AnimationManager* mAnimationManager;
+        ActorManager* mActorManager;
+        GameEventManager* mGameEventManager;
+        SoundManager* mSoundManager;
+        DebugVisualsManager* mDebugVisualsManager;
+        SaveGameManager* mSaveGameManager;
+        JobScheduler* mJobScheduler;
+        ZoneManager* mZoneManager;
+        TimeSourceManager* mTimeSourceManager;
+
+        /** Runs the setup methods  */
+        bool initializeCoreSubsystem();
+
+        /** Loads all needed ressources */
+        void initializeResources();
+
+        void loadPlugins();
+        void unloadPlugins();
+
+        /**
+         * Sammelt alle Default-Techniques, um sie sp‰ter bei jedem aktivierten Scheme
+         * benutzen zu kˆnnen
+         */
+        void updateDefaultScheme();
+
+        void loadModule(ContentModule* module);
+    };
 }
 #endif
-

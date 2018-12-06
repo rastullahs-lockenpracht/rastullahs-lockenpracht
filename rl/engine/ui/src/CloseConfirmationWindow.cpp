@@ -20,32 +20,29 @@
 #include "CloseConfirmationWindow.h"
 #include "GameLoop.h"
 
-namespace rl {
-
-CloseConfirmationWindow::CloseConfirmationWindow()
-: AbstractWindow("closeconfirmationwindow.xml", WIT_MOUSE_INPUT | WIT_KEYBOARD_INPUT, true, true)
+namespace rl
 {
-	getPushButton("CloseConfirmationWindow/YesButton")->subscribeEvent(
-		CEGUI::Window::EventMouseClick,
-		boost::bind(
-			&CloseConfirmationWindow::handleConfirm,
-			this
-		));
 
-    bindDestroyWindowToXButton();
-	bindDestroyWindowToClick(getPushButton("CloseConfirmationWindow/NoButton"));
-	centerWindow();
-}
+    CloseConfirmationWindow::CloseConfirmationWindow()
+        : AbstractWindow("closeconfirmationwindow.xml", WIT_MOUSE_INPUT | WIT_KEYBOARD_INPUT, true, true)
+    {
+        getPushButton("CloseConfirmationWindow/YesButton")
+            ->subscribeEvent(
+                CEGUI::Window::EventMouseClick, boost::bind(&CloseConfirmationWindow::handleConfirm, this));
 
-CloseConfirmationWindow::~CloseConfirmationWindow()
-{
-}
+        bindDestroyWindowToXButton();
+        bindDestroyWindowToClick(getPushButton("CloseConfirmationWindow/NoButton"));
+        centerWindow();
+    }
 
-bool CloseConfirmationWindow::handleConfirm()
-{
+    CloseConfirmationWindow::~CloseConfirmationWindow()
+    {
+    }
+
+    bool CloseConfirmationWindow::handleConfirm()
+    {
         setVisible(false, true);
-	GameLoop::getSingleton().quitGame();
-	return true;
-}
-
+        GameLoop::getSingleton().quitGame();
+        return true;
+    }
 }

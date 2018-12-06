@@ -21,27 +21,26 @@
 
 namespace rl
 {
-	SubtitleWindow::SubtitleWindow()
-		: AbstractWindow("subtitlewindow.xml", WIT_NONE, false)
-	{
-		mSubtitle = getMultiLineEditbox("SubtitleWindow/Text");
-	}
+    SubtitleWindow::SubtitleWindow()
+        : AbstractWindow("subtitlewindow.xml", WIT_NONE, false)
+    {
+        mSubtitle = getMultiLineEditbox("SubtitleWindow/Text");
+    }
 
-	SubtitleWindow::~SubtitleWindow()
-	{
-	}
+    SubtitleWindow::~SubtitleWindow()
+    {
+    }
 
-	void SubtitleWindow::show(const CeGuiString& text)
-	{
-		mSubtitle->setText(text);
-		setVisible(true);
-        LOG_DEBUG(Logger::UI,
-			"Subtitle: " + text);
-	}
+    void SubtitleWindow::show(const CeGuiString& text)
+    {
+        mSubtitle->setText(text);
+        setVisible(true);
+        LOG_DEBUG(Logger::UI, "Subtitle: " + text);
+    }
 
-	const CeGuiString& SubtitleWindow::getText() const
-	{
-		return mSubtitle->getText();
-	}
+    const CeGuiString& SubtitleWindow::getText() const
+    {
+        return mSubtitle->getText();
+    }
 
 } // namespace rl

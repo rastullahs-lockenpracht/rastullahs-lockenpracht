@@ -23,42 +23,44 @@
 #undef min
 
 #ifdef __APPLE__
-#   include <HIToolbox/CarbonEventsCore.h>
-#   include <Ogre/Ogre.h>
-#   include <Ogre/OgreFont.h>
-#   include <Ogre/OgreFontManager.h>
-#   include <Ogre/OgreTagPoint.h>
+#include <HIToolbox/CarbonEventsCore.h>
+#include <Ogre/Ogre.h>
+#include <Ogre/OgreFont.h>
+#include <Ogre/OgreFontManager.h>
+#include <Ogre/OgreTagPoint.h>
 #else
-#   include <Ogre.h>
-#   include <OgreFont.h>
-#   include <OgreFontManager.h>
-#   include <OgreTagPoint.h>
+#include <Ogre.h>
+#include <OgreFont.h>
+#include <OgreFontManager.h>
+#include <OgreTagPoint.h>
 #endif
 
 #if OGRE_PLATFORM != OGRE_PLATFORM_WIN32
-#   define _snprintf snprintf
-template<class T1, class T2>
-bool max(T1 m1, T2 m2) { return (m1 < m2)?m2:m1; }
+#define _snprintf snprintf
+template <class T1, class T2> bool max(T1 m1, T2 m2)
+{
+    return (m1 < m2) ? m2 : m1;
+}
 #endif
 
 #if !defined(RL_LONGLONG)
-#   if defined(_MSC_VER) && (_MSC_VER < 1300)
-#       define RL_LONGLONG _int64
-#   else
-#       define RL_LONGLONG long long
-#   endif
+#if defined(_MSC_VER) && (_MSC_VER < 1300)
+#define RL_LONGLONG _int64
+#else
+#define RL_LONGLONG long long
+#endif
 #endif
 
-#if defined(_MSC_VER) && (_MSC_VER > 1300)   // MS Visual Studio 2005
+#if defined(_MSC_VER) && (_MSC_VER > 1300) // MS Visual Studio 2005
 // signed / unsigned auf 1x
-#    pragma warning(once : 4018)
+#pragma warning(once : 4018)
 // Sichere Versionen der Stringfunktionen benutzen
-#    if _CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES == 0
-#        undef  _CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES
-#        define _CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES 1
-#    endif
+#if _CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES == 0
+#undef _CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES
+#define _CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES 1
+#endif
 #endif
 
-#define TIXML_USE_STL 1  // Let TinyXML use STL strings
+#define TIXML_USE_STL 1 // Let TinyXML use STL strings
 
 #endif

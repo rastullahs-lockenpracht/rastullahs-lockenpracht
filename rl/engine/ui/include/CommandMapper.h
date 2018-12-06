@@ -21,22 +21,23 @@
 
 #include <map>
 
-namespace rl {
+namespace rl
+{
 
     enum MovementState
     {
         MOVE_NONE = 0,
-        MOVE_LEFT = 1<<0,
-        MOVE_RIGHT = 1<<1,
-        MOVE_FORWARD = 1<<2,
-        MOVE_BACKWARD = 1<<3,
-        TURN_LEFT = 1<<4,
-        TURN_RIGHT = 1<<5,
-        MOVE_RUN = 1<<6,
-        MOVE_SNEAK = 1<<7,
-        MOVE_JUMP = 1<<8,
-        MOVE_RUN_LOCK = 1<<9,
-        REAR_VIEW = 1<<10
+        MOVE_LEFT = 1 << 0,
+        MOVE_RIGHT = 1 << 1,
+        MOVE_FORWARD = 1 << 2,
+        MOVE_BACKWARD = 1 << 3,
+        TURN_LEFT = 1 << 4,
+        TURN_RIGHT = 1 << 5,
+        MOVE_RUN = 1 << 6,
+        MOVE_SNEAK = 1 << 7,
+        MOVE_JUMP = 1 << 8,
+        MOVE_RUN_LOCK = 1 << 9,
+        REAR_VIEW = 1 << 10
     };
 
     const int CMDMAP_NO_MAPPING = -9999999;
@@ -44,7 +45,6 @@ namespace rl {
     class _RlUiExport CommandMapper
     {
     public:
-
         CommandMapper();
         ~CommandMapper();
 
@@ -60,9 +60,8 @@ namespace rl {
         const CeGuiString& getControlStateAction(int keyCodeOrMouseButton, ControlStateType) const;
 
     private:
-
         // KeyCode -> Name
-        typedef std::map<int, CeGuiString > KeyAndMouseCommandMap;
+        typedef std::map<int, CeGuiString> KeyAndMouseCommandMap;
         typedef std::map<int, MovementState> MovementCommandMap;
 
         MovementCommandMap mMovementCommands;
@@ -81,7 +80,6 @@ namespace rl {
         void buildCommandMap(KeyAndMouseCommandMap& cmdMap, const Ogre::NameValuePairList& values);
         const KeyAndMouseCommandMap& getControlStateMapping(ControlStateType) const;
     };
-
 }
 
 #endif

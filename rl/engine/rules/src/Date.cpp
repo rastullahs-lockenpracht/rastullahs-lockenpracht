@@ -19,43 +19,15 @@
 
 namespace rl
 {
-    static const char* const MONTHS[] =
-    {
-      "Praios",
-      "Rondra",
-      "Efferd",
-      "Travia",
-      "Boron",
-      "Hesinde",
-      "Firun",
-      "Tsa",
-      "Phex",
-      "Peraine",
-      "Ingerimm",
-      "Rahja",
-      "???"
-    };
+    static const char* const MONTHS[] = { "Praios", "Rondra", "Efferd", "Travia", "Boron", "Hesinde", "Firun", "Tsa",
+        "Phex", "Peraine", "Ingerimm", "Rahja", "???" };
 
-    static const int MONTH_MODIFIER[] =
-    {
-      0, 2, 4, 6, 1, 3, 5, 0, 2, 4, 6, 1, 3
-    };
+    static const int MONTH_MODIFIER[] = { 0, 2, 4, 6, 1, 3, 5, 0, 2, 4, 6, 1, 3 };
 
-    static const int WEEKDAY_OFFSET[] =
-    {
-      2, 3, 4, 5, 6, 7, 1
-    };
+    static const int WEEKDAY_OFFSET[] = { 2, 3, 4, 5, 6, 7, 1 };
 
-    static const char* const DAYS_OF_WEEK[] =
-    {
-      "Windstag",
-      "Erdtag",
-      "Markttag",
-      "Praiostag",
-      "Rohalstag",
-      "Feuertag",
-      "Wassertag"
-    };
+    static const char* const DAYS_OF_WEEK[]
+        = { "Windstag", "Erdtag", "Markttag", "Praiostag", "Rohalstag", "Feuertag", "Wassertag" };
 
     const unsigned RL_LONGLONG Date::ONE_SECOND = 1000UL;
     const unsigned RL_LONGLONG Date::ONE_MINUTE = 60000UL;
@@ -126,10 +98,10 @@ namespace rl
         return Date(mTimestamp + rhs);
     }
 
-	Date Date::operator+(const Date& rhs)
-	{
-		return Date(mTimestamp + rhs.mTimestamp);
-	}
+    Date Date::operator+(const Date& rhs)
+    {
+        return Date(mTimestamp + rhs.mTimestamp);
+    }
 
     Date Date::operator-(const RL_LONGLONG& rhs)
     {
@@ -244,15 +216,8 @@ namespace rl
     const std::string Date::toString() const
     {
         char date[256];
-        _snprintf(date,
-                  255,
-                  "%s, der %d. %s im Jahre %dBF, %02d:%02d.",
-                  getDayOfWeekName().c_str(),
-                  getDayOfMonth(),
-                  getMonthName().c_str(),
-                  mYear,
-                  mHour,
-                  mMinute);
+        _snprintf(date, 255, "%s, der %d. %s im Jahre %dBF, %02d:%02d.", getDayOfWeekName().c_str(), getDayOfMonth(),
+            getMonthName().c_str(), mYear, mHour, mMinute);
         return std::string(date);
     }
 

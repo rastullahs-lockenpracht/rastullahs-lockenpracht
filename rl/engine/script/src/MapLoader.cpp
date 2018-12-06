@@ -1,63 +1,64 @@
 /* This source file is part of Rastullahs Lockenpracht.
-* Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
-*
-*  This program is free software; you can redistribute it and/or modify
-*  it under the terms of the Clarified Artistic License.
-*
-*  This program is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  Clarified Artistic License for more details.
-*
-*  You should have received a copy of the Clarified Artistic License
-*  along with this program; if not you can get it here
-*  http://www.jpaulmorrison.com/fbp/artistic2.htm.
-*/
+ * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the Clarified Artistic License.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  Clarified Artistic License for more details.
+ *
+ *  You should have received a copy of the Clarified Artistic License
+ *  along with this program; if not you can get it here
+ *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
+ */
 #include "stdinc.h" //precompiled header
 
 #include "MapLoader.h"
 
 #include "AbstractMapNodeProcessor.h"
+#include "ContentModule.h"
 #include "CoreSubsystem.h"
 #include "EntityNodeProcessor.h"
 #include "EnvironmentProcessor.h"
-#include "GameObjectNodeProcessor.h"
-#include "GameObjectManager.h"
 #include "GameObject.h"
+#include "GameObjectManager.h"
+#include "GameObjectNodeProcessor.h"
 #include "LightNodeProcessor.h"
 #include "ParticleSystemNodeProcessor.h"
+#include "PlaneNodeProcessor.h"
 #include "ProgressWindow.h"
-#include "XmlPropertyReader.h"
+#include "RubyInterpreter.h"
 #include "SoundNodeProcessor.h"
 #include "WaypointProcessor.h"
 #include "World.h"
 #include "XmlProcessor.h"
+#include "XmlPropertyReader.h"
 #include "ZoneProcessor.h"
-#include "ContentModule.h"
-#include "RubyInterpreter.h"
-#include "PlaneNodeProcessor.h"
 
 using namespace Ogre;
 using std::list;
 
-namespace rl {
+namespace rl
+{
 
     const CeGuiString MapLoader::PROPERTY_ACTIVEMAPS = "activemaps";
 
     MapLoader::MapLoader()
-        : mRootSceneNode(NULL),
-          mResourceGroup(CoreSubsystem::getSingleton().getActiveAdventureModule()->getId()),
-          mPercentageWindow(NULL),
-          ContentLoader(mResourceGroup)
+        : mRootSceneNode(NULL)
+        , mResourceGroup(CoreSubsystem::getSingleton().getActiveAdventureModule()->getId())
+        , mPercentageWindow(NULL)
+        , ContentLoader(mResourceGroup)
     {
         initialize(mResourceGroup);
     }
 
     MapLoader::MapLoader(const Ogre::String& resourceGroup)
-        : mRootSceneNode(NULL),
-          mResourceGroup(resourceGroup),
-          mPercentageWindow(NULL),
-          ContentLoader(resourceGroup)
+        : mRootSceneNode(NULL)
+        , mResourceGroup(resourceGroup)
+        , mPercentageWindow(NULL)
+        , ContentLoader(resourceGroup)
     {
         initialize(resourceGroup);
     }
@@ -65,7 +66,7 @@ namespace rl {
     MapLoader::~MapLoader()
     {
         for (std::list<AbstractMapNodeProcessor*>::const_iterator it = mNodeProcessors.begin();
-            it != mNodeProcessors.end(); ++it)
+             it != mNodeProcessors.end(); ++it)
         {
             delete *it;
         }
@@ -78,22 +79,23 @@ namespace rl {
         mNodeProcessors.push_back(new GameObjectNodeProcessor());
         mNodeProcessors.push_back(new SoundNodeProcessor());
         mNodeProcessors.push_back(new LightNodeProcessor());
-		mNodeProcessors.push_back(new ParticleSystemNodeProcessor());
-		mNodeProcessors.push_back(new PlaneNodeProcessor());
+        mNodeProcessors.push_back(new ParticleSystemNodeProcessor());
+        mNodeProcessors.push_back(new PlaneNodeProcessor());
 
-        RequestedSceneChangeConnection = MessagePump::getSingleton().addMessageHandler<MessageType_SceneChangeRequested>(
-            boost::bind(&MapLoader::changeScene, this, _1));
+        RequestedSceneChangeConnection
+            = MessagePump::getSingleton().addMessageHandler<MessageType_SceneChangeRequested>(
+                boost::bind(&MapLoader::changeScene, this, _1));
     }
 
     void MapLoader::loadContent()
     {
-        if(mLoadedMaps.empty()) // No maps defined to load -> no savegame
+        if (mLoadedMaps.empty()) // No maps defined to load -> no savegame
         {
             loadScene(mDefaultMaps);
         }
         else
         {
-            loadScene(mLoadedMaps);           
+            loadScene(mLoadedMaps);
         }
     }
 
@@ -109,7 +111,7 @@ namespace rl {
 
     void MapLoader::loadScene(Ogre::StringVector mapresources, bool loadGameObjects)
     {
-        for(Ogre::StringVector::const_iterator it = mapresources.begin(); it != mapresources.end(); ++it)
+        for (Ogre::StringVector::const_iterator it = mapresources.begin(); it != mapresources.end(); ++it)
         {
             loadMap(*it);
         }
@@ -118,12 +120,12 @@ namespace rl {
     void MapLoader::loadMap(const Ogre::String& mapresource, bool loadGameObjects)
     {
         bool mapLoaded = false;
-        for(Ogre::StringVector::const_iterator it = mLoadedMaps.begin(); it != mLoadedMaps.end(); ++it)
+        for (Ogre::StringVector::const_iterator it = mLoadedMaps.begin(); it != mLoadedMaps.end(); ++it)
         {
-            if(*it == mapresource)
+            if (*it == mapresource)
                 mapLoaded = true;
         }
-        if(!mapLoaded)
+        if (!mapLoaded)
         {
             LOG_MESSAGE(Logger::RULES, "Loading map " + mapresource);
 
@@ -131,46 +133,51 @@ namespace rl {
 
             if (doc)
             {
-                setRootSceneNode(CoreSubsystem::getSingleton().getWorld()
-                        ->getSceneManager()->getRootSceneNode()->createChildSceneNode(mapresource));
+                setRootSceneNode(CoreSubsystem::getSingleton()
+                                     .getWorld()
+                                     ->getSceneManager()
+                                     ->getRootSceneNode()
+                                     ->createChildSceneNode(mapresource));
 
                 TiXmlElement* dataDocumentContent = doc->RootElement();
 
-                if(getAttributeValueAsString(dataDocumentContent, "formatVersion") != "0.4.0")
+                if (getAttributeValueAsString(dataDocumentContent, "formatVersion") != "0.4.0")
                     LOG_ERROR(Logger::SCRIPT, "Map format version doesn't match with the required version");
 
-			    CoreSubsystem::getSingleton().getWorld()->initializeDefaultCamera();
-			    ///@todo: Window fade jobs don't work if Core is paused, think about solution for: CoreSubsystem::getSingleton().setPaused(true);
+                CoreSubsystem::getSingleton().getWorld()->initializeDefaultCamera();
+                ///@todo: Window fade jobs don't work if Core is paused, think about solution for:
+                ///CoreSubsystem::getSingleton().setPaused(true);
 
                 LOG_MESSAGE(Logger::RULES, "Processing nodes");
 
                 processSceneNodes(getChildNamed(dataDocumentContent, "nodes"), loadGameObjects);
 
-			    ZoneProcessor zp;
-				zp.processNode(getChildNamed(dataDocumentContent, "zones"), mResourceGroup, loadGameObjects);
+                ZoneProcessor zp;
+                zp.processNode(getChildNamed(dataDocumentContent, "zones"), mResourceGroup, loadGameObjects);
 
-			    EnvironmentProcessor ep;
-			    ep.processNode(getChildNamed(dataDocumentContent, "environment"), mResourceGroup, loadGameObjects);
+                EnvironmentProcessor ep;
+                ep.processNode(getChildNamed(dataDocumentContent, "environment"), mResourceGroup, loadGameObjects);
 
-			    WaypointProcessor wp;
-			    wp.processNode(getChildNamed(dataDocumentContent, "waypoints"), mResourceGroup, loadGameObjects);
+                WaypointProcessor wp;
+                wp.processNode(getChildNamed(dataDocumentContent, "waypoints"), mResourceGroup, loadGameObjects);
 
                 LOG_MESSAGE(Logger::SCRIPT, "Map " + mapresource + " loaded");
 
-                if(hasAttribute(dataDocumentContent, "scenescript"))
+                if (hasAttribute(dataDocumentContent, "scenescript"))
                 {
-                    if(getAttributeValueAsString(dataDocumentContent, "scenescript").length() != 0)
+                    if (getAttributeValueAsString(dataDocumentContent, "scenescript").length() != 0)
                     {
-                        if(!CoreSubsystem::getSingleton().getRubyInterpreter()->executeFile(getAttributeValueAsStdString(dataDocumentContent, "scenescript")))
+                        if (!CoreSubsystem::getSingleton().getRubyInterpreter()->executeFile(
+                                getAttributeValueAsStdString(dataDocumentContent, "scenescript")))
                             LOG_MESSAGE(Logger::SCRIPT, "Executed init script of map " + mapresource);
                         else
                             LOG_ERROR(Logger::SCRIPT, "Error while executing init script of map " + mapresource);
                     }
                 }
 
-
-			    CoreSubsystem::getSingleton().getWorld()->initializeDefaultCamera();
-			    ///@todo: Window fade jobs don't work if Core is paused, think about solution for: CoreSubsystem::getSingleton().setPaused(false);
+                CoreSubsystem::getSingleton().getWorld()->initializeDefaultCamera();
+                ///@todo: Window fade jobs don't work if Core is paused, think about solution for:
+                ///CoreSubsystem::getSingleton().setPaused(false);
             }
             else
             {
@@ -194,12 +201,12 @@ namespace rl {
     void MapLoader::unloadAllMaps(bool removeGameObjects)
     {
         mLoadedMaps.clear();
-        if(removeGameObjects)
+        if (removeGameObjects)
             GameObjectManager::getSingleton().getAllGameObjects();
         else
         {
             std::list<GameObject*> gos = GameObjectManager::getSingleton().getAllGameObjects();
-            for(std::list<GameObject*>::const_iterator it = gos.begin(); it != gos.end(); ++it)
+            for (std::list<GameObject*>::const_iterator it = gos.begin(); it != gos.end(); ++it)
             {
                 (*it)->removeFromScene();
             }
@@ -214,10 +221,10 @@ namespace rl {
 
     const Property MapLoader::getProperty(const CeGuiString& key) const
     {
-        if(PROPERTY_ACTIVEMAPS == key)
+        if (PROPERTY_ACTIVEMAPS == key)
         {
             PropertyArray vec;
-            for(Ogre::StringVector::const_iterator it = mLoadedMaps.begin(); it != mLoadedMaps.end(); ++it)
+            for (Ogre::StringVector::const_iterator it = mLoadedMaps.begin(); it != mLoadedMaps.end(); ++it)
             {
                 vec.push_back(Property(*it));
             }
@@ -225,20 +232,20 @@ namespace rl {
         }
         return ContentLoader::getProperty(key);
     }
-    
+
     void MapLoader::setProperty(const CeGuiString& key, const Property& value)
     {
-        if(PROPERTY_ACTIVEMAPS == key)
+        if (PROPERTY_ACTIVEMAPS == key)
         {
             mLoadedMaps.clear();
             PropertyArray vec(value.toArray());
-            for(PropertyArray::const_iterator it = vec.begin(); it != vec.end(); ++it)
+            for (PropertyArray::const_iterator it = vec.begin(); it != vec.end(); ++it)
             {
                 mLoadedMaps.push_back(it->toString().c_str());
             }
         }
         else
-            ContentLoader::setProperty(key,value);
+            ContentLoader::setProperty(key, value);
     }
 
     PropertyKeys MapLoader::getAllPropertyKeys() const
@@ -250,16 +257,16 @@ namespace rl {
 
     void MapLoader::processSceneNodes(const TiXmlElement* nodesElem, bool loadGameObjects)
     {
-		if (nodesElem == NULL)
-		{
-			return;
-		}
+        if (nodesElem == NULL)
+        {
+            return;
+        }
 
         setLoadingPercentage(0, "Loading map nodes");
         Ogre::Real numChildren = 0;
         for (const TiXmlNode* cur = nodesElem->FirstChild(); cur != NULL; cur = cur->NextSibling())
         {
-        	numChildren++;
+            numChildren++;
         }
 
         int count = 0;
@@ -268,7 +275,7 @@ namespace rl {
         {
             if (cur->Type() == TiXmlNode::ELEMENT)
             {
-            	const TiXmlElement* curElem = cur->ToElement();
+                const TiXmlElement* curElem = cur->ToElement();
 
                 std::list<AbstractMapNodeProcessor*>::iterator it = mNodeProcessors.begin();
                 while (it != mNodeProcessors.end() && !(*it)->processNode(curElem, mResourceGroup, loadGameObjects))
@@ -278,27 +285,26 @@ namespace rl {
 
                 if (it == mNodeProcessors.end())
                 {
-                    LOG_WARNING(Logger::RULES,
-                        "Node " + Ogre::String(curElem->Value()) + " could not be processed.");
+                    LOG_WARNING(Logger::RULES, "Node " + Ogre::String(curElem->Value()) + " could not be processed.");
                 }
             }
 
-			count += 1;
+            count += 1;
             if (count % 250 == 0)
             {
-                setLoadingPercentage(count/numChildren,
-                    Ogre::StringConverter::toString(count/numChildren*100.0f, 0) + "%");
+                setLoadingPercentage(
+                    count / numChildren, Ogre::StringConverter::toString(count / numChildren * 100.0f, 0) + "%");
             }
         }
 
-		setLoadingPercentage(1);
+        setLoadingPercentage(1);
     }
 
     void MapLoader::setRootSceneNode(SceneNode* node)
     {
         mRootSceneNode = node;
         for (std::list<AbstractMapNodeProcessor*>::const_iterator it = mNodeProcessors.begin();
-            it != mNodeProcessors.end(); ++it)
+             it != mNodeProcessors.end(); ++it)
         {
             (*it)->setRootSceneNode(node);
         }

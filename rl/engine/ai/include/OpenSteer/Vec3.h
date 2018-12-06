@@ -46,22 +46,21 @@
 //
 // ----------------------------------------------------------------------------
 
-
 #ifndef OPENSTEER_Vector3_H
 #define OPENSTEER_Vector3_H
 
-
-#include "OpenSteer/Utilities.h"  // for interpolate, etc.
+#include "OpenSteer/Utilities.h" // for interpolate, etc.
 #ifdef __APPLE__
-	#include <Carbon/Carbon.h>
-    #include <Ogre/Ogre.h>
+#include <Carbon/Carbon.h>
+#include <Ogre/Ogre.h>
 #else
-    #include <Ogre.h>
+#include <Ogre.h>
 #endif
 
 using Ogre::Vector3;
 
-namespace OpenSteer {
+namespace OpenSteer
+{
 
     // ----------------------------------------------------------------------------
     class Vec3Utils
@@ -70,7 +69,7 @@ namespace OpenSteer {
         // return component of vector parallel to a unit basis vector
         // (IMPORTANT NOTE: assumes "basis" has unit magnitude (length==1))
 
-        static Vector3 parallelComponent (const Vector3& vector, const Vector3& unitBasis)
+        static Vector3 parallelComponent(const Vector3& vector, const Vector3& unitBasis)
         {
             const float projection = vector.dotProduct(unitBasis);
             return unitBasis * projection;
@@ -79,7 +78,7 @@ namespace OpenSteer {
         // return component of vector perpendicular to a unit basis vector
         // (IMPORTANT NOTE: assumes "basis" has unit magnitude (length==1))
 
-        static Vector3 perpendicularComponent (const Vector3& vector, const Vector3& unitBasis)
+        static Vector3 perpendicularComponent(const Vector3& vector, const Vector3& unitBasis)
         {
             return vector - parallelComponent(vector, unitBasis);
         }
@@ -89,7 +88,7 @@ namespace OpenSteer {
         // the value returned has length of maxLength and is paralle to the
         // original input.
 
-        static Vector3 truncateLength (const Vector3& vector, const float maxLength)
+        static Vector3 truncateLength(const Vector3& vector, const float maxLength)
         {
             const float vecLength = vector.length();
             if (vecLength <= maxLength)
@@ -100,117 +99,99 @@ namespace OpenSteer {
 
         // forces a 3d position onto the XZ (aka y=0) plane
 
-        static Vector3 setYtoZero (const Vector3& vector)
+        static Vector3 setYtoZero(const Vector3& vector)
         {
-            return Vector3 (vector.x, 0, vector.z);
+            return Vector3(vector.x, 0, vector.z);
         }
 
         // rotate this vector about the global Y (up) axis by the given angle
 
-        static Vector3 rotateAboutGlobalY (const Vector3& vector, float angle)
+        static Vector3 rotateAboutGlobalY(const Vector3& vector, float angle)
         {
-            const float s = sinXXX (angle);
-            const float c = cosXXX (angle);
-            return Vector3 ((vector.x * c) + (vector.z * s),
-                         (vector.y),
-                         (vector.z * c) - (vector.x * s));
+            const float s = sinXXX(angle);
+            const float c = cosXXX(angle);
+            return Vector3((vector.x * c) + (vector.z * s), (vector.y), (vector.z * c) - (vector.x * s));
         }
 
         // version for caching sin/cos computation
-        static Vector3 rotateAboutGlobalY (const Vector3& vector, float angle, float& sin, float& cos)
+        static Vector3 rotateAboutGlobalY(const Vector3& vector, float angle, float& sin, float& cos)
         {
             // is both are zero, they have not be initialized yet
-            if (sin==0 && cos==0)
+            if (sin == 0 && cos == 0)
             {
-                sin = sinXXX (angle);
-                cos = cosXXX (angle);
+                sin = sinXXX(angle);
+                cos = cosXXX(angle);
             }
-            return Vector3 ((vector.x * cos) + (vector.z * sin),
-                         (vector.y),
-                         (vector.z * cos) - (vector.x * sin));
+            return Vector3((vector.x * cos) + (vector.z * sin), (vector.y), (vector.z * cos) - (vector.x * sin));
         }
 
         // if this position is outside sphere, push it back in by one diameter
 
-        static Vector3 sphericalWrapAround (const Vector3& vector, const Vector3& center, float radius)
+        static Vector3 sphericalWrapAround(const Vector3& vector, const Vector3& center, float radius)
         {
             const Vector3 offset = vector - center;
             const float r = offset.length();
             if (r > radius)
-                return vector + ((offset/r) * radius * -2);
+                return vector + ((offset / r) * radius * -2);
             else
                 return vector;
         }
     };
 
-
     // ----------------------------------------------------------------------------
     // scalar times vector product ("float * Vector3")
 
+    inline Vector3 operator*(float s, const Vector3& v)
+    {
+        return v * s;
+    }
 
-    inline Vector3 operator* (float s, const Vector3& v) {return v*s;}
-
-
-	// return cross product a x b
-	inline Vector3 crossProduct(const Vector3& a, const Vector3& b)
-	{
-		Vector3 result((a.y * b.z) - (a.z * b.y),
-					(a.z * b.x) - (a.x * b.z),
-					(a.x * b.y) - (a.y * b.x));
-		return result;
-	}
+    // return cross product a x b
+    inline Vector3 crossProduct(const Vector3& a, const Vector3& b)
+    {
+        Vector3 result((a.y * b.z) - (a.z * b.y), (a.z * b.x) - (a.x * b.z), (a.x * b.y) - (a.y * b.x));
+        return result;
+    }
 
     // ----------------------------------------------------------------------------
     // Returns a position randomly distributed inside a sphere of unit radius
     // centered at the origin.  Orientation will be random and length will range
     // between 0 and 1
 
-
-    Vector3 RandomVectorInUnitRadiusSphere (void);
-
+    Vector3 RandomVectorInUnitRadiusSphere(void);
 
     // ----------------------------------------------------------------------------
     // Returns a position randomly distributed on a disk of unit radius
     // on the XZ (Y=0) plane, centered at the origin.  Orientation will be
     // random and length will range between 0 and 1
 
-
-    Vector3 randomVectorOnUnitRadiusXZDisk (void);
-
+    Vector3 randomVectorOnUnitRadiusXZDisk(void);
 
     // ----------------------------------------------------------------------------
     // Returns a position randomly distributed on the surface of a sphere
     // of unit radius centered at the origin.  Orientation will be random
     // and length will be 1
 
-
-    inline Vector3 RandomUnitVector (void)
+    inline Vector3 RandomUnitVector(void)
     {
         return RandomVectorInUnitRadiusSphere().normalisedCopy();
     }
-
 
     // ----------------------------------------------------------------------------
     // Returns a position randomly distributed on a circle of unit radius
     // on the XZ (Y=0) plane, centered at the origin.  Orientation will be
     // random and length will be 1
 
-
-    inline Vector3 RandomUnitVectorOnXZPlane (void)
+    inline Vector3 RandomUnitVectorOnXZPlane(void)
     {
         return Vec3Utils::setYtoZero(RandomVectorInUnitRadiusSphere()).normalisedCopy();
     }
 
-
     // ----------------------------------------------------------------------------
     // used by limitMaxDeviationAngle / limitMinDeviationAngle below
 
-
-    Vector3 vecLimitDeviationAngleUtility (const bool insideOrOutside,
-                                        const Vector3& source,
-                                        const float cosineOfConeAngle,
-                                        const Vector3& basis);
-
+    Vector3 vecLimitDeviationAngleUtility(
+        const bool insideOrOutside, const Vector3& source, const float cosineOfConeAngle, const Vector3& basis);
 
     // ----------------------------------------------------------------------------
     // Enforce an upper bound on the angle by which a given arbitrary vector
@@ -218,17 +199,11 @@ namespace OpenSteer {
     // vector).  The effect is to clip the "source" vector to be inside a cone
     // defined by the basis and an angle.
 
-
-    inline Vector3 limitMaxDeviationAngle (const Vector3& source,
-                                        const float cosineOfConeAngle,
-                                        const Vector3& basis)
+    inline Vector3 limitMaxDeviationAngle(const Vector3& source, const float cosineOfConeAngle, const Vector3& basis)
     {
-        return vecLimitDeviationAngleUtility (true, // force source INSIDE cone
-                                              source,
-                                              cosineOfConeAngle,
-                                              basis);
+        return vecLimitDeviationAngleUtility(true, // force source INSIDE cone
+            source, cosineOfConeAngle, basis);
     }
-
 
     // ----------------------------------------------------------------------------
     // Enforce a lower bound on the angle by which a given arbitrary vector
@@ -236,41 +211,29 @@ namespace OpenSteer {
     // vector).  The effect is to clip the "source" vector to be outside a cone
     // defined by the basis and an angle.
 
-
-    inline Vector3 limitMinDeviationAngle (const Vector3& source,
-                                        const float cosineOfConeAngle,
-                                        const Vector3& basis)
-    {    
-        return vecLimitDeviationAngleUtility (false, // force source OUTSIDE cone
-                                              source,
-                                              cosineOfConeAngle,
-                                              basis);
+    inline Vector3 limitMinDeviationAngle(const Vector3& source, const float cosineOfConeAngle, const Vector3& basis)
+    {
+        return vecLimitDeviationAngleUtility(false, // force source OUTSIDE cone
+            source, cosineOfConeAngle, basis);
     }
-
 
     // ----------------------------------------------------------------------------
     // Returns the distance between a point and a line.  The line is defined in
     // terms of a point on the line ("lineOrigin") and a UNIT vector parallel to
     // the line ("lineUnitTangent")
 
-
-    inline float distanceFromLine (const Vector3& point,
-                                   const Vector3& lineOrigin,
-                                   const Vector3& lineUnitTangent)
+    inline float distanceFromLine(const Vector3& point, const Vector3& lineOrigin, const Vector3& lineUnitTangent)
     {
         const Vector3 offset = point - lineOrigin;
         const Vector3 perp = Vec3Utils::perpendicularComponent(offset, lineUnitTangent);
         return perp.length();
     }
 
-
     // ----------------------------------------------------------------------------
     // given a vector, return a vector perpendicular to it (note that this
     // arbitrarily selects one of the infinitude of perpendicular vectors)
 
-
-    Vector3 findPerpendicularIn3d (const Vector3& direction);
-
+    Vector3 findPerpendicularIn3d(const Vector3& direction);
 
     // ----------------------------------------------------------------------------
     // candidates for global utility functions
@@ -281,9 +244,7 @@ namespace OpenSteer {
     // distance
     // normalized
 
-    
 } // namespace OpenSteer
-    
 
 // ----------------------------------------------------------------------------
 #endif // OPENSTEER_Vector3_H

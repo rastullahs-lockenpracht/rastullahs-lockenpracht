@@ -1,6 +1,6 @@
-/* 
+/*
  * (C) 2003-2008. Team Pantheon. www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -18,8 +18,9 @@
 
 #include "CommonPrerequisites.h"
 #include "Property.h"
- 
-namespace rl {
+
+namespace rl
+{
 
     class PropertyRecord;
     class PropertyRecordPtr;
@@ -44,7 +45,7 @@ namespace rl {
      */
     class _RlCommonExport PropertyRecord : public PropertyHolder
     {
-	public:
+    public:
         typedef std::map<const CeGuiString, Property> PropertyRecordMap;
 
         PropertyRecord();
@@ -58,27 +59,37 @@ namespace rl {
         const PropertyRecordMap::const_iterator begin() const;
         const PropertyRecordMap::const_iterator end() const;
         PropertyMap toPropertyMap() const;
-        
+
         PropertyRecordPtr getDifference(const PropertyRecordPtr differenceTo) const;
+
     private:
         PropertyRecordMap mProperties;
-	};
-
-    class _RlCommonExport PropertyRecordPtr :
-        public Ogre::SharedPtr<PropertyRecord>
-    {
-    public:
-        PropertyRecordPtr() : Ogre::SharedPtr<PropertyRecord>() {}
-        explicit PropertyRecordPtr(PropertyRecord* rep) : Ogre::SharedPtr<PropertyRecord>(rep) {}
-        PropertyRecordPtr(const PropertyRecordPtr& res) : Ogre::SharedPtr<PropertyRecord>(res) {}
-    
-    protected:
-        void destroy() { Ogre::SharedPtr<PropertyRecord>::destroy(); }
     };
 
+    class _RlCommonExport PropertyRecordPtr : public Ogre::SharedPtr<PropertyRecord>
+    {
+    public:
+        PropertyRecordPtr()
+            : Ogre::SharedPtr<PropertyRecord>()
+        {
+        }
+        explicit PropertyRecordPtr(PropertyRecord* rep)
+            : Ogre::SharedPtr<PropertyRecord>(rep)
+        {
+        }
+        PropertyRecordPtr(const PropertyRecordPtr& res)
+            : Ogre::SharedPtr<PropertyRecord>(res)
+        {
+        }
+
+    protected:
+        void destroy()
+        {
+            Ogre::SharedPtr<PropertyRecord>::destroy();
+        }
+    };
 
     typedef std::vector<PropertyRecordPtr> PropertyRecordVector;
-
 }
 
 #endif //__Properties_H__

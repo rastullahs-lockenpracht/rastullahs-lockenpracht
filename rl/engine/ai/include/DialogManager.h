@@ -20,20 +20,17 @@
 
 #include <list>
 
-#include "Properties.h"
 #include "Creature.h"
+#include "Properties.h"
 #include "SaveGameData.h"
 #include "XmlProcessor.h"
 
 namespace rl
 {
-	class Dialog;
-	class DialogLoader;
+    class Dialog;
+    class DialogLoader;
 
-    class _RlAiExport DialogManager
-        : public Ogre::Singleton<DialogManager>,
-        public PropertyHolder,
-        public SaveGameData
+    class _RlAiExport DialogManager : public Ogre::Singleton<DialogManager>, public PropertyHolder, public SaveGameData
     {
     public:
         static const Ogre::String PROPERTY_DIALOGS;
@@ -50,13 +47,12 @@ namespace rl
         virtual const Property getProperty(const CeGuiString& key) const;
         virtual void setProperty(const CeGuiString& key, const Property& value);
         virtual PropertyKeys getAllPropertyKeys() const;
-        virtual void writeData(SaveGameFileWriter *writer);
+        virtual void writeData(SaveGameFileWriter* writer);
         virtual void readData(SaveGameFileReader* reader);
         virtual CeGuiString getXmlNodeIdentifier() const;
         virtual int getPriority() const;
 
     private:
-
         class DialogConfiguration
         {
         public:
@@ -67,16 +63,15 @@ namespace rl
 
             bool operator==(const DialogConfiguration&) const;
             bool operator<(const DialogConfiguration&) const;
+
         private:
             Ogre::String mDialogName;
             CreatureList mParticipants;
         };
 
-
         std::map<DialogConfiguration, Dialog*> mDialogStates;
-		DialogLoader* mDialogLoader;
+        DialogLoader* mDialogLoader;
     };
-
 }
 
 #endif // __DialogManager_H__

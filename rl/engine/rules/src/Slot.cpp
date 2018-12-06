@@ -20,20 +20,25 @@
 #include "Actor.h"
 #include "Creature.h"
 #include "Item.h"
-#include "MeshObject.h"
 #include "MergeableMeshObject.h"
+#include "MeshObject.h"
 #include "PhysicalThing.h"
 
-namespace rl {
+namespace rl
+{
 
     Slot::Slot(Creature* owner, const CeGuiString& name, int itemReadyMask, int itemHeldMask)
-        : mOwner(owner), mName(name), mItemReadyMask(itemReadyMask), mItemHeldMask(itemHeldMask), mItem(NULL)
+        : mOwner(owner)
+        , mName(name)
+        , mItemReadyMask(itemReadyMask)
+        , mItemHeldMask(itemHeldMask)
+        , mItem(NULL)
     {
     }
 
     Slot::~Slot()
     {
-        if( mItem != NULL )
+        if (mItem != NULL)
             mItem->removeOldState();
     }
 
@@ -42,7 +47,7 @@ namespace rl {
         return mItem;
     }
 
-    bool Slot::isAllowed(const Item *item) const
+    bool Slot::isAllowed(const Item* item) const
     {
         if (item == NULL)
             return false;
@@ -50,7 +55,7 @@ namespace rl {
         return (type & mItemReadyMask) == type || (type & mItemHeldMask) == type;
     }
 
-    bool Slot::canReady(const Item *item) const
+    bool Slot::canReady(const Item* item) const
     {
         if (item == NULL)
             return false;
@@ -60,7 +65,7 @@ namespace rl {
 
     bool Slot::setItem(Item* item)
     {
-        if(mItem == item)
+        if (mItem == item)
             return false;
         if (item)
         {
@@ -79,9 +84,8 @@ namespace rl {
             else
             {
                 LOG_ERROR(Logger::RULES,
-                    "Item '" + item->getName() + "' konnte nicht in den Slot '" + mName
-                    + "' gelegt werden: " + (isAllowed(item) ? "'falscher Typ' " : "")
-                    + (isEmpty() ? "'Slot schon belegt'" : "") + "!");
+                    "Item '" + item->getName() + "' konnte nicht in den Slot '" + mName + "' gelegt werden: "
+                        + (isAllowed(item) ? "'falscher Typ' " : "") + (isEmpty() ? "'Slot schon belegt'" : "") + "!");
                 return false;
             }
         }
@@ -98,26 +102,25 @@ namespace rl {
 
     void Slot::update()
     {
-        if (isEmpty()) 
+        if (isEmpty())
         {
             return;
         }
 
-        if (mOwner->getState() == GOS_IN_SCENE
-            || mOwner->getState() == GOS_HELD
-            || mOwner->getState() == GOS_READY)
+        if (mOwner->getState() == GOS_IN_SCENE || mOwner->getState() == GOS_HELD || mOwner->getState() == GOS_READY)
         {
             mItem->setScene(mOwner->getScene());
         }
-        else 
+        else
         {
             mItem->setScene("");
         }
     }
 
-
-    BoneSlot::BoneSlot(Creature* owner, const CeGuiString& name, int itemReadyMask, int itemHeldMask, const Ogre::String& bone)
-        : Slot(owner, name, itemReadyMask, itemHeldMask), mBone(bone)
+    BoneSlot::BoneSlot(
+        Creature* owner, const CeGuiString& name, int itemReadyMask, int itemHeldMask, const Ogre::String& bone)
+        : Slot(owner, name, itemReadyMask, itemHeldMask)
+        , mBone(bone)
     {
     }
 
@@ -130,9 +133,7 @@ namespace rl {
 
         if (item)
         {
-            if (mOwner->getState() == GOS_IN_SCENE
-                || mOwner->getState() == GOS_HELD
-                || mOwner->getState() == GOS_READY)
+            if (mOwner->getState() == GOS_IN_SCENE || mOwner->getState() == GOS_HELD || mOwner->getState() == GOS_READY)
             {
                 if (!item->getActor())
                 {
@@ -148,26 +149,27 @@ namespace rl {
     void BoneSlot::update()
     {
         Slot::update();
-        if( mItem && (mOwner->getState() == GOS_IN_SCENE
-                || mOwner->getState() == GOS_HELD
-                || mOwner->getState() == GOS_READY) )
+        if (mItem
+            && (mOwner->getState() == GOS_IN_SCENE || mOwner->getState() == GOS_HELD
+                   || mOwner->getState() == GOS_READY))
         {
-            if( !mItem->getActor() )
+            if (!mItem->getActor())
             {
                 mItem->doCreateActor();
                 mOwner->getActor()->attachToSlot(mItem->getActor(), mBone);
             }
             else
             {
-                if( !mOwner->getActor()->hasChild(mItem->getActor()) )
+                if (!mOwner->getActor()->hasChild(mItem->getActor()))
                     mOwner->getActor()->attachToSlot(mItem->getActor(), mBone);
             }
         }
     }
 
-
-    SubmeshSlot::SubmeshSlot(Creature* owner, const CeGuiString& name, int itemReadyMask, int itemHeldMask, const Ogre::String& submesh)
-        : Slot(owner, name, itemReadyMask, itemHeldMask), mSubmesh(submesh)
+    SubmeshSlot::SubmeshSlot(
+        Creature* owner, const CeGuiString& name, int itemReadyMask, int itemHeldMask, const Ogre::String& submesh)
+        : Slot(owner, name, itemReadyMask, itemHeldMask)
+        , mSubmesh(submesh)
     {
     }
 
@@ -179,49 +181,43 @@ namespace rl {
             return false;
         }
 
-	    if (mOwner->getActor())
-	    {
-		    MergeableMeshObject* mmo = dynamic_cast<MergeableMeshObject*>(
-			    mOwner->getActor()->getControlledObject());
+        if (mOwner->getActor())
+        {
+            MergeableMeshObject* mmo = dynamic_cast<MergeableMeshObject*>(mOwner->getActor()->getControlledObject());
 
-		    if (mmo)
-		    {
+            if (mmo)
+            {
                 if (oldItem != mItem)
-			    {
-				    MeshPartMap::const_iterator it = mOwner->getMeshParts().find(mSubmesh);
-				    if (it != mOwner->getMeshParts().end())
-				    {
-					    mmo->replaceSubmesh(
-						    mSubmesh,
-						    (*it).second);
-				    }
-				    else
-				    {
-					    mmo->removeSubmesh(mSubmesh);
-				    }
-			    }
+                {
+                    MeshPartMap::const_iterator it = mOwner->getMeshParts().find(mSubmesh);
+                    if (it != mOwner->getMeshParts().end())
+                    {
+                        mmo->replaceSubmesh(mSubmesh, (*it).second);
+                    }
+                    else
+                    {
+                        mmo->removeSubmesh(mSubmesh);
+                    }
+                }
 
-			    if (item)
-			    {
+                if (item)
+                {
                     item->doCreateActor();
                     CeGuiString file = item->getSubmeshName();
-                    if( file == "" )
+                    if (file == "")
                         file = item->getMeshfile();
                     else
-                        file = mOwner->getSubmeshPreName()+file;
+                        file = mOwner->getSubmeshPreName() + file;
 
-				    mmo->replaceSubmesh(
-					    mSubmesh,
-					    file.c_str());
-			    }
-		    }
+                    mmo->replaceSubmesh(mSubmesh, file.c_str());
+                }
+            }
 
-            if (mOwner->getActor()
-                && mOwner->getActor()->getPhysicalThing())
+            if (mOwner->getActor() && mOwner->getActor()->getPhysicalThing())
             {
                 mOwner->getActor()->getPhysicalThing()->updatePhysicsProxy();
             }
-	    }
+        }
 
         return true;
     }
@@ -229,51 +225,46 @@ namespace rl {
     void SubmeshSlot::update()
     {
         Slot::update();
-	    if (mOwner->getActor())
-	    {
-		    MergeableMeshObject* mmo = dynamic_cast<MergeableMeshObject*>(
-			    mOwner->getActor()->getControlledObject());
+        if (mOwner->getActor())
+        {
+            MergeableMeshObject* mmo = dynamic_cast<MergeableMeshObject*>(mOwner->getActor()->getControlledObject());
 
-		    if (mmo)
-		    {
-			    MeshPartMap::const_iterator it = mOwner->getMeshParts().find(mSubmesh);
-			    if (it != mOwner->getMeshParts().end())
-			    {
-				    mmo->replaceSubmesh(
-					    mSubmesh,
-					    (*it).second);
-			    }
-			    else
-			    {
-				    mmo->removeSubmesh(mSubmesh);
-			    }
+            if (mmo)
+            {
+                MeshPartMap::const_iterator it = mOwner->getMeshParts().find(mSubmesh);
+                if (it != mOwner->getMeshParts().end())
+                {
+                    mmo->replaceSubmesh(mSubmesh, (*it).second);
+                }
+                else
+                {
+                    mmo->removeSubmesh(mSubmesh);
+                }
 
-			    if (mItem)
-			    {
+                if (mItem)
+                {
                     mItem->doCreateActor();
                     CeGuiString file = mItem->getSubmeshName();
-                    if( file == "" )
+                    if (file == "")
                         file = mItem->getMeshfile();
                     else
-                        file = mOwner->getSubmeshPreName()+file;
+                        file = mOwner->getSubmeshPreName() + file;
 
-				    mmo->replaceSubmesh(
-					    mSubmesh,
-					    file.c_str());
-			    }
-		    }
+                    mmo->replaceSubmesh(mSubmesh, file.c_str());
+                }
+            }
 
-            if (mOwner->getActor()
-                && mOwner->getActor()->getPhysicalThing())
+            if (mOwner->getActor() && mOwner->getActor()->getPhysicalThing())
             {
                 mOwner->getActor()->getPhysicalThing()->updatePhysicsProxy();
             }
-	    }
+        }
     }
 
-    MaterialSlot::MaterialSlot(Creature* owner, const CeGuiString& name, int itemReadyMask, int itemHeldMask, const Ogre::String& submesh)
-      : Slot(owner, name, itemReadyMask, itemHeldMask),
-        mSubmesh(submesh)
+    MaterialSlot::MaterialSlot(
+        Creature* owner, const CeGuiString& name, int itemReadyMask, int itemHeldMask, const Ogre::String& submesh)
+        : Slot(owner, name, itemReadyMask, itemHeldMask)
+        , mSubmesh(submesh)
     {
     }
 
@@ -292,21 +283,19 @@ namespace rl {
                 CeGuiString mesh = item->getSubmeshName();
 
                 ///@todo: what to do if actor is null?, think about changing the inventory of an gameobject not in scene
-		        if (mOwner->getActor())
-		        {
-			        MeshObject* mo = dynamic_cast<MeshObject*>(
-				        mOwner->getActor()->getControlledObject());
+                if (mOwner->getActor())
+                {
+                    MeshObject* mo = dynamic_cast<MeshObject*>(mOwner->getActor()->getControlledObject());
 
-                    MergeableMeshObject* mmo = dynamic_cast<MergeableMeshObject*>(
-				        mo);
+                    MergeableMeshObject* mmo = dynamic_cast<MergeableMeshObject*>(mo);
 
                     if (mmo && !mesh.empty())
                     {
                         mmo->replaceSubmesh(mSubmesh, mesh.c_str());
                     }
 
-			        if (mo)
-			        {                        
+                    if (mo)
+                    {
                         mo->setMaterial(mat.c_str(), mSubmesh);
                     }
                 }
@@ -317,7 +306,8 @@ namespace rl {
             }
             catch (const WrongFormatException&)
             {
-                LOG_ERROR(Logger::RULES, "Item " + item->getName() + " has a property material, but it is no string property.");
+                LOG_ERROR(Logger::RULES,
+                    "Item " + item->getName() + " has a property material, but it is no string property.");
             }
         }
         else
@@ -339,21 +329,19 @@ namespace rl {
                 CeGuiString mesh = mItem->getSubmeshName();
 
                 ///@todo: what to do if actor is null?, think about changing the inventory of an gameobject not in scene
-		        if (mOwner->getActor())
-		        {
-			        MeshObject* mo = dynamic_cast<MeshObject*>(
-				        mOwner->getActor()->getControlledObject());
+                if (mOwner->getActor())
+                {
+                    MeshObject* mo = dynamic_cast<MeshObject*>(mOwner->getActor()->getControlledObject());
 
-                    MergeableMeshObject* mmo = dynamic_cast<MergeableMeshObject*>(
-				        mo);
+                    MergeableMeshObject* mmo = dynamic_cast<MergeableMeshObject*>(mo);
 
                     if (mmo && !mesh.empty())
                     {
                         mmo->replaceSubmesh(mSubmesh, mesh.c_str());
                     }
 
-			        if (mo)
-			        {                        
+                    if (mo)
+                    {
                         mo->setMaterial(mat.c_str(), mSubmesh);
                     }
                 }
@@ -364,7 +352,8 @@ namespace rl {
             }
             catch (const WrongFormatException&)
             {
-                LOG_ERROR(Logger::RULES, "Item " + mItem->getName() + " has a property material, but it is no string property.");
+                LOG_ERROR(Logger::RULES,
+                    "Item " + mItem->getName() + " has a property material, but it is no string property.");
             }
         }
     }

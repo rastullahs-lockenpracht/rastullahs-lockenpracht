@@ -17,13 +17,12 @@
 
 #include "EffectFactory.h"
 
-template <>
-rl::EffectFactoryManager* Ogre::Singleton<rl::EffectFactoryManager>::ms_Singleton = 0;
+template <> rl::EffectFactoryManager* Ogre::Singleton<rl::EffectFactoryManager>::ms_Singleton = 0;
 
 namespace rl
 {
     EffectFactoryManager::EffectFactoryManager()
-    : mFactory(NULL)
+        : mFactory(NULL)
     {
     }
 
@@ -31,8 +30,7 @@ namespace rl
     {
         if (mFactory == NULL)
         {
-            LOG_ERROR(Logger::RULES,
-                "Could not create effect "+name+". No factory registered");
+            LOG_ERROR(Logger::RULES, "Could not create effect " + name + ". No factory registered");
             return NULL;
         }
 
@@ -40,16 +38,14 @@ namespace rl
 
         if (rval == NULL)
         {
-            LOG_ERROR(Logger::RULES,
-                "Effect "+name+" was not created.");
+            LOG_ERROR(Logger::RULES, "Effect " + name + " was not created.");
         }
 
         return rval;
     }
 
-    void EffectFactoryManager::setEffectFactory(rl::EffectFactory *factory)
+    void EffectFactoryManager::setEffectFactory(rl::EffectFactory* factory)
     {
         mFactory = factory;
     }
-
 }

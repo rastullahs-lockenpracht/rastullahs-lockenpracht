@@ -19,20 +19,18 @@
 
 #include "ObjectStateChangeEventSource.h"
 
-namespace rl {
-
-ObjectStateChangeEvent::ObjectStateChangeEvent( ObjectStateChangeEventSource* src )
-    : EventObject(src,0),
-    mObject(NULL)
+namespace rl
 {
 
-}
+    ObjectStateChangeEvent::ObjectStateChangeEvent(ObjectStateChangeEventSource* src)
+        : EventObject(src, 0)
+        , mObject(NULL)
+    {
+    }
 
-ObjectStateChangeEventSource* ObjectStateChangeEvent::getSource() const
-{
-	EventSource* eve =  EventObject::getSource();
-    return dynamic_cast<ObjectStateChangeEventSource*>( eve );
+    ObjectStateChangeEventSource* ObjectStateChangeEvent::getSource() const
+    {
+        EventSource* eve = EventObject::getSource();
+        return dynamic_cast<ObjectStateChangeEventSource*>(eve);
+    }
 }
-
-}
-

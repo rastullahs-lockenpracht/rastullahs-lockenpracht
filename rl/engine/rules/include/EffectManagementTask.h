@@ -5,8 +5,7 @@
 
 namespace rl
 {
-    class EffectManagementTask :
-        public GameTask
+    class EffectManagementTask : public GameTask
     {
     public:
         EffectManagementTask();
@@ -20,7 +19,6 @@ namespace rl
         Ogre::Real mElapsedTime;
         Ogre::Real mTimeFactor;
     };
-
 }
 
 #endif

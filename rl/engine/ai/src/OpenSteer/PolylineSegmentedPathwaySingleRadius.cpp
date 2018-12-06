@@ -27,10 +27,8 @@
  */
 #include "OpenSteer/PolylineSegmentedPathwaySingleRadius.h"
 
-
 // Include std::swap
 #include <algorithm>
-
 
 // Include OpenSteer::mapPointToPathway, OpenSteer::mapDistanceToPointOnPathCenterLine
 #include "OpenSteer/QueryPathAlike.h"
@@ -44,284 +42,188 @@
 // Include OPENSTEER_UNUSED_PARAMETER
 #include "OpenSteer/UnusedParameter.h"
 
-
 OpenSteer::PolylineSegmentedPathwaySingleRadius::PolylineSegmentedPathwaySingleRadius()
-    : path_(), radius_ ( 0.0f )
+    : path_()
+    , radius_(0.0f)
 {
-    
 }
 
-
-
-OpenSteer::PolylineSegmentedPathwaySingleRadius::PolylineSegmentedPathwaySingleRadius( float r )
-    : path_(), radius_( r )
+OpenSteer::PolylineSegmentedPathwaySingleRadius::PolylineSegmentedPathwaySingleRadius(float r)
+    : path_()
+    , radius_(r)
 {
-    
 }
 
-
-
-OpenSteer::PolylineSegmentedPathwaySingleRadius::PolylineSegmentedPathwaySingleRadius( size_type numOfPoints,
-                                                                                       Vector3 const points[],
-                                                                                       float r,
-                                                                                       bool closeCycle )
-    : path_( numOfPoints, points, closeCycle ), radius_( r )
+OpenSteer::PolylineSegmentedPathwaySingleRadius::PolylineSegmentedPathwaySingleRadius(
+    size_type numOfPoints, Vector3 const points[], float r, bool closeCycle)
+    : path_(numOfPoints, points, closeCycle)
+    , radius_(r)
 {
-    
 }
 
-OpenSteer::PolylineSegmentedPathwaySingleRadius::PolylineSegmentedPathwaySingleRadius( const PolylineSegmentedPath::PathPoints& points,
-                                                                                       float r,
-                                                                                       bool closeCycle )
-    : path_( points, closeCycle ), radius_( r )
+OpenSteer::PolylineSegmentedPathwaySingleRadius::PolylineSegmentedPathwaySingleRadius(
+    const PolylineSegmentedPath::PathPoints& points, float r, bool closeCycle)
+    : path_(points, closeCycle)
+    , radius_(r)
 {
-    
 }
 
-
-OpenSteer::PolylineSegmentedPathwaySingleRadius::PolylineSegmentedPathwaySingleRadius( PolylineSegmentedPathwaySingleRadius const& other )
-    : SegmentedPathway( other ), path_( other.path_ ), radius_( other.radius_ )
+OpenSteer::PolylineSegmentedPathwaySingleRadius::PolylineSegmentedPathwaySingleRadius(
+    PolylineSegmentedPathwaySingleRadius const& other)
+    : SegmentedPathway(other)
+    , path_(other.path_)
+    , radius_(other.radius_)
 {
-    
 }
-
-
 
 OpenSteer::PolylineSegmentedPathwaySingleRadius::~PolylineSegmentedPathwaySingleRadius()
 {
     // Nothing to do.
 }
 
-
-
-OpenSteer::PolylineSegmentedPathwaySingleRadius& 
-OpenSteer::PolylineSegmentedPathwaySingleRadius::operator=( PolylineSegmentedPathwaySingleRadius other )
+OpenSteer::PolylineSegmentedPathwaySingleRadius& OpenSteer::PolylineSegmentedPathwaySingleRadius::operator=(
+    PolylineSegmentedPathwaySingleRadius other)
 {
-    swap( other );
+    swap(other);
     return *this;
 }
 
-
-
-
-void 
-OpenSteer::PolylineSegmentedPathwaySingleRadius::swap( PolylineSegmentedPathwaySingleRadius& other )
+void OpenSteer::PolylineSegmentedPathwaySingleRadius::swap(PolylineSegmentedPathwaySingleRadius& other)
 {
-    path_.swap( other.path_ );
-    std::swap( radius_, other.radius_ );
+    path_.swap(other.path_);
+    std::swap(radius_, other.radius_);
 }
 
-
-
-
-void 
-OpenSteer::PolylineSegmentedPathwaySingleRadius::movePoints( size_type startIndex,
-                                                             size_type numOfPoints,
-                                                             Vector3 const newPointValues[] )
+void OpenSteer::PolylineSegmentedPathwaySingleRadius::movePoints(
+    size_type startIndex, size_type numOfPoints, Vector3 const newPointValues[])
 {
-    path_.movePoints( startIndex, numOfPoints, newPointValues );
+    path_.movePoints(startIndex, numOfPoints, newPointValues);
 }
 
-
-
-
-void 
-OpenSteer::PolylineSegmentedPathwaySingleRadius::setPathway( size_type numOfPoints,
-                                                             Vector3 const points[],
-                                                             float r,
-                                                             bool closedCycle )
+void OpenSteer::PolylineSegmentedPathwaySingleRadius::setPathway(
+    size_type numOfPoints, Vector3 const points[], float r, bool closedCycle)
 {
-    path_.setPath( numOfPoints, points, closedCycle );
-    setRadius( r );
+    path_.setPath(numOfPoints, points, closedCycle);
+    setRadius(r);
 }
 
-
-
-
-void 
-OpenSteer::PolylineSegmentedPathwaySingleRadius::setRadius( float r )
+void OpenSteer::PolylineSegmentedPathwaySingleRadius::setRadius(float r)
 {
     radius_ = r;
 }
 
-
-
-float 
-OpenSteer::PolylineSegmentedPathwaySingleRadius::radius() const
+float OpenSteer::PolylineSegmentedPathwaySingleRadius::radius() const
 {
     return radius_;
 }
 
-
-
-bool
-OpenSteer::PolylineSegmentedPathwaySingleRadius::isValid() const 
+bool OpenSteer::PolylineSegmentedPathwaySingleRadius::isValid() const
 {
     return pointCount() > 1;
 }
 
-
-
-Vector3 
-OpenSteer::PolylineSegmentedPathwaySingleRadius::mapPointToPath (const Vector3& point,
-                                                                 Vector3& tangent,
-                                                                 float& outside) const
+Vector3 OpenSteer::PolylineSegmentedPathwaySingleRadius::mapPointToPath(
+    const Vector3& point, Vector3& tangent, float& outside) const
 {
     PointToPathMapping mapping;
-    mapPointToPathAlike( *this, point, mapping );
+    mapPointToPathAlike(*this, point, mapping);
     tangent = mapping.tangent;
     outside = mapping.distancePointToPath;
     return mapping.pointOnPathCenterLine;
 }
 
-
-
-Vector3 
-OpenSteer::PolylineSegmentedPathwaySingleRadius::mapPathDistanceToPoint (float pathDistance) const
+Vector3 OpenSteer::PolylineSegmentedPathwaySingleRadius::mapPathDistanceToPoint(float pathDistance) const
 {
     PathDistanceToPointMapping mapping;
-    mapDistanceToPathAlike( *this, pathDistance, mapping );
+    mapDistanceToPathAlike(*this, pathDistance, mapping);
     return mapping.pointOnPathCenterLine;
 }
 
-
-
-float 
-OpenSteer::PolylineSegmentedPathwaySingleRadius::mapPointToPathDistance (const Vector3& point) const
+float OpenSteer::PolylineSegmentedPathwaySingleRadius::mapPointToPathDistance(const Vector3& point) const
 {
     PointToPathDistanceMapping mapping;
-    mapPointToPathAlike( *this, point, mapping );
+    mapPointToPathAlike(*this, point, mapping);
     return mapping.distanceOnPath;
 }
 
-
-
-bool 
-OpenSteer::PolylineSegmentedPathwaySingleRadius::isCyclic() const
+bool OpenSteer::PolylineSegmentedPathwaySingleRadius::isCyclic() const
 {
     return path_.isCyclic();
 }
 
-
-
-float 
-OpenSteer::PolylineSegmentedPathwaySingleRadius::length() const
+float OpenSteer::PolylineSegmentedPathwaySingleRadius::length() const
 {
     return path_.length();
 }
 
-
-
-OpenSteer::SegmentedPathway::size_type 
-OpenSteer::PolylineSegmentedPathwaySingleRadius::pointCount() const 
+OpenSteer::SegmentedPathway::size_type OpenSteer::PolylineSegmentedPathwaySingleRadius::pointCount() const
 {
     return path_.pointCount();
 }
 
-
-
-Vector3 
-OpenSteer::PolylineSegmentedPathwaySingleRadius::point( size_type pointIndex ) const
+Vector3 OpenSteer::PolylineSegmentedPathwaySingleRadius::point(size_type pointIndex) const
 {
-    return path_.point( pointIndex );
+    return path_.point(pointIndex);
 }
 
-
-
-
-OpenSteer::PolylineSegmentedPathwaySingleRadius::size_type 
+OpenSteer::PolylineSegmentedPathwaySingleRadius::size_type
 OpenSteer::PolylineSegmentedPathwaySingleRadius::segmentCount() const
 {
     return path_.segmentCount();
 }
 
-
-
-float 
-OpenSteer::PolylineSegmentedPathwaySingleRadius::segmentLength( size_type segmentIndex ) const
+float OpenSteer::PolylineSegmentedPathwaySingleRadius::segmentLength(size_type segmentIndex) const
 {
-    return path_.segmentLength( segmentIndex );
+    return path_.segmentLength(segmentIndex);
 }
 
-
-
-Vector3 
-OpenSteer::PolylineSegmentedPathwaySingleRadius::segmentStart( size_type segmentIndex ) const
+Vector3 OpenSteer::PolylineSegmentedPathwaySingleRadius::segmentStart(size_type segmentIndex) const
 {
-    return path_.segmentStart( segmentIndex );
+    return path_.segmentStart(segmentIndex);
 }
 
-
-
-Vector3 
-OpenSteer::PolylineSegmentedPathwaySingleRadius::segmentEnd( size_type segmentIndex ) const
+Vector3 OpenSteer::PolylineSegmentedPathwaySingleRadius::segmentEnd(size_type segmentIndex) const
 {
-    return path_.segmentEnd( segmentIndex );
+    return path_.segmentEnd(segmentIndex);
 }
 
-
-
-float 
-OpenSteer::PolylineSegmentedPathwaySingleRadius::mapPointToSegmentDistance( size_type segmentIndex, 
-                                                                            Vector3 const& point ) const
+float OpenSteer::PolylineSegmentedPathwaySingleRadius::mapPointToSegmentDistance(
+    size_type segmentIndex, Vector3 const& point) const
 {
-    return path_.mapPointToSegmentDistance( segmentIndex, point );
+    return path_.mapPointToSegmentDistance(segmentIndex, point);
 }
 
-
-
-Vector3 
-OpenSteer::PolylineSegmentedPathwaySingleRadius::mapSegmentDistanceToPoint( size_type segmentIndex, 
-                                                                            float segmentDistance ) const
+Vector3 OpenSteer::PolylineSegmentedPathwaySingleRadius::mapSegmentDistanceToPoint(
+    size_type segmentIndex, float segmentDistance) const
 {
-    return path_.mapSegmentDistanceToPoint( segmentIndex, segmentDistance );
+    return path_.mapSegmentDistanceToPoint(segmentIndex, segmentDistance);
 }
 
-
-
-float 
-OpenSteer::PolylineSegmentedPathwaySingleRadius::mapSegmentDistanceToRadius( size_type segmentIndex, 
-                                                                             float distanceOnSegment ) const
+float OpenSteer::PolylineSegmentedPathwaySingleRadius::mapSegmentDistanceToRadius(
+    size_type segmentIndex, float distanceOnSegment) const
 {
     OPENSTEER_UNUSED_PARAMETER(segmentIndex);
     OPENSTEER_UNUSED_PARAMETER(distanceOnSegment);
     return radius_;
 }
 
-
-
-Vector3 
-OpenSteer::PolylineSegmentedPathwaySingleRadius::mapSegmentDistanceToTangent( size_type segmentIndex, 
-                                                                              float segmentDistance ) const
+Vector3 OpenSteer::PolylineSegmentedPathwaySingleRadius::mapSegmentDistanceToTangent(
+    size_type segmentIndex, float segmentDistance) const
 {
-    return path_.mapSegmentDistanceToTangent( segmentIndex, segmentDistance );
+    return path_.mapSegmentDistanceToTangent(segmentIndex, segmentDistance);
 }
 
-
-void 
-OpenSteer::PolylineSegmentedPathwaySingleRadius::mapDistanceToSegmentPointAndTangentAndRadius( size_type segmentIndex,
-                                                                                               float distance,
-                                                                                               Vector3& pointOnPath,
-                                                                                               Vector3& tangent,
-                                                                                               float& radius ) const
+void OpenSteer::PolylineSegmentedPathwaySingleRadius::mapDistanceToSegmentPointAndTangentAndRadius(
+    size_type segmentIndex, float distance, Vector3& pointOnPath, Vector3& tangent, float& radius) const
 {
-    path_.mapDistanceToSegmentPointAndTangent( segmentIndex, distance, pointOnPath, tangent );
+    path_.mapDistanceToSegmentPointAndTangent(segmentIndex, distance, pointOnPath, tangent);
     radius = radius_;
 }
 
-
-
-
-void 
-OpenSteer::PolylineSegmentedPathwaySingleRadius::mapPointToSegmentDistanceAndPointAndTangentAndRadius( size_type segmentIndex,
-                                                                                              Vector3 const& point,
-                                                                                              float& distance,
-                                                                                              Vector3& pointOnPath,
-                                                                                              Vector3& tangent,
-                                                                                              float& radius) const
+void OpenSteer::PolylineSegmentedPathwaySingleRadius::mapPointToSegmentDistanceAndPointAndTangentAndRadius(
+    size_type segmentIndex, Vector3 const& point, float& distance, Vector3& pointOnPath, Vector3& tangent,
+    float& radius) const
 {
-    path_.mapPointToSegmentDistanceAndPointAndTangent( segmentIndex, point, distance, pointOnPath, tangent );
+    path_.mapPointToSegmentDistanceAndPointAndTangent(segmentIndex, point, distance, pointOnPath, tangent);
     radius = radius_;
 }
-
-

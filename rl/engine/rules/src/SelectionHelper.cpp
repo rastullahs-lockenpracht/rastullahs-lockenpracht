@@ -23,9 +23,9 @@
 #include "PhysicsManager.h"
 
 #ifdef __APPLE__
-#   include <OgreNewt/OgreNewt.h>
+#include <OgreNewt/OgreNewt.h>
 #else
-#   include <OgreNewt.h>
+#include <OgreNewt.h>
 #endif
 
 using namespace Ogre;
@@ -55,8 +55,7 @@ namespace rl
         if (physical)
         {
             // Take AABB center as reference point for physicals
-            startPos += actor1->getWorldOrientation() *
-                physical->getDefaultSize().getCenter();
+            startPos += actor1->getWorldOrientation() * physical->getDefaultSize().getCenter();
         }
 
         // Determine target's position based on controlled object's type
@@ -66,13 +65,12 @@ namespace rl
         if (physical)
         {
             // Take AABB center as reference point for physicals
-            targetPos += actor2->getWorldOrientation() *
-                physical->getDefaultSize().getCenter();
+            targetPos += actor2->getWorldOrientation() * physical->getDefaultSize().getCenter();
         }
 
         // Setup and execute raycast. Set result to be ordered by distance
-        BasicRaycast raycast = BasicRaycast(PhysicsManager::getSingleton()._getNewtonWorld(),
-            startPos, targetPos, true);
+        BasicRaycast raycast
+            = BasicRaycast(PhysicsManager::getSingleton()._getNewtonWorld(), startPos, targetPos, true);
 
         // inspect results
         // the reference actor actor1 is filtered out
@@ -85,10 +83,11 @@ namespace rl
             if (body != NULL)
             {
                 Actor* hitActor = NULL;
-                if( body->getUserData().getType() == typeid(Actor*) )
+                if (body->getUserData().getType() == typeid(Actor*))
                     hitActor = Ogre::any_cast<Actor*>(body->getUserData());
                 isVisible = hitActor == actor2 || hitActor == actor1;
-                if (!isVisible) break;
+                if (!isVisible)
+                    break;
             }
         }
         return isVisible;

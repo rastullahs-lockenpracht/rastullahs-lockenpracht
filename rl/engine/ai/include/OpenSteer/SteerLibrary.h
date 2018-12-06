@@ -42,50 +42,46 @@
 //
 // ----------------------------------------------------------------------------
 
-
 #ifndef OPENSTEER_STEERLIBRARY_H
 #define OPENSTEER_STEERLIBRARY_H
 
-
 #include "OpenSteer/AbstractVehicle.h"
-#include "OpenSteer/Pathway.h"
 #include "OpenSteer/Obstacle.h"
+#include "OpenSteer/Pathway.h"
 #include "OpenSteer/Utilities.h"
 
 // Include OpenSteer::Color, OpenSteer::gBlack, ...
 #include "Color.h"
 
-namespace OpenSteer {
+namespace OpenSteer
+{
 
     // ----------------------------------------------------------------------------
 
-
-    template <class Super>
-    class SteerLibraryMixin : public Super
+    template <class Super> class SteerLibraryMixin : public Super
     {
     public:
-        using Super::getVelocity;
-        using Super::getMaxSpeed;
-        using Super::getSpeed;
-        using Super::getRadius;
-        using Super::getMaxForce;
         using Super::getForward;
+        using Super::getMaxForce;
+        using Super::getMaxSpeed;
         using Super::getPosition;
+        using Super::getRadius;
         using Super::getSide;
+        using Super::getSpeed;
         using Super::getUp;
+        using Super::getVelocity;
         using Super::predictFuturePosition;
-        
-    public:
 
+    public:
         // Constructor: initializes state
-        SteerLibraryMixin ()
+        SteerLibraryMixin()
         {
             // set inital state
-            reset ();
+            reset();
         }
 
         // reset state
-        void reset (void)
+        void reset(void)
         {
             // initial state of wander behavior
             WanderSide = 0;
@@ -100,23 +96,21 @@ namespace OpenSteer {
         // Wander behavior
         float WanderSide;
         float WanderUp;
-        Vector3 steerForWander (float dt);
+        Vector3 steerForWander(float dt);
 
         // Seek behavior
-        Vector3 steerForSeek (const Vector3& target);
+        Vector3 steerForSeek(const Vector3& target);
 
         // Flee behavior
-        Vector3 steerForFlee (const Vector3& target);
+        Vector3 steerForFlee(const Vector3& target);
 
         // xxx proposed, experimental new seek/flee [cwr 9-16-02]
-        Vector3 xxxsteerForFlee (const Vector3& target);
-        Vector3 xxxsteerForSeek (const Vector3& target);
+        Vector3 xxxsteerForFlee(const Vector3& target);
+        Vector3 xxxsteerForSeek(const Vector3& target);
 
         // Path Following behaviors
-        Vector3 steerToFollowPath (const int direction,
-                                const float predictionTime,
-                                Pathway& path);
-        Vector3 steerToStayOnPath (const float predictionTime, Pathway& path);
+        Vector3 steerToFollowPath(const int direction, const float predictionTime, Pathway& path);
+        Vector3 steerToStayOnPath(const float predictionTime, Pathway& path);
 
         // ------------------------------------------------------------------------
         // Obstacle Avoidance behavior
@@ -129,16 +123,11 @@ namespace OpenSteer {
         // vehicle's current velocity.  Returns a zero vector value (Vector3::ZERO)
         // when no avoidance is required.
 
-
-        Vector3 steerToAvoidObstacle (const float minTimeToCollision,
-                                   const Obstacle& obstacle);
-
+        Vector3 steerToAvoidObstacle(const float minTimeToCollision, const Obstacle& obstacle);
 
         // avoids all obstacles in an ObstacleGroup
 
-        Vector3 steerToAvoidObstacles (const float minTimeToCollision,
-                                    const ObstacleGroup& obstacles);
-
+        Vector3 steerToAvoidObstacles(const float minTimeToCollision, const ObstacleGroup& obstacles);
 
         // ------------------------------------------------------------------------
         // Unaligned collision avoidance behavior: avoid colliding with other
@@ -147,26 +136,20 @@ namespace OpenSteer {
         // to avoid the site of that potential collision.  Returns a steering
         // force vector, which is zero length if there is no impending collision.
 
-
-        Vector3 steerToAvoidNeighbors (const float minTimeToCollision,
-                                    const AVGroup& others);
-
+        Vector3 steerToAvoidNeighbors(const float minTimeToCollision, const AVGroup& others);
 
         // Given two vehicles, based on their current positions and velocities,
         // determine the time until nearest approach
-        float predictNearestApproachTime (AbstractVehicle& otherVehicle);
+        float predictNearestApproachTime(AbstractVehicle& otherVehicle);
 
         // Given the time until nearest approach (predictNearestApproachTime)
         // determine position of each vehicle at that time, and the distance
         // between them
-        float computeNearestApproachPositions (AbstractVehicle& otherVehicle,
-                                               float time);
-
+        float computeNearestApproachPositions(AbstractVehicle& otherVehicle, float time);
 
         /// XXX globals only for the sake of graphical annotation
         Vector3 hisPositionAtNearestApproach;
         Vector3 ourPositionAtNearestApproach;
-
 
         // ------------------------------------------------------------------------
         // avoidance of "close neighbors" -- used only by steerToAvoidNeighbors
@@ -175,75 +158,49 @@ namespace OpenSteer {
         // XXX  critical distance.  Ideally this should be replaced with a call
         // XXX  to steerForSeparation.
 
-
-        Vector3 steerToAvoidCloseNeighbors (const float minSeparationDistance,
-                                         const AVGroup& others);
-
+        Vector3 steerToAvoidCloseNeighbors(const float minSeparationDistance, const AVGroup& others);
 
         // ------------------------------------------------------------------------
         // used by boid behaviors
 
-
-        bool inBoidNeighborhood (const AbstractVehicle& otherVehicle,
-                                 const float minDistance,
-                                 const float maxDistance,
-                                 const float cosMaxAngle);
-
+        bool inBoidNeighborhood(const AbstractVehicle& otherVehicle, const float minDistance, const float maxDistance,
+            const float cosMaxAngle);
 
         // ------------------------------------------------------------------------
         // Separation behavior -- determines the direction away from nearby boids
 
-
-        Vector3 steerForSeparation (const float maxDistance,
-                                 const float cosMaxAngle,
-                                 const AVGroup& flock);
-
+        Vector3 steerForSeparation(const float maxDistance, const float cosMaxAngle, const AVGroup& flock);
 
         // ------------------------------------------------------------------------
         // Alignment behavior
 
-        Vector3 steerForAlignment (const float maxDistance,
-                                const float cosMaxAngle,
-                                const AVGroup& flock);
-
+        Vector3 steerForAlignment(const float maxDistance, const float cosMaxAngle, const AVGroup& flock);
 
         // ------------------------------------------------------------------------
         // Cohesion behavior
 
-
-        Vector3 steerForCohesion (const float maxDistance,
-                               const float cosMaxAngle,
-                               const AVGroup& flock);
-
+        Vector3 steerForCohesion(const float maxDistance, const float cosMaxAngle, const AVGroup& flock);
 
         // ------------------------------------------------------------------------
         // pursuit of another vehicle (& version with ceiling on prediction time)
 
+        Vector3 steerForPursuit(const AbstractVehicle& quarry);
 
-        Vector3 steerForPursuit (const AbstractVehicle& quarry);
-
-        Vector3 steerForPursuit (const AbstractVehicle& quarry,
-                              const float maxPredictionTime);
+        Vector3 steerForPursuit(const AbstractVehicle& quarry, const float maxPredictionTime);
 
         // for annotation
         bool gaudyPursuitAnnotation;
 
-
         // ------------------------------------------------------------------------
         // evasion of another vehicle
 
-
-        Vector3 steerForEvasion (const AbstractVehicle& menace,
-                              const float maxPredictionTime);
-
+        Vector3 steerForEvasion(const AbstractVehicle& menace, const float maxPredictionTime);
 
         // ------------------------------------------------------------------------
         // tries to maintain a given speed, returns a maxForce-clipped steering
         // force along the forward/backward axis
 
-
-        Vector3 steerForTargetSpeed (const float targetSpeed);
-
+        Vector3 steerForTargetSpeed(const float targetSpeed);
 
         // ----------------------------------------------------------- utilities
         // XXX these belong somewhere besides the steering library
@@ -251,159 +208,133 @@ namespace OpenSteer {
         // XXX ("utility vehicle"?)
 
         // xxx cwr experimental 9-9-02 -- names OK?
-        bool isAhead (const Vector3& target) const {return isAhead (target, 0.707f);};
-        bool isAside (const Vector3& target) const {return isAside (target, 0.707f);};
-        bool isBehind (const Vector3& target) const {return isBehind (target, -0.707f);};
+        bool isAhead(const Vector3& target) const
+        {
+            return isAhead(target, 0.707f);
+        };
+        bool isAside(const Vector3& target) const
+        {
+            return isAside(target, 0.707f);
+        };
+        bool isBehind(const Vector3& target) const
+        {
+            return isBehind(target, -0.707f);
+        };
 
-        bool isAhead (const Vector3& target, float cosThreshold) const
+        bool isAhead(const Vector3& target, float cosThreshold) const
         {
             const Vector3 targetDirection = (target - getPosition()).normalisedCopy();
             return getForward().dotProduct(targetDirection) > cosThreshold;
         };
-        bool isAside (const Vector3& target, float cosThreshold) const
+        bool isAside(const Vector3& target, float cosThreshold) const
         {
             const Vector3 targetDirection = (target - getPosition()).normalisedCopy();
             const float dp = getForward().dotProduct(targetDirection);
             return (dp < cosThreshold) && (dp > -cosThreshold);
         };
-        bool isBehind (const Vector3& target, float cosThreshold) const
+        bool isBehind(const Vector3& target, float cosThreshold) const
         {
             const Vector3 targetDirection = (target - getPosition()).normalisedCopy();
             return getForward().dotProduct(targetDirection) < cosThreshold;
         };
 
-
         // ------------------------------------------------ graphical annotation
         // (parameter names commented out to prevent compiler warning from "-W")
 
-
         // called when steerToAvoidObstacles decides steering is required
         // (default action is to do nothing, layered classes can overload it)
-        virtual void annotateAvoidObstacle (const float /*minDistanceToCollision*/)
+        virtual void annotateAvoidObstacle(const float /*minDistanceToCollision*/)
         {
         }
 
         // called when steerToFollowPath decides steering is required
         // (default action is to do nothing, layered classes can overload it)
-        virtual void annotatePathFollowing (const Vector3& /*future*/,
-                                            const Vector3& /*onPath*/,
-                                            const Vector3& /*target*/,
-                                            const float /*outside*/)
+        virtual void annotatePathFollowing(
+            const Vector3& /*future*/, const Vector3& /*onPath*/, const Vector3& /*target*/, const float /*outside*/)
         {
         }
 
         // called when steerToAvoidCloseNeighbors decides steering is required
         // (default action is to do nothing, layered classes can overload it)
-        virtual void annotateAvoidCloseNeighbor (const AbstractVehicle& /*other*/,
-                                                 const float /*additionalDistance*/)
+        virtual void annotateAvoidCloseNeighbor(const AbstractVehicle& /*other*/, const float /*additionalDistance*/)
         {
         }
 
         // called when steerToAvoidNeighbors decides steering is required
         // (default action is to do nothing, layered classes can overload it)
-        virtual void annotateAvoidNeighbor (const AbstractVehicle& /*threat*/,
-                                            const float /*steer*/,
-                                            const Vector3& /*ourFuture*/,
-                                            const Vector3& /*threatFuture*/)
+        virtual void annotateAvoidNeighbor(const AbstractVehicle& /*threat*/, const float /*steer*/,
+            const Vector3& /*ourFuture*/, const Vector3& /*threatFuture*/)
         {
         }
     };
 
-    
 } // namespace OpenSteer
 
 // ----------------------------------------------------------------------------
 
-
-template<class Super>
-Vector3
-OpenSteer::SteerLibraryMixin<Super>::
-steerForWander (float dt)
+template <class Super> Vector3 OpenSteer::SteerLibraryMixin<Super>::steerForWander(float dt)
 {
     // random walk WanderSide and WanderUp between -1 and +1
     const float speed = 12.0f * dt; // maybe this (12) should be an argument?
-    WanderSide = scalarRandomWalk (WanderSide, speed, -1, +1);
-    WanderUp   = scalarRandomWalk (WanderUp,   speed, -1, +1);
+    WanderSide = scalarRandomWalk(WanderSide, speed, -1, +1);
+    WanderUp = scalarRandomWalk(WanderUp, speed, -1, +1);
 
     // return a pure lateral steering vector: (+/-Side) + (+/-Up)
     return (getSide() * WanderSide) + (getUp() * WanderUp);
 }
 
-
 // ----------------------------------------------------------------------------
 // Seek behavior
 
-
-template<class Super>
-Vector3
-OpenSteer::SteerLibraryMixin<Super>::
-steerForSeek (const Vector3& target)
+template <class Super> Vector3 OpenSteer::SteerLibraryMixin<Super>::steerForSeek(const Vector3& target)
 {
     const Vector3 desiredVelocity = target - getPosition();
     return desiredVelocity - getVelocity();
 }
 
-
 // ----------------------------------------------------------------------------
 // Flee behavior
 
-
-template<class Super>
-Vector3
-OpenSteer::SteerLibraryMixin<Super>::
-steerForFlee (const Vector3& target)
+template <class Super> Vector3 OpenSteer::SteerLibraryMixin<Super>::steerForFlee(const Vector3& target)
 {
     const Vector3 desiredVelocity = getPosition() - target;
     return desiredVelocity - getVelocity();
 }
 
-
 // ----------------------------------------------------------------------------
 // xxx proposed, experimental new seek/flee [cwr 9-16-02]
 
-
-template<class Super>
-Vector3
-OpenSteer::SteerLibraryMixin<Super>::
-xxxsteerForFlee (const Vector3& target)
+template <class Super> Vector3 OpenSteer::SteerLibraryMixin<Super>::xxxsteerForFlee(const Vector3& target)
 {
-//  const Vector3 offset = position - target;
+    //  const Vector3 offset = position - target;
     const Vector3 offset = getPosition() - target;
-    const Vector3 desiredVelocity = Vec3Utils::truncateLength(offset, getMaxSpeed()); //xxxnew
+    const Vector3 desiredVelocity = Vec3Utils::truncateLength(offset, getMaxSpeed()); // xxxnew
     return desiredVelocity - getVelocity();
 }
 
-
-template<class Super>
-Vector3
-OpenSteer::SteerLibraryMixin<Super>::
-xxxsteerForSeek (const Vector3& target)
+template <class Super> Vector3 OpenSteer::SteerLibraryMixin<Super>::xxxsteerForSeek(const Vector3& target)
 {
-//  const Vector3 offset = target - position;
+    //  const Vector3 offset = target - position;
     const Vector3 offset = target - getPosition();
-    const Vector3 desiredVelocity = Vec3Utils::truncateLength(offset, getMaxSpeed()); //xxxnew
+    const Vector3 desiredVelocity = Vec3Utils::truncateLength(offset, getMaxSpeed()); // xxxnew
     return desiredVelocity - getVelocity();
 }
-
 
 // ----------------------------------------------------------------------------
 // Path Following behaviors
 
-
-template<class Super>
-Vector3
-OpenSteer::SteerLibraryMixin<Super>::
-steerToStayOnPath (const float predictionTime, Pathway& path)
+template <class Super>
+Vector3 OpenSteer::SteerLibraryMixin<Super>::steerToStayOnPath(const float predictionTime, Pathway& path)
 {
     // predict our future position
-    const Vector3 futurePosition = predictFuturePosition (predictionTime);
+    const Vector3 futurePosition = predictFuturePosition(predictionTime);
 
     // find the point on the path nearest the predicted future position
     Vector3 tangent;
     float outside;
-    const Vector3 onPath = path.mapPointToPath (futurePosition,
-                                             tangent,     // output argument
-                                             outside);    // output argument
+    const Vector3 onPath = path.mapPointToPath(futurePosition,
+        tangent, // output argument
+        outside); // output argument
 
     if (outside < 0)
     {
@@ -416,46 +347,38 @@ steerToStayOnPath (const float predictionTime, Pathway& path)
         // our predicted future position was outside the path, need to
         // steer towards it.  Use onPath projection of futurePosition
         // as seek target
-        annotatePathFollowing (futurePosition, onPath, onPath, outside);
-        return steerForSeek (onPath);
+        annotatePathFollowing(futurePosition, onPath, onPath, outside);
+        return steerForSeek(onPath);
     }
 }
 
-
-template<class Super>
-Vector3
-OpenSteer::SteerLibraryMixin<Super>::
-steerToFollowPath (const int direction,
-                   const float predictionTime,
-                   Pathway& path)
+template <class Super>
+Vector3 OpenSteer::SteerLibraryMixin<Super>::steerToFollowPath(
+    const int direction, const float predictionTime, Pathway& path)
 {
     // our goal will be offset from our path distance by this amount
     const float pathDistanceOffset = direction * predictionTime * getSpeed();
 
     // predict our future position
-    const Vector3 futurePosition = predictFuturePosition (predictionTime);
+    const Vector3 futurePosition = predictFuturePosition(predictionTime);
 
     // measure distance along path of our current and predicted positions
-    const float nowPathDistance =
-        path.mapPointToPathDistance (getPosition());
-    const float futurePathDistance =
-        path.mapPointToPathDistance (futurePosition);
+    const float nowPathDistance = path.mapPointToPathDistance(getPosition());
+    const float futurePathDistance = path.mapPointToPathDistance(futurePosition);
 
     // are we facing in the correction direction?
-    const bool rightway = ((pathDistanceOffset > 0) ?
-                           (nowPathDistance < futurePathDistance) :
-                           (nowPathDistance > futurePathDistance));
+    const bool rightway
+        = ((pathDistanceOffset > 0) ? (nowPathDistance < futurePathDistance) : (nowPathDistance > futurePathDistance));
 
     // find the point on the path nearest the predicted future position
     // XXX need to improve calling sequence, maybe change to return a
-    // XXX special path-defined object which includes two Vec3s and a 
+    // XXX special path-defined object which includes two Vec3s and a
     // XXX bool (onPath,tangent (ignored), withinPath)
     Vector3 tangent;
     float outside;
-    const Vector3 onPath = path.mapPointToPath (futurePosition,
-                                             // output arguments:
-                                             tangent,
-                                             outside);
+    const Vector3 onPath = path.mapPointToPath(futurePosition,
+        // output arguments:
+        tangent, outside);
 
     // no steering is required if (a) our future position is inside
     // the path tube and (b) we are facing in the correct direction
@@ -470,15 +393,14 @@ steerToFollowPath (const int direction,
         // by adding pathDistanceOffset to our current path position
 
         float const targetPathDistance = nowPathDistance + pathDistanceOffset;
-        Vector3 const target = path.mapPathDistanceToPoint (targetPathDistance);
+        Vector3 const target = path.mapPathDistanceToPoint(targetPathDistance);
 
-        annotatePathFollowing (futurePosition, onPath, target, outside);
+        annotatePathFollowing(futurePosition, onPath, target, outside);
 
         // return steering to seek target on path
-        return steerForSeek (target);
+        return steerForSeek(target);
     }
 }
-
 
 // ----------------------------------------------------------------------------
 // Obstacle Avoidance behavior
@@ -501,41 +423,33 @@ steerToFollowPath (const int direction,
 // XXX whose second arg is "const Obstacle& obstacle" just in case we want
 // XXX to avoid a non-grouped obstacle)
 
-template<class Super>
-Vector3
-OpenSteer::SteerLibraryMixin<Super>::
-steerToAvoidObstacle (const float minTimeToCollision,
-                      const Obstacle& obstacle)
+template <class Super>
+Vector3 OpenSteer::SteerLibraryMixin<Super>::steerToAvoidObstacle(
+    const float minTimeToCollision, const Obstacle& obstacle)
 {
-    const Vector3 avoidance = obstacle.steerToAvoid (*this, minTimeToCollision);
+    const Vector3 avoidance = obstacle.steerToAvoid(*this, minTimeToCollision);
 
     // XXX more annotation modularity problems (assumes spherical obstacle)
     if (avoidance != Vector3::ZERO)
-        annotateAvoidObstacle (minTimeToCollision * getSpeed());
+        annotateAvoidObstacle(minTimeToCollision * getSpeed());
 
     return avoidance;
 }
-
 
 // this version avoids all of the obstacles in an ObstacleGroup
 
-template<class Super>
-Vector3
-OpenSteer::SteerLibraryMixin<Super>::
-steerToAvoidObstacles (const float minTimeToCollision,
-                       const ObstacleGroup& obstacles)
+template <class Super>
+Vector3 OpenSteer::SteerLibraryMixin<Super>::steerToAvoidObstacles(
+    const float minTimeToCollision, const ObstacleGroup& obstacles)
 {
-    const Vector3 avoidance = Obstacle::steerToAvoidObstacles (*this,
-                                                            minTimeToCollision,
-                                                            obstacles);
+    const Vector3 avoidance = Obstacle::steerToAvoidObstacles(*this, minTimeToCollision, obstacles);
 
     // XXX more annotation modularity problems (assumes spherical obstacle)
     if (avoidance != Vector3::ZERO)
-        annotateAvoidObstacle (minTimeToCollision * getSpeed());
+        annotateAvoidObstacle(minTimeToCollision * getSpeed());
 
     return avoidance;
 }
-
 
 // ----------------------------------------------------------------------------
 // Unaligned collision avoidance behavior: avoid colliding with other nearby
@@ -544,16 +458,14 @@ steerToAvoidObstacles (const float minTimeToCollision,
 // site of that potential collision.  Returns a steering force vector, which
 // is zero length if there is no impending collision.
 
-
-template<class Super>
-Vector3
-OpenSteer::SteerLibraryMixin<Super>::
-steerToAvoidNeighbors (const float minTimeToCollision,
-                       const AVGroup& others)
+template <class Super>
+Vector3 OpenSteer::SteerLibraryMixin<Super>::steerToAvoidNeighbors(
+    const float minTimeToCollision, const AVGroup& others)
 {
     // first priority is to prevent immediate interpenetration
-    const Vector3 separation = steerToAvoidCloseNeighbors (0, others);
-    if (separation != Vector3::ZERO) return separation;
+    const Vector3 separation = steerToAvoidCloseNeighbors(0, others);
+    if (separation != Vector3::ZERO)
+        return separation;
 
     // otherwise, go on to consider potential future collisions
     float steer = 0;
@@ -574,12 +486,12 @@ steerToAvoidNeighbors (const float minTimeToCollision,
     {
         AbstractVehicle& other = **i;
         if (&other != this)
-        {	
+        {
             // avoid when future positions are this close (or less)
             const float collisionDangerThreshold = getRadius() * 2;
 
             // predicted time until nearest approach of "this" and "other"
-            const float time = predictNearestApproachTime (other);
+            const float time = predictNearestApproachTime(other);
 
             // If the time is in the future, sooner than any other
             // threatened collision...
@@ -587,15 +499,12 @@ steerToAvoidNeighbors (const float minTimeToCollision,
             {
                 // if the two will be close enough to collide,
                 // make a note of it
-                if (computeNearestApproachPositions (other, time)
-                    < collisionDangerThreshold)
+                if (computeNearestApproachPositions(other, time) < collisionDangerThreshold)
                 {
                     minTime = time;
                     threat = &other;
-                    xxxThreatPositionAtNearestApproach
-                        = hisPositionAtNearestApproach;
-                    xxxOurPositionAtNearestApproach
-                        = ourPositionAtNearestApproach;
+                    xxxThreatPositionAtNearestApproach = hisPositionAtNearestApproach;
+                    xxxOurPositionAtNearestApproach = ourPositionAtNearestApproach;
                 }
             }
         }
@@ -637,26 +546,19 @@ steerToAvoidNeighbors (const float minTimeToCollision,
             }
         }
 
-        annotateAvoidNeighbor (*threat,
-                               steer,
-                               xxxOurPositionAtNearestApproach,
-                               xxxThreatPositionAtNearestApproach);
+        annotateAvoidNeighbor(*threat, steer, xxxOurPositionAtNearestApproach, xxxThreatPositionAtNearestApproach);
     }
 
     return getSide() * steer;
 }
-
-
 
 // Given two vehicles, based on their current positions and velocities,
 // determine the time until nearest approach
 //
 // XXX should this return zero if they are already in contact?
 
-template<class Super>
-float
-OpenSteer::SteerLibraryMixin<Super>::
-predictNearestApproachTime (AbstractVehicle& otherVehicle)
+template <class Super>
+float OpenSteer::SteerLibraryMixin<Super>::predictNearestApproachTime(AbstractVehicle& otherVehicle)
 {
     // imagine we are at the origin with no velocity,
     // compute the relative velocity of the other vehicle
@@ -667,7 +569,8 @@ predictNearestApproachTime (AbstractVehicle& otherVehicle)
 
     // for parallel paths, the vehicles will always be at the same distance,
     // so return 0 (aka "now") since "there is no time like the present"
-    if (relSpeed == 0) return 0;
+    if (relSpeed == 0)
+        return 0;
 
     // Now consider the path of the other vehicle in this relative
     // space, a line defined by the relative position and velocity.
@@ -685,22 +588,17 @@ predictNearestApproachTime (AbstractVehicle& otherVehicle)
     return projection / relSpeed;
 }
 
-
 // Given the time until nearest approach (predictNearestApproachTime)
 // determine position of each vehicle at that time, and the distance
 // between them
 
-
-template<class Super>
-float
-OpenSteer::SteerLibraryMixin<Super>::
-computeNearestApproachPositions (AbstractVehicle& otherVehicle,
-                                 float time)
+template <class Super>
+float OpenSteer::SteerLibraryMixin<Super>::computeNearestApproachPositions(AbstractVehicle& otherVehicle, float time)
 {
-    const Vector3    myTravel =       getForward() *       getSpeed() * time;
-    const Vector3 otherTravel = otherVehicle.getForward() * otherVehicle.getSpeed () * time;
+    const Vector3 myTravel = getForward() * getSpeed() * time;
+    const Vector3 otherTravel = otherVehicle.getForward() * otherVehicle.getSpeed() * time;
 
-    const Vector3    myFinal =       getPosition() +    myTravel;
+    const Vector3 myFinal = getPosition() + myTravel;
     const Vector3 otherFinal = otherVehicle.getPosition() + otherTravel;
 
     // xxx for annotation
@@ -710,8 +608,6 @@ computeNearestApproachPositions (AbstractVehicle& otherVehicle,
     return myFinal.distance(otherFinal);
 }
 
-
-
 // ----------------------------------------------------------------------------
 // avoidance of "close neighbors" -- used only by steerToAvoidNeighbors
 //
@@ -719,15 +615,12 @@ computeNearestApproachPositions (AbstractVehicle& otherVehicle,
 // XXX  critical distance.  Ideally this should be replaced with a call
 // XXX  to steerForSeparation.
 
-
-template<class Super>
-Vector3
-OpenSteer::SteerLibraryMixin<Super>::
-steerToAvoidCloseNeighbors (const float minSeparationDistance,
-                            const AVGroup& others)
+template <class Super>
+Vector3 OpenSteer::SteerLibraryMixin<Super>::steerToAvoidCloseNeighbors(
+    const float minSeparationDistance, const AVGroup& others)
 {
     // for each of the other vehicles...
-    for (AVIterator i = others.begin(); i != others.end(); i++)    
+    for (AVIterator i = others.begin(); i != others.end(); i++)
     {
         AbstractVehicle& other = **i;
         if (&other != this)
@@ -739,7 +632,7 @@ steerToAvoidCloseNeighbors (const float minSeparationDistance,
 
             if (currentDistance < minCenterToCenter)
             {
-                annotateAvoidCloseNeighbor (other, minSeparationDistance);
+                annotateAvoidCloseNeighbor(other, minSeparationDistance);
                 return Vec3Utils::perpendicularComponent(-offset, getForward());
             }
         }
@@ -749,18 +642,12 @@ steerToAvoidCloseNeighbors (const float minSeparationDistance,
     return Vector3::ZERO;
 }
 
-
 // ----------------------------------------------------------------------------
 // used by boid behaviors: is a given vehicle within this boid's neighborhood?
 
-
-template<class Super>
-bool
-OpenSteer::SteerLibraryMixin<Super>::
-inBoidNeighborhood (const AbstractVehicle& otherVehicle,
-                    const float minDistance,
-                    const float maxDistance,
-                    const float cosMaxAngle)
+template <class Super>
+bool OpenSteer::SteerLibraryMixin<Super>::inBoidNeighborhood(
+    const AbstractVehicle& otherVehicle, const float minDistance, const float maxDistance, const float cosMaxAngle)
 {
     if (&otherVehicle == this)
     {
@@ -786,7 +673,7 @@ inBoidNeighborhood (const AbstractVehicle& otherVehicle,
             else
             {
                 // otherwise, test angular offset from forward axis
-                const Vector3 unitOffset = offset / sqrt (distanceSquared);
+                const Vector3 unitOffset = offset / sqrt(distanceSquared);
                 const float forwardness = getForward().dotProduct(unitOffset);
                 return forwardness > cosMaxAngle;
             }
@@ -794,17 +681,12 @@ inBoidNeighborhood (const AbstractVehicle& otherVehicle,
     }
 }
 
-
 // ----------------------------------------------------------------------------
 // Separation behavior: steer away from neighbors
 
-
-template<class Super>
-Vector3
-OpenSteer::SteerLibraryMixin<Super>::
-steerForSeparation (const float maxDistance,
-                    const float cosMaxAngle,
-                    const AVGroup& flock)
+template <class Super>
+Vector3 OpenSteer::SteerLibraryMixin<Super>::steerForSeparation(
+    const float maxDistance, const float cosMaxAngle, const AVGroup& flock)
 {
     // steering accumulator and count of neighbors, both initially zero
     Vector3 steering;
@@ -812,9 +694,9 @@ steerForSeparation (const float maxDistance,
 
     // for each of the other vehicles...
     AVIterator flockEndIter = flock.end();
-    for (AVIterator otherVehicle = flock.begin(); otherVehicle != flockEndIter; ++otherVehicle )
+    for (AVIterator otherVehicle = flock.begin(); otherVehicle != flockEndIter; ++otherVehicle)
     {
-        if (inBoidNeighborhood (**otherVehicle, getRadius()*3, maxDistance, cosMaxAngle))
+        if (inBoidNeighborhood(**otherVehicle, getRadius() * 3, maxDistance, cosMaxAngle))
         {
             // add in steering contribution
             // (opposite of the offset direction, divided once by distance
@@ -839,21 +721,16 @@ steerForSeparation (const float maxDistance,
     }
     */
     steering = steering.normalisedCopy();
-    
+
     return steering;
 }
-
 
 // ----------------------------------------------------------------------------
 // Alignment behavior: steer to head in same direction as neighbors
 
-
-template<class Super>
-Vector3
-OpenSteer::SteerLibraryMixin<Super>::
-steerForAlignment (const float maxDistance,
-                   const float cosMaxAngle,
-                   const AVGroup& flock)
+template <class Super>
+Vector3 OpenSteer::SteerLibraryMixin<Super>::steerForAlignment(
+    const float maxDistance, const float cosMaxAngle, const AVGroup& flock)
 {
     // steering accumulator and count of neighbors, both initially zero
     Vector3 steering;
@@ -862,7 +739,7 @@ steerForAlignment (const float maxDistance,
     // for each of the other vehicles...
     for (AVIterator otherVehicle = flock.begin(); otherVehicle != flock.end(); otherVehicle++)
     {
-        if (inBoidNeighborhood (**otherVehicle, getRadius()*3, maxDistance, cosMaxAngle))
+        if (inBoidNeighborhood(**otherVehicle, getRadius() * 3, maxDistance, cosMaxAngle))
         {
             // accumulate sum of neighbor's heading
             steering += (**otherVehicle).getForward();
@@ -874,23 +751,18 @@ steerForAlignment (const float maxDistance,
 
     // divide by neighbors, subtract off current heading to get error-
     // correcting direction, then normalize to pure direction
-    if (neighbors > 0) steering = ((steering / (float)neighbors) - getForward()).normalisedCopy();
+    if (neighbors > 0)
+        steering = ((steering / (float)neighbors) - getForward()).normalisedCopy();
 
     return steering;
 }
 
-
 // ----------------------------------------------------------------------------
 // Cohesion behavior: to to move toward center of neighbors
 
-
-
-template<class Super>
-Vector3
-OpenSteer::SteerLibraryMixin<Super>::
-steerForCohesion (const float maxDistance,
-                  const float cosMaxAngle,
-                  const AVGroup& flock)
+template <class Super>
+Vector3 OpenSteer::SteerLibraryMixin<Super>::steerForCohesion(
+    const float maxDistance, const float cosMaxAngle, const AVGroup& flock)
 {
     // steering accumulator and count of neighbors, both initially zero
     Vector3 steering;
@@ -899,7 +771,7 @@ steerForCohesion (const float maxDistance,
     // for each of the other vehicles...
     for (AVIterator otherVehicle = flock.begin(); otherVehicle != flock.end(); otherVehicle++)
     {
-        if (inBoidNeighborhood (**otherVehicle, getRadius()*3, maxDistance, cosMaxAngle))
+        if (inBoidNeighborhood(**otherVehicle, getRadius() * 3, maxDistance, cosMaxAngle))
         {
             // accumulate sum of neighbor's positions
             steering += (**otherVehicle).getPosition();
@@ -911,34 +783,27 @@ steerForCohesion (const float maxDistance,
 
     // divide by neighbors, subtract off current position to get error-
     // correcting direction, then normalize to pure direction
-    if (neighbors > 0) steering = ((steering / (float)neighbors) - getPosition()).normalisedCopy();
+    if (neighbors > 0)
+        steering = ((steering / (float)neighbors) - getPosition()).normalisedCopy();
 
     return steering;
 }
 
-
 // ----------------------------------------------------------------------------
 // pursuit of another vehicle (& version with ceiling on prediction time)
 
-
-template<class Super>
-Vector3
-OpenSteer::SteerLibraryMixin<Super>::
-steerForPursuit (const AbstractVehicle& quarry)
+template <class Super> Vector3 OpenSteer::SteerLibraryMixin<Super>::steerForPursuit(const AbstractVehicle& quarry)
 {
-    return steerForPursuit (quarry, FLT_MAX);
+    return steerForPursuit(quarry, FLT_MAX);
 }
 
-
-template<class Super>
-Vector3
-OpenSteer::SteerLibraryMixin<Super>::
-steerForPursuit (const AbstractVehicle& quarry,
-                 const float maxPredictionTime)
+template <class Super>
+Vector3 OpenSteer::SteerLibraryMixin<Super>::steerForPursuit(
+    const AbstractVehicle& quarry, const float maxPredictionTime)
 {
     // offset from this to quarry, that distance, unit vector toward quarry
     const Vector3 offset = quarry.getPosition() - getPosition();
-    const float distance = offset.length ();
+    const float distance = offset.length();
     const Vector3 unitOffset = offset / distance;
 
     // how parallel are the paths of "this" and the quarry
@@ -950,11 +815,11 @@ steerForPursuit (const AbstractVehicle& quarry,
     const float forwardness = getForward().dotProduct(unitOffset);
 
     const float directTravelTime = distance / getSpeed();
-    const int f = intervalComparison (forwardness,  -0.707f, 0.707f);
-    const int p = intervalComparison (parallelness, -0.707f, 0.707f);
+    const int f = intervalComparison(forwardness, -0.707f, 0.707f);
+    const int p = intervalComparison(parallelness, -0.707f, 0.707f);
 
     float timeFactor = 0; // to be filled in below
-    Color color;           // to be filled in below (xxx just for debugging)
+    Color color; // to be filled in below (xxx just for debugging)
 
     // Break the pursuit into nine cases, the cross product of the
     // quarry being [ahead, aside, or behind] us and heading
@@ -964,15 +829,15 @@ steerForPursuit (const AbstractVehicle& quarry,
     case +1:
         switch (p)
         {
-        case +1:          // ahead, parallel
+        case +1: // ahead, parallel
             timeFactor = 4;
             color = gBlack;
             break;
-        case 0:           // ahead, perpendicular
+        case 0: // ahead, perpendicular
             timeFactor = 1.8f;
             color = gGray50;
             break;
-        case -1:          // ahead, anti-parallel
+        case -1: // ahead, anti-parallel
             timeFactor = 0.85f;
             color = gWhite;
             break;
@@ -981,15 +846,15 @@ steerForPursuit (const AbstractVehicle& quarry,
     case 0:
         switch (p)
         {
-        case +1:          // aside, parallel
+        case +1: // aside, parallel
             timeFactor = 1;
             color = gRed;
             break;
-        case 0:           // aside, perpendicular
+        case 0: // aside, perpendicular
             timeFactor = 0.8f;
             color = gYellow;
             break;
-        case -1:          // aside, anti-parallel
+        case -1: // aside, anti-parallel
             timeFactor = 4;
             color = gGreen;
             break;
@@ -998,15 +863,15 @@ steerForPursuit (const AbstractVehicle& quarry,
     case -1:
         switch (p)
         {
-        case +1:          // behind, parallel
+        case +1: // behind, parallel
             timeFactor = 0.5f;
-            color= gCyan;
+            color = gCyan;
             break;
-        case 0:           // behind, perpendicular
+        case 0: // behind, perpendicular
             timeFactor = 2;
-            color= gBlue;
+            color = gBlue;
             break;
-        case -1:          // behind, anti-parallel
+        case -1: // behind, anti-parallel
             timeFactor = 2;
             color = gMagenta;
             break;
@@ -1021,56 +886,45 @@ steerForPursuit (const AbstractVehicle& quarry,
     const float etl = (et > maxPredictionTime) ? maxPredictionTime : et;
 
     // estimated position of quarry at intercept
-    const Vector3 target = quarry.predictFuturePosition (etl);
+    const Vector3 target = quarry.predictFuturePosition(etl);
 
     // annotation
-/*    annotationLine (getPosition(),
-                    target,
-                    gaudyPursuitAnnotation ? color : gGray40);
-*/
-    return steerForSeek (target);
+    /*    annotationLine (getPosition(),
+                        target,
+                        gaudyPursuitAnnotation ? color : gGray40);
+    */
+    return steerForSeek(target);
 }
 
 // ----------------------------------------------------------------------------
 // evasion of another vehicle
 
-
-template<class Super>
-Vector3
-OpenSteer::SteerLibraryMixin<Super>::
-steerForEvasion (const AbstractVehicle& menace,
-                 const float maxPredictionTime)
+template <class Super>
+Vector3 OpenSteer::SteerLibraryMixin<Super>::steerForEvasion(
+    const AbstractVehicle& menace, const float maxPredictionTime)
 {
     // offset from this to menace, that distance, unit vector toward menace
     const Vector3 offset = menace.getPosition() - getPosition();
-    const float distance = offset.length ();
+    const float distance = offset.length();
 
     const float roughTime = distance / menace.getSpeed();
-    const float predictionTime = ((roughTime > maxPredictionTime) ?
-                                  maxPredictionTime :
-                                  roughTime);
+    const float predictionTime = ((roughTime > maxPredictionTime) ? maxPredictionTime : roughTime);
 
     const Vector3 target = menace.predictFuturePosition(predictionTime);
 
     return steerForFlee(target);
 }
 
-
 // ----------------------------------------------------------------------------
 // tries to maintain a given speed, returns a maxForce-clipped steering
 // force along the forward/backward axis
 
-
-template<class Super>
-Vector3
-OpenSteer::SteerLibraryMixin<Super>::
-steerForTargetSpeed (const float targetSpeed)
+template <class Super> Vector3 OpenSteer::SteerLibraryMixin<Super>::steerForTargetSpeed(const float targetSpeed)
 {
     const float mf = getMaxForce();
     const float speedError = targetSpeed - getSpeed();
-    return getForward() * clip (speedError, -mf, +mf);
+    return getForward() * clip(speedError, -mf, +mf);
 }
-
 
 // ----------------------------------------------------------------------------
 #endif // OPENSTEER_STEERLIBRARY_H

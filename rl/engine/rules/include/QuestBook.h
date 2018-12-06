@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -19,8 +19,8 @@
 
 #include "RulesPrerequisites.h"
 
-#include "EventSource.h"
 #include "EventCaster.h"
+#include "EventSource.h"
 
 #include "JournalEntry.h"
 
@@ -32,89 +32,88 @@
 
 #include <vector>
 
-namespace rl {
-
-///@todo Rename this class to reflect scope changes.
-class _RlRulesExport QuestBook : 
-    public Ogre::ScriptLoader,
-    public EventSource, 
-    public PropertyHolder, 
-    public SaveGameData,
-    public XmlProcessor
+namespace rl
 {
-public:
-    static const Ogre::String PROPERTY_QUESTS;
-    static const Ogre::String PROPERTY_JOURNAL;
 
-	QuestBook();
-	~QuestBook();
+    ///@todo Rename this class to reflect scope changes.
+    class _RlRulesExport QuestBook : public Ogre::ScriptLoader,
+                                     public EventSource,
+                                     public PropertyHolder,
+                                     public SaveGameData,
+                                     public XmlProcessor
+    {
+    public:
+        static const Ogre::String PROPERTY_QUESTS;
+        static const Ogre::String PROPERTY_JOURNAL;
 
-	/**
-	 * Sucht einen Quest anhand einer ID
-	 * @return der Quest
-	 */
-	Quest* getQuest(const CeGuiString id) const;
+        QuestBook();
+        ~QuestBook();
 
-	QuestVector getTopLevelQuests() const;
+        /**
+         * Sucht einen Quest anhand einer ID
+         * @return der Quest
+         */
+        Quest* getQuest(const CeGuiString id) const;
 
-	/**
-	 * Fuegt einen Quest hinzu
-	 * @param quest der Qubquest
-	 */
-	void addQuest(Quest* quest);
+        QuestVector getTopLevelQuests() const;
 
-    /**
-     *  Adds a journal entry to the quest book.
-     */
-    void addJournalEntry(JournalEntry* entry);
-    void addJournalEntry(CeGuiString caption, CeGuiString text);
+        /**
+         * Fuegt einen Quest hinzu
+         * @param quest der Qubquest
+         */
+        void addQuest(Quest* quest);
 
-    unsigned int getNumJournalEntries() const;
+        /**
+         *  Adds a journal entry to the quest book.
+         */
+        void addJournalEntry(JournalEntry* entry);
+        void addJournalEntry(CeGuiString caption, CeGuiString text);
 
-    JournalEntry* getJournalEntry(unsigned int index) const;
+        unsigned int getNumJournalEntries() const;
 
-	void addQuestListener(QuestListener* listener);
-	void removeQuestListener(QuestListener* listener);
+        JournalEntry* getJournalEntry(unsigned int index) const;
 
-    void _fireQuestBookChanged(Quest* quest, int reason);
+        void addQuestListener(QuestListener* listener);
+        void removeQuestListener(QuestListener* listener);
 
-    virtual const Property getProperty(const CeGuiString& key) const;
-    PropertyArray getQuestsProperty(const Quest* rootQuest) const;
-    virtual void setProperty(const CeGuiString& key, const Property& value);
-    void setQuestsProperty(PropertyArray array, Quest* rootQuest);
-    virtual PropertyKeys getAllPropertyKeys() const;
+        void _fireQuestBookChanged(Quest* quest, int reason);
 
-    /// Override from SaveGameData
-    /// Manages saving and loading from the SaveGameFile
+        virtual const Property getProperty(const CeGuiString& key) const;
+        PropertyArray getQuestsProperty(const Quest* rootQuest) const;
+        virtual void setProperty(const CeGuiString& key, const Property& value);
+        void setQuestsProperty(PropertyArray array, Quest* rootQuest);
+        virtual PropertyKeys getAllPropertyKeys() const;
 
-    virtual CeGuiString getXmlNodeIdentifier() const;
-    virtual void writeData(SaveGameFileWriter* writer);
-    virtual void readData(SaveGameFileReader* reader);
-    virtual int getPriority() const;
+        /// Override from SaveGameData
+        /// Manages saving and loading from the SaveGameFile
 
-    //loading quests from xml
-    virtual const Ogre::StringVector &getScriptPatterns(void) const;
-    virtual void parseScript(Ogre::DataStreamPtr &,const Ogre::String &);
-    virtual Ogre::Real getLoadingOrder(void) const;
+        virtual CeGuiString getXmlNodeIdentifier() const;
+        virtual void writeData(SaveGameFileWriter* writer);
+        virtual void readData(SaveGameFileReader* reader);
+        virtual int getPriority() const;
 
-private:
-    Ogre::StringVector mScriptPatterns;
+        // loading quests from xml
+        virtual const Ogre::StringVector& getScriptPatterns(void) const;
+        virtual void parseScript(Ogre::DataStreamPtr&, const Ogre::String&);
+        virtual Ogre::Real getLoadingOrder(void) const;
 
-	Quest* getQuest(Quest* parent, const CeGuiString id) const;
-    void clear();
-    void createRoot();
-    QuestVector getAllQuests() const;
+    private:
+        Ogre::StringVector mScriptPatterns;
 
-	Quest* mRootQuest;
-    std::vector<JournalEntry*> mJournalEntries;
-	EventCaster<QuestEvent> mQuestEventCaster;
-	EventCaster<JournalEvent> mJournalEventCaster;
+        Quest* getQuest(Quest* parent, const CeGuiString id) const;
+        void clear();
+        void createRoot();
+        QuestVector getAllQuests() const;
 
-    void fireJournalChanged(JournalEntry* entry, int reason);
+        Quest* mRootQuest;
+        std::vector<JournalEntry*> mJournalEntries;
+        EventCaster<QuestEvent> mQuestEventCaster;
+        EventCaster<JournalEvent> mJournalEventCaster;
 
-    //loading quests from xml
-    virtual Quest* processQuest(TiXmlElement* dialogXml, Quest* parent);
-};
+        void fireJournalChanged(JournalEntry* entry, int reason);
 
+        // loading quests from xml
+        virtual Quest* processQuest(TiXmlElement* dialogXml, Quest* parent);
+    };
 }
 #endif

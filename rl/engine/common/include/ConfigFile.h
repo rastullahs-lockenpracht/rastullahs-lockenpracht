@@ -47,7 +47,8 @@ namespace rl
          * @param separators Inserted between key and value
          * @param trimWhitespace Should leading and trailing whitespace be removed?
          */
-        void save(const Ogre::String& filename, const Ogre::String& resourceGroup, const Ogre::String& separators = "\t:=", bool trimWhitespace = true);
+        void save(const Ogre::String& filename, const Ogre::String& resourceGroup,
+            const Ogre::String& separators = "\t:=", bool trimWhitespace = true);
 
         /**
          * Save to a stream
@@ -70,7 +71,8 @@ namespace rl
          * @param separators Inserted between key and value
          * @param trimWhitespace Should leading and trailing whitespace be removed?
          */
-        void saveDirect(const Ogre::String& filename, const Ogre::String& separators = "\t:=", bool trimWhitespace = true);
+        void saveDirect(
+            const Ogre::String& filename, const Ogre::String& separators = "\t:=", bool trimWhitespace = true);
 
         /**
          * Save to a filename (using resource group locations)
@@ -82,7 +84,8 @@ namespace rl
          * @param separators Inserted between key and value
          * @param trimWhitespace Should leading and trailing whitespace be removed?
          */
-        void saveToResourceSystem(const Ogre::String& filename, const Ogre::String& resourceGroup, const Ogre::String& separators = "\t:=", bool trimWhitespace = true);
+        void saveToResourceSystem(const Ogre::String& filename, const Ogre::String& resourceGroup,
+            const Ogre::String& separators = "\t:=", bool trimWhitespace = true);
 
         /**
          * Adds a section to the config file and adds a list of key-value pairs

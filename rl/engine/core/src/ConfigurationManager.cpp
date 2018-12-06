@@ -24,7 +24,7 @@
 #include "ConfigurationManager.h"
 #include "CoreSubsystem.h"
 
-template<> rl::ConfigurationManager* Ogre::Singleton<rl::ConfigurationManager>::ms_Singleton = 0;
+template <> rl::ConfigurationManager* Ogre::Singleton<rl::ConfigurationManager>::ms_Singleton = 0;
 
 namespace rl
 {
@@ -51,7 +51,7 @@ namespace rl
     ConfigurationManager::ConfigurationManager()
     {
         // Filenames for log and configuration files
-		mExecutablePath = "./";
+        mExecutablePath = "./";
         mRastullahCfgFile = "rastullah.conf";
         mOgreLogFile = "ogre.log";
         mCeguiLogFile = "cegui.log";
@@ -69,19 +69,19 @@ namespace rl
         addSetting("Sound", "MasterVolume", "1");
 
         // Setup graphic default values
-#       if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
         addSetting("Video", "Render System", "Direct3D9 Rendering Subsystem");
-#       else
-        addSetting("Video", "Render System","OpenGL Rendering Subsystem");
+#else
+        addSetting("Video", "Render System", "OpenGL Rendering Subsystem");
         addSetting("Video", "RTT Preferred Mode", "FBO");
-#       endif
+#endif
         addSetting("Video", "Fullscreen", "no");
         addSetting("Video", "FSAA", "0");
         addSetting("Video", "Video Mode", "800 x 600");
         addSetting("Video", "Use Static Geometry", "auto");
         addSetting("Video", "Max Anisotropy", "1");
-		addSetting("Video", "Cast Shadows", "yes");
-		addSetting("Video", "Shadow Texture Size", "512");
+        addSetting("Video", "Cast Shadows", "yes");
+        addSetting("Video", "Shadow Texture Size", "512");
 
         // Setup input default values
         addSetting("Input", "Mouse Sensitivity", "4");
@@ -189,7 +189,8 @@ namespace rl
     {
         for (Ogre::StringVector::const_iterator it = modules.begin(), end = modules.end(); it != end; ++it)
         {
-            for (Ogre::StringVector::iterator itDel = mModuleList.begin(), endDel = mModuleList.end(); itDel != endDel; ++itDel)
+            for (Ogre::StringVector::iterator itDel = mModuleList.begin(), endDel = mModuleList.end(); itDel != endDel;
+                 ++itDel)
             {
                 if (*itDel == *it)
                 {
@@ -204,15 +205,14 @@ namespace rl
     {
         setRastullahCfgPath();
         // On Linux, we create the .rastullah directory
-#       if OGRE_PLATFORM != OGRE_PLATFORM_WIN32
-        fs::path rastullahCfgDirectory(Ogre::String(::getenv("HOME")) + "/.rastullah",
-            fs::portable_posix_name);
+#if OGRE_PLATFORM != OGRE_PLATFORM_WIN32
+        fs::path rastullahCfgDirectory(Ogre::String(::getenv("HOME")) + "/.rastullah", fs::portable_posix_name);
 
         if (!fs::exists(rastullahCfgDirectory))
         {
             fs::create_directory(rastullahCfgDirectory);
         }
-#       endif
+#endif
 
         // First check, if we have found any directory
         if (!mRastullahCfgPath.empty())
@@ -226,27 +226,26 @@ namespace rl
             {
                 try
                 {
-                    std::cout << "Loading Configuration File " << cfg_paths[i]
-                        << mRastullahCfgFile << std::endl;
+                    std::cout << "Loading Configuration File " << cfg_paths[i] << mRastullahCfgFile << std::endl;
                     configfile->load(cfg_paths[i] + mRastullahCfgFile, "=", true);
                 }
                 catch (Ogre::Exception)
                 {
                     LOG_ERROR2(Logger::CORE,
-                         "Konnte Rastullah-Konfiguration in '" + cfg_paths[i] +
-                         "' nicht laden! Defaulteinstellungen werden benutzt.","Configuration");
+                        "Konnte Rastullah-Konfiguration in '" + cfg_paths[i]
+                            + "' nicht laden! Defaulteinstellungen werden benutzt.",
+                        "Configuration");
                 }
 
                 try
                 {
-                    for (ConfigFile::SectionIterator it = configfile->getSectionIterator();
-                            it.hasMoreElements(); it.moveNext())
+                    for (ConfigFile::SectionIterator it = configfile->getSectionIterator(); it.hasMoreElements();
+                         it.moveNext())
                     {
                         Ogre::String sectionName = it.peekNextKey();
                         Ogre::NameValuePairList settings = mSettings[sectionName];
-                        for (ConfigFile::SettingsIterator it =
-                            configfile->getSettingsIterator(sectionName);
-                            it.hasMoreElements(); it.moveNext())
+                        for (ConfigFile::SettingsIterator it = configfile->getSettingsIterator(sectionName);
+                             it.hasMoreElements(); it.moveNext())
                         {
                             settings[it.peekNextKey()] = it.peekNextValue();
                         }
@@ -256,8 +255,8 @@ namespace rl
                 catch (Ogre::Exception&)
                 {
                     // Log it as information
-                    LOG_WARNING(Logger::CORE, "Configuration File " + cfg_paths[i] +
-                        mRastullahCfgFile + " - Error on parsing.");
+                    LOG_WARNING(Logger::CORE,
+                        "Configuration File " + cfg_paths[i] + mRastullahCfgFile + " - Error on parsing.");
                 }
             }
 
@@ -270,52 +269,51 @@ namespace rl
 
         if (mRastullahLogDirectory.empty())
         {
-#           if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
             mRastullahLogDirectory = "./logs";
-#           else
+#else
             mRastullahLogDirectory = Ogre::String(::getenv("HOME")) + "/.rastullah/logs";
-#           endif
+#endif
         }
 
         if (mModulesRootDirectory.empty())
         {
-#           if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
+#if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
             mModulesRootDirectory = RL_MODULEDIR;
-#           elif OGRE_PLATFORM == OGRE_PLATFORM_APPLE
+#elif OGRE_PLATFORM == OGRE_PLATFORM_APPLE
             mModulesRootDirectory = mExecutablePath + "/../Resources/modules";
-#           else
+#else
             mModulesRootDirectory = "./modules";
-#           endif
+#endif
         }
 
         if (mOgrePluginDirectory.empty())
         {
-#           if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
+#if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
             mOgrePluginDirectory = OGRE_PLUGINDIR;
-#           else
+#else
             mOgrePluginDirectory = ".";
-#           endif
+#endif
         }
 
         // Plugin list for OGRE specific to operating system
-#       if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
         addPlugin("RenderSystem_Direct3D9", mOgrePluginDirectory);
-#       endif
+#endif
         addPlugin("RenderSystem_GL", mOgrePluginDirectory);
         addPlugin("Plugin_ParticleFX", mOgrePluginDirectory);
         addPlugin("Plugin_OctreeSceneManager", mOgrePluginDirectory);
-		addPlugin("Plugin_CgProgramManager", mOgrePluginDirectory);
-	}
+        addPlugin("Plugin_CgProgramManager", mOgrePluginDirectory);
+    }
 
-	void ConfigurationManager::loadModulesConfig()
-	{
+    void ConfigurationManager::loadModulesConfig()
+    {
         // Load the module list
         ConfigFile* configfile = new ConfigFile();
         configfile->load(fs::path(mModulesRootDirectory + "/" + mModulesCfgFile).native_directory_string());
 
         ConfigFile::SettingsIterator it = configfile->getSettingsIterator();
-        for (ConfigFile::SettingsIterator it = configfile->getSettingsIterator();
-             it.hasMoreElements(); it.moveNext())
+        for (ConfigFile::SettingsIterator it = configfile->getSettingsIterator(); it.hasMoreElements(); it.moveNext())
         {
             // If key is module, we add value to our module list
             if (it.peekNextKey() == "module")
@@ -336,51 +334,45 @@ namespace rl
             cfgfile->addSection(it->first, it->second);
         }
 
-#       if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
         cfgfile->save(fs::path("./modules/config/" + mRastullahCfgFile).native_file_string());
-#       else
+#else
         cfgfile->save(Ogre::String(::getenv("HOME")) + "/.rastullah/" + mRastullahCfgFile);
-#       endif
+#endif
 
         OGRE_DELETE cfgfile;
     }
 
     Logger::LogLevel ConfigurationManager::getLogLevel() const
     {
-        return static_cast<Logger::LogLevel>(getIntSetting("General",
-            "Log Level"));
+        return static_cast<Logger::LogLevel>(getIntSetting("General", "Log Level"));
     }
 
-    Ogre::String ConfigurationManager::getStringSetting(const Ogre::String& section,
-        const Ogre::String& key) const
+    Ogre::String ConfigurationManager::getStringSetting(const Ogre::String& section, const Ogre::String& key) const
     {
         // Get the value we are looking for
         return findSetting(section, key);
     }
 
-    int ConfigurationManager::getIntSetting(const Ogre::String& section,
-        const Ogre::String& key) const
+    int ConfigurationManager::getIntSetting(const Ogre::String& section, const Ogre::String& key) const
     {
         // Get the value we are looking for
         return Ogre::StringConverter::parseInt(findSetting(section, key));
     }
 
-    bool ConfigurationManager::getBoolSetting(const Ogre::String& section,
-        const Ogre::String& key) const
+    bool ConfigurationManager::getBoolSetting(const Ogre::String& section, const Ogre::String& key) const
     {
         // Get the value we are looking for
         return Ogre::StringConverter::parseBool(findSetting(section, key));
     }
 
-    Ogre::Real ConfigurationManager::getRealSetting(const Ogre::String& section,
-        const Ogre::String& key) const
+    Ogre::Real ConfigurationManager::getRealSetting(const Ogre::String& section, const Ogre::String& key) const
     {
         // Get the value we are looking for
         return Ogre::StringConverter::parseReal(findSetting(section, key));
     }
 
-    Ogre::String ConfigurationManager::findSetting(const Ogre::String& section,
-        const Ogre::String& key) const
+    Ogre::String ConfigurationManager::findSetting(const Ogre::String& section, const Ogre::String& key) const
     {
         SectionMap::const_iterator sectionIt = mSettings.find(section);
         if (sectionIt != mSettings.end())
@@ -395,8 +387,8 @@ namespace rl
         return "";
     }
 
-    void ConfigurationManager::addSetting(const Ogre::String& section,
-        const Ogre::String& key, const Ogre::String& value)
+    void ConfigurationManager::addSetting(
+        const Ogre::String& section, const Ogre::String& key, const Ogre::String& value)
     {
         mSettings[section][key] = value;
     }
@@ -405,38 +397,39 @@ namespace rl
     {
         return Ogre::String("config/keymap-german.xml");
     }
-	
-	void ConfigurationManager::setExecutable(const Ogre::String& path)
-	{
-#       if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-		return;
-		fs::path exeAbsolute(path);
-#       else
-		fs::path exeAbsolute(path, fs::portable_posix_name);
-#		endif
-		mExecutablePath = exeAbsolute.branch_path().string();
-        std::cout << "ConfigurationManager " << "Executable is " << path << " " << mExecutablePath;
-	}
 
-	const Ogre::String& ConfigurationManager::getExecutablePath() const
-	{
-		return mExecutablePath;
-	}
+    void ConfigurationManager::setExecutable(const Ogre::String& path)
+    {
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+        return;
+        fs::path exeAbsolute(path);
+#else
+        fs::path exeAbsolute(path, fs::portable_posix_name);
+#endif
+        mExecutablePath = exeAbsolute.branch_path().string();
+        std::cout << "ConfigurationManager "
+                  << "Executable is " << path << " " << mExecutablePath;
+    }
+
+    const Ogre::String& ConfigurationManager::getExecutablePath() const
+    {
+        return mExecutablePath;
+    }
 
     void ConfigurationManager::setRastullahCfgPath()
     {
         // First try: Current directory
         addToCfgPath("./");
 
-#		if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
-		addToCfgPath(mExecutablePath + "/../Resources/modules/config/");
-#		endif
-#       if OGRE_PLATFORM != OGRE_PLATFORM_WIN32
+#if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
+        addToCfgPath(mExecutablePath + "/../Resources/modules/config/");
+#endif
+#if OGRE_PLATFORM != OGRE_PLATFORM_WIN32
         // Check system wide /etc/rastullah directory
         addToCfgPath("/etc/rastullah/");
         // Check home .rastullah directory
         addToCfgPath(Ogre::String(::getenv("HOME")) + "/.rastullah/");
-#       endif
+#endif
         addToCfgPath("./modules/config/");
     }
 
@@ -455,26 +448,24 @@ namespace rl
                 mRastullahCfgPath = path;
             }
 
-            std::cout << "Adding path " << path << " to Rastullah configuration path."
-                << std::endl;
+            std::cout << "Adding path " << path << " to Rastullah configuration path." << std::endl;
         }
     }
 
     bool ConfigurationManager::checkForFile(const Ogre::String& filename)
     {
-        try 
+        try
         {
-#           if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-			std::cout << "Checking for " << fs::complete(filename).string() << std::endl;
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+            std::cout << "Checking for " << fs::complete(filename).string() << std::endl;
             return fs::exists(filename);
-#           else
-			std::cout << "Checking for " << 
-				fs::complete(fs::path(filename, fs::portable_posix_name)).string()
-                 << std::endl;
-			return fs::exists(fs::path(filename, fs::portable_posix_name));
-#           endif
+#else
+            std::cout << "Checking for " << fs::complete(fs::path(filename, fs::portable_posix_name)).string()
+                      << std::endl;
+            return fs::exists(fs::path(filename, fs::portable_posix_name));
+#endif
         }
-        catch (fs::filesystem_error&) 
+        catch (fs::filesystem_error&)
         {
             return false;
         }
@@ -488,19 +479,19 @@ namespace rl
         // responsible for loading the proper vesion.
         Ogre::String pluginSuffix = "";
 
-#       if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
         Ogre::String dirSeparator = "\\";
-#          ifdef _DEBUG
+#ifdef _DEBUG
         pluginSuffix = "_d";
-#          endif
-#       else
+#endif
+#else
         Ogre::String dirSeparator = "/";
-#       endif
-        
-#       if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
+#endif
+
+#if OGRE_PLATFORM == OGRE_PLATFORM_APPLE
         mPluginList.push_back(plugin + pluginSuffix);
-#       else
+#else
         mPluginList.push_back(pluginDir + dirSeparator + plugin + pluginSuffix);
-#       endif
+#endif
     }
 }

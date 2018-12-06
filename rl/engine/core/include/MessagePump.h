@@ -1,27 +1,26 @@
 /* This source file is part of Rastullahs Lockenpracht.
-* Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
-* 
-*  This program is free software; you can redistribute it and/or modify
-*  it under the terms of the Clarified Artistic License.
-*
-*  This program is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  Clarified Artistic License for more details.
-*
-*  You should have received a copy of the Clarified Artistic License
-*  along with this program; if not you can get it here
-*  http://www.jpaulmorrison.com/fbp/artistic2.htm.
-*/
+ * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the Clarified Artistic License.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  Clarified Artistic License for more details.
+ *
+ *  You should have received a copy of the Clarified Artistic License
+ *  along with this program; if not you can get it here
+ *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
+ */
 
 #ifndef __Rl_MessagePump_H__
 #define __Rl_MessagePump_H__
 
 #include "CorePrerequisites.h"
 
-#include "MessageType.h"
 #include "GameTask.h"
-
+#include "MessageType.h"
 
 #include <map>
 #include <queue>
@@ -34,12 +33,13 @@ namespace rl
     class MessageHandlerWrapperBase
     {
     public:
-        virtual ~MessageHandlerWrapperBase() {}
+        virtual ~MessageHandlerWrapperBase()
+        {
+        }
         virtual bool Invoke(MessageObjectBase* obj) = 0;
     };
 
-    template<class _MessageType>
-    class MessageHandlerWrapper : public MessageHandlerWrapperBase
+    template <class _MessageType> class MessageHandlerWrapper : public MessageHandlerWrapperBase
     {
     public:
         typedef typename _MessageType::MessageObjectType MessageObjectType;
@@ -66,15 +66,19 @@ namespace rl
         class Connection
         {
             friend class MessagePump;
+
         public:
             Connection()
-                : connectionId(-1), pump(NULL)
-            {}
+                : connectionId(-1)
+                , pump(NULL)
+            {
+            }
             void disconnect()
             {
-                if(pump && connectionId != -1)
+                if (pump && connectionId != -1)
                     pump->disconnectHandler(connectionId);
             }
+
         private:
             MessagePump* pump;
             int connectionId;
@@ -84,11 +88,13 @@ namespace rl
         {
         public:
             ScopedConnection()
-            {}
+            {
+            }
             ScopedConnection(const Connection& conn)
                 : mConnection(conn)
-            {}
-            ScopedConnection& operator =(const Connection& conn)
+            {
+            }
+            ScopedConnection& operator=(const Connection& conn)
             {
                 mConnection.disconnect();
                 mConnection = conn;
@@ -98,6 +104,7 @@ namespace rl
             {
                 mConnection.disconnect();
             }
+
         private:
             Connection mConnection;
         };
@@ -114,22 +121,23 @@ namespace rl
         typedef std::queue<MessageObjectBase*> MessageQueue;
 
     public:
-        MessagePump() : mNextConnectionId(0) {}
+        MessagePump()
+            : mNextConnectionId(0)
+        {
+        }
         ~MessagePump();
 
-        template<typename _MessageType>
-        Connection addMessageHandler( const typename _MessageType::HandlerType& handler )
+        template <typename _MessageType> Connection addMessageHandler(const typename _MessageType::HandlerType& handler)
         {
-            MessageHandlerWrapper<_MessageType>* wrapper =
-                new MessageHandlerWrapper<_MessageType>(handler);
+            MessageHandlerWrapper<_MessageType>* wrapper = new MessageHandlerWrapper<_MessageType>(handler);
 
             MessageHandlerMapEntries* entries = getOrCreateMapEntries(_MessageType::MessageTypeId);
-            MessageHandlerMapEntry entry = {mNextConnectionId++, wrapper};
+            MessageHandlerMapEntry entry = { mNextConnectionId++, wrapper };
             entries->push_back(entry);
 
-            LOG_MESSAGE("MessagePump", 
-                "Added message handler for message type " 
-                + Ogre::StringConverter::toString(_MessageType::MessageTypeId));
+            LOG_MESSAGE("MessagePump",
+                "Added message handler for message type "
+                    + Ogre::StringConverter::toString(_MessageType::MessageTypeId));
 
             Connection con;
             con.pump = this;
@@ -138,28 +146,26 @@ namespace rl
         }
 
         /*
-        * sendMessage and postMessage is implemented for all possible parameter counts
-        * Thanks to the idea of SFINAE, the compiler will choose 
-        * the correct implementation for all MessageTypes at compile time
-        *
-        * sendMessage processes the message immediatly, while postMessage delays the 
-        * processing to a later frame
-        */
-        template<typename _MessageType>
-        bool sendMessage()
+         * sendMessage and postMessage is implemented for all possible parameter counts
+         * Thanks to the idea of SFINAE, the compiler will choose
+         * the correct implementation for all MessageTypes at compile time
+         *
+         * sendMessage processes the message immediatly, while postMessage delays the
+         * processing to a later frame
+         */
+        template <typename _MessageType> bool sendMessage()
         {
             MessageObjectBase* obj = _MessageType::MessageObjectType::Build();
             return doSend(obj);
         }
 
-        template<typename _MessageType>
-        bool sendMessage(const typename _MessageType::MessageObjectType::Param1& p1)
+        template <typename _MessageType> bool sendMessage(const typename _MessageType::MessageObjectType::Param1& p1)
         {
             MessageObjectBase* obj = _MessageType::MessageObjectType::Build(p1);
             return doSend(obj);
         }
 
-        template<typename _MessageType>
+        template <typename _MessageType>
         bool sendMessage(const typename _MessageType::MessageObjectType::Param1& p1,
             const typename _MessageType::MessageObjectType::Param2& p2)
         {
@@ -167,7 +173,7 @@ namespace rl
             return doSend(obj);
         }
 
-        template<typename _MessageType>
+        template <typename _MessageType>
         bool sendMessage(const typename _MessageType::MessageObjectType::Param1& p1,
             const typename _MessageType::MessageObjectType::Param2& p2,
             const typename _MessageType::MessageObjectType::Param2& p3)
@@ -178,29 +184,27 @@ namespace rl
 
         ////////////////////////////////
 
-        template<typename _MessageType>
-        void postMessage()
+        template <typename _MessageType> void postMessage()
         {
             MessageObjectBase* obj = _MessageType::MessageObjectType::Build();
             doPost(obj);
         }
 
-        template<typename _MessageType>
-        void postMessage(const typename _MessageType::MessageObjectType::Param1& p1)
+        template <typename _MessageType> void postMessage(const typename _MessageType::MessageObjectType::Param1& p1)
         {
             MessageObjectBase* obj = _MessageType::MessageObjectType::Build(p1);
             doPost(obj);
         }
 
-        template<typename _MessageType>
+        template <typename _MessageType>
         void postMessage(const typename _MessageType::MessageObjectType::Param1& p1,
             const typename _MessageType::MessageObjectType::Param2& p2)
         {
-            MessageObjectBase* obj = _MessageType::MessageObjectType::Build(p1,p2);
+            MessageObjectBase* obj = _MessageType::MessageObjectType::Build(p1, p2);
             doPost(obj);
         }
 
-        template<typename _MessageType>
+        template <typename _MessageType>
         void postMessage(const typename _MessageType::MessageObjectType::Param1& p1,
             const typename _MessageType::MessageObjectType::Param2& p2,
             const typename _MessageType::MessageObjectType::Param2& p3)
@@ -218,7 +222,7 @@ namespace rl
         virtual const Ogre::String& getName() const;
 
     private:
-        MessageHandlerMapEntries* getOrCreateMapEntries(int id); 
+        MessageHandlerMapEntries* getOrCreateMapEntries(int id);
         bool doSend(MessageObjectBase* msg);
         void doPost(MessageObjectBase* msg);
 

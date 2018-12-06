@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -23,10 +23,11 @@
 #ifndef __GameSaveLoadWindow_H__
 #define __GameSaveLoadWindow_H__
 
-#include "UiPrerequisites.h"
 #include "AbstractWindow.h"
+#include "UiPrerequisites.h"
 
-namespace rl {
+namespace rl
+{
 
     /**
      * The Save/Load window class
@@ -36,12 +37,11 @@ namespace rl {
     class _RlUiExport GameSaveLoadWindow : public AbstractWindow
     {
     public:
-
         /**
          * Constructor of the GameObject window
          */
         GameSaveLoadWindow();
-        
+
         /**
          * Destructor of the GameObject window
          */
@@ -56,8 +56,8 @@ namespace rl {
         virtual void initialize();
 
         // derived from AbstractWindow
-        bool wantsKeyToRepeat(const int &key);
-        
+        bool wantsKeyToRepeat(const int& key);
+
     private:
         bool handleLoadEvent();
         bool handleSaveEvent();
@@ -65,9 +65,9 @@ namespace rl {
         bool handleSelectSaveGame();
 
         void listSaveGames();
-        
-        CEGUI::MultiColumnList     *mSaveGameTable;     //!< SaveGame table
-        CEGUI::Editbox             *mFilename;         //!< Filename for the savegame 
+
+        CEGUI::MultiColumnList* mSaveGameTable; //!< SaveGame table
+        CEGUI::Editbox* mFilename; //!< Filename for the savegame
 
         CeGuiString mSelectionBrush;
         CeGuiString mSelectionImageset;

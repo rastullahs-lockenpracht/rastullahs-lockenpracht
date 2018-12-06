@@ -20,108 +20,105 @@
 #include <boost/smart_ptr.hpp>
 
 #include "Actor.h"
-#include "World.h"
 #include "CoreSubsystem.h"
 #include "Exception.h"
-#include "PhysicsManager.h"
 #include "PhysicalThing.h"
-
+#include "PhysicsManager.h"
+#include "World.h"
 
 using namespace Ogre;
 
-namespace rl {
+namespace rl
+{
     GameAreaType::~GameAreaType()
     {
     }
 
-    void GameAreaType::addQueryFlag( unsigned long flag  )
+    void GameAreaType::addQueryFlag(unsigned long flag)
     {
-        setQueryMask(  getQueryMask() | flag );
+        setQueryMask(getQueryMask() | flag);
     }
 
-    void GameAreaType::removeQueryFlag( unsigned long flag )
+    void GameAreaType::removeQueryFlag(unsigned long flag)
     {
-        setQueryMask(  getQueryMask() &~ flag );
+        setQueryMask(getQueryMask() & ~flag);
     }
 }
 
-
-namespace rl {
-/*
-    GameSphereAreaType::GameSphereAreaType(Vector3 center, Real radius, unsigned long mask)
-    {
-        mSphereQuery = CoreSubsystem::getSingleton().getWorld()->
-            getSceneManager()->createSphereQuery( Sphere(center,radius), mask );
-
-        // Keine Welt-Geometrie erw¸nscht, nur Movables
-        mSphereQuery->setWorldFragmentType( SceneQuery::WFT_NONE );
-    }
-
-    GameSphereAreaType::~GameSphereAreaType()
-    {
-        mSphereQuery->clearResults();
-        CoreSubsystem::getSingleton().getWorld()->getSceneManager()->destroyQuery( mSphereQuery );
-    }
-
-    ActorMap GameSphereAreaType::performQuery(  )
-    {
-        SceneQueryResult rs = mSphereQuery->execute();
-        SceneQueryResultMovableList movList = rs.movables;
-
-        ActorMap retMap;
-
-        // Durch die Ergebnis Liste iterieren
-        SceneQueryResultMovableList::iterator it;
-        for (it = movList.begin(); it != movList.end(); ++it)
+namespace rl
+{
+    /*
+        GameSphereAreaType::GameSphereAreaType(Vector3 center, Real radius, unsigned long mask)
         {
-            MovableObject* mov = *it;
-            if (!mov->getUserAny().isNull())
-            {
-                // Zur Zeit sind die einzigen an Movables gekn¸pfte Objekte Actoren
-                Actor* act = any_cast<Actor*>(mov->getUserAny());
-                retMap.insert(ActorPair(act->getName(),act));
-            }
+            mSphereQuery = CoreSubsystem::getSingleton().getWorld()->
+                getSceneManager()->createSphereQuery( Sphere(center,radius), mask );
+
+            // Keine Welt-Geometrie erw¸nscht, nur Movables
+            mSphereQuery->setWorldFragmentType( SceneQuery::WFT_NONE );
         }
 
-        return retMap;
-    }
+        GameSphereAreaType::~GameSphereAreaType()
+        {
+            mSphereQuery->clearResults();
+            CoreSubsystem::getSingleton().getWorld()->getSceneManager()->destroyQuery( mSphereQuery );
+        }
 
-    unsigned long GameSphereAreaType::getQueryMask() const
+        ActorMap GameSphereAreaType::performQuery(  )
+        {
+            SceneQueryResult rs = mSphereQuery->execute();
+            SceneQueryResultMovableList movList = rs.movables;
+
+            ActorMap retMap;
+
+            // Durch die Ergebnis Liste iterieren
+            SceneQueryResultMovableList::iterator it;
+            for (it = movList.begin(); it != movList.end(); ++it)
+            {
+                MovableObject* mov = *it;
+                if (!mov->getUserAny().isNull())
+                {
+                    // Zur Zeit sind die einzigen an Movables gekn¸pfte Objekte Actoren
+                    Actor* act = any_cast<Actor*>(mov->getUserAny());
+                    retMap.insert(ActorPair(act->getName(),act));
+                }
+            }
+
+            return retMap;
+        }
+
+        unsigned long GameSphereAreaType::getQueryMask() const
+        {
+            return mSphereQuery->getQueryMask();
+        }
+
+        void GameSphereAreaType::setQueryMask( unsigned long mask )
+        {
+            mSphereQuery->setQueryMask( mask );
+        }
+
+        void GameSphereAreaType::setQueryPosition( const Ogre::Vector3& vec )
+        {
+            // Wurde es bewegt?
+            if( vec != mSphereQuery->getSphere().getCenter( ) )
+                // Kugel muss neu erzeugt werden :(
+                mSphereQuery->setSphere( Sphere(vec,mSphereQuery->getSphere().getRadius()) );
+        }
+
+        Ogre::Vector3 GameSphereAreaType::getQueryPosition() const
+        {
+            return mSphereQuery->getSphere().getCenter( );
+        }
+    */
+
+    GameNewtonBodyAreaType::GameNewtonBodyAreaType()
+        : mBody(NULL)
+        , mTransitionDistance(0)
     {
-        return mSphereQuery->getQueryMask();
     }
-
-    void GameSphereAreaType::setQueryMask( unsigned long mask )
-    {
-        mSphereQuery->setQueryMask( mask );
-    }
-
-    void GameSphereAreaType::setQueryPosition( const Ogre::Vector3& vec )
-    {
-        // Wurde es bewegt?
-        if( vec != mSphereQuery->getSphere().getCenter( ) )
-            // Kugel muss neu erzeugt werden :(
-            mSphereQuery->setSphere( Sphere(vec,mSphereQuery->getSphere().getRadius()) );
-    }
-
-    Ogre::Vector3 GameSphereAreaType::getQueryPosition() const
-    {
-        return mSphereQuery->getSphere().getCenter( );
-    }
-*/
-
-
-
-    GameNewtonBodyAreaType::GameNewtonBodyAreaType() :
-        mBody(NULL),
-        mTransitionDistance(0)
-    {
-    }
-
 
     GameNewtonBodyAreaType::~GameNewtonBodyAreaType()
     {
-        if(mBody != NULL)
+        if (mBody != NULL)
             delete mBody;
         mBody = NULL;
     }
@@ -152,7 +149,7 @@ namespace rl {
         return pos;
     }
 
-    void GameNewtonBodyAreaType::setQueryPosition(const Vector3 &pos)
+    void GameNewtonBodyAreaType::setQueryPosition(const Vector3& pos)
     {
         Quaternion orient;
         Vector3 old_pos;
@@ -160,7 +157,7 @@ namespace rl {
         mBody->setPositionOrientation(pos, orient);
     }
 
-    void GameNewtonBodyAreaType::setQueryOrientation(const Quaternion &orient)
+    void GameNewtonBodyAreaType::setQueryOrientation(const Quaternion& orient)
     {
         Quaternion old_orient;
         Vector3 pos;
@@ -170,10 +167,10 @@ namespace rl {
 
     void GameNewtonBodyAreaType::foundCollision(Actor* actor)
     {
-        if( actor )
+        if (actor)
         {
             unsigned long flags = actor->getQueryFlags();
-            if( flags & mQueryMask )
+            if (flags & mQueryMask)
                 mFoundActors[actor->getName()] = actor;
         }
     }
@@ -183,7 +180,7 @@ namespace rl {
         mFoundActors.clear();
     }
 
-    bool GameNewtonBodyAreaType::isInside(Actor *actor)
+    bool GameNewtonBodyAreaType::isInside(Actor* actor)
     {
         return getDistance(actor) <= 0;
     }
@@ -195,23 +192,18 @@ namespace rl {
 
     Ogre::Real GameNewtonBodyAreaType::getDistance(Actor* actor)
     {
-        if(!actor)
+        if (!actor)
             Throw(NullPointerException, "Argument actor cannot be NULL!");
-        OgreNewt::World *world = 
-            PhysicsManager::getSingleton()._getNewtonWorld();
+        OgreNewt::World* world = PhysicsManager::getSingleton()._getNewtonWorld();
         Vector3 retA, retB, retNorm;
         Vector3 positionA;
         Quaternion orientationA;
         mBody->getPositionOrientation(positionA, orientationA);
-        int intRet = 
-            OgreNewt::CollisionTools::CollisionClosestPoint(
-                world,
-                mBody->getCollision(), orientationA, positionA,
-                actor->getPhysicalThing()->_getBody()->getCollision(),
-                actor->getOrientation(), actor->getPosition(),
-                retA, retB, retNorm, 0); // set threadindex to 0, I hope this is ok!
+        int intRet = OgreNewt::CollisionTools::CollisionClosestPoint(world, mBody->getCollision(), orientationA,
+            positionA, actor->getPhysicalThing()->_getBody()->getCollision(), actor->getOrientation(),
+            actor->getPosition(), retA, retB, retNorm, 0); // set threadindex to 0, I hope this is ok!
 
-        if( intRet == 0 )
+        if (intRet == 0)
             return 0;
 
         return (retA - retB).length();
@@ -222,51 +214,36 @@ namespace rl {
         return mTransitionDistance;
     }
 
-    void GameNewtonBodyAreaType::setTransitionDistance(Ogre::Real dist) 
+    void GameNewtonBodyAreaType::setTransitionDistance(Ogre::Real dist)
     {
         mTransitionDistance = dist;
     }
 
     GameMeshAreaType::GameMeshAreaType(
-            Ogre::Entity* entity,
-            GeometryType geomType,
-			Ogre::Vector3 offset,
-			Ogre::Quaternion orientation)
+        Ogre::Entity* entity, GeometryType geomType, Ogre::Vector3 offset, Ogre::Quaternion orientation)
     {
-        if(geomType == GT_MESH)
+        if (geomType == GT_MESH)
         {
-            LOG_ERROR(Logger::CORE, "Geometrie Typ 'GT_MESH' is not (yet) support by GameMeshAreaType, use GT_CONVEXHULL instead!");
+            LOG_ERROR(Logger::CORE,
+                "Geometrie Typ 'GT_MESH' is not (yet) support by GameMeshAreaType, use GT_CONVEXHULL instead!");
             geomType = GT_CONVEXHULL;
         }
-        OgreNewt::CollisionPtr col =
-            PhysicsManager::getSingleton().createCollision(entity,
-            geomType, "", offset, orientation);
-        mBody = new OgreNewt::Body(
-            PhysicsManager::getSingleton()._getNewtonWorld(),
-            col);
-        mBody->setMaterialGroupID(
-            PhysicsManager::getSingleton().getMaterialID("gamearea"));
+        OgreNewt::CollisionPtr col
+            = PhysicsManager::getSingleton().createCollision(entity, geomType, "", offset, orientation);
+        mBody = new OgreNewt::Body(PhysicsManager::getSingleton()._getNewtonWorld(), col);
+        mBody->setMaterialGroupID(PhysicsManager::getSingleton().getMaterialID("gamearea"));
 
         boost::dynamic_pointer_cast<OgreNewt::ConvexCollision>(col)->setAsTriggerVolume(true);
     }
 
     GameSimpleCollisionAreaType::GameSimpleCollisionAreaType(
-            Ogre::AxisAlignedBox aabb,
-            GeometryType geomType,
-            Ogre::Vector3 offset,
-            Ogre::Quaternion orientation)
+        Ogre::AxisAlignedBox aabb, GeometryType geomType, Ogre::Vector3 offset, Ogre::Quaternion orientation)
     {
-        OgreNewt::CollisionPtr col =
-            PhysicsManager::getSingleton().createCollision(
+        OgreNewt::CollisionPtr col = PhysicsManager::getSingleton().createCollision(
             "", aabb, geomType, offset, orientation, 0, NULL, NULL, true);
-        mBody = new OgreNewt::Body(
-            PhysicsManager::getSingleton()._getNewtonWorld(),
-            col);
-        mBody->setMaterialGroupID(
-            PhysicsManager::getSingleton().getMaterialID("gamearea"));
+        mBody = new OgreNewt::Body(PhysicsManager::getSingleton()._getNewtonWorld(), col);
+        mBody->setMaterialGroupID(PhysicsManager::getSingleton().getMaterialID("gamearea"));
 
         boost::dynamic_pointer_cast<OgreNewt::ConvexCollision>(col)->setAsTriggerVolume(true);
     }
-
 }
-

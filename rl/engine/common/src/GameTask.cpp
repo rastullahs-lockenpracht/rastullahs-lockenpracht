@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -18,35 +18,34 @@
 
 #include "GameTask.h"
 
-namespace rl 
+namespace rl
 {
 
-GameTask::GameTask(bool interruptable)
-: mInterruptable(interruptable), mPaused(false)
-{
-}
-        
-bool GameTask::isPaused() const
-{
-    return mPaused;
-}
-
-void GameTask::setPaused( bool isPaused )
-{
-    if (mInterruptable)
+    GameTask::GameTask(bool interruptable)
+        : mInterruptable(interruptable)
+        , mPaused(false)
     {
-        mPaused = isPaused;
     }
-}
 
-bool GameTask::isInterruptable() const
-{
-    return mInterruptable;
-}
+    bool GameTask::isPaused() const
+    {
+        return mPaused;
+    }
 
-void GameTask::setTimeFactor(Ogre::Real timeFactor)
-{
-}
+    void GameTask::setPaused(bool isPaused)
+    {
+        if (mInterruptable)
+        {
+            mPaused = isPaused;
+        }
+    }
 
+    bool GameTask::isInterruptable() const
+    {
+        return mInterruptable;
+    }
 
+    void GameTask::setTimeFactor(Ogre::Real timeFactor)
+    {
+    }
 }

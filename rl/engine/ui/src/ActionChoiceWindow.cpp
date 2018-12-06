@@ -16,11 +16,11 @@
 #include "stdinc.h" //precompiled header
 
 #include "ActionChoiceWindow.h"
-#include <boost/bind.hpp>
 #include <CEGUIWindowManager.h>
+#include <boost/bind.hpp>
 
-#include <set>
 #include <algorithm>
+#include <set>
 
 #include "Action.h"
 #include "ActionManager.h"
@@ -29,402 +29,361 @@
 #include "GameObject.h"
 #include "UiSubsystem.h"
 
-
 using namespace CEGUI;
 using namespace std;
 using namespace Ogre;
 
-namespace rl {
+namespace rl
+{
 
-	const int MAX_NUM_ACTIONS = 4;
-	const int MAX_NUM_SUBACTIONS = 7;
+    const int MAX_NUM_ACTIONS = 4;
+    const int MAX_NUM_SUBACTIONS = 7;
 
-	ActionChoiceWindow::ActionChoiceWindow(Creature* actor)
-		:	AbstractWindow("actionchoicewindow.xml", WIT_MOUSE_INPUT),
-			mActor(actor)
-	{
-		mHint = getWindow("ActionChoiceWindow/Hint");
-		getWindow("ActionChoiceWindow")->subscribeEvent(
-			Window::EventMouseClick,
-			boost::bind(
-				&ActionChoiceWindow::handleClickNotOnButtons,
-				this,
-				_1));
-	}
+    ActionChoiceWindow::ActionChoiceWindow(Creature* actor)
+        : AbstractWindow("actionchoicewindow.xml", WIT_MOUSE_INPUT)
+        , mActor(actor)
+    {
+        mHint = getWindow("ActionChoiceWindow/Hint");
+        getWindow("ActionChoiceWindow")
+            ->subscribeEvent(
+                Window::EventMouseClick, boost::bind(&ActionChoiceWindow::handleClickNotOnButtons, this, _1));
+    }
 
-	ActionChoiceWindow::~ActionChoiceWindow()
-	{
-		/*for (unsigned int i = 0; i<mButtons.size(); i++)
-		{
-			mWindow->removeChildWindow(mButtons[i]);
-			CEGUI::WindowManager::getSingleton().destroyWindow(mButtons[i]);
-		}
-		mButtons.clear();*/
-	}
+    ActionChoiceWindow::~ActionChoiceWindow()
+    {
+        /*for (unsigned int i = 0; i<mButtons.size(); i++)
+        {
+            mWindow->removeChildWindow(mButtons[i]);
+            CEGUI::WindowManager::getSingleton().destroyWindow(mButtons[i]);
+        }
+        mButtons.clear();*/
+    }
 
-	bool ActionChoiceWindow::handleClickNotOnButtons(const EventArgs& evt)
-	{
-		MouseEventArgs mevt = static_cast<const MouseEventArgs&>(evt);
-		if (mevt.clickCount == 1) // Doppelklicks von der Truhe rausfiltern
-		{
-			destroyWindow();
-			return true;
-		}
+    bool ActionChoiceWindow::handleClickNotOnButtons(const EventArgs& evt)
+    {
+        MouseEventArgs mevt = static_cast<const MouseEventArgs&>(evt);
+        if (mevt.clickCount == 1) // Doppelklicks von der Truhe rausfiltern
+        {
+            destroyWindow();
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	int ActionChoiceWindow::showActionsOfObject(GameObject* object)
-	{
-		LOG_DEBUG2(Logger::UI,
-			"Start", "ActionChoiceWindow::showActionsOfObject");
-		mObject = object;
+    int ActionChoiceWindow::showActionsOfObject(GameObject* object)
+    {
+        LOG_DEBUG2(Logger::UI, "Start", "ActionChoiceWindow::showActionsOfObject");
+        mObject = object;
 
-		for (unsigned int i = 0; i<mButtons.size(); i++)
-		{
-			mWindow->removeChildWindow(mButtons[i]);
-			CEGUI::WindowManager::getSingleton().destroyWindow(mButtons[i]);
-		}
-		mButtons.clear();
-		LOG_DEBUG2(Logger::UI,
-			"Buttons geloescht", "ActionChoiceWindow::showActionsOfObject");
+        for (unsigned int i = 0; i < mButtons.size(); i++)
+        {
+            mWindow->removeChildWindow(mButtons[i]);
+            CEGUI::WindowManager::getSingleton().destroyWindow(mButtons[i]);
+        }
+        mButtons.clear();
+        LOG_DEBUG2(Logger::UI, "Buttons geloescht", "ActionChoiceWindow::showActionsOfObject");
 
-		CEGUI::UVector2 center(cegui_reldim(0.5), cegui_reldim(0.5));
-		static float RADIUS = 0.10;
+        CEGUI::UVector2 center(cegui_reldim(0.5), cegui_reldim(0.5));
+        static float RADIUS = 0.10;
 
-		ActionVector actions = object->getValidActions(mActor);
-		if (actions.size() != 0)
-		{
-			LOG_DEBUG2(Logger::UI,
-				"Aktionen ermittelt", "ActionChoiceWindow::showActionsOfObject");
+        ActionVector actions = object->getValidActions(mActor);
+        if (actions.size() != 0)
+        {
+            LOG_DEBUG2(Logger::UI, "Aktionen ermittelt", "ActionChoiceWindow::showActionsOfObject");
 
-			ActionNode* actionTree = ActionNode::createActionTree(actions);
-			LOG_DEBUG2(Logger::UI,
-				"Baum erzeugt", "ActionChoiceWindow::showActionsOfObject");
-			createButtons(actionTree, center, RADIUS, 0, 360);
+            ActionNode* actionTree = ActionNode::createActionTree(actions);
+            LOG_DEBUG2(Logger::UI, "Baum erzeugt", "ActionChoiceWindow::showActionsOfObject");
+            createButtons(actionTree, center, RADIUS, 0, 360);
 
-			mButtonCancel = createButton("cancelbutton", center);
-			bindDestroyWindowToClick(mButtonCancel);
-			mWindow->addChildWindow(mButtonCancel);
+            mButtonCancel = createButton("cancelbutton", center);
+            bindDestroyWindowToClick(mButtonCancel);
+            mWindow->addChildWindow(mButtonCancel);
 
-			LOG_DEBUG2(Logger::UI,
-				"Buttons erzeugt", "ActionChoiceWindow::showActionsOfObject");
-			setButtonActions(actionTree, actionTree);
-			LOG_DEBUG2(Logger::UI,
-				"Ende", "ActionChoiceWindow::showActionsOfObject");
-		}
-		return actions.size();
-	}
+            LOG_DEBUG2(Logger::UI, "Buttons erzeugt", "ActionChoiceWindow::showActionsOfObject");
+            setButtonActions(actionTree, actionTree);
+            LOG_DEBUG2(Logger::UI, "Ende", "ActionChoiceWindow::showActionsOfObject");
+        }
+        return actions.size();
+    }
 
-	void ActionChoiceWindow::setButtonActions(ActionNode* actions, ActionNode* treeRoot)
-	{
-		PushButton* button = actions->getButton();
+    void ActionChoiceWindow::setButtonActions(ActionNode* actions, ActionNode* treeRoot)
+    {
+        PushButton* button = actions->getButton();
 
-		if (actions->isLeaf())
-		{
-			Action* action = actions->getAction();
+        if (actions->isLeaf())
+        {
+            Action* action = actions->getAction();
 
-			if (actions->getGroup() != NULL)
-				button->setVisible(false);
-			else
-				button->setVisible(true);
+            if (actions->getGroup() != NULL)
+                button->setVisible(false);
+            else
+                button->setVisible(true);
 
-			button->subscribeEvent(
-				Window::EventMouseClick,
-				boost::bind(
-					&ActionChoiceWindow::activateAction, this, action));
-			button->subscribeEvent(
-				Window::EventMouseEnters,
-				boost::bind(
-					&ActionChoiceWindow::showHint, this, action->getDescription()));
-			button->subscribeEvent(
-				Window::EventMouseLeaves,
-				boost::bind(
-					&ActionChoiceWindow::showHint, this, ""));
-		}
-		else
-		{
-			ActionGroup* gr = actions->getGroup();
+            button->subscribeEvent(
+                Window::EventMouseClick, boost::bind(&ActionChoiceWindow::activateAction, this, action));
+            button->subscribeEvent(
+                Window::EventMouseEnters, boost::bind(&ActionChoiceWindow::showHint, this, action->getDescription()));
+            button->subscribeEvent(Window::EventMouseLeaves, boost::bind(&ActionChoiceWindow::showHint, this, ""));
+        }
+        else
+        {
+            ActionGroup* gr = actions->getGroup();
 
-			if (gr != NULL && gr->getParent() != NULL)
-			{
-				button->setVisible(false);
-			}
-			else if (button != NULL)
-				button->setVisible(true);
+            if (gr != NULL && gr->getParent() != NULL)
+            {
+                button->setVisible(false);
+            }
+            else if (button != NULL)
+                button->setVisible(true);
 
-			if (button != NULL)
-			{
-				const NodeSet nodesToHide =
-					ActionNode::getAllNodesNotBelow(treeRoot, actions);
-				LOG_DEBUG2(Logger::UI,
-					StringConverter::toString(nodesToHide.size())+" nodes to hide",
-					"ActionChoiceWindow::setButtonActions");
+            if (button != NULL)
+            {
+                const NodeSet nodesToHide = ActionNode::getAllNodesNotBelow(treeRoot, actions);
+                LOG_DEBUG2(Logger::UI, StringConverter::toString(nodesToHide.size()) + " nodes to hide",
+                    "ActionChoiceWindow::setButtonActions");
 
-				for (NodeSet::const_iterator iter = nodesToHide.begin(); iter != nodesToHide.end(); iter++)
-				{
-					button->subscribeEvent(
-						Window::EventMouseEnters,
-						boost::bind(
-							&ActionChoiceWindow::setButtonVisible,
-							this,
-							(*iter)->getButton(),
-							false));
-				}
-			}
-
-			const NodeSet children = actions->getChildren();
-			for (NodeSet::const_iterator iter = children.begin(); iter != children.end(); iter++)
-			{
-				if (button != NULL)
-				{
-					button->subscribeEvent(
-						Window::EventMouseEnters,
-						boost::bind(
-							&ActionChoiceWindow::setButtonVisible,
-							this,
-							(*iter)->getButton(),
-							true));
-				}
-
-				setButtonActions(*iter, treeRoot);
-			}
-		}
-	}
-
-	bool ActionChoiceWindow::activateAction(Action* action)
-	{
-		LOG_DEBUG2(Logger::UI,
-			"Start", "ActionChoiceWindow::activateAction");
-		LOG_DEBUG2(Logger::UI,
-			action->getName().c_str(), "ActionChoiceWindow::activateAction");
-
-		//TODO: Ask for target
-        action->doAction(mObject, mActor, NULL);
-
-		LOG_DEBUG2(Logger::UI,
-			"Ende", "ActionChoiceWindow::activateAction");
-
-		destroyWindow();
-		return true;
-	}
-
-	void ActionChoiceWindow::createButtons(
-		ActionNode* actions, const CEGUI::UVector2& center,
-		float radius, float angle, float angleWidth)
-	{
-		PushButton* button = NULL;
-
-		if (actions->isLeaf())
-		{
-			button = createButton(actions->getAction()->getName(), center);
-		}
-		else
-		{
-			if (actions->getGroup() != NULL)
-			{
-				button = createButton(actions->getGroup()->getName(), center);
-			}
+                for (NodeSet::const_iterator iter = nodesToHide.begin(); iter != nodesToHide.end(); iter++)
+                {
+                    button->subscribeEvent(Window::EventMouseEnters,
+                        boost::bind(&ActionChoiceWindow::setButtonVisible, this, (*iter)->getButton(), false));
+                }
+            }
 
             const NodeSet children = actions->getChildren();
-			float angleStep = angleWidth / (float)children.size();
-			float ang = children.size()>1 ? angle - angleWidth : angle - 180;
-			for (NodeSet::const_iterator iter = children.begin();
-				iter != children.end(); iter++)
-			{
-				CEGUI::UVector2 centerChild = getPositionOnCircle(center, radius, ang);
-				createButtons(*iter, centerChild, radius, ang, 60);
-				ang += angleStep;
-			}
-		}
+            for (NodeSet::const_iterator iter = children.begin(); iter != children.end(); iter++)
+            {
+                if (button != NULL)
+                {
+                    button->subscribeEvent(Window::EventMouseEnters,
+                        boost::bind(&ActionChoiceWindow::setButtonVisible, this, (*iter)->getButton(), true));
+                }
 
-		actions->setButton(button);
-		if (button != NULL)
-			mWindow->addChildWindow(button);
-	}
+                setButtonActions(*iter, treeRoot);
+            }
+        }
+    }
 
-	PushButton* ActionChoiceWindow::createButton(const CeGuiString& name, const CEGUI::UVector2& pos)
-	{
-		Window* button = AbstractWindow::loadWindow("buttons/"+name+".xml");
-		if (button == NULL)
-		{
-			button = AbstractWindow::loadWindow("buttons/defaultbutton.xml");
-		}
+    bool ActionChoiceWindow::activateAction(Action* action)
+    {
+        LOG_DEBUG2(Logger::UI, "Start", "ActionChoiceWindow::activateAction");
+        LOG_DEBUG2(Logger::UI, action->getName().c_str(), "ActionChoiceWindow::activateAction");
 
-		CEGUI::UVector2 size = button->getSize();
-		button->setPosition(pos - size * UVector2(cegui_reldim(0.5), cegui_reldim(0.5)));
-		return static_cast<PushButton*>(button);
-	}
+        // TODO: Ask for target
+        action->doAction(mObject, mActor, NULL);
 
-	bool ActionChoiceWindow::setButtonVisible(PushButton* button, bool visible)
-	{
-		Ogre::String showHide;
+        LOG_DEBUG2(Logger::UI, "Ende", "ActionChoiceWindow::activateAction");
 
-		if (visible)
-			showHide = "Show ";
-		else
-			showHide = "Hide ";
+        destroyWindow();
+        return true;
+    }
 
-		if (button == NULL)
-		{
-			LOG_DEBUG2(Logger::UI, showHide + "NULL", "ActionChoiceWindow::setButtonVisible");
-			return true;
-		}
+    void ActionChoiceWindow::createButtons(
+        ActionNode* actions, const CEGUI::UVector2& center, float radius, float angle, float angleWidth)
+    {
+        PushButton* button = NULL;
 
-		LOG_DEBUG(Logger::UI, showHide + button->getName());
-		//CEGUI::Point p = button->getRelativePosition();
-		//LOG_DEBUG(Logger::UI,
-		//	"("+StringConverter::toString(p.d_x)+", "+StringConverter::toString(p.d_y)+")");
+        if (actions->isLeaf())
+        {
+            button = createButton(actions->getAction()->getName(), center);
+        }
+        else
+        {
+            if (actions->getGroup() != NULL)
+            {
+                button = createButton(actions->getGroup()->getName(), center);
+            }
 
-		if (visible)
-			button->show();
-		else
-			button->hide();
-		return true;
-	}
+            const NodeSet children = actions->getChildren();
+            float angleStep = angleWidth / (float)children.size();
+            float ang = children.size() > 1 ? angle - angleWidth : angle - 180;
+            for (NodeSet::const_iterator iter = children.begin(); iter != children.end(); iter++)
+            {
+                CEGUI::UVector2 centerChild = getPositionOnCircle(center, radius, ang);
+                createButtons(*iter, centerChild, radius, ang, 60);
+                ang += angleStep;
+            }
+        }
 
-	bool ActionChoiceWindow::showHint(const CeGuiString& hint)
-	{
-		mHint->setText(hint);
-		return true;
-	}
+        actions->setButton(button);
+        if (button != NULL)
+            mWindow->addChildWindow(button);
+    }
 
-	CEGUI::UVector2 ActionChoiceWindow::getPositionOnCircle(
-		const CEGUI::UVector2& center, float radius, float angle)
-	{
-		//LOG_DEBUG(Logger::UI,
-		//	"center="+StringConverter::toString(center.d_x)+","+StringConverter::toString(center.d_y)+
-		//	" radius="+StringConverter::toString(radius)+
-		//	" angle="+StringConverter::toString(angle)
-		//	);
-		static const float PI = 3.1415926;
+    PushButton* ActionChoiceWindow::createButton(const CeGuiString& name, const CEGUI::UVector2& pos)
+    {
+        Window* button = AbstractWindow::loadWindow("buttons/" + name + ".xml");
+        if (button == NULL)
+        {
+            button = AbstractWindow::loadWindow("buttons/defaultbutton.xml");
+        }
 
-		float relX = radius * sin(PI * angle/180);
-		float relY = radius * cos(PI * angle/180);
+        CEGUI::UVector2 size = button->getSize();
+        button->setPosition(pos - size * UVector2(cegui_reldim(0.5), cegui_reldim(0.5)));
+        return static_cast<PushButton*>(button);
+    }
 
-		LOG_DEBUG(Logger::UI,
-			"diff="+StringConverter::toString(relX)+","+StringConverter::toString(relY));
+    bool ActionChoiceWindow::setButtonVisible(PushButton* button, bool visible)
+    {
+        Ogre::String showHide;
 
+        if (visible)
+            showHide = "Show ";
+        else
+            showHide = "Hide ";
 
-		return center + CEGUI::UVector2(cegui_reldim(relX), cegui_reldim(relY));
-	}
+        if (button == NULL)
+        {
+            LOG_DEBUG2(Logger::UI, showHide + "NULL", "ActionChoiceWindow::setButtonVisible");
+            return true;
+        }
 
-	ActionChoiceWindow::ActionNode*
-        ActionChoiceWindow::ActionNode::createActionTree(const ActionVector& actions, ActionGroup* rootGroup)
-	{
-		ActionNode* root = new ActionNode(false);
-		root->setGroup(rootGroup);
+        LOG_DEBUG(Logger::UI, showHide + button->getName());
+        // CEGUI::Point p = button->getRelativePosition();
+        // LOG_DEBUG(Logger::UI,
+        //	"("+StringConverter::toString(p.d_x)+", "+StringConverter::toString(p.d_y)+")");
 
-		std::set<ActionGroup*> groups;
-		ActionVector rest;
+        if (visible)
+            button->show();
+        else
+            button->hide();
+        return true;
+    }
 
-		for (ActionVector::const_iterator iter = actions.begin(); iter != actions.end(); iter++)
-		{
-			Action* action = *iter;
+    bool ActionChoiceWindow::showHint(const CeGuiString& hint)
+    {
+        mHint->setText(hint);
+        return true;
+    }
 
-			ActionGroup* group = action->getGroup();
-			if (group == NULL || group == rootGroup ) 
-			{
-				rest.push_back(action);
-			}
-			else if (groups.find(group) == groups.end())
-			{
-				groups.insert(group);
-			}
-		}
+    CEGUI::UVector2 ActionChoiceWindow::getPositionOnCircle(const CEGUI::UVector2& center, float radius, float angle)
+    {
+        // LOG_DEBUG(Logger::UI,
+        //	"center="+StringConverter::toString(center.d_x)+","+StringConverter::toString(center.d_y)+
+        //	" radius="+StringConverter::toString(radius)+
+        //	" angle="+StringConverter::toString(angle)
+        //	);
+        static const float PI = 3.1415926;
 
-		if (actions.size() / 1.2 <= rest.size() + groups.size())
-		{
-			groups.clear();
-			rest = actions;
-		}
+        float relX = radius * sin(PI * angle / 180);
+        float relY = radius * cos(PI * angle / 180);
 
-		for (std::set<ActionGroup*>::iterator groupIter = groups.begin();
-			 groupIter != groups.end(); groupIter++)
-		{
-			ActionVector actionsThisGroup;
-			ActionGroup* thisGroup = *groupIter;
+        LOG_DEBUG(Logger::UI, "diff=" + StringConverter::toString(relX) + "," + StringConverter::toString(relY));
 
-			for (ActionVector::const_iterator actionIter = actions.begin();
-				 actionIter != actions.end(); actionIter++)
-			{
-				Action* action = *actionIter;
-				if (action->getGroup() == thisGroup)
-					actionsThisGroup.push_back(action);
-			}
+        return center + CEGUI::UVector2(cegui_reldim(relX), cegui_reldim(relY));
+    }
 
-			if (actionsThisGroup.size() > 0)
-			{
-				ActionNode* actionNodeGroup = createActionTree(actionsThisGroup, thisGroup);
-				root->addChild(actionNodeGroup);
-			}
-		}
+    ActionChoiceWindow::ActionNode* ActionChoiceWindow::ActionNode::createActionTree(
+        const ActionVector& actions, ActionGroup* rootGroup)
+    {
+        ActionNode* root = new ActionNode(false);
+        root->setGroup(rootGroup);
 
-		for (ActionVector::iterator iter = rest.begin(); iter != rest.end(); iter++)
-		{
-			ActionNode* node = new ActionNode(true);
-			node->setAction(*iter);
-			root->addChild(node);
-		}
+        std::set<ActionGroup*> groups;
+        ActionVector rest;
 
-		return root;
-	}
+        for (ActionVector::const_iterator iter = actions.begin(); iter != actions.end(); iter++)
+        {
+            Action* action = *iter;
 
-	void ActionChoiceWindow::ActionNode::addChild(ActionChoiceWindow::ActionNode* child)
-	{
-		child->setParent(this);
-		mChildren.insert(child);
-	}
+            ActionGroup* group = action->getGroup();
+            if (group == NULL || group == rootGroup)
+            {
+                rest.push_back(action);
+            }
+            else if (groups.find(group) == groups.end())
+            {
+                groups.insert(group);
+            }
+        }
+
+        if (actions.size() / 1.2 <= rest.size() + groups.size())
+        {
+            groups.clear();
+            rest = actions;
+        }
+
+        for (std::set<ActionGroup*>::iterator groupIter = groups.begin(); groupIter != groups.end(); groupIter++)
+        {
+            ActionVector actionsThisGroup;
+            ActionGroup* thisGroup = *groupIter;
+
+            for (ActionVector::const_iterator actionIter = actions.begin(); actionIter != actions.end(); actionIter++)
+            {
+                Action* action = *actionIter;
+                if (action->getGroup() == thisGroup)
+                    actionsThisGroup.push_back(action);
+            }
+
+            if (actionsThisGroup.size() > 0)
+            {
+                ActionNode* actionNodeGroup = createActionTree(actionsThisGroup, thisGroup);
+                root->addChild(actionNodeGroup);
+            }
+        }
+
+        for (ActionVector::iterator iter = rest.begin(); iter != rest.end(); iter++)
+        {
+            ActionNode* node = new ActionNode(true);
+            node->setAction(*iter);
+            root->addChild(node);
+        }
+
+        return root;
+    }
+
+    void ActionChoiceWindow::ActionNode::addChild(ActionChoiceWindow::ActionNode* child)
+    {
+        child->setParent(this);
+        mChildren.insert(child);
+    }
 
     const ActionChoiceWindow::NodeSet& ActionChoiceWindow::ActionNode::getChildren()
-	{
-		return mChildren;
-	}
+    {
+        return mChildren;
+    }
 
     void ActionChoiceWindow::ActionNode::getAllNodes(ActionNode* treeRoot, NodeSet& nodes)
-	{
-		nodes.insert(treeRoot);
-		const NodeSet children = treeRoot->getChildren();
+    {
+        nodes.insert(treeRoot);
+        const NodeSet children = treeRoot->getChildren();
 
-		for (NodeSet::const_iterator iter = children.begin(); iter != children.end(); iter++)
-			getAllNodes(*iter, nodes);
-	}
+        for (NodeSet::const_iterator iter = children.begin(); iter != children.end(); iter++)
+            getAllNodes(*iter, nodes);
+    }
 
-	ActionChoiceWindow::NodeSet ActionChoiceWindow::ActionNode::getAllNodesNotBelow(
-		ActionNode* treeRoot, ActionChoiceWindow::ActionNode* targetNode)
-	{
-		NodeSet allNodes;
-		getAllNodes(treeRoot, allNodes);
+    ActionChoiceWindow::NodeSet ActionChoiceWindow::ActionNode::getAllNodesNotBelow(
+        ActionNode* treeRoot, ActionChoiceWindow::ActionNode* targetNode)
+    {
+        NodeSet allNodes;
+        getAllNodes(treeRoot, allNodes);
 
-		NodeSet nodes;
-		for (NodeSet::iterator iter = allNodes.begin(); iter != allNodes.end(); iter++)
-		{
-			bool leaveOut = false;
+        NodeSet nodes;
+        for (NodeSet::iterator iter = allNodes.begin(); iter != allNodes.end(); iter++)
+        {
+            bool leaveOut = false;
 
-			if ((*iter)->getParent() == treeRoot ||
-				*iter == targetNode ||
-				(*iter)->getButton() == NULL)
-			{
-				leaveOut = true;
-				continue;
-			}
+            if ((*iter)->getParent() == treeRoot || *iter == targetNode || (*iter)->getButton() == NULL)
+            {
+                leaveOut = true;
+                continue;
+            }
 
-			ActionNode* node = *iter;
-			while(node->getParent() != NULL)
-			{
-				node = node->getParent();
-				if (node == targetNode)
-				{
-					leaveOut = true;
-					continue;
-				}
-			}
+            ActionNode* node = *iter;
+            while (node->getParent() != NULL)
+            {
+                node = node->getParent();
+                if (node == targetNode)
+                {
+                    leaveOut = true;
+                    continue;
+                }
+            }
 
-			if (!leaveOut)
-				nodes.insert(*iter);
-		}
+            if (!leaveOut)
+                nodes.insert(*iter);
+        }
 
-		return nodes;
-	}
-
+        return nodes;
+    }
 }

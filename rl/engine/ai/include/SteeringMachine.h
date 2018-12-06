@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -21,28 +21,32 @@
 
 namespace rl
 {
-	class SteeringVehicle;
-	//! typedefinition for ruby interface
-	typedef FuzzyState<SteeringVehicle> SteeringBehaviour;
-//	typedef FuzzyStateMachine<Agent> SteeringMachine;
-	/** SteeringMachine responsible for steering a Vehicle.
-	 */
-	class SteeringMachine : public FuzzyStateMachine<SteeringVehicle>
-	{
-	public:
-		/** Constructor
-		 * sets parent and controller for the FuzzyStateMachine
-		 * @param parent gives the parent FuzzyState object
-		 * @param controller sets the controller object
-		 */
-		SteeringMachine(SteeringBehaviour* parent, SteeringVehicle* controller)
-			: FuzzyStateMachine<SteeringVehicle>(parent, controller) {}
+    class SteeringVehicle;
+    //! typedefinition for ruby interface
+    typedef FuzzyState<SteeringVehicle> SteeringBehaviour;
+    //	typedef FuzzyStateMachine<Agent> SteeringMachine;
+    /** SteeringMachine responsible for steering a Vehicle.
+     */
+    class SteeringMachine : public FuzzyStateMachine<SteeringVehicle>
+    {
+    public:
+        /** Constructor
+         * sets parent and controller for the FuzzyStateMachine
+         * @param parent gives the parent FuzzyState object
+         * @param controller sets the controller object
+         */
+        SteeringMachine(SteeringBehaviour* parent, SteeringVehicle* controller)
+            : FuzzyStateMachine<SteeringVehicle>(parent, controller)
+        {
+        }
 
-		/** returns the type 
-		 * @returns CeGuiString containing SteeringMachine as a typestring
-		 */
-		virtual CeGuiString getType() { return "SteeringMachine"; }
-	};
-	
+        /** returns the type
+         * @returns CeGuiString containing SteeringMachine as a typestring
+         */
+        virtual CeGuiString getType()
+        {
+            return "SteeringMachine";
+        }
+    };
 }
 #endif

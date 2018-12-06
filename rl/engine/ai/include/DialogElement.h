@@ -21,7 +21,6 @@
 #include "DialogCondition.h"
 #include "DialogVariable.h"
 
-
 namespace rl
 {
     class DialogParagraph;
@@ -47,15 +46,14 @@ namespace rl
         std::list<DialogParagraph*> mParagraphs;
     };
 
-    template<class DialogElementType>
-    class DialogSelection : public DialogElementType
+    template <class DialogElementType> class DialogSelection : public DialogElementType
     {
     public:
         DialogSelection(const CeGuiString& id, const CeGuiString& person)
-            : DialogElementType(id, person), mVariable(NULL)
+            : DialogElementType(id, person)
+            , mVariable(NULL)
         {
         }
-
 
         ~DialogSelection()
         {
@@ -73,7 +71,8 @@ namespace rl
 
         virtual const CeGuiString& getConditionVariableType()
         {
-            RlAssert(mVariable, CeGuiString("No variable found for option with id: " + DialogElementType::getId()).c_str());
+            RlAssert(
+                mVariable, CeGuiString("No variable found for option with id: " + DialogElementType::getId()).c_str());
             return mVariable->getType();
         }
 
@@ -100,7 +99,7 @@ namespace rl
             // Recalculate switch variable on start, keep for whole switch evaluation
             if (mVariable)
             {
-                    mVariable->invalidate();
+                mVariable->invalidate();
             }
 
             for (typename CondElemMap::const_iterator it = mElements.begin(); it != mElements.end(); ++it)
@@ -122,11 +121,10 @@ namespace rl
         }
 
     private:
-        typedef std::vector<std::pair<DialogCondition*, DialogElementType*> > CondElemMap;
+        typedef std::vector<std::pair<DialogCondition*, DialogElementType*>> CondElemMap;
         CondElemMap mElements;
         DialogVariable* mVariable;
     };
-
 }
 
 #endif // __DialogElement_H__

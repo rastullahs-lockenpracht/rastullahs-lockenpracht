@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -22,23 +22,23 @@
 
 namespace rl
 {
-	class SaveAbleFactory : public Ogre::Singleton<SaveAbleFactory>
-	{
-	public:
-		virtual SaveAblePtr createSaveAble(PropertyRecordPtr params) = 0;
-	};
+    class SaveAbleFactory : public Ogre::Singleton<SaveAbleFactory>
+    {
+    public:
+        virtual SaveAblePtr createSaveAble(PropertyRecordPtr params) = 0;
+    };
 
-	class SaveAbleFactoryPool : public Ogre::Singleton<SaveAbleFactoryPool>
-	{
-	public:
-		void registerFactory(const Ogre::String &key, SaveAbleFactory* fac);
-		void unregisterFactory(const Ogre::String &key);
-		void unregisterFactory(SaveAbleFactory* fac);
-		SaveAbleFactory* getFactory(const Ogre::String &key);
-	protected:
-		std::map<Ogre::String,SaveAbleFactory*> mFactories;
-	};
+    class SaveAbleFactoryPool : public Ogre::Singleton<SaveAbleFactoryPool>
+    {
+    public:
+        void registerFactory(const Ogre::String& key, SaveAbleFactory* fac);
+        void unregisterFactory(const Ogre::String& key);
+        void unregisterFactory(SaveAbleFactory* fac);
+        SaveAbleFactory* getFactory(const Ogre::String& key);
+
+    protected:
+        std::map<Ogre::String, SaveAbleFactory*> mFactories;
+    };
 }
 
 #endif
-

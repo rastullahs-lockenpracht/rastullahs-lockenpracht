@@ -20,21 +20,21 @@
 #include "Quest.h"
 #include "QuestBook.h"
 
-namespace rl {
-
-QuestEvent::QuestEvent( QuestBook* src, int reason )
-	: EventObject(src, reason)
+namespace rl
 {
-}
 
-void QuestEvent::setQuest(Quest* quest)
-{
-	mQuest = quest;
-}
+    QuestEvent::QuestEvent(QuestBook* src, int reason)
+        : EventObject(src, reason)
+    {
+    }
 
-Quest* QuestEvent::getQuest()
-{
-	return mQuest;
-}
+    void QuestEvent::setQuest(Quest* quest)
+    {
+        mQuest = quest;
+    }
 
+    Quest* QuestEvent::getQuest()
+    {
+        return mQuest;
+    }
 }

@@ -5,11 +5,10 @@
 
 namespace rl
 {
-    Talentgruppe::Talentgruppe(int id,
-                               const std::string& name,
-                               const std::string& description) : mId(id),
-                                                                 mName(name),
-                                                                 mDescription(description)
+    Talentgruppe::Talentgruppe(int id, const std::string& name, const std::string& description)
+        : mId(id)
+        , mName(name)
+        , mDescription(description)
     {
     }
 

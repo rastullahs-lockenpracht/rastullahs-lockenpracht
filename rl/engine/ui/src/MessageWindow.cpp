@@ -17,82 +17,79 @@
 
 #include <boost/bind.hpp>
 
-#include "MessageWindow.h"
 #include "CEGUIPropertyHelper.h"
+#include "MessageWindow.h"
 
 using namespace CEGUI;
 
-namespace rl {
-
-MessageWindow::MessageWindow(
-    const CeGuiString& title, 
-    const CeGuiString& text, 
-    const Buttons buttons)
-    : AbstractWindow("messagewindow.xml", WIT_MOUSE_INPUT)
+namespace rl
 {
-    mTextField = getWindow("MessageWindow/Text");
-	centerWindow();
 
-    setTitle(title);
-    setText(text);
-    setButtons(getButtonTexts(buttons));
-}
-
-void MessageWindow::setText(const CeGuiString& message)
-{
-	mTextField->setText(message);
-}
-
-void MessageWindow::setTitle(const rl::CeGuiString &title)
-{
-    mWindow->setText(title);
-}
-
-const CeGuiStringVector MessageWindow::getButtonTexts(const MessageWindow::Buttons buttons) const
-{
-    CeGuiStringVector rval;
-    if (buttons == OK)
+    MessageWindow::MessageWindow(const CeGuiString& title, const CeGuiString& text, const Buttons buttons)
+        : AbstractWindow("messagewindow.xml", WIT_MOUSE_INPUT)
     {
-        rval.push_back("Okay");
+        mTextField = getWindow("MessageWindow/Text");
+        centerWindow();
+
+        setTitle(title);
+        setText(text);
+        setButtons(getButtonTexts(buttons));
     }
-    else if (buttons == YES_NO)
+
+    void MessageWindow::setText(const CeGuiString& message)
     {
-        rval.push_back("Ja");
-        rval.push_back("Nein");
+        mTextField->setText(message);
     }
-    return rval;
-}
 
-bool MessageWindow::onButtonClicked(int button, const rl::CeGuiString &text)
-{
-    return true;
-}
-
-void MessageWindow::setButtons(const CeGuiStringVector& texts)
-{
-    for (int btnCount = 1; btnCount <= 3; ++btnCount)
+    void MessageWindow::setTitle(const rl::CeGuiString& title)
     {
-        Window* buttonPanel = getWindow(("MessageWindow/ButtonPanel_"+CEGUI::PropertyHelper::intToString(btnCount)).c_str());
-        
-        if (btnCount == texts.size())
+        mWindow->setText(title);
+    }
+
+    const CeGuiStringVector MessageWindow::getButtonTexts(const MessageWindow::Buttons buttons) const
+    {
+        CeGuiStringVector rval;
+        if (buttons == OK)
         {
-            buttonPanel->setVisible(true);
-            mButtonPanel = buttonPanel;
+            rval.push_back("Okay");
         }
-        else
+        else if (buttons == YES_NO)
         {
-            buttonPanel->setVisible(false);
+            rval.push_back("Ja");
+            rval.push_back("Nein");
+        }
+        return rval;
+    }
+
+    bool MessageWindow::onButtonClicked(int button, const rl::CeGuiString& text)
+    {
+        return true;
+    }
+
+    void MessageWindow::setButtons(const CeGuiStringVector& texts)
+    {
+        for (int btnCount = 1; btnCount <= 3; ++btnCount)
+        {
+            Window* buttonPanel
+                = getWindow(("MessageWindow/ButtonPanel_" + CEGUI::PropertyHelper::intToString(btnCount)).c_str());
+
+            if (btnCount == texts.size())
+            {
+                buttonPanel->setVisible(true);
+                mButtonPanel = buttonPanel;
+            }
+            else
+            {
+                buttonPanel->setVisible(false);
+            }
+        }
+
+        for (size_t btnIdx = 0; btnIdx < texts.size(); ++btnIdx)
+        {
+            Window* btn = mButtonPanel->getChildAtIdx(btnIdx);
+            btn->setText(texts[btnIdx]);
+            btn->subscribeEvent(
+                Window::EventMouseClick, boost::bind(&MessageWindow::onButtonClicked, this, btnIdx, texts[btnIdx]));
         }
     }
-
-    for (size_t btnIdx = 0; btnIdx < texts.size(); ++btnIdx)
-    {
-        Window* btn = mButtonPanel->getChildAtIdx(btnIdx);
-        btn->setText(texts[btnIdx]);
-        btn->subscribeEvent(Window::EventMouseClick,
-            boost::bind(&MessageWindow::onButtonClicked, this, btnIdx, texts[btnIdx]));
-    }
-}
-
-
 }

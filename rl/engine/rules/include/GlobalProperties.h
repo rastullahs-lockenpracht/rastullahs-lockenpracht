@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -24,10 +24,9 @@
 
 namespace rl
 {
-    class _RlRulesExport GlobalProperties 
-        : public PropertyHolder, 
-        public Ogre::Singleton<GlobalProperties>, 
-        public SaveGameData
+    class _RlRulesExport GlobalProperties : public PropertyHolder,
+                                            public Ogre::Singleton<GlobalProperties>,
+                                            public SaveGameData
     {
     public:
         /** Default Constructor */
@@ -47,10 +46,10 @@ namespace rl
         virtual void writeData(SaveGameFileWriter* writer);
         virtual void readData(SaveGameFileReader* reader);
         virtual int getPriority() const;
+
     protected:
         PropertyRecord mProperties;
     };
 }
 
 #endif
-

@@ -21,41 +21,40 @@
 // Fr Intersection und so :)
 #include <algorithm>
 
-namespace rl {
+namespace rl
+{
 
-    GameAreaEventSource::GameAreaEventSource( GameAreaType* areaType, Actor* act ) :
-        mAreaType( areaType ),
-        mInsideAreaList(),
-        mAreaEventCaster(),
-        mActor(act)
+    GameAreaEventSource::GameAreaEventSource(GameAreaType* areaType, Actor* act)
+        : mAreaType(areaType)
+        , mInsideAreaList()
+        , mAreaEventCaster()
+        , mActor(act)
     {
-
     }
 
     GameAreaEventSource::~GameAreaEventSource()
     {
         ActorMap::iterator iter;
-        for( iter = mInsideAreaList.begin(); iter != mInsideAreaList.end(); iter++)
+        for (iter = mInsideAreaList.begin(); iter != mInsideAreaList.end(); iter++)
             iter->second->removeFromGameArea(this);
         mInsideAreaList.clear();
-        removeAllAreaListeners(  );
+        removeAllAreaListeners();
     }
 
-
-    void GameAreaEventSource::performQuery( Ogre::Real timePassed )
+    void GameAreaEventSource::performQuery(Ogre::Real timePassed)
     {
-		// Ohne Listener ist der Query unwichtig...
-		if( !mAreaEventCaster.hasEventListeners() )
-			return;
+        // Ohne Listener ist der Query unwichtig...
+        if (!mAreaEventCaster.hasEventListeners())
+            return;
 
         // Position bertragen
-        if( mActor )
-            mAreaType->setQueryPosition( mActor->getWorldPosition() );
+        if (mActor)
+            mAreaType->setQueryPosition(mActor->getWorldPosition());
         ActorMap currInside = mAreaType->performQuery();
         // Der Actor um den herum die Quelle ist, wird vermutlich auch gefunden :)
         // Also rausl�chen
-        if( mActor )
-            currInside.erase( mActor->getName() );
+        if (mActor)
+            currInside.erase(mActor->getName());
 
         ActorMap enteredMap, leftMap;
         // EinfuegeIteratoren erstellen
@@ -63,103 +62,100 @@ namespace rl {
         std::insert_iterator<ActorMap> leftInsert(leftMap, leftMap.begin());
 
         // Alle feststellen die rausgefallen sind
-        std::set_difference( mInsideAreaList.begin(), mInsideAreaList.end(),
-                        currInside.begin(), currInside.end(), leftInsert );
+        std::set_difference(
+            mInsideAreaList.begin(), mInsideAreaList.end(), currInside.begin(), currInside.end(), leftInsert);
 
         // Alle feststellen die neu hinzugekommen sind
-        std::set_difference( currInside.begin(), currInside.end(),
-            mInsideAreaList.begin(), mInsideAreaList.end(), enteredInsert );
+        std::set_difference(
+            currInside.begin(), currInside.end(), mInsideAreaList.begin(), mInsideAreaList.end(), enteredInsert);
 
         // diejenigen die rausgefallen sind, aber noch nicht den noetigen abstand haben, wieder hinzufuegen
         ActorMap reallyLeftMap;
         ActorMap notReallyLeftMap;
         ActorMap::iterator it = leftMap.begin();
-        for( ; it != leftMap.end(); it++ )
+        for (; it != leftMap.end(); it++)
         {
-            if( mAreaType->getDistance(it->second) <= mAreaType->getTransitionDistance() )
-                notReallyLeftMap.insert( *it );
+            if (mAreaType->getDistance(it->second) <= mAreaType->getTransitionDistance())
+                notReallyLeftMap.insert(*it);
             else
-                reallyLeftMap.insert( *it );
+                reallyLeftMap.insert(*it);
         }
 
         // Die �riggebliebenen in mInsideAreaList speichern
-        //mInsideAreaList = currInside + notReallyLeftMap;
+        // mInsideAreaList = currInside + notReallyLeftMap;
         mInsideAreaList = currInside;
         mInsideAreaList.insert(notReallyLeftMap.begin(), notReallyLeftMap.end());
-        
+
         // die aktoren davon benachrichtigen
-        for(it = enteredMap.begin(); it != enteredMap.end(); it++)
+        for (it = enteredMap.begin(); it != enteredMap.end(); it++)
             it->second->addToGameArea(this);
-        for(it = reallyLeftMap.begin(); it != reallyLeftMap.end(); it++)
+        for (it = reallyLeftMap.begin(); it != reallyLeftMap.end(); it++)
             it->second->removeFromGameArea(this);
 
         // Die Neuen und die Rausgefallenen an die Listener dispatchen
-		doDispatchEvents( enteredMap, reallyLeftMap );
+        doDispatchEvents(enteredMap, reallyLeftMap);
     }
 
-    void GameAreaEventSource::doDispatchEvents(
-        const ActorMap& enteringActors, const ActorMap& leavingActors )
+    void GameAreaEventSource::doDispatchEvents(const ActorMap& enteringActors, const ActorMap& leavingActors)
     {
         ActorMap::const_iterator it;
         Actor* actor;
 
-        GameAreaEvent* event = new GameAreaEvent( this, GameAreaEvent::AREA_LEFT );
+        GameAreaEvent* event = new GameAreaEvent(this, GameAreaEvent::AREA_LEFT);
         // Erst werden alle Listener fr jedes verlassende Object einmal benachrichtigt
-        for( it = leavingActors.begin(); it != leavingActors.end();++it)
+        for (it = leavingActors.begin(); it != leavingActors.end(); ++it)
         {
             actor = it->second;
-            event->setProvokingActor( actor );
-            mAreaEventCaster.dispatchEvent( event );
+            event->setProvokingActor(actor);
+            mAreaEventCaster.dispatchEvent(event);
         }
 
-        event->setReason( GameAreaEvent::AREA_ENTERED );
+        event->setReason(GameAreaEvent::AREA_ENTERED);
         // Dann werden alle Listener fr jedes betretende Object einmal benachrichtigt
-        for( it = enteringActors.begin(); it != enteringActors.end();++it)
+        for (it = enteringActors.begin(); it != enteringActors.end(); ++it)
         {
             actor = it->second;
-            event->setProvokingActor( actor );
-            mAreaEventCaster.dispatchEvent( event );
+            event->setProvokingActor(actor);
+            mAreaEventCaster.dispatchEvent(event);
         }
         delete event;
     }
 
-    void GameAreaEventSource::addAreaListener( GameAreaListener*  list )
+    void GameAreaEventSource::addAreaListener(GameAreaListener* list)
     {
-        if( !mAreaEventCaster.containsListener(list) )
+        if (!mAreaEventCaster.containsListener(list))
         {
-            mAreaEventCaster.addEventListener( list );
+            mAreaEventCaster.addEventListener(list);
             // Owned ;)
-            ScriptWrapper::getSingleton().owned( list );
+            ScriptWrapper::getSingleton().owned(list);
         }
     }
 
-    void GameAreaEventSource::removeAreaListener( GameAreaListener* list )
+    void GameAreaEventSource::removeAreaListener(GameAreaListener* list)
     {
-        if( mAreaEventCaster.containsListener(list) )
+        if (mAreaEventCaster.containsListener(list))
         {
-            mAreaEventCaster.removeEventListener( list );
+            mAreaEventCaster.removeEventListener(list);
             // Nicht mehr gebraucht
-            ScriptWrapper::getSingleton().disowned( list );
+            ScriptWrapper::getSingleton().disowned(list);
         }
     }
 
-    void GameAreaEventSource::removeAllAreaListeners(  )
+    void GameAreaEventSource::removeAllAreaListeners()
     {
-        EventCaster<GameAreaEvent>::EventSet arSet
-            = mAreaEventCaster.getEventSet();
-        EventCaster<GameAreaEvent>::EventSet::iterator iter
-            = arSet.begin();
-        for (iter; iter != arSet.end(); )
+        EventCaster<GameAreaEvent>::EventSet arSet = mAreaEventCaster.getEventSet();
+        EventCaster<GameAreaEvent>::EventSet::iterator iter = arSet.begin();
+        for (iter; iter != arSet.end();)
         {
             EventListener<GameAreaEvent>* ev = *iter;
-            GameAreaListener* gal = dynamic_cast<GameAreaListener*>( ev );
-            ScriptWrapper::getSingleton().disowned( gal );
+            GameAreaListener* gal = dynamic_cast<GameAreaListener*>(ev);
+            ScriptWrapper::getSingleton().disowned(gal);
             iter++;
         }
         mAreaEventCaster.removeEventListeners();
     }
 
-    bool GameAreaEventSource::hasListeners( ) const
+    bool GameAreaEventSource::hasListeners() const
     {
         return mAreaEventCaster.hasEventListeners();
     }
@@ -167,8 +163,7 @@ namespace rl {
     void GameAreaEventSource::notifyActorDeleted(Actor* actor)
     {
         ActorMap::iterator iter = mInsideAreaList.find(actor->getName());
-        if( iter != mInsideAreaList.end() )
+        if (iter != mInsideAreaList.end())
             mInsideAreaList.erase(iter);
     }
 }
-

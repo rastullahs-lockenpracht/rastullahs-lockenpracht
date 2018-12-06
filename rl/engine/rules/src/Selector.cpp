@@ -15,8 +15,8 @@
  */
 #include "stdinc.h" //precompiled header
 
-#include "Selector.h"
 #include "SelectionHelper.h"
+#include "Selector.h"
 
 #include "CoreSubsystem.h"
 #include "PhysicsManager.h"
@@ -27,9 +27,7 @@ using namespace Ogre;
 namespace rl
 {
     CreatureSelectionFilter::CreatureSelectionFilter()
-        : mAlignment(Creature::ALIGNMENT_ALLY |
-                     Creature::ALIGNMENT_NEUTRAL |
-                     Creature::ALIGNMENT_ENEMY)
+        : mAlignment(Creature::ALIGNMENT_ALLY | Creature::ALIGNMENT_NEUTRAL | Creature::ALIGNMENT_ENEMY)
     {
     }
 
@@ -62,7 +60,10 @@ namespace rl
     }
 
     Selector::Selector(unsigned long mask)
-		: DebugVisualisable(), mSelection(), mSelectionMask(mask), mFilter(NULL)
+        : DebugVisualisable()
+        , mSelection()
+        , mSelectionMask(mask)
+        , mFilter(NULL)
     {
     }
 
@@ -100,10 +101,10 @@ namespace rl
         return mSelection;
     }
 
-	unsigned int Selector::getSelectionCount() const
-	{
-		return mSelection.size();
-	}
+    unsigned int Selector::getSelectionCount() const
+    {
+        return mSelection.size();
+    }
 
     void Selector::updateSelection()
     {
@@ -114,8 +115,7 @@ namespace rl
         const ActorVector& actors = doExecuteQuery();
 
         // Set selection to first result with a GameObject attached.
-        for (ActorVector::const_iterator it = actors.begin(), end = actors.end();
-            it != end; ++it)
+        for (ActorVector::const_iterator it = actors.begin(), end = actors.end(); it != end; ++it)
         {
             Actor* actor = *it;
             GameObject* go = static_cast<GameObject*>(actor->getGameObject());
@@ -136,14 +136,14 @@ namespace rl
     RaySelector::RaySelector(unsigned long mask, bool useOgreQuery)
         : Selector(mask)
     {
-		if (useOgreQuery)
-		{
-			mQuery = new OgreRaySceneQuery(mask);
-		}
-		else
-		{
-			mQuery = new RaySceneQuery(mask);
-		}
+        if (useOgreQuery)
+        {
+            mQuery = new OgreRaySceneQuery(mask);
+        }
+        else
+        {
+            mQuery = new RaySceneQuery(mask);
+        }
     }
 
     void RaySelector::setRay(const Ogre::Vector3& start, const Ogre::Vector3& end)
@@ -174,29 +174,28 @@ namespace rl
         mPrimitive = new LineSetPrimitive();
     }
 
-	RaySelector::~RaySelector()
-	{
-		delete mQuery;
-	}
+    RaySelector::~RaySelector()
+    {
+        delete mQuery;
+    }
 
     //////////////////////////////////////////////////////////////////////////
 
-    HalfSphereSelector::HalfSphereSelector(Ogre::SceneManager* smgr,
-        unsigned long mask)
-        : Selector(mask),
-          mQuery(smgr, mask),
-          mCheckVisibility(false),
-          mLoSReferenceGo(NULL),
-		  mTrackedGo(NULL)
+    HalfSphereSelector::HalfSphereSelector(Ogre::SceneManager* smgr, unsigned long mask)
+        : Selector(mask)
+        , mQuery(smgr, mask)
+        , mCheckVisibility(false)
+        , mLoSReferenceGo(NULL)
+        , mTrackedGo(NULL)
     {
     }
 
     HalfSphereSelector::HalfSphereSelector(unsigned long mask)
-        : Selector(mask),
-		  mQuery(CoreSubsystem::getSingleton().getWorld()->getSceneManager(), mask),
-          mCheckVisibility(false),
-          mLoSReferenceGo(NULL),
-		  mTrackedGo(NULL)
+        : Selector(mask)
+        , mQuery(CoreSubsystem::getSingleton().getWorld()->getSceneManager(), mask)
+        , mCheckVisibility(false)
+        , mLoSReferenceGo(NULL)
+        , mTrackedGo(NULL)
     {
     }
 
@@ -223,16 +222,14 @@ namespace rl
         const ActorVector& actors = doExecuteQuery();
 
         // Set selection to first result with a GameObject attached.
-        for (ActorVector::const_iterator it = actors.begin(), end = actors.end();
-            it != end; ++it)
+        for (ActorVector::const_iterator it = actors.begin(), end = actors.end(); it != end; ++it)
         {
             Actor* actor = *it;
             GameObject* go = static_cast<GameObject*>(actor->getGameObject());
             if (go != NULL && (go->getQueryFlags() & mSelectionMask))
             {
                 // Is this GO seen when we need it to be seen?
-                if (mCheckVisibility && mLoSReferenceGo &&
-                    !SelectionHelper::checkLineOfSight(mLoSReferenceGo, go))
+                if (mCheckVisibility && mLoSReferenceGo && !SelectionHelper::checkLineOfSight(mLoSReferenceGo, go))
                 {
                     // Nope, check next.
                     continue;
@@ -257,8 +254,7 @@ namespace rl
 
         lineSet->addLine(pos, pos + radius * (ori * Vector3::UNIT_X), ColourValue::Red);
         lineSet->addLine(pos, pos + radius * (ori * Vector3::UNIT_Y), ColourValue::Green);
-        lineSet->addLine(pos, pos + radius * (ori * Vector3::NEGATIVE_UNIT_Z),
-            ColourValue::Blue);
+        lineSet->addLine(pos, pos + radius * (ori * Vector3::NEGATIVE_UNIT_Z), ColourValue::Blue);
     }
 
     void HalfSphereSelector::setRadius(Ogre::Real radius)
@@ -304,22 +300,21 @@ namespace rl
 
     //////////////////////////////////////////////////////////////////////////
 
-    SphereSelector::SphereSelector(Ogre::SceneManager* smgr,
-        unsigned long mask)
-        : Selector(mask),
-          mQuery(smgr, mask),
-          mCheckVisibility(false),
-          mLoSReferenceGo(NULL),
-		  mTrackedGo(NULL)
+    SphereSelector::SphereSelector(Ogre::SceneManager* smgr, unsigned long mask)
+        : Selector(mask)
+        , mQuery(smgr, mask)
+        , mCheckVisibility(false)
+        , mLoSReferenceGo(NULL)
+        , mTrackedGo(NULL)
     {
     }
 
     SphereSelector::SphereSelector(unsigned long mask)
-        : Selector(mask),
-		  mQuery(CoreSubsystem::getSingleton().getWorld()->getSceneManager(), mask),
-          mCheckVisibility(false),
-          mLoSReferenceGo(NULL),
-		  mTrackedGo(NULL)
+        : Selector(mask)
+        , mQuery(CoreSubsystem::getSingleton().getWorld()->getSceneManager(), mask)
+        , mCheckVisibility(false)
+        , mLoSReferenceGo(NULL)
+        , mTrackedGo(NULL)
     {
     }
 
@@ -345,16 +340,14 @@ namespace rl
         const ActorVector& actors = doExecuteQuery();
 
         // Set selection to first result with a GameObject attached.
-        for (ActorVector::const_iterator it = actors.begin(), end = actors.end();
-            it != end; ++it)
+        for (ActorVector::const_iterator it = actors.begin(), end = actors.end(); it != end; ++it)
         {
             Actor* actor = *it;
             GameObject* go = static_cast<GameObject*>(actor->getGameObject());
             if (go != NULL && (go->getQueryFlags() & mSelectionMask))
             {
                 // Is this GO seen when we need it to be seen?
-                if (mCheckVisibility && mLoSReferenceGo &&
-                    !SelectionHelper::checkLineOfSight(mLoSReferenceGo, go))
+                if (mCheckVisibility && mLoSReferenceGo && !SelectionHelper::checkLineOfSight(mLoSReferenceGo, go))
                 {
                     // Nope, check next.
                     continue;
@@ -379,8 +372,7 @@ namespace rl
 
         lineSet->addLine(pos, pos + radius * (ori * Vector3::UNIT_X), ColourValue::Red);
         lineSet->addLine(pos, pos + radius * (ori * Vector3::UNIT_Y), ColourValue::Green);
-        lineSet->addLine(pos, pos + radius * (ori * Vector3::NEGATIVE_UNIT_Z),
-            ColourValue::Blue);
+        lineSet->addLine(pos, pos + radius * (ori * Vector3::NEGATIVE_UNIT_Z), ColourValue::Blue);
     }
 
     void SphereSelector::setRadius(Ogre::Real radius)
@@ -418,5 +410,4 @@ namespace rl
     {
         mPrimitive = new LineSetPrimitive();
     }
-
 }

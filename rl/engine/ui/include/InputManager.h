@@ -20,13 +20,13 @@
 #include "UiPrerequisites.h"
 
 #ifdef __APPLE__
-#   include <OIS/OISMouse.h>
-#   include <OIS/OISKeyboard.h>
-#   include <OIS/OISJoyStick.h>
+#include <OIS/OISJoyStick.h>
+#include <OIS/OISKeyboard.h>
+#include <OIS/OISMouse.h>
 #else
-#   include <OISMouse.h>
-#   include <OISKeyboard.h>
-#   include <OISJoyStick.h>
+#include <OISJoyStick.h>
+#include <OISKeyboard.h>
+#include <OISMouse.h>
 #endif
 
 #include <stack>
@@ -35,7 +35,8 @@
 #include "GameTask.h"
 #include "XmlProcessor.h"
 
-namespace rl {
+namespace rl
+{
 
     class AbstractWindow;
     class ControlState;
@@ -43,19 +44,18 @@ namespace rl {
     class Dialog;
     class GameObject;
 
-    class _RlUiExport InputManager
-        :    public Ogre::Singleton<InputManager>,
-            public GameTask,
-            private XmlProcessor,
-            public OIS::KeyListener, public OIS::MouseListener
+    class _RlUiExport InputManager : public Ogre::Singleton<InputManager>,
+                                     public GameTask,
+                                     private XmlProcessor,
+                                     public OIS::KeyListener,
+                                     public OIS::MouseListener
     {
     public:
-
         InputManager(Ogre::RenderWindow* window);
         ~InputManager();
 
-        bool isMouseButtonDown( OIS::MouseButtonID buttonID );
-        bool isKeyDown( OIS::KeyCode key );
+        bool isMouseButtonDown(OIS::MouseButtonID buttonID);
+        bool isKeyDown(OIS::KeyCode key);
 
         Ogre::Real getMouseRelativeX(void) const;
         Ogre::Real getMouseRelativeY(void) const;
@@ -74,7 +74,7 @@ namespace rl {
 
         virtual const Ogre::String& getName() const;
 
-        void linkKeyToRubyCommand(const CeGuiString &key, const CeGuiString &command);
+        void linkKeyToRubyCommand(const CeGuiString& key, const CeGuiString& command);
 
         // State management
 
@@ -99,8 +99,18 @@ namespace rl {
         virtual bool keyReleased(const OIS::KeyEvent& evt);
 
     private:
-        enum { NUM_MOUSE_BUTTON=4, NUM_KEYS=256 };
-        enum Modifiers {ALT_MASK = 1, CTRL_MASK = 2, SHIFT_MASK = 4, SUPER_MASK = 8};
+        enum
+        {
+            NUM_MOUSE_BUTTON = 4,
+            NUM_KEYS = 256
+        };
+        enum Modifiers
+        {
+            ALT_MASK = 1,
+            CTRL_MASK = 2,
+            SHIFT_MASK = 4,
+            SUPER_MASK = 8
+        };
 
         void initializeOis(Ogre::RenderWindow* wnd);
         bool startDialog(Dialog* dialog);

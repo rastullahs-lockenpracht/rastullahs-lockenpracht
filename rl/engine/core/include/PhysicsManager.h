@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -23,38 +23,38 @@
 #include <vector>
 
 #ifdef __APPLE__
-#   include <OgreNewt/OgreNewt.h>
+#include <OgreNewt/OgreNewt.h>
 #else
-#   include <OgreNewt.h>
+#include <OgreNewt.h>
 #endif
 
-
-#include "CorePrerequisites.h"
 #include "CoreDefines.h"
+#include "CorePrerequisites.h"
 #include "GameTask.h"
 #include "QuadTree.h"
 
-namespace rl {
+namespace rl
+{
 
     class Actor;
-	class PhysicalObject;
+    class PhysicalObject;
     class PhysicalThing;
     class PhysicsController;
     class PhysicsGenericContactCallback;
     class World;
     class PhysicsCollisionFactory;
 
-	class LQTBodies : public TLooseQuadTreeNode<OgreNewt::Body*, LQTBodies>
-	{
-	public:
-		typedef std::vector<OgreNewt::Body*> BodyList;
-		LQTBodies(int maxData, int maxDepth, float looseness, const Ogre::Vector2& tlc,
-			const Ogre::Vector2& brc, float mWidth);
+    class LQTBodies : public TLooseQuadTreeNode<OgreNewt::Body*, LQTBodies>
+    {
+    public:
+        typedef std::vector<OgreNewt::Body*> BodyList;
+        LQTBodies(int maxData, int maxDepth, float looseness, const Ogre::Vector2& tlc, const Ogre::Vector2& brc,
+            float mWidth);
         LQTBodies(const LQTBodies& LQT);
-		~LQTBodies();
+        ~LQTBodies();
 
-		static const Ogre::AxisAlignedBox getAABB(OgreNewt::Body* body);
-	};
+        static const Ogre::AxisAlignedBox getAABB(OgreNewt::Body* body);
+    };
 
     /** Management class for the physical properties of game world objects.
      * This class utilizes OgreNewt (and therefore indirectly Newton) for handling
@@ -63,19 +63,16 @@ namespace rl {
      * of object collisions. It also installs a basic forcefeedback function per object,
      * in a way that is perhaps not the quickest one, but removes the need for a per object
      * registration.
-     * So basically this class handles the global settings and things related 
+     * So basically this class handles the global settings and things related
      * to the object world.
      * It also manages a list of physical controllers (that are objects that
      * modify physical properties of a specific object).
      */
-    class _RlCoreExport PhysicsManager
-        :   public GameTask,
-            public Ogre::Singleton<PhysicsManager>
+    class _RlCoreExport PhysicsManager : public GameTask, public Ogre::Singleton<PhysicsManager>
     {
     public:
-
         static const Ogre::Real NEWTON_GRID_WIDTH;
-        
+
         //! default constructor
         PhysicsManager();
         /** explicit virtual destructor.
@@ -83,7 +80,7 @@ namespace rl {
          */
         virtual ~PhysicsManager();
 
-        virtual void run( Ogre::Real elapsedTime );
+        virtual void run(Ogre::Real elapsedTime);
 
         /**
          * @param geomType Grundform der Geometrie des Objektes
@@ -98,26 +95,26 @@ namespace rl {
          */
         /*PhysicalThing* createPhysicalThing(const int geomType, PhysicalObject* po,
             Ogre::Real mass, OffsetMode offsetMode = OM_BOTTOMCENTERED, bool hullModifier = false);*/
-		PhysicalThing* createPhysicalThing(GeometryType geomType, PhysicalObject* po,
-            Ogre::Real mass, bool hullModifier = false);
+        PhysicalThing* createPhysicalThing(
+            GeometryType geomType, PhysicalObject* po, Ogre::Real mass, bool hullModifier = false);
 
-		/**
-		 * Erschafft den entgueltigen Physikproxy
-		 */
-		void createPhysicsProxy(PhysicalThing* pt);
+        /**
+         * Erschafft den entgueltigen Physikproxy
+         */
+        void createPhysicsProxy(PhysicalThing* pt);
 
         /**
          * Creates a ragdoll as physics proxy
          */
         void createPhysicsProxy_RagDoll(PhysicalThing* pt);
 
-		/**
-		 * Removes the physics proxy
-		 * @param pt the physics proxy wrapper; is not deleted
-		 */
-		void destroyPhysicsProxy(PhysicalThing* pt);
+        /**
+         * Removes the physics proxy
+         * @param pt the physics proxy wrapper; is not deleted
+         */
+        void destroyPhysicsProxy(PhysicalThing* pt);
 
-        //PhysicalThing* createConvexHullPhysicalThing(Ogre::Entity*, Ogre::Real mass = 0.0f,
+        // PhysicalThing* createConvexHullPhysicalThing(Ogre::Entity*, Ogre::Real mass = 0.0f,
         //    const Ogre::Vector3& inertiaCoefficients = Ogre::Vector3(1.0f, 1.0f, 1.0f));
 
         void removeAndDestroyPhysicalThing(PhysicalThing* thing);
@@ -130,11 +127,11 @@ namespace rl {
         bool isEnabled() const;
         void setEnabled(bool enabled);
 
-		/// Levelgeometrie hinzufuegen
-        void addLevelGeometry(Ogre::Entity* ent, const std::vector<OgreNewt::CollisionPtr> &collisions);
-		/// Komplette Levelgeometrie aufloesen
-		void clearLevelGeometry();
-		
+        /// Levelgeometrie hinzufuegen
+        void addLevelGeometry(Ogre::Entity* ent, const std::vector<OgreNewt::CollisionPtr>& collisions);
+        /// Komplette Levelgeometrie aufloesen
+        void clearLevelGeometry();
+
         void toggleDebugMode();
         int isDebugMode() const;
 
@@ -152,7 +149,7 @@ namespace rl {
         virtual const Ogre::String& getName() const;
 
         // gibt die AxisAlignedBox der Welt zurueck
-        const Ogre::AxisAlignedBox &getWorldAab(void)
+        const Ogre::AxisAlignedBox& getWorldAab(void)
         {
             return mWorldAABB;
         }
@@ -185,52 +182,37 @@ namespace rl {
          * @param M2 material id of second material
          * @returns the created materialpair object (or the already present one)
          */
-        OgreNewt::MaterialPair* createMaterialPair(const OgreNewt::MaterialID* M1,
-            const OgreNewt::MaterialID* M2);
+        OgreNewt::MaterialPair* createMaterialPair(const OgreNewt::MaterialID* M1, const OgreNewt::MaterialID* M2);
         /** retrieves a material by name.
          * @param M1 material id of first material
          * @param M2 material id of second material
          * @returns the specified materialpair object
          */
-        OgreNewt::MaterialPair* getMaterialPair(const OgreNewt::MaterialID* M1,
-            const OgreNewt::MaterialID* M2) const;
+        OgreNewt::MaterialPair* getMaterialPair(const OgreNewt::MaterialID* M1, const OgreNewt::MaterialID* M2) const;
         /** reset MaterialPair to default.
          * @param M1 material id of first material
          * @param M2 material id of second material
          */
-        void resetMaterialPair( const OgreNewt::MaterialID* M1,
-            const OgreNewt::MaterialID* M2);
+        void resetMaterialPair(const OgreNewt::MaterialID* M1, const OgreNewt::MaterialID* M2);
 
         /// calls PhysicsCollisionFactory::createCollisionFromEntity
-		OgreNewt::CollisionPtr createCollision(
-			Ogre::Entity* entity,
-            const GeometryType& geomType = GT_NONE,
-            const Ogre::String& animName = "",
-			const Ogre::Vector3 &offset = Ogre::Vector3::ZERO,
-			const Ogre::Quaternion &orientation = Ogre::Quaternion::IDENTITY,
-            const Ogre::Real mass = 0,
-            Ogre::Vector3* inertia = NULL,
-            Ogre::Vector3* centerOfMass = NULL,
-            bool nocache = false);
+        OgreNewt::CollisionPtr createCollision(Ogre::Entity* entity, const GeometryType& geomType = GT_NONE,
+            const Ogre::String& animName = "", const Ogre::Vector3& offset = Ogre::Vector3::ZERO,
+            const Ogre::Quaternion& orientation = Ogre::Quaternion::IDENTITY, const Ogre::Real mass = 0,
+            Ogre::Vector3* inertia = NULL, Ogre::Vector3* centerOfMass = NULL, bool nocache = false);
 
         /// calls PhysicsCollisionFactory::createCollisionFromAABB
-        OgreNewt::CollisionPtr createCollision(
-            const Ogre::String& name,
-            const Ogre::AxisAlignedBox& aabb,
-            const GeometryType& geomType = GT_NONE,
-			const Ogre::Vector3 &offset = Ogre::Vector3::ZERO,
-			const Ogre::Quaternion &orientation = Ogre::Quaternion::IDENTITY,
-            const Ogre::Real mass = 0,
-            Ogre::Vector3* inertia = NULL,
-            Ogre::Vector3* centerOfMass = NULL,
-            bool nocache = false);
+        OgreNewt::CollisionPtr createCollision(const Ogre::String& name, const Ogre::AxisAlignedBox& aabb,
+            const GeometryType& geomType = GT_NONE, const Ogre::Vector3& offset = Ogre::Vector3::ZERO,
+            const Ogre::Quaternion& orientation = Ogre::Quaternion::IDENTITY, const Ogre::Real mass = 0,
+            Ogre::Vector3* inertia = NULL, Ogre::Vector3* centerOfMass = NULL, bool nocache = false);
 
         /** converts a string identifying a collision property into an enum.
          * Mainly for making string definitions of the collision property
          * possible in .gof files.
          * @param geomTypeString giving the collision primitiv.
          */
-		static GeometryType convertStringToGeometryType(const Ogre::String& geomTypeString);
+        static GeometryType convertStringToGeometryType(const Ogre::String& geomTypeString);
 
         /** converts an enum into a string identifying a collision property.
          * Mainly for making string definitions of the collision property
@@ -240,13 +222,17 @@ namespace rl {
         static Ogre::String convertGeometryTypeToString(const GeometryType& geomType);
 
         /// returns newton debugger
-        OgreNewt::Debugger* getNewtonDebugger() {return &mWorld->getDebugger();}
+        OgreNewt::Debugger* getNewtonDebugger()
+        {
+            return &mWorld->getDebugger();
+        }
 
     private:
         bool mEnabled;
         //! the globally used physical representation of the world by Newton
         OgreNewt::World* mWorld;
-        //! debug mode: 0 no debugging, 1 show debug lines (freezed state), 2 show debug lines (update every frame), 3 show raycasts from one frame, 4 upda raycasts every frame
+        //! debug mode: 0 no debugging, 1 show debug lines (freezed state), 2 show debug lines (update every frame), 3
+        //! show raycasts from one frame, 4 upda raycasts every frame
         int mDebugMode;
 
         //! factory for creating new collision primitives
@@ -255,17 +241,17 @@ namespace rl {
         //! a list of objects of the physical world
         std::vector<PhysicalThing*> mPhysicalThings;
         //! a list of bodies for the static level parts
-        //std::vector<OgreNewt::Body*> mLevelBodies;
-		//! a quadtree storing a spatial partioning of static level parts
+        // std::vector<OgreNewt::Body*> mLevelBodies;
+        //! a quadtree storing a spatial partioning of static level parts
         TLooseQuadTree<OgreNewt::Body*, LQTBodies> mLevelBodiesQuadTree;
         //! the extents of the level
         Ogre::AxisAlignedBox mWorldAABB;
-        
+
         //! the globally known gravity force
         Ogre::Vector3 mGravity;
 
         Ogre::Real mTimeFactor;
-        
+
         // time stuff
         Ogre::Real mElapsed;
         Ogre::Real mMinTimestep;
@@ -278,7 +264,7 @@ namespace rl {
         typedef std::pair<const Ogre::String, const OgreNewt::MaterialID*> MaterialMapPair;
 
         //! defines a pair of MaterialIDs
-        typedef std::pair< const OgreNewt::MaterialID*, const OgreNewt::MaterialID* > PairOfMaterials;
+        typedef std::pair<const OgreNewt::MaterialID*, const OgreNewt::MaterialID*> PairOfMaterials;
 
         //! defines a comparison operator for pairs of MaterialIDs
         struct ltPairOfMaterials
@@ -293,9 +279,9 @@ namespace rl {
         };
 
         //! shortens the type definition for maps of materialpairs
-        typedef std::multimap< PairOfMaterials, OgreNewt::MaterialPair*, ltPairOfMaterials > MaterialPairMap;
+        typedef std::multimap<PairOfMaterials, OgreNewt::MaterialPair*, ltPairOfMaterials> MaterialPairMap;
         //! shortens the type definition for pairs for the stl multimap
-        typedef std::pair< PairOfMaterials, OgreNewt::MaterialPair* > MaterialPairMapPair;
+        typedef std::pair<PairOfMaterials, OgreNewt::MaterialPair*> MaterialPairMapPair;
 
         //! contains a list materials with string id as a key
         MaterialMap mMaterials;
@@ -306,11 +292,9 @@ namespace rl {
         PhysicsGenericContactCallback* mGenericCallback;
 
 #ifdef _DEBUG
-        void logBodyProperties( const OgreNewt::Body* body );
+        void logBodyProperties(const OgreNewt::Body* body);
 #endif
-
     };
 }
 
 #endif
-

@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -18,7 +18,6 @@
 #define __TimeSource_H__
 
 #include "CorePrerequisites.h"
-
 
 #include "GameTask.h"
 
@@ -60,6 +59,7 @@ namespace rl
         virtual void setTimeFactor(Ogre::Real factor = 1.0);
 
         virtual void run(Ogre::Real elapsedTime);
+
     private:
         Ogre::Real mTime;
     };
@@ -78,28 +78,29 @@ namespace rl
         virtual void setTimeFactor(Ogre::Real factor = 1.0);
 
         virtual void run(Ogre::Real elapsedTime);
+
     private:
         Ogre::Real mTime;
         Ogre::Real mTimeFactor;
     };
 
-    class _RlCoreExport TimeSourceManager 
-        : public Ogre::Singleton<TimeSourceManager>, public SaveGameData
+    class _RlCoreExport TimeSourceManager : public Ogre::Singleton<TimeSourceManager>, public SaveGameData
     {
     public:
         TimeSourceManager();
-		virtual ~TimeSourceManager();
+        virtual ~TimeSourceManager();
 
         void registerTimeSource(TimeSource* ts);
         TimeSource* getTimeSource(const TimeSource::TimeSourceType& type) const;
         void setTimeFactor(const Ogre::Real& factor);
         void setPaused(bool paused);
 
-		virtual CeGuiString getXmlNodeIdentifier() const;
+        virtual CeGuiString getXmlNodeIdentifier() const;
         virtual void writeData(SaveGameFileWriter* writer);
         virtual void readData(SaveGameFileReader* reader);
         /// defines the loading/saving order higher priority are saved last and loaded first
         virtual int getPriority() const;
+
     private:
         typedef std::map<TimeSource::TimeSourceType, TimeSource*> TimeSourceMap;
         TimeSourceMap mTimeSources;

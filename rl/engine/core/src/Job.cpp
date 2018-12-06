@@ -1,28 +1,28 @@
 /* This source file is part of Rastullahs Lockenpracht.
-* Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
-*
-*  This program is free software; you can redistribute it and/or modify
-*  it under the terms of the Clarified Artistic License.
-*
-*  This program is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  Clarified Artistic License for more details.
-*
-*  You should have received a copy of the Clarified Artistic License
-*  along with this program; if not you can get it here
-*  http://www.jpaulmorrison.com/fbp/artistic2.htm.
-*/
+ * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the Clarified Artistic License.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  Clarified Artistic License for more details.
+ *
+ *  You should have received a copy of the Clarified Artistic License
+ *  along with this program; if not you can get it here
+ *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
+ */
 #include "stdinc.h" //precompiled header
 
-#include "Job.h"
 #include "Exception.h"
+#include "Job.h"
 
 namespace rl
 {
     AbstractJob::AbstractJob(bool isDiscardable, bool destroyWhenDone)
-        : mIsDiscardable(isDiscardable), 
-        mDestroyWhenDone(destroyWhenDone)
+        : mIsDiscardable(isDiscardable)
+        , mDestroyWhenDone(destroyWhenDone)
     {
     }
 
@@ -58,11 +58,11 @@ namespace rl
     const Property AbstractJob::getProperty(const CeGuiString& key) const
     {
         Property prop;
-        if( key == "discardable" )
+        if (key == "discardable")
         {
             prop.setValue(mIsDiscardable);
         }
-        else if( key == "destroywhendone" )
+        else if (key == "destroywhendone")
         {
             prop.setValue(mDestroyWhenDone);
         }
@@ -78,26 +78,22 @@ namespace rl
     {
         try
         {
-            if( key == "discardable" )
+            if (key == "discardable")
             {
                 mIsDiscardable = value.toBool();
             }
-            else if( key == "destroywhendone" )
+            else if (key == "destroywhendone")
             {
                 mDestroyWhenDone = value.toBool();
             }
             else
             {
-                LOG_WARNING(
-                    Logger::RULES,
-                    key + " is not a property of this Job!");
+                LOG_WARNING(Logger::RULES, key + " is not a property of this Job!");
             }
         }
         catch (WrongFormatException ex)
         {
-            LOG_ERROR(
-                Logger::RULES,
-                "property " + key + " has the wrong format");
+            LOG_ERROR(Logger::RULES, "property " + key + " has the wrong format");
         }
     }
 
@@ -109,10 +105,11 @@ namespace rl
         return keys;
     }
 
-    Job::Job(bool isDiscardable, bool destroyWhenDone, TimeSource::TimeSourceType timesource, JobPersistenceType persistence)
-        : AbstractJob(isDiscardable, destroyWhenDone),
-        mTimeSource(timesource),
-        mPersistence(persistence)
+    Job::Job(
+        bool isDiscardable, bool destroyWhenDone, TimeSource::TimeSourceType timesource, JobPersistenceType persistence)
+        : AbstractJob(isDiscardable, destroyWhenDone)
+        , mTimeSource(timesource)
+        , mPersistence(persistence)
     {
     }
 
@@ -132,11 +129,11 @@ namespace rl
 
     const Property Job::getProperty(const CeGuiString& key) const
     {
-        if( key == "timesource" )
+        if (key == "timesource")
         {
             return Property((int)mTimeSource);
         }
-         
+
         return AbstractJob::getProperty(key);
     }
 
@@ -144,7 +141,7 @@ namespace rl
     {
         try
         {
-            if( key == "timesource" )
+            if (key == "timesource")
             {
                 mTimeSource = (TimeSource::TimeSourceType)value.toInt();
             }
@@ -155,9 +152,7 @@ namespace rl
         }
         catch (WrongFormatException ex)
         {
-            LOG_ERROR(
-                Logger::RULES,
-                "property " + key + " has the wrong format");
+            LOG_ERROR(Logger::RULES, "property " + key + " has the wrong format");
         }
     }
 

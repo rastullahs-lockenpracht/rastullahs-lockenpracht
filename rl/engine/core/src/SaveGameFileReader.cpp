@@ -16,9 +16,9 @@
 
 #include "stdinc.h"
 
+#include "SaveGameData.h"
 #include "SaveGameFileReader.h"
 #include "SaveGameManager.h"
-#include "SaveGameData.h"
 
 #include "CoreSubsystem.h"
 
@@ -28,7 +28,7 @@ namespace rl
     {
     }
 
-    void SaveGameFileReader::parseSaveGameFile(SaveGameFile* file, const SaveGameDataOrderMap &map)
+    void SaveGameFileReader::parseSaveGameFile(SaveGameFile* file, const SaveGameDataOrderMap& map)
     {
         mDocument = loadDocument(file->getDataStream());
 
@@ -36,47 +36,49 @@ namespace rl
         if (version >= CoreSubsystem::getSingleton().getEngineBuildNumber())
             LOG_MESSAGE(Logger::CORE, "Loading save game: Engine version is ok");
         else
-            LOG_ERROR(Logger::CORE, "Loading save game: Save game version is newer then engine version! Loading save game could crash");
+            LOG_ERROR(Logger::CORE,
+                "Loading save game: Save game version is newer then engine version! Loading save game could crash");
 
-        for(SaveGameDataOrderMap::const_reverse_iterator data_iter = map.rbegin(); data_iter != map.rend(); data_iter++)
+        for (SaveGameDataOrderMap::const_reverse_iterator data_iter = map.rbegin(); data_iter != map.rend();
+             data_iter++)
         {
             data_iter->second->readData(this);
         }
 
+        file->closeDataStream(); // make the save game writable
 
-        file->closeDataStream(); //make the save game writable
-
-		mDocument = NULL;
+        mDocument = NULL;
         delete mDocument;
     }
 
-    void SaveGameFileReader::parseSaveGameFileHeader(Ogre::DataStreamPtr &stream, const Ogre::String &groupName, SaveGameFile* file)
+    void SaveGameFileReader::parseSaveGameFileHeader(
+        Ogre::DataStreamPtr& stream, const Ogre::String& groupName, SaveGameFile* file)
     {
         if (stream->size())
         {
             TiXmlDocument* doc = loadDocument(stream);
 
-             XmlElementList headerDefsXml = getElementsByTagName(mDocument->RootElement(), "header");
-             if (!headerDefsXml.empty())
-             {
-            	 const TiXmlElement* elem = headerDefsXml[0];
-                 /*TiXmlNodeList* headerDefChildren = elem->getChildNodes();
-                 for(XMLSize_t childIdx = 0; childIdx < headerDefChildren->getLength(); childIdx++)
-                 {
-                     TiXmlNode* curChild = headerDefChildren->item(childIdx);
-                     if (curChild->getNodeType() == TiXmlNode::ELEMENT_NODE)
-                     {
-                         PropertyEntry entry = processProperty(static_cast<TiXmlElement*>(curChild));
-                         if (entry.first != "")
-                         {
-                            file->setProperty(entry.first, entry.second);
-                         }
-                     }
-                 }*/
-                 PropertyRecordPtr set = getPropertiesAsRecord(elem);
-                 file->setProperties(set);
-             }
-             delete doc;
+            XmlElementList headerDefsXml = getElementsByTagName(mDocument->RootElement(), "header");
+            if (!headerDefsXml.empty())
+            {
+                const TiXmlElement* elem = headerDefsXml[0];
+                /*TiXmlNodeList* headerDefChildren = elem->getChildNodes();
+                for(XMLSize_t childIdx = 0; childIdx < headerDefChildren->getLength(); childIdx++)
+                {
+                    TiXmlNode* curChild = headerDefChildren->item(childIdx);
+                    if (curChild->getNodeType() == TiXmlNode::ELEMENT_NODE)
+                    {
+                        PropertyEntry entry = processProperty(static_cast<TiXmlElement*>(curChild));
+                        if (entry.first != "")
+                        {
+                           file->setProperty(entry.first, entry.second);
+                        }
+                    }
+                }*/
+                PropertyRecordPtr set = getPropertiesAsRecord(elem);
+                file->setProperties(set);
+            }
+            delete doc;
         }
     }
 
@@ -84,7 +86,8 @@ namespace rl
     {
         PropertyRecordPtr properties(new PropertyRecord());
 
-        XmlElementList rootNodeList = getElementsByTagName(mDocument->RootElement(), data->getXmlNodeIdentifier().c_str());
+        XmlElementList rootNodeList
+            = getElementsByTagName(mDocument->RootElement(), data->getXmlNodeIdentifier().c_str());
 
         if (!rootNodeList.empty())
         {

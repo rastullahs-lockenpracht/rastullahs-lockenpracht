@@ -25,9 +25,11 @@ using namespace std;
 namespace rl
 {
 
-    DialogParagraph::DialogParagraph(
-        const CeGuiString& text, const CeGuiString& person, const Ogre::String& voicefile)
-    : mText(text), mPerson(person), mVoiceFile(voicefile), mParent(NULL)
+    DialogParagraph::DialogParagraph(const CeGuiString& text, const CeGuiString& person, const Ogre::String& voicefile)
+        : mText(text)
+        , mPerson(person)
+        , mVoiceFile(voicefile)
+        , mParent(NULL)
     {
         // for debug information
         mText.c_str();
@@ -94,8 +96,9 @@ namespace rl
         return listeners;
     }
 
-    DialogGotoResponse::DialogGotoResponse(rl::DialogResponse *response)
-        : DialogParagraph("", "", ""), mResponse(response)
+    DialogGotoResponse::DialogGotoResponse(rl::DialogResponse* response)
+        : DialogParagraph("", "", "")
+        , mResponse(response)
     {
     }
 

@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -22,20 +22,20 @@
 
 namespace rl
 {
-	class GameObject;
+    class GameObject;
 
-	class _RlUiExport SubtitleWindow : public AbstractWindow
-	{
-	public:
-		SubtitleWindow();
-		virtual ~SubtitleWindow();
-	
-		void show(const CeGuiString& text);
-		const CeGuiString& getText() const;
+    class _RlUiExport SubtitleWindow : public AbstractWindow
+    {
+    public:
+        SubtitleWindow();
+        virtual ~SubtitleWindow();
 
-	private:
-		CEGUI::MultiLineEditbox* mSubtitle;	
-	};
+        void show(const CeGuiString& text);
+        const CeGuiString& getText() const;
+
+    private:
+        CEGUI::MultiLineEditbox* mSubtitle;
+    };
 
 } // namespace rl
 

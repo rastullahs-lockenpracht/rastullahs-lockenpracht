@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -18,9 +18,9 @@
 
 #include "AiPrerequisites.h"
 
-#include <OpenSteer/Obstacle.h>
 #include "DebugVisualisable.h"
 #include "SimpleVehicle.h"
+#include <OpenSteer/Obstacle.h>
 
 #ifdef __APPLE__
 #include <OgreNewt/OgreNewt.h>
@@ -37,69 +37,69 @@ namespace OpenSteer
 namespace rl
 {
     typedef OpenSteer::AbstractProximityDatabase<OpenSteer::AbstractVehicle*> ProximityDatabase;
-	/** Representation of the GameWorld for Steering and Pathing.
-	 * Is a container for obstacles and vehicles that can be avoided.
+    /** Representation of the GameWorld for Steering and Pathing.
+     * Is a container for obstacles and vehicles that can be avoided.
      * Obstacles are static geometry or not moving entities,
      * Vehicles are dynamically moveable creatures / agents
-	 */
-	class AiWorld
-	{
-	public:
-		//! default constructor
-		AiWorld(void);
-		//! default destructor
-		~AiWorld(void);
+     */
+    class AiWorld
+    {
+    public:
+        //! default constructor
+        AiWorld(void);
+        //! default destructor
+        ~AiWorld(void);
 
-		/** Returns a list of obstacles for OpenSteer.
-		 */
-		const OpenSteer::ObstacleGroup& getSteeringObstacles();
-		/** Adds an obstacle to the internal list of obstacles.
+        /** Returns a list of obstacles for OpenSteer.
+         */
+        const OpenSteer::ObstacleGroup& getSteeringObstacles();
+        /** Adds an obstacle to the internal list of obstacles.
          * Agents will avoid these obstacles.
-		 */
-		void addObstacle(OpenSteer::Obstacle* obstacle);
-		/** Removes and deletes all internally stored obstacle objects.
-		 */
-		void removeAllObstacles();
+         */
+        void addObstacle(OpenSteer::Obstacle* obstacle);
+        /** Removes and deletes all internally stored obstacle objects.
+         */
+        void removeAllObstacles();
 
         /**
-         * adds a Vehicle to the AiWorld. 
+         * adds a Vehicle to the AiWorld.
          * Vehicles are moving ojects in the world which Agents should avoid.
          */
         void addVehicle(SimpleVehicle* vehicle);
-	private:
-		//! list of obstacles
-		OpenSteer::ObstacleGroup mObstacles;
-        ProximityDatabase* mProximityCheck;
-	};
 
+    private:
+        //! list of obstacles
+        OpenSteer::ObstacleGroup mObstacles;
+        ProximityDatabase* mProximityCheck;
+    };
 
     /** Wrapper fuer Newton-World
-	 */
-    class NewtonWorldAsObstacle : public OpenSteer::Obstacle,
-        public DebugVisualisable
+     */
+    class NewtonWorldAsObstacle : public OpenSteer::Obstacle, public DebugVisualisable
     {
     public:
-		/** default constructor.
-		 * Retrieves Material of newton level and the newton world.
-		 */
+        /** default constructor.
+         * Retrieves Material of newton level and the newton world.
+         */
         NewtonWorldAsObstacle(void);
-		/** Searchs for pathintersections by ray casting.
-		 * natoka: should be thought over
-		 */
-        virtual void findIntersectionWithVehiclePath (const OpenSteer::AbstractVehicle& vehicle,
-                                              PathIntersection& pi) const;
-        
+        /** Searchs for pathintersections by ray casting.
+         * natoka: should be thought over
+         */
+        virtual void findIntersectionWithVehiclePath(
+            const OpenSteer::AbstractVehicle& vehicle, PathIntersection& pi) const;
+
         // derived from debugvisualisable
         virtual DebugVisualisableFlag getFlag() const;
         virtual void updatePrimitive();
+
     protected:
         // derived from debugvisualisable
         virtual void doCreatePrimitive();
-        typedef std::pair<Ogre::Vector3,Ogre::Vector3> Vector3Pair;
-        mutable std::vector< Vector3Pair > mDebugRaycasts;
+        typedef std::pair<Ogre::Vector3, Ogre::Vector3> Vector3Pair;
+        mutable std::vector<Vector3Pair> mDebugRaycasts;
 
     private:
-		//! different types of raycasting directions
+        //! different types of raycasting directions
         enum RaycastType
         {
             NONE = -1,
@@ -109,10 +109,10 @@ namespace rl
             TOP,
             BOTTOM
         };
-		//! newton material id
-        std::vector<const OgreNewt::MaterialID *> mMaterialsToConsider;
-		//! newton world
-        OgreNewt::World *mNewtonWorld;
+        //! newton material id
+        std::vector<const OgreNewt::MaterialID*> mMaterialsToConsider;
+        //! newton world
+        OgreNewt::World* mNewtonWorld;
     };
 }
 #endif

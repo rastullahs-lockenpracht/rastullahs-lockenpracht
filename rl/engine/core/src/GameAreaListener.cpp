@@ -17,34 +17,31 @@
 
 #include "GameAreaListener.h"
 
-#include "GameEventManager.h"
 #include "CoreSubsystem.h"
 #include "Exception.h"
+#include "GameEventManager.h"
 
-namespace rl {
+namespace rl
+{
 
     GameAreaListener::~GameAreaListener()
     {
-        GameEventManager::getSingleton().removeAreaListener( this );
+        GameEventManager::getSingleton().removeAreaListener(this);
     }
 
-
-    bool GameAreaListener::eventRaised( GameAreaEvent* anEvent )
+    bool GameAreaListener::eventRaised(GameAreaEvent* anEvent)
     {
-        switch( anEvent->getReason() )
+        switch (anEvent->getReason())
         {
         case GameAreaEvent::AREA_ENTERED:
-            this->areaEntered( anEvent );
+            this->areaEntered(anEvent);
             break;
         case GameAreaEvent::AREA_LEFT:
-            this->areaLeft( anEvent );
+            this->areaLeft(anEvent);
             break;
         }
-
 
         // consumed or not ;)
         return false;
     }
-
 }
-

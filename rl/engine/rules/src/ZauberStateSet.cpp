@@ -20,44 +20,45 @@
 namespace rl
 {
 
-	ZauberStateSet::ZauberStateSet() : StateSet()
-	{
-		mSe = false;
-		mLehrmeisterZeiteinheiten = 0;
-		mSelbststudiumZeiteinheiten = 0;
-	}
+    ZauberStateSet::ZauberStateSet()
+        : StateSet()
+    {
+        mSe = false;
+        mLehrmeisterZeiteinheiten = 0;
+        mSelbststudiumZeiteinheiten = 0;
+    }
 
-	ZauberStateSet::~ZauberStateSet()
-	{
-	}
+    ZauberStateSet::~ZauberStateSet()
+    {
+    }
 
-	bool ZauberStateSet::getSe()
-	{
-		return mSe;
-	}
+    bool ZauberStateSet::getSe()
+    {
+        return mSe;
+    }
 
-	void ZauberStateSet::setSe(bool newSe)
-	{
-		mSe = newSe;
-	}
+    void ZauberStateSet::setSe(bool newSe)
+    {
+        mSe = newSe;
+    }
 
-	int ZauberStateSet::getLehrmeisterZeiteinheiten()
-	{
-		return mLehrmeisterZeiteinheiten;
-	}
+    int ZauberStateSet::getLehrmeisterZeiteinheiten()
+    {
+        return mLehrmeisterZeiteinheiten;
+    }
 
-	void ZauberStateSet::setLehrmeisterZeiteinheiten( int newLehrmeisterZeiteinheiten )
-	{
-		mLehrmeisterZeiteinheiten = newLehrmeisterZeiteinheiten;
-	}
+    void ZauberStateSet::setLehrmeisterZeiteinheiten(int newLehrmeisterZeiteinheiten)
+    {
+        mLehrmeisterZeiteinheiten = newLehrmeisterZeiteinheiten;
+    }
 
-	int ZauberStateSet::getSelbststudiumZeiteinheiten()
-	{
-		return mSelbststudiumZeiteinheiten;
-	}
+    int ZauberStateSet::getSelbststudiumZeiteinheiten()
+    {
+        return mSelbststudiumZeiteinheiten;
+    }
 
-	void ZauberStateSet::setSelbststudiumZeiteinheiten( int newSelbststudiumZeiteinheiten )
-	{
-		mSelbststudiumZeiteinheiten = newSelbststudiumZeiteinheiten;
-	}
+    void ZauberStateSet::setSelbststudiumZeiteinheiten(int newSelbststudiumZeiteinheiten)
+    {
+        mSelbststudiumZeiteinheiten = newSelbststudiumZeiteinheiten;
+    }
 }

@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -23,10 +23,10 @@
 
 #include "Action.h"
 #include "Actor.h"
-#include "RulesConstants.h"
+#include "CoreDefines.h"
 #include "ObjectStateChangeEventSource.h"
 #include "Properties.h"
-#include "CoreDefines.h"
+#include "RulesConstants.h"
 
 namespace rl
 {
@@ -35,36 +35,35 @@ namespace rl
     class EffectManager;
 
     /**
-    * \brief Base class for all game relevant objects in RL
-    * Provides methods for identification of objects within the world
-    * Abstract concepts do not inherit this class
-    */
-    class _RlRulesExport GameObject 
-        : public ActorNotifiedObject, 
-          public ObjectStateChangeEventSource,
-          public PropertyHolder
+     * \brief Base class for all game relevant objects in RL
+     * Provides methods for identification of objects within the world
+     * Abstract concepts do not inherit this class
+     */
+    class _RlRulesExport GameObject : public ActorNotifiedObject,
+                                      public ObjectStateChangeEventSource,
+                                      public PropertyHolder
     {
     public:
-        typedef std::vector<std::pair<Action*, int> > ActionOptionVector;
+        typedef std::vector<std::pair<Action*, int>> ActionOptionVector;
         static const unsigned int NO_OBJECT_ID = 0;
-        
+
         static const Ogre::String CLASS_NAME;
 
         static const Ogre::String PROPERTY_CLASS_ID;
         static const Ogre::String PROPERTY_OBJECT_ID;
         static const Ogre::String PROPERTY_INHERITS;
         static const Ogre::String PROPERTY_BASE_CLASS;
-        static const Ogre::String PROPERTY_SCENE; 
-        static const Ogre::String PROPERTY_POSITION; 
-        static const Ogre::String PROPERTY_ORIENTATION; 
+        static const Ogre::String PROPERTY_SCENE;
+        static const Ogre::String PROPERTY_POSITION;
+        static const Ogre::String PROPERTY_ORIENTATION;
         static const Ogre::String PROPERTY_NAME;
-        static const Ogre::String PROPERTY_DESCRIPTION; 
-        static const Ogre::String PROPERTY_MESHFILE; 
-  		static const Ogre::String PROPERTY_MESHPARTS;
+        static const Ogre::String PROPERTY_DESCRIPTION;
+        static const Ogre::String PROPERTY_MESHFILE;
+        static const Ogre::String PROPERTY_MESHPARTS;
         static const Ogre::String PROPERTY_SUBMESHPRENAME;
-		static const Ogre::String PROPERTY_GEOMETRY_TYPE; 
-        static const Ogre::String PROPERTY_MASS; 
-        static const Ogre::String PROPERTY_ACTIONS; 
+        static const Ogre::String PROPERTY_GEOMETRY_TYPE;
+        static const Ogre::String PROPERTY_MASS;
+        static const Ogre::String PROPERTY_ACTIONS;
         static const Ogre::String PROPERTY_DEFAULT_ACTION;
         static const Ogre::String PROPERTY_IMAGENAME;
 
@@ -78,23 +77,23 @@ namespace rl
 
         const CeGuiString& getClassId() const;
         void setClassId(const CeGuiString& classId);
-        
+
         const CeGuiString& getName() const;
         void setName(const CeGuiString& name);
 
         const CeGuiString& getDescription() const;
         void setDescription(const CeGuiString& description);
 
-		const CeGuiString& getImageName() const;
-		void setImageName(const CeGuiString& name);
-        
+        const CeGuiString& getImageName() const;
+        void setImageName(const CeGuiString& name);
+
         const CeGuiString& getMeshfile() const;
         void setMeshfile(const CeGuiString& meshfile);
 
         const CeGuiString& getSubmeshPreName() const;
         void setSubmeshPreName(const CeGuiString& name);
 
-		const MeshPartMap& getMeshParts() const;
+        const MeshPartMap& getMeshParts() const;
 
         const GeometryType getGeometryType() const;
         void setGeometryType(GeometryType type);
@@ -108,7 +107,7 @@ namespace rl
 
         void setScene(const CeGuiString& scene);
         const CeGuiString& getScene() const;
-    
+
         /*
          * sets the actor of this gameobject
          * @warning if the GameObject is destroyed or the State of the GameObject changed or this function
@@ -116,7 +115,7 @@ namespace rl
          */
         void setActor(Actor* actor);
         Actor* getActor();
-        
+
         /**
          * Check whether a creature can perform an action on this game object
          *
@@ -126,7 +125,7 @@ namespace rl
 
         /**
          * Get all valid actions a character can perfom on this game object
-         * 
+         *
          * @param actor the character
          * @return a vector of actions
          */
@@ -135,23 +134,17 @@ namespace rl
 
         /** Trigger an action of this game object
          *  @param actionName the action's name
-         *  @param actor the "user" of this game object, can be <code>NULL</code> sein, 
+         *  @param actor the "user" of this game object, can be <code>NULL</code> sein,
                    if the action wasn't triggered by someone (e.g. by time)
          *  @param target the action's target (can be <code>NULL</code> if no other game objects are involved)
          */
-        void doAction(const CeGuiString& actionName,
-                      Creature* actor,
-                      GameObject* target);
+        void doAction(const CeGuiString& actionName, Creature* actor, GameObject* target);
 
         void doAction(const CeGuiString& actionName);
 
-        void doAction(Action* action,
-                      Creature* actor,
-                      GameObject* target);
-                      
-        bool activateAction(Action* action,
-                      Creature* actor,
-                      GameObject* target);
+        void doAction(Action* action, Creature* actor, GameObject* target);
+
+        bool activateAction(Action* action, Creature* actor, GameObject* target);
 
         void doDefaultAction(Creature* actor, GameObject* target);
 
@@ -163,7 +156,7 @@ namespace rl
 
         /// Soll der Aktor ¸berhaupt leuchten?
         bool isHighlightingEnabled();
-        void setHighlightingEnabled( bool highlightenabled );
+        void setHighlightingEnabled(bool highlightenabled);
 
         void setHighlighted(bool highlight);
         bool isHighlighted() const;
@@ -207,17 +200,17 @@ namespace rl
     protected:
         int mId;
         GameObjectState mState;
-        
+
         CeGuiString mName;
         CeGuiString mDescription;
         CeGuiString mImageName;
         CeGuiString mMeshfile;
-		MeshPartMap mMeshParts;
+        MeshPartMap mMeshParts;
         CeGuiString mSubmeshPreName;
         CeGuiString mClassId;
-        
+
         Actor* mActor;
-        
+
         /// Query flags to be set to the actor, when placed into scene.
         unsigned long mQueryFlags;
 
@@ -235,7 +228,7 @@ namespace rl
         CeGuiString mScene;
 
     private:
-        static int sNextGameObjectId;    
+        static int sNextGameObjectId;
 
         ActionOptionVector mActions;
         Ogre::Vector3 mPosition;
@@ -244,14 +237,14 @@ namespace rl
         CeGuiString mDefaultAction;
         GeometryType mGeometryType;
 
-        ActionOptionVector::iterator findAction(ActionOptionVector::iterator begin,
-            ActionOptionVector::iterator end, const CeGuiString actionName);
+        ActionOptionVector::iterator findAction(
+            ActionOptionVector::iterator begin, ActionOptionVector::iterator end, const CeGuiString actionName);
         ActionOptionVector::const_iterator findAction(ActionOptionVector::const_iterator begin,
             ActionOptionVector::const_iterator end, const CeGuiString actionName) const;
-        ActionOptionVector::iterator findAction(ActionOptionVector::iterator
-            begin, ActionOptionVector::iterator end, const Action* action);    
+        ActionOptionVector::iterator findAction(
+            ActionOptionVector::iterator begin, ActionOptionVector::iterator end, const Action* action);
     };
-    
+
     typedef std::list<GameObject*> GameObjectList;
 }
 

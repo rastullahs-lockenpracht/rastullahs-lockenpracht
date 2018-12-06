@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -20,47 +20,46 @@
 
 namespace rl
 {
-	class WayPointGraph;
+    class WayPointGraph;
 
-	/** Manager for WayPointGraphs.
-	 * Organizes the management of WayPointGraphs.
-	 * The really sexy thing here is that enhancing the whole
-	 * waypoint finding can be done right in this class by extending it
-	 * with a grid like algorithm storage for waypointgraphs. That would
-	 * most likely reduce searching for a waypoint drastically - _if_ there
-	 * are many waypoints. At the moment this not something to consider.
-	 */
-	class _RlAiExport WayPointGraphManager 
-		: public Ogre::Singleton<WayPointGraphManager>
-	{
+    /** Manager for WayPointGraphs.
+     * Organizes the management of WayPointGraphs.
+     * The really sexy thing here is that enhancing the whole
+     * waypoint finding can be done right in this class by extending it
+     * with a grid like algorithm storage for waypointgraphs. That would
+     * most likely reduce searching for a waypoint drastically - _if_ there
+     * are many waypoints. At the moment this not something to consider.
+     */
+    class _RlAiExport WayPointGraphManager : public Ogre::Singleton<WayPointGraphManager>
+    {
 
-	public:
-		/** Constructor
-		 */
-		WayPointGraphManager();
-		/** explicit virtual destructor
-		 */
-		virtual ~WayPointGraphManager();
+    public:
+        /** Constructor
+         */
+        WayPointGraphManager();
+        /** explicit virtual destructor
+         */
+        virtual ~WayPointGraphManager();
 
-		/** Creates an WayPointGraph.
-		 * WayPointGraphManager is responsible for memory management of
-		 * the WayPointGraph
-		 */
-		WayPointGraph* createWayPointGraph();
+        /** Creates an WayPointGraph.
+         * WayPointGraphManager is responsible for memory management of
+         * the WayPointGraph
+         */
+        WayPointGraph* createWayPointGraph();
 
-		/** Removes all registered WayPointGraphs and deletes their objects.
-		 * Clears all internal lists and deallocates the memory of the 
-		 * stored objects.
-		 */
-		void removeAllWayPointGraphs();
+        /** Removes all registered WayPointGraphs and deletes their objects.
+         * Clears all internal lists and deallocates the memory of the
+         * stored objects.
+         */
+        void removeAllWayPointGraphs();
 
-	protected:
-		//! defines a std::list of Graphs
-		typedef std::vector<WayPointGraph*> WayPointGraphList;
+    protected:
+        //! defines a std::list of Graphs
+        typedef std::vector<WayPointGraph*> WayPointGraphList;
 
-		//! list of stored graphs
-		WayPointGraphList mGraphs;
-	};
+        //! list of stored graphs
+        WayPointGraphList mGraphs;
+    };
 };
 
 #endif

@@ -15,23 +15,24 @@
  */
 #include "stdinc.h" //precompiled header
 
-#include "QuestBook.h"
-#include "Quest.h"
 #include "Exception.h"
-#include "ScriptWrapper.h"
+#include "Quest.h"
+#include "QuestBook.h"
 #include "SaveGameManager.h"
+#include "ScriptWrapper.h"
 
 using namespace std;
 
-namespace rl {
+namespace rl
+{
     const Ogre::String QuestBook::PROPERTY_QUESTS = "quests";
     const Ogre::String QuestBook::PROPERTY_JOURNAL = "journal";
 
     QuestBook::QuestBook()
-	    : mJournalEntries(),
-	    mQuestEventCaster(),
-	    mJournalEventCaster(),
-        ScriptLoader()
+        : mJournalEntries()
+        , mQuestEventCaster()
+        , mJournalEventCaster()
+        , ScriptLoader()
     {
         mScriptPatterns.push_back("*.quests");
         createRoot();
@@ -41,9 +42,8 @@ namespace rl {
     QuestBook::~QuestBook()
     {
         SaveGameManager::getSingleton().unregisterSaveGameData(this);
-	    delete mRootQuest;
-        for( vector<JournalEntry*>::iterator it = mJournalEntries.begin();
-            it != mJournalEntries.end(); it++ )
+        delete mRootQuest;
+        for (vector<JournalEntry*>::iterator it = mJournalEntries.begin(); it != mJournalEntries.end(); it++)
         {
             delete *it;
         }
@@ -52,95 +52,91 @@ namespace rl {
 
     void QuestBook::createRoot()
     {
-        mRootQuest = new Quest("<root>", "<root>", "<root>"); 
-	    mRootQuest->setQuestBook(this);
-	    mRootQuest->setState(Quest::OPEN);
+        mRootQuest = new Quest("<root>", "<root>", "<root>");
+        mRootQuest->setQuestBook(this);
+        mRootQuest->setState(Quest::OPEN);
     }
 
     Quest* QuestBook::getQuest(const CeGuiString id) const
     {
-	    return getQuest(mRootQuest, id);
+        return getQuest(mRootQuest, id);
     }
 
     Quest* QuestBook::getQuest(Quest* parent, const CeGuiString id) const
     {
-	    if (parent->getId().compare(id) == 0)
-		    return parent;
+        if (parent->getId().compare(id) == 0)
+            return parent;
 
-	    QuestVector children = parent->getSubquests();
-	    for(QuestVector::iterator it = children.begin(); it != children.end(); it++)
-	    {
-		    Quest* subquest = getQuest(*it, id);
-		    if (subquest)
-		    {
-			    return subquest;
-		    }
-	    }
+        QuestVector children = parent->getSubquests();
+        for (QuestVector::iterator it = children.begin(); it != children.end(); it++)
+        {
+            Quest* subquest = getQuest(*it, id);
+            if (subquest)
+            {
+                return subquest;
+            }
+        }
 
-	    return NULL;
+        return NULL;
     }
 
     void QuestBook::addQuest(Quest* quest)
     {
-	    mRootQuest->addSubquest(quest);
+        mRootQuest->addSubquest(quest);
     }
 
-    void QuestBook::_fireQuestBookChanged(Quest *quest, int reason)
+    void QuestBook::_fireQuestBookChanged(Quest* quest, int reason)
     {
-	    QuestEvent* evt = new QuestEvent(this, reason);
-	    evt->setQuest(quest);
-	    mQuestEventCaster.dispatchEvent(evt);
-	    delete evt;
+        QuestEvent* evt = new QuestEvent(this, reason);
+        evt->setQuest(quest);
+        mQuestEventCaster.dispatchEvent(evt);
+        delete evt;
     }
 
     void QuestBook::fireJournalChanged(JournalEntry* entry, int reason)
     {
-	    JournalEvent evt = JournalEvent(this, reason, entry);
-	    mJournalEventCaster.dispatchEvent(&evt);
+        JournalEvent evt = JournalEvent(this, reason, entry);
+        mJournalEventCaster.dispatchEvent(&evt);
     }
 
     void QuestBook::addQuestListener(QuestListener* listener)
     {
-	    if (mQuestEventCaster.containsListener(listener) !=
-            mJournalEventCaster.containsListener(listener))
+        if (mQuestEventCaster.containsListener(listener) != mJournalEventCaster.containsListener(listener))
         {
             Throw(AssertionFailedError, "listener registration inconsistent");
         }
-	    else if (!mJournalEventCaster.containsListener(listener))
+        else if (!mJournalEventCaster.containsListener(listener))
         {
-		    mJournalEventCaster.addEventListener(listener);
-		    mQuestEventCaster.addEventListener(listener);
-            ScriptWrapper::getSingleton().owned( listener );
+            mJournalEventCaster.addEventListener(listener);
+            mQuestEventCaster.addEventListener(listener);
+            ScriptWrapper::getSingleton().owned(listener);
         }
     }
 
     void QuestBook::removeQuestListener(QuestListener* listener)
     {
-	    if (mQuestEventCaster.containsListener(listener) !=
-            mJournalEventCaster.containsListener(listener))
+        if (mQuestEventCaster.containsListener(listener) != mJournalEventCaster.containsListener(listener))
         {
             Throw(AssertionFailedError, "listener registration inconsistent");
         }
-	    else if (mJournalEventCaster.containsListener( listener ))
+        else if (mJournalEventCaster.containsListener(listener))
         {
-	        mJournalEventCaster.removeEventListener(listener);
-	        mQuestEventCaster.removeEventListener(listener);
-            ScriptWrapper::getSingleton().disowned( listener );
+            mJournalEventCaster.removeEventListener(listener);
+            mQuestEventCaster.removeEventListener(listener);
+            ScriptWrapper::getSingleton().disowned(listener);
         }
     }
 
     QuestVector QuestBook::getTopLevelQuests() const
     {
-	    return mRootQuest->getSubquests();
+        return mRootQuest->getSubquests();
     }
 
     void QuestBook::addJournalEntry(JournalEntry* entry)
     {
         mJournalEntries.push_back(entry);
 
-        LOG_MESSAGE(
-            Logger::RULES,
-            Ogre::String("Journal entry added: ") + entry->getCaption());
+        LOG_MESSAGE(Logger::RULES, Ogre::String("Journal entry added: ") + entry->getCaption());
 
         fireJournalChanged(entry, JournalEvent::JOURNAL_ENTRY_ADDED);
     }
@@ -168,9 +164,9 @@ namespace rl {
     {
         if (key == PROPERTY_QUESTS)
         {
-            //PropertyArray quests;
-            //QuestVector allQuests = getAllQuests();
-            //for (QuestVector::const_iterator it = allQuests.begin();
+            // PropertyArray quests;
+            // QuestVector allQuests = getAllQuests();
+            // for (QuestVector::const_iterator it = allQuests.begin();
             //    it != allQuests.end(); ++it)
             //{
             //    PropertyRecord* questProps = (*it)->getAllProperties();
@@ -178,13 +174,14 @@ namespace rl {
             //    delete questProps;
             //}
 
-            //return Property(quests);
+            // return Property(quests);
             return getQuestsProperty(mRootQuest);
         }
         else if (key == PROPERTY_JOURNAL)
         {
             PropertyArray journals;
-            for(std::vector<JournalEntry*>::const_iterator iter = mJournalEntries.begin(); iter != mJournalEntries.end(); iter++)
+            for (std::vector<JournalEntry*>::const_iterator iter = mJournalEntries.begin();
+                 iter != mJournalEntries.end(); iter++)
             {
                 PropertyRecord journal;
                 journal.setProperty(JournalEntry::PROPERTY_CAPTION, Property((*iter)->getCaption()));
@@ -205,7 +202,7 @@ namespace rl {
         if (rootQuest->hasSubquests())
         {
             QuestVector quests = rootQuest->getSubquests();
-            for(unsigned int i = 0; i < quests.size(); i++)
+            for (unsigned int i = 0; i < quests.size(); i++)
             {
                 PropertyMap map = quests[i]->getAllProperties()->toPropertyMap();
                 if (quests[i]->hasSubquests())
@@ -222,7 +219,7 @@ namespace rl {
         {
             setQuestsProperty(value.toArray(), mRootQuest);
             /*PropertyArray quests = value.toArray();
-            for (PropertyArray::const_iterator it = quests.begin(); 
+            for (PropertyArray::const_iterator it = quests.begin();
                 it != quests.end(); ++it)
             {
                 PropertyMap curVal = it->toMap();
@@ -233,7 +230,7 @@ namespace rl {
                     quest = new Quest(id);
                     addQuest(quest);
                 }
-               
+
                 quest->setProperties(curVal);
             }*/
             ///@todo implement
@@ -241,7 +238,7 @@ namespace rl {
         else if (key == PROPERTY_JOURNAL)
         {
             PropertyArray journals = value.toArray();
-            for(PropertyArray::const_iterator it = journals.begin(); it != journals.end(); it++)
+            for (PropertyArray::const_iterator it = journals.begin(); it != journals.end(); it++)
             {
                 PropertyMap curVal = it->toMap();
                 Property caption = curVal[JournalEntry::PROPERTY_CAPTION];
@@ -273,7 +270,7 @@ namespace rl {
             if (curVal.find("quests") != curVal.end())
             {
                 setQuestsProperty(curVal["quests"], quest);
-            }            
+            }
         }
         ///@todo implement
     }
@@ -309,7 +306,7 @@ namespace rl {
         return "questbook";
     }
 
-    void QuestBook::writeData(SaveGameFileWriter *writer)
+    void QuestBook::writeData(SaveGameFileWriter* writer)
     {
         LOG_MESSAGE(Logger::RULES, "Saving questbook");
 
@@ -329,8 +326,7 @@ namespace rl {
     void QuestBook::clear()
     {
         delete mRootQuest;
-        for( vector<JournalEntry*>::iterator it = mJournalEntries.begin();
-            it != mJournalEntries.end(); )
+        for (vector<JournalEntry*>::iterator it = mJournalEntries.begin(); it != mJournalEntries.end();)
         {
             JournalEntry* entry = *it;
             it = mJournalEntries.erase(it);
@@ -346,12 +342,12 @@ namespace rl {
         return 101;
     }
 
-    const Ogre::StringVector &QuestBook::getScriptPatterns(void) const
+    const Ogre::StringVector& QuestBook::getScriptPatterns(void) const
     {
         return mScriptPatterns;
     }
 
-    void QuestBook::parseScript(Ogre::DataStreamPtr& stream,const Ogre::String& groupname)
+    void QuestBook::parseScript(Ogre::DataStreamPtr& stream, const Ogre::String& groupname)
     {
         TiXmlDocument* doc = loadDocument(stream);
         if (doc)
@@ -367,7 +363,7 @@ namespace rl {
         }
         else
         {
-            LOG_ERROR(Logger::RULES,"Quests XML is not valid!");
+            LOG_ERROR(Logger::RULES, "Quests XML is not valid!");
         }
     }
 
@@ -386,7 +382,7 @@ namespace rl {
         {
             if (hasNodeName(cur, "name"))
             {
-                quest->setProperty(Quest::PROPERTY_NAME,  Property(getValueAsString(cur->ToElement())));
+                quest->setProperty(Quest::PROPERTY_NAME, Property(getValueAsString(cur->ToElement())));
             }
             else if (hasNodeName(cur, "description"))
             {

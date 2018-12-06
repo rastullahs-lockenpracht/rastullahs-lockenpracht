@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -21,7 +21,7 @@
 #include "GameLoop.h"
 #include "SaveGameManager.h"
 
-template<> rl::TimeSourceManager* Ogre::Singleton<rl::TimeSourceManager>::ms_Singleton = 0;
+template <> rl::TimeSourceManager* Ogre::Singleton<rl::TimeSourceManager>::ms_Singleton = 0;
 
 namespace rl
 {
@@ -38,8 +38,8 @@ namespace rl
     }
 
     RealTimeContinuous::RealTimeContinuous()
-        : TimeSource(false),
-        mTime(0.0)
+        : TimeSource(false)
+        , mTime(0.0)
     {
     }
 
@@ -75,9 +75,9 @@ namespace rl
     }
 
     RealTimeInterruptable::RealTimeInterruptable()
-        : TimeSource(true),
-        mTimeFactor(1.0),
-        mTime(0.0)
+        : TimeSource(true)
+        , mTimeFactor(1.0)
+        , mTime(0.0)
     {
     }
 
@@ -121,7 +121,7 @@ namespace rl
 
     TimeSourceManager::TimeSourceManager()
     {
-		SaveGameManager::getSingleton().registerSaveGameData(this);
+        SaveGameManager::getSingleton().registerSaveGameData(this);
     }
 
     TimeSourceManager::~TimeSourceManager()
@@ -130,24 +130,22 @@ namespace rl
 
         // delete TimeSources
         TimeSourceMap::iterator it = mTimeSources.begin();
-        for( ; it != mTimeSources.end(); it++)
-            if( it->second != NULL )
+        for (; it != mTimeSources.end(); it++)
+            if (it->second != NULL)
                 delete it->second;
     }
 
     void TimeSourceManager::registerTimeSource(TimeSource* ts)
     {
         TimeSourceMap::iterator it = mTimeSources.find(ts->getType());
-        if( it != mTimeSources.end() )
+        if (it != mTimeSources.end())
             delete it->second;
         mTimeSources[ts->getType()] = ts;
     }
 
-    TimeSource* TimeSourceManager::getTimeSource(
-        const TimeSource::TimeSourceType& type) const
+    TimeSource* TimeSourceManager::getTimeSource(const TimeSource::TimeSourceType& type) const
     {
-        std::map<TimeSource::TimeSourceType, TimeSource*>::const_iterator it
-            = mTimeSources.find(type);
+        std::map<TimeSource::TimeSourceType, TimeSource*>::const_iterator it = mTimeSources.find(type);
 
         if (it == mTimeSources.end())
         {
@@ -159,8 +157,8 @@ namespace rl
 
     void TimeSourceManager::setTimeFactor(const Ogre::Real& factor)
     {
-        for (std::map<TimeSource::TimeSourceType, TimeSource*>::iterator it
-            = mTimeSources.begin(); it != mTimeSources.end(); ++it)
+        for (std::map<TimeSource::TimeSourceType, TimeSource*>::iterator it = mTimeSources.begin();
+             it != mTimeSources.end(); ++it)
         {
             it->second->setTimeFactor(factor);
         }
@@ -168,61 +166,63 @@ namespace rl
 
     void TimeSourceManager::setPaused(bool paused)
     {
-        for (std::map<TimeSource::TimeSourceType, TimeSource*>::iterator it
-            = mTimeSources.begin(); it != mTimeSources.end(); ++it)
+        for (std::map<TimeSource::TimeSourceType, TimeSource*>::iterator it = mTimeSources.begin();
+             it != mTimeSources.end(); ++it)
         {
             it->second->setPaused(paused);
         }
     }
 
-	CeGuiString TimeSourceManager::getXmlNodeIdentifier() const
-	{
-		return "time_sources";
-	}
+    CeGuiString TimeSourceManager::getXmlNodeIdentifier() const
+    {
+        return "time_sources";
+    }
 
     void TimeSourceManager::writeData(SaveGameFileWriter* writer)
-	{
-		TiXmlElement* timesources = writer->appendChildElement(
-			writer->getDocument(), getXmlNodeIdentifier().c_str());
+    {
+        TiXmlElement* timesources = writer->appendChildElement(writer->getDocument(), getXmlNodeIdentifier().c_str());
 
-		for (std::map<TimeSource::TimeSourceType, TimeSource*>::const_iterator it_time_sources = mTimeSources.begin();
-			it_time_sources != mTimeSources.end(); it_time_sources++)
+        for (std::map<TimeSource::TimeSourceType, TimeSource*>::const_iterator it_time_sources = mTimeSources.begin();
+             it_time_sources != mTimeSources.end(); it_time_sources++)
         {
             TiXmlElement* timesource = writer->appendChildElement(timesources, "time_source");
-			writer->setAttributeValueAsInteger(timesource, "ID", it_time_sources->first);
-			Property time((int)it_time_sources->second->getClock());
+            writer->setAttributeValueAsInteger(timesource, "ID", it_time_sources->first);
+            Property time((int)it_time_sources->second->getClock());
 
             PropertyMap map;
-			map["time"] = time;
+            map["time"] = time;
             writer->writeEachPropertyToElem(timesource, map);
-        } 
-	}
+        }
+    }
 
-	void TimeSourceManager::readData(SaveGameFileReader* reader)
-	{
-		XmlElementList rootNodeList = reader->getElementsByTagName(reader->getDocument()->RootElement(), getXmlNodeIdentifier().c_str());
+    void TimeSourceManager::readData(SaveGameFileReader* reader)
+    {
+        XmlElementList rootNodeList
+            = reader->getElementsByTagName(reader->getDocument()->RootElement(), getXmlNodeIdentifier().c_str());
 
-		if (!rootNodeList.empty())
+        if (!rootNodeList.empty())
         {
-			XmlElementList xmlTimeSources = reader->getElementsByTagName(rootNodeList[0], "gameobject"); //there should be only one "gameobjects" node
-			for (XmlElementList::iterator it = xmlTimeSources.begin(); it != xmlTimeSources.end(); ++it)
-			{
-				const TiXmlElement* xmlTimeSource = *it;
-				TimeSource::TimeSourceType ID = (TimeSource::TimeSourceType)reader->getAttributeValueAsInteger(
-					xmlTimeSource, "ID");
-				PropertyRecordPtr properties = reader->getPropertiesAsRecord(xmlTimeSource);
+            XmlElementList xmlTimeSources = reader->getElementsByTagName(
+                rootNodeList[0], "gameobject"); // there should be only one "gameobjects" node
+            for (XmlElementList::iterator it = xmlTimeSources.begin(); it != xmlTimeSources.end(); ++it)
+            {
+                const TiXmlElement* xmlTimeSource = *it;
+                TimeSource::TimeSourceType ID
+                    = (TimeSource::TimeSourceType)reader->getAttributeValueAsInteger(xmlTimeSource, "ID");
+                PropertyRecordPtr properties = reader->getPropertiesAsRecord(xmlTimeSource);
 
-				std::map<TimeSource::TimeSourceType, TimeSource*>::const_iterator it_time_sources = mTimeSources.find(ID);
-				if (it_time_sources != mTimeSources.end())
-				{
-					it_time_sources->second->setClock(properties->toPropertyMap()["time"].toInt());
-				}
-			}
-		}
-	}
-    
+                std::map<TimeSource::TimeSourceType, TimeSource*>::const_iterator it_time_sources
+                    = mTimeSources.find(ID);
+                if (it_time_sources != mTimeSources.end())
+                {
+                    it_time_sources->second->setClock(properties->toPropertyMap()["time"].toInt());
+                }
+            }
+        }
+    }
+
     int TimeSourceManager::getPriority() const
-	{
-		return 10000;
-	}
+    {
+        return 10000;
+    }
 }

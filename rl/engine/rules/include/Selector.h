@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -17,19 +17,22 @@
 #ifndef __RL_SELECTOR_H__
 #define __RL_SELECTOR_H__
 
+#include "Creature.h"
+#include "DebugVisualisable.h"
+#include "GameObject.h"
+#include "LineSetPrimitive.h"
 #include "RulesPrerequisites.h"
 #include "SceneQuery.h"
-#include "GameObject.h"
-#include "Creature.h"
-#include "LineSetPrimitive.h"
-#include "DebugVisualisable.h"
 
-namespace rl {
+namespace rl
+{
 
     class _RlRulesExport SelectionFilter
     {
     public:
-        virtual ~SelectionFilter() {}
+        virtual ~SelectionFilter()
+        {
+        }
         /// Return true, if the GameObject passes the filter, false else.
         virtual bool pass(GameObject*) const = 0;
     };
@@ -43,6 +46,7 @@ namespace rl {
 
         /// Return true, if the GameObject is a Creature with properties as set in the filter.
         virtual bool pass(GameObject*) const;
+
     private:
         /// Only have alignment here. Can be mademore generic, if needed later on.
         unsigned int mAlignment;
@@ -76,7 +80,7 @@ namespace rl {
 
         GameObject* getFirstSelectedObject() const;
         const GameObjectList& getAllSelectedObjects() const;
-		unsigned int getSelectionCount() const;
+        unsigned int getSelectionCount() const;
 
     protected:
         GameObjectList mSelection;
@@ -88,13 +92,12 @@ namespace rl {
         virtual bool filter(GameObject*);
     };
 
-
     /// A Selector that selects all unoccluded GameObject the ray hits.
     class _RlRulesExport RaySelector : public Selector
     {
     public:
         RaySelector(unsigned long mask = 0xffffffff, bool useOgreQuery = false);
-		~RaySelector();
+        ~RaySelector();
 
         void setRay(const Ogre::Vector3& start, const Ogre::Vector3& end);
 
@@ -116,7 +119,7 @@ namespace rl {
     {
     public:
         HalfSphereSelector(Ogre::SceneManager* smgr, unsigned long mask = 0xffffffff);
-		HalfSphereSelector(unsigned long mask = 0xffffffff);
+        HalfSphereSelector(unsigned long mask = 0xffffffff);
 
         virtual void updateSelection();
 
@@ -155,7 +158,7 @@ namespace rl {
     {
     public:
         SphereSelector(Ogre::SceneManager* smgr, unsigned long mask = 0xffffffff);
-	SphereSelector(unsigned long mask = 0xffffffff);
+        SphereSelector(unsigned long mask = 0xffffffff);
 
         virtual void updateSelection();
 
@@ -188,4 +191,3 @@ namespace rl {
     };
 }
 #endif
-

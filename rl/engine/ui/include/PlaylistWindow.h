@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -21,32 +21,31 @@
 
 #include "AbstractWindow.h"
 
-namespace rl {
+namespace rl
+{
 
-	class Person;
+    class Person;
 
-	class _RlUiExport PlaylistWindow : public AbstractWindow
-	{
-	public:
-		PlaylistWindow();
-		~PlaylistWindow();
+    class _RlUiExport PlaylistWindow : public AbstractWindow
+    {
+    public:
+        PlaylistWindow();
+        ~PlaylistWindow();
 
-		/**
-		 * Aktualisiert die Tabellenelemente
-		 */
-		void update();
+        /**
+         * Aktualisiert die Tabellenelemente
+         */
+        void update();
 
-	private:
+    private:
         bool handleQuit();
         bool handlePlay();
-    
-		Person* mCharacter;
 
-		CEGUI::Window* mSheet;
-		CEGUI::MultiColumnList* mPlaylistTable;
-	};
+        Person* mCharacter;
+
+        CEGUI::Window* mSheet;
+        CEGUI::MultiColumnList* mPlaylistTable;
+    };
 }
 
-
 #endif
-

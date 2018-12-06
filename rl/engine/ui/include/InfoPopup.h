@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -20,7 +20,8 @@
 #include "AbstractWindow.h"
 #include "QuestListener.h"
 
-namespace rl {
+namespace rl
+{
 
     class _RlUiExport InfoPopup : public AbstractWindow, public QuestListener
     {
@@ -42,6 +43,7 @@ namespace rl {
 
         void journalEntryAdded(JournalEvent* anEvent);
         void journalEntryDeleted(JournalEvent* anEvent);
+
     private:
         static const int ICON_SPACING = 5;
 
@@ -51,5 +53,4 @@ namespace rl {
         CEGUI::Window* mErrorIcon;
         CEGUI::Window* mQuestIcon;
     };
-
 }

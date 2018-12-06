@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -22,27 +22,28 @@
 
 #include "RulesPrerequisites.h"
 
-namespace rl {
-
-/** ObjectStateChangeListener
- *  Eine Basisklasse fuer Listener die auf ObjectStateChangeEvents lauschen
- *
- *  @see ObjectStateChangeEvent, ObjectStateChangeEventSource, GameObject
- */
-class _RlRulesExport ObjectStateChangeListener : public virtual EventListener<ObjectStateChangeEvent>
+namespace rl
 {
-public:
-    /// Dekonstruktor
-    virtual ~ObjectStateChangeListener();
 
-     /// Kuemmert sich um das Aufrufen benannter Methoden aus Reasons
-	virtual bool eventRaised(ObjectStateChangeEvent *anEvent);
+    /** ObjectStateChangeListener
+     *  Eine Basisklasse fuer Listener die auf ObjectStateChangeEvents lauschen
+     *
+     *  @see ObjectStateChangeEvent, ObjectStateChangeEventSource, GameObject
+     */
+    class _RlRulesExport ObjectStateChangeListener : public virtual EventListener<ObjectStateChangeEvent>
+    {
+    public:
+        /// Dekonstruktor
+        virtual ~ObjectStateChangeListener();
 
-    /** Diese Methode wird aufgerufen, wenn sich der Status des Objectes geaendert hat
-      * @param anEvent Der ausloesende Event
-      */  
-	virtual void objectStateChanged(ObjectStateChangeEvent* anEvent) = 0;
-};
+        /// Kuemmert sich um das Aufrufen benannter Methoden aus Reasons
+        virtual bool eventRaised(ObjectStateChangeEvent* anEvent);
+
+        /** Diese Methode wird aufgerufen, wenn sich der Status des Objectes geaendert hat
+         * @param anEvent Der ausloesende Event
+         */
+        virtual void objectStateChanged(ObjectStateChangeEvent* anEvent) = 0;
+    };
 }
 
 #endif

@@ -27,50 +27,47 @@
 using namespace CEGUI;
 using namespace Ogre;
 
-
-namespace rl {
-
-PlaylistWindow::PlaylistWindow()
-	: AbstractWindow("playlistwindow.xml", WIT_MOUSE_INPUT)
+namespace rl
 {
-	mPlaylistTable = getMultiColumnList("PlaylistSheet/PlaylistSheet/Table");
-	mPlaylistTable->addColumn((utf8*)"Name", 0, cegui_reldim(0.5));
-	mPlaylistTable->addColumn((utf8*)"Dauer", 1, cegui_reldim(0.3));
-	mPlaylistTable->setUserSortControlEnabled(false);
 
-    /* getWindow("PlaylistWindow")->subscribeEvent(
-            Window::EventMouseClick,
-            boost::bind(&MainMenuWindow::handleChooseModules, this)); */
+    PlaylistWindow::PlaylistWindow()
+        : AbstractWindow("playlistwindow.xml", WIT_MOUSE_INPUT)
+    {
+        mPlaylistTable = getMultiColumnList("PlaylistSheet/PlaylistSheet/Table");
+        mPlaylistTable->addColumn((utf8*)"Name", 0, cegui_reldim(0.5));
+        mPlaylistTable->addColumn((utf8*)"Dauer", 1, cegui_reldim(0.3));
+        mPlaylistTable->setUserSortControlEnabled(false);
 
-    getWindow("PlaylistSheet/ButtonSheet/Play")->subscribeEvent(
-            Window::EventMouseClick,
-            boost::bind(&PlaylistWindow::handlePlay, this));
-    getWindow("PlaylistSheet/ButtonSheet/Quit")->subscribeEvent(
-            Window::EventMouseClick,
-            boost::bind(&PlaylistWindow::handleQuit, this));
-    bindDestroyWindowToClick(getWindow("PlaylistSheet"));
-	bindDestroyWindowToXButton();
+        /* getWindow("PlaylistWindow")->subscribeEvent(
+                Window::EventMouseClick,
+                boost::bind(&MainMenuWindow::handleChooseModules, this)); */
 
-    centerWindow();
-}
+        getWindow("PlaylistSheet/ButtonSheet/Play")
+            ->subscribeEvent(Window::EventMouseClick, boost::bind(&PlaylistWindow::handlePlay, this));
+        getWindow("PlaylistSheet/ButtonSheet/Quit")
+            ->subscribeEvent(Window::EventMouseClick, boost::bind(&PlaylistWindow::handleQuit, this));
+        bindDestroyWindowToClick(getWindow("PlaylistSheet"));
+        bindDestroyWindowToXButton();
 
-PlaylistWindow::~PlaylistWindow()
-{
-}
+        centerWindow();
+    }
 
-void PlaylistWindow::update()
-{
-}
+    PlaylistWindow::~PlaylistWindow()
+    {
+    }
 
-bool PlaylistWindow::handleQuit()
-{
-    setVisible(false, true);
-	return true;
-}
+    void PlaylistWindow::update()
+    {
+    }
 
-bool PlaylistWindow::handlePlay()
-{
-	return true;
-}
+    bool PlaylistWindow::handleQuit()
+    {
+        setVisible(false, true);
+        return true;
+    }
 
+    bool PlaylistWindow::handlePlay()
+    {
+        return true;
+    }
 }

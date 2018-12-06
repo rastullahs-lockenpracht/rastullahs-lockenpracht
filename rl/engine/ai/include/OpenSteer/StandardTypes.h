@@ -33,14 +33,12 @@
 // Include std::size_t, std::ptrdiff_t
 #include <cstddef>
 
+namespace OpenSteer
+{
 
-namespace OpenSteer {
-    
-    
     typedef std::size_t size_t;
     typedef std::ptrdiff_t ptrdiff_t;
-    
-} // namespace OpenSteer
 
+} // namespace OpenSteer
 
 #endif // OPENSTEER_STANDARDTYPES_H

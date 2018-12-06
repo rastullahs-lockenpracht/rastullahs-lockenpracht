@@ -1,19 +1,19 @@
 /*
-* This source file is part of Rastullahs Lockenpracht.
-* Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
-*
-*  This program is free software; you can redistribute it and/or modify
-*  it under the terms of the Clarified Artistic License.
-*
-*  This program is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  Clarified Artistic License for more details.
-*
-*  You should have received a copy of the Clarified Artistic License
-*  along with this program; if not you can get it here
-*  http://www.jpaulmorrison.com/fbp/artistic2.htm.
-*/
+ * This source file is part of Rastullahs Lockenpracht.
+ * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the Clarified Artistic License.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  Clarified Artistic License for more details.
+ *
+ *  You should have received a copy of the Clarified Artistic License
+ *  along with this program; if not you can get it here
+ *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
+ */
 #include "stdinc.h" //precompiled header
 
 #include "DialogControlState.h"
@@ -28,8 +28,8 @@
 #include "Creature.h"
 #include "Dialog.h"
 #include "DialogElement.h"
-#include "DialogParagraph.h"
 #include "DialogOption.h"
+#include "DialogParagraph.h"
 #include "DialogResponse.h"
 #include "DialogWindow.h"
 #include "GameLoggerWindow.h"
@@ -47,23 +47,23 @@
 #include "World.h"
 
 #ifdef __APPLE__
-#   include <OgreNewt/OgreNewt.h>
+#include <OgreNewt/OgreNewt.h>
 #else
-#   include <OgreNewt.h>
+#include <OgreNewt.h>
 #endif
 
 using namespace Ogre;
 using namespace std;
 
-namespace rl {
+namespace rl
+{
 
-    DialogControlState::DialogControlState(CommandMapper* cmdMapper,
-        Actor* camera, Creature* character)
-        : DialogController(cmdMapper, camera, character, CST_DIALOG),
-        mTargetCameraPosition(Vector3::ZERO),
-        mTargetCameraDirection(Vector3::UNIT_Z),
-        mDialogMode(DM_FRONT),
-        mDialogWindow(NULL)
+    DialogControlState::DialogControlState(CommandMapper* cmdMapper, Actor* camera, Creature* character)
+        : DialogController(cmdMapper, camera, character, CST_DIALOG)
+        , mTargetCameraPosition(Vector3::ZERO)
+        , mTargetCameraDirection(Vector3::UNIT_Z)
+        , mDialogMode(DM_FRONT)
+        , mDialogWindow(NULL)
     {
     }
 
@@ -88,16 +88,16 @@ namespace rl {
             }
         }
         */
-        //mCameraActor->getPhysicalThing()->unfreeze();
-        //mCharacterActor->getPhysicalThing()->unfreeze();
+        // mCameraActor->getPhysicalThing()->unfreeze();
+        // mCharacterActor->getPhysicalThing()->unfreeze();
     }
 
     void DialogControlState::resume()
     {
         mCharacterActor->setVisible(true);
 
-        //mCameraActor->getPhysicalThing()->freeze();
-        //mCharacterActor->getPhysicalThing()->freeze();
+        // mCameraActor->getPhysicalThing()->freeze();
+        // mCharacterActor->getPhysicalThing()->freeze();
         Camera* ogreCam = static_cast<Camera*>(mCameraActor->_getMovableObject());
         ogreCam->setFixedYawAxis(true);
         ogreCam->setPosition(Vector3::ZERO);
@@ -113,41 +113,40 @@ namespace rl {
             mSubtitleWindow = new SubtitleWindow();
         }
 
-
         mDialogWindow->setVisible(true);
         mSubtitleWindow->setVisible(true);
 
-		mGameLogger = WindowFactory::getSingleton().getGameLogger();
+        mGameLogger = WindowFactory::getSingleton().getGameLogger();
     }
 
-	void DialogControlState::start(Dialog* dialog)
-	{
-		mDialog = dialog;
+    void DialogControlState::start(Dialog* dialog)
+    {
+        mDialog = dialog;
 
-		//Ogre::String voiceFile = mBot->getVoiceFile().c_str();
-		//if (voiceFile != "")
-		//{
-		//	if (voiceFile.find(".zip") != Ogre::String::npos)
-		//	{
-		//		ResourceGroupManager::getSingleton().addResourceLocation(
-		//			voiceFile, "Zip", voiceFile);
-		//	}
-		//	else
-		//	{
-		//		ResourceGroupManager::getSingleton().addResourceLocation(
-  //         			voiceFile, "FileSystem", voiceFile);
-		//	}
-		//}
+        // Ogre::String voiceFile = mBot->getVoiceFile().c_str();
+        // if (voiceFile != "")
+        //{
+        //	if (voiceFile.find(".zip") != Ogre::String::npos)
+        //	{
+        //		ResourceGroupManager::getSingleton().addResourceLocation(
+        //			voiceFile, "Zip", voiceFile);
+        //	}
+        //	else
+        //	{
+        //		ResourceGroupManager::getSingleton().addResourceLocation(
+        //         			voiceFile, "FileSystem", voiceFile);
+        //	}
+        //}
 
-		if (!mDialog || !mDialogWindow)
-		{
+        if (!mDialog || !mDialogWindow)
+        {
             LOG_ERROR(Logger::UI, "DialogControlState not properly initialized.");
             handleDialogEnd();
             return;
-		}
+        }
         mDialog->setProperty(Dialog::PROP_EXIT_REQUESTED, false);
         showResponse(mDialog->getDialogStart());
-	}
+    }
 
     void DialogControlState::run(Real elapsedTime)
     {
@@ -160,7 +159,7 @@ namespace rl {
         if (posDistance != Vector3::ZERO)
         {
             // Die Kameraanpassgeschwindigkeit
-            Real speed = 1/elapsedTime;
+            Real speed = 1 / elapsedTime;
             mCameraActor->setPosition(mTargetCameraPosition);
         }
 
@@ -179,7 +178,7 @@ namespace rl {
             mCurrFadeTextTime = 0;
             mTotalFadeTextTime = 0;
             mTextShown = false;
-               if (mSoundObject)
+            if (mSoundObject)
             {
                 mSoundObject->stop();
             }
@@ -188,12 +187,9 @@ namespace rl {
         }
 
         LOG_DEBUG(Logger::UI,
-                StringConverter::toString(mSubtitleWindow->getWindow()->getEffectiveAlpha())
-                + ": "
-                + mSubtitleWindow->getText()
-                + CeGuiString(mSubtitleWindow->getWindow()->isVisible() ? "vis" : "unvis")
-                + ", Time: "
-                + StringConverter::toString(mCurrFadeTextTime));
+            StringConverter::toString(mSubtitleWindow->getWindow()->getEffectiveAlpha()) + ": "
+                + mSubtitleWindow->getText() + CeGuiString(mSubtitleWindow->getWindow()->isVisible() ? "vis" : "unvis")
+                + ", Time: " + StringConverter::toString(mCurrFadeTextTime));
     }
 
     void DialogControlState::recalculateDialogCamera(Creature* speaker, const CreatureList& listeners)
@@ -204,19 +200,19 @@ namespace rl {
         Vector3 globalCameraPosition = (speakerEyes + listenerEyes) / 2.0f;
 
         // Weltkoordinaten in lokale umwandeln
-        mTargetCameraPosition =
-            -1*(mCameraActor->_getSceneNode()->getParentSceneNode()->_getDerivedOrientation().Inverse()*
-            (mCameraActor->_getSceneNode()->getParentSceneNode()->_getDerivedPosition() - globalCameraPosition));
+        mTargetCameraPosition = -1
+            * (mCameraActor->_getSceneNode()->getParentSceneNode()->_getDerivedOrientation().Inverse()
+                  * (mCameraActor->_getSceneNode()->getParentSceneNode()->_getDerivedPosition()
+                        - globalCameraPosition));
 
         mTargetCameraDirection = (listenerEyes - mTargetCameraPosition).normalisedCopy();
     }
 
-
-	void DialogControlState::handleDialogEnd()
-	{
-		InputManager::getSingleton().popControlState();
-		mDialogWindow->setVisible(false, true);
-		mSubtitleWindow->setVisible(false, true);
+    void DialogControlState::handleDialogEnd()
+    {
+        InputManager::getSingleton().popControlState();
+        mDialogWindow->setVisible(false, true);
+        mSubtitleWindow->setVisible(false, true);
         mDialogWindow = NULL;
         mSubtitleWindow = NULL;
         if (mDialog != NULL)
@@ -239,19 +235,18 @@ namespace rl {
         {
             LOG_ERROR(Logger::UI, "There is no Dialog to be closed!");
         }
-	}
+    }
 
-	bool DialogControlState::requestDialogClose()
-	{
-	//	handleClose is called automatically
+    bool DialogControlState::requestDialogClose()
+    {
+        //	handleClose is called automatically
         handleDialogEnd();
-		//@todo
-		return true;
-	}
+        //@todo
+        return true;
+    }
 
-
-	bool DialogControlState::textFinished()
-	{
+    bool DialogControlState::textFinished()
+    {
 
         if (!DialogController::textFinished())
         {
@@ -261,7 +256,7 @@ namespace rl {
                 DialogResponse::Options options = mCurrentResponse->getAvailableOptions(mDialog);
                 // if there is just one option and it is an auto selected one,
                 // display it.
-                if (options.size() == 1 &&  options.front()->isAutoSelected())
+                if (options.size() == 1 && options.front()->isAutoSelected())
                 {
                     handleDialogSelectOption(options.front());
                     return true;
@@ -276,12 +271,10 @@ namespace rl {
             }
         }
 
-        LOG_DEBUG(Logger::UI,
-                    StringConverter::toString(mDialogState)
-                    + " bei textFinished");
+        LOG_DEBUG(Logger::UI, StringConverter::toString(mDialogState) + " bei textFinished");
 
         return true;
-	}
+    }
 
     bool DialogControlState::handleDialogSelectOption(DialogOption* option)
     {
@@ -301,5 +294,4 @@ namespace rl {
 
         return true;
     }
-
 }

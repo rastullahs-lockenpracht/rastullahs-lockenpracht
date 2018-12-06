@@ -37,9 +37,9 @@ namespace rl
     {
     }
 
-    DialogVariableAssignment::DialogVariableAssignment(const Ogre::String& variableName,
-                                                       const CeGuiString& value)
-        : mVariableName(variableName), mValue(value)
+    DialogVariableAssignment::DialogVariableAssignment(const Ogre::String& variableName, const CeGuiString& value)
+        : mVariableName(variableName)
+        , mValue(value)
     {
     }
 
@@ -50,8 +50,7 @@ namespace rl
         dialog->setProperty(mVariableName, prop);
     }
 
-	DialogVariableIncrease::DialogVariableIncrease(const Ogre::String& variableName,
-                                                   const CeGuiString& value)
+    DialogVariableIncrease::DialogVariableIncrease(const Ogre::String& variableName, const CeGuiString& value)
         : DialogVariableAssignment(variableName, value)
     {
     }
@@ -59,7 +58,7 @@ namespace rl
     void DialogVariableIncrease::apply(Dialog* dialog)
     {
         Property prop = dialog->getProperty(mVariableName);
-        if(prop.isInt() || prop.isReal())
+        if (prop.isInt() || prop.isReal())
         {
             Property mod = dialog->getProperty(mVariableName);
             mod.getFromString(mValue);
@@ -69,14 +68,12 @@ namespace rl
         }
         else
         {
-            LOG_ERROR(Logger::DIALOG, "You can not increase the variable '"
-                                      + mVariableName
-                                      + "'. The variable's type is not a number");
+            LOG_ERROR(Logger::DIALOG,
+                "You can not increase the variable '" + mVariableName + "'. The variable's type is not a number");
         }
     }
 
-    DialogVariableDecrease::DialogVariableDecrease(const Ogre::String& variableName,
-                                                   const CeGuiString& value)
+    DialogVariableDecrease::DialogVariableDecrease(const Ogre::String& variableName, const CeGuiString& value)
         : DialogVariableAssignment(variableName, value)
     {
     }
@@ -84,7 +81,7 @@ namespace rl
     void DialogVariableDecrease::apply(Dialog* dialog)
     {
         Property prop = dialog->getProperty(mVariableName);
-        if(prop.isInt() || prop.isReal())
+        if (prop.isInt() || prop.isReal())
         {
             Property mod = dialog->getProperty(mVariableName);
             mod.getFromString(mValue);
@@ -94,23 +91,22 @@ namespace rl
         }
         else
         {
-            LOG_ERROR(Logger::DIALOG, "You can not decrease the variable '"
-                                      + mVariableName
-                                      + "'. The variable's type is not a number");
+            LOG_ERROR(Logger::DIALOG,
+                "You can not decrease the variable '" + mVariableName + "'. The variable's type is not a number");
         }
     }
 
-    DialogElementActivation::DialogElementActivation(const CeGuiString& id,
-                                                     bool value,
-                                                     bool isOption)
-        : mElementId(id), mValue(value), mIsOption(isOption)
+    DialogElementActivation::DialogElementActivation(const CeGuiString& id, bool value, bool isOption)
+        : mElementId(id)
+        , mValue(value)
+        , mIsOption(isOption)
     {
     }
 
     void DialogElementActivation::apply(Dialog* dialog)
     {
         Property prop;
-        if(mIsOption)
+        if (mIsOption)
         {
             dialog->setProperty("option" + mElementId + "isActive", mValue);
         }
@@ -120,17 +116,20 @@ namespace rl
         }
     }
 
-	void DialogExit::apply(rl::Dialog *dialog)
-	{
-		dialog->setProperty(Dialog::PROP_EXIT_REQUESTED, true);
-	}
+    void DialogExit::apply(rl::Dialog* dialog)
+    {
+        dialog->setProperty(Dialog::PROP_EXIT_REQUESTED, true);
+    }
 
-    QuestPropertyAssignment::QuestPropertyAssignment(const Ogre::String &questId, const Ogre::String &prop, const rl::CeGuiString &newValue)
-        : mQuestId(questId), mProperty(prop), mNewValue(newValue)
+    QuestPropertyAssignment::QuestPropertyAssignment(
+        const Ogre::String& questId, const Ogre::String& prop, const rl::CeGuiString& newValue)
+        : mQuestId(questId)
+        , mProperty(prop)
+        , mNewValue(newValue)
     {
     }
 
-    void QuestPropertyAssignment::apply(rl::Dialog *dialog)
+    void QuestPropertyAssignment::apply(rl::Dialog* dialog)
     {
         Quest* quest = RulesSubsystem::getSingleton().getQuestBook()->getQuest(mQuestId);
         quest->setPropertyAsString(mProperty, mNewValue);
@@ -144,17 +143,16 @@ namespace rl
     {
         Combat* combat = CombatManager::getSingleton().startCombat();
         ///@FIXME: fix starting combat from dialog
-/*        std::vector<Creature*> allies = dialog->getPlayerCharacters();
-        for (std::vector<Creature*>::iterator it = allies.begin(); it != allies.end(); ++it)
-        {
-            combat->addAlly(*it);
-        }
-        std::vector<Creature*> enemies = dialog->getNonPlayerCharacters();
-        for (std::vector<Creature*>::iterator it = enemies.begin(); it != enemies.end(); ++it)
-        {
-            combat->addOpponent(*it);
-        }*/
+        /*        std::vector<Creature*> allies = dialog->getPlayerCharacters();
+                for (std::vector<Creature*>::iterator it = allies.begin(); it != allies.end(); ++it)
+                {
+                    combat->addAlly(*it);
+                }
+                std::vector<Creature*> enemies = dialog->getNonPlayerCharacters();
+                for (std::vector<Creature*>::iterator it = enemies.begin(); it != enemies.end(); ++it)
+                {
+                    combat->addOpponent(*it);
+                }*/
         combat->start();
     }
-
 }

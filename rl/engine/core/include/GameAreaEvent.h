@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -22,46 +22,54 @@
 
 #include "CorePrerequisites.h"
 
-namespace rl {
-
-class GameAreaEventSource;
-
-/** 
- *  GameAreaEvent
- *  Ein Event der ausgeloest wird, wenn ein Actor ein zuvor beim GameEventManager
- *  registriertes Areal betritt/verlaesst.
- *  Dabei wird fuer jeden Actor der in der Abfragezeit den Radius verlassen/betreten
- *  hat ein einzelner Event ausgeloest. Dabei werden zuerst die verlassenden und danach
- *  die betretenden Actoren uebermittelt.
- *
- *  @see GameAreaListener, GameAreaEventSource, GameEventManager, GameAreaTypes
- */
-class _RlCoreExport GameAreaEvent : public virtual EventObject 
+namespace rl
 {
-public:
-    /// Das Areal wurde betreten
-    static const unsigned int AREA_ENTERED = 450;
-    /// Das Areal wurde verlassen
-    static const unsigned int AREA_LEFT = 451;
 
-    /** Der Standardkonstruktor
-      * @param src Die Eventquelle
-      * @param reason Der Grund des Events
-      */
-    GameAreaEvent( GameAreaEventSource* src, const unsigned int reason );
-    /// Standarddestruktor
-    virtual ~GameAreaEvent() {};
+    class GameAreaEventSource;
 
-    /// Setzt den verursachenden Actor des Events
-    void setProvokingActor(Actor* act ) {  mActor = act; };
-    /// Gibt den verursachenden Actor des Events zurueck
-    Actor* getProvokingActor() const { return mActor; };
-    /// Gibt die Eventquelle zurueck
-    GameAreaEventSource* getSource() const;
-private:
-    /// Der verursachende Actor
-    Actor* mActor;
-};
+    /**
+     *  GameAreaEvent
+     *  Ein Event der ausgeloest wird, wenn ein Actor ein zuvor beim GameEventManager
+     *  registriertes Areal betritt/verlaesst.
+     *  Dabei wird fuer jeden Actor der in der Abfragezeit den Radius verlassen/betreten
+     *  hat ein einzelner Event ausgeloest. Dabei werden zuerst die verlassenden und danach
+     *  die betretenden Actoren uebermittelt.
+     *
+     *  @see GameAreaListener, GameAreaEventSource, GameEventManager, GameAreaTypes
+     */
+    class _RlCoreExport GameAreaEvent : public virtual EventObject
+    {
+    public:
+        /// Das Areal wurde betreten
+        static const unsigned int AREA_ENTERED = 450;
+        /// Das Areal wurde verlassen
+        static const unsigned int AREA_LEFT = 451;
+
+        /** Der Standardkonstruktor
+         * @param src Die Eventquelle
+         * @param reason Der Grund des Events
+         */
+        GameAreaEvent(GameAreaEventSource* src, const unsigned int reason);
+        /// Standarddestruktor
+        virtual ~GameAreaEvent(){};
+
+        /// Setzt den verursachenden Actor des Events
+        void setProvokingActor(Actor* act)
+        {
+            mActor = act;
+        };
+        /// Gibt den verursachenden Actor des Events zurueck
+        Actor* getProvokingActor() const
+        {
+            return mActor;
+        };
+        /// Gibt die Eventquelle zurueck
+        GameAreaEventSource* getSource() const;
+
+    private:
+        /// Der verursachende Actor
+        Actor* mActor;
+    };
 }
 
 #endif

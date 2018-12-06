@@ -55,7 +55,7 @@ namespace rl
     private:
         CEGUI::Window* mWindow; //!< CEGUI root window for this component
         CEGUI::String mXmlFile; //!< CEGUI layout file
-        CEGUI::String mName;    //!< User readable name, which is displayed in the driver selection box
+        CEGUI::String mName; //!< User readable name, which is displayed in the driver selection box
     };
 }
 

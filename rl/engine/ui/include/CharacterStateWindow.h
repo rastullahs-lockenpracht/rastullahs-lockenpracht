@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -23,33 +23,31 @@
 #include "Eigenschaft.h"
 #include "ObjectStateChangeEventSource.h"
 
-namespace rl {
+namespace rl
+{
 
-	class Creature;
+    class Creature;
 
-	class _RlUiExport CharacterStateWindow : public AbstractWindow, public ObjectStateChangeListener
-	{
-	public:
-		CharacterStateWindow();
-		~CharacterStateWindow();
+    class _RlUiExport CharacterStateWindow : public AbstractWindow, public ObjectStateChangeListener
+    {
+    public:
+        CharacterStateWindow();
+        ~CharacterStateWindow();
 
-		void setCharacter(Creature* character);
-		void update();
-		void setVisible(bool visible, bool destroyAfterHide = false);
+        void setCharacter(Creature* character);
+        void update();
+        void setVisible(bool visible, bool destroyAfterHide = false);
 
-		void objectStateChanged(ObjectStateChangeEvent* evt);
+        void objectStateChanged(ObjectStateChangeEvent* evt);
 
-	private:
-		Creature* mCharacter;
+    private:
+        Creature* mCharacter;
 
-		CEGUI::ProgressBar* mLP;
-		CEGUI::ProgressBar* mAP;
-		CEGUI::ProgressBar* mAU;
-		CEGUI::Window* mName;
-		
-	};
+        CEGUI::ProgressBar* mLP;
+        CEGUI::ProgressBar* mAP;
+        CEGUI::ProgressBar* mAU;
+        CEGUI::Window* mName;
+    };
 }
 
-
 #endif
-

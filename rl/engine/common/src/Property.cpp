@@ -1,6 +1,6 @@
-/* 
+/*
  * (C) 2003-2008. Team Pantheon. www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -18,13 +18,14 @@
 
 #include "Property.h"
 
-#include "Exception.h"
 #include "CEGUIPropertyHelper.h"
+#include "Exception.h"
 
 using namespace boost;
 using namespace Ogre;
 
-namespace rl {
+namespace rl
+{
 
     Property::Property()
     {
@@ -50,52 +51,52 @@ namespace rl {
     /// @return: will return true if the arrays are equal
     bool comparePropertyMaps(PropertyMap map1, PropertyMap map2)
     {
-        if(map1.size() != map2.size())
+        if (map1.size() != map2.size())
             return false;
-        for(PropertyMap::const_iterator it = map1.begin(); it != map1.end(); ++it)
+        for (PropertyMap::const_iterator it = map1.begin(); it != map1.end(); ++it)
         {
-            if(map2.find(it->first) == map2.end())
+            if (map2.find(it->first) == map2.end())
                 return false;
-            else if(it->second.getTypeName() == map2[it->first].getTypeName())
+            else if (it->second.getTypeName() == map2[it->first].getTypeName())
             {
-                if(it->second.isArray())
+                if (it->second.isArray())
                 {
-                    if(!comparePropertyArrays(it->second, map2[it->first]))
+                    if (!comparePropertyArrays(it->second, map2[it->first]))
                         return false;
                 }
-                else if(it->second.isMap())
+                else if (it->second.isMap())
                 {
-                    if(!comparePropertyMaps(it->second, map2[it->first]))
-                        return false;    
+                    if (!comparePropertyMaps(it->second, map2[it->first]))
+                        return false;
                 }
-                else if(it->second != map2[it->first])
+                else if (it->second != map2[it->first])
                     return false;
             }
         }
-        
+
         return true;
     }
 
     /// @return: will return true if the arrays are equal
     bool comparePropertyArrays(PropertyArray array1, PropertyArray array2)
     {
-        if(array1.size() != array2.size())
+        if (array1.size() != array2.size())
             return false;
-        for(unsigned int i = 0; i < array1.size(); i++)
+        for (unsigned int i = 0; i < array1.size(); i++)
         {
-            if(array1[i].getTypeName() == array2[i].getTypeName())
+            if (array1[i].getTypeName() == array2[i].getTypeName())
             {
-                if(array1[i].isArray())
+                if (array1[i].isArray())
                 {
-                    if(!comparePropertyArrays(array1[i], array2[i]))
+                    if (!comparePropertyArrays(array1[i], array2[i]))
                         return false;
                 }
-                else if(array1[i].isMap())
+                else if (array1[i].isMap())
                 {
-                    if(!comparePropertyMaps(array1[i], array2[i]))
+                    if (!comparePropertyMaps(array1[i], array2[i]))
                         return false;
                 }
-                else if(array1[i] != array2[i])
+                else if (array1[i] != array2[i])
                     return false;
             }
             else
@@ -104,13 +105,13 @@ namespace rl {
         return true;
     }
 
-    bool Property::operator ==(const rl::Property &other) const
+    bool Property::operator==(const rl::Property& other) const
     {
         if (other.getTypeName() == getTypeName())
         {
-            if(isArray())
+            if (isArray())
                 return comparePropertyArrays(*this, other);
-            else if(isMap ())
+            else if (isMap())
                 return comparePropertyMaps(*this, other);
             return other.getAsString() == getAsString();
         }
@@ -118,13 +119,13 @@ namespace rl {
         return false;
     }
 
-    bool Property::operator !=(const rl::Property &other) const
+    bool Property::operator!=(const rl::Property& other) const
     {
         if (other.getTypeName() == getTypeName())
         {
-            if(isArray())
+            if (isArray())
                 return !comparePropertyArrays(*this, other);
-            else if(isMap ())
+            else if (isMap())
                 return !comparePropertyMaps(*this, other);
             return other.getAsString() != getAsString();
         }
@@ -177,25 +178,23 @@ namespace rl {
         else if (isIntTriple())
         {
             Tripel<int> triple = toIntTriple();
-            return StringConverter::toString(triple.first)
-                + "," + StringConverter::toString(triple.second)
-                + "," + StringConverter::toString(triple.third);
+            return StringConverter::toString(triple.first) + "," + StringConverter::toString(triple.second) + ","
+                + StringConverter::toString(triple.third);
         }
         else if (isIntPair())
         {
             IntPair pair = toIntPair();
-            return StringConverter::toString(pair.first)
-                + "," + StringConverter::toString(pair.second);
+            return StringConverter::toString(pair.first) + "," + StringConverter::toString(pair.second);
         }
         ///@todo
-		//else if (isArray()) 
-  //      {
-  //          return StringConverter::toString(toBool());
-  //      }
-		//else if (isMap())
-  //      {
-  //          return StringConverter::toString(toBool());
-  //      }
+        // else if (isArray())
+        //      {
+        //          return StringConverter::toString(toBool());
+        //      }
+        // else if (isMap())
+        //      {
+        //          return StringConverter::toString(toBool());
+        //      }
         return "";
     }
 
@@ -226,27 +225,27 @@ namespace rl {
             mValue = StringConverter::parseQuaternion(str.c_str());
         }
         ///@todo
-        //else if (isIntTriple())
+        // else if (isIntTriple())
         //{
         //    Tripel<int> triple = toIntTriple();
         //    mValue = StringConverter::toString(triple.first)
         //        + "," + StringConverter::toString(triple.second)
         //        + "," + StringConverter::toString(triple.third);
         //}
-        //else if (isIntPair())
+        // else if (isIntPair())
         //{
         //    IntPair pair = toIntPair();
         //    mValue = StringConverter::toString(pair.first)
         //        + "," + StringConverter::toString(pair.second);
         //}
-		//else if (isArray()) 
-  //      {
-  //          mValue = StringConverter::toString(toBool());
-  //      }
-		//else if (isMap())
-  //      {
-  //          mValue = StringConverter::toString(toBool());
-  //      }
+        // else if (isArray())
+        //      {
+        //          mValue = StringConverter::toString(toBool());
+        //      }
+        // else if (isMap())
+        //      {
+        //          mValue = StringConverter::toString(toBool());
+        //      }
         else
         {
             mValue = str;

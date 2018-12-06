@@ -25,56 +25,54 @@
 #include "Exception.h"
 #include "Tripel.h"
 
-namespace rl {
+namespace rl
+{
 
-#define PropertyMethod(Name, Type)\
-    Property(Type value) \
-    { \
-        setValue(value); \
-        mName = Ogre::String(#Name);\
-    } \
-    \
-    bool is##Name() const\
-    { \
-        try \
-        { \
-            boost::any_cast<Type>(mValue); \
-            return true; \
-        } \
-        catch (boost::bad_any_cast) \
-        { \
-            return false; \
-        } \
-    } \
-    \
-    void setValue(Type value) \
-    { \
-        mValue = value; \
-        mName = #Name; \
-    } \
-    \
-    Type to##Name() const \
-    { \
-        try \
-        { \
-            return boost::any_cast<Type>(mValue); \
-        } \
-        catch (boost::bad_any_cast) \
-        { \
-            Throw( \
-                rl::WrongFormatException, \
-                "Wrong property type for to" + Ogre::String(#Name) \
-                + "() (type is "+ Ogre::String(mValue.type().name())+") " \
-                + (mValue.empty()?"EMPTY!":"not empty")); \
-        } \
-    }\
-    operator Type() const \
-    {\
-        return to##Name();\
+#define PropertyMethod(Name, Type)                                                                                     \
+    Property(Type value)                                                                                               \
+    {                                                                                                                  \
+        setValue(value);                                                                                               \
+        mName = Ogre::String(#Name);                                                                                   \
+    }                                                                                                                  \
+                                                                                                                       \
+    bool is##Name() const                                                                                              \
+    {                                                                                                                  \
+        try                                                                                                            \
+        {                                                                                                              \
+            boost::any_cast<Type>(mValue);                                                                             \
+            return true;                                                                                               \
+        }                                                                                                              \
+        catch (boost::bad_any_cast)                                                                                    \
+        {                                                                                                              \
+            return false;                                                                                              \
+        }                                                                                                              \
+    }                                                                                                                  \
+                                                                                                                       \
+    void setValue(Type value)                                                                                          \
+    {                                                                                                                  \
+        mValue = value;                                                                                                \
+        mName = #Name;                                                                                                 \
+    }                                                                                                                  \
+                                                                                                                       \
+    Type to##Name() const                                                                                              \
+    {                                                                                                                  \
+        try                                                                                                            \
+        {                                                                                                              \
+            return boost::any_cast<Type>(mValue);                                                                      \
+        }                                                                                                              \
+        catch (boost::bad_any_cast)                                                                                    \
+        {                                                                                                              \
+            Throw(rl::WrongFormatException,                                                                            \
+                "Wrong property type for to" + Ogre::String(#Name) + "() (type is "                                    \
+                    + Ogre::String(mValue.type().name()) + ") " + (mValue.empty() ? "EMPTY!" : "not empty"));          \
+        }                                                                                                              \
+    }                                                                                                                  \
+    operator Type() const                                                                                              \
+    {                                                                                                                  \
+        return to##Name();                                                                                             \
     }
 
-
-	class Property;
+    class Property;
 
     typedef std::vector<Property> PropertyArray;
     typedef std::map<CeGuiString, Property> PropertyMap;
@@ -82,7 +80,7 @@ namespace rl {
     class _RlCommonExport Property
     {
     public:
-		Property();
+        Property();
 
         PropertyMethod(Bool, const bool&);
         PropertyMethod(String, CEGUI::String);
@@ -94,8 +92,8 @@ namespace rl {
         PropertyMethod(Quaternion, const Ogre::Quaternion&);
         PropertyMethod(IntTriple, const Tripel<int>);
         PropertyMethod(IntPair, const IntPair);
-		PropertyMethod(Array, const PropertyArray);
-		PropertyMethod(Map, const PropertyMap);
+        PropertyMethod(Array, const PropertyArray);
+        PropertyMethod(Map, const PropertyMap);
 
         Ogre::String getTypeName() const;
         Ogre::String getName() const;
@@ -107,79 +105,87 @@ namespace rl {
         bool operator!=(const Property& other) const;
 
         bool isEmpty() const;
+
     private:
         boost::any mValue;
         Ogre::String mName;
     };
 
-    class _RlCommonExport PropertyPtr :
-        public Ogre::SharedPtr<Property>
+    class _RlCommonExport PropertyPtr : public Ogre::SharedPtr<Property>
     {
     public:
-        PropertyPtr() : Ogre::SharedPtr<Property>() {}
-        explicit PropertyPtr(Property* rep) : Ogre::SharedPtr<Property>(rep) {}
-        PropertyPtr(const PropertyPtr& res) : Ogre::SharedPtr<Property>(res) {}
+        PropertyPtr()
+            : Ogre::SharedPtr<Property>()
+        {
+        }
+        explicit PropertyPtr(Property* rep)
+            : Ogre::SharedPtr<Property>(rep)
+        {
+        }
+        PropertyPtr(const PropertyPtr& res)
+            : Ogre::SharedPtr<Property>(res)
+        {
+        }
+
     protected:
-        void destroy() { Ogre::SharedPtr<Property>::destroy(); }
+        void destroy()
+        {
+            Ogre::SharedPtr<Property>::destroy();
+        }
     };
 
-    template<typename T> PropertyMap convertToPropertyMap(const std::map<const CeGuiString, T>& input)
+    template <typename T> PropertyMap convertToPropertyMap(const std::map<const CeGuiString, T>& input)
     {
         PropertyMap map;
-        for (typename std::map<const CeGuiString, T>::const_iterator it =
-            input.begin(); it != input.end(); ++it)
+        for (typename std::map<const CeGuiString, T>::const_iterator it = input.begin(); it != input.end(); ++it)
         {
             map[it->first] = Property(it->second);
         }
         return map;
     }
 
-    template<typename T> PropertyMap convertToPropertyMap(const std::map<const Ogre::String, T>& input)
+    template <typename T> PropertyMap convertToPropertyMap(const std::map<const Ogre::String, T>& input)
     {
         PropertyMap map;
-        for (typename std::map<const Ogre::String, T>::const_iterator it =
-            input.begin(); it != input.end(); ++it)
+        for (typename std::map<const Ogre::String, T>::const_iterator it = input.begin(); it != input.end(); ++it)
         {
             map[it->first] = Property(it->second);
         }
         return map;
     }
 
-    template<typename T> PropertyArray convertToPropertyArray(const std::set<T>& input)
+    template <typename T> PropertyArray convertToPropertyArray(const std::set<T>& input)
     {
         PropertyArray vec;
         for (typename std::set<T>::const_iterator it = input.begin(); it != input.end(); ++it)
         {
-			vec.push_back(Property(*it));
+            vec.push_back(Property(*it));
         }
         return vec;
     }
 
-    template<typename T> void convertToMap(
-        const PropertyMap& propmap, std::map<const Ogre::String, T>& output)
+    template <typename T> void convertToMap(const PropertyMap& propmap, std::map<const Ogre::String, T>& output)
     {
         for (PropertyMap::const_iterator it = propmap.begin(); it != propmap.end(); ++it)
         {
-			T temp = it->second;
+            T temp = it->second;
             output[it->first.c_str()] = temp;
         }
     }
 
-    template<typename T> void convertToMap(
-        const PropertyMap& propmap, std::map<const CeGuiString, T>& output)
+    template <typename T> void convertToMap(const PropertyMap& propmap, std::map<const CeGuiString, T>& output)
     {
         for (PropertyMap::const_iterator it = propmap.begin(); it != propmap.end(); ++it)
         {
-			T temp = it->second; // needed for GCC, else there is ambiguous operator CEGUI::String::=
+            T temp = it->second; // needed for GCC, else there is ambiguous operator CEGUI::String::=
             output[it->first] = temp;
 
-			// This solution doesn't work. Why?
-			//output.insert(typename std::map<const CeGuiString, T>::value_type(it->first, it->second));
+            // This solution doesn't work. Why?
+            // output.insert(typename std::map<const CeGuiString, T>::value_type(it->first, it->second));
         }
     }
 
-    template<typename T> void convertToSet(
-        const PropertyArray& propvec, std::set<T>& output)
+    template <typename T> void convertToSet(const PropertyArray& propvec, std::set<T>& output)
     {
         for (PropertyArray::const_iterator it = propvec.begin(); it != propvec.end(); ++it)
         {

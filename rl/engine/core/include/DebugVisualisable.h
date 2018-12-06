@@ -1,35 +1,38 @@
 /* This source file is part of Rastullahs Lockenpracht.
-* Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
-* 
-*  This program is free software; you can redistribute it and/or modify
-*  it under the terms of the Clarified Artistic License.
-*
-*  This program is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  Clarified Artistic License for more details.
-*
-*  You should have received a copy of the Clarified Artistic License
-*  along with this program; if not you can get it here
-*  http://www.jpaulmorrison.com/fbp/artistic2.htm.
-*/
+ * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the Clarified Artistic License.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  Clarified Artistic License for more details.
+ *
+ *  You should have received a copy of the Clarified Artistic License
+ *  along with this program; if not you can get it here
+ *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
+ */
 
 #ifndef __RL_DEBUG_VISUALISABLE_H__
 #define __RL_DEBUG_VISUALISABLE_H__
 
 #include "CorePrerequisites.h"
 
-namespace rl {
+namespace rl
+{
 
     class PrimitiveObject;
 
     /// Flags to decern visualised elements. This enum can be used
     /// To only display the debug graphics for classes of visualisables.
-    typedef enum { DVF_AREA    = 1, ///< Flag used for all kinds of game area types
-                   DVF_BOT     = 2, ///< Flag used for bot(-thinking) visualisation
-                   DVF_CONTROL = 4, ///< Flag for visualisation of user control
-				   DVF_WAYPOINT = 8, ///< Flag for visualisation of way points
-                 } DebugVisualisableFlag;
+    typedef enum
+    {
+        DVF_AREA = 1, ///< Flag used for all kinds of game area types
+        DVF_BOT = 2, ///< Flag used for bot(-thinking) visualisation
+        DVF_CONTROL = 4, ///< Flag for visualisation of user control
+        DVF_WAYPOINT = 8, ///< Flag for visualisation of way points
+    } DebugVisualisableFlag;
 
     /// Abstract base class for classes that provide visual debug helpers.
     /// This class encapsules a PrimitiveObject, that can help with debugging,

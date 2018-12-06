@@ -21,33 +21,33 @@
 
 namespace rl
 {
-	ObjectDescriptionWindow::ObjectDescriptionWindow()
-		: AbstractWindow("objectdescriptionwindow.xml", WIT_NONE)
-	{
-		mDescription = getMultiLineEditbox("ObjectDescriptionWindow/Text");
-	}
+    ObjectDescriptionWindow::ObjectDescriptionWindow()
+        : AbstractWindow("objectdescriptionwindow.xml", WIT_NONE)
+    {
+        mDescription = getMultiLineEditbox("ObjectDescriptionWindow/Text");
+    }
 
-	ObjectDescriptionWindow::~ObjectDescriptionWindow()
-	{
-	}
+    ObjectDescriptionWindow::~ObjectDescriptionWindow()
+    {
+    }
 
-	void ObjectDescriptionWindow::show(GameObject* object)
-	{
-		if (mObject != object)
-		{
-			if (object == NULL)
-			{
-				mDescription->setText("");
-				setVisible(false);
-			}
-			else
-			{
-				mDescription->setText(object->getDescription());
-				setVisible(true);
-			}
+    void ObjectDescriptionWindow::show(GameObject* object)
+    {
+        if (mObject != object)
+        {
+            if (object == NULL)
+            {
+                mDescription->setText("");
+                setVisible(false);
+            }
+            else
+            {
+                mDescription->setText(object->getDescription());
+                setVisible(true);
+            }
 
-			mObject = object;
-		}
-	}
+            mObject = object;
+        }
+    }
 
 } // namespace rl

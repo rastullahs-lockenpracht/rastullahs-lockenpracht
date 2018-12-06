@@ -20,42 +20,37 @@
 #include <boost/bind.hpp>
 
 #include "CoreSubsystem.h"
-#include "WindowFactory.h"
 #include "UiSubsystem.h"
-
+#include "WindowFactory.h"
 
 namespace rl
 {
 
-GameOverWindow::GameOverWindow()
-    : AbstractWindow(CeGuiString("gameoverwindow.xml"), AbstractWindow::WIT_MOUSE_INPUT, false, true)
-{
-    getWindow("GameOverWindow/MainMenuButton")->subscribeEvent(
-		CEGUI::Window::EventMouseClick,
-		boost::bind(&GameOverWindow::handleMainMenuClick, this));
-    getWindow("GameOverWindow/QuitButton")->subscribeEvent(
-		CEGUI::Window::EventMouseClick,
-		boost::bind(&GameOverWindow::handleQuitClick, this));
-    getWindow("GameOverWindow/CheatButton")->subscribeEvent(
-		CEGUI::Window::EventMouseClick,
-		boost::bind(&GameOverWindow::handleCheatClick, this));
-}
+    GameOverWindow::GameOverWindow()
+        : AbstractWindow(CeGuiString("gameoverwindow.xml"), AbstractWindow::WIT_MOUSE_INPUT, false, true)
+    {
+        getWindow("GameOverWindow/MainMenuButton")
+            ->subscribeEvent(CEGUI::Window::EventMouseClick, boost::bind(&GameOverWindow::handleMainMenuClick, this));
+        getWindow("GameOverWindow/QuitButton")
+            ->subscribeEvent(CEGUI::Window::EventMouseClick, boost::bind(&GameOverWindow::handleQuitClick, this));
+        getWindow("GameOverWindow/CheatButton")
+            ->subscribeEvent(CEGUI::Window::EventMouseClick, boost::bind(&GameOverWindow::handleCheatClick, this));
+    }
 
-bool GameOverWindow::handleMainMenuClick()
-{
-    CoreSubsystem::getSingleton().startAdventureModule(CoreSubsystem::getSingleton().getModule("intro"));
-    return true;
-}
+    bool GameOverWindow::handleMainMenuClick()
+    {
+        CoreSubsystem::getSingleton().startAdventureModule(CoreSubsystem::getSingleton().getModule("intro"));
+        return true;
+    }
 
-bool GameOverWindow::handleQuitClick()
-{
-    WindowFactory::getSingleton().showExitConfirmation();
-    return true;
-}
+    bool GameOverWindow::handleQuitClick()
+    {
+        WindowFactory::getSingleton().showExitConfirmation();
+        return true;
+    }
 
-bool GameOverWindow::handleCheatClick()
-{
-    return true;
-}
-
+    bool GameOverWindow::handleCheatClick()
+    {
+        return true;
+    }
 }

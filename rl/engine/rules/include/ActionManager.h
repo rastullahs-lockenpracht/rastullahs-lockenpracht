@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -19,33 +19,32 @@
 
 #include "RulesPrerequisites.h"
 
-#include <vector>
 #include <map>
+#include <vector>
 using Ogre::Singleton;
 
 namespace rl
 {
-	class Action;
-	class ActionGroup;
-	
-	typedef std::vector<Action*> ActionVector;
-        
+    class Action;
+    class ActionGroup;
+
+    typedef std::vector<Action*> ActionVector;
+
     /**
-    * \brief Abstrakte Basisklasse fuer Aktionen an Spielobjekten.
-    * Spielobjekte (GameObject) besitzen einen Satz von Aktionen, die man auf
-    * ihnen anwenden kann. Diese werden von dieser Klasse gekapselt.
-    * Konkrete Aktionen erben von dieser Klasse und muessen
-    * doUserAction() ueberschreiben.
-    */
-    class _RlRulesExport ActionManager : 
-    	public Singleton<ActionManager>
+     * \brief Abstrakte Basisklasse fuer Aktionen an Spielobjekten.
+     * Spielobjekte (GameObject) besitzen einen Satz von Aktionen, die man auf
+     * ihnen anwenden kann. Diese werden von dieser Klasse gekapselt.
+     * Konkrete Aktionen erben von dieser Klasse und muessen
+     * doUserAction() ueberschreiben.
+     */
+    class _RlRulesExport ActionManager : public Singleton<ActionManager>
     {
     private:
-		typedef std::map<const CeGuiString, Action*> ActionMap;
+        typedef std::map<const CeGuiString, Action*> ActionMap;
 
-		ActionMap mActions;
-		ActionVector mInGameGlobalActions;
-        
+        ActionMap mActions;
+        ActionVector mInGameGlobalActions;
+
     public:
         ActionManager();
         ~ActionManager();
@@ -54,9 +53,9 @@ namespace rl
         void unregisterAction(const CeGuiString actionName);
         Action* getAction(const CeGuiString actionName) const;
 
-		void registerInGameGlobalAction(Action* action, ActionGroup* group);
-		Action* getInGameGlobalAction(const CeGuiString actionName) const;
-		const ActionVector& getInGameGlobalActions();
+        void registerInGameGlobalAction(Action* action, ActionGroup* group);
+        Action* getInGameGlobalAction(const CeGuiString actionName) const;
+        const ActionVector& getInGameGlobalActions();
     };
 }
 

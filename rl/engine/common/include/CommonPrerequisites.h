@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -21,37 +21,37 @@
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 // Export control
-#   if defined( RLCOMMON_EXPORTS )
-#       define _RlCommonExport __declspec( dllexport )
-#   else
-#       define _RlCommonExport __declspec( dllimport )
-#   endif
+#if defined(RLCOMMON_EXPORTS)
+#define _RlCommonExport __declspec(dllexport)
+#else
+#define _RlCommonExport __declspec(dllimport)
+#endif
 #else // Linux / Mac OSX etc
-#   define _RlCommonExport
-#	if defined ( RL_USE_PCH )
-#		include "stdinc.h"
-#	endif
+#define _RlCommonExport
+#if defined(RL_USE_PCH)
+#include "stdinc.h"
+#endif
 #endif
 
 #undef _assert
 
 #undef max
 #undef min
-#pragma warning( disable : 4267 ) // Konvertierungswarnung in CEGUIString
+#pragma warning(disable : 4267) // Konvertierungswarnung in CEGUIString
 
 #ifdef __APPLE__
-#   include <CEGUI/CEGUIString.h>
+#include <CEGUI/CEGUIString.h>
 #else
-#   include <CEGUIString.h>
+#include <CEGUIString.h>
 #endif
 
 namespace rl
 {
-	typedef std::list<Ogre::String> StringList;
-	typedef CEGUI::String CeGuiString;
+    typedef std::list<Ogre::String> StringList;
+    typedef CEGUI::String CeGuiString;
     typedef std::vector<CeGuiString> CeGuiStringVector;
-	typedef RL_LONGLONG Time; 
-    typedef std::pair<int,int> IntPair;
+    typedef RL_LONGLONG Time;
+    typedef std::pair<int, int> IntPair;
 }
 
 #include "Logger.h"

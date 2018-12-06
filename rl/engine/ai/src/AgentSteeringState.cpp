@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -21,16 +21,15 @@
 using namespace Ogre;
 using namespace OpenSteer;
 
-namespace rl {
-
+namespace rl
+{
 
     AgentSteeringState::AgentSteeringState(Agent* agent)
-        : AgentState(agent),
-        mBehaviour(NULL)
+        : AgentState(agent)
+        , mBehaviour(NULL)
     {
         mBehaviour = new SteeringMachine(NULL, mAgent);
-        LOG_MESSAGE(Logger::AI, 
-            "created SteeringMachine for Agent");
+        LOG_MESSAGE(Logger::AI, "created SteeringMachine for Agent");
     }
 
     AgentSteeringState::~AgentSteeringState(void)
@@ -43,15 +42,13 @@ namespace rl {
         behaviour->setParent(mBehaviour);
         behaviour->setController(mAgent);
         mBehaviour->addState(behaviour);
-        LOG_MESSAGE(Logger::AI, 
-            "added SteeringBehaviour for Agent");
+        LOG_MESSAGE(Logger::AI, "added SteeringBehaviour for Agent");
     }
 
     void AgentSteeringState::clearSteeringBehaviours()
     {
         mBehaviour->clearStates();
-        LOG_MESSAGE(Logger::AI, 
-            "Cleared all SteeringBehaviours for Agent");
+        LOG_MESSAGE(Logger::AI, "Cleared all SteeringBehaviours for Agent");
     }
 
     void AgentSteeringState::update(const float elapsedTime)
@@ -65,5 +62,4 @@ namespace rl {
     {
         return mAgent;
     }
-
 }

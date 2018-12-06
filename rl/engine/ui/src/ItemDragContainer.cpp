@@ -17,8 +17,8 @@
 
 #include "ItemDragContainer.h"
 
-#include <CEGUIWindowManager.h>
 #include <CEGUIEventSet.h>
+#include <CEGUIWindowManager.h>
 
 #include "AbstractWindow.h"
 #include "Creature.h"
@@ -28,174 +28,171 @@
 #include "WindowFactory.h"
 #include "WindowFadeJob.h"
 
-namespace rl {
-	const Ogre::String ItemDragContainer::ICON_UNKNOWN_ITEM = "set:ModelThumbnails image:item_unknown";
+namespace rl
+{
+    const Ogre::String ItemDragContainer::ICON_UNKNOWN_ITEM = "set:ModelThumbnails image:item_unknown";
 
-	ItemDragContainer::ItemDragContainer(const CeGuiString &type, const CeGuiString& name)
-		: CEGUI::DragContainer(type, name),
-		mItem(NULL),
-		mParentContainer(NULL),
-		mParentSlot(""),
-		mContentWindow(NULL),
-        mInventory(NULL),
-        mMarkedToHideAndDestroy(false),
-        mDestroyListener(NULL)
-	{
-	}
+    ItemDragContainer::ItemDragContainer(const CeGuiString& type, const CeGuiString& name)
+        : CEGUI::DragContainer(type, name)
+        , mItem(NULL)
+        , mParentContainer(NULL)
+        , mParentSlot("")
+        , mContentWindow(NULL)
+        , mInventory(NULL)
+        , mMarkedToHideAndDestroy(false)
+        , mDestroyListener(NULL)
+    {
+    }
 
-        void ItemDragContainer::setItem(Item* item)
-        {
-            if( mItem != NULL )
-                Throw(IllegalArgumentException,"The item of an ItemDragContainer can only be set once!");
-            mItem = item;
-        }
+    void ItemDragContainer::setItem(Item* item)
+    {
+        if (mItem != NULL)
+            Throw(IllegalArgumentException, "The item of an ItemDragContainer can only be set once!");
+        mItem = item;
+    }
 
-        ItemDragContainer::~ItemDragContainer()
+    ItemDragContainer::~ItemDragContainer()
+    {
+        if (mDestroyListener)
+            mDestroyListener->notifyItemDragContainerDestroyed(this);
+        setDestroyListener(NULL);
+
+        stopFadeOut();
+    }
+
+    void ItemDragContainer::destroy()
+    {
+        if (mDestroyListener)
+            mDestroyListener->notifyItemDragContainerDestroyed(this);
+        setDestroyListener(NULL);
+        stopFadeOut();
+
+        CEGUI::DragContainer::destroy();
+
+        /*
+                    hide();
+
+                    if (getParent())
+                    {
+                        getParent()->removeChildWindow(this);
+                    }
+
+                    removeAllEvents();
+                    if( mContentWindow )
+                    mContentWindow->removeAllEvents();
+                    removeChildWindow(mContentWindow);
+                    CEGUI::WindowManager::getSingleton().destroyWindow(mContentWindow);
+                    CEGUI::WindowManager::getSingleton().destroyWindow(this);
+        */
+    }
+    /*
+        void ItemDragContainer::destroyWindow()
         {
             if(mDestroyListener)
                 mDestroyListener->notifyItemDragContainerDestroyed(this);
-            setDestroyListener(NULL);
-
-            stopFadeOut();
-        }
-
-	void ItemDragContainer::destroy()
-	{
-            if(mDestroyListener)
-                mDestroyListener->notifyItemDragContainerDestroyed(this);
-            setDestroyListener(NULL);
+            mDestroyListener = NULL;
             stopFadeOut();
 
-            CEGUI::DragContainer::destroy();
-
-
-/*
             hide();
-		
             if (getParent())
             {
                 getParent()->removeChildWindow(this);
             }
 
-            removeAllEvents();
-            if( mContentWindow )
-            mContentWindow->removeAllEvents();
-            removeChildWindow(mContentWindow);
-            CEGUI::WindowManager::getSingleton().destroyWindow(mContentWindow);
-            CEGUI::WindowManager::getSingleton().destroyWindow(this);
-*/
-	}
-/*
-    void ItemDragContainer::destroyWindow()
+            JobScheduler::getSingleton().addJob(
+                new WindowFadeJob(this,
+                WindowFadeJob::FADE_OUT_AND_DESTROY, 1.0f, 9999999999999.9f),
+                JobScheduler::JP_NORMAL,
+                0.0f);
+        }
+    */
+    void ItemDragContainer::setItemParent(Container* container)
     {
-        if(mDestroyListener)
-            mDestroyListener->notifyItemDragContainerDestroyed(this);
-        mDestroyListener = NULL;
-        stopFadeOut();
-
-        hide();
-		if (getParent())
-		{
-			getParent()->removeChildWindow(this);
-		}
-
-        JobScheduler::getSingleton().addJob(
-            new WindowFadeJob(this,
-            WindowFadeJob::FADE_OUT_AND_DESTROY, 1.0f, 9999999999999.9f),
-            JobScheduler::JP_NORMAL,
-            0.0f);
+        mParentContainer = container;
+        mParentSlot = "";
+        mInventory = NULL;
     }
-*/
-	void ItemDragContainer::setItemParent(Container* container)
-	{
-		mParentContainer = container;
-		mParentSlot = "";
-		mInventory = NULL;
-	}
 
-	void ItemDragContainer::setItemParent(Inventory* inventory, const CeGuiString& slotname)
-	{
-		mParentSlot = slotname;
-		mParentContainer = NULL;
-		mInventory = inventory;
-	}
+    void ItemDragContainer::setItemParent(Inventory* inventory, const CeGuiString& slotname)
+    {
+        mParentSlot = slotname;
+        mParentContainer = NULL;
+        mInventory = inventory;
+    }
 
-	Container* ItemDragContainer::getItemParentContainer() const
-	{
-		return mParentContainer;
-	}
+    Container* ItemDragContainer::getItemParentContainer() const
+    {
+        return mParentContainer;
+    }
 
-	const CeGuiString& ItemDragContainer::getItemParentSlot() const
-	{
-		return mParentSlot;
-	}
+    const CeGuiString& ItemDragContainer::getItemParentSlot() const
+    {
+        return mParentSlot;
+    }
 
-	Inventory* ItemDragContainer::getItemParentInventory() const
-	{
-		return mInventory;
-	}
+    Inventory* ItemDragContainer::getItemParentInventory() const
+    {
+        return mInventory;
+    }
 
-	bool ItemDragContainer::testClassName_impl(const CEGUI::String& class_name) const
-	{
-		if (class_name=="ItemDragContainer")	return true;
-		return DragContainer::testClassName_impl(class_name);
-	}
+    bool ItemDragContainer::testClassName_impl(const CEGUI::String& class_name) const
+    {
+        if (class_name == "ItemDragContainer")
+            return true;
+        return DragContainer::testClassName_impl(class_name);
+    }
 
-	Item* ItemDragContainer::getItem() const
-	{
-		return mItem;
-	}
+    Item* ItemDragContainer::getItem() const
+    {
+        return mItem;
+    }
 
-	CEGUI::Window* ItemDragContainer::getContentWindow() const
-	{
-		return mContentWindow;
-	}
+    CEGUI::Window* ItemDragContainer::getContentWindow() const
+    {
+        return mContentWindow;
+    }
 
-	bool ItemDragContainer::_handleItemMouseClick(const CEGUI::EventArgs& evt, Item* item)
-	{
-		const CEGUI::MouseEventArgs& mevt = static_cast<const CEGUI::MouseEventArgs&>(evt);
-		if (mevt.button == CEGUI::RightButton)
-		{
-			WindowFactory::getSingleton().showActionChoice(item);
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
+    bool ItemDragContainer::_handleItemMouseClick(const CEGUI::EventArgs& evt, Item* item)
+    {
+        const CEGUI::MouseEventArgs& mevt = static_cast<const CEGUI::MouseEventArgs&>(evt);
+        if (mevt.button == CEGUI::RightButton)
+        {
+            WindowFactory::getSingleton().showActionChoice(item);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
-	bool ItemDragContainer::_handleItemDoubleClick(const CEGUI::EventArgs& evt, Item* item)
-	{
-		const CEGUI::MouseEventArgs& mevt = static_cast<const CEGUI::MouseEventArgs&>(evt);
-		if (mevt.button == CEGUI::LeftButton)
-		{
+    bool ItemDragContainer::_handleItemDoubleClick(const CEGUI::EventArgs& evt, Item* item)
+    {
+        const CEGUI::MouseEventArgs& mevt = static_cast<const CEGUI::MouseEventArgs&>(evt);
+        if (mevt.button == CEGUI::LeftButton)
+        {
             item->doDefaultAction(static_cast<Creature*>(item->getOwner()), NULL);
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
     bool ItemDragContainer::fadeOutAndHide(Ogre::Real delay)
     {
         stopFadeOut();
 
-        mHideAndDestroyJobTicket =
-                JobScheduler::getSingleton().addJob(
-                    new WindowFadeJob(this,
-                    WindowFadeJob::FADE_OUT, 1.0f, 0.5f),
-                    JobScheduler::JP_NORMAL,
-                    delay);
+        mHideAndDestroyJobTicket = JobScheduler::getSingleton().addJob(
+            new WindowFadeJob(this, WindowFadeJob::FADE_OUT, 1.0f, 0.5f), JobScheduler::JP_NORMAL, delay);
         mMarkedToHideAndDestroy = true;
         return true;
     }
 
     bool ItemDragContainer::stopFadeOut()
     {
-        if( mMarkedToHideAndDestroy )
+        if (mMarkedToHideAndDestroy)
         {
             JobScheduler::getSingleton().removeJob(mHideAndDestroyJobTicket);
         }
@@ -205,22 +202,22 @@ namespace rl {
         return true;
     }
 
-    void ItemDragContainer::setDestroyListener(ItemDragContainerDestroyListener *listener)
+    void ItemDragContainer::setDestroyListener(ItemDragContainerDestroyListener* listener)
     {
-        if( listener == mDestroyListener )
-            return ;
+        if (listener == mDestroyListener)
+            return;
 
-        if( mDestroyListener )
+        if (mDestroyListener)
             mDestroyListener->removeDragContainer(this);
 
         mDestroyListener = listener;
 
-        if( listener )
+        if (listener)
             mDestroyListener->addDragContainer(this);
     }
 
-
-    ItemDragContainerDestroyListener::ItemDragContainerDestroyListener() : mIsDestroying(false)
+    ItemDragContainerDestroyListener::ItemDragContainerDestroyListener()
+        : mIsDestroying(false)
     {
     }
 
@@ -228,41 +225,44 @@ namespace rl {
     {
         // remove all dragContainers from list
         mIsDestroying = true;
-        for( DndContainerMap::iterator it = mContainers.begin(); it != mContainers.end(); it++ )
+        for (DndContainerMap::iterator it = mContainers.begin(); it != mContainers.end(); it++)
             it->second->setDestroyListener(NULL);
     }
 
-    void ItemDragContainerDestroyListener::addDragContainer(ItemDragContainer *dragcont)
+    void ItemDragContainerDestroyListener::addDragContainer(ItemDragContainer* dragcont)
     {
-        if( dragcont == NULL )
-            Throw(NullPointerException, "Parameter dragcont in ItemDragContainerDestroyListener::addDragContainer should not be NULL!");
+        if (dragcont == NULL)
+            Throw(NullPointerException,
+                "Parameter dragcont in ItemDragContainerDestroyListener::addDragContainer should not be NULL!");
 
         DndContainerMap::iterator it = mContainers.find(dragcont->getName());
-        if( it != mContainers.end() )
+        if (it != mContainers.end())
         {
-            Throw(IllegalArgumentException, "ItemDragContainerDestroyListener::addDragContainer: ItemDragContainer with name '"+
-                    dragcont->getName()+"' already added!");
+            Throw(IllegalArgumentException,
+                "ItemDragContainerDestroyListener::addDragContainer: ItemDragContainer with name '"
+                    + dragcont->getName() + "' already added!");
         }
 
         mContainers.insert(std::make_pair(dragcont->getName(), dragcont));
     }
 
-    void ItemDragContainerDestroyListener::removeDragContainer(ItemDragContainer *dragcont)
+    void ItemDragContainerDestroyListener::removeDragContainer(ItemDragContainer* dragcont)
     {
-        if( mIsDestroying )  // if this Listener is destroyed, we don't need to care about the list
-            return ;
+        if (mIsDestroying) // if this Listener is destroyed, we don't need to care about the list
+            return;
 
-        if( dragcont == NULL )
-            Throw(NullPointerException, "Parameter dragcont in ItemDragContainerDestroyListener::removeDragContainer should not be NULL!");
+        if (dragcont == NULL)
+            Throw(NullPointerException,
+                "Parameter dragcont in ItemDragContainerDestroyListener::removeDragContainer should not be NULL!");
 
         DndContainerMap::iterator it = mContainers.find(dragcont->getName());
-        if( it == mContainers.end() )
+        if (it == mContainers.end())
         {
-            Throw(IllegalArgumentException, "ItemDragContainerDestroyListener::removeDragContainer: ItemDragContainer with name '"+
-                    dragcont->getName()+"' was not added before!");
+            Throw(IllegalArgumentException,
+                "ItemDragContainerDestroyListener::removeDragContainer: ItemDragContainer with name '"
+                    + dragcont->getName() + "' was not added before!");
         }
 
         mContainers.erase(it);
-   }
-
+    }
 }

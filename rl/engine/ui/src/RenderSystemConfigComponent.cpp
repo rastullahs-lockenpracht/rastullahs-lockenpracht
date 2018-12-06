@@ -19,8 +19,10 @@
 
 #include <CEGUIWindowManager.h>
 
-namespace rl {
-    RenderSystemConfigComponent::RenderSystemConfigComponent(const CeGuiString& xmlfile, const CEGUI::String& drivername)
+namespace rl
+{
+    RenderSystemConfigComponent::RenderSystemConfigComponent(
+        const CeGuiString& xmlfile, const CEGUI::String& drivername)
         : ConfigComponent(xmlfile, drivername)
     {
     }

@@ -1,31 +1,32 @@
 /* This source file is part of Rastullahs Lockenpracht.
-* Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
-*
-*  This program is free software; you can redistribute it and/or modify
-*  it under the terms of the Clarified Artistic License.
-*
-*  This program is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  Clarified Artistic License for more details.
-*
-*  You should have received a copy of the Clarified Artistic License
-*  along with this program; if not you can get it here
-*  http://www.jpaulmorrison.com/fbp/artistic2.htm.
-*/
+ * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the Clarified Artistic License.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  Clarified Artistic License for more details.
+ *
+ *  You should have received a copy of the Clarified Artistic License
+ *  along with this program; if not you can get it here
+ *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
+ */
 #include "stdinc.h" //precompiled header
 
-#include "DebugVisualsManager.h"
 #include "DebugVisualisable.h"
+#include "DebugVisualsManager.h"
 #include "Exception.h"
 
 using namespace Ogre;
 
-template<> rl::DebugVisualsManager* Singleton<rl::DebugVisualsManager>::ms_Singleton = 0;
+template <> rl::DebugVisualsManager* Singleton<rl::DebugVisualsManager>::ms_Singleton = 0;
 
 namespace rl
 {
-    DebugVisualsManager::DebugVisualsManager() : mVisualisables()
+    DebugVisualsManager::DebugVisualsManager()
+        : mVisualisables()
     {
     }
 
@@ -35,8 +36,7 @@ namespace rl
 
     void DebugVisualsManager::show(unsigned long flags)
     {
-        for (VisualisableSet::iterator it = mVisualisables.begin(), end = mVisualisables.end();
-            it != end; ++it)
+        for (VisualisableSet::iterator it = mVisualisables.begin(), end = mVisualisables.end(); it != end; ++it)
         {
             if ((*it)->getFlag() & flags)
             {
@@ -47,8 +47,7 @@ namespace rl
 
     void DebugVisualsManager::hide(unsigned long flags)
     {
-        for (VisualisableSet::iterator it = mVisualisables.begin(), end = mVisualisables.end();
-            it != end; ++it)
+        for (VisualisableSet::iterator it = mVisualisables.begin(), end = mVisualisables.end(); it != end; ++it)
         {
             if ((*it)->getFlag() & flags)
             {
@@ -59,8 +58,7 @@ namespace rl
 
     void DebugVisualsManager::showAll()
     {
-        for (VisualisableSet::iterator it = mVisualisables.begin(), end = mVisualisables.end();
-            it != end; ++it)
+        for (VisualisableSet::iterator it = mVisualisables.begin(), end = mVisualisables.end(); it != end; ++it)
         {
             (*it)->show();
         }
@@ -68,8 +66,7 @@ namespace rl
 
     void DebugVisualsManager::hideAll()
     {
-        for (VisualisableSet::iterator it = mVisualisables.begin(), end = mVisualisables.end();
-            it != end; ++it)
+        for (VisualisableSet::iterator it = mVisualisables.begin(), end = mVisualisables.end(); it != end; ++it)
         {
             (*it)->hide();
         }
@@ -77,8 +74,7 @@ namespace rl
 
     void DebugVisualsManager::toggleAll()
     {
-        for (VisualisableSet::iterator it = mVisualisables.begin(), end = mVisualisables.end();
-            it != end; ++it)
+        for (VisualisableSet::iterator it = mVisualisables.begin(), end = mVisualisables.end(); it != end; ++it)
         {
             if ((*it)->isShown())
             {
@@ -119,8 +115,7 @@ namespace rl
 
     void DebugVisualsManager::run(Real elapsedTime)
     {
-        for (VisualisableSet::iterator it = mVisualisables.begin(), end = mVisualisables.end();
-            it != end; ++it)
+        for (VisualisableSet::iterator it = mVisualisables.begin(), end = mVisualisables.end(); it != end; ++it)
         {
             if ((*it)->isShown())
             {

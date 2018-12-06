@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -20,45 +20,46 @@
 
 using namespace Ogre;
 
-template<> rl::ScriptWrapper* Singleton<rl::ScriptWrapper>::ms_Singleton = 0;
+template <> rl::ScriptWrapper* Singleton<rl::ScriptWrapper>::ms_Singleton = 0;
 
-namespace rl {
+namespace rl
+{
 
     ScriptWrapper::ScriptWrapper()
-        : m_ScriptWrapperInstance( NULL )
+        : m_ScriptWrapperInstance(NULL)
     {
-	}
+    }
 
     ScriptWrapper::~ScriptWrapper()
     {
     }
 
-    void ScriptWrapper::setScriptWrapperInstance( ScriptWrapperInstance* list )
+    void ScriptWrapper::setScriptWrapperInstance(ScriptWrapperInstance* list)
     {
         m_ScriptWrapperInstance = list;
     }
 
-    void ScriptWrapper::deleted( void* ptr )
+    void ScriptWrapper::deleted(void* ptr)
     {
-        if( m_ScriptWrapperInstance != NULL )
+        if (m_ScriptWrapperInstance != NULL)
         {
-            m_ScriptWrapperInstance->deleted( ptr );
+            m_ScriptWrapperInstance->deleted(ptr);
         }
     }
 
-	void ScriptWrapper::owned( void* ptr )
+    void ScriptWrapper::owned(void* ptr)
     {
-        if( m_ScriptWrapperInstance != NULL )
+        if (m_ScriptWrapperInstance != NULL)
         {
-            m_ScriptWrapperInstance->owned( ptr );
+            m_ScriptWrapperInstance->owned(ptr);
         }
     }
 
-	void ScriptWrapper::disowned( void* ptr )
+    void ScriptWrapper::disowned(void* ptr)
     {
-        if( m_ScriptWrapperInstance != NULL )
+        if (m_ScriptWrapperInstance != NULL)
         {
-            m_ScriptWrapperInstance->disowned( ptr );
+            m_ScriptWrapperInstance->disowned(ptr);
         }
     }
 }

@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -17,20 +17,21 @@
 #ifndef __CloseConfirmationWindow_H__
 #define __CloseConfirmationWindow_H__
 
-#include "UiPrerequisites.h"
 #include "AbstractWindow.h"
+#include "UiPrerequisites.h"
 
-namespace rl {
+namespace rl
+{
 
-	class _RlUiExport CloseConfirmationWindow : public AbstractWindow
-	{
-	public:
-		CloseConfirmationWindow();
-		virtual ~CloseConfirmationWindow();
+    class _RlUiExport CloseConfirmationWindow : public AbstractWindow
+    {
+    public:
+        CloseConfirmationWindow();
+        virtual ~CloseConfirmationWindow();
 
-	private:
-		bool handleConfirm();
-	};
+    private:
+        bool handleConfirm();
+    };
 
 } // namespace rl
 

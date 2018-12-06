@@ -38,16 +38,16 @@
 #include "GameOverWindow.h"
 #include "GameSaveLoadWindow.h"
 #include "GameSettings.h"
-#include "InfoPopup.h"
 #include "InGameMenuWindow.h"
+#include "InfoPopup.h"
 #include "InputManager.h"
 #include "InventoryWindow.h"
 #include "JournalWindow.h"
 #include "LogWindow.h"
-#include "MessageWindow.h"
+#include "MainMenuEngineWindow.h"
 #include "MainMenuLoadWindow.h"
 #include "MainMenuWindow.h"
-#include "MainMenuEngineWindow.h"
+#include "MessageWindow.h"
 #include "MovableText.h"
 #include "ObjectDescriptionWindow.h"
 #include "PartyManager.h"
@@ -62,32 +62,33 @@
 
 #undef max
 
-template<> rl::WindowFactory* Ogre::Singleton<rl::WindowFactory>::ms_Singleton = 0;
+template <> rl::WindowFactory* Ogre::Singleton<rl::WindowFactory>::ms_Singleton = 0;
 
 using namespace CEGUI;
 using namespace Ogre;
 
-namespace rl {
+namespace rl
+{
 
     WindowFactory::WindowFactory()
-        : mGameLogger(NULL),
-        mCharacterStateWindow(NULL),
-        mInGameMenuWindow(NULL),
-        mCharacterSheet(NULL),
-        mJournalWindow(NULL),
-        mInventoryWindow(NULL),
-        mLogWindow(NULL),
-        mDebugWindow(NULL),
-        mConsole(NULL),
-        mInfoPopup(NULL),
-        mObjectNameText(NULL),
-        mShownObject(NULL),
-        mObjectDescriptionWindow(NULL),
-        mMainMenuWindow(NULL),
-		mMainMenuLoadWindow(NULL),
-        mGameSettings(NULL),
-        mCombatWindow(NULL),
-        mCharacterSelectionWindow(NULL)
+        : mGameLogger(NULL)
+        , mCharacterStateWindow(NULL)
+        , mInGameMenuWindow(NULL)
+        , mCharacterSheet(NULL)
+        , mJournalWindow(NULL)
+        , mInventoryWindow(NULL)
+        , mLogWindow(NULL)
+        , mDebugWindow(NULL)
+        , mConsole(NULL)
+        , mInfoPopup(NULL)
+        , mObjectNameText(NULL)
+        , mShownObject(NULL)
+        , mObjectDescriptionWindow(NULL)
+        , mMainMenuWindow(NULL)
+        , mMainMenuLoadWindow(NULL)
+        , mGameSettings(NULL)
+        , mCombatWindow(NULL)
+        , mCharacterSelectionWindow(NULL)
     {
     }
 
@@ -95,9 +96,8 @@ namespace rl {
     {
         mConsole = new Console();
         mDebugWindow = new DebugWindow();
-        CoreSubsystem::getSingleton().getRubyInterpreter()->
-            setOutputFunction(
-                (VALUE(*)(...))&WindowFactory::consoleWrite );
+        CoreSubsystem::getSingleton().getRubyInterpreter()->setOutputFunction(
+            (VALUE(*)(...)) & WindowFactory::consoleWrite);
 
         mLogWindow = new LogWindow();
 
@@ -106,14 +106,14 @@ namespace rl {
         mInGameMenuWindow = new InGameMenuWindow();
         mCharacterSheet = new CharacterSheetWindow();
         mJournalWindow = new JournalWindow();
-        //mInfoPopup = new InfoPopup(); // this invisible window blocks the mouse
+        // mInfoPopup = new InfoPopup(); // this invisible window blocks the mouse
         mObjectDescriptionWindow = new ObjectDescriptionWindow();
         mGameSettings = new GameSettings();
 
         RulesSubsystem::getSingleton().getQuestBook()->addQuestListener(mJournalWindow);
-        //RulesSubsystem::getSingleton().getQuestBook()->addQuestListener(mInfoPopup);
-        mMainMenuWindow = new MainMenuWindow( new MainMenuEngineWindow() );
-        
+        // RulesSubsystem::getSingleton().getQuestBook()->addQuestListener(mInfoPopup);
+        mMainMenuWindow = new MainMenuWindow(new MainMenuEngineWindow());
+
         mCharacterSelectionWindow = new CharacterSelectionWindow();
 
         logAllWindows();
@@ -129,7 +129,7 @@ namespace rl {
         delete mInGameMenuWindow;
         delete mInventoryWindow;
         delete mCharacterStateWindow;
-        //delete mInfoPopup;
+        // delete mInfoPopup;
         delete mDebugWindow;
         delete mConsole;
         delete mMainMenuWindow;
@@ -144,7 +144,7 @@ namespace rl {
 
     void WindowFactory::showContainerContent(Container* container)
     {
-        if( !mInventoryWindow )
+        if (!mInventoryWindow)
             toggleInventoryWindow();
 
         mInventoryWindow->showContainerContent(container);
@@ -164,7 +164,7 @@ namespace rl {
     void WindowFactory::toggleConsole()
     {
         mConsole->setVisible(!mConsole->isVisible());
-        if( mConsole->isVisible() )
+        if (mConsole->isVisible())
             mConsole->getWindow()->activate();
     }
 
@@ -188,18 +188,18 @@ namespace rl {
 
     void WindowFactory::showMainMenuLoadWindow(MainMenuWindow* win)
     {
-		mMainMenuLoadWindow = new MainMenuLoadWindow(win);
+        mMainMenuLoadWindow = new MainMenuLoadWindow(win);
         mMainMenuLoadWindow->initialize();
         mMainMenuLoadWindow->setVisible(true);
     }
 
-	void WindowFactory::hideMainMenuLoadWindow()
+    void WindowFactory::hideMainMenuLoadWindow()
     {
-		if(mMainMenuLoadWindow != NULL && mMainMenuLoadWindow->isVisible())
-		{
-			mMainMenuLoadWindow->setVisible(false,true);
-			mMainMenuWindow = NULL;
-		}
+        if (mMainMenuLoadWindow != NULL && mMainMenuLoadWindow->isVisible())
+        {
+            mMainMenuLoadWindow->setVisible(false, true);
+            mMainMenuWindow = NULL;
+        }
     }
 
     void WindowFactory::toggleGameLogWindow()
@@ -242,11 +242,10 @@ namespace rl {
         mInventoryWindow = NULL;
     }
 
-	bool WindowFactory::isInventoryWindowDestroyed()
-	{
-		return mInventoryWindow == NULL;
-	}
-
+    bool WindowFactory::isInventoryWindowDestroyed()
+    {
+        return mInventoryWindow == NULL;
+    }
 
     void WindowFactory::showCharacterSheet()
     {
@@ -281,7 +280,7 @@ namespace rl {
 
     void WindowFactory::showCharacterSheet(Creature* chara)
     {
-        if (!mCharacterSheet) 
+        if (!mCharacterSheet)
         {
             mCharacterSheet = new CharacterSheetWindow();
         }
@@ -298,13 +297,13 @@ namespace rl {
     {
         mCharacterStateWindow->setVisible(!mCharacterStateWindow->isVisible());
     }
-    
+
     void WindowFactory::toggleCharacterSelectionWindow()
     {
         mCharacterSelectionWindow->setVisible(!mCharacterSelectionWindow->isVisible());
         mCharacterSelectionWindow->update();
     }
-    
+
     void WindowFactory::toggleInGameGlobalMenu()
     {
         mInGameMenuWindow->setVisible(!mInGameMenuWindow->isVisible());
@@ -358,16 +357,15 @@ namespace rl {
     {
         CeGuiString text = RubyInterpreter::val2ceguistr(str);
 
-        if (WindowFactory::getSingletonPtr() != NULL )
+        if (WindowFactory::getSingletonPtr() != NULL)
         {
             if (WindowFactory::getSingleton().mConsole != NULL)
             {
-                WindowFactory::getSingleton().mConsole->
-                    write(text + " \n");
+                WindowFactory::getSingleton().mConsole->write(text + " \n");
                 return Qnil;
             }
         }
-        
+
         LOG_MESSAGE("Console", text);
         return Qnil;
     }
@@ -375,7 +373,7 @@ namespace rl {
     void WindowFactory::setActiveCharacter(Creature* character)
     {
         mCharacterStateWindow->setCharacter(character);
-        if (mCharacterSheet) 
+        if (mCharacterSheet)
         {
             mCharacterSheet->setCharacter(character);
         }
@@ -411,12 +409,12 @@ namespace rl {
     {
         if (popupTypes & WindowFactory::ICON_ERROR)
         {
-            //mInfoPopup->showError();
+            // mInfoPopup->showError();
         }
 
         if (popupTypes & WindowFactory::ICON_QUEST)
         {
-            //mInfoPopup->showQuestBookChange();
+            // mInfoPopup->showQuestBookChange();
         }
     }
 
@@ -435,7 +433,7 @@ namespace rl {
         // Create the game settings window and show it
         mGameSettings->setVisible(true);
     }
-    
+
     void WindowFactory::showGameOverWindow()
     {
         (new GameOverWindow())->setVisible(true);
@@ -445,13 +443,10 @@ namespace rl {
     {
         CEGUI::Window* rootWnd = AbstractWindow::getRoot();
         CEGUI::uint count = rootWnd->getChildCount();
-        for (CEGUI::uint chIdx =  0; chIdx < count; ++chIdx)
+        for (CEGUI::uint chIdx = 0; chIdx < count; ++chIdx)
         {
             CEGUI::Window* wnd = rootWnd->getChildAtIdx(chIdx);
-            LOG_MESSAGE(
-                Logger::UI,
-                wnd->getName()
-                + (wnd->isVisible() ? " vis" : " nvis"));
+            LOG_MESSAGE(Logger::UI, wnd->getName() + (wnd->isVisible() ? " vis" : " nvis"));
         }
     }
 

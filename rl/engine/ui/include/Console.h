@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -19,47 +19,47 @@
 
 #include "UiPrerequisites.h"
 
-#include <vector>
 #include <string>
+#include <vector>
 
 #include "AbstractWindow.h"
 
-
-namespace rl {
+namespace rl
+{
 
     class RubyInterpreter;
 
-	/** This is a Console System
-	 */
-	class _RlUiExport Console : public AbstractWindow
-	{
-		public:
-			Console();
-            ~Console();
-			
-			void setRubyInterpreter(RubyInterpreter* interpreter);
-			void write(const CeGuiString& output);
-				
-			void setVisible(bool visible, bool destroyAfterHide = false);
+    /** This is a Console System
+     */
+    class _RlUiExport Console : public AbstractWindow
+    {
+    public:
+        Console();
+        ~Console();
 
-            bool wantsKeyToRepeat(const int &key);
+        void setRubyInterpreter(RubyInterpreter* interpreter);
+        void write(const CeGuiString& output);
 
-		private:
-			CEGUI::Editbox* mCommandLine;
-			CEGUI::Listbox* mDisplay;
-			
-			RubyInterpreter* mRubyInterpreter;
-			bool mPrompt;
+        void setVisible(bool visible, bool destroyAfterHide = false);
 
-			bool handleKeyDown(const CEGUI::EventArgs& e);
-            bool handleKeyUp(const CEGUI::EventArgs& e);
-            bool handleActivated(const CEGUI::EventArgs& e);
-			void appendTextRow(const CeGuiString& text, const CEGUI::colour color);
+        bool wantsKeyToRepeat(const int& key);
 
-			std::vector<CeGuiString> mHistory;
-			unsigned int mHistoryMarker;
-			void cycleHistory(int skip);
-	};
+    private:
+        CEGUI::Editbox* mCommandLine;
+        CEGUI::Listbox* mDisplay;
+
+        RubyInterpreter* mRubyInterpreter;
+        bool mPrompt;
+
+        bool handleKeyDown(const CEGUI::EventArgs& e);
+        bool handleKeyUp(const CEGUI::EventArgs& e);
+        bool handleActivated(const CEGUI::EventArgs& e);
+        void appendTextRow(const CeGuiString& text, const CEGUI::colour color);
+
+        std::vector<CeGuiString> mHistory;
+        unsigned int mHistoryMarker;
+        void cycleHistory(int skip);
+    };
 }
 
 #endif

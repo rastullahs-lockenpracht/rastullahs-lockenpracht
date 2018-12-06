@@ -1,46 +1,45 @@
 //-----------------------------------------------------------
-//Copyright (c) 2003 by cTh
-//Use as you see fit.
-//Questions : gavocanov@rambler.ru
+// Copyright (c) 2003 by cTh
+// Use as you see fit.
+// Questions : gavocanov@rambler.ru
 //-----------------------------------------------------------
 // Modified by Daniel Wickert, 2006
 
 #include "stdinc.h"
 
-#include "MovableText.h"
 #include "Exception.h"
-
-
+#include "MovableText.h"
 
 using namespace Ogre;
-namespace rl {
+namespace rl
+{
 
     const String MovableText::msType = "MovableText";
 
-    MovableText::MovableText(const String& name, const String& caption,
-        const String& fontName, int charHeight, const ColourValue& colour)
-        : MovableObject(name),
-          Renderable(),
-          mFontName(fontName),
-          mCaption(caption),
-          mColour(colour),
-          mRenderOp(),
-          mAABB(),
-          mLightList(),
-          mCharHeight(charHeight),
-          mSpaceWidth(0),
-          mNeedUpdate(true),
-          mUpdateColours(true),
-          mOnTop(false),
-          mTimeUntilNextToggle(0),
-          mRadius(0),
-          mCamera(0),
-          mFont(0),
-          mMaterial(),
-          mBackgroundMaterial(),
-          mPositionOffset(Vector3::ZERO),
-          mScaleOffset(Vector3::UNIT_SCALE),
-          mAlignment(MovableText::ALIGN_LEFT)
+    MovableText::MovableText(
+        const String& name, const String& caption, const String& fontName, int charHeight, const ColourValue& colour)
+        : MovableObject(name)
+        , Renderable()
+        , mFontName(fontName)
+        , mCaption(caption)
+        , mColour(colour)
+        , mRenderOp()
+        , mAABB()
+        , mLightList()
+        , mCharHeight(charHeight)
+        , mSpaceWidth(0)
+        , mNeedUpdate(true)
+        , mUpdateColours(true)
+        , mOnTop(false)
+        , mTimeUntilNextToggle(0)
+        , mRadius(0)
+        , mCamera(0)
+        , mFont(0)
+        , mMaterial()
+        , mBackgroundMaterial()
+        , mPositionOffset(Vector3::ZERO)
+        , mScaleOffset(Vector3::UNIT_SCALE)
+        , mAlignment(MovableText::ALIGN_LEFT)
 
     {
         if (name == StringUtil::BLANK)
@@ -65,13 +64,12 @@ namespace rl {
     }
 
     /************************************************************************/
-    void MovableText::setFontName(const String &fontName)
+    void MovableText::setFontName(const String& fontName)
     {
         if (mFontName != fontName || mMaterial.isNull() || mFont == 0)
         {
             mFontName = fontName;
-            mFont = static_cast<Font*>(
-                FontManager::getSingleton().getByName(mFontName).getPointer());
+            mFont = static_cast<Font*>(FontManager::getSingleton().getByName(mFontName).getPointer());
 
             if (mFont == 0)
             {
@@ -124,7 +122,7 @@ namespace rl {
     }
 
     /************************************************************************/
-    void MovableText::setCaption(const String &caption)
+    void MovableText::setCaption(const String& caption)
     {
         if (caption != mCaption)
         {
@@ -182,8 +180,8 @@ namespace rl {
         mRenderOp.operationType = RenderOperation::OT_TRIANGLE_LIST;
         mRenderOp.useIndexes = false;
 
-        VertexDeclaration  *decl = mRenderOp.vertexData->vertexDeclaration;
-        VertexBufferBinding   *bind = mRenderOp.vertexData->vertexBufferBinding;
+        VertexDeclaration* decl = mRenderOp.vertexData->vertexDeclaration;
+        VertexBufferBinding* bind = mRenderOp.vertexData->vertexBufferBinding;
         size_t offset = 0;
 
         // create/bind positions/tex.ccord. buffer
@@ -199,11 +197,9 @@ namespace rl {
             decl->addElement(POS_TEX_BINDING, offset, VET_FLOAT2, VES_TEXTURE_COORDINATES, 0);
         }
 
-        HardwareVertexBufferSharedPtr ptbuf =
-            HardwareBufferManager::getSingleton().createVertexBuffer(
-                decl->getVertexSize(POS_TEX_BINDING),
-                mRenderOp.vertexData->vertexCount,
-                HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY);
+        HardwareVertexBufferSharedPtr ptbuf
+            = HardwareBufferManager::getSingleton().createVertexBuffer(decl->getVertexSize(POS_TEX_BINDING),
+                mRenderOp.vertexData->vertexCount, HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY);
         bind->setBinding(POS_TEX_BINDING, ptbuf);
 
         // Colours - store these in a separate buffer because they change less often
@@ -212,15 +208,13 @@ namespace rl {
             decl->addElement(COLOUR_BINDING, 0, VET_COLOUR, VES_DIFFUSE);
         }
 
-        HardwareVertexBufferSharedPtr cbuf =
-            HardwareBufferManager::getSingleton().createVertexBuffer(
-                decl->getVertexSize(COLOUR_BINDING),
-                mRenderOp.vertexData->vertexCount,
-                HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY);
+        HardwareVertexBufferSharedPtr cbuf
+            = HardwareBufferManager::getSingleton().createVertexBuffer(decl->getVertexSize(COLOUR_BINDING),
+                mRenderOp.vertexData->vertexCount, HardwareBuffer::HBU_DYNAMIC_WRITE_ONLY);
         bind->setBinding(COLOUR_BINDING, cbuf);
 
         size_t charlen = mCaption.size();
-        Real *pPCBuff = static_cast<Real*>(ptbuf->lock(HardwareBuffer::HBL_DISCARD));
+        Real* pPCBuff = static_cast<Real*>(ptbuf->lock(HardwareBuffer::HBL_DISCARD));
 
         float largestWidth = 0;
         float left = 0 * 2.0 - 1.0;
@@ -355,7 +349,7 @@ namespace rl {
             maxSquaredRadius = std::max(maxSquaredRadius, currPos.squaredLength());
 
             top -= mCharHeight * 2.0;
-            left -= horiz_height  * mCharHeight * 2.0;
+            left -= horiz_height * mCharHeight * 2.0;
 
             // Bottom left (again)
             *pPCBuff++ = left;
@@ -369,7 +363,7 @@ namespace rl {
             max.makeCeil(currPos);
             maxSquaredRadius = std::max(maxSquaredRadius, currPos.squaredLength());
 
-            left += horiz_height  * mCharHeight * 2.0;
+            left += horiz_height * mCharHeight * 2.0;
 
             // Bottom right
             *pPCBuff++ = left;
@@ -387,7 +381,7 @@ namespace rl {
             // Go back up with top
             top += mCharHeight * 2.0;
 
-            float currentWidth = (left + 1)/2 - 0;
+            float currentWidth = (left + 1) / 2 - 0;
             if (currentWidth > largestWidth)
             {
                 largestWidth = currentWidth;
@@ -398,10 +392,10 @@ namespace rl {
         ptbuf->unlock();
 
         // update AABB/Sphere radius
-        mAABB = Ogre::AxisAlignedBox(min/(300*currPos.x), max/(300*currPos.x));
-        //mAABB = Ogre::AxisAlignedBox(Vector3(0.001,0.001,0.001),Vector3(0.01, 0.01, 0.01));
+        mAABB = Ogre::AxisAlignedBox(min / (300 * currPos.x), max / (300 * currPos.x));
+        // mAABB = Ogre::AxisAlignedBox(Vector3(0.001,0.001,0.001),Vector3(0.01, 0.01, 0.01));
 
-        mRadius = Ogre::Math::Sqrt(maxSquaredRadius)/(300*currPos.x);
+        mRadius = Ogre::Math::Sqrt(maxSquaredRadius) / (300 * currPos.x);
 
         if (mUpdateColours)
         {
@@ -420,9 +414,8 @@ namespace rl {
         // Convert to system-specific
         RGBA colour;
         Root::getSingleton().convertColourValue(mColour, &colour);
-        HardwareVertexBufferSharedPtr vbuf =
-            mRenderOp.vertexData->vertexBufferBinding->getBuffer(COLOUR_BINDING);
-        RGBA *pDest = static_cast<RGBA*>(vbuf->lock(HardwareBuffer::HBL_DISCARD));
+        HardwareVertexBufferSharedPtr vbuf = mRenderOp.vertexData->vertexBufferBinding->getBuffer(COLOUR_BINDING);
+        RGBA* pDest = static_cast<RGBA*>(vbuf->lock(HardwareBuffer::HBL_DISCARD));
         for (unsigned int i = 0; i < mRenderOp.vertexData->vertexCount; ++i)
             *pDest++ = colour;
         vbuf->unlock();
@@ -456,12 +449,12 @@ namespace rl {
             Vector3 ppos = mParentNode->_getDerivedPosition();
             Quaternion pori = mParentNode->_getDerivedOrientation();
             Vector3 alignmentOffset = Vector3::ZERO;
-            //Vector3 center = mAABB.getCenter();
-            //if (mAlignment == ALIGN_CENTER)
+            // Vector3 center = mAABB.getCenter();
+            // if (mAlignment == ALIGN_CENTER)
             //{
             //    alignmentOffset = Vector3(-center.x / 2.0, 0, 0);
             //}
-            //else if (mAlignment == ALIGN_RIGHT)
+            // else if (mAlignment == ALIGN_RIGHT)
             //{
             //    alignmentOffset = Vector3(-center.x, 0, 0);
             //}
@@ -478,7 +471,7 @@ namespace rl {
     }
 
     /************************************************************************/
-    void MovableText::getRenderOperation(RenderOperation &op)
+    void MovableText::getRenderOperation(RenderOperation& op)
     {
         if (this->isVisible())
         {
@@ -514,7 +507,7 @@ namespace rl {
                 this->_updateColours();
             }
 
-            //queue->addRenderable(this, mRenderQueueID, OGRE_RENDERABLE_DEFAULT_PRIORITY);
+            // queue->addRenderable(this, mRenderQueueID, OGRE_RENDERABLE_DEFAULT_PRIORITY);
             queue->addRenderable(this);
         }
     }
@@ -556,9 +549,8 @@ namespace rl {
     }
 
     /************************************************************************/
-	void MovableText::visitRenderables(Renderable::Visitor* visitor, 
-			bool debugRenderables)
-	{
-		visitor->visit(this, 0, debugRenderables);
-	}
+    void MovableText::visitRenderables(Renderable::Visitor* visitor, bool debugRenderables)
+    {
+        visitor->visit(this, 0, debugRenderables);
+    }
 }

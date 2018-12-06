@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -25,58 +25,59 @@
 #include "GameLoggerWindow.h"
 #include "MessagePump.h"
 
-namespace rl {
-	
-	/// GUI for user control of combat.
-	/// Handles all graphical combat visualisation.
-	class _RlUiExport CombatGui
-	{
-	public:
-		CombatGui(Combat*, CameraObject* mCamera);
-		virtual ~CombatGui();
+namespace rl
+{
 
-		// This function updates the state of the GUI according to combat state.
-		// Markers and buttons are updated to available options and combatant positions.
-		void update();
-		// Activate the gui
-		void show();
-		void hide();
+    /// GUI for user control of combat.
+    /// Handles all graphical combat visualisation.
+    class _RlUiExport CombatGui
+    {
+    public:
+        CombatGui(Combat*, CameraObject* mCamera);
+        virtual ~CombatGui();
 
-		void enableUserInput(bool enable);
+        // This function updates the state of the GUI according to combat state.
+        // Markers and buttons are updated to available options and combatant positions.
+        void update();
+        // Activate the gui
+        void show();
+        void hide();
 
-		// Message handlers
+        void enableUserInput(bool enable);
 
-		bool enemyButtonClicked(int handle, int buttonIndex);
-		bool endTurnButtonClicked();
-		bool enemyEnteredCombat(Combatant*);
-		bool enemyLeftCombat(Combatant*);
+        // Message handlers
 
-	private:
-		typedef std::map<Combatant*, int> OpponentButtonsMap;
+        bool enemyButtonClicked(int handle, int buttonIndex);
+        bool endTurnButtonClicked();
+        bool enemyEnteredCombat(Combatant*);
+        bool enemyLeftCombat(Combatant*);
 
-		CombatWindow* mCombatWindow;
-		GameLoggerWindow* mGameLoggerWindow;
-		OpponentButtonsMap mOpponentButtons;
+    private:
+        typedef std::map<Combatant*, int> OpponentButtonsMap;
 
-	    MessagePump::ScopedConnection mEnemyButtonClickedConnection;
-	    MessagePump::ScopedConnection mEnemyEnteredCombatConnection;
-	    MessagePump::ScopedConnection mEnemyLeftCombatConnection;
-		MessagePump::ScopedConnection mEndTurnButtonClickedConnection;
+        CombatWindow* mCombatWindow;
+        GameLoggerWindow* mGameLoggerWindow;
+        OpponentButtonsMap mOpponentButtons;
 
-		Combat* mCombat;
-		CameraObject* mCamera;
+        MessagePump::ScopedConnection mEnemyButtonClickedConnection;
+        MessagePump::ScopedConnection mEnemyEnteredCombatConnection;
+        MessagePump::ScopedConnection mEnemyLeftCombatConnection;
+        MessagePump::ScopedConnection mEndTurnButtonClickedConnection;
+
+        Combat* mCombat;
+        CameraObject* mCamera;
         /// Little Helper-MO for visualisation for everything that is difficult with cegui.
         Ogre::ManualObject* mHud;
 
-		bool mUserInputEnabled;
-		/// True if GameLoggerWindow was not visible before GUI is shown.
-		/// Needed to only close it after combat if it was not shown before.
-		bool mGameLoggerWindowOpened;
+        bool mUserInputEnabled;
+        /// True if GameLoggerWindow was not visible before GUI is shown.
+        /// Needed to only close it after combat if it was not shown before.
+        bool mGameLoggerWindowOpened;
 
         bool mVisible;
 
         Ogre::FloatRect getScreenRectFromWorldAabb(const Ogre::AxisAlignedBox& aabb) const;
-	};
+    };
 }
 
 #endif

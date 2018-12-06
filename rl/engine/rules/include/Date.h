@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -21,7 +21,7 @@
 
 namespace rl
 {
-    /** 
+    /**
      * The date class for the Aventurian calendar
      * The date is managed according to the calendar described
      * in the Geographia Aventurica (see p. XXX)
@@ -63,7 +63,7 @@ namespace rl
         /// One game round (Spielrunde) in milliseconds
         static const unsigned RL_LONGLONG ONE_SPIELRUNDE;
 
-        /** 
+        /**
          * Default constructor creates date with timestamp 0
          * (00:00:00,000 1. Praios 0 BF)
          */
@@ -83,8 +83,8 @@ namespace rl
         bool operator>(const Date& rhs);
 
         Date operator+(const RL_LONGLONG& rhs);
-		Date operator+(const Date& rhs);
-		Date operator-(const RL_LONGLONG& rhs);
+        Date operator+(const Date& rhs);
+        Date operator-(const RL_LONGLONG& rhs);
         RL_LONGLONG operator-(const Date& rhs);
         Date operator*(const Ogre::Real& rhs);
         Date operator/(const Ogre::Real& rhs);
@@ -106,9 +106,9 @@ namespace rl
         int getSecond() const;
         int getMilliSecond() const;
 
-        /** 
+        /**
          * Get a nicely formated string representation of the date
-         * Format is 
+         * Format is
          * "{Day of Week}, der {Day}. {Month} im Jahre {Year}, {Hour}:{Minute}.
          *
          * @return The date as a printable text
@@ -119,7 +119,6 @@ namespace rl
         const Ogre::Real toReal() const;
 
     private:
-
         int mMilli;
         int mSecond;
         int mMinute;

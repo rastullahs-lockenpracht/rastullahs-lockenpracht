@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -23,57 +23,56 @@
 #include "Eigenschaft.h"
 #include "ObjectStateChangeListener.h"
 
-namespace rl {
+namespace rl
+{
 
-	class Creature;
-	class ObjectStateChangeEvent;
+    class Creature;
+    class ObjectStateChangeEvent;
 
-	class _RlUiExport CharacterSheetWindow : public AbstractWindow, public ObjectStateChangeListener
-	{
-	public:
-		CharacterSheetWindow();
-		~CharacterSheetWindow();
+    class _RlUiExport CharacterSheetWindow : public AbstractWindow, public ObjectStateChangeListener
+    {
+    public:
+        CharacterSheetWindow();
+        ~CharacterSheetWindow();
 
-		void setCharacter(Creature* character);
+        void setCharacter(Creature* character);
 
-		/**
-		 * Aktualisiert die Tabellenelemente in Talent- und Magietabellen
-		 * und auf dem Charakterblatt
-		 */
-		void update();
+        /**
+         * Aktualisiert die Tabellenelemente in Talent- und Magietabellen
+         * und auf dem Charakterblatt
+         */
+        void update();
 
-		void objectStateChanged(ObjectStateChangeEvent* evt);
+        void objectStateChanged(ObjectStateChangeEvent* evt);
 
-	private:
-		Creature* mCharacter;
+    private:
+        Creature* mCharacter;
 
-		CEGUI::Window* mCharacterSheet;
-		CEGUI::Window* mTalentSheet;
-		CEGUI::Window* mMagicSheet;
-		CEGUI::MultiColumnList* mTalentTable;
-		
-		CEGUI::Window* mEigenschaft[EIGENSCHAFT_COUNT];
-		CEGUI::Window* mLE;
-		CEGUI::Window* mAE;
-		CEGUI::Window* mAP;
-		CEGUI::Window* mName;
-		CEGUI::Window* mRasse;
+        CEGUI::Window* mCharacterSheet;
+        CEGUI::Window* mTalentSheet;
+        CEGUI::Window* mMagicSheet;
+        CEGUI::MultiColumnList* mTalentTable;
+
+        CEGUI::Window* mEigenschaft[EIGENSCHAFT_COUNT];
+        CEGUI::Window* mLE;
+        CEGUI::Window* mAE;
+        CEGUI::Window* mAP;
+        CEGUI::Window* mName;
+        CEGUI::Window* mRasse;
         CEGUI::Window* mKultur;
-		CEGUI::Window* mProfession;
+        CEGUI::Window* mProfession;
         CEGUI::Window* mEffekte;
-		
-		void updateTalents();
 
-		/**
-		* Aktualisiert nur die Werte in den Talentlisten
-		* und auf dem Charakterblatt
-		*/
-		void updateValues();
+        void updateTalents();
 
-		bool handleClose();
-	};
+        /**
+         * Aktualisiert nur die Werte in den Talentlisten
+         * und auf dem Charakterblatt
+         */
+        void updateValues();
+
+        bool handleClose();
+    };
 }
 
-
 #endif
-

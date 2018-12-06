@@ -27,16 +27,14 @@ namespace rl
 
     typedef std::map<Ogre::String, StringList> DriverMap;
 
-    #define CHECK_FMOD4_ERRORS(fmod4_errorcode)\
-    {\
-        if (fmod4_errorcode != FMOD_OK)\
-        {\
-            Throw(rl::RuntimeException,\
-                "FMOD error #"\
-                + StringConverter::toString(fmod4_errorcode)\
-                + " "\
-                + FMOD_ErrorString(fmod4_errorcode));\
-        }\
+#define CHECK_FMOD4_ERRORS(fmod4_errorcode)                                                                            \
+    {                                                                                                                  \
+        if (fmod4_errorcode != FMOD_OK)                                                                                \
+        {                                                                                                              \
+            Throw(rl::RuntimeException,                                                                                \
+                "FMOD error #" + StringConverter::toString(fmod4_errorcode) + " "                                      \
+                    + FMOD_ErrorString(fmod4_errorcode));                                                              \
+        }                                                                                                              \
     }
 
     class Fmod4Sound;
@@ -62,11 +60,14 @@ namespace rl
         /// Der Name des Treibers
         virtual Ogre::String getName() const;
         /// Ist ein Ogre plugin
-        virtual bool isDriverPlugin() { return true; }
+        virtual bool isDriverPlugin()
+        {
+            return true;
+        }
         /// Update-Aufgaben erledigen
         virtual void update();
         /// Einen Soundlistener erzeugen
-        virtual ListenerMovable *createListener(const Ogre::String &name);
+        virtual ListenerMovable* createListener(const Ogre::String& name);
 
         virtual void setMasterVolume(const Ogre::Real& vol);
 
@@ -88,7 +89,7 @@ namespace rl
         /**
          * Sets an eax preset, the preset is defined by a string
          * @retval true if successfull
-        */
+         */
         virtual bool setEaxPreset(const Ogre::String& name);
 
         /// Setzt den Faktor f, mit der die Lautstaerke nach der Formel 1/(f*Entfernung) abnimmt
@@ -100,48 +101,26 @@ namespace rl
 
         FMOD::System* _getFmodSystem();
         void _registerChannel(FMOD::Channel* channel, Fmod4Sound* sound);
-        
+
     protected:
         virtual Sound* createSoundImpl(SoundResourcePtr res, SoundType type);
         virtual SoundStitching* createSoundStitchingImpl(unsigned int numSlots, const CeGuiString& name);
 
     private:
-
         typedef std::map<FMOD::Channel*, Fmod4Sound*> ChannelSoundMap;
 
         static FMOD_RESULT F_CALLBACK open(
-            const char *  name,
-            int  unicode,
-            unsigned int *  filesize,
-            void **  handle,
-            void **  userdata
-        );
+            const char* name, int unicode, unsigned int* filesize, void** handle, void** userdata);
 
-        static FMOD_RESULT F_CALLBACK close(
-            void *  handle,
-            void *  userdata
-        );
+        static FMOD_RESULT F_CALLBACK close(void* handle, void* userdata);
 
         static FMOD_RESULT F_CALLBACK read(
-            void *  handle,
-            void *  buffer,
-            unsigned int  sizebytes,
-            unsigned int *  bytesread,
-            void *  userdata
-        );
+            void* handle, void* buffer, unsigned int sizebytes, unsigned int* bytesread, void* userdata);
 
-        static FMOD_RESULT F_CALLBACK seek(
-            void *  handle,
-            unsigned int  pos,
-            void *  userdata
-        );
+        static FMOD_RESULT F_CALLBACK seek(void* handle, unsigned int pos, void* userdata);
 
         static FMOD_RESULT F_CALLBACK channelCallback(
-            FMOD_CHANNEL* channel,
-            FMOD_CHANNEL_CALLBACKTYPE type,
-            void* commanddata1,
-            void* commanddata2
-        );
+            FMOD_CHANNEL* channel, FMOD_CHANNEL_CALLBACKTYPE type, void* commanddata1, void* commanddata2);
 
         typedef std::map<const Ogre::String, FMOD_REVERB_PROPERTIES> EaxPresetMap;
         EaxPresetMap mEaxPresetMap;
@@ -158,7 +137,6 @@ namespace rl
         ChannelSoundMap mChannelSoundMap;
         FMOD::System* mFmod4System;
         FMOD::ChannelGroup* mMasterChannelGroup;
-
     };
 }
 

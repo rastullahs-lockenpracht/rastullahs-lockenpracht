@@ -19,52 +19,52 @@
 
 using namespace std;
 
-namespace rl {
-
-WayPointNode::WayPointNode(const Ogre::Vector3& pos, const WayPointNodeType type)
-: mPosition(pos),
-mType(type)
+namespace rl
 {
-}
 
-WayPointNode::~WayPointNode()
-{
-	mNeighbours.clear();
-}
+    WayPointNode::WayPointNode(const Ogre::Vector3& pos, const WayPointNodeType type)
+        : mPosition(pos)
+        , mType(type)
+    {
+    }
 
-void WayPointNode::addNeighbour(const WayPointNode* neighbour)
-{
-	WayPointWeightNodeList::iterator it;
+    WayPointNode::~WayPointNode()
+    {
+        mNeighbours.clear();
+    }
 
-	// test if neighbour not already added
-	for (it = mNeighbours.begin(); it != mNeighbours.end(); it++) {
-		// already added
-		if ( (*it).second == neighbour )
-			return;
+    void WayPointNode::addNeighbour(const WayPointNode* neighbour)
+    {
+        WayPointWeightNodeList::iterator it;
 
-	}
+        // test if neighbour not already added
+        for (it = mNeighbours.begin(); it != mNeighbours.end(); it++)
+        {
+            // already added
+            if ((*it).second == neighbour)
+                return;
+        }
 
-	// calculate cost to neighbour
-	Ogre::Vector3 distanceVector = getPosition() - neighbour->getPosition();
-	Ogre::Real distance = distanceVector.length();
+        // calculate cost to neighbour
+        Ogre::Vector3 distanceVector = getPosition() - neighbour->getPosition();
+        Ogre::Real distance = distanceVector.length();
 
-	// add neighbour
-	mNeighbours.push_back(WayPointWeightEdge(distance, neighbour));
-}
+        // add neighbour
+        mNeighbours.push_back(WayPointWeightEdge(distance, neighbour));
+    }
 
-const WayPointNode::WayPointWeightNodeList& WayPointNode::getNeighbours() const
-{
-	return mNeighbours;
-}
+    const WayPointNode::WayPointWeightNodeList& WayPointNode::getNeighbours() const
+    {
+        return mNeighbours;
+    }
 
-Ogre::Vector3 WayPointNode::getPosition() const
-{
-	return mPosition;
-}
+    Ogre::Vector3 WayPointNode::getPosition() const
+    {
+        return mPosition;
+    }
 
-WayPointNode::WayPointNodeType WayPointNode::getType() const
-{
-	return mType;
-}
-
+    WayPointNode::WayPointNodeType WayPointNode::getType() const
+    {
+        return mType;
+    }
 };

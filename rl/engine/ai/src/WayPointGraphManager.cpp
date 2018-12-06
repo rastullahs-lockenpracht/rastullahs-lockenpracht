@@ -15,40 +15,40 @@
  */
 #include "stdinc.h" //precompiled header
 
-#include "WayPointNode.h"
 #include "WayPointGraph.h"
 #include "WayPointGraphManager.h"
+#include "WayPointNode.h"
 
 using namespace std;
 using namespace Ogre;
 
-template<> rl::WayPointGraphManager* Singleton<rl::WayPointGraphManager>::ms_Singleton = 0;
+template <> rl::WayPointGraphManager* Singleton<rl::WayPointGraphManager>::ms_Singleton = 0;
 
-namespace rl {
-
-WayPointGraphManager::WayPointGraphManager()
+namespace rl
 {
-}
 
-WayPointGraphManager::~WayPointGraphManager()
-{
-	removeAllWayPointGraphs();
-}
+    WayPointGraphManager::WayPointGraphManager()
+    {
+    }
 
-WayPointGraph* WayPointGraphManager::createWayPointGraph()
-{
-	WayPointGraph* Graph = new WayPointGraph();
-	mGraphs.push_back(Graph);
-	return Graph;
-}
+    WayPointGraphManager::~WayPointGraphManager()
+    {
+        removeAllWayPointGraphs();
+    }
 
-void WayPointGraphManager::removeAllWayPointGraphs()
-{
-	for(WayPointGraphList::iterator it = mGraphs.begin(); it != mGraphs.end(); it++)
-	{
-		delete (*it);
-	}
-	mGraphs.clear();
-}
+    WayPointGraph* WayPointGraphManager::createWayPointGraph()
+    {
+        WayPointGraph* Graph = new WayPointGraph();
+        mGraphs.push_back(Graph);
+        return Graph;
+    }
 
+    void WayPointGraphManager::removeAllWayPointGraphs()
+    {
+        for (WayPointGraphList::iterator it = mGraphs.begin(); it != mGraphs.end(); it++)
+        {
+            delete (*it);
+        }
+        mGraphs.clear();
+    }
 };

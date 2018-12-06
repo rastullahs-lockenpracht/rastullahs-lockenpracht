@@ -23,7 +23,7 @@
 
 namespace rl
 {
-	DialogResponse::DialogResponse(const CeGuiString& id, const CeGuiString& person)
+    DialogResponse::DialogResponse(const CeGuiString& id, const CeGuiString& person)
         : DialogElement(id, person)
     {
     }
@@ -32,8 +32,7 @@ namespace rl
     {
     }
 
-
-    void DialogResponse::addOption(rl::DialogOption *option)
+    void DialogResponse::addOption(rl::DialogOption* option)
     {
         mOptions.push_back(option);
     }
@@ -69,7 +68,7 @@ namespace rl
         mEffects.push_back(implication);
     }
 
-    void DialogResponse::applyImplications(rl::Dialog *dialog)
+    void DialogResponse::applyImplications(rl::Dialog* dialog)
     {
         for (Implications::iterator it = mEffects.begin(); it != mEffects.end(); ++it)
         {
@@ -92,5 +91,4 @@ namespace rl
     {
         return getSelectedElement(dialog)->getOptions(dialog);
     }
-
 }

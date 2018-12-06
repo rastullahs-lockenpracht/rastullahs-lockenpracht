@@ -1,5 +1,5 @@
 /* (C) 2003-2008. Team Pantheon. www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -17,15 +17,18 @@
 
 #include "RulesPrerequisites.h"
 
-namespace rl {
+namespace rl
+{
 
     class Talent;
 
-    class TalentInputIterator {
+    class TalentInputIterator
+    {
     protected:
-        TalentInputIterator() {};
+        TalentInputIterator(){};
+
     public:
-        virtual ~TalentInputIterator() {};
+        virtual ~TalentInputIterator(){};
         virtual bool hasNext() const = 0;
         virtual void next() = 0;
         virtual Talent* createTalent() = 0;

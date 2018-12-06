@@ -19,7 +19,8 @@
 
 #include "Exception.h"
 
-namespace rl {
+namespace rl
+{
 
     QuestListener::~QuestListener()
     {
@@ -27,13 +28,13 @@ namespace rl {
 
     bool QuestListener::eventRaised(QuestEvent* evt)
     {
-        if( evt->getReason() == QuestEvent::QUEST_STATE )
+        if (evt->getReason() == QuestEvent::QUEST_STATE)
             questStateChanged(evt);
-        else if( evt->getReason() == QuestEvent::QUEST_PARTSDONE )
+        else if (evt->getReason() == QuestEvent::QUEST_PARTSDONE)
             questPartsDoneChanged(evt);
-        else if( evt->getReason() == QuestEvent::QUEST_KNOWN )
+        else if (evt->getReason() == QuestEvent::QUEST_KNOWN)
             questKnownChanged(evt);
-        else if( evt->getReason() == QuestEvent::QUEST_SUBQUEST )
+        else if (evt->getReason() == QuestEvent::QUEST_SUBQUEST)
             questSubquestAdded(evt);
 
         // consumed or not

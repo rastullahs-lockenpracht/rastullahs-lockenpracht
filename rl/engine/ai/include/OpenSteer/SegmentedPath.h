@@ -38,65 +38,61 @@
 // Include OpenSteer::size_t
 #include "OpenSteer/StandardTypes.h"
 
-namespace OpenSteer {
-    
+namespace OpenSteer
+{
+
     /**
      * Path build by segments between points on the path.
      */
-    class SegmentedPath : public Path {
+    class SegmentedPath : public Path
+    {
     public:
         typedef size_t size_type;
-        
+
         virtual ~SegmentedPath() = 0;
-        
-        
+
         /**
          * Returns the number of points defining the segments.
          *
          * This also includes the duplicated first point if the path is cyclic.
          */
         virtual size_type pointCount() const = 0;
-        
+
         /**
          * Returns the point @a pointIndex.
          *
          * If the path is cyclic also the last point that is the duplicated
          * first one is accessible.
          */
-        virtual Vector3 point( size_type pointIndex ) const = 0;
-        
-        
-        
+        virtual Vector3 point(size_type pointIndex) const = 0;
+
         /**
          * Returns the number of segments that build the pathway.
          */
         virtual size_type segmentCount() const = 0;
-        
+
         /**
          * Returns the length of segment @a segmentIndex.
          */
-        virtual float segmentLength( size_type segmentIndex ) const = 0;
-        
+        virtual float segmentLength(size_type segmentIndex) const = 0;
+
         /**
          * Returns the start point of the segment @a segmentIndex.
          */
-        virtual Vector3 segmentStart( size_type segmentIndex ) const = 0;
-        
+        virtual Vector3 segmentStart(size_type segmentIndex) const = 0;
+
         /**
          * Returns the end point of segment @a segmentIndex.
          */
-        virtual Vector3 segmentEnd( size_type segmentIndex ) const = 0;
-        
-        
+        virtual Vector3 segmentEnd(size_type segmentIndex) const = 0;
+
         /**
          * Maps @a point to the nearest point on the center line of segment
-         * @a segmentIndex and returns the distance from the segment start to 
+         * @a segmentIndex and returns the distance from the segment start to
          * this point.
          */
-        virtual float mapPointToSegmentDistance( size_type segmentIndex, 
-                                                 Vector3 const& point ) const = 0;
-        
-        
+        virtual float mapPointToSegmentDistance(size_type segmentIndex, Vector3 const& point) const = 0;
+
         /**
          * Maps @a segmentDistance to the center line of segment @a segmentIndex
          * and returns the reached point.
@@ -104,54 +100,43 @@ namespace OpenSteer {
          * If @a segmentDistance is greater or smaller than the segment length
          * is is clamped to @c 0.0f or @c segmentLength().
          */
-        virtual Vector3 mapSegmentDistanceToPoint( size_type segmentIndex, 
-                                                float segmentDistance ) const = 0;
-        
+        virtual Vector3 mapSegmentDistanceToPoint(size_type segmentIndex, float segmentDistance) const = 0;
+
         /**
-         * Maps @a segmentDistance to the centerline of the segment 
+         * Maps @a segmentDistance to the centerline of the segment
          * @a segmentIndex and returns the tangent of the pathway at the reached
          * point.
          *
          * If @a segmentDistance is greater or smaller than the segment length
          * is is clamped to @c 0.0f or @c segmentLength().
          */
-        virtual Vector3 mapSegmentDistanceToTangent( size_type segmentIndex, 
-                                                  float segmentDistance ) const = 0;
-        
-        
+        virtual Vector3 mapSegmentDistanceToTangent(size_type segmentIndex, float segmentDistance) const = 0;
+
         /**
-         * Combines @c mapSegmentDistanceToPoint and 
+         * Combines @c mapSegmentDistanceToPoint and
          * @c mapSegmentDistanceToTangent.
          */
-        virtual void mapDistanceToSegmentPointAndTangent( size_type segmentIndex,
-                                                          float distance,
-                                                          Vector3& pointOnPath,
-                                                          Vector3& tangent ) const = 0;
-        
-        
+        virtual void mapDistanceToSegmentPointAndTangent(
+            size_type segmentIndex, float distance, Vector3& pointOnPath, Vector3& tangent) const = 0;
+
         /**
-         * Combines @c mapPointToSegmentDistance, @c mapSegmentDistanceToPoint, 
+         * Combines @c mapPointToSegmentDistance, @c mapSegmentDistanceToPoint,
          * and @c mapSegmentDistanceToTangent.
          */
-        virtual void mapPointToSegmentDistanceAndPointAndTangent( size_type segmentIndex,
-                                                                  Vector3 const& point,
-                                                                  float& distance,
-                                                                  Vector3& pointOnPath,
-                                                                  Vector3& tangent ) const = 0;
+        virtual void mapPointToSegmentDistanceAndPointAndTangent(size_type segmentIndex, Vector3 const& point,
+            float& distance, Vector3& pointOnPath, Vector3& tangent) const = 0;
 
     protected:
         /**
-         * Protected to disable assigning instances of different inherited 
+         * Protected to disable assigning instances of different inherited
          * classes to each other.
          *
          * @todo Should this be added or not? Have to read a bit...
          */
         // SegmentedPath& operator=( SegmentedPath const& );
-        
-    }; // class SegmentedPath
-    
-    
-} // namespace OpenSteer
 
+    }; // class SegmentedPath
+
+} // namespace OpenSteer
 
 #endif // OPENSTEER_SEGMENTEDPATH_H

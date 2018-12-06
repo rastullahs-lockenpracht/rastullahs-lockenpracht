@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -21,22 +21,24 @@
 
 namespace rl
 {
-	class _RlAiExport Landmark : public DebugVisualisable
-	{
-	public:
-		Landmark(const Ogre::String& name, const Ogre::Vector3& position);
-		
-		const Ogre::String& getName() const;
-		const Ogre::Vector3& getPosition() const;
+    class _RlAiExport Landmark : public DebugVisualisable
+    {
+    public:
+        Landmark(const Ogre::String& name, const Ogre::Vector3& position);
+
+        const Ogre::String& getName() const;
+        const Ogre::Vector3& getPosition() const;
 
         virtual DebugVisualisableFlag getFlag() const;
         virtual void updatePrimitive();
+
     protected:
         virtual void doCreatePrimitive();
-	private:
-		Ogre::String mName;
-		Ogre::Vector3 mPosition;
-	};
+
+    private:
+        Ogre::String mName;
+        Ogre::Vector3 mPosition;
+    };
 }
 
 #endif //__Landmark_H__

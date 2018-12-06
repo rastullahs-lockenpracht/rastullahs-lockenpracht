@@ -19,11 +19,12 @@
 
 #include "UiPrerequisites.h"
 
-#include "FixRubyHeaders.h"        // die Makros sind hier vor Ruby schon definiert
-#include <ruby.h>
+#include "FixRubyHeaders.h" // die Makros sind hier vor Ruby schon definiert
 #include "FixRubyHeaders.h"
+#include <ruby.h>
 
-namespace rl {
+namespace rl
+{
 
     class Actor;
     class AbstractWindow;
@@ -85,7 +86,7 @@ namespace rl {
         void showPlaylist();
         void showGameSaveLoadWindow();
         void showMainMenuLoadWindow(MainMenuWindow* win);
-		void hideMainMenuLoadWindow();
+        void hideMainMenuLoadWindow();
         void showPopupMessage(int popupTypes);
         void showGameOverWindow();
         /**
@@ -101,7 +102,7 @@ namespace rl {
         void toggleInGameGlobalMenu();
         void toggleInventoryWindow();
         void notifyInventoryWindowDestroyed();
-		bool isInventoryWindowDestroyed();
+        bool isInventoryWindowDestroyed();
 
         CombatWindow* getCombatWindow();
 
@@ -134,7 +135,7 @@ namespace rl {
         GameObject* mShownObject;
         ObjectDescriptionWindow* mObjectDescriptionWindow;
         MainMenuWindow* mMainMenuWindow;
-		MainMenuLoadWindow* mMainMenuLoadWindow;
+        MainMenuLoadWindow* mMainMenuLoadWindow;
         CloseConfirmationWindow* mCloseConfirmationWindow;
         GameSettings* mGameSettings;
         CombatWindow* mCombatWindow;

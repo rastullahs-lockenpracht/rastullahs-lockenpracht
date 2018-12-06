@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -23,27 +23,28 @@
 #include "MessagePump.h"
 #include "RulesConstants.h"
 
-namespace rl {
+namespace rl
+{
 
-	class _RlUiExport GameLoggerWindow : public AbstractWindow
-	{
-	public:
-		GameLoggerWindow();
+    class _RlUiExport GameLoggerWindow : public AbstractWindow
+    {
+    public:
+        GameLoggerWindow();
 
-		/// Message handler for RLMSG_GAMEEVENTLOG_EVENT_ADDED
-		bool onLogEntryAdded(GameEventType evt, const CeGuiString& msg);
+        /// Message handler for RLMSG_GAMEEVENTLOG_EVENT_ADDED
+        bool onLogEntryAdded(GameEventType evt, const CeGuiString& msg);
 
-	private:
-		static CEGUI::colour COLOR_DEFAULT;
-		static CEGUI::colour COLOR_COMBAT;
-		static CEGUI::colour COLOR_DIALOG;
-		static CEGUI::colour COLOR_QUEST;
+    private:
+        static CEGUI::colour COLOR_DEFAULT;
+        static CEGUI::colour COLOR_COMBAT;
+        static CEGUI::colour COLOR_DIALOG;
+        static CEGUI::colour COLOR_QUEST;
 
-	    MessagePump::ScopedConnection mLogEntryAddedConnection;
-		CEGUI::Listbox* mLog;
+        MessagePump::ScopedConnection mLogEntryAddedConnection;
+        CEGUI::Listbox* mLog;
 
-		void logEvent(const CeGuiString& text, const CEGUI::colour color);
-	};
+        void logEvent(const CeGuiString& text, const CEGUI::colour color);
+    };
 }
 
 #endif

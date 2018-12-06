@@ -25,14 +25,15 @@
 using namespace CEGUI;
 using namespace Ogre;
 
-namespace rl {
+namespace rl
+{
 
-    MainMenuEngineWindow::MainMenuEngineWindow() :
-        AbstractWindow("mainmenuenginewindow.xml", WIT_NONE, false)
+    MainMenuEngineWindow::MainMenuEngineWindow()
+        : AbstractWindow("mainmenuenginewindow.xml", WIT_NONE, false)
     {
-        getWindow("MainMenu/EngineVersion")->setText(
-            CoreSubsystem::getSingleton().getEngineVersionString()+
-            " ("+StringConverter::toString(CoreSubsystem::getSingleton().getEngineBuildNumber())+")");
+        getWindow("MainMenu/EngineVersion")
+            ->setText(CoreSubsystem::getSingleton().getEngineVersionString() + " ("
+                + StringConverter::toString(CoreSubsystem::getSingleton().getEngineBuildNumber()) + ")");
         mWindow->setAlwaysOnTop(false);
         mWindow->setModalState(false);
         mWindow->moveToBack();

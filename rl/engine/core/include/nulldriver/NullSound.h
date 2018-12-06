@@ -1,49 +1,50 @@
 /* This source file is part of Rastullahs Lockenpracht.
-* Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
-* 
-*  This program is free software; you can redistribute it and/or modify
-*  it under the terms of the Clarified Artistic License.
-*
-*  This program is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  Clarified Artistic License for more details.
-*
-*  You should have received a copy of the Clarified Artistic License
-*  along with this program; if not you can get it here
-*  http://www.jpaulmorrison.com/fbp/artistic2.htm.
-*/
+ * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the Clarified Artistic License.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  Clarified Artistic License for more details.
+ *
+ *  You should have received a copy of the Clarified Artistic License
+ *  along with this program; if not you can get it here
+ *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
+ */
 
 #ifndef __NullSoundSample_H__
 #define __NullSoundSample_H__
 
 #include "CorePrerequisites.h"
-#include "SoundResource.h"
 #include "Sound.h"
+#include "SoundResource.h"
 
-namespace rl {
+namespace rl
+{
 
-   /** Diese Klasse dient der Interaktion mit Ogre3D
-    * @author Josch
-    * @date 07-03-2005
-    * @version 1.0
-    */
+    /** Diese Klasse dient der Interaktion mit Ogre3D
+     * @author Josch
+     * @date 07-03-2005
+     * @version 1.0
+     */
     class _RlCoreExport NullSound : public Sound
     {
     public:
         /// Konstruktor
-        NullSound(const SoundResourcePtr &soundres, SoundDriver* creator);
+        NullSound(const SoundResourcePtr& soundres, SoundDriver* creator);
         /// Destruktor
         virtual ~NullSound();
 
         /// Laedt den Sound.
-        virtual void load() throw (RuntimeException);
+        virtual void load() throw(RuntimeException);
         /// Entlaedt den Sound.
-        virtual void unload() throw (RuntimeException);
- 
+        virtual void unload() throw(RuntimeException);
+
         // Wir geben zurueck, wie lange der Sound ist.
-		virtual float getLength() const;
-    
+        virtual float getLength() const;
+
         /// Moveable-Typ
         virtual const Ogre::String& getMovableType() const;
 
@@ -52,31 +53,31 @@ namespace rl {
         /// Setzt die Position der Soundquelle.
         virtual void setPosition(const Ogre::Vector3& direction);
         /// Gibt die eingestellte relative Lautstaerke der Soundquelle zurueck
-       virtual  const Ogre::Real getVolume() const; 
+        virtual const Ogre::Real getVolume() const;
         /// Setzt die relative Lautstaerke der Soundquelle.
-         void setVolume(const Ogre::Real gain);
+        void setVolume(const Ogre::Real gain);
         /// Gibt die Richtung der Soundquelle zurueck.
-         const Ogre::Quaternion getDirection() const;
+        const Ogre::Quaternion getDirection() const;
         /// Gibt die Geschwindigkeit der Soundquelle zurueck.
-         const Ogre::Vector3 getVelocity() const;
+        const Ogre::Vector3 getVelocity() const;
         /// Setzt die Richtung der Soundquelle.
-         void setDirection(const Ogre::Quaternion&);
+        void setDirection(const Ogre::Quaternion&);
         /// Setzt die Geschwindigkeit der Soundquelle.
-         void setVelocity(const Ogre::Vector3&);
+        void setVelocity(const Ogre::Vector3&);
 
-         /// Spielt den Sound ab.
-         void play(bool destroyWhenDone=false);
+        /// Spielt den Sound ab.
+        void play(bool destroyWhenDone = false);
         /// Pausiert den Sound.
-         void pause(bool pausing);
+        void pause(bool pausing);
         /// Ist der Sound pausiert?
-         bool isPaused();
+        bool isPaused();
         /// Stoppt den Sound.
-         void stop();
+        void stop();
         /// Zurueck auf Anfang.
-    //         void rewind() throw (RuntimeException);
+        //         void rewind() throw (RuntimeException);
         /// Laeuft der Sound noch
-         const bool isPlaying() const;
-        
+        const bool isPlaying() const;
+
         // Sets the priority of this sound
         virtual void setPriority(const int priority);
         // Gets the priority of this sound
@@ -84,24 +85,31 @@ namespace rl {
 
     protected:
         // Sind wir gueltig?
-        virtual bool isValid() const throw (RuntimeException);
+        virtual bool isValid() const throw(RuntimeException);
 
     private:
         // Shared class-level name for Movable type
         static Ogre::String msMovableType;
+    };
 
-    }; 
-
-    class _RlCoreExport NullSoundPtr :
-        public Ogre::SharedPtr<NullSound>
+    class _RlCoreExport NullSoundPtr : public Ogre::SharedPtr<NullSound>
     {
     public:
-        NullSoundPtr() : Ogre::SharedPtr<NullSound>() {}
-        explicit NullSoundPtr(NullSound* rep) : Ogre::SharedPtr<NullSound>(rep) {}
-        NullSoundPtr(const NullSoundPtr& res) : Ogre::SharedPtr<NullSound>(res) {}
+        NullSoundPtr()
+            : Ogre::SharedPtr<NullSound>()
+        {
+        }
+        explicit NullSoundPtr(NullSound* rep)
+            : Ogre::SharedPtr<NullSound>(rep)
+        {
+        }
+        NullSoundPtr(const NullSoundPtr& res)
+            : Ogre::SharedPtr<NullSound>(res)
+        {
+        }
+
     protected:
         void destroy();
     };
-
 }
 #endif

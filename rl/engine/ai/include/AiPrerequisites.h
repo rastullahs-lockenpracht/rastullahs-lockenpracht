@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -21,23 +21,20 @@
 
 #include "RastullahPrerequisites.h"
 
-
-
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 // Export control
-#   if defined( RLAI_EXPORTS )
-#       define _RlAiExport __declspec( dllexport )
-#   else
-#       define _RlAiExport __declspec( dllimport )
-#   endif
+#if defined(RLAI_EXPORTS)
+#define _RlAiExport __declspec(dllexport)
+#else
+#define _RlAiExport __declspec(dllimport)
+#endif
 #else // Linux / Mac OSX etc
-#   define _RlAiExport
-#	if defined ( RL_USE_PCH )
-#		include "stdinc.h"
-#	endif
+#define _RlAiExport
+#if defined(RL_USE_PCH)
+#include "stdinc.h"
+#endif
 #endif
 
-#pragma warning (disable : 4251)
+#pragma warning(disable : 4251)
 
 #endif
-

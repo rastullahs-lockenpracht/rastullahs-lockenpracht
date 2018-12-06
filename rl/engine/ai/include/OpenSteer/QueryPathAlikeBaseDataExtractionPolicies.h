@@ -1,5 +1,5 @@
 /**
-* OpenSteer -- Steering Behaviors for Autonomous Characters
+ * OpenSteer -- Steering Behaviors for Autonomous Characters
  *
  * Copyright (c) 2002-2005, Sony Computer Entertainment America
  * Original author: Craig Reynolds <craig_reynolds@playstation.sony.com>
@@ -33,8 +33,9 @@
 #ifndef OPENSTEER_QUERYPATHALIKEBASEDATAEXTRACTIONPOLICY_H
 #define OPENSTEER_QUERYPATHALIKEBASEDATAEXTRACTIONPOLICY_H
 
-namespace OpenSteer {
-    
+namespace OpenSteer
+{
+
     /**
      * Extracts the base data like the segment distance, the radius, the
      * distance of the query point to the path alike, the point on the path
@@ -43,14 +44,14 @@ namespace OpenSteer {
      * Specialize it for the path alike to use and provide a static member
      * function with the following signature:
      *
-     * <code>static void extract( PathAlike const& pathAlike, typename PathAlike::size_type segmentIndex, Vector3 const& point, float& segmentDistance, float& radius, float& distancePointToPath, Vector3& pointOnPathCenterLine, Vector3& tangent )</code>
+     * <code>static void extract( PathAlike const& pathAlike, typename PathAlike::size_type segmentIndex, Vector3 const&
+     * point, float& segmentDistance, float& radius, float& distancePointToPath, Vector3& pointOnPathCenterLine,
+     * Vector3& tangent )</code>
      *
      * @attention Be aware of the references that are passed in.
      */
-    template< class PathAlike >
-    class PointToPathAlikeBaseDataExtractionPolicy;
-    
-    
+    template <class PathAlike> class PointToPathAlikeBaseDataExtractionPolicy;
+
     /**
      * Extracts the base data like the radius, the point on the path
      * alike center line and the tangent at that point.
@@ -58,14 +59,13 @@ namespace OpenSteer {
      * Specialize it for the path alike to use and provide a static member
      * function with the following signature:
      *
-     * <code>static void extract( PathAlike const& pathAlike, typename PathAlike::size_type segmentIndex, float segmentDistance, Vector3& pointOnPathCenterLine, Vector3& tangent, float& radius )</code>
+     * <code>static void extract( PathAlike const& pathAlike, typename PathAlike::size_type segmentIndex, float
+     * segmentDistance, Vector3& pointOnPathCenterLine, Vector3& tangent, float& radius )</code>
      *
      * @attention Be aware of the references that are passed in.
-     */    
-    template< class PathAlike >
-    class DistanceToPathAlikeBaseDataExtractionPolicy;
-    
-} // namespace OpenSteer
+     */
+    template <class PathAlike> class DistanceToPathAlikeBaseDataExtractionPolicy;
 
+} // namespace OpenSteer
 
 #endif // OPENSTEER_QUERYPATHALIKEBASEDATAEXTRACTIONPOLICY_H

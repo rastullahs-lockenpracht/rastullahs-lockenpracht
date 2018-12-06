@@ -1,0 +1,11 @@
+﻿---
+BasedOnStyle: WebKit
+
+AllowShortFunctionsOnASingleLine: None
+BreakBeforeBraces: Allman
+ColumnLimit: '120'
+NamespaceIndentation: All
+TabWidth: '4'
+UseTab: Never
+
+...

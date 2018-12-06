@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -21,56 +21,57 @@
 #include <CEGUI.h>
 #include <elements/CEGUIDragContainer.h>
 
-namespace rl 
+namespace rl
 {
-	class Container;
-	class Inventory;
-	class Item;
-	class Slot;
+    class Container;
+    class Inventory;
+    class Item;
+    class Slot;
     class ItemDragContainerDestroyListener;
 
-	class ItemDragContainer : public CEGUI::DragContainer
-	{
-	public:
-		static const Ogre::String ICON_UNKNOWN_ITEM;
-		
-		virtual ~ItemDragContainer();
-		
-		void setItemParent(Container* container);
-		void setItemParent(Inventory* inventory, const CeGuiString& slotname);
-		Container* getItemParentContainer() const;
-		const CeGuiString& getItemParentSlot() const;
-		Inventory* getItemParentInventory() const;
-		Item* getItem() const;
-                virtual void setItem(Item*); // can only be used once to initialize the Container
-		CEGUI::Window* getContentWindow() const;
-	
-		bool _handleItemMouseClick(const CEGUI::EventArgs& evt, Item* item);
-		bool _handleItemDoubleClick(const CEGUI::EventArgs& evt, Item* item);
+    class ItemDragContainer : public CEGUI::DragContainer
+    {
+    public:
+        static const Ogre::String ICON_UNKNOWN_ITEM;
+
+        virtual ~ItemDragContainer();
+
+        void setItemParent(Container* container);
+        void setItemParent(Inventory* inventory, const CeGuiString& slotname);
+        Container* getItemParentContainer() const;
+        const CeGuiString& getItemParentSlot() const;
+        Inventory* getItemParentInventory() const;
+        Item* getItem() const;
+        virtual void setItem(Item*); // can only be used once to initialize the Container
+        CEGUI::Window* getContentWindow() const;
+
+        bool _handleItemMouseClick(const CEGUI::EventArgs& evt, Item* item);
+        bool _handleItemDoubleClick(const CEGUI::EventArgs& evt, Item* item);
 
         bool fadeOutAndHide(Ogre::Real delay);
         bool stopFadeOut();
 
         virtual void destroy(void); // inherited from CEGUI::WINDOW
 
-        //void destroyWindow(); // this is internally done with a windowfadejob to prevent problems
+        // void destroyWindow(); // this is internally done with a windowfadejob to prevent problems
 
-        void setDestroyListener(ItemDragContainerDestroyListener *listener);
-	protected:
-		CEGUI::Window* mContentWindow;
-		
-		ItemDragContainer(const CeGuiString &type, const CeGuiString& name);
-		virtual bool testClassName_impl(const CEGUI::String& class_name) const;
+        void setDestroyListener(ItemDragContainerDestroyListener* listener);
 
-	private:
-		Item* mItem;
-		Container* mParentContainer;
-		CeGuiString mParentSlot;
-		Inventory* mInventory;
+    protected:
+        CEGUI::Window* mContentWindow;
+
+        ItemDragContainer(const CeGuiString& type, const CeGuiString& name);
+        virtual bool testClassName_impl(const CEGUI::String& class_name) const;
+
+    private:
+        Item* mItem;
+        Container* mParentContainer;
+        CeGuiString mParentSlot;
+        Inventory* mInventory;
         unsigned long mHideAndDestroyJobTicket;
         bool mMarkedToHideAndDestroy;
-        ItemDragContainerDestroyListener *mDestroyListener;
-	};
+        ItemDragContainerDestroyListener* mDestroyListener;
+    };
 
     class ItemDragContainerDestroyListener
     {
@@ -78,10 +79,12 @@ namespace rl
         ItemDragContainerDestroyListener();
         virtual ~ItemDragContainerDestroyListener();
         virtual void notifyItemDragContainerDestroyed(ItemDragContainer* cont) = 0;
+
     protected:
         void addDragContainer(ItemDragContainer* dragcont);
         void removeDragContainer(ItemDragContainer* dragcont);
         friend class ItemDragContainer;
+
     private:
         typedef std::map<CeGuiString, ItemDragContainer*> DndContainerMap;
         DndContainerMap mContainers;

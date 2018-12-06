@@ -22,66 +22,52 @@
 #include "AbstractWindow.h"
 #include "Item.h"
 
-namespace CEGUI{
+namespace CEGUI
+{
     CEGUI_DEFINE_WINDOW_FACTORY(ItemIconDragContainer)
 }
-namespace rl {
+namespace rl
+{
 
     const CeGuiString ItemIconDragContainer::WidgetTypeName("ItemIconDragContainer");
 
+    ItemIconDragContainer::ItemIconDragContainer(const CeGuiString& type, const CeGuiString& name)
+        : ItemDragContainer(type, name)
+    {
+        CeGuiString prefix = name;
+        mContentWindow = this; // AbstractWindow::loadWindow("itemicondragcontainer.xml", prefix);
 
-
-	ItemIconDragContainer::ItemIconDragContainer(const CeGuiString &type, const CeGuiString& name)
-		: ItemDragContainer(type, name)
-	{
-		CeGuiString prefix = name;
-		mContentWindow = this; //AbstractWindow::loadWindow("itemicondragcontainer.xml", prefix);
-
-
-		for (size_t idx = 0; idx < mContentWindow->getChildCount(); ++idx)
-		{
-			LOG_MESSAGE(Logger::UI, mContentWindow->getChildAtIdx(idx)->getName());
-		}
-
-		addChildWindow(mContentWindow);
-                mContentWindow->setDestroyedByParent(true);
-	}
-
-        void ItemIconDragContainer::setItem(Item* item)
+        for (size_t idx = 0; idx < mContentWindow->getChildCount(); ++idx)
         {
-            ItemDragContainer::setItem(item);
-
-
-
-
-		CeGuiString icon = item->getImageName();
-
-		if (icon == "")
-		{
-			icon = ICON_UNKNOWN_ITEM;
-		}
-                const CeGuiString &name = getName();
-
-
-
-		mContentWindow->getChild(name+"/Icon")
-			->setProperty("Image", icon);
-
-		mContentWindow->subscribeEvent(
-			Window::EventMouseClick,
-			boost::bind(&ItemDragContainer::_handleItemMouseClick, this, _1, item));
-
-		mContentWindow->subscribeEvent(
-			Window::EventMouseDoubleClick,
-			boost::bind(&ItemDragContainer::_handleItemDoubleClick, this, _1, item));
-
-		setSize(CEGUI::UVector2(
-			cegui_absdim(item->getSize().first*30),
-			cegui_absdim(item->getSize().second*30)));
-		mContentWindow->setSize(CEGUI::UVector2(
-			cegui_absdim(item->getSize().first*30),
-			cegui_absdim(item->getSize().second*30)));
-
-
+            LOG_MESSAGE(Logger::UI, mContentWindow->getChildAtIdx(idx)->getName());
         }
+
+        addChildWindow(mContentWindow);
+        mContentWindow->setDestroyedByParent(true);
+    }
+
+    void ItemIconDragContainer::setItem(Item* item)
+    {
+        ItemDragContainer::setItem(item);
+
+        CeGuiString icon = item->getImageName();
+
+        if (icon == "")
+        {
+            icon = ICON_UNKNOWN_ITEM;
+        }
+        const CeGuiString& name = getName();
+
+        mContentWindow->getChild(name + "/Icon")->setProperty("Image", icon);
+
+        mContentWindow->subscribeEvent(
+            Window::EventMouseClick, boost::bind(&ItemDragContainer::_handleItemMouseClick, this, _1, item));
+
+        mContentWindow->subscribeEvent(
+            Window::EventMouseDoubleClick, boost::bind(&ItemDragContainer::_handleItemDoubleClick, this, _1, item));
+
+        setSize(CEGUI::UVector2(cegui_absdim(item->getSize().first * 30), cegui_absdim(item->getSize().second * 30)));
+        mContentWindow->setSize(
+            CEGUI::UVector2(cegui_absdim(item->getSize().first * 30), cegui_absdim(item->getSize().second * 30)));
+    }
 }

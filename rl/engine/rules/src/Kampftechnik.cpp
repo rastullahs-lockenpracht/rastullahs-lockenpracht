@@ -15,17 +15,15 @@
  */
 #include "stdinc.h" //precompiled header
 
-#include "Kampftechnik.h"
 #include "DsaManager.h"
+#include "Kampftechnik.h"
 
 namespace rl
 {
-    Kampftechnik::Kampftechnik(const CeGuiString name,
-                   const CeGuiString description,
-                   int ebe)
-                                       : mName(name),
-                                         mDescription(description),
-                                         mEbe(ebe)
+    Kampftechnik::Kampftechnik(const CeGuiString name, const CeGuiString description, int ebe)
+        : mName(name)
+        , mDescription(description)
+        , mEbe(ebe)
     {
     }
 
@@ -49,19 +47,18 @@ namespace rl
         return mDescription;
     }
 
-	int Kampftechnik::getEbe() const
-	{
-		return mEbe;
-	}
+    int Kampftechnik::getEbe() const
+    {
+        return mEbe;
+    }
 
-	int Kampftechnik::calculateEbe(int be) const
-	{
-		if (mEbe == EBE_KEINE_BE)
-			return 0;
-		if (mEbe == EBE_BEx2)
-			return be*2;
+    int Kampftechnik::calculateEbe(int be) const
+    {
+        if (mEbe == EBE_KEINE_BE)
+            return 0;
+        if (mEbe == EBE_BEx2)
+            return be * 2;
 
-		return std::max(be + mEbe, 0);
-	}
-
+        return std::max(be + mEbe, 0);
+    }
 }

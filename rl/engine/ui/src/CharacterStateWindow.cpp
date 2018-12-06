@@ -15,11 +15,11 @@
  */
 #include "stdinc.h" //precompiled header
 
-#include <boost/bind.hpp>
 #include "UiPrerequisites.h"
+#include <boost/bind.hpp>
 
-#include "DsaManager.h"
 #include "Creature.h"
+#include "DsaManager.h"
 #include "InputManager.h"
 #include "Talent.h"
 
@@ -28,107 +28,105 @@
 using namespace CEGUI;
 using namespace Ogre;
 
-
-namespace rl {
-
-CharacterStateWindow::CharacterStateWindow()
-: AbstractWindow("characterstatewindow.xml", WIT_NONE, false),
-	mCharacter(NULL)
+namespace rl
 {
-	mLP = getProgressBar("CharacterStateWindow/LP");
-	mAP = getProgressBar("CharacterStateWindow/AP");
-	mAU = getProgressBar("CharacterStateWindow/AU");
-	mName = getWindow("CharacterStateWindow/Name");
-}
 
-CharacterStateWindow::~CharacterStateWindow()
-{
-    if (mCharacter != NULL)
-		mCharacter->removeObjectStateChangeListener(this);
-}
-
-void CharacterStateWindow::setCharacter(Creature* person)
-{
-	if (mCharacter != NULL)
-		mCharacter->removeObjectStateChangeListener(this);
-
-	mCharacter = person;
-    if(mCharacter)
-        mCharacter->addObjectStateChangeListener(this);
-	update();
-}
-
-void CharacterStateWindow::update()
-{
-	if (!isVisible() || mCharacter == NULL)
+    CharacterStateWindow::CharacterStateWindow()
+        : AbstractWindow("characterstatewindow.xml", WIT_NONE, false)
+        , mCharacter(NULL)
     {
-		return;
+        mLP = getProgressBar("CharacterStateWindow/LP");
+        mAP = getProgressBar("CharacterStateWindow/AP");
+        mAU = getProgressBar("CharacterStateWindow/AU");
+        mName = getWindow("CharacterStateWindow/Name");
     }
-        
-	mName->setText(mCharacter->getName());
 
-	float lep;
-	if (mCharacter->getLeMax() <= 0)
+    CharacterStateWindow::~CharacterStateWindow()
     {
-		lep = 0.0;        
+        if (mCharacter != NULL)
+            mCharacter->removeObjectStateChangeListener(this);
     }
-	else
-    {
-		lep = (float)mCharacter->getLe() / (float)mCharacter->getLeMax();        
-    }
-	mLP->setProgress(lep);
 
-	float au;
-	if (mCharacter->getAuMax() <= 0)
+    void CharacterStateWindow::setCharacter(Creature* person)
     {
-		au = 0.0;        
-    }
-	else
-    {
-		au = (float)mCharacter->getAu() / (float)mCharacter->getAuMax();        
-    }
-	mAU->setProgress(au);
+        if (mCharacter != NULL)
+            mCharacter->removeObjectStateChangeListener(this);
 
-	if (!mCharacter->isMagic())
-	{
-		if (mAP->isVisible()) 
+        mCharacter = person;
+        if (mCharacter)
+            mCharacter->addObjectStateChangeListener(this);
+        update();
+    }
+
+    void CharacterStateWindow::update()
+    {
+        if (!isVisible() || mCharacter == NULL)
         {
-			mAP->setVisible(false);            
+            return;
         }
-	}
-    else 
-    {
-     	if (!mAP->isVisible()) 
+
+        mName->setText(mCharacter->getName());
+
+        float lep;
+        if (mCharacter->getLeMax() <= 0)
         {
-            mAP->setVisible(true);            
-        }
-        
-        float asp;
-        if (mCharacter->getAeMax() <= 0)
-        {
-            asp = 0.0;
+            lep = 0.0;
         }
         else
         {
-            asp = (float)mCharacter->getAe() / (float)mCharacter->getAeMax();
+            lep = (float)mCharacter->getLe() / (float)mCharacter->getLeMax();
         }
-        mAP->setProgress(asp);        
+        mLP->setProgress(lep);
+
+        float au;
+        if (mCharacter->getAuMax() <= 0)
+        {
+            au = 0.0;
+        }
+        else
+        {
+            au = (float)mCharacter->getAu() / (float)mCharacter->getAuMax();
+        }
+        mAU->setProgress(au);
+
+        if (!mCharacter->isMagic())
+        {
+            if (mAP->isVisible())
+            {
+                mAP->setVisible(false);
+            }
+        }
+        else
+        {
+            if (!mAP->isVisible())
+            {
+                mAP->setVisible(true);
+            }
+
+            float asp;
+            if (mCharacter->getAeMax() <= 0)
+            {
+                asp = 0.0;
+            }
+            else
+            {
+                asp = (float)mCharacter->getAe() / (float)mCharacter->getAeMax();
+            }
+            mAP->setProgress(asp);
+        }
     }
-}
 
-void CharacterStateWindow::objectStateChanged(ObjectStateChangeEvent* evt)
-{
-	update();
-}
+    void CharacterStateWindow::objectStateChanged(ObjectStateChangeEvent* evt)
+    {
+        update();
+    }
 
-void CharacterStateWindow::setVisible(bool visible, bool destroyAfterHide)
-{
-	AbstractWindow::setVisible(visible, destroyAfterHide);
-	if (visible)
-	{
-		update();
-	}
-}
-
-
+    void CharacterStateWindow::setVisible(bool visible, bool destroyAfterHide)
+    {
+        AbstractWindow::setVisible(visible, destroyAfterHide);
+        if (visible)
+        {
+            update();
+        }
+    }
 }

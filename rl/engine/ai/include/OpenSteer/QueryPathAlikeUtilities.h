@@ -27,76 +27,84 @@
  *
  * @author Bjoern Knafla <bknafla@uni-kassel.de>
  *
- * Collection of helper classes to inherit from to create mappings as used by  
- * @c OpenSteer::mapDistanceToPathAlike and 
+ * Collection of helper classes to inherit from to create mappings as used by
+ * @c OpenSteer::mapDistanceToPathAlike and
  * @c OpenSteer::mapPointToPathAlike.
  */
 
 #ifndef OPENSTEER_QUERYPATHALIKEUTILITIES_H
 #define OPENSTEER_QUERYPATHALIKEUTILITIES_H
 
-
-namespace OpenSteer {
+namespace OpenSteer
+{
 
     /**
-     * Inherit from it to create a mapping class used by 
-     * @c OpenSteer::mapDistanceToPathAlike and 
+     * Inherit from it to create a mapping class used by
+     * @c OpenSteer::mapDistanceToPathAlike and
      * @c OpenSteer::mapPointToPathAlike that calculates and extracts the
      * distance along the path alike.
-     */    
-    class ExtractPathDistance {
+     */
+    class ExtractPathDistance
+    {
     public:
-        void setDistanceOnPathFlag( float distance ) {
+        void setDistanceOnPathFlag(float distance)
+        {
             distanceOnPathFlag_ = distance;
         }
-        
-        
-        float distanceOnPathFlag() const {
+
+        float distanceOnPathFlag() const
+        {
             return distanceOnPathFlag_;
         }
-        
+
     protected:
-        ExtractPathDistance() : distanceOnPathFlag_( 0.0f ) {
+        ExtractPathDistance()
+            : distanceOnPathFlag_(0.0f)
+        {
             // Nothing to do.
         }
-        
-        explicit ExtractPathDistance( float distance ) : distanceOnPathFlag_( distance ) {
+
+        explicit ExtractPathDistance(float distance)
+            : distanceOnPathFlag_(distance)
+        {
             // Nothing to do.
         }
-        
-        ~ExtractPathDistance() {
+
+        ~ExtractPathDistance()
+        {
             // Nothing to do.
         }
-        
+
     private:
         float distanceOnPathFlag_;
     }; // class ExtractPathDistance
-    
-    
+
     /**
-     * Inherit from it to create a mapping class used by 
-     * @c OpenSteer::mapDistanceToPathAlike and 
+     * Inherit from it to create a mapping class used by
+     * @c OpenSteer::mapDistanceToPathAlike and
      * @c OpenSteer::mapPointToPathAlike that shouldn't calculate and extract the
      * distance along the path alike.
      */
-    class DontExtractPathDistance {
+    class DontExtractPathDistance
+    {
     public:
-        void setDistanceOnPathFlag( float ) {
+        void setDistanceOnPathFlag(float)
+        {
             // Nothing to do.
         }
-        
-        float distanceOnPathFlag() const {
+
+        float distanceOnPathFlag() const
+        {
             return 0.0f;
         };
-        
+
     protected:
-        ~DontExtractPathDistance() {
+        ~DontExtractPathDistance()
+        {
             // Nothing to do.
         }
     }; // class DontExtractPathDistance
-    
-    
-} // namespace OpenSteer
 
+} // namespace OpenSteer
 
 #endif // OPENSTEER_QUERYPATHALIKEUTILITIES_H

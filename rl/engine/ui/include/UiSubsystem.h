@@ -19,19 +19,20 @@
 
 #include "UiPrerequisites.h"
 
-
 #include "ControlState.h"
-#include "MessagePump.h"
 #include "Effect.h"
+#include "MessagePump.h"
 
 // Gar nicht schˆn, aber ansonsten gibt es unnˆtige Abh‰ngigkeiten,
 // wenn man die Header hier inkludiert.
-namespace CEGUI {
+namespace CEGUI
+{
     class OgreRenderer;
     class System;
 }
 
-namespace rl {
+namespace rl
+{
 
     class Creature;
     class GameActor;
@@ -58,7 +59,7 @@ namespace rl {
         Creature* mCharacter;
         int mCharacterId;
 
-	    MessagePump::ScopedConnection mSceneClearingConnection;
+        MessagePump::ScopedConnection mSceneClearingConnection;
         MessagePump::ScopedConnection mGameObjectsLoadedConnection;
         MessagePump::ScopedConnection mBeforeLoadingGameObjectsConnection;
         MessagePump::ScopedConnection mActiveCharacterChangedConnection;
@@ -70,7 +71,6 @@ namespace rl {
         ///@todo function feels misplaced here,
         bool onActiveCharacterChanged(Creature* oldActive, Creature* newActive);
         bool onAllPlayerCharactersDied();
-        
 
         // Singletons
         InputManager* mInputManager;
@@ -80,7 +80,6 @@ namespace rl {
         CEGUI::OgreRenderer* mGuiRenderer;
         CEGUI::ResourceProvider* mGuiResourceProvider;
         CEGUI::System* mGuiSystem;
-        
     };
 }
 
