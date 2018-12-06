@@ -17,20 +17,22 @@
 
 #include "ScriptSubsystem.h"
 
+#include "Logger.h"
 #include "SceneManager.h"
 #include "ScriptObjectMarker.h"
-#include "Logger.h"
 
 #include "SceneManager.h"
 
 using Ogre::Singleton;
 
-template<> rl::ScriptSubsystem* Singleton<rl::ScriptSubsystem>::ms_Singleton = NULL;
+template <> rl::ScriptSubsystem* Singleton<rl::ScriptSubsystem>::ms_Singleton = NULL;
 
-namespace rl {
+namespace rl
+{
 
     ScriptSubsystem::ScriptSubsystem()
-		: mScriptObjectMarker(NULL), mTriggerFactory(NULL)
+        : mScriptObjectMarker(NULL)
+        , mTriggerFactory(NULL)
     {
         mScriptObjectMarker = new ScriptObjectMarker();
         new SceneManager();
@@ -42,24 +44,23 @@ namespace rl {
         delete mScriptObjectMarker;
     }
 
-    void ScriptSubsystem::log(const CeGuiString &message)
+    void ScriptSubsystem::log(const CeGuiString& message)
     {
         LOG_MESSAGE(Logger::SCRIPT, message);
     }
 
-    void ScriptSubsystem::logError(const CeGuiString &message)
+    void ScriptSubsystem::logError(const CeGuiString& message)
     {
         LOG_ERROR(Logger::SCRIPT, message);
     }
 
-	TriggerFactory* ScriptSubsystem::getTriggerFactory() const
-	{
-		return mTriggerFactory;
-	}
+    TriggerFactory* ScriptSubsystem::getTriggerFactory() const
+    {
+        return mTriggerFactory;
+    }
 
-	void ScriptSubsystem::setTriggerFactory(TriggerFactory* factory)
-	{
-		mTriggerFactory = factory;
-	}
-
+    void ScriptSubsystem::setTriggerFactory(TriggerFactory* factory)
+    {
+        mTriggerFactory = factory;
+    }
 }

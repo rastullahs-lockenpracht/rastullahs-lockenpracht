@@ -15,35 +15,36 @@
  */
 #include "stdinc.h" //precompiled header
 
-#include "ActionManager.h"
 #include "Action.h"
+#include "ActionManager.h"
 #include "Exception.h"
 #include "RulesSubsystem.h"
 
 #include "ScriptWrapper.h"
 
-template <>
-rl::ActionManager* Singleton<rl::ActionManager> ::ms_Singleton = 0;
+template <> rl::ActionManager* Singleton<rl::ActionManager>::ms_Singleton = 0;
 namespace rl
 {
 
-	ActionVector::iterator findAction(ActionVector::iterator begin, ActionVector::iterator end, const CeGuiString actionName)
-	{
-		for (ActionVector::iterator it = begin; it != end; it++)
-			if ((*it)->getName().compare(actionName) == 0)
-				return it;
+    ActionVector::iterator findAction(
+        ActionVector::iterator begin, ActionVector::iterator end, const CeGuiString actionName)
+    {
+        for (ActionVector::iterator it = begin; it != end; it++)
+            if ((*it)->getName().compare(actionName) == 0)
+                return it;
 
-		return end;
-	}
+        return end;
+    }
 
-	ActionVector::const_iterator findActionConst(ActionVector::const_iterator begin, ActionVector::const_iterator end, const CeGuiString actionName)
-	{
-		for (ActionVector::const_iterator it = begin; it != end; it++)
-			if ((*it)->getName().compare(actionName) == 0)
-				return it;
+    ActionVector::const_iterator findActionConst(
+        ActionVector::const_iterator begin, ActionVector::const_iterator end, const CeGuiString actionName)
+    {
+        for (ActionVector::const_iterator it = begin; it != end; it++)
+            if ((*it)->getName().compare(actionName) == 0)
+                return it;
 
-		return end;
-	}
+        return end;
+    }
 
     ActionManager::ActionManager()
     {
@@ -60,65 +61,56 @@ namespace rl
             Throw(NullPointerException, "Parameter action ist NULL.");
         }
 
-		if (mActions.find(action->getName()) != mActions.end())
-		{
-			Throw(
-				IllegalArgumentException,
-				("Action "+action->getName()+" bereits registriert").c_str());
-		}
+        if (mActions.find(action->getName()) != mActions.end())
+        {
+            Throw(IllegalArgumentException, ("Action " + action->getName() + " bereits registriert").c_str());
+        }
 
-		ScriptWrapper::getSingleton().owned(action);
+        ScriptWrapper::getSingleton().owned(action);
 
-		mActions.insert(std::make_pair(action->getName(), action));
-		LOG_MESSAGE(Logger::RULES,
-			"Action "+action->getName()+" beim ActionManager registriert");
+        mActions.insert(std::make_pair(action->getName(), action));
+        LOG_MESSAGE(Logger::RULES, "Action " + action->getName() + " beim ActionManager registriert");
     }
 
-	void ActionManager::unregisterAction(const CeGuiString actionName)
-	{
-		ActionMap::iterator iter = mActions.find(actionName);
-		if (iter == mActions.end())
-			Throw(IllegalArgumentException, "Aktion nicht gefunden");
+    void ActionManager::unregisterAction(const CeGuiString actionName)
+    {
+        ActionMap::iterator iter = mActions.find(actionName);
+        if (iter == mActions.end())
+            Throw(IllegalArgumentException, "Aktion nicht gefunden");
 
-		ScriptWrapper::getSingleton().disowned((*iter).second);
-		mActions.erase(iter);
+        ScriptWrapper::getSingleton().disowned((*iter).second);
+        mActions.erase(iter);
 
-		LOG_MESSAGE(Logger::RULES,
-			"Action "+actionName+" beim ActionManager geloescht");
-	}
+        LOG_MESSAGE(Logger::RULES, "Action " + actionName + " beim ActionManager geloescht");
+    }
 
-	Action* ActionManager::getAction(const CeGuiString actionName) const
-	{
-		LOG_MESSAGE(Logger::RULES,
-			"Suche Action " + actionName);
-		ActionMap::const_iterator iter = mActions.find(actionName);
-		if (iter == mActions.end())
-			return NULL;
-		return (*iter).second;
-	}
+    Action* ActionManager::getAction(const CeGuiString actionName) const
+    {
+        LOG_MESSAGE(Logger::RULES, "Suche Action " + actionName);
+        ActionMap::const_iterator iter = mActions.find(actionName);
+        if (iter == mActions.end())
+            return NULL;
+        return (*iter).second;
+    }
 
-	void ActionManager::registerInGameGlobalAction(Action* action, ActionGroup* group)
-	{
-		LOG_MESSAGE(Logger::RULES,
-			"Globale Aktion " + action->getName() + " hinzugefuegt.");
-		mInGameGlobalActions.push_back(action);
-		action->setGroup(group);
-	}
+    void ActionManager::registerInGameGlobalAction(Action* action, ActionGroup* group)
+    {
+        LOG_MESSAGE(Logger::RULES, "Globale Aktion " + action->getName() + " hinzugefuegt.");
+        mInGameGlobalActions.push_back(action);
+        action->setGroup(group);
+    }
 
-	Action* ActionManager::getInGameGlobalAction(const CeGuiString actionName) const
-	{
-		ActionVector::const_iterator iter =
-			findActionConst(
-				mInGameGlobalActions.begin(),
-				mInGameGlobalActions.end(),
-				actionName);
-		if (iter == mInGameGlobalActions.end())
-			return NULL;
-		return *iter;
-	}
+    Action* ActionManager::getInGameGlobalAction(const CeGuiString actionName) const
+    {
+        ActionVector::const_iterator iter
+            = findActionConst(mInGameGlobalActions.begin(), mInGameGlobalActions.end(), actionName);
+        if (iter == mInGameGlobalActions.end())
+            return NULL;
+        return *iter;
+    }
 
-	const ActionVector& ActionManager::getInGameGlobalActions()
-	{
-		return mInGameGlobalActions;
-	}
+    const ActionVector& ActionManager::getInGameGlobalActions()
+    {
+        return mInGameGlobalActions;
+    }
 }

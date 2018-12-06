@@ -16,33 +16,30 @@
 #include "stdinc.h" //precompiled header
 
 #include "AboutWindow.h"
-#include "CoreSubsystem.h"
 #include "ContentModule.h"
+#include "CoreSubsystem.h"
 
 using namespace CEGUI;
 
-namespace rl {
-
-AboutWindow::AboutWindow() :
-    AbstractWindow("aboutwindow.xml", WIT_MOUSE_INPUT)
+namespace rl
 {
-    getWindow("AboutWindow/Text")->setText("Rastullahs Lockenpracht\n\nCopyright 2003-2007 Team Pantheon\
+
+    AboutWindow::AboutWindow()
+        : AbstractWindow("aboutwindow.xml", WIT_MOUSE_INPUT)
+    {
+        getWindow("AboutWindow/Text")->setText("Rastullahs Lockenpracht\n\nCopyright 2003-2007 Team Pantheon\
 \n\nBenutzte Bibliotheken: Ogre, fmod, Newton, boost, ...");
-    getWindow("AboutWindow/EngineText")->setText(
-        CoreSubsystem::getSingleton().getEngineVersionString()
-        + "("
-        + CoreSubsystem::getSingleton().getEngineVersionName()
-        + "), Build "
-        + Ogre::StringConverter::toString(
-                CoreSubsystem::getSingleton().getEngineBuildNumber()));
+        getWindow("AboutWindow/EngineText")
+            ->setText(CoreSubsystem::getSingleton().getEngineVersionString() + "("
+                + CoreSubsystem::getSingleton().getEngineVersionName() + "), Build "
+                + Ogre::StringConverter::toString(CoreSubsystem::getSingleton().getEngineBuildNumber()));
 
-    getWindow("AboutWindow/ModuleText")->setText(
-        CoreSubsystem::getSingleton().getActiveAdventureModule()->getName());
+        getWindow("AboutWindow/ModuleText")
+            ->setText(CoreSubsystem::getSingleton().getActiveAdventureModule()->getName());
 
-    bindDestroyWindowToXButton();
-    bindDestroyWindowToClick(getWindow("AboutWindow/CloseButton"));
+        bindDestroyWindowToXButton();
+        bindDestroyWindowToClick(getWindow("AboutWindow/CloseButton"));
 
-    centerWindow();
-}
-
+        centerWindow();
+    }
 }

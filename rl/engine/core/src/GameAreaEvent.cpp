@@ -19,21 +19,18 @@
 
 #include "GameAreaEventSource.h"
 
-namespace rl {
-
-GameAreaEvent::GameAreaEvent( GameAreaEventSource* src, const unsigned int reason )
-    : EventObject(src,reason),
-    mActor(NULL)
+namespace rl
 {
 
+    GameAreaEvent::GameAreaEvent(GameAreaEventSource* src, const unsigned int reason)
+        : EventObject(src, reason)
+        , mActor(NULL)
+    {
+    }
+
+    GameAreaEventSource* GameAreaEvent::getSource() const
+    {
+        EventSource* eve = EventObject::getSource();
+        return dynamic_cast<GameAreaEventSource*>(eve);
+    }
 }
-
-GameAreaEventSource* GameAreaEvent::getSource() const
-{
-	EventSource* eve =  EventObject::getSource();
-    return dynamic_cast<GameAreaEventSource*>( eve );
-}
-
-
-}
-

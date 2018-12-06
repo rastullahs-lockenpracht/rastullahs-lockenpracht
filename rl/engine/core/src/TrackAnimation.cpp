@@ -19,167 +19,165 @@
 
 #include "Exception.h"
 
+#include "Actor.h"
 #include "CoreSubsystem.h"
 #include "World.h"
-#include "Actor.h"
 
-namespace rl {
-
-TrackAnimation::TrackAnimation( const Ogre::String& name, Actor *act, Ogre::Real length ) :
-	BaseAnimation(length,1.0,0,true),
-	mActor(act)
+namespace rl
 {
-	Ogre::SceneManager* mgr =  CoreSubsystem::getSingleton().getWorld()->getSceneManager();
 
-	try
-	{
-		// Gibt es die Animation schon?
-		mAnimation = mgr->createAnimation(name, length );
-	}
-	catch( Ogre::Exception& ) { Throw(RuntimeException, "Eine Animation mit dem Namen '"+name+"' war schon vorhanden." ); }
+    TrackAnimation::TrackAnimation(const Ogre::String& name, Actor* act, Ogre::Real length)
+        : BaseAnimation(length, 1.0, 0, true)
+        , mActor(act)
+    {
+        Ogre::SceneManager* mgr = CoreSubsystem::getSingleton().getWorld()->getSceneManager();
 
-	act->_getSceneNode()->setInitialState();
-	mAnimationTrack = mAnimation->createNodeTrack(0, act->_getSceneNode() );
-	setAnimationState( mgr->createAnimationState(name) );
-}
+        try
+        {
+            // Gibt es die Animation schon?
+            mAnimation = mgr->createAnimation(name, length);
+        }
+        catch (Ogre::Exception&)
+        {
+            Throw(RuntimeException, "Eine Animation mit dem Namen '" + name + "' war schon vorhanden.");
+        }
 
-TrackAnimation::~TrackAnimation()
-{
-	Ogre::SceneManager* mgr =  CoreSubsystem::getSingleton().getWorld()->getSceneManager();
-	mAnimState->setEnabled(false);
-	mAnimationTrack->getAssociatedNode()->resetToInitialState();
-	mAnimation->destroyNodeTrack( 0 );
-	mgr->destroyAnimationState( mAnimation->getName() );
-	mgr->destroyAnimation( mAnimation->getName() );
-}
+        act->_getSceneNode()->setInitialState();
+        mAnimationTrack = mAnimation->createNodeTrack(0, act->_getSceneNode());
+        setAnimationState(mgr->createAnimationState(name));
+    }
 
-void TrackAnimation::setAnimationState( Ogre::AnimationState* animState )
-{
-	if( animState == 0 )
-		Throw( NullPointerException,"Ogre::AnimationState darf nicht null sein" );
+    TrackAnimation::~TrackAnimation()
+    {
+        Ogre::SceneManager* mgr = CoreSubsystem::getSingleton().getWorld()->getSceneManager();
+        mAnimState->setEnabled(false);
+        mAnimationTrack->getAssociatedNode()->resetToInitialState();
+        mAnimation->destroyNodeTrack(0);
+        mgr->destroyAnimationState(mAnimation->getName());
+        mgr->destroyAnimation(mAnimation->getName());
+    }
 
-	mAnimState = animState;
+    void TrackAnimation::setAnimationState(Ogre::AnimationState* animState)
+    {
+        if (animState == 0)
+            Throw(NullPointerException, "Ogre::AnimationState darf nicht null sein");
 
-	if( mTimesToPlay != 1 )
-		mAnimState->setLoop( true );
+        mAnimState = animState;
 
-	// Wenn die Zeit negativ ist, beginnen wir am Ende
-	if( mSpeed < 0 )
-		mAnimState->setTimePosition( mAnimState->getLength() );
+        if (mTimesToPlay != 1)
+            mAnimState->setLoop(true);
 
-	mAnimState->setEnabled( true );
-}
+        // Wenn die Zeit negativ ist, beginnen wir am Ende
+        if (mSpeed < 0)
+            mAnimState->setTimePosition(mAnimState->getLength());
 
+        mAnimState->setEnabled(true);
+    }
 
-void TrackAnimation::doAddTime( Ogre::Real timePassed )
-{
-    mAnimState->addTime( timePassed );
+    void TrackAnimation::doAddTime(Ogre::Real timePassed)
+    {
+        mAnimState->addTime(timePassed);
 
-	if( mActor != NULL )
-		mActor->_update();
-}
+        if (mActor != NULL)
+            mActor->_update();
+    }
 
-const Ogre::String& TrackAnimation::getName() const
-{
-	return mAnimation->getName();
-}
+    const Ogre::String& TrackAnimation::getName() const
+    {
+        return mAnimation->getName();
+    }
 
-void TrackAnimation::addKeyFrame( Ogre::Real timePos )
-{
-	mAnimationTrack->createKeyFrame( timePos );
-}
+    void TrackAnimation::addKeyFrame(Ogre::Real timePos)
+    {
+        mAnimationTrack->createKeyFrame(timePos);
+    }
 
-void TrackAnimation::setKeyFrameTranslation( Ogre::Real timePos, Ogre::Real xPos, Ogre::Real yPos, Ogre::Real zPos )
-{
-	Ogre::TransformKeyFrame* frame = getKeyFrameAtTimePos( timePos );
+    void TrackAnimation::setKeyFrameTranslation(Ogre::Real timePos, Ogre::Real xPos, Ogre::Real yPos, Ogre::Real zPos)
+    {
+        Ogre::TransformKeyFrame* frame = getKeyFrameAtTimePos(timePos);
 
-	if( frame != NULL )
-		frame->setTranslate(Ogre::Vector3(xPos,yPos,zPos));
-}
+        if (frame != NULL)
+            frame->setTranslate(Ogre::Vector3(xPos, yPos, zPos));
+    }
 
-void TrackAnimation::setKeyFrameRotationQuaternion( Ogre::Real timePos,
-        Ogre::Real w, Ogre::Real x, Ogre::Real y, Ogre::Real z )
-{
-    Ogre::TransformKeyFrame* frame = getKeyFrameAtTimePos( timePos );
+    void TrackAnimation::setKeyFrameRotationQuaternion(
+        Ogre::Real timePos, Ogre::Real w, Ogre::Real x, Ogre::Real y, Ogre::Real z)
+    {
+        Ogre::TransformKeyFrame* frame = getKeyFrameAtTimePos(timePos);
 
-	if( frame != NULL )
-		frame->setRotation( Ogre::Quaternion( w, x, y, z ) );
-}
+        if (frame != NULL)
+            frame->setRotation(Ogre::Quaternion(w, x, y, z));
+    }
 
-void TrackAnimation::setKeyFrameRotation( Ogre::Real timePos, Ogre::Real xRotAxis, Ogre::Real yRotAxis, Ogre::Real zRotAxis, Ogre::Real angleUnits )
-{
-	Ogre::TransformKeyFrame* frame = getKeyFrameAtTimePos( timePos );
+    void TrackAnimation::setKeyFrameRotation(
+        Ogre::Real timePos, Ogre::Real xRotAxis, Ogre::Real yRotAxis, Ogre::Real zRotAxis, Ogre::Real angleUnits)
+    {
+        Ogre::TransformKeyFrame* frame = getKeyFrameAtTimePos(timePos);
 
-	if( frame != NULL )
-		frame->setRotation( Ogre::Quaternion(  Ogre::Radian( Ogre::Degree(angleUnits)),
-				Ogre::Vector3(xRotAxis,yRotAxis,zRotAxis) ) );
-}
+        if (frame != NULL)
+            frame->setRotation(
+                Ogre::Quaternion(Ogre::Radian(Ogre::Degree(angleUnits)), Ogre::Vector3(xRotAxis, yRotAxis, zRotAxis)));
+    }
 
-void TrackAnimation::setKeyFrameScale( Ogre::Real timePos, Ogre::Real xScale, Ogre::Real yScale, Ogre::Real zScale )
-{
-	Ogre::TransformKeyFrame* frame = getKeyFrameAtTimePos( timePos );
+    void TrackAnimation::setKeyFrameScale(Ogre::Real timePos, Ogre::Real xScale, Ogre::Real yScale, Ogre::Real zScale)
+    {
+        Ogre::TransformKeyFrame* frame = getKeyFrameAtTimePos(timePos);
 
-	if( frame != NULL )
-		frame->setScale(Ogre::Vector3(xScale,yScale,zScale));
-}
+        if (frame != NULL)
+            frame->setScale(Ogre::Vector3(xScale, yScale, zScale));
+    }
 
-void TrackAnimation::setInterpolationMode( AnimationManager::InterpolationMode im )
-{
-	mAnimation->setInterpolationMode(
-		Ogre::Animation::InterpolationMode( im ) );
-}
+    void TrackAnimation::setInterpolationMode(AnimationManager::InterpolationMode im)
+    {
+        mAnimation->setInterpolationMode(Ogre::Animation::InterpolationMode(im));
+    }
 
-AnimationManager::InterpolationMode TrackAnimation::getInterpolationMode() const
-{
-	return AnimationManager::InterpolationMode(
-		mAnimation->getInterpolationMode() );
-}
+    AnimationManager::InterpolationMode TrackAnimation::getInterpolationMode() const
+    {
+        return AnimationManager::InterpolationMode(mAnimation->getInterpolationMode());
+    }
 
-void TrackAnimation::setRotationInterpolationMode( AnimationManager::RotationInterpolationMode im )
-{
-	mAnimation->setRotationInterpolationMode(
-		Ogre::Animation::RotationInterpolationMode( im ) );
-}
+    void TrackAnimation::setRotationInterpolationMode(AnimationManager::RotationInterpolationMode im)
+    {
+        mAnimation->setRotationInterpolationMode(Ogre::Animation::RotationInterpolationMode(im));
+    }
 
-AnimationManager::RotationInterpolationMode TrackAnimation::getRotationInterpolationMode() const
-{
-	return AnimationManager::RotationInterpolationMode(
-		mAnimation->getRotationInterpolationMode() );
-}
+    AnimationManager::RotationInterpolationMode TrackAnimation::getRotationInterpolationMode() const
+    {
+        return AnimationManager::RotationInterpolationMode(mAnimation->getRotationInterpolationMode());
+    }
 
-void TrackAnimation::setUseShortestRotationPath ( bool useShortestPath )
-{
-	mAnimationTrack->setUseShortestRotationPath( useShortestPath );
-}
+    void TrackAnimation::setUseShortestRotationPath(bool useShortestPath)
+    {
+        mAnimationTrack->setUseShortestRotationPath(useShortestPath);
+    }
 
-bool TrackAnimation::getUseShortestRotationPath () const
-{
-	return mAnimationTrack->getUseShortestRotationPath();
-}
+    bool TrackAnimation::getUseShortestRotationPath() const
+    {
+        return mAnimationTrack->getUseShortestRotationPath();
+    }
 
-Actor* TrackAnimation::getActor ( ) const
-{
-	return mActor;
-}
+    Actor* TrackAnimation::getActor() const
+    {
+        return mActor;
+    }
 
-Ogre::TransformKeyFrame* TrackAnimation::getKeyFrameAtTimePos( Ogre::Real timePos )
-{
-    // 0 ist bereits definiert
-    if( timePos == 0.0 )
-        return mAnimationTrack->getNodeKeyFrame(0);
+    Ogre::TransformKeyFrame* TrackAnimation::getKeyFrameAtTimePos(Ogre::Real timePos)
+    {
+        // 0 ist bereits definiert
+        if (timePos == 0.0)
+            return mAnimationTrack->getNodeKeyFrame(0);
 
-	Ogre::KeyFrame *frame1;
-	Ogre::KeyFrame *frame2;
+        Ogre::KeyFrame* frame1;
+        Ogre::KeyFrame* frame2;
 
-	mAnimationTrack->getKeyFramesAtTime(timePos, &frame1, &frame2);
+        mAnimationTrack->getKeyFramesAtTime(timePos, &frame1, &frame2);
 
-    return static_cast<Ogre::TransformKeyFrame*>(frame1);
-}
+        return static_cast<Ogre::TransformKeyFrame*>(frame1);
+    }
 
-Ogre::AnimationState* TrackAnimation::getAnimationState() const
-{
-    return mAnimState;
-}
-
-
+    Ogre::AnimationState* TrackAnimation::getAnimationState() const
+    {
+        return mAnimState;
+    }
 }

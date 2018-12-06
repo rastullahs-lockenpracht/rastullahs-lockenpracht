@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -22,33 +22,34 @@
 
 #include "CorePrerequisites.h"
 
-namespace rl {
-
-/** GameAreaListener
- *  Eine Basisklasse fuer Listener die auf GameAreaEvents lauschen
- *
- *  @see GameAreaEvent, GameAreaEventSource, GameEventManager, GameAreaTypes
- */
-class _RlCoreExport GameAreaListener : public virtual EventListener<GameAreaEvent>
+namespace rl
 {
-public:
-    /// Dekonstruktor
-    virtual ~GameAreaListener();
 
-    /** Diese Methode wird aufgerufen wenn ein Aktor das Areal verlassen hat
-     *  
-     * @param anEvent Das verantwortliche Ereignis
+    /** GameAreaListener
+     *  Eine Basisklasse fuer Listener die auf GameAreaEvents lauschen
+     *
+     *  @see GameAreaEvent, GameAreaEventSource, GameEventManager, GameAreaTypes
      */
-    virtual void areaLeft(GameAreaEvent *anEvent) = 0;
-    /** Diese Methode wird aufgerufen wenn ein Aktor das Areal betreten hat
-    *  
-    * @param anEvent Das verantwortliche Ereignis
-    */
-    virtual void areaEntered(GameAreaEvent *anEvent) = 0;
+    class _RlCoreExport GameAreaListener : public virtual EventListener<GameAreaEvent>
+    {
+    public:
+        /// Dekonstruktor
+        virtual ~GameAreaListener();
 
-    /// Kuemmert sich um das Aufrufen benannter Methoden aus Reasons
-    virtual bool eventRaised(GameAreaEvent *anEvent);
-};
+        /** Diese Methode wird aufgerufen wenn ein Aktor das Areal verlassen hat
+         *
+         * @param anEvent Das verantwortliche Ereignis
+         */
+        virtual void areaLeft(GameAreaEvent* anEvent) = 0;
+        /** Diese Methode wird aufgerufen wenn ein Aktor das Areal betreten hat
+         *
+         * @param anEvent Das verantwortliche Ereignis
+         */
+        virtual void areaEntered(GameAreaEvent* anEvent) = 0;
+
+        /// Kuemmert sich um das Aufrufen benannter Methoden aus Reasons
+        virtual bool eventRaised(GameAreaEvent* anEvent);
+    };
 }
 
 #endif

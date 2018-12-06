@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -14,8 +14,8 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
 
-#include "stdinc.h"
 #include "AgentDialogState.h"
+#include "stdinc.h"
 
 #include "Agent.h"
 #include "AiMessages.h"
@@ -30,9 +30,9 @@ namespace rl
 {
 
     AgentDialogState::AgentDialogState(Agent* agent)
-        : AgentState(agent),
-        mTalking(false),
-        mDialog(NULL)
+        : AgentState(agent)
+        , mTalking(false)
+        , mDialog(NULL)
     {
     }
 
@@ -52,9 +52,8 @@ namespace rl
 
     void AgentDialogState::update(const Ogre::Real elapsedTime)
     {
-        CreatureController* ctrl = 
-                CreatureControllerManager::getSingleton().getCreatureController(
-                    mAgent->getControlledCreature());
+        CreatureController* ctrl
+            = CreatureControllerManager::getSingleton().getCreatureController(mAgent->getControlledCreature());
 
         Vector3 partnerPos(Vector3::ZERO);
         if (!mPartners.empty())
@@ -66,29 +65,26 @@ namespace rl
             partnerPos /= mPartners.size();
         }
 
-        if (!mPartners.empty() &&
-            (mAgent->getPosition().squaredDistance(partnerPos) > 1.5
-            || !mAgent->isAhead(partnerPos, 0.95)))
-        {		
+        if (!mPartners.empty()
+            && (mAgent->getPosition().squaredDistance(partnerPos) > 1.5 || !mAgent->isAhead(partnerPos, 0.95)))
+        {
             mAgent->addForce(mAgent->calcSeek(partnerPos));
             mAgent->updateVehicle(0, elapsedTime);
         }
-		else
+        else
         {
-			if (!mTalking && mDialog)
+            if (!mTalking && mDialog)
             {
                 mAgent->reset();
-                ctrl->setMovement(
-                    CreatureController::MT_STEHEN, Vector3::ZERO, Vector3::ZERO);
+                ctrl->setMovement(CreatureController::MT_STEHEN, Vector3::ZERO, Vector3::ZERO);
 
                 ctrl->setAnimation("reden");
-				mTalking = true;
+                mTalking = true;
 
                 MessagePump::getSingleton().sendMessage<MessageType_DialogStarted>(mDialog);
-                
-                mAgent->popState();
-            }			
-        }
 
+                mAgent->popState();
+            }
+        }
     }
 } // namespace rl

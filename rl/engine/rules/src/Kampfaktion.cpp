@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -29,184 +29,187 @@ using namespace Ogre;
 
 namespace rl
 {
-	Kampfaktion::Kampfaktion(Type type, const CeGuiString& name, const CeGuiString& description)
-		: mType(type), mName(name), mDescription(description)
-	{
-	}
+    Kampfaktion::Kampfaktion(Type type, const CeGuiString& name, const CeGuiString& description)
+        : mType(type)
+        , mName(name)
+        , mDescription(description)
+    {
+    }
 
     Kampfaktion::~Kampfaktion()
-	{
-	}
+    {
+    }
 
     CeGuiString Kampfaktion::getName() const
-	{
-		return mName;
-	}
+    {
+        return mName;
+    }
 
     CeGuiString Kampfaktion::getDescription() const
-	{
-		return mDescription;
-	}
+    {
+        return mDescription;
+    }
 
-	AttackeAktion::AttackeAktion() : Kampfaktion(AKTION, "Attacke", "Greife Gegner an.")
-	{
-	}
+    AttackeAktion::AttackeAktion()
+        : Kampfaktion(AKTION, "Attacke", "Greife Gegner an.")
+    {
+    }
 
-	AttackeAktion::~AttackeAktion()
-	{
-	}
+    AttackeAktion::~AttackeAktion()
+    {
+    }
 
-	bool AttackeAktion::hasTarget() const
-	{
-		return true;
-	}
+    bool AttackeAktion::hasTarget() const
+    {
+        return true;
+    }
 
-	Real AttackeAktion::getMaximumTargetDistance(Combatant* actor) const
-	{
-		std::vector<Weapon*> weapons = actor->getCreature()->getInventory()->getReadiedWeapons();
-		Real distance = 0.0f;
-		for (size_t i = 0; i < weapons.size(); ++i)
-		{
-			distance = std::max(weapons[i]->getMaximumDistance(), distance);
-		}
-		return distance;
-	}
+    Real AttackeAktion::getMaximumTargetDistance(Combatant* actor) const
+    {
+        std::vector<Weapon*> weapons = actor->getCreature()->getInventory()->getReadiedWeapons();
+        Real distance = 0.0f;
+        for (size_t i = 0; i < weapons.size(); ++i)
+        {
+            distance = std::max(weapons[i]->getMaximumDistance(), distance);
+        }
+        return distance;
+    }
 
-	bool AttackeAktion::canDoKampfaktion(Combatant* actor, Combatant* target) const
-	{
-		// Does the actor have a weapon readied?
-		if (actor->getCreature()->getInventory()->getReadiedWeapons().empty())
-		{
-			return false;
-		}
-		// Is target in weapon range?
-		if (target->getPosition().distance(actor->getPosition()) > getMaximumTargetDistance(actor))
-		{
-			return false;
-		}
-		return true;
-	}
+    bool AttackeAktion::canDoKampfaktion(Combatant* actor, Combatant* target) const
+    {
+        // Does the actor have a weapon readied?
+        if (actor->getCreature()->getInventory()->getReadiedWeapons().empty())
+        {
+            return false;
+        }
+        // Is target in weapon range?
+        if (target->getPosition().distance(actor->getPosition()) > getMaximumTargetDistance(actor))
+        {
+            return false;
+        }
+        return true;
+    }
 
     void AttackeAktion::doKampfaktion(Combatant* actor, Combatant* target)
-	{
+    {
+    }
 
-	}
+    ParadeAktion::ParadeAktion()
+        : Kampfaktion(REAKTION, "Parade", "Pariere Attacken des Gegners.")
+    {
+    }
 
-	ParadeAktion::ParadeAktion() : Kampfaktion(REAKTION, "Parade", "Pariere Attacken des Gegners.")
-	{
-	}
+    ParadeAktion::~ParadeAktion()
+    {
+    }
 
-	ParadeAktion::~ParadeAktion()
-	{
-	}
+    bool ParadeAktion::hasTarget() const
+    {
+        return true;
+    }
 
-	bool ParadeAktion::hasTarget() const
-	{
-		return true;
-	}
-
-	Real ParadeAktion::getMaximumTargetDistance(Combatant* actor) const
-	{
-		return std::numeric_limits<Ogre::Real>::max();
-	}
+    Real ParadeAktion::getMaximumTargetDistance(Combatant* actor) const
+    {
+        return std::numeric_limits<Ogre::Real>::max();
+    }
 
     bool ParadeAktion::canDoKampfaktion(Combatant* actor, Combatant* target) const
-	{
-		// Check, whether actor's weapon can be parried with our weapon/side weapon/shield.
-		return true;
-	}
+    {
+        // Check, whether actor's weapon can be parried with our weapon/side weapon/shield.
+        return true;
+    }
 
     void ParadeAktion::doKampfaktion(Combatant* actor, Combatant* target)
-	{
-	}
+    {
+    }
 
-	AusweichenAktion::AusweichenAktion()
-		: Kampfaktion(REAKTION, "Ausweichen", "Weiche der Attacke des Gegners aus.")
-	{
-	}
+    AusweichenAktion::AusweichenAktion()
+        : Kampfaktion(REAKTION, "Ausweichen", "Weiche der Attacke des Gegners aus.")
+    {
+    }
 
-	AusweichenAktion::~AusweichenAktion()
-	{
-	}
+    AusweichenAktion::~AusweichenAktion()
+    {
+    }
 
-	bool AusweichenAktion::hasTarget() const
-	{
-		return true;
-	}
+    bool AusweichenAktion::hasTarget() const
+    {
+        return true;
+    }
 
-	Ogre::Real AusweichenAktion::getMaximumTargetDistance(Combatant* actor) const
-	{
-		return std::numeric_limits<Ogre::Real>::max();
-	}
+    Ogre::Real AusweichenAktion::getMaximumTargetDistance(Combatant* actor) const
+    {
+        return std::numeric_limits<Ogre::Real>::max();
+    }
 
-	bool AusweichenAktion::canDoKampfaktion(Combatant* actor, Combatant* target) const
-	{
-		// Always possible.
-		return true;
-	}
+    bool AusweichenAktion::canDoKampfaktion(Combatant* actor, Combatant* target) const
+    {
+        // Always possible.
+        return true;
+    }
 
     void AusweichenAktion::doKampfaktion(Combatant* actor, Combatant* target)
-	{
-	}
+    {
+    }
 
-	BewegenAktion::BewegenAktion()
-		: Kampfaktion(AKTION, "Bewegen", "Gehe zu einem Zielpunkt.")
-	{
-	}
+    BewegenAktion::BewegenAktion()
+        : Kampfaktion(AKTION, "Bewegen", "Gehe zu einem Zielpunkt.")
+    {
+    }
 
-	BewegenAktion::~BewegenAktion()
-	{
-	}
+    BewegenAktion::~BewegenAktion()
+    {
+    }
 
-	bool BewegenAktion::hasTarget() const
-	{
-		return false;
-	}
+    bool BewegenAktion::hasTarget() const
+    {
+        return false;
+    }
 
-	Ogre::Real BewegenAktion::getMaximumTargetDistance(Combatant* actor) const
-	{
-		return std::numeric_limits<Ogre::Real>::max();
-	}
+    Ogre::Real BewegenAktion::getMaximumTargetDistance(Combatant* actor) const
+    {
+        return std::numeric_limits<Ogre::Real>::max();
+    }
 
-	bool BewegenAktion::canDoKampfaktion(Combatant* actor, Combatant* target) const
-	{
-		return false;
-	}
+    bool BewegenAktion::canDoKampfaktion(Combatant* actor, Combatant* target) const
+    {
+        return false;
+    }
 
     void BewegenAktion::doKampfaktion(Combatant* actor, Combatant* target)
-	{
+    {
         Throw(rl::OperationNotSupportedException, "BewegenAktion does not support Combatant as target.");
-	}
+    }
 
-	void BewegenAktion::doKampfaktion(Combatant* actor, const Ogre::Vector3& target)
-	{
-	}
+    void BewegenAktion::doKampfaktion(Combatant* actor, const Ogre::Vector3& target)
+    {
+    }
 
-	FolgenAktion::FolgenAktion()
-		: Kampfaktion(AKTION, "Folgen", "Gehe zu einem Gegner.")
-	{
-	}
+    FolgenAktion::FolgenAktion()
+        : Kampfaktion(AKTION, "Folgen", "Gehe zu einem Gegner.")
+    {
+    }
 
-	FolgenAktion::~FolgenAktion()
-	{
-	}
+    FolgenAktion::~FolgenAktion()
+    {
+    }
 
-	bool FolgenAktion::hasTarget() const
-	{
-		return true;
-	}
+    bool FolgenAktion::hasTarget() const
+    {
+        return true;
+    }
 
-	Ogre::Real FolgenAktion::getMaximumTargetDistance(Combatant* actor) const
-	{
-		return std::numeric_limits<Ogre::Real>::max();
-	}
+    Ogre::Real FolgenAktion::getMaximumTargetDistance(Combatant* actor) const
+    {
+        return std::numeric_limits<Ogre::Real>::max();
+    }
 
-	bool FolgenAktion::canDoKampfaktion(Combatant* actor, Combatant* target) const
-	{
-		return true;
-	}
+    bool FolgenAktion::canDoKampfaktion(Combatant* actor, Combatant* target) const
+    {
+        return true;
+    }
 
     void FolgenAktion::doKampfaktion(Combatant* actor, Combatant* target)
-	{
-	}
+    {
+    }
 }

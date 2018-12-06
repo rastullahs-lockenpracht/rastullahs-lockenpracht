@@ -1,18 +1,18 @@
 /* This source file is part of Rastullahs Lockenpracht.
-* Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
-* 
-*  This program is free software; you can redistribute it and/or modify
-*  it under the terms of the Clarified Artistic License.
-*
-*  This program is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  Clarified Artistic License for more details.
-*
-*  You should have received a copy of the Clarified Artistic License
-*  along with this program; if not you can get it here
-*  http://www.jpaulmorrison.com/fbp/artistic2.htm.
-*/
+ * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the Clarified Artistic License.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  Clarified Artistic License for more details.
+ *
+ *  You should have received a copy of the Clarified Artistic License
+ *  along with this program; if not you can get it here
+ *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
+ */
 
 #ifndef __RL_JOB_LISTENER_H__
 #define __RL_JOB_LISTENER_H__
@@ -28,17 +28,29 @@ namespace rl
     class _RlCoreExport JobListener
     {
     public:
-        JobListener() {}
-        virtual ~JobListener() {}
+        JobListener()
+        {
+        }
+        virtual ~JobListener()
+        {
+        }
 
         /// Called, when a Job is started for the first time.
-        virtual void jobStarted(unsigned long ticket) {}
+        virtual void jobStarted(unsigned long ticket)
+        {
+        }
         /// Called, when a Job finishes itself regularly.
-        virtual void jobFinished(unsigned long ticket) {}
+        virtual void jobFinished(unsigned long ticket)
+        {
+        }
         /// Called, when a Job is discarded by the JobScheduler.
-        virtual void jobDiscarded(unsigned long ticket) {}
+        virtual void jobDiscarded(unsigned long ticket)
+        {
+        }
         /// Called, when a Job has been removed using JobScheduler#remove.
-        virtual void jobRemoved(unsigned long ticket) {}
+        virtual void jobRemoved(unsigned long ticket)
+        {
+        }
     };
 }
 

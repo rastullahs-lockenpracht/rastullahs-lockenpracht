@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -22,40 +22,39 @@
 namespace rl
 {
 
-	class SoundDriverConfigComponent;
+    class SoundDriverConfigComponent;
 
-	class SoundConfig : public rl::AbstractWindow
-	{
-	public:
-		SoundConfig();
-		virtual ~SoundConfig();
+    class SoundConfig : public rl::AbstractWindow
+    {
+    public:
+        SoundConfig();
+        virtual ~SoundConfig();
 
-		void registerDriverConfig(SoundDriverConfigComponent* cmp);
+        void registerDriverConfig(SoundDriverConfigComponent* cmp);
         virtual void setVisible(bool visible, bool destroyAfterHide = false);
 
-	private:
-		bool handleOK();
-		bool handleVolumeMusicChanged();
-		bool handleVolumeSoundChanged();
-		bool handleVolumeMasterChanged();
-		bool handleSelectDriver();
-		bool handleClose();
+    private:
+        bool handleOK();
+        bool handleVolumeMusicChanged();
+        bool handleVolumeSoundChanged();
+        bool handleVolumeMasterChanged();
+        bool handleSelectDriver();
+        bool handleClose();
 
         void update();
         void setDriverPage(const CeGuiString& drivername);
-		
-		// Die Combobox, aus der gewaehlt wird.
-		CEGUI::Combobox*	mDriverBox;
-		CEGUI::Slider*		mVolumeSound;
-		CEGUI::Slider*		mVolumeMusic;
-		CEGUI::Slider*		mVolumeMaster;
-        CEGUI::Window*      mDriverConfig;
-		
-		SoundDriverConfigComponent* mCurrentConfig;
 
-		std::list<SoundDriverConfigComponent*> mDriverConfigs;
-	};
+        // Die Combobox, aus der gewaehlt wird.
+        CEGUI::Combobox* mDriverBox;
+        CEGUI::Slider* mVolumeSound;
+        CEGUI::Slider* mVolumeMusic;
+        CEGUI::Slider* mVolumeMaster;
+        CEGUI::Window* mDriverConfig;
 
+        SoundDriverConfigComponent* mCurrentConfig;
+
+        std::list<SoundDriverConfigComponent*> mDriverConfigs;
+    };
 }
 
 #endif /*SOUNDCONFIG_H_*/

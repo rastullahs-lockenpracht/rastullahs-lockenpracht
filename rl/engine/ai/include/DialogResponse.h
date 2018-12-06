@@ -24,7 +24,7 @@ namespace rl
 {
     class Dialog;
     class DialogImplication;
-	class DialogOption;
+    class DialogOption;
     class Creature;
 
     /**
@@ -60,6 +60,5 @@ namespace rl
         DialogResponseSelection(const CeGuiString& id, const CeGuiString& person);
         virtual const Options& getOptions(Dialog* dialog) const;
     };
-
 }
 #endif

@@ -1,18 +1,18 @@
 /* This source file is part of Rastullahs Lockenpracht.
-* Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
-*
-*  This program is free software; you can redistribute it and/or modify
-*  it under the terms of the Clarified Artistic License.
-*
-*  This program is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  Clarified Artistic License for more details.
-*
-*  You should have received a copy of the Clarified Artistic License
-*  along with this program; if not you can get it here
-*  http://www.jpaulmorrison.com/fbp/artistic2.htm.
-*/
+ * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the Clarified Artistic License.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  Clarified Artistic License for more details.
+ *
+ *  You should have received a copy of the Clarified Artistic License
+ *  along with this program; if not you can get it here
+ *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
+ */
 #include "stdinc.h" //precompiled header
 
 #include "LightNodeProcessor.h"
@@ -24,16 +24,15 @@ using namespace Ogre;
 
 namespace rl
 {
-    bool LightNodeProcessor::processNode(const TiXmlElement* nodeElem, const Ogre::String& resourceGroup, bool loadGameObjects)
+    bool LightNodeProcessor::processNode(
+        const TiXmlElement* nodeElem, const Ogre::String& resourceGroup, bool loadGameObjects)
     {
         if (!hasNodeName(nodeElem, "light"))
         {
             return false;
         }
 
-        LOG_DEBUG(Logger::RULES,
-            "Processing light node "
-                + getAttributeValueAsStdString(nodeElem, "name"));
+        LOG_DEBUG(Logger::RULES, "Processing light node " + getAttributeValueAsStdString(nodeElem, "name"));
 
         Ogre::String name = getAttributeValueAsStdString(nodeElem, "name");
         Ogre::String stype = getAttributeValueAsStdString(nodeElem, "type");
@@ -90,9 +89,7 @@ namespace rl
         const TiXmlElement* attElem = getChildNamed(nodeElem, "lightAttenuation");
         if (attElem != NULL)
         {
-            if (hasAttribute(attElem, "range")
-                && hasAttribute(attElem, "constant")
-                && hasAttribute(attElem, "linear")
+            if (hasAttribute(attElem, "range") && hasAttribute(attElem, "constant") && hasAttribute(attElem, "linear")
                 && hasAttribute(attElem, "quadratic"))
             {
                 Ogre::Real range = getAttributeValueAsReal(attElem, "range");
@@ -107,7 +104,7 @@ namespace rl
 
         if (stype == "directional")
         {
-        	const TiXmlElement* dirElem = getChildNamed(nodeElem, "direction");
+            const TiXmlElement* dirElem = getChildNamed(nodeElem, "direction");
             if (dirElem != NULL)
             {
                 light->setDirection(processVector3(dirElem));
@@ -119,15 +116,14 @@ namespace rl
         }
         else if (stype == "spot")
         {
-        	const TiXmlElement* rangeElem = getChildNamed(nodeElem, "spotlightrange");
+            const TiXmlElement* rangeElem = getChildNamed(nodeElem, "spotlightrange");
             if (rangeElem != NULL)
             {
                 Ogre::Real innerAngle = getAttributeValueAsReal(rangeElem, "inner");
                 Ogre::Real outerAngle = getAttributeValueAsReal(rangeElem, "outer");
                 if (hasAttribute(rangeElem, "falloff"))
                 {
-                    light->setSpotlightRange(
-                        innerAngle, outerAngle, getAttributeValueAsReal(rangeElem, "falloff"));
+                    light->setSpotlightRange(innerAngle, outerAngle, getAttributeValueAsReal(rangeElem, "falloff"));
                 }
                 else
                 {

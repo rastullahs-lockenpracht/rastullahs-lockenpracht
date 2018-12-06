@@ -20,57 +20,57 @@
 namespace rl
 {
 
-	EigenschaftenStateSet::EigenschaftenStateSet() : StateSet(),
-		mStartValue(0),
-		mPermanentModifier(0),
-		mModifierWithoutRecalculation(0)
-	{
-	}
+    EigenschaftenStateSet::EigenschaftenStateSet()
+        : StateSet()
+        , mStartValue(0)
+        , mPermanentModifier(0)
+        , mModifierWithoutRecalculation(0)
+    {
+    }
 
-	EigenschaftenStateSet::~EigenschaftenStateSet()
-	{
-	}
+    EigenschaftenStateSet::~EigenschaftenStateSet()
+    {
+    }
 
-	int EigenschaftenStateSet::getStartValue()
-	{
-		return mStartValue;
-	}
+    int EigenschaftenStateSet::getStartValue()
+    {
+        return mStartValue;
+    }
 
-	void EigenschaftenStateSet::setStartValue( int newStartValue )
-	{
-		mStartValue = newStartValue;
-	}
+    void EigenschaftenStateSet::setStartValue(int newStartValue)
+    {
+        mStartValue = newStartValue;
+    }
 
-	int EigenschaftenStateSet::getPermanentModifier()
-	{
-		return mPermanentModifier;
-	}
+    int EigenschaftenStateSet::getPermanentModifier()
+    {
+        return mPermanentModifier;
+    }
 
-	void EigenschaftenStateSet::setPermanentModifier( int newPermanentModifier )
-	{
-		mPermanentModifier = newPermanentModifier;
-	}
+    void EigenschaftenStateSet::setPermanentModifier(int newPermanentModifier)
+    {
+        mPermanentModifier = newPermanentModifier;
+    }
 
-	int EigenschaftenStateSet::getModifierWithoutRecalculation()
-	{
-		return mModifierWithoutRecalculation;
-	}
+    int EigenschaftenStateSet::getModifierWithoutRecalculation()
+    {
+        return mModifierWithoutRecalculation;
+    }
 
-	void EigenschaftenStateSet::setModifierWithoutRecalculation( int newModifierWithoutRecalculation )
-	{
-		mModifierWithoutRecalculation = newModifierWithoutRecalculation;
-	}
+    void EigenschaftenStateSet::setModifierWithoutRecalculation(int newModifierWithoutRecalculation)
+    {
+        mModifierWithoutRecalculation = newModifierWithoutRecalculation;
+    }
 
-	int EigenschaftenStateSet::getValue( bool getUnmodifiedValue)
-	{
-		if ( getUnmodifiedValue ) return mOriginalValue;
-		return ( mOriginalValue + mModifier + mModifierWithoutRecalculation );
-	}
+    int EigenschaftenStateSet::getValue(bool getUnmodifiedValue)
+    {
+        if (getUnmodifiedValue)
+            return mOriginalValue;
+        return (mOriginalValue + mModifier + mModifierWithoutRecalculation);
+    }
 
-	int EigenschaftenStateSet::getValueForBasiswertCalculation()
-	{
-		return ( mOriginalValue + mModifier );
-	}
-
+    int EigenschaftenStateSet::getValueForBasiswertCalculation()
+    {
+        return (mOriginalValue + mModifier);
+    }
 }
-

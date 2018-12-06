@@ -1,32 +1,34 @@
 /* This source file is part of Rastullahs Lockenpracht.
-* Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
-*
-*  This program is free software; you can redistribute it and/or modify
-*  it under the terms of the Clarified Artistic License.
-*
-*  This program is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  Clarified Artistic License for more details.
-*
-*  You should have received a copy of the Clarified Artistic License
-*  along with this program; if not you can get it here
-*  http://www.jpaulmorrison.com/fbp/artistic2.htm.
-*/
+ * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the Clarified Artistic License.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  Clarified Artistic License for more details.
+ *
+ *  You should have received a copy of the Clarified Artistic License
+ *  along with this program; if not you can get it here
+ *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
+ */
 #include "stdinc.h" //precompiled header
 
 #include "PlaySoundJob.h"
 #include "Sound.h"
-#include "SoundManager.h"
 #include "SoundDriver.h"
+#include "SoundManager.h"
 
 using namespace Ogre;
 
 namespace rl
 {
 
-	PlaySound2dJob::PlaySound2dJob(const Ogre::String& sound, Real volume, int priority)
-        : Job(false, true), mSound(NULL), mExecuted(false)
+    PlaySound2dJob::PlaySound2dJob(const Ogre::String& sound, Real volume, int priority)
+        : Job(false, true)
+        , mSound(NULL)
+        , mExecuted(false)
     {
         mSound = SoundManager::getSingleton().createSound(sound, ST_SAMPLE);
         mSound->set3d(false);
@@ -39,7 +41,7 @@ namespace rl
     {
         // Only destroy sound, if not played,
         // because else the sound gets destroyed automatically.
-        if(!mExecuted)
+        if (!mExecuted)
         {
             SoundManager::getSingleton().destroySound(mSound);
         }
@@ -47,13 +49,16 @@ namespace rl
 
     bool PlaySound2dJob::execute(Ogre::Real time)
     {
-        if (mSound) mSound->play(true);
+        if (mSound)
+            mSound->play(true);
         mExecuted = true;
         return true;
     }
 
-	PlaySound3dJob::PlaySound3dJob(const Ogre::String& sound, const Ogre::Vector3& pos, Real volume, int priority)
-        : Job(false, true), mSound(NULL), mExecuted(false)
+    PlaySound3dJob::PlaySound3dJob(const Ogre::String& sound, const Ogre::Vector3& pos, Real volume, int priority)
+        : Job(false, true)
+        , mSound(NULL)
+        , mExecuted(false)
     {
         mSound = SoundManager::getSingleton().createSound(sound, ST_SAMPLE);
         mSound->set3d(true);
@@ -67,7 +72,7 @@ namespace rl
     {
         // Only destroy sound, if not played,
         // because else the sound gets destroyed automatically.
-        if(!mExecuted)
+        if (!mExecuted)
         {
             SoundManager::getSingleton().destroySound(mSound);
         }
@@ -75,7 +80,8 @@ namespace rl
 
     bool PlaySound3dJob::execute(Ogre::Real time)
     {
-        if (mSound) mSound->play(true);
+        if (mSound)
+            mSound->play(true);
         mExecuted = true;
         return true;
     }

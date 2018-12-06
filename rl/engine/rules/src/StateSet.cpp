@@ -19,77 +19,77 @@
 
 namespace rl
 {
-	StateSet::StateSet()
-		: mOriginalValue(0),
-		mModifier(0),
-		mProbenModifier(0),
-		mMultiplier(1)
-	{
-	}
+    StateSet::StateSet()
+        : mOriginalValue(0)
+        , mModifier(0)
+        , mProbenModifier(0)
+        , mMultiplier(1)
+    {
+    }
 
-	StateSet::~StateSet()
-	{
-	}
+    StateSet::~StateSet()
+    {
+    }
 
-	int StateSet::getValue(bool getUnmodifiedValue) const
-	{
-		int rval = mOriginalValue;
-		rval = getUnmodifiedValue ?  rval : (rval + mModifier) * mMultiplier;
-		return rval;
-	}
+    int StateSet::getValue(bool getUnmodifiedValue) const
+    {
+        int rval = mOriginalValue;
+        rval = getUnmodifiedValue ? rval : (rval + mModifier) * mMultiplier;
+        return rval;
+    }
 
-	int StateSet::getOriginalValue() const
-	{
-		return mOriginalValue;
-	}
+    int StateSet::getOriginalValue() const
+    {
+        return mOriginalValue;
+    }
 
-	void StateSet::setOriginalValue(int newValue)
-	{
-		mOriginalValue = newValue;
-	}
+    void StateSet::setOriginalValue(int newValue)
+    {
+        mOriginalValue = newValue;
+    }
 
-	void StateSet::modifyOriginalValue(int modifier)
-	{
-		mOriginalValue += modifier;
-	}
+    void StateSet::modifyOriginalValue(int modifier)
+    {
+        mOriginalValue += modifier;
+    }
 
-	int StateSet::getModifier() const
-	{
-		return mModifier;
-	}
+    int StateSet::getModifier() const
+    {
+        return mModifier;
+    }
 
-	void StateSet::setModifier(int newModifier)
-	{
-		mModifier = newModifier;
-	}
+    void StateSet::setModifier(int newModifier)
+    {
+        mModifier = newModifier;
+    }
 
-	void StateSet::modifyModifier(int modifier)
-	{
-		mModifier += modifier;
-	}
+    void StateSet::modifyModifier(int modifier)
+    {
+        mModifier += modifier;
+    }
 
-	int StateSet::getProbenModifier() const
-	{
-		return mProbenModifier;
-	}
+    int StateSet::getProbenModifier() const
+    {
+        return mProbenModifier;
+    }
 
-	void StateSet::setProbenModifier(int newProbenModifier)
-	{
-		mProbenModifier = newProbenModifier;
-	}
+    void StateSet::setProbenModifier(int newProbenModifier)
+    {
+        mProbenModifier = newProbenModifier;
+    }
 
-	void StateSet::modifyProbenModifier(int modifier)
-	{
-		mProbenModifier += modifier;
-	}
+    void StateSet::modifyProbenModifier(int modifier)
+    {
+        mProbenModifier += modifier;
+    }
 
-	int StateSet::getMultiplier() const
-	{
-		return mMultiplier;
-	}
+    int StateSet::getMultiplier() const
+    {
+        return mMultiplier;
+    }
 
-	void StateSet::setMultiplier(int newMultiplier)
-	{
-		mMultiplier = newMultiplier;
-	}
+    void StateSet::setMultiplier(int newMultiplier)
+    {
+        mMultiplier = newMultiplier;
+    }
 }

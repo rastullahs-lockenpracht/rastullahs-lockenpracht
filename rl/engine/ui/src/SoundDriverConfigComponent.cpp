@@ -20,7 +20,8 @@
 #include "SoundDriver.h"
 #include <CEGUIWindowManager.h>
 
-namespace rl {
+namespace rl
+{
     SoundDriverConfigComponent::SoundDriverConfigComponent(const CeGuiString& xmlfile, const CEGUI::String& drivername)
         : ConfigComponent(xmlfile, drivername)
     {

@@ -35,8 +35,8 @@ namespace rl
     const Ogre::String EffectManager::PROPERTY_EFFECT = "effect";
 
     EffectManager::EffectManager(GameObject* gameobject)
-        : mGameObject(gameobject),
-        mCheckEffectsRunning(false)
+        : mGameObject(gameobject)
+        , mCheckEffectsRunning(false)
     {
     }
 
@@ -44,38 +44,39 @@ namespace rl
     {
         for (Effects::iterator it = mEffects.begin(); it != mEffects.end(); it++)
         {
-            //delete (*it);
+            // delete (*it);
             ScriptWrapper::getSingleton().disowned(*it);
         }
     }
 
     void EffectManager::checkEffects()
     {
-        if( mCheckEffectsRunning ) {
-                return;
+        if (mCheckEffectsRunning)
+        {
+            return;
         }
         mCheckEffectsRunning = true;
         RL_LONGLONG now = DsaManager::getSingleton().getTimestamp();
         Checklist::iterator checkIt = mChecklist.begin();
-        if (checkIt == mChecklist.end()) return;
-        while ( checkIt != mChecklist.end() && checkIt->first <= now )
+        if (checkIt == mChecklist.end())
+            return;
+        while (checkIt != mChecklist.end() && checkIt->first <= now)
         {
-                std::stringstream debugInfo;
-                debugInfo << "Effect check: " << checkIt->first << " now: " << now << std::endl;
-                LOG_DEBUG(Logger::RULES,
-                    debugInfo.str());
+            std::stringstream debugInfo;
+            debugInfo << "Effect check: " << checkIt->first << " now: " << now << std::endl;
+            LOG_DEBUG(Logger::RULES, debugInfo.str());
             for (Effects::iterator effIt = checkIt->second.begin(); effIt != checkIt->second.end(); effIt++)
             {
                 int nextCheck;
                 nextCheck = (*effIt)->timeCheck();
                 switch (nextCheck)
                 {
-                  case Effect::REMOVE:
+                case Effect::REMOVE:
                     removeEffect(*effIt);
                     break;
-                  case Effect::PERMANENT:
+                case Effect::PERMANENT:
                     break;
-                  default:
+                default:
                     addTimeCheck(nextCheck, *effIt);
                 }
             }
@@ -88,15 +89,16 @@ namespace rl
     void EffectManager::addTimeCheck(RL_LONGLONG timeUntilCheck, Effect* effect)
     {
         // Preconditions: time > 0, effect != NULL
-        if (time <= 0) Throw(IllegalArgumentException, "time parameter is <= 0!");
-        if (effect == NULL) Throw(IllegalArgumentException, "effect pointer is NULL!");
+        if (time <= 0)
+            Throw(IllegalArgumentException, "time parameter is <= 0!");
+        if (effect == NULL)
+            Throw(IllegalArgumentException, "effect pointer is NULL!");
         // Get current ingame time and add timeUntilCheck
         RL_LONGLONG now = DsaManager::getSingleton().getTimestamp();
         RL_LONGLONG timeForCheck = now + timeUntilCheck;
         std::stringstream debugInfo;
         debugInfo << "Adding check! now:" << now << " check: " << timeForCheck << std::endl;
-        LOG_DEBUG(Logger::RULES,
-            debugInfo.str());
+        LOG_DEBUG(Logger::RULES, debugInfo.str());
         // Insert Sum and effect into the checklist
         mChecklist[timeForCheck].push_back(effect);
     }
@@ -105,11 +107,11 @@ namespace rl
     {
         // Preconditions: date > now, effect != NULL
         RL_LONGLONG now = DsaManager::getSingleton().getTimestamp();
-        if (date <= now) 
+        if (date <= now)
         {
             Throw(IllegalArgumentException, "date lies in the past!");
         }
-        if (effect == NULL) 
+        if (effect == NULL)
         {
             Throw(IllegalArgumentException, "effect pointer is NULL!");
         }
@@ -119,7 +121,6 @@ namespace rl
         LOG_DEBUG(Logger::RULES, debugInfo.str());
         mChecklist[date].push_back(effect);
     }
-
 
     void EffectManager::addEffect(Effect* effect)
     {
@@ -131,15 +132,15 @@ namespace rl
             Effect* cur = *it;
             if (cur->getName() == effect->getName())
             {
-                if (cur->getQuantifier() == Effect::QUANTIFIER_UNIQUE) 
+                if (cur->getQuantifier() == Effect::QUANTIFIER_UNIQUE)
                 {
                     return;
                 }
                 else if (cur->getQuantifier() == Effect::QUANTIFIER_UNIQUE_BUT_PROLONGABLE)
                 {
-                    //TODO
-                    //Vielleicht alten durch neuen ersetzen?
-                    //oder (*it)->setDuration(effect->getDuration())
+                    // TODO
+                    // Vielleicht alten durch neuen ersetzen?
+                    // oder (*it)->setDuration(effect->getDuration())
                 }
                 else if (cur->getQuantifier() == Effect::QUANTIFIER_UNIQUE_BUT_CUMULATIVE)
                 {
@@ -160,7 +161,7 @@ namespace rl
     void EffectManager::removeEffect(Effect* effect)
     {
         Effect::LifeState oldState = getLifeState();
-    
+
         effect->disable();
         for (Effects::iterator it = mEffects.begin(); it != mEffects.end(); ++it)
         {
@@ -204,8 +205,8 @@ namespace rl
         Effect::LifeState currentState = getLifeState();
         if (currentState != oldState)
         {
-            MessagePump::getSingleton().sendMessage<MessageType_GameObjectLifeStateChanged>(mGameObject,
-                oldState, currentState);
+            MessagePump::getSingleton().sendMessage<MessageType_GameObjectLifeStateChanged>(
+                mGameObject, oldState, currentState);
         }
     }
 
@@ -213,7 +214,8 @@ namespace rl
     {
         checkEffects();
         int mod = 0;
-        if (type == Effect::MODTYPE_MULT) mod = 1;
+        if (type == Effect::MODTYPE_MULT)
+            mod = 1;
         for (Effects::iterator it = mEffects.begin(); it != mEffects.end(); it++)
         {
             mod += (*it)->getMod(target, type, tag);
@@ -238,7 +240,7 @@ namespace rl
         if (key == Creature::PROPERTY_EFFECTS)
         {
             PropertyMap map;
-            
+
             std::map<Effect*, int> effectIds;
             PropertyArray effectProps;
             for (int i = 0, size = mEffects.size(); i < size; ++i)
@@ -247,13 +249,12 @@ namespace rl
                 effectProps.push_back(cur->getAllProperties()->toPropertyMap());
                 effectIds[cur] = i;
             }
-            
+
             PropertyArray timeCheck;
-            for (std::map<RL_LONGLONG, Effects>::const_iterator itTc = mChecklist.begin(); 
-                itTc != mChecklist.end(); ++itTc)
+            for (std::map<RL_LONGLONG, Effects>::const_iterator itTc = mChecklist.begin(); itTc != mChecklist.end();
+                 ++itTc)
             {
-                for (Effects::const_iterator itEff = itTc->second.begin(); 
-                    itEff != itTc->second.end(); ++itEff)
+                for (Effects::const_iterator itEff = itTc->second.begin(); itEff != itTc->second.end(); ++itEff)
                 {
                     PropertyMap tcElem;
                     tcElem[EffectManager::PROPERTY_EFFECT] = effectIds[*itEff];
@@ -261,18 +262,18 @@ namespace rl
                     timeCheck.push_back(tcElem);
                 }
             }
-            
+
             map[Creature::PROPERTY_EFFECTS] = effectProps;
             map[EffectManager::PROPERTY_TIMECHECK] = timeCheck;
             rval.setValue(map);
         }
-        else 
+        else
         {
             Throw(IllegalArgumentException, key + " is not a property of EffectManager.");
         }
         return rval;
     }
-    
+
     void EffectManager::setProperty(const CeGuiString& key, const Property& value)
     {
         try
@@ -280,9 +281,9 @@ namespace rl
             if (key == Creature::PROPERTY_EFFECTS)
             {
                 PropertyMap map = value.toMap();
-                
+
                 std::vector<Effect*> effectIds;
-                
+
                 PropertyArray arr = map[Creature::PROPERTY_EFFECTS].toArray();
                 for (int i = 0, size = arr.size(); i < size; ++i)
                 {
@@ -294,7 +295,7 @@ namespace rl
                     mEffects.push_back(eff);
                     ///@TODO: activate effects?
                 }
-                
+
                 PropertyArray timeCheckProp = map[EffectManager::PROPERTY_TIMECHECK].toArray();
                 for (int i = 0, size = timeCheckProp.size(); i < size; ++i)
                 {
@@ -306,14 +307,12 @@ namespace rl
             }
             else
             {
-                LOG_WARNING(Logger::RULES, 
-                    key + " is not a property of EffectManager");
+                LOG_WARNING(Logger::RULES, key + " is not a property of EffectManager");
             }
         }
         catch (WrongFormatException ex)
         {
-            LOG_ERROR(Logger::RULES, 
-                "property " + key + " has the wrong format");
+            LOG_ERROR(Logger::RULES, "property " + key + " has the wrong format");
         }
     }
 
@@ -323,6 +322,4 @@ namespace rl
         keys.insert(Creature::PROPERTY_EFFECTS);
         return keys;
     }
-
 }
-

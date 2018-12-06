@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -20,26 +20,26 @@
 
 #include "ItemDragContainer.h"
 
-namespace rl 
+namespace rl
 {
-	class Item;
+    class Item;
 
-	class ItemIconDragContainer : public ItemDragContainer
-	{
-	public:
-		ItemIconDragContainer(const CeGuiString &type, const CeGuiString& name);
-                void setItem(Item* item);
-                static const CeGuiString WidgetTypeName; // for CEGUI
-	};
+    class ItemIconDragContainer : public ItemDragContainer
+    {
+    public:
+        ItemIconDragContainer(const CeGuiString& type, const CeGuiString& name);
+        void setItem(Item* item);
+        static const CeGuiString WidgetTypeName; // for CEGUI
+    };
 
 } // namespace rl
 
-namespace CEGUI{
+namespace CEGUI
+{
 
     using rl::ItemIconDragContainer;
 
     CEGUI_DECLARE_WINDOW_FACTORY(ItemIconDragContainer)
-
 }
 
 #endif //__ItemIconDragContainer_H__

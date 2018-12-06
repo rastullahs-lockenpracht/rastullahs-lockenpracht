@@ -16,8 +16,8 @@
 #ifndef _FMOD4CONFIG_H_
 #define _FMOD4CONFIG_H_
 
-#include "SoundDriverConfigComponent.h"
 #include "Fmod4Driver.h"
+#include "SoundDriverConfigComponent.h"
 
 namespace rl
 {
@@ -45,7 +45,6 @@ namespace rl
 
         Fmod4Driver* mFmod4Driver;
     };
-
 }
 
 #endif /* FMOD4CONFIG_H_*/

@@ -20,9 +20,8 @@
 #include "SaveGameManager.h"
 #include "ScriptWrapper.h"
 #include "Trigger.h"
-#include "ZoneManager.h"
 #include "Zone.h"
-
+#include "ZoneManager.h"
 
 namespace rl
 {
@@ -43,17 +42,18 @@ namespace rl
 
     void TriggerFactory::writeData(SaveGameFileWriter* writer)
     {
-        TiXmlElement* triggerParentNode = writer->appendChildElement(writer->getDocument()->RootElement(), getXmlNodeIdentifier().c_str());
+        TiXmlElement* triggerParentNode
+            = writer->appendChildElement(writer->getDocument()->RootElement(), getXmlNodeIdentifier().c_str());
 
-        const ZoneManager::ZoneMap &zoneMap(ZoneManager::getSingleton().getAllZones());
+        const ZoneManager::ZoneMap& zoneMap(ZoneManager::getSingleton().getAllZones());
         ZoneManager::ZoneMap::const_iterator zone;
 
         // look in all zones if there is a trigger
-        for(zone = zoneMap.begin(); zone != zoneMap.end(); zone++)
+        for (zone = zoneMap.begin(); zone != zoneMap.end(); zone++)
         {
             std::list<Trigger*> allTriggers(zone->second->getTriggers());
             // search for triggers in a zone
-            for(std::list<Trigger*>::iterator trigger = allTriggers.begin(); trigger != allTriggers.end(); trigger++)
+            for (std::list<Trigger*>::iterator trigger = allTriggers.begin(); trigger != allTriggers.end(); trigger++)
             {
                 if ((*trigger)->needsToBeSaved())
                 {
@@ -72,21 +72,21 @@ namespace rl
     void TriggerFactory::readData(SaveGameFileReader* reader)
     {
         // delete all triggers, that say that they should be saved.
-        const ZoneManager::ZoneMap &zoneMap(ZoneManager::getSingleton().getAllZones());
+        const ZoneManager::ZoneMap& zoneMap(ZoneManager::getSingleton().getAllZones());
         ZoneManager::ZoneMap::const_iterator zone;
         // look in all zones if there is a trigger
-        for(zone = zoneMap.begin(); zone != zoneMap.end(); zone++)
+        for (zone = zoneMap.begin(); zone != zoneMap.end(); zone++)
         {
             std::list<Trigger*> allTriggers(zone->second->getTriggers());
             // search for triggers in a zone
-            for(std::list<Trigger*>::iterator trigger = allTriggers.begin(); trigger != allTriggers.end(); trigger++)
+            for (std::list<Trigger*>::iterator trigger = allTriggers.begin(); trigger != allTriggers.end(); trigger++)
             {
                 if ((*trigger)->needsToBeSaved())
                 {
                     zone->second->removeTrigger((*trigger));
                     if ((*trigger)->deleteIfZoneDestroyed())
                     {
-                        //ScriptWrapper::getSingleton().owned((*trigger));
+                        // ScriptWrapper::getSingleton().owned((*trigger));
                         delete (*trigger);
                         ScriptWrapper::getSingleton().deleted((*trigger));
                     }
@@ -94,42 +94,42 @@ namespace rl
             }
         }
 
-        XmlElementList rootNodeList = reader->getElementsByTagName(reader->getDocument(), getXmlNodeIdentifier().c_str());
+        XmlElementList rootNodeList
+            = reader->getElementsByTagName(reader->getDocument(), getXmlNodeIdentifier().c_str());
 
         if (!rootNodeList.empty())
         {
             XmlElementList xmlTriggerFactory = reader->getElementsByTagName(rootNodeList[0], "trigger");
-			for (XmlElementList::iterator it = xmlTriggerFactory.begin(); it != xmlTriggerFactory.end(); ++it)
-			{
-				const TiXmlNode* xmlTrigger = *it;
-				if (xmlTrigger->Type() == TiXmlNode::ELEMENT)
-				{
-					const TiXmlElement* xmlTriggerElem = xmlTrigger->ToElement();
-					Ogre::String classname = reader->getAttributeValueAsStdString(xmlTriggerElem, "classname");
-					Ogre::String name = reader->getAttributeValueAsStdString(xmlTriggerElem, "name");
-					Ogre::String zoneName = reader->getAttributeValueAsStdString(xmlTriggerElem, "zone");
+            for (XmlElementList::iterator it = xmlTriggerFactory.begin(); it != xmlTriggerFactory.end(); ++it)
+            {
+                const TiXmlNode* xmlTrigger = *it;
+                if (xmlTrigger->Type() == TiXmlNode::ELEMENT)
+                {
+                    const TiXmlElement* xmlTriggerElem = xmlTrigger->ToElement();
+                    Ogre::String classname = reader->getAttributeValueAsStdString(xmlTriggerElem, "classname");
+                    Ogre::String name = reader->getAttributeValueAsStdString(xmlTriggerElem, "name");
+                    Ogre::String zoneName = reader->getAttributeValueAsStdString(xmlTriggerElem, "zone");
 
-					PropertyRecordPtr properties = reader->getPropertiesAsRecord(xmlTriggerElem);
+                    PropertyRecordPtr properties = reader->getPropertiesAsRecord(xmlTriggerElem);
 
-
-					Trigger *trigger = createTrigger(classname, name);
-					if (trigger) // if not, there is an error-msg from the script!
-					{
-						trigger->setProperties(properties);
-						Zone *zone = ZoneManager::getSingleton().getZone(zoneName);
-						if (zone == NULL)
-						{
-							LOG_ERROR(Logger::SCRIPT, "Tried to load trigger for zone '"+zoneName+"', but the zone could not be found!");
-							delete trigger;
-						}
-						else
-						{
-							zone->addTrigger(trigger);
-						}
-					}
-
-				}
-			}
+                    Trigger* trigger = createTrigger(classname, name);
+                    if (trigger) // if not, there is an error-msg from the script!
+                    {
+                        trigger->setProperties(properties);
+                        Zone* zone = ZoneManager::getSingleton().getZone(zoneName);
+                        if (zone == NULL)
+                        {
+                            LOG_ERROR(Logger::SCRIPT,
+                                "Tried to load trigger for zone '" + zoneName + "', but the zone could not be found!");
+                            delete trigger;
+                        }
+                        else
+                        {
+                            zone->addTrigger(trigger);
+                        }
+                    }
+                }
+            }
         }
     }
 

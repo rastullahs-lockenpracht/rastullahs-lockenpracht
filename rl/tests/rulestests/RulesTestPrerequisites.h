@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2005 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -21,13 +21,13 @@
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 // Export control
-#   if defined( RLRULESTEST_EXPORTS )
-#       define _RlRulesTestExport __declspec( dllexport )
-#   else
-#       define _RlRulesTestExport __declspec( dllimport )
-#   endif
+#if defined(RLRULESTEST_EXPORTS)
+#define _RlRulesTestExport __declspec(dllexport)
+#else
+#define _RlRulesTestExport __declspec(dllimport)
+#endif
 #else // Linux / Mac OSX etc
-#   define _RlRulesTestExport
+#define _RlRulesTestExport
 #endif
 
 #include <map>

@@ -18,8 +18,8 @@
 
 #include "AiPrerequisites.h"
 
-#include "Properties.h"
 #include "Creature.h"
+#include "Properties.h"
 
 namespace rl
 {
@@ -30,7 +30,7 @@ namespace rl
     class _RlAiExport Dialog : public PropertyHolder
     {
     public:
-		static const Ogre::String PROP_EXIT_REQUESTED;
+        static const Ogre::String PROP_EXIT_REQUESTED;
 
         Dialog();
         ~Dialog();
@@ -39,7 +39,7 @@ namespace rl
         void setStartResponse(DialogResponse* start);
         void addVariable(DialogVariable* variable);
         void initialize();
-		bool isExitRequested() const;
+        bool isExitRequested() const;
         CeGuiString getVariableValue(const Ogre::String& variableName) const;
 
         virtual const Property getProperty(const CeGuiString& key) const;
@@ -56,9 +56,8 @@ namespace rl
         std::map<CeGuiString, Creature*> mParticipantMap;
         std::map<Ogre::String, DialogVariable*> mVariables;
         PropertyRecord mPropertyVariables;
-		bool mExitRequested;
+        bool mExitRequested;
     };
-
 }
 
 #endif // __Dialog_H__

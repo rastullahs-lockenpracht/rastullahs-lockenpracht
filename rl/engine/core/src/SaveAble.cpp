@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -18,42 +18,41 @@
 
 #include "SaveAble.h"
 
-#include "Property.h"
 #include "Properties.h"
+#include "Property.h"
 
 namespace rl
 {
-	SaveAble::SaveAble(int id, bool isSaveAble)
-	{
-	}
+    SaveAble::SaveAble(int id, bool isSaveAble)
+    {
+    }
 
-	void SaveAble::setSaveAble(bool enable)
-	{
-		mIsSaveAble = true;
-	}
+    void SaveAble::setSaveAble(bool enable)
+    {
+        mIsSaveAble = true;
+    }
 
-	bool SaveAble::isSaveAble()
-	{
-		return mIsSaveAble;
-	}
+    bool SaveAble::isSaveAble()
+    {
+        return mIsSaveAble;
+    }
 
-	const Property SaveAble::getProperty(const CeGuiString& key) const
-	{
-		return Property();
-	}
-	
-	void SaveAble::setProperty(const CeGuiString& key, const Property& value)
-	{
-	}
-	
-	PropertyKeys SaveAble::getAllPropertyKeys() const
-	{
-		return PropertyKeys();
-	}
+    const Property SaveAble::getProperty(const CeGuiString& key) const
+    {
+        return Property();
+    }
 
-	int SaveAble::getId()
-	{
-		return mId;
-	}
+    void SaveAble::setProperty(const CeGuiString& key, const Property& value)
+    {
+    }
+
+    PropertyKeys SaveAble::getAllPropertyKeys() const
+    {
+        return PropertyKeys();
+    }
+
+    int SaveAble::getId()
+    {
+        return mId;
+    }
 }
-

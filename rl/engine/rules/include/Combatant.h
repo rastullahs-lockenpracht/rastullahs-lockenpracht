@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -25,13 +25,13 @@ namespace rl
 {
     class Combat;
     class CreatureController;
-	class Kampfaktion;
-	class JobSet;
-	class Weapon;
+    class Kampfaktion;
+    class JobSet;
+    class Weapon;
 
     /// Base class of combat participiants. This defines the interface Combat uses
-	/// to communicate with Combatants. Be it AI bots or actual users.
-	class _RlRulesExport Combatant
+    /// to communicate with Combatants. Be it AI bots or actual users.
+    class _RlRulesExport Combatant
     {
     public:
         Combatant(Combat* combat, CreatureController* controller);
@@ -45,64 +45,65 @@ namespace rl
         virtual void requestCombatantAction() = 0;
 
         /// Type name used by factory
-		virtual Ogre::String getCombatantTypeName() const = 0;
+        virtual Ogre::String getCombatantTypeName() const = 0;
 
         CreatureController* getCreatureController() const;
 
-		// convenience getters
+        // convenience getters
 
         Creature* getCreature() const;
-		CeGuiString getName() const;
-		Ogre::Vector3 getPosition() const;
+        CeGuiString getName() const;
+        Ogre::Vector3 getPosition() const;
 
-		Weapon* getActiveWeapon() const;
+        Weapon* getActiveWeapon() const;
 
         /**
-        *  Fuehrt eine Attacke aus. Die Funktion wird von einem Angriffsmanoever 
-        *  aufgerufen.
-        *  @retval RESULT_ERFOLG Eine erfolgreiche Attacke.
-        *  @retval RESULT_MISSERFOLG Eine fehlgeschlagene Attacke.
-        *  @retval RESULT_GLUECKLICH Eine gute Attacke.
-        *  @retval RESULT_PATZER Ein bestaetigter Attackepatzer.
-        **/
+         *  Fuehrt eine Attacke aus. Die Funktion wird von einem Angriffsmanoever
+         *  aufgerufen.
+         *  @retval RESULT_ERFOLG Eine erfolgreiche Attacke.
+         *  @retval RESULT_MISSERFOLG Eine fehlgeschlagene Attacke.
+         *  @retval RESULT_GLUECKLICH Eine gute Attacke.
+         *  @retval RESULT_PATZER Ein bestaetigter Attackepatzer.
+         **/
         int rollAttacke();
 
         /**
-        *  Fuehrt eine Parade aus. Die Funktion wird von einem Parademanoever 
-              *  aufgerufen.
-        *  @param guteParade Versucht eine gute Parade (bei einem gluecklichen Treffer)
-        *  @retval RESULT_ERFOLG Eine erfolgreiche Parade.
-        *  @retval RESULT_MISSERFOLG Eine fehlgeschlagene Parade.
-        *  @retval RESULT_GLUECKLICH Eine gute Parade.
-        *  @retval RESULT_PATZER Ein bestaetigter Paradepatzer.
-        *  @throws InvalidArgumentException Kampftechnik nicht in 
-        *   \c mKampftechniken gefunden.
-        **/
-		int rollParade(bool gluecklich);
+         *  Fuehrt eine Parade aus. Die Funktion wird von einem Parademanoever
+         *  aufgerufen.
+         *  @param guteParade Versucht eine gute Parade (bei einem gluecklichen Treffer)
+         *  @retval RESULT_ERFOLG Eine erfolgreiche Parade.
+         *  @retval RESULT_MISSERFOLG Eine fehlgeschlagene Parade.
+         *  @retval RESULT_GLUECKLICH Eine gute Parade.
+         *  @retval RESULT_PATZER Ein bestaetigter Paradepatzer.
+         *  @throws InvalidArgumentException Kampftechnik nicht in
+         *   \c mKampftechniken gefunden.
+         **/
+        int rollParade(bool gluecklich);
 
-		int rollTrefferpunkte(DamageStrength damage) const;
-		int applyTrefferpunkte(int tp);
+        int rollTrefferpunkte(DamageStrength damage) const;
+        int applyTrefferpunkte(int tp);
 
-		void doAttacke(JobSet* jobSet, Combatant* target, int attackeResult, bool parade,
-			int paradeResult = 0);
-		void doParade(JobSet* jobSet, Combatant* target, int paradeResult);
-		void doBewegen(JobSet* jobSet, const Ogre::Vector3& targetPos);
-		void doFolgen(JobSet* jobSet, Combatant* target);
-		void doGetroffen(JobSet* jobSet);
+        void doAttacke(JobSet* jobSet, Combatant* target, int attackeResult, bool parade, int paradeResult = 0);
+        void doParade(JobSet* jobSet, Combatant* target, int paradeResult);
+        void doBewegen(JobSet* jobSet, const Ogre::Vector3& targetPos);
+        void doFolgen(JobSet* jobSet, Combatant* target);
+        void doGetroffen(JobSet* jobSet);
 
     protected:
         Combat* mCombat;
         CreatureController* mController;
 
-		/// Converts canonic animation to actual animation name inside the skeleton
-		/// According to the mapping defined in Creature gof.
-		Ogre::String getMeshAnimationName(const Ogre::String animationName);
+        /// Converts canonic animation to actual animation name inside the skeleton
+        /// According to the mapping defined in Creature gof.
+        Ogre::String getMeshAnimationName(const Ogre::String animationName);
     };
 
     class _RlRulesExport CombatantFactory
     {
     public:
-        virtual ~CombatantFactory() {}
+        virtual ~CombatantFactory()
+        {
+        }
 
         virtual Combatant* createCombatant(Creature* creature) = 0;
         virtual void destroyCombatant(Combatant*) = 0;

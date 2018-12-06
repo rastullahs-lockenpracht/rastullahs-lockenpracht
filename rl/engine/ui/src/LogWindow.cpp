@@ -23,48 +23,46 @@
 
 namespace rl
 {
-	LogWindow::LogWindow()
-		: AbstractWindow("logwindow.xml", WIT_MOUSE_INPUT)
-	{
-		mRastullahLog = getMultiLineEditbox("LogWindow/RastullahLog/Text");
-		mOgreLog = getMultiLineEditbox("LogWindow/OgreLog/Text");
-		mErrorLog = getMultiLineEditbox("LogWindow/ErrorLog/Text");
+    LogWindow::LogWindow()
+        : AbstractWindow("logwindow.xml", WIT_MOUSE_INPUT)
+    {
+        mRastullahLog = getMultiLineEditbox("LogWindow/RastullahLog/Text");
+        mOgreLog = getMultiLineEditbox("LogWindow/OgreLog/Text");
+        mErrorLog = getMultiLineEditbox("LogWindow/ErrorLog/Text");
 
-		getWindow("LogWindow/UpdateButton")->subscribeEvent(
-			CEGUI::Window::EventMouseClick,
-			boost::bind(&LogWindow::update, this));
-		//bindDestroyWindowToXButton(); //conflicts with windowfactory
-		//bindDestroyWindowToClick(getWindow("LogWindow/CloseButton"));
+        getWindow("LogWindow/UpdateButton")
+            ->subscribeEvent(CEGUI::Window::EventMouseClick, boost::bind(&LogWindow::update, this));
+        // bindDestroyWindowToXButton(); //conflicts with windowfactory
+        // bindDestroyWindowToClick(getWindow("LogWindow/CloseButton"));
 
         bindHideWindowToXButton();
         bindHideWindowToClick(getWindow("LogWindow/CloseButton"));
 
-		centerWindow();
-	}
+        centerWindow();
+    }
 
-	LogWindow::~LogWindow()
-	{
-	}
+    LogWindow::~LogWindow()
+    {
+    }
 
-	bool LogWindow::update()
-	{
-		mErrorLog->setText(Logger::getSingleton().getErrorLog());
-		mErrorLog->setCaratIndex(1999999999);
-		mErrorLog->ensureCaratIsVisible();
-		//TODO: ogre.log und rastullah.log
+    bool LogWindow::update()
+    {
+        mErrorLog->setText(Logger::getSingleton().getErrorLog());
+        mErrorLog->setCaratIndex(1999999999);
+        mErrorLog->ensureCaratIsVisible();
+        // TODO: ogre.log und rastullah.log
 
-		return true;
-	}
+        return true;
+    }
 
-	void LogWindow::setVisible(bool visible, bool destroyAfterHide)
-	{
-		AbstractWindow::setVisible(visible, destroyAfterHide);
+    void LogWindow::setVisible(bool visible, bool destroyAfterHide)
+    {
+        AbstractWindow::setVisible(visible, destroyAfterHide);
 
-		if (visible)
-		{
-			update();
-		}
-	}
-
+        if (visible)
+        {
+            update();
+        }
+    }
 
 } // namespace rl

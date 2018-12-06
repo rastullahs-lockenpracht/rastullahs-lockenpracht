@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -21,16 +21,16 @@
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 // Export control
-#   if defined( RLCORE_EXPORTS )
-#       define _RlCoreExport __declspec( dllexport )
-#   else
-#       define _RlCoreExport __declspec( dllimport )
-#   endif
+#if defined(RLCORE_EXPORTS)
+#define _RlCoreExport __declspec(dllexport)
+#else
+#define _RlCoreExport __declspec(dllimport)
+#endif
 #else // Linux / Mac OSX etc
-#   define _RlCoreExport
-#	if defined ( RL_USE_PCH )
-#		include "stdinc.h"
-#	endif
+#define _RlCoreExport
+#if defined(RL_USE_PCH)
+#include "stdinc.h"
+#endif
 #endif
 
 #endif

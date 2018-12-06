@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -23,7 +23,7 @@ namespace rl
     class Dialog;
     class DialogVariable;
 
-	class _RlAiExport DialogCondition
+    class _RlAiExport DialogCondition
     {
     public:
         DialogCondition();
@@ -65,8 +65,9 @@ namespace rl
         DialogConditionInRange(Ogre::Real lowerBound, Ogre::Real upperBound);
 
         virtual bool isFulfilled(DialogVariable* var, Dialog* dialog);
+
     private:
-        Ogre::Real mLowerBound; 
+        Ogre::Real mLowerBound;
         Ogre::Real mUpperBound;
     };
 
@@ -76,6 +77,7 @@ namespace rl
         DialogConditionLowerThan(Ogre::Real upperBound);
 
         virtual bool isFulfilled(DialogVariable* var, Dialog* dialog);
+
     private:
         Ogre::Real mUpperBound;
     };
@@ -86,8 +88,9 @@ namespace rl
         DialogConditionGreaterThan(Ogre::Real lowerBound);
 
         virtual bool isFulfilled(DialogVariable* var, Dialog* dialog);
+
     private:
-        Ogre::Real mLowerBound; 
+        Ogre::Real mLowerBound;
     };
 
     class DialogConditionLowerOrEquals : public DialogCondition
@@ -96,6 +99,7 @@ namespace rl
         DialogConditionLowerOrEquals(Ogre::Real upperLimit);
 
         virtual bool isFulfilled(DialogVariable* var, Dialog* dialog);
+
     private:
         Ogre::Real mUpperLimit;
     };
@@ -106,8 +110,9 @@ namespace rl
         DialogConditionGreaterOrEquals(Ogre::Real lowerLimit);
 
         virtual bool isFulfilled(DialogVariable* var, Dialog* dialog);
+
     private:
-        Ogre::Real mLowerLimit; 
+        Ogre::Real mLowerLimit;
     };
 }
 

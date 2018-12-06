@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -20,32 +20,45 @@
 
 namespace rl
 {
-	class Agent;
+    class Agent;
 
-    typedef enum {AST_STEERING, AST_COMBAT, AST_DIALOG} AgentStateType;
+    typedef enum
+    {
+        AST_STEERING,
+        AST_COMBAT,
+        AST_DIALOG
+    } AgentStateType;
 
-	/** Represents a discrete state an Agent can be in.
+    /** Represents a discrete state an Agent can be in.
      * The Agent delegates the decision making to the currently active state, wich can
      * further deligate decision making.
-	 */
-	class _RlAiExport AgentState
-	{
-	public:
+     */
+    class _RlAiExport AgentState
+    {
+    public:
         /// @param agent the agent this state works upon.
-        AgentState(Agent* agent) : mAgent(agent) {}
+        AgentState(Agent* agent)
+            : mAgent(agent)
+        {
+        }
 
-        virtual ~AgentState() {}
+        virtual ~AgentState()
+        {
+        }
 
-		/** Function invoked by Agents to advance the AI.
-		 * Decision making is done here.
+        /** Function invoked by Agents to advance the AI.
+         * Decision making is done here.
          * @param elapsedTime time since last update call.
-		 */
+         */
         virtual void update(const Ogre::Real elapsedTime) = 0;
 
-        Agent* getAgent() const { return mAgent; }
+        Agent* getAgent() const
+        {
+            return mAgent;
+        }
 
-	protected:
-		Agent* mAgent;
-	};
+    protected:
+        Agent* mAgent;
+    };
 }
 #endif

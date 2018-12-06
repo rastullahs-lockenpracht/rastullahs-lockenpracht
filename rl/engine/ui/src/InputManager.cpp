@@ -18,9 +18,9 @@
 #include "InputManager.h"
 
 #ifdef __APPLE__
-#   include <OIS/OISInputManager.h>
+#include <OIS/OISInputManager.h>
 #else
-#   include <OISInputManager.h>
+#include <OISInputManager.h>
 #endif
 
 #include "Exception.h"
@@ -33,12 +33,12 @@
 #include "Actor.h"
 #include "ActorManager.h"
 #include "AiMessages.h"
-#include "ControlState.h"
 #include "CombatControlState.h"
 #include "CombatManager.h"
 #include "CommandMapper.h"
 #include "ConfigurationManager.h"
 #include "Console.h"
+#include "ControlState.h"
 #include "CoreSubsystem.h"
 #include "CutsceneControlState.h"
 #include "DebugWindow.h"
@@ -60,18 +60,19 @@ using namespace OIS;
 using CEGUI::System;
 using namespace std;
 
-template<> rl::InputManager* Singleton<rl::InputManager>::ms_Singleton = 0;
+template <> rl::InputManager* Singleton<rl::InputManager>::ms_Singleton = 0;
 
-namespace rl {
+namespace rl
+{
 
-    InputManager::InputManager(Ogre::RenderWindow* win) 
-      : GameTask(false),
-        mKeyMapNormal(),
-        mKeyMapShift(),
-        mKeyMapAlt(),
-        mKeyNames(),
-        mCommandMapper(NULL),
-        mInputManager(NULL)
+    InputManager::InputManager(Ogre::RenderWindow* win)
+        : GameTask(false)
+        , mKeyMapNormal()
+        , mKeyMapShift()
+        , mKeyMapAlt()
+        , mKeyNames()
+        , mCommandMapper(NULL)
+        , mInputManager(NULL)
     {
         initializeOis(win);
 
@@ -90,17 +91,16 @@ namespace rl {
         GameLoop::getSingleton().removeTask(this);
 
         // delete finished control states
-        for (ControlStateVector::iterator it = mFinishedControlStates.begin();
-            it != mFinishedControlStates.end(); ++it)
+        for (ControlStateVector::iterator it = mFinishedControlStates.begin(); it != mFinishedControlStates.end(); ++it)
         {
             delete *it;
         }
         mFinishedControlStates.clear();
 
-        if( mInputManager )
+        if (mInputManager)
         {
-            mInputManager->destroyInputObject( mMouse );
-            mInputManager->destroyInputObject( mKeyboard );
+            mInputManager->destroyInputObject(mMouse);
+            mInputManager->destroyInputObject(mKeyboard);
             OIS::InputManager::destroyInputSystem(mInputManager);
             mInputManager = NULL;
         }
@@ -116,13 +116,13 @@ namespace rl {
         LOG_DEBUG(Logger::UI, "Initializing input manager: Render window parameters");
         win->getCustomAttribute("WINDOW", &windowHnd);
 
-        #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-            pl.insert(std::make_pair(std::string("w32_keyboard"), std::string("DISCL_EXCLUSIVE")));
-            pl.insert(std::make_pair(std::string("w32_keyboard"), std::string("DISCL_FOREGROUND")));
-        #elif OGRE_PLATFORM == OGRE_PLATFORM_LINUX & defined _DEBUG
-            pl.insert(std::make_pair(std::string("x11_mouse_grab"), std::string("false")));
-            pl.insert(std::make_pair(std::string("x11_keyboard_grab"), std::string("false")));
-        #endif
+#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
+        pl.insert(std::make_pair(std::string("w32_keyboard"), std::string("DISCL_EXCLUSIVE")));
+        pl.insert(std::make_pair(std::string("w32_keyboard"), std::string("DISCL_FOREGROUND")));
+#elif OGRE_PLATFORM == OGRE_PLATFORM_LINUX & defined _DEBUG
+        pl.insert(std::make_pair(std::string("x11_mouse_grab"), std::string("false")));
+        pl.insert(std::make_pair(std::string("x11_keyboard_grab"), std::string("false")));
+#endif
 
         std::ostringstream windowHndStr;
         windowHndStr << windowHnd;
@@ -156,11 +156,10 @@ namespace rl {
         mMouse->capture();
         mKeyboard->capture();
 
-		System::getSingleton().injectTimePulse(elapsedTime);
+        System::getSingleton().injectTimePulse(elapsedTime);
 
         // delete finished control states
-        for (ControlStateVector::iterator it = mFinishedControlStates.begin();
-            it != mFinishedControlStates.end(); ++it)
+        for (ControlStateVector::iterator it = mFinishedControlStates.begin(); it != mFinishedControlStates.end(); ++it)
         {
             delete *it;
         }
@@ -172,13 +171,13 @@ namespace rl {
         }
     }
 
-    bool InputManager::isMouseButtonDown( OIS::MouseButtonID buttonID )
+    bool InputManager::isMouseButtonDown(OIS::MouseButtonID buttonID)
     {
         OIS::MouseState ms = mMouse->getMouseState();
-        return ms.buttonDown( buttonID );
+        return ms.buttonDown(buttonID);
     }
 
-    bool InputManager::isKeyDown( OIS::KeyCode key )
+    bool InputManager::isKeyDown(OIS::KeyCode key)
     {
         return mKeyboard->isKeyDown(key);
     }
@@ -209,25 +208,25 @@ namespace rl {
     {
         CeGuiString name = mKeyNames.find(scancode)->second;
         if (syskeys & ALT_MASK)
-            name = "Alt+"+name;
+            name = "Alt+" + name;
         if (syskeys & CTRL_MASK)
-            name = "Ctrl+"+name;
+            name = "Ctrl+" + name;
         if (syskeys & SHIFT_MASK)
-            name = "Shift+"+name;
+            name = "Shift+" + name;
         if (syskeys & SUPER_MASK)
-            name = "Super+"+name;
+            name = "Super+" + name;
         return name;
     }
 
     int InputManager::getScanCode(const CeGuiString& name)
     {
-        for(KeyNameMap::iterator it = mKeyNames.begin(); it != mKeyNames.end(); it++)
+        for (KeyNameMap::iterator it = mKeyNames.begin(); it != mKeyNames.end(); it++)
         {
             if ((*it).second == name)
                 return (*it).first;
         }
 
-        Ogre::String msg = Ogre::String("Key ")+ name.c_str()+" not found.";
+        Ogre::String msg = Ogre::String("Key ") + name.c_str() + " not found.";
         Throw(IllegalArgumentException, msg);
     }
 
@@ -256,9 +255,12 @@ namespace rl {
     {
         int rval = 0;
 
-        if (mKeyboard->isModifierDown(OIS::Keyboard::Alt)) rval |= ALT_MASK;
-        if (mKeyboard->isModifierDown(OIS::Keyboard::Ctrl)) rval |= CTRL_MASK;
-        if (mKeyboard->isModifierDown(OIS::Keyboard::Shift)) rval |= SHIFT_MASK;
+        if (mKeyboard->isModifierDown(OIS::Keyboard::Alt))
+            rval |= ALT_MASK;
+        if (mKeyboard->isModifierDown(OIS::Keyboard::Ctrl))
+            rval |= CTRL_MASK;
+        if (mKeyboard->isModifierDown(OIS::Keyboard::Shift))
+            rval |= SHIFT_MASK;
 
         return rval;
     }
@@ -338,17 +340,17 @@ namespace rl {
         return NAME;
     }
 
-    void InputManager::linkKeyToRubyCommand(const CeGuiString &keyStr, const CeGuiString &command)
+    void InputManager::linkKeyToRubyCommand(const CeGuiString& keyStr, const CeGuiString& command)
     {
         std::ostringstream ss;
 
         ss << "InputManager::linkKeyToRubyCommand called: ";
         int key = getScanCode(keyStr);
-        if( command.length() == 0 ) // delete
+        if (command.length() == 0) // delete
         {
             KeyCommandMap::iterator it = mKeyRubyCommand.find(key);
             ss << "Requesting to delete link from Key '" << keyStr << "'... ";
-            if( it != mKeyRubyCommand.end() )
+            if (it != mKeyRubyCommand.end())
             {
                 ss << "Link to command '" << it->second << "' deleted.";
                 mKeyRubyCommand.erase(it);
@@ -357,7 +359,7 @@ namespace rl {
         else
         {
             KeyCommandMap::iterator it = mKeyRubyCommand.find(key);
-            if( it == mKeyRubyCommand.end() )
+            if (it == mKeyRubyCommand.end())
             {
                 ss << "New linking Key '";
                 mKeyRubyCommand.insert(make_pair(key, command));
@@ -368,7 +370,6 @@ namespace rl {
                 it->second = command;
             }
             ss << keyStr << "' to command '" << command << "'.";
-
         }
 
         LOG_MESSAGE(Logger::UI, ss.str());
@@ -404,7 +405,7 @@ namespace rl {
             controller = new DialogControlState(mCommandMapper, camera, character);
             break;
         case CST_COMBAT:
-			controller = new CombatControlState(mCommandMapper, camera, character);
+            controller = new CombatControlState(mCommandMapper, camera, character);
             break;
         default:
             Throw(IllegalStateException, "Unknown controller type.");
@@ -466,52 +467,49 @@ namespace rl {
     bool InputManager::mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
     {
         bool retval = false;
-        if( WindowManager::getSingleton().getWindowInputMask() & AbstractWindow::WIT_MOUSE_INPUT )
+        if (WindowManager::getSingleton().getWindowInputMask() & AbstractWindow::WIT_MOUSE_INPUT)
         {
-            if( CEGUI::System::getSingleton().injectMouseButtonDown(
-                static_cast<CEGUI::MouseButton>(id)) )
+            if (CEGUI::System::getSingleton().injectMouseButtonDown(static_cast<CEGUI::MouseButton>(id)))
                 retval = true;
         }
 
-        if( !mControlStates.empty() )
-            if( mControlStates.top()->mousePressed(evt, id, retval) )
+        if (!mControlStates.empty())
+            if (mControlStates.top()->mousePressed(evt, id, retval))
                 retval = true;
         return true;
-        //return retval;
+        // return retval;
     }
 
     bool InputManager::mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id)
     {
         bool retval = false;
-        if( WindowManager::getSingleton().getWindowInputMask() & AbstractWindow::WIT_MOUSE_INPUT )
+        if (WindowManager::getSingleton().getWindowInputMask() & AbstractWindow::WIT_MOUSE_INPUT)
         {
-            if( CEGUI::System::getSingleton().injectMouseButtonUp(
-                static_cast<CEGUI::MouseButton>(id)) )
+            if (CEGUI::System::getSingleton().injectMouseButtonUp(static_cast<CEGUI::MouseButton>(id)))
                 retval = true;
         }
 
-        if( !mControlStates.empty() )
-            if( mControlStates.top()->mouseReleased(evt, id, retval) )
+        if (!mControlStates.empty())
+            if (mControlStates.top()->mouseReleased(evt, id, retval))
                 retval = true;
         return true;
-        //return retval;
+        // return retval;
     }
 
     bool InputManager::mouseMoved(const OIS::MouseEvent& evt)
     {
         bool retval = false;
-        if( WindowManager::getSingleton().getWindowInputMask() & AbstractWindow::WIT_MOUSE_INPUT )
+        if (WindowManager::getSingleton().getWindowInputMask() & AbstractWindow::WIT_MOUSE_INPUT)
         {
-            if( CEGUI::System::getSingleton().injectMouseMove(
-                evt.state.X.rel, evt.state.Y.rel ) )
+            if (CEGUI::System::getSingleton().injectMouseMove(evt.state.X.rel, evt.state.Y.rel))
                 retval = true;
         }
 
-        if( !mControlStates.empty() )
-            if( mControlStates.top()->mouseMoved(evt, retval) )
+        if (!mControlStates.empty())
+            if (mControlStates.top()->mouseMoved(evt, retval))
                 retval = true;
         return true;
-        //return retval;
+        // return retval;
     }
 
     // job definition for key repeating
@@ -522,33 +520,37 @@ namespace rl {
         static void createKeyRepeatJob(AbstractWindow* window, OIS::KeyCode key)
         {
             // nur neu anlegen, wenns noch nicht existiert!
-            if( mKeyJobMap.find(key) == mKeyJobMap.end() )
+            if (mKeyJobMap.find(key) == mKeyJobMap.end())
             {
-                KeyRepeatJob *job = new KeyRepeatJob(window, key);
+                KeyRepeatJob* job = new KeyRepeatJob(window, key);
                 JobScheduler::getSingleton().addJob(job, JobScheduler::JP_NORMAL, 0.5);
             }
         }
         bool execute(Ogre::Real t)
         {
             bool handled = false;
-            rl::Time time = TimeSourceManager::getSingleton().getTimeSource(TimeSource::REALTIME_CONTINUOUS)->getClock();
-            if ( WindowManager::getSingleton().getActiveWindow() == mWindow && // perhaps window was deleted!!
-                InputManager::getSingleton().isKeyDown(OIS::KeyCode(mKey)) )
+            rl::Time time
+                = TimeSourceManager::getSingleton().getTimeSource(TimeSource::REALTIME_CONTINUOUS)->getClock();
+            if (WindowManager::getSingleton().getActiveWindow() == mWindow && // perhaps window was deleted!!
+                InputManager::getSingleton().isKeyDown(OIS::KeyCode(mKey)))
             {
-                if ( time - mLastTime > 50*mCount )
+                if (time - mLastTime > 50 * mCount)
                 {
-                    if( CEGUI::System::getSingleton().injectKeyDown(mKey) )
+                    if (CEGUI::System::getSingleton().injectKeyDown(mKey))
                         handled = true;
                     else
                     {
                         static const CEGUI::utf8 NO_CHAR = 0;
-                        if( InputManager::getSingleton().getKeyChar(mKey, InputManager::getSingleton().getModifierCode()) != NO_CHAR )
+                        if (InputManager::getSingleton().getKeyChar(
+                                mKey, InputManager::getSingleton().getModifierCode())
+                            != NO_CHAR)
                         {
-                            if( CEGUI::System::getSingleton().injectChar(InputManager::getSingleton().getKeyChar(mKey, InputManager::getSingleton().getModifierCode())) )
+                            if (CEGUI::System::getSingleton().injectChar(InputManager::getSingleton().getKeyChar(
+                                    mKey, InputManager::getSingleton().getModifierCode())))
                                 handled = true;
                         }
                     }
-                    if( CEGUI::System::getSingleton().injectKeyUp(mKey) )
+                    if (CEGUI::System::getSingleton().injectKeyUp(mKey))
                         handled = true;
 
                     mLastTime = time;
@@ -558,10 +560,11 @@ namespace rl {
             }
 
             mKeyJobMap.erase(mKey);
-            if( mCount > 0 )
+            if (mCount > 0)
                 mCount--;
             return true;
         }
+
     private:
         rl::Time mLastTime;
         AbstractWindow* mWindow;
@@ -570,12 +573,11 @@ namespace rl {
         static KeyJobMap mKeyJobMap;
         static int mCount;
 
-
-        KeyRepeatJob(AbstractWindow* window, OIS::KeyCode key) :
-          Job(false, true),
-          mWindow(window),
-          mKey(key),
-          mLastTime(0)
+        KeyRepeatJob(AbstractWindow* window, OIS::KeyCode key)
+            : Job(false, true)
+            , mWindow(window)
+            , mKey(key)
+            , mLastTime(0)
         {
             mKeyJobMap[key] = this;
             mCount++;
@@ -587,60 +589,58 @@ namespace rl {
     bool InputManager::keyPressed(const OIS::KeyEvent& evt)
     {
         bool retval = false;
-        if( WindowManager::getSingleton().getWindowInputMask() & AbstractWindow::WIT_KEYBOARD_INPUT )
+        if (WindowManager::getSingleton().getWindowInputMask() & AbstractWindow::WIT_KEYBOARD_INPUT)
         {
-            AbstractWindow *activeWin = WindowManager::getSingleton().getActiveWindow();
-            if( activeWin != NULL )
+            AbstractWindow* activeWin = WindowManager::getSingleton().getActiveWindow();
+            if (activeWin != NULL)
             {
-                if( activeWin->wantsKeyToRepeat(evt.key) )
+                if (activeWin->wantsKeyToRepeat(evt.key))
                 {
                     KeyRepeatJob::createKeyRepeatJob(activeWin, evt.key);
                 }
             }
 
-            if( CEGUI::System::getSingleton().injectKeyDown( evt.key ) )
+            if (CEGUI::System::getSingleton().injectKeyDown(evt.key))
                 retval = true;
             else
             {
                 static const CEGUI::utf8 NO_CHAR = 0;
-                if( getKeyChar(evt.key, getModifierCode()) != NO_CHAR )
+                if (getKeyChar(evt.key, getModifierCode()) != NO_CHAR)
                 {
-                    if( CEGUI::System::getSingleton().injectChar(getKeyChar(evt.key, getModifierCode())) )
+                    if (CEGUI::System::getSingleton().injectChar(getKeyChar(evt.key, getModifierCode())))
                         retval = true;
                 }
             }
         }
 
-        if( !mControlStates.empty() )
-            if( mControlStates.top()->keyPressed(evt, retval) )
+        if (!mControlStates.empty())
+            if (mControlStates.top()->keyPressed(evt, retval))
                 retval = true;
 
-        if( !retval )
+        if (!retval)
         {
             KeyCommandMap::iterator it = mKeyRubyCommand.find(evt.key);
-            if( it != mKeyRubyCommand.end() )
+            if (it != mKeyRubyCommand.end())
                 CoreSubsystem::getSingleton().getRubyInterpreter()->execute(it->second.c_str());
-                
         }
 
         return true;
-        //return retval;
+        // return retval;
     }
 
     bool InputManager::keyReleased(const OIS::KeyEvent& evt)
     {
         bool retval = false;
-        if( WindowManager::getSingleton().getWindowInputMask() & AbstractWindow::WIT_KEYBOARD_INPUT )
+        if (WindowManager::getSingleton().getWindowInputMask() & AbstractWindow::WIT_KEYBOARD_INPUT)
         {
-            if( CEGUI::System::getSingleton().injectKeyUp( evt.key ) )
+            if (CEGUI::System::getSingleton().injectKeyUp(evt.key))
                 retval = true;
         }
 
-        if( !mControlStates.empty() )
-            if( mControlStates.top()->keyReleased(evt, retval) )
+        if (!mControlStates.empty())
+            if (mControlStates.top()->keyReleased(evt, retval))
                 retval = true;
         return true;
-        //return false;
+        // return false;
     }
-
 }

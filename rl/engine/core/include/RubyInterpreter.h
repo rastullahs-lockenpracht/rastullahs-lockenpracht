@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -21,33 +21,33 @@
 
 typedef unsigned long VALUE;
 
-namespace rl {
-
-typedef VALUE(*staticValueMethod)(...);
-typedef VALUE(*ProtectedMethod)(VALUE);
-
-class _RlCoreExport RubyInterpreter
+namespace rl
 {
-public:
-	RubyInterpreter();
-	virtual ~RubyInterpreter();
 
-	void initializeInterpreter();
-    void finalizeInterpreter();
-	void setOutputFunction(staticValueMethod func);
+    typedef VALUE (*staticValueMethod)(...);
+    typedef VALUE (*ProtectedMethod)(VALUE);
 
-	bool execute(const Ogre::String& command);
-	bool executeFile(Ogre::String rubyfile);
+    class _RlCoreExport RubyInterpreter
+    {
+    public:
+        RubyInterpreter();
+        virtual ~RubyInterpreter();
 
-	void addSearchPath(const Ogre::String& path);
+        void initializeInterpreter();
+        void finalizeInterpreter();
+        void setOutputFunction(staticValueMethod func);
 
-	static CeGuiString val2ceguistr(const VALUE rval);
-private:	
-	void logRubyErrors(const std::string& intro, int errorcode);
-	void loadProtected(ProtectedMethod func, VALUE args,
-	    const std::string& msg, bool exitOnFail = false);
-	static VALUE loadDlls(VALUE);
-};
+        bool execute(const Ogre::String& command);
+        bool executeFile(Ogre::String rubyfile);
 
+        void addSearchPath(const Ogre::String& path);
+
+        static CeGuiString val2ceguistr(const VALUE rval);
+
+    private:
+        void logRubyErrors(const std::string& intro, int errorcode);
+        void loadProtected(ProtectedMethod func, VALUE args, const std::string& msg, bool exitOnFail = false);
+        static VALUE loadDlls(VALUE);
+    };
 }
 #endif

@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -16,19 +16,19 @@
 #ifndef __MainMenuEngineWindow_H__
 #define __MainMenuEngineWindow_H__
 
-#include "UiPrerequisites.h"
 #include "AbstractWindow.h"
+#include "UiPrerequisites.h"
 
-namespace rl {
-	
-	class ContentModule;
+namespace rl
+{
 
-	class _RlUiExport MainMenuEngineWindow : public AbstractWindow
-	{
-	public:
-		MainMenuEngineWindow();
+    class ContentModule;
 
-	};
+    class _RlUiExport MainMenuEngineWindow : public AbstractWindow
+    {
+    public:
+        MainMenuEngineWindow();
+    };
 }
 
 #endif

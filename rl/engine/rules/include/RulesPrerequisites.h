@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -21,16 +21,16 @@
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 // Export control
-#   if defined( RLRULES_EXPORTS )
-#       define _RlRulesExport __declspec( dllexport )
-#   else
-#       define _RlRulesExport __declspec( dllimport )
-#   endif
+#if defined(RLRULES_EXPORTS)
+#define _RlRulesExport __declspec(dllexport)
+#else
+#define _RlRulesExport __declspec(dllimport)
+#endif
 #else // Linux / Mac OSX etc
-#   define _RlRulesExport
-#	if defined ( RL_USE_PCH )
-#		include "stdinc.h"
-#	endif
+#define _RlRulesExport
+#if defined(RL_USE_PCH)
+#include "stdinc.h"
+#endif
 #endif
 
 #include <vector>
@@ -47,7 +47,7 @@ namespace rl
     /**
      * \page rulespage Bemerkungen zu RlRules
      * @section abbde Deutsche DSA Abkuerzungen
-     * @anchor abbdea 
+     * @anchor abbdea
      * AE Astral Energie\n
      * AP Abenteuerpunkte\n
      * AU Ausdauer\n
@@ -67,7 +67,7 @@ namespace rl
      * @anchor abbdek
      * KL Klugheit\n
      * KK Koerperkraft\n
-     * @anchor abbdel 
+     * @anchor abbdel
      * LE Lebensenergie\n
      * @anchor abbdem
      * MR Magieresistenz\n
@@ -77,7 +77,7 @@ namespace rl
      * @anchor abbdes
      * SE Spezielle Erfahrung\n
      * SF Sonderfertigkeit\n
-     * @anchor abbdet 
+     * @anchor abbdet
      * TaW Talentwert\n
      * TP Trefferpunkte\n
      *
@@ -89,9 +89,11 @@ namespace rl
     class _RlRulesExport Action;
     class _RlRulesExport GameObject;
 
-	typedef std::vector<Action*> ActionVector;
-	
-	ActionVector::iterator findAction(ActionVector::iterator& begin, ActionVector::iterator& end, const CeGuiString& actionName);
-	ActionVector::const_iterator findAction(ActionVector::const_iterator& begin, ActionVector::const_iterator& end, const CeGuiString& actionName);
+    typedef std::vector<Action*> ActionVector;
+
+    ActionVector::iterator findAction(
+        ActionVector::iterator& begin, ActionVector::iterator& end, const CeGuiString& actionName);
+    ActionVector::const_iterator findAction(
+        ActionVector::const_iterator& begin, ActionVector::const_iterator& end, const CeGuiString& actionName);
 }
 #endif

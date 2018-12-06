@@ -17,8 +17,8 @@
 
 #include "SceneQuery.h"
 
-#include "PhysicsManager.h"
 #include "CoreSubsystem.h"
+#include "PhysicsManager.h"
 #include "World.h"
 
 using namespace Ogre;
@@ -26,11 +26,11 @@ using namespace Ogre;
 namespace rl
 {
     SceneQuery::SceneQuery(unsigned long mask)
-        : mResult(),
-          mDetailMode(DM_COARSE),
-          mPosition(Ogre::Vector3::ZERO),
-          mOrientation(Ogre::Quaternion::IDENTITY),
-          mQueryMask(mask)
+        : mResult()
+        , mDetailMode(DM_COARSE)
+        , mPosition(Ogre::Vector3::ZERO)
+        , mOrientation(Ogre::Quaternion::IDENTITY)
+        , mQueryMask(mask)
     {
     }
 
@@ -87,10 +87,10 @@ namespace rl
     //////////////////////////////////////////////////////////////////////////
 
     RaySceneQuery::RaySceneQuery(unsigned long mask)
-        : SceneQuery(mask),
-          mRayStart(Ogre::Vector3::ZERO),
-          mRayEnd(Ogre::Vector3::ZERO),
-          mLevelOcclusion(true)
+        : SceneQuery(mask)
+        , mRayStart(Ogre::Vector3::ZERO)
+        , mRayEnd(Ogre::Vector3::ZERO)
+        , mLevelOcclusion(true)
     {
     }
 
@@ -100,10 +100,10 @@ namespace rl
         mResult.clear();
 
         // Setup and execute raycast. Set result to be ordered by distance
-        OgreNewt::BasicRaycast raycast = OgreNewt::BasicRaycast(
-            PhysicsManager::getSingleton()._getNewtonWorld(), mRayStart, mRayEnd, true);
+        OgreNewt::BasicRaycast raycast
+            = OgreNewt::BasicRaycast(PhysicsManager::getSingleton()._getNewtonWorld(), mRayStart, mRayEnd, true);
 
-	    const OgreNewt::MaterialID* levelId = PhysicsManager::getSingleton().getMaterialID("level");
+        const OgreNewt::MaterialID* levelId = PhysicsManager::getSingleton().getMaterialID("level");
 
         // Collect results
         for (int i = 0, num = raycast.getHitCount(); i < num; ++i)
@@ -113,15 +113,17 @@ namespace rl
             if (body != NULL)
             {
                 // Are we done?
-                if (mLevelOcclusion && (body->getMaterialGroupID() == levelId)) break;
+                if (mLevelOcclusion && (body->getMaterialGroupID() == levelId))
+                    break;
 
                 // Add actor to this body to the result
                 Actor* actor = NULL;
-                if( body->getUserData().getType() == typeid(Actor*) )
+                if (body->getUserData().getType() == typeid(Actor*))
                 {
                     actor = Ogre::any_cast<Actor*>(body->getUserData());
                 }
-                if (actor != NULL) mResult.push_back(actor);
+                if (actor != NULL)
+                    mResult.push_back(actor);
             }
         }
         return mResult;
@@ -152,7 +154,9 @@ namespace rl
     }
 
     SphereSceneQuery::SphereSceneQuery(SceneManager* smgr, unsigned long mask)
-        : SceneQuery(mask), mSceneQuery(NULL), mRadius(0.0f)
+        : SceneQuery(mask)
+        , mSceneQuery(NULL)
+        , mRadius(0.0f)
     {
         mSceneQuery = smgr->createSphereQuery(Sphere());
     }
@@ -170,13 +174,13 @@ namespace rl
         Vector3 forward = mOrientation * Vector3::NEGATIVE_UNIT_Z;
 
         const SceneQueryResult& result = mSceneQuery->execute();
-        for (SceneQueryResultMovableList::const_iterator it = result.movables.begin(),
-            end = result.movables.end(); it != end; ++it)
+        for (SceneQueryResultMovableList::const_iterator it = result.movables.begin(), end = result.movables.end();
+             it != end; ++it)
         {
             Actor* actor = any_cast<Actor*>((*it)->getUserAny());
             if (actor)
             {
-            	mResult.push_back(actor);
+                mResult.push_back(actor);
             }
         }
 
@@ -193,23 +197,21 @@ namespace rl
         return mRadius;
     }
 
-
     //////////////////////////////////////////////////////////////////////////
 
     /// function object for sorting Actors in the query result set
     struct MinimalAngleSorter : public std::binary_function<Actor*, Actor*, bool>
     {
         MinimalAngleSorter(const Vector3& pos, const Vector3& direction)
-            : mPosition(pos), mDirection(direction)
+            : mPosition(pos)
+            , mDirection(direction)
         {
         }
 
         bool operator()(Actor* lhs, Actor* rhs) const
         {
-            Real dotLhs = mDirection.dotProduct(
-                (lhs->getWorldPosition() - mPosition).normalisedCopy());
-            Real dotRhs = mDirection.dotProduct(
-                (rhs->getWorldPosition() - mPosition).normalisedCopy());
+            Real dotLhs = mDirection.dotProduct((lhs->getWorldPosition() - mPosition).normalisedCopy());
+            Real dotRhs = mDirection.dotProduct((rhs->getWorldPosition() - mPosition).normalisedCopy());
 
             return dotLhs > dotRhs;
         }
@@ -220,7 +222,10 @@ namespace rl
     };
 
     HalfSphereSceneQuery::HalfSphereSceneQuery(SceneManager* smgr, unsigned long mask)
-        : SceneQuery(mask), mSceneQuery(NULL), mRadius(0.0f), mSceneManager(NULL)
+        : SceneQuery(mask)
+        , mSceneQuery(NULL)
+        , mRadius(0.0f)
+        , mSceneManager(NULL)
     {
         mSceneQuery = smgr->createSphereQuery(Sphere());
         mSceneManager = smgr;
@@ -244,8 +249,8 @@ namespace rl
         Vector3 forward = mOrientation * Vector3::NEGATIVE_UNIT_Z;
 
         const SceneQueryResult& result = mSceneQuery->execute();
-        for (SceneQueryResultMovableList::const_iterator it = result.movables.begin(),
-            end = result.movables.end(); it != end; ++it)
+        for (SceneQueryResultMovableList::const_iterator it = result.movables.begin(), end = result.movables.end();
+             it != end; ++it)
         {
             Vector3 movablePos = (*it)->getParentNode()->_getDerivedPosition();
             if (forward.dotProduct(movablePos - mPosition) > 0.0f)
@@ -253,7 +258,7 @@ namespace rl
                 Actor* actor = any_cast<Actor*>((*it)->getUserAny());
                 if (actor != NULL)
                 {
-                	mResult.push_back(actor);
+                    mResult.push_back(actor);
                 }
             }
         }
@@ -284,30 +289,28 @@ namespace rl
         // Clear last results
         mResult.clear();
 
-		Ray ray(getRayStart(), (getRayEnd() - getRayStart()).normalisedCopy());
+        Ray ray(getRayStart(), (getRayEnd() - getRayStart()).normalisedCopy());
 
-		Ogre::RaySceneQuery* query = CoreSubsystem::getSingleton().getWorld()->getSceneManager()
-			->createRayQuery(ray, getQueryMask());
+        Ogre::RaySceneQuery* query
+            = CoreSubsystem::getSingleton().getWorld()->getSceneManager()->createRayQuery(ray, getQueryMask());
 
-		query->execute(this);
+        query->execute(this);
 
         return mResult;
     }
 
-	bool OgreRaySceneQuery::queryResult(
-		Ogre::MovableObject* obj, Ogre::Real distance)
-	{
+    bool OgreRaySceneQuery::queryResult(Ogre::MovableObject* obj, Ogre::Real distance)
+    {
         Actor* actor = any_cast<Actor*>(obj->getUserAny());
         if (actor)
-		{
-			mResult.push_back(actor);
-		}
-		return true;
-	}
+        {
+            mResult.push_back(actor);
+        }
+        return true;
+    }
 
-	bool OgreRaySceneQuery::queryResult(
-		Ogre::SceneQuery::WorldFragment* fragment, Ogre::Real distance)
-	{
-		return true;
-	}
+    bool OgreRaySceneQuery::queryResult(Ogre::SceneQuery::WorldFragment* fragment, Ogre::Real distance)
+    {
+        return true;
+    }
 }

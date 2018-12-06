@@ -30,25 +30,25 @@ namespace rl
     class _RlRulesExport PartyManager : public Ogre::Singleton<PartyManager>
     {
     public:
-		PartyManager();
-        
+        PartyManager();
+
         Creature* getActiveCharacter() const;
         void setActiveCharacter(Creature* character);
         void addCharacter(Creature* character);
         void removeCharacter(Creature* character);
         Party getCharacters() const;
         bool isInParty(Creature* creature) const;
-        
-    private:
-		Party mParty;
-        Creature* mActiveCharacter;
-	    MessagePump::ScopedConnection mLifeStateChangeConnection;
 
-        bool onGameObjectLifeStateChanged(GameObject* gameobject, Effect::LifeState oldstate,
-            Effect::LifeState newstate);
-            
+    private:
+        Party mParty;
+        Creature* mActiveCharacter;
+        MessagePump::ScopedConnection mLifeStateChangeConnection;
+
+        bool onGameObjectLifeStateChanged(
+            GameObject* gameobject, Effect::LifeState oldstate, Effect::LifeState newstate);
+
         void checkParty();
-   };
+    };
 }
 
 #endif // __PartyManager_H__

@@ -28,7 +28,7 @@
 // ----------------------------------------------------------------------------
 //
 //
-// Proximity 
+// Proximity
 //
 // Data structures for accelerating proximity/locality/neighborhood queries
 //
@@ -38,64 +38,58 @@
 //
 // ----------------------------------------------------------------------------
 
-
 #ifndef OPENSTEER_PROXIMITY_H
 #define OPENSTEER_PROXIMITY_H
 
-
+#include "OpenSteer/Vec3.h"
+#include "OpenSteer/lq.h" // XXX temp?
 #include <algorithm>
 #include <vector>
-#include "OpenSteer/Vec3.h"
-#include "OpenSteer/lq.h"   // XXX temp?
 
-
-namespace OpenSteer {
-
+namespace OpenSteer
+{
 
     // ----------------------------------------------------------------------------
     // "tokens" are the objects manipulated by the spatial database
 
-
-    template <class ContentType>
-    class AbstractTokenForProximityDatabase
+    template <class ContentType> class AbstractTokenForProximityDatabase
     {
     public:
-
-        virtual ~AbstractTokenForProximityDatabase () {}
+        virtual ~AbstractTokenForProximityDatabase()
+        {
+        }
 
         // the client object calls this each time its position changes
-        virtual void updateForNewPosition (const Vector3& position) = 0;
+        virtual void updateForNewPosition(const Vector3& position) = 0;
 
         // find all neighbors within the given sphere (as center and radius)
-        virtual void findNeighbors (const Vector3& center,
-                                    const float radius,
-                                    std::vector<ContentType>& results) = 0;
+        virtual void findNeighbors(const Vector3& center, const float radius, std::vector<ContentType>& results) = 0;
 
 #ifndef NO_LQ_BIN_STATS
         // only meaningful for LQProximityDatabase, provide dummy default
-        virtual void getBinPopulationStats (int& min, int& max, float& average)
-        {min=max=0; average=0.0;}
+        virtual void getBinPopulationStats(int& min, int& max, float& average)
+        {
+            min = max = 0;
+            average = 0.0;
+        }
 #endif // NO_LQ_BIN_STATS
     };
-
 
     // ----------------------------------------------------------------------------
     // abstract type for all kinds of proximity databases
 
-
-    template <class ContentType>
-    class AbstractProximityDatabase
+    template <class ContentType> class AbstractProximityDatabase
     {
     public:
-
         // type for the "tokens" manipulated by this spatial database
         typedef AbstractTokenForProximityDatabase<ContentType> tokenType;
 
-        
-        virtual ~AbstractProximityDatabase() { /* Nothing to do? */ }
-        
+        virtual ~AbstractProximityDatabase()
+        { /* Nothing to do? */
+        }
+
         // allocate a token to represent a given client object in this database
-        virtual tokenType* allocateToken (ContentType parentObject) = 0;
+        virtual tokenType* allocateToken(ContentType parentObject) = 0;
 
         // insert
         // XXX maybe this should return an iterator?
@@ -104,29 +98,24 @@ namespace OpenSteer {
 
         // XXX name?
         // returns the number of tokens in the proximity database
-        virtual int getPopulation (void) = 0;
+        virtual int getPopulation(void) = 0;
     };
-
 
     // ----------------------------------------------------------------------------
     // This is the "brute force" O(n^2) approach implemented in terms of the
     // AbstractProximityDatabase protocol so it can be compared directly to other
     // approaches.  (e.g. the Boids plugin allows switching at runtime.)
 
-
-    template <class ContentType>
-    class BruteForceProximityDatabase
-        : public AbstractProximityDatabase<ContentType>
+    template <class ContentType> class BruteForceProximityDatabase : public AbstractProximityDatabase<ContentType>
     {
     public:
-
         // constructor
-        BruteForceProximityDatabase (void)
+        BruteForceProximityDatabase(void)
         {
         }
 
         // destructor
-        virtual ~BruteForceProximityDatabase ()
+        virtual ~BruteForceProximityDatabase()
         {
         }
 
@@ -134,48 +123,42 @@ namespace OpenSteer {
         class tokenType : public AbstractTokenForProximityDatabase<ContentType>
         {
         public:
-
             // constructor
-            tokenType (ContentType parentObject, BruteForceProximityDatabase& pd)
+            tokenType(ContentType parentObject, BruteForceProximityDatabase& pd)
             {
                 // store pointer to our associated database and the object this
                 // token represents, and store this token on the database's vector
                 bfpd = &pd;
                 object = parentObject;
-                bfpd->group.push_back (this);
+                bfpd->group.push_back(this);
             }
 
             // destructor
-            virtual ~tokenType ()
+            virtual ~tokenType()
             {
                 // remove this token from the database's vector
-                bfpd->group.erase (std::find (bfpd->group.begin(),
-                                              bfpd->group.end(),
-                                              this));
+                bfpd->group.erase(std::find(bfpd->group.begin(), bfpd->group.end(), this));
             }
 
             // the client object calls this each time its position changes
-            void updateForNewPosition (const Vector3& newPosition)
+            void updateForNewPosition(const Vector3& newPosition)
             {
                 position = newPosition;
             }
 
             // find all neighbors within the given sphere (as center and radius)
-            void findNeighbors (const Vector3& center,
-                                const float radius,
-                                std::vector<ContentType>& results)
+            void findNeighbors(const Vector3& center, const float radius, std::vector<ContentType>& results)
             {
                 // loop over all tokens
                 const float r2 = radius * radius;
-                for (tokenIterator i = bfpd->group.begin();
-                     i != bfpd->group.end();
-                     i++)
+                for (tokenIterator i = bfpd->group.begin(); i != bfpd->group.end(); i++)
                 {
                     const Vector3 offset = center - (**i).position;
                     const float d2 = offset.squaredLength();
 
                     // push onto result vector when within given radius
-                    if (d2 < r2) results.push_back ((**i).object);
+                    if (d2 < r2)
+                        results.push_back((**i).object);
                 }
             }
 
@@ -186,54 +169,45 @@ namespace OpenSteer {
         };
 
         typedef std::vector<tokenType*> tokenVector;
-        typedef typename tokenVector::const_iterator tokenIterator;    
+        typedef typename tokenVector::const_iterator tokenIterator;
 
         // allocate a token to represent a given client object in this database
-        tokenType* allocateToken (ContentType parentObject)
+        tokenType* allocateToken(ContentType parentObject)
         {
-            return new tokenType (parentObject, *this);
+            return new tokenType(parentObject, *this);
         }
 
         // return the number of tokens currently in the database
-        int getPopulation (void)
+        int getPopulation(void)
         {
-            return (int) group.size();
+            return (int)group.size();
         }
-        
+
     private:
         // STL vector containing all tokens in database
         tokenVector group;
     };
 
-
     // ----------------------------------------------------------------------------
     // A AbstractProximityDatabase-style wrapper for the LQ bin lattice system
 
-
-    template <class ContentType>
-    class LQProximityDatabase : public AbstractProximityDatabase<ContentType>
+    template <class ContentType> class LQProximityDatabase : public AbstractProximityDatabase<ContentType>
     {
     public:
-
         // constructor
-        LQProximityDatabase (const Vector3& center,
-                             const Vector3& dimensions,
-                             const Vector3& divisions)
+        LQProximityDatabase(const Vector3& center, const Vector3& dimensions, const Vector3& divisions)
         {
-            const Vector3 halfsize (dimensions * 0.5f);
-            const Vector3 origin (center - halfsize);
+            const Vector3 halfsize(dimensions * 0.5f);
+            const Vector3 origin(center - halfsize);
 
-            lq = lqCreateDatabase (origin.x, origin.y, origin.z, 
-                                   dimensions.x, dimensions.y, dimensions.z,  
-                                   (int) round (divisions.x),
-                                   (int) round (divisions.y),
-                                   (int) round (divisions.z));
+            lq = lqCreateDatabase(origin.x, origin.y, origin.z, dimensions.x, dimensions.y, dimensions.z,
+                (int)round(divisions.x), (int)round(divisions.y), (int)round(divisions.z));
         }
 
         // destructor
-        virtual ~LQProximityDatabase ()
+        virtual ~LQProximityDatabase()
         {
-            lqDeleteDatabase (lq);
+            lqDeleteDatabase(lq);
             lq = NULL;
         }
 
@@ -241,57 +215,50 @@ namespace OpenSteer {
         class tokenType : public AbstractTokenForProximityDatabase<ContentType>
         {
         public:
-
             // constructor
-            tokenType (ContentType parentObject, LQProximityDatabase& lqsd)
+            tokenType(ContentType parentObject, LQProximityDatabase& lqsd)
             {
-                lqInitClientProxy (&proxy, parentObject);
+                lqInitClientProxy(&proxy, parentObject);
                 lq = lqsd.lq;
             }
 
             // destructor
-            virtual ~tokenType (void)
+            virtual ~tokenType(void)
             {
-                lqRemoveFromBin (&proxy);
+                lqRemoveFromBin(&proxy);
             }
 
             // the client object calls this each time its position changes
-            void updateForNewPosition (const Vector3& p)
+            void updateForNewPosition(const Vector3& p)
             {
-                lqUpdateForNewLocation (lq, &proxy, p.x, p.y, p.z);
+                lqUpdateForNewLocation(lq, &proxy, p.x, p.y, p.z);
             }
 
             // find all neighbors within the given sphere (as center and radius)
-            void findNeighbors (const Vector3& center,
-                                const float radius,
-                                std::vector<ContentType>& results)
+            void findNeighbors(const Vector3& center, const float radius, std::vector<ContentType>& results)
             {
-                lqMapOverAllObjectsInLocality (lq, 
-                                               center.x, center.y, center.z,
-                                               radius,
-                                               perNeighborCallBackFunction,
-                                               (void*)&results);
+                lqMapOverAllObjectsInLocality(
+                    lq, center.x, center.y, center.z, radius, perNeighborCallBackFunction, (void*)&results);
             }
 
             // called by LQ for each clientObject in the specified neighborhood:
             // push that clientObject onto the ContentType vector in void*
             // clientQueryState
             // (parameter names commented out to prevent compiler warning from "-W")
-            static void perNeighborCallBackFunction  (void* clientObject,
-                                                      float /*distanceSquared*/,
-                                                      void* clientQueryState)
+            static void perNeighborCallBackFunction(
+                void* clientObject, float /*distanceSquared*/, void* clientQueryState)
             {
                 typedef std::vector<ContentType> ctv;
-                ctv& results = *((ctv*) clientQueryState);
-                results.push_back ((ContentType) clientObject);
+                ctv& results = *((ctv*)clientQueryState);
+                results.push_back((ContentType)clientObject);
             }
 
 #ifndef NO_LQ_BIN_STATS
             // Get statistics about bin populations: min, max and
             // average of non-empty bins.
-            void getBinPopulationStats (int& min, int& max, float& average)
+            void getBinPopulationStats(int& min, int& max, float& average)
             {
-                lqGetBinPopulationStats (lq, &min, &max, &average);
+                lqGetBinPopulationStats(lq, &min, &max, &average);
             }
 #endif // NO_LQ_BIN_STATS
 
@@ -300,38 +267,32 @@ namespace OpenSteer {
             lqDB* lq;
         };
 
-
         // allocate a token to represent a given client object in this database
-        tokenType* allocateToken (ContentType parentObject)
+        tokenType* allocateToken(ContentType parentObject)
         {
-            return new tokenType (parentObject, *this);
+            return new tokenType(parentObject, *this);
         }
 
         // count the number of tokens currently in the database
-        int getPopulation (void)
+        int getPopulation(void)
         {
             int count = 0;
-            lqMapOverAllObjects (lq, counterCallBackFunction, &count);
+            lqMapOverAllObjects(lq, counterCallBackFunction, &count);
             return count;
         }
-        
+
         // (parameter names commented out to prevent compiler warning from "-W")
-        static void counterCallBackFunction  (void* /*clientObject*/,
-                                              float /*distanceSquared*/,
-                                              void* clientQueryState)
+        static void counterCallBackFunction(void* /*clientObject*/, float /*distanceSquared*/, void* clientQueryState)
         {
             int& counter = *(int*)clientQueryState;
             counter++;
         }
-
 
     private:
         lqDB* lq;
     };
 
 } // namespace OpenSteer
-
-
 
 // ----------------------------------------------------------------------------
 #endif // OPENSTEER_PROXIMITY_H

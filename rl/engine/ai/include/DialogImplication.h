@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -28,28 +28,26 @@ namespace rl
     public:
         DialogImplication();
         virtual ~DialogImplication();
-        
+
         virtual void apply(Dialog* dialog) = 0;
     };
 
     class DialogVariableAssignment : public DialogImplication
     {
     public:
-        DialogVariableAssignment(const Ogre::String& variableName, 
-                                 const CeGuiString& value);
+        DialogVariableAssignment(const Ogre::String& variableName, const CeGuiString& value);
 
         virtual void apply(Dialog* dialog);
 
     protected:
-        Ogre::String mVariableName; 
+        Ogre::String mVariableName;
         CeGuiString mValue;
     };
 
     class DialogVariableIncrease : public DialogVariableAssignment
     {
     public:
-        DialogVariableIncrease(const Ogre::String& variableName, 
-                               const CeGuiString& value);
+        DialogVariableIncrease(const Ogre::String& variableName, const CeGuiString& value);
 
         virtual void apply(Dialog* dialog);
     };
@@ -57,8 +55,7 @@ namespace rl
     class DialogVariableDecrease : public DialogVariableAssignment
     {
     public:
-        DialogVariableDecrease(const Ogre::String& variableName, 
-                               const CeGuiString& value);
+        DialogVariableDecrease(const Ogre::String& variableName, const CeGuiString& value);
 
         virtual void apply(Dialog* dialog);
     };
@@ -68,17 +65,18 @@ namespace rl
     public:
         DialogElementActivation(const CeGuiString& id, bool value, bool isOption);
         virtual void apply(Dialog* dialog);
+
     private:
         CeGuiString mElementId;
         bool mValue;
         bool mIsOption;
     };
 
-	class DialogExit : public DialogImplication
-	{
-	public:
-		virtual void apply(Dialog* dialog);
-	};
+    class DialogExit : public DialogImplication
+    {
+    public:
+        virtual void apply(Dialog* dialog);
+    };
 
     class QuestPropertyAssignment : public DialogImplication
     {
@@ -91,7 +89,7 @@ namespace rl
         Ogre::String mProperty;
         CeGuiString mNewValue;
     };
-    
+
     class CombatStart : public DialogImplication
     {
     public:

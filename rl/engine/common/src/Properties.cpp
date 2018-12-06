@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * (C) 2003-2008. Team Pantheon. www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -23,12 +23,12 @@
 
 using namespace std;
 
-namespace rl {
+namespace rl
+{
 
     void PropertyHolder::setProperties(const PropertyRecordPtr props)
     {
-        for (PropertyRecord::PropertyRecordMap::const_iterator it = props->begin();
-            it != props->end(); it++)
+        for (PropertyRecord::PropertyRecordMap::const_iterator it = props->begin(); it != props->end(); it++)
         {
             setProperty((*it).first, (*it).second);
         }
@@ -36,8 +36,7 @@ namespace rl {
 
     void PropertyHolder::setProperties(const PropertyMap& propmap)
     {
-        for (PropertyMap::const_iterator it = propmap.begin();
-            it != propmap.end(); it++)
+        for (PropertyMap::const_iterator it = propmap.begin(); it != propmap.end(); it++)
         {
             setProperty((*it).first.c_str(), (*it).second);
         }
@@ -90,7 +89,7 @@ namespace rl {
         PropertyRecordMap::const_iterator it = mProperties.find(key);
         if (it == mProperties.end())
         {
-            Throw(rl::RuntimeException, "Property "+key+" not found.");
+            Throw(rl::RuntimeException, "Property " + key + " not found.");
         }
 
         return (*it).second;
@@ -109,8 +108,7 @@ namespace rl {
     PropertyKeys PropertyRecord::getAllPropertyKeys() const
     {
         PropertyKeys keys;
-        for (PropertyRecordMap::const_iterator it = 
-            mProperties.begin(); it != mProperties.end(); ++it)
+        for (PropertyRecordMap::const_iterator it = mProperties.begin(); it != mProperties.end(); ++it)
         {
             keys.insert(it->first);
         }
@@ -135,16 +133,16 @@ namespace rl {
     PropertyRecordPtr PropertyRecord::getDifference(const PropertyRecordPtr differenceTo) const
     {
         PropertyRecordPtr record(new PropertyRecord());
-        for(PropertyRecordMap::const_iterator it = begin(); it != end(); ++it)
+        for (PropertyRecordMap::const_iterator it = begin(); it != end(); ++it)
         {
-            if(!differenceTo->hasProperty(it->first))
+            if (!differenceTo->hasProperty(it->first))
             {
-                record->setProperty(it->first,it->second);
+                record->setProperty(it->first, it->second);
             }
             else
             {
                 Property prop = differenceTo->getProperty(it->first);
-                if(prop != it->second)
+                if (prop != it->second)
                     record->setProperty(it->first, it->second);
             }
         }

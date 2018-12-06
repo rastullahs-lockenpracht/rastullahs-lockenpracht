@@ -18,95 +18,94 @@
 #include "AStarNodePool.h"
 #include "AStarWayPointNode.h"
 
-namespace rl {
-
-AStarNodePool::AStarNodePool()
+namespace rl
 {
-}
 
-AStarNodePool::~AStarNodePool()
-{
-	removeAll();
-}
+    AStarNodePool::AStarNodePool()
+    {
+    }
 
-void AStarNodePool::removeAll()
-{
-	removeListContents(mUsed);
-	removeListContents(mFree);
-}
+    AStarNodePool::~AStarNodePool()
+    {
+        removeAll();
+    }
 
-void AStarNodePool::releaseAll()
-{
-	AStarNodeList::iterator it;
-	for (it = mUsed.begin(); it != mUsed.end(); it++)
-	{
-		mFree.push_back( (*it) );
-	}
-	mUsed.clear();
-}
+    void AStarNodePool::removeAll()
+    {
+        removeListContents(mUsed);
+        removeListContents(mFree);
+    }
 
-void AStarNodePool::release(AStarWayPointNode* Node)
-{
-	AStarNodeList::iterator it;
-	for (it = mUsed.begin(); it != mUsed.end(); it++)
-	{
-		if ( (*it) == Node )
-		{
-			mUsed.erase(it);
-			mFree.push_back(Node);
-		}
-	}
-}
+    void AStarNodePool::releaseAll()
+    {
+        AStarNodeList::iterator it;
+        for (it = mUsed.begin(); it != mUsed.end(); it++)
+        {
+            mFree.push_back((*it));
+        }
+        mUsed.clear();
+    }
 
-void AStarNodePool::remove( AStarWayPointNode* Node )
-{
-	AStarNodeList::iterator it;
-	for (it = mUsed.begin(); it != mUsed.end(); it++)
-	{
-		if ( (*it) == Node )
-		{
-			mUsed.erase(it);
-			delete Node;
-		}
-	}
-}
+    void AStarNodePool::release(AStarWayPointNode* Node)
+    {
+        AStarNodeList::iterator it;
+        for (it = mUsed.begin(); it != mUsed.end(); it++)
+        {
+            if ((*it) == Node)
+            {
+                mUsed.erase(it);
+                mFree.push_back(Node);
+            }
+        }
+    }
 
-AStarWayPointNode* AStarNodePool::createAStarWayPointNode(const WayPointNode* WP)
-{
-	AStarWayPointNode* Node;
+    void AStarNodePool::remove(AStarWayPointNode* Node)
+    {
+        AStarNodeList::iterator it;
+        for (it = mUsed.begin(); it != mUsed.end(); it++)
+        {
+            if ((*it) == Node)
+            {
+                mUsed.erase(it);
+                delete Node;
+            }
+        }
+    }
 
-	if ( mFree.empty())
-		Node = new AStarWayPointNode(WP);
-	else
-	{
-		Node = mFree.back();
-		mFree.pop_back();
-	}
+    AStarWayPointNode* AStarNodePool::createAStarWayPointNode(const WayPointNode* WP)
+    {
+        AStarWayPointNode* Node;
 
-	mUsed.push_back(Node);
+        if (mFree.empty())
+            Node = new AStarWayPointNode(WP);
+        else
+        {
+            Node = mFree.back();
+            mFree.pop_back();
+        }
 
-	return Node;
-}
+        mUsed.push_back(Node);
 
-void AStarNodePool::removeListContents(AStarNodeList& List)
-{
-	AStarNodeList::iterator it;
-	for (it = List.begin(); it != List.end(); it++)
-	{
-		delete (*it);
-	}
-	List.clear();
-}
+        return Node;
+    }
 
-AStarWayPointNode* AStarNodePool::getAt(unsigned int Index)
-{
-	return mUsed[Index];
-}
+    void AStarNodePool::removeListContents(AStarNodeList& List)
+    {
+        AStarNodeList::iterator it;
+        for (it = List.begin(); it != List.end(); it++)
+        {
+            delete (*it);
+        }
+        List.clear();
+    }
 
+    AStarWayPointNode* AStarNodePool::getAt(unsigned int Index)
+    {
+        return mUsed[Index];
+    }
 
-unsigned int AStarNodePool::getSize()
-{
-	return mUsed.size();
-}
-
+    unsigned int AStarNodePool::getSize()
+    {
+        return mUsed.size();
+    }
 };

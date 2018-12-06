@@ -21,58 +21,52 @@
  * Implementation of the Save/Load dialog
  */
 
-#include <boost/bind.hpp>
 #include <CEGUIWindowManager.h>
+#include <boost/bind.hpp>
 #include <elements/CEGUIListboxTextItem.h>
 
 #include "MainMenuLoadWindow.h"
 
-#include "Exception.h"
-#include "GameObjectManager.h"
-#include "GameObject.h"
 #include "Actor.h"
-#include "MessageWindow.h"
-#include "WindowFactory.h"
 #include "ConfigurationManager.h"
-#include "SaveGameManager.h"
-#include "CoreSubsystem.h"
 #include "ContentModule.h"
+#include "CoreSubsystem.h"
+#include "Exception.h"
+#include "GameObject.h"
+#include "GameObjectManager.h"
+#include "MessageWindow.h"
+#include "SaveGameManager.h"
+#include "WindowFactory.h"
 
 using namespace CEGUI;
 
-namespace rl {
+namespace rl
+{
 
     //------------------------------------------------------- Constructor
 
-    MainMenuLoadWindow::MainMenuLoadWindow(MainMenuWindow* win) :
-        AbstractWindow("mainmenuloadwindow.xml", WIT_MOUSE_INPUT | WIT_KEYBOARD_INPUT)
+    MainMenuLoadWindow::MainMenuLoadWindow(MainMenuWindow* win)
+        : AbstractWindow("mainmenuloadwindow.xml", WIT_MOUSE_INPUT | WIT_KEYBOARD_INPUT)
     {
         // Get a access to the savegame table
         mSaveGameTable = getMultiColumnList("MainMenuLoadWindow/FileSheet/SaveGameTable");
         RlAssert(mSaveGameTable != NULL, "MainMenuLoadWindow/FileSheet/SaveGameTable is null");
 
-        mSaveGameTable->addColumn( (utf8*)"Filename", 0, cegui_reldim(0.35));
-        mSaveGameTable->addColumn( (utf8*)"Module", 1, cegui_reldim(0.3));
-        mSaveGameTable->addColumn( (utf8*)"Date", 2, cegui_reldim(0.35));
+        mSaveGameTable->addColumn((utf8*)"Filename", 0, cegui_reldim(0.35));
+        mSaveGameTable->addColumn((utf8*)"Module", 1, cegui_reldim(0.3));
+        mSaveGameTable->addColumn((utf8*)"Date", 2, cegui_reldim(0.35));
 
         mSaveGameTable->setSelectionMode(MultiColumnList::RowSingle);
-        mSaveGameTable->subscribeEvent(MultiColumnList::EventSelectionChanged, boost::bind(&MainMenuLoadWindow::handleSelectSaveGame, this));
+        mSaveGameTable->subscribeEvent(
+            MultiColumnList::EventSelectionChanged, boost::bind(&MainMenuLoadWindow::handleSelectSaveGame, this));
 
         centerWindow();
 
-        getPushButton("MainMenuLoadWindow/ButtonSheet/LoadButton")->subscribeEvent(
-        CEGUI::Window::EventMouseClick,
-        boost::bind(
-            &MainMenuLoadWindow::handleLoadEvent,
-            this
-        ));
+        getPushButton("MainMenuLoadWindow/ButtonSheet/LoadButton")
+            ->subscribeEvent(CEGUI::Window::EventMouseClick, boost::bind(&MainMenuLoadWindow::handleLoadEvent, this));
 
-        getPushButton("MainMenuLoadWindow/ButtonSheet/DeleteButton")->subscribeEvent(
-        CEGUI::Window::EventMouseClick,
-        boost::bind(
-            &MainMenuLoadWindow::handleDeleteEvent,
-            this
-        ));
+        getPushButton("MainMenuLoadWindow/ButtonSheet/DeleteButton")
+            ->subscribeEvent(CEGUI::Window::EventMouseClick, boost::bind(&MainMenuLoadWindow::handleDeleteEvent, this));
 
         bindDestroyWindowToXButton();
         bindDestroyWindowToClick(getWindow("MainMenuLoadWindow/ButtonSheet/CancelButton"));
@@ -81,7 +75,7 @@ namespace rl {
         mSelectionImageset = "RastullahLook-Images";
         mSelectionBrush = "ListboxSelectionBrush";
 
-		mMainMenuWindow = win;
+        mMainMenuWindow = win;
     }
 
     //------------------------------------------------------- Destructor
@@ -94,8 +88,8 @@ namespace rl {
 
     void MainMenuLoadWindow::initialize()
     {
-        //mSaveGameTable->autoSizeColumnHeader(0);
-        //mSaveGameTable->autoSizeColumnHeader(1);
+        // mSaveGameTable->autoSizeColumnHeader(0);
+        // mSaveGameTable->autoSizeColumnHeader(1);
         listSaveGames();
     }
 
@@ -104,17 +98,18 @@ namespace rl {
     bool MainMenuLoadWindow::handleLoadEvent()
     {
         LOG_MESSAGE(Logger::UI, "Load Button pressed");
-  //      if(mSaveGameTable->getFirstSelectedItem())
-		//{
-  //          setVisible(false);
-		//    mMainMenuWindow->setVisible(false);
-		//
-  //          CeGuiString moduleId = ((SaveGameFile*)mSaveGameTable->getFirstSelectedItem()->getUserData())->getProperty(SaveGameFile::PROPERTY_MODULEID).toString();
-		//	ContentModule* module = NULL;
-		//	module = CoreSubsystem::getSingleton().getModule(moduleId.c_str());
-		//	assert(module != NULL /*MainMenuLoadWindow::handleLoadEvent()*/);
-		//	CoreSubsystem::getSingleton().startAdventureModule(module);
-		//}
+        //      if(mSaveGameTable->getFirstSelectedItem())
+        //{
+        //          setVisible(false);
+        //    mMainMenuWindow->setVisible(false);
+        //
+        //          CeGuiString moduleId =
+        //          ((SaveGameFile*)mSaveGameTable->getFirstSelectedItem()->getUserData())->getProperty(SaveGameFile::PROPERTY_MODULEID).toString();
+        //	ContentModule* module = NULL;
+        //	module = CoreSubsystem::getSingleton().getModule(moduleId.c_str());
+        //	assert(module != NULL /*MainMenuLoadWindow::handleLoadEvent()*/);
+        //	CoreSubsystem::getSingleton().startAdventureModule(module);
+        //}
 
         return true;
     }
@@ -125,8 +120,8 @@ namespace rl {
     {
         LOG_MESSAGE(Logger::UI, "Delete Button pressed");
 
-        if(mSaveGameTable->getFirstSelectedItem())
-		{
+        if (mSaveGameTable->getFirstSelectedItem())
+        {
             mSaveGameTable->getRowWithID(mSaveGameTable->getFirstSelectedItem()->getID());
         }
 
@@ -143,7 +138,7 @@ namespace rl {
 
     bool MainMenuLoadWindow::handleSelectSaveGame()
     {
-        mSaveGameTable->getFirstSelectedItem()->setSelectionColours(CEGUI::colour(0.0f,0.0f,1.0f));
+        mSaveGameTable->getFirstSelectedItem()->setSelectionColours(CEGUI::colour(0.0f, 0.0f, 1.0f));
         /*if(mSaveGameTable->getFirstSelectedItem())
             mFilename->setText(mSaveGameTable->getFirstSelectedItem()->getText());*/
         return true;

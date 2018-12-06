@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -20,120 +20,138 @@
 #include "UiPrerequisites.h"
 
 #include "AbstractWindow.h"
+#include "Action.h"
 #include <set>
 #include <vector>
-#include "Action.h"
 
-namespace rl {
+namespace rl
+{
 
-	class GameObject;
-	class Creature;
-	class ActionGroup;
+    class GameObject;
+    class Creature;
+    class ActionGroup;
 
-	class _RlUiExport ActionChoiceWindow : public AbstractWindow
-	{
-	public:
-		ActionChoiceWindow(Creature* actor);
-		~ActionChoiceWindow();
-		
-		int showActionsOfObject(GameObject* object);
-		bool showHint(const CeGuiString& evt);
+    class _RlUiExport ActionChoiceWindow : public AbstractWindow
+    {
+    public:
+        ActionChoiceWindow(Creature* actor);
+        ~ActionChoiceWindow();
 
-		bool handleClickNotOnButtons(const CEGUI::EventArgs& evt);
+        int showActionsOfObject(GameObject* object);
+        bool showHint(const CeGuiString& evt);
 
-	private:	
-		class ActionNode;
+        bool handleClickNotOnButtons(const CEGUI::EventArgs& evt);
 
-        struct actnodecmp 
+    private:
+        class ActionNode;
+
+        struct actnodecmp
         {
             bool operator()(ActionNode* x, ActionNode* y) const
             {
-                if( x->getAction() != NULL && y->getAction() != NULL )
-                    return x->getAction()->getName().compare( 
-                    y->getAction()->getName() ) < 0;
-                else if( x->getGroup() != NULL && y->getGroup() != NULL )
-                    return x->getGroup()->getName().compare( 
-                    y->getGroup()->getName() )  < 0;
-                else if( x->getGroup() != NULL )
+                if (x->getAction() != NULL && y->getAction() != NULL)
+                    return x->getAction()->getName().compare(y->getAction()->getName()) < 0;
+                else if (x->getGroup() != NULL && y->getGroup() != NULL)
+                    return x->getGroup()->getName().compare(y->getGroup()->getName()) < 0;
+                else if (x->getGroup() != NULL)
                     return true;
                 else
                     return false;
             }
         };
 
-        typedef std::set<ActionNode*,actnodecmp> NodeSet;
-	
-		static CEGUI::UVector2 
-			getPositionOnCircle(
-				const CEGUI::UVector2& center, 
-				float radius, 
-				float angle);
+        typedef std::set<ActionNode*, actnodecmp> NodeSet;
 
-		void createButtons(
-			ActionNode* actions, 
-			const CEGUI::UVector2& center, 
-			float radius, 
-			float minAngle, 
-			float maxAngle);
+        static CEGUI::UVector2 getPositionOnCircle(const CEGUI::UVector2& center, float radius, float angle);
 
-		CEGUI::PushButton* createButton(
-			const CeGuiString& name,
-			const CEGUI::UVector2& pos);
-			
-		bool handleMouseClickNoButton(const CEGUI::EventArgs& evt);
-		void setButtonActions(ActionNode* actions, ActionNode* treeRoot);
-		bool setButtonVisible(CEGUI::PushButton* button, bool visible);
-		bool activateAction(Action* action);
-		
-		GameObject* mObject;
-		std::vector<CEGUI::PushButton*> mButtons;
-		CEGUI::PushButton* mButtonCancel;
-		CEGUI::Window* mButtonArea;
-		CEGUI::Window* mHint;
+        void createButtons(
+            ActionNode* actions, const CEGUI::UVector2& center, float radius, float minAngle, float maxAngle);
 
-		Creature* mActor;		
-		
-		class ActionNode
-		{
-		public:
-			ActionNode(bool isLeaf) : mAction(NULL), mGroup(NULL), mLeaf(isLeaf), mParent(NULL) {}
-			~ActionNode();
+        CEGUI::PushButton* createButton(const CeGuiString& name, const CEGUI::UVector2& pos);
 
-			void setAction(Action* a) { mAction = a; }
-			Action* getAction() { return mAction; }
-			
-			void setGroup(ActionGroup* ag) { mGroup = ag; }
-			ActionGroup* getGroup() { return mGroup; }
-			
-			void setParent(ActionNode* n)  { mParent = n; }
-			ActionNode* getParent() { return mParent; }
-			
-			void setButton(CEGUI::PushButton* b)  { mButton = b; }
-			CEGUI::PushButton* getButton() { return mButton; }
-	
-			void addChild(ActionNode* child);
-			void removeChild(ActionNode* child);
-			const NodeSet& getChildren();
-			
-			bool isLeaf() { return mLeaf; }
-			
-			static ActionNode* createActionTree(const ActionVector& actions, ActionGroup* rootGroup = NULL);
-			static NodeSet getAllNodesNotBelow(ActionNode* treeRoot, ActionNode* targetNode);
-			static void getAllNodes(ActionNode* treeRoot, NodeSet& node);
-	
-		private:
-			
-			NodeSet mChildren;
-			ActionNode* mParent;
-			bool mLeaf;
-			Action* mAction;
-			ActionGroup* mGroup;
-			CEGUI::PushButton* mButton;
-		};
+        bool handleMouseClickNoButton(const CEGUI::EventArgs& evt);
+        void setButtonActions(ActionNode* actions, ActionNode* treeRoot);
+        bool setButtonVisible(CEGUI::PushButton* button, bool visible);
+        bool activateAction(Action* action);
 
+        GameObject* mObject;
+        std::vector<CEGUI::PushButton*> mButtons;
+        CEGUI::PushButton* mButtonCancel;
+        CEGUI::Window* mButtonArea;
+        CEGUI::Window* mHint;
 
-	};
+        Creature* mActor;
 
+        class ActionNode
+        {
+        public:
+            ActionNode(bool isLeaf)
+                : mAction(NULL)
+                , mGroup(NULL)
+                , mLeaf(isLeaf)
+                , mParent(NULL)
+            {
+            }
+            ~ActionNode();
+
+            void setAction(Action* a)
+            {
+                mAction = a;
+            }
+            Action* getAction()
+            {
+                return mAction;
+            }
+
+            void setGroup(ActionGroup* ag)
+            {
+                mGroup = ag;
+            }
+            ActionGroup* getGroup()
+            {
+                return mGroup;
+            }
+
+            void setParent(ActionNode* n)
+            {
+                mParent = n;
+            }
+            ActionNode* getParent()
+            {
+                return mParent;
+            }
+
+            void setButton(CEGUI::PushButton* b)
+            {
+                mButton = b;
+            }
+            CEGUI::PushButton* getButton()
+            {
+                return mButton;
+            }
+
+            void addChild(ActionNode* child);
+            void removeChild(ActionNode* child);
+            const NodeSet& getChildren();
+
+            bool isLeaf()
+            {
+                return mLeaf;
+            }
+
+            static ActionNode* createActionTree(const ActionVector& actions, ActionGroup* rootGroup = NULL);
+            static NodeSet getAllNodesNotBelow(ActionNode* treeRoot, ActionNode* targetNode);
+            static void getAllNodes(ActionNode* treeRoot, NodeSet& node);
+
+        private:
+            NodeSet mChildren;
+            ActionNode* mParent;
+            bool mLeaf;
+            Action* mAction;
+            ActionGroup* mGroup;
+            CEGUI::PushButton* mButton;
+        };
+    };
 }
 
 #endif

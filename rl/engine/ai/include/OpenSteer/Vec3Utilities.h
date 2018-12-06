@@ -36,7 +36,6 @@
 #ifndef OPENSTEER_VEC3UTILITIES_H
 #define OPENSTEER_VEC3UTILITIES_H
 
-
 // Include Vector3
 #include "OpenSteer/Vec3.h"
 
@@ -46,51 +45,44 @@
 // Include OpenSteer::equalsRelative
 #include "OpenSteer/Utilities.h"
 
-
-
-namespace OpenSteer {
+namespace OpenSteer
+{
 
     /**
-     * Returns the nearest point on the segment @a segmentPoint0 to 
+     * Returns the nearest point on the segment @a segmentPoint0 to
      * @a segmentPoint1 from @a point.
      */
-    Vector3  nearestPointOnSegment( const Vector3& point,
-                                            const Vector3& segmentPoint0,
-                                            const Vector3& segmentPoint1 );
-    
+    Vector3 nearestPointOnSegment(const Vector3& point, const Vector3& segmentPoint0, const Vector3& segmentPoint1);
+
     /**
      * Computes minimum distance from @a point to the line segment defined by
      * @a segmentPoint0 and @a segmentPoint1.
      */
-    float pointToSegmentDistance( const Vector3& point,
-                                  const Vector3& segmentPoint0,
-                                  const Vector3& segmentPoint1);
-        
+    float pointToSegmentDistance(const Vector3& point, const Vector3& segmentPoint0, const Vector3& segmentPoint1);
+
     /**
      * Retuns distance between @a a and @a b.
      */
-    inline float distance (const Vector3& a, const Vector3& b) {
-        return (a-b).length();
-    } 
-    
-    
+    inline float distance(const Vector3& a, const Vector3& b)
+    {
+        return (a - b).length();
+    }
+
     /**
      * Elementwise relative tolerance comparison of @a lhs and @a rhs taking
      * the range of the elements into account.
      *
-     * See Christer Ericson, Real-Time Collision Detection, Morgan Kaufmann, 
+     * See Christer Ericson, Real-Time Collision Detection, Morgan Kaufmann,
      * 2005, pp. 441--443.
      *
      * @todo Rewrite using the stl or providing an own range based function.
      */
-    inline
-    bool
-    equalsRelative( Vector3 const& lhs, 
-                     Vector3 const& rhs, 
-                     float const& tolerance = std::numeric_limits< float >::epsilon()  ) {
-        return equalsRelative( lhs.x, rhs.x, tolerance ) && equalsRelative( lhs.y, rhs.y ) && equalsRelative( lhs.z, rhs.z );
+    inline bool equalsRelative(
+        Vector3 const& lhs, Vector3 const& rhs, float const& tolerance = std::numeric_limits<float>::epsilon())
+    {
+        return equalsRelative(lhs.x, rhs.x, tolerance) && equalsRelative(lhs.y, rhs.y) && equalsRelative(lhs.z, rhs.z);
     }
-    
+
 } // namespace OpenSteer
 
 #endif // OPENSTEER_VEC3UTILITIES_H

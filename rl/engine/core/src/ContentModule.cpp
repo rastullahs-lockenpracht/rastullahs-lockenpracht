@@ -1,22 +1,21 @@
 /* This source file is part of Rastullahs Lockenpracht.
-* Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
-*
-*  This program is free software; you can redistribute it and/or modify
-*  it under the terms of the Clarified Artistic License.
-*
-*  This program is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  Clarified Artistic License for more details.
-*
-*  You should have received a copy of the Clarified Artistic License
-*  along with this program; if not you can get it here
-*  http://www.jpaulmorrison.com/fbp/artistic2.htm.
-*/
+ * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the Clarified Artistic License.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  Clarified Artistic License for more details.
+ *
+ *  You should have received a copy of the Clarified Artistic License
+ *  along with this program; if not you can get it here
+ *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
+ */
 #include "stdinc.h" //precompiled header
 
 #include "ContentModule.h"
-
 
 #include "ConfigurationManager.h"
 #include "CoreSubsystem.h"
@@ -29,18 +28,19 @@ using namespace Ogre;
 
 namespace rl
 {
-    ContentModule::ContentModule(const Ogre::String& id, const CeGuiString& name, bool common, long minimumEngineVersion)
-    :    mId(id),
-        mName(name),
-        mCommon(common),
-        mMinimumEngineVersion(minimumEngineVersion),
-        mLoaded(false)
+    ContentModule::ContentModule(
+        const Ogre::String& id, const CeGuiString& name, bool common, long minimumEngineVersion)
+        : mId(id)
+        , mName(name)
+        , mCommon(common)
+        , mMinimumEngineVersion(minimumEngineVersion)
+        , mLoaded(false)
     {
     }
 
     ContentModule::~ContentModule()
     {
-        for(ContentLoaderVector::const_iterator it = mContentLoaders.begin(); it != mContentLoaders.end(); ++it)
+        for (ContentLoaderVector::const_iterator it = mContentLoaders.begin(); it != mContentLoaders.end(); ++it)
         {
             delete *it;
         }
@@ -54,8 +54,7 @@ namespace rl
 
     const Ogre::String ContentModule::getDirectory(const Ogre::String& moduleId)
     {
-        return ConfigurationManager::getSingleton().
-                getModulesRootDirectory() + "/" + moduleId;
+        return ConfigurationManager::getSingleton().getModulesRootDirectory() + "/" + moduleId;
     }
 
     const Ogre::String ContentModule::getDirectory() const
@@ -88,9 +87,7 @@ namespace rl
         Ogre::String resourceGroup = getId();
 
         StringVector texLocations = getTextureLocations();
-        for(StringVector::iterator iter = texLocations.begin();
-            iter != texLocations.end();
-            iter++)
+        for (StringVector::iterator iter = texLocations.begin(); iter != texLocations.end(); iter++)
         {
             Ogre::String location = *iter;
             if (location.find(".zip") != Ogre::String::npos)
@@ -105,7 +102,7 @@ namespace rl
             }
         }
 
-        addSearchPath(getDirectory()+"/materials", resourceGroup);
+        addSearchPath(getDirectory() + "/materials", resourceGroup);
     }
 
     void ContentModule::initialize()
@@ -120,17 +117,17 @@ namespace rl
         addSearchPath(moduleDir + "/dsa", resourceGroup);
         addSearchPath(moduleDir + "/maps", resourceGroup);
         addSearchPath(moduleDir + "/models", resourceGroup);
-           StringVector modelLoc = getModelLocations();
+        StringVector modelLoc = getModelLocations();
         for (StringVector::iterator it = modelLoc.begin(); it != modelLoc.end(); ++it)
         {
-            addSearchPath(moduleDir + "/models/"+*it, resourceGroup);
+            addSearchPath(moduleDir + "/models/" + *it, resourceGroup);
         }
 
         addSearchPath(moduleDir + "/sound", resourceGroup); ///@todo ueber Verzeichnisnamen nachdenken
         StringVector soundLoc = getSoundLocations();
         for (StringVector::iterator it = soundLoc.begin(); it != soundLoc.end(); ++it)
         {
-            addSearchPath(moduleDir + "/sound/"+*it, resourceGroup);
+            addSearchPath(moduleDir + "/sound/" + *it, resourceGroup);
         }
 
         addSearchPath(moduleDir + "/gui", resourceGroup);
@@ -156,10 +153,9 @@ namespace rl
     {
         try
         {
-            ResourceGroupManager::getSingleton().addResourceLocation(path,
-                "FileSystem", resourceGroup);
+            ResourceGroupManager::getSingleton().addResourceLocation(path, "FileSystem", resourceGroup);
         }
-        catch(...)
+        catch (...)
         {
             // and forget
         }
@@ -167,23 +163,21 @@ namespace rl
 
     void ContentModule::precreateMeshes() const
     {
-        StringVectorPtr meshes = ResourceGroupManager::getSingleton()
-            .findResourceNames(getId(), "*.mesh");
+        StringVectorPtr meshes = ResourceGroupManager::getSingleton().findResourceNames(getId(), "*.mesh");
 
         for (size_t i = 0; i < meshes->size(); ++i)
         {
             ResourcePtr res = MeshManager::getSingleton().getByName((*meshes)[i]);
             if (res.isNull())
             {
-                MeshPtr mesh = MeshManager::getSingleton().create((*meshes)[i],
-                    getId());
+                MeshPtr mesh = MeshManager::getSingleton().create((*meshes)[i], getId());
             }
         }
     }
 
     void ContentModule::loadContent()
     {
-        for(ContentLoaderVector::const_iterator it = mContentLoaders.begin(); it != mContentLoaders.end(); ++it)
+        for (ContentLoaderVector::const_iterator it = mContentLoaders.begin(); it != mContentLoaders.end(); ++it)
         {
             (*it)->loadContent();
         }
@@ -192,12 +186,12 @@ namespace rl
     void ContentModule::unload()
     {
         SaveGameManager::getSingleton().unregisterSaveGameData(this);
-        for(ContentLoaderVector::const_iterator it = mContentLoaders.begin(); it != mContentLoaders.end(); ++it)
+        for (ContentLoaderVector::const_iterator it = mContentLoaders.begin(); it != mContentLoaders.end(); ++it)
         {
             (*it)->unloadContent();
         }
         mContentLoaders.clear();
-        //TODO: unloadModule
+        // TODO: unloadModule
         CoreSubsystem::getSingleton().getWorld()->clearScene();
         mLoaded = false;
     }
@@ -207,7 +201,7 @@ namespace rl
         return mLoaded;
     }
 
-    void ContentModule::registerContentLoader(ContentLoader *loader)
+    void ContentModule::registerContentLoader(ContentLoader* loader)
     {
         mContentLoaders.push_back(loader);
     }
@@ -222,10 +216,11 @@ namespace rl
         if (!this->isCommon())
         {
             LOG_MESSAGE(Logger::CORE, "Saving ContentLoaders");
-            TiXmlElement* contentLoadersNode = writer->appendChildElement(writer->getDocument()->RootElement(), getXmlNodeIdentifier().c_str());
+            TiXmlElement* contentLoadersNode
+                = writer->appendChildElement(writer->getDocument()->RootElement(), getXmlNodeIdentifier().c_str());
             writer->setAttributeValueAsString(contentLoadersNode, "name", mName);
 
-            for(ContentLoaderVector::const_iterator it = mContentLoaders.begin(); it != mContentLoaders.end(); ++it)
+            for (ContentLoaderVector::const_iterator it = mContentLoaders.begin(); it != mContentLoaders.end(); ++it)
             {
                 TiXmlElement* contentLoaderNode = writer->appendChildElement(contentLoadersNode, "contentloader");
                 writer->setAttributeValueAsString(contentLoaderNode, "classname", Property((*it)->getClassName()));

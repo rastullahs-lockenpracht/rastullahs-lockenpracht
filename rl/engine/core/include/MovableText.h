@@ -1,7 +1,7 @@
 //-----------------------------------------------------------
-//Copyright (c) 2003 by cTh
-//Use as you see fit.
-//Questions : gavocanov@rambler.ru
+// Copyright (c) 2003 by cTh
+// Use as you see fit.
+// Questions : gavocanov@rambler.ru
 //-----------------------------------------------------------
 // Modified by Daniel Wickert, 2006
 
@@ -10,18 +10,21 @@
 
 #include "CorePrerequisites.h"
 
-
 namespace rl
 {
     /************************************************************************/
     class MovableText : public Ogre::MovableObject, public Ogre::Renderable
     {
     public:
-        typedef enum {ALIGN_LEFT = 0, ALIGN_CENTER, ALIGN_RIGHT} Alignment;
+        typedef enum
+        {
+            ALIGN_LEFT = 0,
+            ALIGN_CENTER,
+            ALIGN_RIGHT
+        } Alignment;
 
         MovableText(const Ogre::String& name, const Ogre::String& caption,
-            const Ogre::String& fontName = "VeraSerifBold-16",
-            int charHeight = 16,
+            const Ogre::String& fontName = "VeraSerifBold-16", int charHeight = 16,
             const Ogre::ColourValue& colour = Ogre::ColourValue::White);
 
         virtual ~MovableText();
@@ -44,31 +47,71 @@ namespace rl
         void setSpaceWidth(Ogre::uint width);
         void showOnTop(bool show);
 
-        const Ogre::String& getCaption() const {return mCaption;}
-        const Ogre::String& getFontName() const {return mFontName;}
-        Ogre::uint getCharacterHeight() const {return mCharHeight;}
-        Ogre::uint getSpaceWidth() const {return mSpaceWidth;}
-        const Ogre::ColourValue& getColour() const {return mColour;}
-        bool getShowOnTop() const {return mOnTop;}
-        Ogre::AxisAlignedBox GetAABB(void) { return mAABB; }
+        const Ogre::String& getCaption() const
+        {
+            return mCaption;
+        }
+        const Ogre::String& getFontName() const
+        {
+            return mFontName;
+        }
+        Ogre::uint getCharacterHeight() const
+        {
+            return mCharHeight;
+        }
+        Ogre::uint getSpaceWidth() const
+        {
+            return mSpaceWidth;
+        }
+        const Ogre::ColourValue& getColour() const
+        {
+            return mColour;
+        }
+        bool getShowOnTop() const
+        {
+            return mOnTop;
+        }
+        Ogre::AxisAlignedBox GetAABB(void)
+        {
+            return mAABB;
+        }
 
         // from MovableObject
-        void getWorldTransforms(Ogre::Matrix4 *xform) const;
+        void getWorldTransforms(Ogre::Matrix4* xform) const;
         const Ogre::Quaternion& getWorldOrientation(void) const;
         const Ogre::Vector3& getWorldPosition(void) const;
-        void _notifyCurrentCamera(Ogre::Camera *cam);
+        void _notifyCurrentCamera(Ogre::Camera* cam);
         void _updateRenderQueue(Ogre::RenderQueue* queue);
 
-        const Ogre::AxisAlignedBox &getBoundingBox(void) const { return mAABB; }
-        const Ogre::String& getMovableType(void) const { return msType; }
-        Ogre::Real getBoundingRadius(void) const {return mRadius;}
-        Ogre::Real getSquaredViewDepth(const Ogre::Camera* cam) const { return 0; }
-		void visitRenderables(Ogre::Renderable::Visitor* visitor,  bool debugRenderables = false);
- 
+        const Ogre::AxisAlignedBox& getBoundingBox(void) const
+        {
+            return mAABB;
+        }
+        const Ogre::String& getMovableType(void) const
+        {
+            return msType;
+        }
+        Ogre::Real getBoundingRadius(void) const
+        {
+            return mRadius;
+        }
+        Ogre::Real getSquaredViewDepth(const Ogre::Camera* cam) const
+        {
+            return 0;
+        }
+        void visitRenderables(Ogre::Renderable::Visitor* visitor, bool debugRenderables = false);
+
         // from renderable
-        void getRenderOperation(Ogre::RenderOperation &op);
-        const Ogre::MaterialPtr& getMaterial(void) const {assert(!mMaterial.isNull()); return mMaterial;}
-        const Ogre::LightList& getLights(void) const {return mLightList;}
+        void getRenderOperation(Ogre::RenderOperation& op);
+        const Ogre::MaterialPtr& getMaterial(void) const
+        {
+            assert(!mMaterial.isNull());
+            return mMaterial;
+        }
+        const Ogre::LightList& getLights(void) const
+        {
+            return mLightList;
+        }
 
     private:
         static const int POS_TEX_BINDING = 0;

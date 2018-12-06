@@ -41,7 +41,8 @@ namespace rl
         saveDirect(filename, separators, trimWhitespace);
     }
 
-    void ConfigFile::save(const String& filename, const String& resourceGroup, const String& separators, bool trimWhitespace)
+    void ConfigFile::save(
+        const String& filename, const String& resourceGroup, const String& separators, bool trimWhitespace)
     {
         saveToResourceSystem(filename, resourceGroup, separators, trimWhitespace);
     }
@@ -51,7 +52,7 @@ namespace rl
         /* Open the configuration file */
         ofstream fp;
         fp.open(filename.c_str());
-        if(!fp)
+        if (!fp)
         {
             Throw(FileNotFoundException, "'" + filename + "' file not found!");
         }
@@ -59,12 +60,13 @@ namespace rl
         save(fp, separators, trimWhitespace);
     }
 
-    void ConfigFile::saveToResourceSystem(const String& filename, const String& resourceGroup, const String& separators, bool trimWhitespace)
+    void ConfigFile::saveToResourceSystem(
+        const String& filename, const String& resourceGroup, const String& separators, bool trimWhitespace)
     {
         ///@todo ResourceGroup zum Dateiname erstellen.
         ofstream fp;
         fp.open(filename.c_str());
-        if(!fp)
+        if (!fp)
         {
             Throw(FileNotFoundException, "'" + filename + "' file not found!");
         }
@@ -75,17 +77,19 @@ namespace rl
     void ConfigFile::save(ofstream& stream, const String& separators, bool trimWhitespace)
     {
         SettingsBySection::const_iterator section;
-        for(section = mSettings.begin(); section != mSettings.end(); section++)
+        for (section = mSettings.begin(); section != mSettings.end(); section++)
         {
             if (section->first != StringUtil::BLANK)
             {
                 stream << "[" << section->first << "]" << endl;
-            } else {
+            }
+            else
+            {
                 /// Keine Sektion
             }
             SettingsMultiMap::const_iterator setting;
-            SettingsMultiMap *settings = section->second;
-            for(setting = settings->begin(); setting != settings->end(); setting++)
+            SettingsMultiMap* settings = section->second;
+            for (setting = settings->begin(); setting != settings->end(); setting++)
             {
                 stream << setting->first << "=" << setting->second << endl;
             }

@@ -17,29 +17,29 @@
 
 #include "ProgressWindow.h"
 
-namespace rl {
-
-ProgressWindow::ProgressWindow()
-: AbstractWindow("progresswindow.xml", WIT_NONE, false, true)
+namespace rl
 {
-	mProgressBar = getProgressBar("ProgressWindow/ProgressBar");
-    mText = getWindow("ProgressWindow/Text");
-	centerWindow();
-}
 
-ProgressWindow::~ProgressWindow()
-{
-}
+    ProgressWindow::ProgressWindow()
+        : AbstractWindow("progresswindow.xml", WIT_NONE, false, true)
+    {
+        mProgressBar = getProgressBar("ProgressWindow/ProgressBar");
+        mText = getWindow("ProgressWindow/Text");
+        centerWindow();
+    }
 
-void ProgressWindow::setText(const Ogre::String& text)
-{
-    mText->setText(text);
-}
+    ProgressWindow::~ProgressWindow()
+    {
+    }
 
-void ProgressWindow::setProgress(Ogre::Real percentage)
-{
-	mProgressBar->setProgress(percentage);
-    mProgressBar->setText(Ogre::StringConverter::toString(percentage * 100, 0) + "%");
-}
+    void ProgressWindow::setText(const Ogre::String& text)
+    {
+        mText->setText(text);
+    }
 
+    void ProgressWindow::setProgress(Ogre::Real percentage)
+    {
+        mProgressBar->setProgress(percentage);
+        mProgressBar->setText(Ogre::StringConverter::toString(percentage * 100, 0) + "%");
+    }
 }

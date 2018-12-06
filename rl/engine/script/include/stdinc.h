@@ -35,33 +35,33 @@
 
 #ifdef RL_USE_PCH
 
-#include <string>
-#include <vector>
 #include <list>
 #include <map>
 #include <set>
+#include <string>
+#include <vector>
 
 #include <iostream>
 #include <sstream>
 
-#include <functional>
 #include <algorithm>
+#include <functional>
 #include <utility>
 
 #include <Ogre.h>
 
 #include <OgreNewt.h>
 
-#include <CEGUIString.h>
 #include <CEGUILogger.h>
+#include <CEGUIString.h>
 
-#include <boost/filesystem/operations.hpp>
-#include <boost/filesystem/exception.hpp>
 #include <boost/any.hpp>
+#include <boost/filesystem/exception.hpp>
+#include <boost/filesystem/operations.hpp>
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-#  include <Windows.h>
+#include <Windows.h>
 #endif
 
-#endif//RL_USE_PCH
+#endif // RL_USE_PCH
 #endif

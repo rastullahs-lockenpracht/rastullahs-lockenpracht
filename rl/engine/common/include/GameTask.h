@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -19,45 +19,45 @@
 
 #include "CommonPrerequisites.h"
 
-namespace rl {
-/** Diese Klasse ist die Basisklasse aller Synchronisierten Aufgaben, die jeden Frame ausgefuehrt werden.
-	Dazu gehoeren zum Beispiel Animationen.
-*/
-class _RlCommonExport GameTask
+namespace rl
 {
+    /** Diese Klasse ist die Basisklasse aller Synchronisierten Aufgaben, die jeden Frame ausgefuehrt werden.
+        Dazu gehoeren zum Beispiel Animationen.
+    */
+    class _RlCommonExport GameTask
+    {
     public:
-		/// Konstruktor, startet unpausiert
+        /// Konstruktor, startet unpausiert
         /// @param interruptable set to <code>false</code> if GameTask can't be paused
         GameTask(bool interruptable = false);
 
-		/// Virtueller Basis-Destruktor
-        virtual ~GameTask() {};
+        /// Virtueller Basis-Destruktor
+        virtual ~GameTask(){};
 
-		/** Wird vom Gameloop aufgerufen, wenn nicht pausiert, 
+        /** Wird vom Gameloop aufgerufen, wenn nicht pausiert,
             wird von Unterklassen implementiert
 
-			@param elapsedTime Die vergangene Zeit
-		*/
-		virtual void run(Ogre::Real elapsedTime) = 0;
+            @param elapsedTime Die vergangene Zeit
+        */
+        virtual void run(Ogre::Real elapsedTime) = 0;
 
-		/// Returns the name of the derived class for debugging purposes.
+        /// Returns the name of the derived class for debugging purposes.
         virtual const Ogre::String& getName() const = 0;
 
         bool isInterruptable() const;
-        
-		/// Gibt zurueck ob dieser GameTask pausiert ist
+
+        /// Gibt zurueck ob dieser GameTask pausiert ist
         bool isPaused() const;
 
-		/// Pausiert/Unpausiert den GameTask
+        /// Pausiert/Unpausiert den GameTask
         void setPaused(bool isPaused);
 
         virtual void setTimeFactor(Ogre::Real timeFactor);
 
     private:
-		/// Pause
+        /// Pause
         bool mPaused;
         bool mInterruptable;
-};
-
+    };
 }
 #endif

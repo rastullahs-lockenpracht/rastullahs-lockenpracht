@@ -1,18 +1,18 @@
 /* This source file is part of Rastullahs Lockenpracht.
-* Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
-* 
-*  This program is free software; you can redistribute it and/or modify
-*  it under the terms of the Clarified Artistic License.
-*
-*  This program is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  Clarified Artistic License for more details.
-*
-*  You should have received a copy of the Clarified Artistic License
-*  along with this program; if not you can get it here
-*  http://www.jpaulmorrison.com/fbp/artistic2.htm.
-*/
+ * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the Clarified Artistic License.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  Clarified Artistic License for more details.
+ *
+ *  You should have received a copy of the Clarified Artistic License
+ *  along with this program; if not you can get it here
+ *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
+ */
 
 #include "stdinc.h" //precompiled header
 
@@ -23,10 +23,10 @@
 
 #include <CEGUIPropertyHelper.h>
 
-
 using namespace Ogre;
 
-namespace rl {
+namespace rl
+{
 
     XmlPropertyWriter::XmlPropertyWriter()
     {
@@ -53,90 +53,93 @@ namespace rl {
 
     TiXmlElement* XmlPropertyWriter::processProperty(TiXmlElement* parent, const PropertyEntry& entry)
     {
-    	TiXmlElement* element = NULL;
-        if(!entry.second.isEmpty())
+        TiXmlElement* element = NULL;
+        if (!entry.second.isEmpty())
         {
-            if(entry.second.isArray())
+            if (entry.second.isArray())
             {
                 element = this->processPropertyArray(parent, entry.first.c_str(), entry.second.toArray());
             }
-            else if(entry.second.isMap())
+            else if (entry.second.isMap())
             {
                 element = this->processPropertyMap(parent, entry.first.c_str(), entry.second.toMap());
             }
             else
             {
                 element = appendChildElement(parent, "property");
-                if(!entry.first.empty())
+                if (!entry.first.empty())
                     setAttribute(element, "name", entry.first.c_str());
 
-                //Ogre::String typeName = entry.second.getTypeName();
+                // Ogre::String typeName = entry.second.getTypeName();
                 Ogre::String name = entry.second.getName();
                 Ogre::StringUtil::toUpperCase(name);
                 setAttributeValueAsString(element, "type", name);
 
-                if(entry.second.isBool())
+                if (entry.second.isBool())
                     setAttributeValueAsBool(element, "data", entry.second.toBool());
-                else if(entry.second.isInt())
+                else if (entry.second.isInt())
                     setAttributeValueAsInteger(element, "data", entry.second.toInt());
-                else if(entry.second.isIntPair())
+                else if (entry.second.isIntPair())
                     setAttributeValueAsIntegerPair(element, "data", entry.second.toIntPair());
-                else if(entry.second.isIntTriple())
+                else if (entry.second.isIntTriple())
                     setAttributeValueAsIntegerTriple(element, "data", entry.second.toIntTriple());
-                else if(entry.second.isQuaternion())
+                else if (entry.second.isQuaternion())
                     setAttributeValueAsQuaternion(element, "data", entry.second.toQuaternion());
-                else if(entry.second.isReal())
+                else if (entry.second.isReal())
                     setAttributeValueAsReal(element, "data", entry.second.toReal());
-                else if(entry.second.isString())
+                else if (entry.second.isString())
                     setAttributeValueAsString(element, "data", entry.second.toString());
-                else if(entry.second.isVector3())
+                else if (entry.second.isVector3())
                     setAttributeValueAsVector3(element, "data", entry.second.toVector3());
             }
         }
         return element;
     }
 
-    TiXmlElement* XmlPropertyWriter::processPropertyRecord(TiXmlElement* parent, const char* const name, const PropertyRecord& set)
+    TiXmlElement* XmlPropertyWriter::processPropertyRecord(
+        TiXmlElement* parent, const char* const name, const PropertyRecord& set)
     {
         PropertyMap map = set.toPropertyMap();
 
         return processPropertyMap(parent, name, map);
     }
 
-    TiXmlElement* XmlPropertyWriter::processPropertyArray(TiXmlElement *parent, const char *const name, const PropertyArray& vector)
+    TiXmlElement* XmlPropertyWriter::processPropertyArray(
+        TiXmlElement* parent, const char* const name, const PropertyArray& vector)
     {
-    	TiXmlElement* element = appendChildElement(parent, "property");
-        if(name[0] != '\0')
+        TiXmlElement* element = appendChildElement(parent, "property");
+        if (name[0] != '\0')
             setAttribute(element, "name", name);
         setAttribute(element, "type", "ARRAY");
 
         PropertyArray::const_iterator iter;
-        for(iter = vector.begin(); iter != vector.end(); iter++)
+        for (iter = vector.begin(); iter != vector.end(); iter++)
         {
-            processProperty(element, PropertyEntry(Ogre::String(),*iter));
+            processProperty(element, PropertyEntry(Ogre::String(), *iter));
         }
         return element;
     }
 
-    TiXmlElement* XmlPropertyWriter::processPropertyMap(TiXmlElement *parent, const char *const name, const PropertyMap& map)
+    TiXmlElement* XmlPropertyWriter::processPropertyMap(
+        TiXmlElement* parent, const char* const name, const PropertyMap& map)
     {
-    	TiXmlElement* element = appendChildElement(parent, "property");
-        if(name[0] != '\0')
+        TiXmlElement* element = appendChildElement(parent, "property");
+        if (name[0] != '\0')
             setAttribute(element, "name", name);
         setAttribute(element, "type", "MAP");
 
         PropertyMap::const_iterator iter;
-        for(iter = map.begin(); iter != map.end(); iter++)
+        for (iter = map.begin(); iter != map.end(); iter++)
         {
             processProperty(element, PropertyEntry(iter->first.c_str(), iter->second));
         }
         return element;
     }
 
-    void XmlPropertyWriter::writeEachPropertyToElem(TiXmlElement* parent, const rl::PropertyMap &map)
+    void XmlPropertyWriter::writeEachPropertyToElem(TiXmlElement* parent, const rl::PropertyMap& map)
     {
         PropertyMap::const_iterator it_properties;
-        for(it_properties = map.begin(); it_properties != map.end(); it_properties++)
+        for (it_properties = map.begin(); it_properties != map.end(); it_properties++)
         {
             this->processProperty(parent, PropertyEntry(it_properties->first.c_str(), it_properties->second));
         }

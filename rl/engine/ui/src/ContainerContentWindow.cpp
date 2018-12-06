@@ -17,11 +17,11 @@
 
 #include "ContainerContentWindow.h"
 
-#include <boost/bind.hpp>
 #include <CEGUIImageset.h>
 #include <CEGUIImagesetManager.h>
 #include <CEGUIPropertyHelper.h>
 #include <CEGUIWindowManager.h>
+#include <boost/bind.hpp>
 
 #include "Container.h"
 #include "Inventory.h"
@@ -31,60 +31,55 @@
 
 using namespace CEGUI;
 
-namespace rl {
+namespace rl
+{
 
-	int ContainerContentWindow::sItemCount = 0;
+    int ContainerContentWindow::sItemCount = 0;
 
-	ContainerContentWindow::ContainerContentWindow(Container* container, InventoryWindow* parent)
-		: AbstractWindow("containercontentwindow.xml", WIT_MOUSE_INPUT),
-		mContainer(container),
-        mInventoryWindow(parent)
-	{
-		mContentWindow = getWindow("ContainerContentWindow/Content");
-		mContentWindow->setUserData(container);
-		mContentWindow->subscribeEvent(
-			Window::EventDragDropItemDropped,
-			boost::bind(&ContainerContentWindow::handleItemDroppedOnContainer, this, _1));
-		mContentWindow->subscribeEvent(
-            Window::EventDragDropItemEnters,
-			boost::bind(&ContainerContentWindow::handleItemEntersContainer, this, _1));
-		mContentWindow->subscribeEvent(
-            Window::EventDragDropItemLeaves,
-			boost::bind(&ContainerContentWindow::handleItemLeavesContainer, this, _1));
+    ContainerContentWindow::ContainerContentWindow(Container* container, InventoryWindow* parent)
+        : AbstractWindow("containercontentwindow.xml", WIT_MOUSE_INPUT)
+        , mContainer(container)
+        , mInventoryWindow(parent)
+    {
+        mContentWindow = getWindow("ContainerContentWindow/Content");
+        mContentWindow->setUserData(container);
+        mContentWindow->subscribeEvent(Window::EventDragDropItemDropped,
+            boost::bind(&ContainerContentWindow::handleItemDroppedOnContainer, this, _1));
+        mContentWindow->subscribeEvent(
+            Window::EventDragDropItemEnters, boost::bind(&ContainerContentWindow::handleItemEntersContainer, this, _1));
+        mContentWindow->subscribeEvent(
+            Window::EventDragDropItemLeaves, boost::bind(&ContainerContentWindow::handleItemLeavesContainer, this, _1));
 
         UVector2 size = UVector2(
-			cegui_absdim(container->getVolume().first*30),
-            cegui_absdim(container->getVolume().second*30));
-		mContentWindow->setSize(size);
+            cegui_absdim(container->getVolume().first * 30), cegui_absdim(container->getVolume().second * 30));
+        mContentWindow->setSize(size);
         size.d_x += cegui_absdim(40);
         size.d_y += cegui_absdim(50);
         mContentWindow->getParent()->setMaxSize(size);
         mContentWindow->getParent()->setMinSize(size);
 
-		initializeContent();
+        initializeContent();
 
-		bindDestroyWindowToXButton();
-	}
+        bindDestroyWindowToXButton();
+    }
 
     bool ContainerContentWindow::handleItemEntersContainer(const CEGUI::EventArgs& evt)
     {
-		const DragDropEventArgs& evtArgs = static_cast<const DragDropEventArgs&>(evt);
+        const DragDropEventArgs& evtArgs = static_cast<const DragDropEventArgs&>(evt);
 
-		if (evtArgs.dragDropItem->testClassName("ItemDragContainer"))
-		{
-			ItemDragContainer* dragcont = dynamic_cast<ItemDragContainer*>(
-				evtArgs.dragDropItem);
-			Item* item = dragcont->getItem();
+        if (evtArgs.dragDropItem->testClassName("ItemDragContainer"))
+        {
+            ItemDragContainer* dragcont = dynamic_cast<ItemDragContainer*>(evtArgs.dragDropItem);
+            Item* item = dragcont->getItem();
 
-            if( item->getParentContainer() == mContainer )
+            if (item->getParentContainer() == mContainer)
                 return true;
 
-            if( !mContainer->canHold(item) )
+            if (!mContainer->canHold(item))
             {
-                mContentWindow->setProperty("ContainerColour", 
-                    mContentWindow->getProperty("ContainerColour_DropImpossible"));
+                mContentWindow->setProperty(
+                    "ContainerColour", mContentWindow->getProperty("ContainerColour_DropImpossible"));
             }
-
 
             return true;
         }
@@ -95,10 +90,9 @@ namespace rl {
     {
         const DragDropEventArgs& evtArgs = static_cast<const DragDropEventArgs&>(evt);
 
-		if (evtArgs.dragDropItem->testClassName("ItemDragContainer"))
-		{
-            mContentWindow->setProperty("ContainerColour", 
-                mContentWindow->getProperty("ContainerColour_Standard"));
+        if (evtArgs.dragDropItem->testClassName("ItemDragContainer"))
+        {
+            mContentWindow->setProperty("ContainerColour", mContentWindow->getProperty("ContainerColour_Standard"));
 
             return true;
         }
@@ -107,9 +101,9 @@ namespace rl {
 
     void ContainerContentWindow::setVisible(bool visible, bool destroyAfterHide)
     {
-        if( !visible && destroyAfterHide )
+        if (!visible && destroyAfterHide)
         {
-            if( mInventoryWindow )
+            if (mInventoryWindow)
                 mInventoryWindow->notifyContainerContentWindowClosed(mContainer);
         }
 
@@ -118,7 +112,7 @@ namespace rl {
 
     void ContainerContentWindow::setVisible(bool visible, bool destroyAfterHide, bool dontNotifyInventory)
     {
-        if( !dontNotifyInventory )
+        if (!dontNotifyInventory)
         {
             setVisible(visible, destroyAfterHide);
             return;
@@ -126,46 +120,40 @@ namespace rl {
         AbstractWindow::setVisible(visible, destroyAfterHide);
     }
 
-	void ContainerContentWindow::initializeContent()
-	{
-		ItemSet items = mContainer->getItems();
-		for (ItemSet::const_iterator it = items.begin(); it != items.end(); it++)
-		{
-			Item* item = *it;
-			Window* itemWindow = createItemWindow(item);
+    void ContainerContentWindow::initializeContent()
+    {
+        ItemSet items = mContainer->getItems();
+        for (ItemSet::const_iterator it = items.begin(); it != items.end(); it++)
+        {
+            Item* item = *it;
+            Window* itemWindow = createItemWindow(item);
 
-			std::pair<unsigned int, unsigned int> pos = mContainer->getItemPosition(item);
-			itemWindow->setPosition(
-				UVector2(
-					cegui_absdim(pos.first*30),
-					cegui_absdim(pos.second*30)));
+            std::pair<unsigned int, unsigned int> pos = mContainer->getItemPosition(item);
+            itemWindow->setPosition(UVector2(cegui_absdim(pos.first * 30), cegui_absdim(pos.second * 30)));
 
             itemWindow->subscribeEvent(
-                Window::EventMouseClick,
-                boost::bind(&ContainerContentWindow::handleItemMouseClick, this, _1, item));
+                Window::EventMouseClick, boost::bind(&ContainerContentWindow::handleItemMouseClick, this, _1, item));
 
-            itemWindow->subscribeEvent(
-                Window::EventMouseDoubleClick,
+            itemWindow->subscribeEvent(Window::EventMouseDoubleClick,
                 boost::bind(&ContainerContentWindow::handleItemDoubleClick, this, _1, item));
 
-			mContentWindow->addChildWindow(itemWindow);
-		}
-	}
+            mContentWindow->addChildWindow(itemWindow);
+        }
+    }
 
-	bool ContainerContentWindow::handleItemDroppedOnContainer(const EventArgs& evt)
-	{
-		const DragDropEventArgs& evtArgs = static_cast<const DragDropEventArgs&>(evt);
+    bool ContainerContentWindow::handleItemDroppedOnContainer(const EventArgs& evt)
+    {
+        const DragDropEventArgs& evtArgs = static_cast<const DragDropEventArgs&>(evt);
 
-		if (evtArgs.dragDropItem->testClassName("ItemDragContainer"))
-		{
-			ItemDragContainer* dragcont = dynamic_cast<ItemDragContainer*>(
-				evtArgs.dragDropItem);
-			Item* item = dragcont->getItem();
+        if (evtArgs.dragDropItem->testClassName("ItemDragContainer"))
+        {
+            ItemDragContainer* dragcont = dynamic_cast<ItemDragContainer*>(evtArgs.dragDropItem);
+            Item* item = dragcont->getItem();
 
-
-			CEGUI::Vector2 relPos = evtArgs.dragDropItem->getPosition().asAbsolute(evtArgs.dragDropItem->getParentPixelSize()) - 
-									mContentWindow->getPosition().asAbsolute(mContentWindow->getParentPixelSize());
-			int x = relPos.d_x, y = relPos.d_y;
+            CEGUI::Vector2 relPos
+                = evtArgs.dragDropItem->getPosition().asAbsolute(evtArgs.dragDropItem->getParentPixelSize())
+                - mContentWindow->getPosition().asAbsolute(mContentWindow->getParentPixelSize());
+            int x = relPos.d_x, y = relPos.d_y;
 
             // uebergangspixel
             x += 14;
@@ -174,53 +162,46 @@ namespace rl {
             x = x / 30;
             y = y / 30;
 
-			if( mContainer->addItem(item,IntPair(x,y)) )
+            if (mContainer->addItem(item, IntPair(x, y)))
             {
-                if( dragcont != getItemWindow(item) )
+                if (dragcont != getItemWindow(item))
                 {
                     CEGUI::WindowManager::getSingleton().destroyWindow(dragcont);
-                    //dragcont->destroyWindow();
+                    // dragcont->destroyWindow();
                     dragcont = createItemWindow(item);
                     mContentWindow->addChildWindow(dragcont);
                 }
-			    std::pair<unsigned int, unsigned int> pos = mContainer->getItemPosition(item);
-			    dragcont->setPosition(
-				    UVector2(
-					    cegui_absdim(pos.first*30),
-					    cegui_absdim(pos.second*30)));
-			    dragcont->setItemParent(mContainer);
+                std::pair<unsigned int, unsigned int> pos = mContainer->getItemPosition(item);
+                dragcont->setPosition(UVector2(cegui_absdim(pos.first * 30), cegui_absdim(pos.second * 30)));
+                dragcont->setItemParent(mContainer);
 
                 handleItemLeavesContainer(evt);
-			    return true;
+                return true;
             }
-		}
+        }
         handleItemLeavesContainer(evt);
-		return false;
-	}
+        return false;
+    }
 
-	ItemDragContainer* ContainerContentWindow::createItemWindow(Item* item)
-	{
+    ItemDragContainer* ContainerContentWindow::createItemWindow(Item* item)
+    {
         ItemDragContainer* itemhandler = getItemWindow(item);
-        if( itemhandler )
+        if (itemhandler)
             return itemhandler;
 
+        CeGuiString dragContainerName
+            = mWindow->getName() + "/item/" + Ogre::StringConverter::toString(item->getId()) + "_DragContainer";
 
-
-
-		CeGuiString dragContainerName =
-			mWindow->getName() +  "/item/"
-			+ Ogre::StringConverter::toString(item->getId())+"_DragContainer";
-
-                itemhandler = dynamic_cast<ItemIconDragContainer*>(
-                    AbstractWindow::loadWindow("itemicondragcontainer.xml", dragContainerName));
-                    //CEGUI::WindowManager::getSingleton().createWindow("ItemIconDragContainer", dragContainerName));
-                itemhandler->setItem(item);
-		//itemhandler = new ItemIconDragContainer(item, dragContainerName);
+        itemhandler = dynamic_cast<ItemIconDragContainer*>(
+            AbstractWindow::loadWindow("itemicondragcontainer.xml", dragContainerName));
+        // CEGUI::WindowManager::getSingleton().createWindow("ItemIconDragContainer", dragContainerName));
+        itemhandler->setItem(item);
+        // itemhandler = new ItemIconDragContainer(item, dragContainerName);
         itemhandler->setDestroyListener(this);
         mItemDragContainerMap.insert(std::make_pair(item, itemhandler));
-		itemhandler->setItemParent(mContainer);
-		itemhandler->setPosition(UVector2(cegui_reldim(0), cegui_reldim(0)));
-        if( mInventoryWindow )
+        itemhandler->setItemParent(mContainer);
+        itemhandler->setPosition(UVector2(cegui_reldim(0), cegui_reldim(0)));
+        if (mInventoryWindow)
         {
             itemhandler->subscribeEvent(DragContainer::EventDragStarted,
                 boost::bind(&rl::InventoryWindow::showPossibleSlots, mInventoryWindow, item));
@@ -228,8 +209,8 @@ namespace rl {
                 boost::bind(&InventoryWindow::showPossibleSlots, mInventoryWindow, (Item*)NULL));
         }
 
-		return itemhandler;
-	}
+        return itemhandler;
+    }
 
     bool ContainerContentWindow::handleItemMouseClick(const EventArgs& evt, Item* item)
     {
@@ -250,7 +231,7 @@ namespace rl {
         const MouseEventArgs& mevt = static_cast<const MouseEventArgs&>(evt);
         if (mevt.button == LeftButton)
         {
-            item->doDefaultAction(NULL,NULL);
+            item->doDefaultAction(NULL, NULL);
             return true;
         }
         else
@@ -262,7 +243,7 @@ namespace rl {
     ItemDragContainer* ContainerContentWindow::getItemWindow(Item* item)
     {
         ItemDragContainerMap::iterator iter = mItemDragContainerMap.find(item);
-        if( iter != mItemDragContainerMap.end() )
+        if (iter != mItemDragContainerMap.end())
             return iter->second;
 
         return NULL;
@@ -271,9 +252,9 @@ namespace rl {
     void ContainerContentWindow::notifyItemDragContainerDestroyed(ItemDragContainer* cont)
     {
         ItemDragContainerMap::iterator iter = mItemDragContainerMap.begin();
-        for( ; iter != mItemDragContainerMap.end(); iter++ )
+        for (; iter != mItemDragContainerMap.end(); iter++)
         {
-            if( iter->second == cont )
+            if (iter->second == cont)
             {
                 mItemDragContainerMap.erase(iter);
                 return;

@@ -22,65 +22,49 @@
 #include "AbstractWindow.h"
 #include "Item.h"
 
-
-
 namespace CEGUI
 {
     CEGUI_DEFINE_WINDOW_FACTORY(ItemDescriptionDragContainer)
 }
 
-namespace rl {
+namespace rl
+{
 
     const CeGuiString ItemDescriptionDragContainer::WidgetTypeName("ItemDescriptionDragContainer");
 
+    ItemDescriptionDragContainer::ItemDescriptionDragContainer(const CeGuiString& type, const CeGuiString& name)
+        : ItemDragContainer(type, name)
+    {
+        CeGuiString prefix = name;
 
+        mContentWindow = this; // AbstractWindow::loadWindow("itemdescriptiondragcontainer.xml", prefix);
+        addChildWindow(mContentWindow);
+        mContentWindow->setDestroyedByParent(true);
+    }
 
+    void ItemDescriptionDragContainer::setItem(Item* item)
+    {
+        ItemDragContainer::setItem(item);
 
-	ItemDescriptionDragContainer::ItemDescriptionDragContainer(const CeGuiString &type, const CeGuiString& name)
-		: ItemDragContainer(type, name)
-	{
-		CeGuiString prefix = name;
+        CeGuiString icon = item->getImageName();
 
-		mContentWindow = this; //AbstractWindow::loadWindow("itemdescriptiondragcontainer.xml", prefix);
-		addChildWindow(mContentWindow);
-                mContentWindow->setDestroyedByParent(true);
-	}
-
-        void ItemDescriptionDragContainer::setItem(Item* item)
+        if (icon == "")
         {
-            ItemDragContainer::setItem(item);
-
-		CeGuiString icon = item->getImageName();
-
-		if (icon == "")
-		{
-			icon = ICON_UNKNOWN_ITEM;
-		}
-
-                const CeGuiString &name = getName();
-
-
-		mContentWindow->getChild(
-			name+"/Icon")
-			->setProperty("Image", icon);
-		mContentWindow->getChild(
-			name+"/Name")
-			->setText(item->getName());
-		mContentWindow->getChild(
-			name+"/Description")
-			->setText(item->getDescription());
-
-
-		mContentWindow->subscribeEvent(
-			Window::EventMouseClick,
-			boost::bind(&ItemDragContainer::_handleItemMouseClick, this, _1, item));
-
-		mContentWindow->subscribeEvent(
-			Window::EventMouseDoubleClick,
-			boost::bind(&ItemDragContainer::_handleItemDoubleClick, this, _1, item));
-
-
-
-	    setSize(mContentWindow->getSize());
+            icon = ICON_UNKNOWN_ITEM;
         }
+
+        const CeGuiString& name = getName();
+
+        mContentWindow->getChild(name + "/Icon")->setProperty("Image", icon);
+        mContentWindow->getChild(name + "/Name")->setText(item->getName());
+        mContentWindow->getChild(name + "/Description")->setText(item->getDescription());
+
+        mContentWindow->subscribeEvent(
+            Window::EventMouseClick, boost::bind(&ItemDragContainer::_handleItemMouseClick, this, _1, item));
+
+        mContentWindow->subscribeEvent(
+            Window::EventMouseDoubleClick, boost::bind(&ItemDragContainer::_handleItemDoubleClick, this, _1, item));
+
+        setSize(mContentWindow->getSize());
+    }
 }

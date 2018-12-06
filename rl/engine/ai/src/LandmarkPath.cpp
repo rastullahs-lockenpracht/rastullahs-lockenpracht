@@ -22,25 +22,25 @@
 
 namespace rl
 {
-	LandmarkPath::LandmarkPath(const Ogre::String& name)
-		: mName(name)
-	{
-	}
+    LandmarkPath::LandmarkPath(const Ogre::String& name)
+        : mName(name)
+    {
+    }
 
-	LandmarkPath::~LandmarkPath()
-	{
-		mPoints.clear();
-	}
+    LandmarkPath::~LandmarkPath()
+    {
+        mPoints.clear();
+    }
 
-	void LandmarkPath::addPoint(const Ogre::String &name, const Ogre::Vector3 &position)
-	{
-		addPoint(AiSubsystem::getSingleton().createLandmark(name, position));
-	}
+    void LandmarkPath::addPoint(const Ogre::String& name, const Ogre::Vector3& position)
+    {
+        addPoint(AiSubsystem::getSingleton().createLandmark(name, position));
+    }
 
-	void LandmarkPath::addPoint(Landmark *lm)
-	{
-		mPoints.push_back(lm);
-	}
+    void LandmarkPath::addPoint(Landmark* lm)
+    {
+        mPoints.push_back(lm);
+    }
 
     void LandmarkPath::removePoint(const Ogre::String& name)
     {
@@ -61,7 +61,7 @@ namespace rl
         }
         else
         {
-            LOG_ERROR(Logger::AI, "Could not delete landmark '"+name+"'. Landmark with this name not found.");
+            LOG_ERROR(Logger::AI, "Could not delete landmark '" + name + "'. Landmark with this name not found.");
         }
     }
 
@@ -86,7 +86,7 @@ namespace rl
     {
         return mPoints.empty();
     }
-    
+
     LandmarkPath::LandmarkList::const_iterator LandmarkPath::begin() const
     {
         return mPoints.begin();

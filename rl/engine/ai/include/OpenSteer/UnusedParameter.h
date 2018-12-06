@@ -30,7 +30,7 @@
 //
 // Macro to surpress warnings that parameters aren't used.
 //
-// May 09, 2005 bk:  created 
+// May 09, 2005 bk:  created
 //
 //
 // ----------------------------------------------------------------------------
@@ -42,6 +42,5 @@
  * Macro to surpress warning that parameters aren't used.
  */
 #define OPENSTEER_UNUSED_PARAMETER(expr) (void)expr
-
 
 #endif // OPENSTEER_UNUSEDPARAMETER_H

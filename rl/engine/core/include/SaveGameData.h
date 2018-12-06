@@ -34,7 +34,6 @@ namespace rl
         /// defines the loading/saving order higher priority are saved last and loaded first
         virtual int getPriority() const = 0;
     };
-    
 }
 
 #endif // __SaveGameData_H__

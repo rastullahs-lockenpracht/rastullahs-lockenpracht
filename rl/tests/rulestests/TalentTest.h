@@ -11,24 +11,27 @@ using namespace CppUnit;
 using namespace std;
 using namespace rl;
 
-class TalentTest : public TestFixture {
-  CPPUNIT_TEST_SUITE( TalentTest );
-  CPPUNIT_TEST( testConstruction );
-  CPPUNIT_TEST_SUITE_END();
-protected:
-   void testConstruction()
-   {       
-   }
-public:
-   void setUp()
-   {
-   	   new DsaManager();
-   }
+class TalentTest : public TestFixture
+{
+    CPPUNIT_TEST_SUITE(TalentTest);
+    CPPUNIT_TEST(testConstruction);
+    CPPUNIT_TEST_SUITE_END();
 
-   void tearDown()
-   {
-	   delete DsaManager::getSingletonPtr();
-   }
+protected:
+    void testConstruction()
+    {
+    }
+
+public:
+    void setUp()
+    {
+        new DsaManager();
+    }
+
+    void tearDown()
+    {
+        delete DsaManager::getSingletonPtr();
+    }
 };
 
 #endif

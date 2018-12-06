@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -19,7 +19,7 @@
 #include "GlobalProperties.h"
 #include "SaveGameManager.h"
 
-template<> rl::GlobalProperties* Ogre::Singleton<rl::GlobalProperties>::ms_Singleton = 0;
+template <> rl::GlobalProperties* Ogre::Singleton<rl::GlobalProperties>::ms_Singleton = 0;
 
 namespace rl
 {
@@ -33,7 +33,6 @@ namespace rl
         SaveGameManager::getSingleton().unregisterSaveGameData(this);
     }
 
-    
     /// Overrides from PropertyHolder
     const Property GlobalProperties::getProperty(const CeGuiString& key) const
     {
@@ -50,7 +49,7 @@ namespace rl
         return mProperties.getAllPropertyKeys();
     }
 
-    bool GlobalProperties::hasProperty(const Ogre::String &key) const
+    bool GlobalProperties::hasProperty(const Ogre::String& key) const
     {
         return mProperties.hasProperty(key);
     }
@@ -64,16 +63,18 @@ namespace rl
 
     void GlobalProperties::writeData(SaveGameFileWriter* writer)
     {
-        TiXmlElement* elem = writer->appendChildElement(writer->getDocument()->RootElement(), getXmlNodeIdentifier().c_str());
+        TiXmlElement* elem
+            = writer->appendChildElement(writer->getDocument()->RootElement(), getXmlNodeIdentifier().c_str());
         writer->writeEachPropertyToElem(elem, mProperties.toPropertyMap());
     }
 
     void GlobalProperties::readData(SaveGameFileReader* reader)
     {
-        XmlElementList rootNodeList = reader->getElementsByTagName(reader->getDocument(), getXmlNodeIdentifier().c_str());
+        XmlElementList rootNodeList
+            = reader->getElementsByTagName(reader->getDocument(), getXmlNodeIdentifier().c_str());
         if (!rootNodeList.empty())
         {
-        	const TiXmlElement* elem = rootNodeList[0];
+            const TiXmlElement* elem = rootNodeList[0];
 
             PropertyRecordPtr properties = reader->getPropertiesAsRecord(elem);
 
@@ -86,4 +87,3 @@ namespace rl
         return 1001;
     }
 }
-

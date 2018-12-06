@@ -22,44 +22,46 @@
 namespace rl
 {
 
-/** Diese Klasse ist der Nulltreiber, der immer
- * vorhanden ist und einfach nichts ausgibt.
- */
-class _RlCoreExport NullDriver : public rl::SoundDriver
-{
-public:
-    /// Der Treibername
-    static Ogre::String NAME;
-    /// Der Konstruktor
-    NullDriver(Ogre::ResourceManager* soundResourceManager);
-    /// Der Destruktor
-    ~NullDriver();
-    /// Ist der Treiber angeschaltet?
-    bool isDriverAvailable();
-    /// Initialisiere den Treiber.
-    virtual bool initialize();
-    /// Deinitialisiere den Treiber.
-    virtual void shutdown();
-    /// Der Name des Treibers
-    virtual Ogre::String getName() const;
-    /// Update-Aufgaben erledigen
-    virtual void update();
-    /// Ist kein Ogre plugin
-    virtual bool isDriverPlugin() { return false; }
-    /// Einen Soundlistener erzeugen
-    virtual ListenerMovable *createListener(const Ogre::String &name);
-    /// Set volume attenuation factor f in 1/(f*distance)
-    virtual void setRolloffFactor(const Ogre::Real&);
-    virtual const Ogre::Real getRolloffFactor();
+    /** Diese Klasse ist der Nulltreiber, der immer
+     * vorhanden ist und einfach nichts ausgibt.
+     */
+    class _RlCoreExport NullDriver : public rl::SoundDriver
+    {
+    public:
+        /// Der Treibername
+        static Ogre::String NAME;
+        /// Der Konstruktor
+        NullDriver(Ogre::ResourceManager* soundResourceManager);
+        /// Der Destruktor
+        ~NullDriver();
+        /// Ist der Treiber angeschaltet?
+        bool isDriverAvailable();
+        /// Initialisiere den Treiber.
+        virtual bool initialize();
+        /// Deinitialisiere den Treiber.
+        virtual void shutdown();
+        /// Der Name des Treibers
+        virtual Ogre::String getName() const;
+        /// Update-Aufgaben erledigen
+        virtual void update();
+        /// Ist kein Ogre plugin
+        virtual bool isDriverPlugin()
+        {
+            return false;
+        }
+        /// Einen Soundlistener erzeugen
+        virtual ListenerMovable* createListener(const Ogre::String& name);
+        /// Set volume attenuation factor f in 1/(f*distance)
+        virtual void setRolloffFactor(const Ogre::Real&);
+        virtual const Ogre::Real getRolloffFactor();
 
-    /// Sets an eax preset
-    virtual bool setEaxPreset(const Ogre::String& name);
+        /// Sets an eax preset
+        virtual bool setEaxPreset(const Ogre::String& name);
 
-protected:
-    virtual Sound* createSoundImpl(SoundResourcePtr res, SoundType type);
-    virtual SoundStitching* createSoundStitchingImpl(unsigned int numSlots, const CeGuiString& name);
-};
-
+    protected:
+        virtual Sound* createSoundImpl(SoundResourcePtr res, SoundType type);
+        virtual SoundStitching* createSoundStitchingImpl(unsigned int numSlots, const CeGuiString& name);
+    };
 }
 
 #endif /*NULLDRIVER_H_*/

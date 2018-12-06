@@ -1,6 +1,6 @@
 /* Sleep.h - Plattformunabhaengigkeit fuer sleep
  * (C) 2003-2008. Team Pantheon. www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -14,26 +14,24 @@
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm
  */
 
-
 #include "RastullahPrerequisites.h"
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #include "Windows.h"
 #endif
-	
 
-namespace rl {
-/**
- * @param sleeptime Die Zeit in Millisekunden.
- * Legen den aktuellen Thread fuer sleeptime Millisekungen schlafen.
- */
-inline void msleep(unsigned long sleeptime)
+namespace rl
 {
+    /**
+     * @param sleeptime Die Zeit in Millisekunden.
+     * Legen den aktuellen Thread fuer sleeptime Millisekungen schlafen.
+     */
+    inline void msleep(unsigned long sleeptime)
+    {
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-    Sleep(sleeptime);
+        Sleep(sleeptime);
 #else
-    usleep(sleeptime * 1000);
+        usleep(sleeptime * 1000);
 #endif
-}
-
+    }
 }

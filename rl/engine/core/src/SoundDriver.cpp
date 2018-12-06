@@ -15,95 +15,91 @@
  */
 #include "stdinc.h" //precompiled header
 
-#include "SoundDriver.h"
 #include "ConfigFile.h"
-
+#include "SoundDriver.h"
 
 using namespace Ogre;
 
 namespace rl
 {
 
-SoundDriver::SoundDriver(ResourceManager* soundResourceManager)
- :  mSoundResourceManager(soundResourceManager),
-    mStreamSet(),
-    mSampleSet(),
-    mDefaultMusicVolume(40),
-    mDefaultSoundVolume(100),
-    mMasterVolume(100)
-{
-}
-
-SoundDriver::~SoundDriver()
-{
-    SoundSet sounds;
-    sounds.insert(mSampleSet.begin(), mSampleSet.end());
-    sounds.insert(mSampleSet.begin(), mSampleSet.end());
-    for (SoundSet::iterator it = sounds.begin(); it != sounds.end(); ++it)
+    SoundDriver::SoundDriver(ResourceManager* soundResourceManager)
+        : mSoundResourceManager(soundResourceManager)
+        , mStreamSet()
+        , mSampleSet()
+        , mDefaultMusicVolume(40)
+        , mDefaultSoundVolume(100)
+        , mMasterVolume(100)
     {
-        if ((*it)->isPlaying())
+    }
+
+    SoundDriver::~SoundDriver()
+    {
+        SoundSet sounds;
+        sounds.insert(mSampleSet.begin(), mSampleSet.end());
+        sounds.insert(mSampleSet.begin(), mSampleSet.end());
+        for (SoundSet::iterator it = sounds.begin(); it != sounds.end(); ++it)
         {
-            (*it)->stop();
+            if ((*it)->isPlaying())
+            {
+                (*it)->stop();
+            }
+            delete *it;
         }
-        delete *it;
     }
-}
 
-/// Die Standardlautstaerke fuer Musik einstellen
-void SoundDriver::setDefaultMusicVolume(const Ogre::Real& vol)
-{
-    mDefaultMusicVolume = vol;
-    SoundSet::iterator it;
-    for(it = mStreamSet.begin(); it != mStreamSet.end(); it++)
+    /// Die Standardlautstaerke fuer Musik einstellen
+    void SoundDriver::setDefaultMusicVolume(const Ogre::Real& vol)
     {
-        (*it)->setVolume(vol);
+        mDefaultMusicVolume = vol;
+        SoundSet::iterator it;
+        for (it = mStreamSet.begin(); it != mStreamSet.end(); it++)
+        {
+            (*it)->setVolume(vol);
+        }
     }
-}
 
-/// Die Standardlautstaerke fuer Musik zurueckgeben.
-const Ogre::Real SoundDriver::getDefaultMusicVolume() const
-{
-    return mDefaultMusicVolume;
-}
-
-/// Die Standardlautstaerke fuer Musik einstellen
-void SoundDriver::setDefaultSoundVolume(const Ogre::Real& vol)
-{
-    mDefaultSoundVolume = vol;
-    SoundSet::iterator it;
-    for(it = mSampleSet.begin(); it != mSampleSet.end(); it++)
+    /// Die Standardlautstaerke fuer Musik zurueckgeben.
+    const Ogre::Real SoundDriver::getDefaultMusicVolume() const
     {
-        (*it)->setVolume(vol);
+        return mDefaultMusicVolume;
     }
-}
 
-/// Die Standardlautstaerke fuer Musik zurueckgeben.
-const Ogre::Real SoundDriver::getDefaultSoundVolume() const
-{
-    return mDefaultSoundVolume;
-}
+    /// Die Standardlautstaerke fuer Musik einstellen
+    void SoundDriver::setDefaultSoundVolume(const Ogre::Real& vol)
+    {
+        mDefaultSoundVolume = vol;
+        SoundSet::iterator it;
+        for (it = mSampleSet.begin(); it != mSampleSet.end(); it++)
+        {
+            (*it)->setVolume(vol);
+        }
+    }
 
-void SoundDriver::setMasterVolume(const Ogre::Real& vol)
-{
-    mMasterVolume = vol;
-}
+    /// Die Standardlautstaerke fuer Musik zurueckgeben.
+    const Ogre::Real SoundDriver::getDefaultSoundVolume() const
+    {
+        return mDefaultSoundVolume;
+    }
 
-const Ogre::Real SoundDriver::getMasterVolume() const
-{
-    return mMasterVolume;
-}
+    void SoundDriver::setMasterVolume(const Ogre::Real& vol)
+    {
+        mMasterVolume = vol;
+    }
+
+    const Ogre::Real SoundDriver::getMasterVolume() const
+    {
+        return mMasterVolume;
+    }
 
     Ogre::NameValuePairList SoundDriver::getSettings() const
     {
         Ogre::NameValuePairList SoundSettings;
 
         // Append the settings to the list
-        SoundSettings.insert(make_pair("MasterVolume",
-            Ogre::StringConverter::toString(mMasterVolume)));
-        SoundSettings.insert(make_pair("DefaultMusicVolume",
-            Ogre::StringConverter::toString(mDefaultMusicVolume)));
-        SoundSettings.insert(make_pair("DefaultSoundVolume",
-            Ogre::StringConverter::toString(mDefaultSoundVolume)));
+        SoundSettings.insert(make_pair("MasterVolume", Ogre::StringConverter::toString(mMasterVolume)));
+        SoundSettings.insert(make_pair("DefaultMusicVolume", Ogre::StringConverter::toString(mDefaultMusicVolume)));
+        SoundSettings.insert(make_pair("DefaultSoundVolume", Ogre::StringConverter::toString(mDefaultSoundVolume)));
 
         return SoundSettings;
     }
@@ -153,8 +149,7 @@ const Ogre::Real SoundDriver::getMasterVolume() const
 
     Sound* SoundDriver::createSound(const String& name, SoundType type)
     {
-        SoundResourcePtr ptr = mSoundResourceManager->load(name,
-            ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME);
+        SoundResourcePtr ptr = mSoundResourceManager->load(name, ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME);
         if (ptr.isNull())
         {
             Throw(IllegalArgumentException, "Sound " + name + "nicht gefunden");

@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -22,117 +22,112 @@
 #include "Properties.h"
 #include "RulesConstants.h"
 
-namespace rl {
+namespace rl
+{
 
     class Creature;
     class Item;
     class Slot;
-	class Weapon;
-
-/**
- * @brief Verwaltet das Inventar des Charakters
- */
-class _RlRulesExport Inventory : public PropertyHolder
-{
-public:
-
-	static const Ogre::String PROPERTY_CONTENT;
-	static const Ogre::String PROPERTY_SLOTS;
-	/** 
-	* @brief Eine Liste mit Zeigern auf Items
-	**/
-	typedef std::list<Item*> ItemList;
+    class Weapon;
 
     /**
-     * @brief A map of slot names to slots
+     * @brief Verwaltet das Inventar des Charakters
      */
-    typedef std::map<CeGuiString, Slot*> SlotMap;
+    class _RlRulesExport Inventory : public PropertyHolder
+    {
+    public:
+        static const Ogre::String PROPERTY_CONTENT;
+        static const Ogre::String PROPERTY_SLOTS;
+        /**
+         * @brief Eine Liste mit Zeigern auf Items
+         **/
+        typedef std::list<Item*> ItemList;
 
-	Inventory(Creature* owner);
-	virtual ~Inventory();
+        /**
+         * @brief A map of slot names to slots
+         */
+        typedef std::map<CeGuiString, Slot*> SlotMap;
 
+        Inventory(Creature* owner);
+        virtual ~Inventory();
 
-	/**
-	* Liefert alle Items im Inventar inm einer Liste
-	* Wichtig:
-	* NUR die erste Hierarchieebene der Items wird zurckgegeben
-	* Was in den Items drinnen ist, ist vernachlaessigt
-	*/
-	ItemList getAllItems() const;
+        /**
+         * Liefert alle Items im Inventar inm einer Liste
+         * Wichtig:
+         * NUR die erste Hierarchieebene der Items wird zurckgegeben
+         * Was in den Items drinnen ist, ist vernachlaessigt
+         */
+        ItemList getAllItems() const;
 
+        /**
+         * Liefert die gesamte Last des Inventars in Unzen
+         */
+        int getOverallWeight();
 
-	/**
-	* Liefert die gesamte Last des Inventars in Unzen
-	*/
-	int getOverallWeight();
+        /**
+         * @return Die errechnete Behinderung
+         **/
+        std::pair<int, int> getOverallBe();
 
-	/**
-	 * @return Die errechnete Behinderung
-	 **/
-	std::pair<int,int> getOverallBe();
+        /**
+         * @return die gesamte Rstung des Chars
+         */
+        int getOverallRs();
 
-	/**
-	* @return die gesamte Rstung des Chars
-	*/
-	int getOverallRs();
+        // Das Inventar der Kreatur wird durch das Inventarobjekt verwaltet.
+        // void addToInventory(Item* item, const CeGuiString& containerName);
+        void hold(Item* item, const CeGuiString& slotName);
+        void ready(Item* item, const CeGuiString& slotName);
+        bool canHold(const Item* item, const CeGuiString& slotName) const;
+        bool canReady(const Item* item, const CeGuiString& slotName) const;
+        void dropItem(const CeGuiString& slotName);
+        // void removeFromInventory(Item* item);
 
+        /// Returns readied weapons or an empty vector if no weapon is readied.
+        std::vector<Weapon*> getReadiedWeapons() const;
 
-    // Das Inventar der Kreatur wird durch das Inventarobjekt verwaltet.
-    //void addToInventory(Item* item, const CeGuiString& containerName);
-    void hold(Item* item, const CeGuiString& slotName);
-    void ready(Item* item, const CeGuiString& slotName);
-    bool canHold(const Item* item, const CeGuiString& slotName) const;
-    bool canReady(const Item* item, const CeGuiString& slotName) const;
-	void dropItem(const CeGuiString& slotName);
-    //void removeFromInventory(Item* item);
+        Item* getItem(const CeGuiString& slotName) const;
+        void addSlot(const CeGuiString& name, const Ogre::String& meshpartname, int itemReadyMask, int itemHeldMask,
+            SlotType type = SLOT_BONE);
+        const SlotMap& getAllSlots() const;
 
-	/// Returns readied weapons or an empty vector if no weapon is readied.
-	std::vector<Weapon*> getReadiedWeapons() const;
+        Creature* getOwner() const;
 
-    Item* getItem(const CeGuiString& slotName) const;
-    void addSlot(const CeGuiString& name, const Ogre::String& meshpartname, int itemReadyMask, int itemHeldMask, SlotType type = SLOT_BONE);
-    const SlotMap& getAllSlots() const;
+        virtual const Property getProperty(const CeGuiString& key) const;
+        virtual void setProperty(const CeGuiString& key, const Property& value);
+        virtual PropertyKeys getAllPropertyKeys() const;
 
-	Creature* getOwner() const;
+    private:
+        bool mValuesUpToDate;
+        Ogre::Real mCurrentWeight;
+        int mCurrentBeByWeight;
+        int mCurrentBe;
+        int mCurrentRs;
 
-	virtual const Property getProperty(const CeGuiString& key) const;
-    virtual void setProperty(const CeGuiString& key, const Property& value);
-    virtual PropertyKeys getAllPropertyKeys() const;
+        SlotMap mSlots;
 
-private:
-	bool mValuesUpToDate;
-	Ogre::Real mCurrentWeight;
-	int mCurrentBeByWeight;
-	int mCurrentBe;
-	int mCurrentRs;
+        Creature* mOwner;
 
-    SlotMap mSlots;
+        /**
+         * Setzt Flag, dass die Werte neu berechnet werden mssen
+         */
+        void markDirty();
 
-	Creature* mOwner;
+        /**
+         * Update der Werte fr Gewicht, Rs und Behinderung
+         */
+        void updateStats();
 
-	/**
-	* Setzt Flag, dass die Werte neu berechnet werden mssen
-	*/
-	void markDirty();
+        /**
+         * Berechnet das Gewicht und aktualisiert mCurrentWeight
+         */
+        void calculateWeight(ItemList allItems);
 
-	/**
-	* Update der Werte fr Gewicht, Rs und Behinderung
-	*/
-	void updateStats();
-
-	/**
-	* Berechnet das Gewicht und aktualisiert mCurrentWeight
-	*/
-	void calculateWeight(ItemList allItems);
-	
-	/**
-	* @pre: calculateWeight() wurde zuvor aufgerufen
-	* @post: berechnet die Behinderung (mCurrentRs und mCurrentBe werden aktualisiert)
-	*/
-	void calculateRsAndBe();
-};
-
+        /**
+         * @pre: calculateWeight() wurde zuvor aufgerufen
+         * @post: berechnet die Behinderung (mCurrentRs und mCurrentBe werden aktualisiert)
+         */
+        void calculateRsAndBe();
+    };
 }
 #endif
-
-

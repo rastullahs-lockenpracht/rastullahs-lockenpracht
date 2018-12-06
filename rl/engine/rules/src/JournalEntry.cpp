@@ -24,7 +24,8 @@ namespace rl
     const Ogre::String JournalEntry::PROPERTY_CAPTION = "caption";
 
     JournalEntry::JournalEntry(const CeGuiString caption, const CeGuiString text)
-        : mCaption(caption), mText(text)
+        : mCaption(caption)
+        , mText(text)
     {
     }
 
@@ -43,7 +44,8 @@ namespace rl
     }
 
     JournalEvent::JournalEvent(QuestBook* src, int reason, JournalEntry* entry)
-        : EventObject(src, reason), mJournalEntry(entry)
+        : EventObject(src, reason)
+        , mJournalEntry(entry)
     {
     }
 

@@ -26,7 +26,7 @@ namespace rl
     {
     public:
         GameOverWindow();
-        
+
         bool handleMainMenuClick();
         bool handleQuitClick();
         bool handleCheatClick();

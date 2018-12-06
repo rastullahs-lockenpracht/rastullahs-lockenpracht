@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -19,73 +19,70 @@
 
 #include <functional>
 
-namespace rl {
-/**
- * Diese Klasse ist die Basisklasse fuer Objekte, die an Ereignisse interessiert
- * sind.
- * @author JoSch
- * @date 10-05-2004
- * @version 1.0
- */
-template <typename Event>
-class EventListener {
-public:
-    /// Der Konstruktor.
-	EventListener();
-    /// Der Destruktor.
-	virtual ~EventListener();
-    /* Hier wird das Objekt benachrichtigt.
-	 *
-	 * @return bool consumed Wurde der Event aufgebracht (defunct)
-	 */
-    virtual bool eventRaised(Event *anEvent) = 0;
-};
-
-/**
- * @author JoSch
- * @date 10-05-2004
- * @version 1.0
- */
-template <typename Event>
-EventListener<Event>::EventListener()
-{}
-
-/**
- * @author JoSch
- * @date 10-05-2004
- * @version 1.0
- */
-template <typename Event>
-EventListener<Event>::~EventListener()
-{}
-
-/**
- * Diese Klasse ist ein Funktor fuer EventListener, der "dispatchEvent"
- * aufruft.
- * @author JoSch
- * @date 10-30-2004
- * @version 1.0
- */
-template <typename Event>
-class DispatchFunctor:
-    public std::binary_function<EventListener<Event>*, Event*, bool> {
-public:
-    /// Ein Functor, der einen EventListener und einen Event entgegennimmt
-    inline bool operator() (EventListener<Event> *listener, Event *event) const;
-};
-
-/**
- * @author JoSch
- * @date 10-30-2004
- * @version 1.0
- */
-template <typename Event>
-bool DispatchFunctor<Event>::operator() 
-        (EventListener<Event> *listener, Event *event) const
+namespace rl
 {
-    return listener->eventRaised(event);
-}
+    /**
+     * Diese Klasse ist die Basisklasse fuer Objekte, die an Ereignisse interessiert
+     * sind.
+     * @author JoSch
+     * @date 10-05-2004
+     * @version 1.0
+     */
+    template <typename Event> class EventListener
+    {
+    public:
+        /// Der Konstruktor.
+        EventListener();
+        /// Der Destruktor.
+        virtual ~EventListener();
+        /* Hier wird das Objekt benachrichtigt.
+         *
+         * @return bool consumed Wurde der Event aufgebracht (defunct)
+         */
+        virtual bool eventRaised(Event* anEvent) = 0;
+    };
 
+    /**
+     * @author JoSch
+     * @date 10-05-2004
+     * @version 1.0
+     */
+    template <typename Event> EventListener<Event>::EventListener()
+    {
+    }
 
+    /**
+     * @author JoSch
+     * @date 10-05-2004
+     * @version 1.0
+     */
+    template <typename Event> EventListener<Event>::~EventListener()
+    {
+    }
+
+    /**
+     * Diese Klasse ist ein Funktor fuer EventListener, der "dispatchEvent"
+     * aufruft.
+     * @author JoSch
+     * @date 10-30-2004
+     * @version 1.0
+     */
+    template <typename Event> class DispatchFunctor : public std::binary_function<EventListener<Event>*, Event*, bool>
+    {
+    public:
+        /// Ein Functor, der einen EventListener und einen Event entgegennimmt
+        inline bool operator()(EventListener<Event>* listener, Event* event) const;
+    };
+
+    /**
+     * @author JoSch
+     * @date 10-30-2004
+     * @version 1.0
+     */
+    template <typename Event>
+    bool DispatchFunctor<Event>::operator()(EventListener<Event>* listener, Event* event) const
+    {
+        return listener->eventRaised(event);
+    }
 }
 #endif // EVENTLISTENER_H

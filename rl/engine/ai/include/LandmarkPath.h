@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -20,29 +20,30 @@
 
 namespace rl
 {
-	class Landmark;
+    class Landmark;
 
-	class _RlAiExport LandmarkPath
-	{
-	public:
+    class _RlAiExport LandmarkPath
+    {
+    public:
         typedef std::deque<Landmark*> LandmarkList;
 
-		LandmarkPath(const Ogre::String& name);
-		~LandmarkPath();
+        LandmarkPath(const Ogre::String& name);
+        ~LandmarkPath();
 
-		void addPoint(const Ogre::String& name, const Ogre::Vector3& position);
-		void addPoint(Landmark* lm);
+        void addPoint(const Ogre::String& name, const Ogre::Vector3& position);
+        void addPoint(Landmark* lm);
         void removePoint(const Ogre::String& name);
         void removePoint(Landmark* lm);
-        
+
         LandmarkList getPoints() const;
         LandmarkList::const_iterator begin() const;
         LandmarkList::const_iterator end() const;
         bool isEmpty() const;
-	private:
-		LandmarkList mPoints;
-		Ogre::String mName;
-	};
+
+    private:
+        LandmarkList mPoints;
+        Ogre::String mName;
+    };
 }
 
 #endif //__LandmarkPath_H__

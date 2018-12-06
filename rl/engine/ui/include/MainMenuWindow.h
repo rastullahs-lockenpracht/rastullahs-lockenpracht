@@ -16,37 +16,38 @@
 #ifndef __MainMenuWindow_H__
 #define __MainMenuWindow_H__
 
-#include "UiPrerequisites.h"
 #include "AbstractWindow.h"
+#include "UiPrerequisites.h"
 #include <elements/CEGUIMenuItem.h>
 
-namespace rl {
+namespace rl
+{
 
-	class ContentModule;
-	class MainMenuEngineWindow;
+    class ContentModule;
+    class MainMenuEngineWindow;
 
-	class _RlUiExport MainMenuWindow : public AbstractWindow
-	{
-	public:
-		MainMenuWindow(MainMenuEngineWindow* enginewindow);
+    class _RlUiExport MainMenuWindow : public AbstractWindow
+    {
+    public:
+        MainMenuWindow(MainMenuEngineWindow* enginewindow);
         virtual ~MainMenuWindow();
 
-		void setActiveModule(const CeGuiString& module);
-		void setVisible(bool visible, bool destroyAfterHide = false);
+        void setActiveModule(const CeGuiString& module);
+        void setVisible(bool visible, bool destroyAfterHide = false);
 
-	private:
-		bool handleChooseModule(CEGUI::MenuItem* it, ContentModule* module);
-		bool handleStart();
+    private:
+        bool handleChooseModule(CEGUI::MenuItem* it, ContentModule* module);
+        bool handleStart();
         bool handleLoad();
-		bool handleQuit();
-		bool handleSettings();
+        bool handleQuit();
+        bool handleSettings();
 
-		bool handleKey(const CEGUI::EventArgs& evt);
-		void fillModules();
+        bool handleKey(const CEGUI::EventArgs& evt);
+        void fillModules();
 
-		ContentModule* mActiveModule;
-		MainMenuEngineWindow* mEngineWindow;
-	};
+        ContentModule* mActiveModule;
+        MainMenuEngineWindow* mEngineWindow;
+    };
 }
 
 #endif

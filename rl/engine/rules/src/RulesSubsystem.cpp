@@ -21,8 +21,8 @@
 #include "CombatManager.h"
 #include "ConfigurationManager.h"
 #include "CreatureControllerManager.h"
-#include "DsaManager.h"
 #include "DsaDataLoader.h"
+#include "DsaManager.h"
 #include "EffectFactory.h"
 #include "EffectManagementTask.h"
 #include "GameEventLog.h"
@@ -34,59 +34,56 @@
 #include "PartyManager.h"
 #include "QuestBook.h"
 
-template <>
-rl::RulesSubsystem* Singleton<rl::RulesSubsystem>::ms_Singleton = 0;
+template <> rl::RulesSubsystem* Singleton<rl::RulesSubsystem>::ms_Singleton = 0;
 namespace rl
 {
     RulesSubsystem::RulesSubsystem()
-		: mQuestBook(NULL),
-        mActionManager(NULL),
-        mCombatManager(NULL),
-        mDsaManager(NULL),
-		mGameEventLog(NULL),
-        mMovingCreatureManager(NULL),
-        mXdimlLoader(NULL),
-        mGlobalProperties(NULL),
-        mEffectManagementTask(NULL)
+        : mQuestBook(NULL)
+        , mActionManager(NULL)
+        , mCombatManager(NULL)
+        , mDsaManager(NULL)
+        , mGameEventLog(NULL)
+        , mMovingCreatureManager(NULL)
+        , mXdimlLoader(NULL)
+        , mGlobalProperties(NULL)
+        , mEffectManagementTask(NULL)
     {
-		LOG_MESSAGE(Logger::RULES, "Start");
-        //Zufallsgenerator initialisieren
+        LOG_MESSAGE(Logger::RULES, "Start");
+        // Zufallsgenerator initialisieren
         srand(static_cast<unsigned int>(time(NULL)));
 
-        TimeSourceManager::getSingleton().registerTimeSource(
-            new GameTimeSource());
+        TimeSourceManager::getSingleton().registerTimeSource(new GameTimeSource());
 
-        //Singletons erzeugen
+        // Singletons erzeugen
         mActionManager = new ActionManager();
-		LOG_MESSAGE(Logger::RULES, "ActionManager erzeugt");
+        LOG_MESSAGE(Logger::RULES, "ActionManager erzeugt");
         mCombatManager = new CombatManager();
-		LOG_MESSAGE(Logger::RULES, "CombatManager erzeugt");
+        LOG_MESSAGE(Logger::RULES, "CombatManager erzeugt");
         mDsaManager = new DsaManager();
-		LOG_MESSAGE(Logger::RULES, "DsaManager erzeugt");
+        LOG_MESSAGE(Logger::RULES, "DsaManager erzeugt");
         mGameEventLog = new GameEventLog();
-		LOG_MESSAGE(Logger::RULES, "GameEventLog erzeugt");
+        LOG_MESSAGE(Logger::RULES, "GameEventLog erzeugt");
         mMovingCreatureManager = new CreatureControllerManager();
-		LOG_MESSAGE(Logger::RULES, "CreatureControllerManager erzeugt");
-		resetQuestBook();
-		LOG_MESSAGE(Logger::RULES, "Questverwaltung erzeugt");
+        LOG_MESSAGE(Logger::RULES, "CreatureControllerManager erzeugt");
+        resetQuestBook();
+        LOG_MESSAGE(Logger::RULES, "Questverwaltung erzeugt");
         mGlobalProperties = new GlobalProperties();
 
         mEffectManagementTask = new EffectManagementTask();
-        GameLoop::getSingleton().addTask(
-            mEffectManagementTask, GameLoop::TG_LOGIC);
+        GameLoop::getSingleton().addTask(mEffectManagementTask, GameLoop::TG_LOGIC);
 
-		//Daten laden
-		mXdimlLoader = new XdimlLoader();
-		LOG_MESSAGE(Logger::RULES, "Basisdaten geladen");
+        // Daten laden
+        mXdimlLoader = new XdimlLoader();
+        LOG_MESSAGE(Logger::RULES, "Basisdaten geladen");
 
         new EffectFactoryManager();
         new GameObjectManager();
-        
+
         mPartyManager = new PartyManager();
-		LOG_MESSAGE(Logger::RULES, "Erzeugen abgeschlossen");
+        LOG_MESSAGE(Logger::RULES, "Erzeugen abgeschlossen");
     }
 
-	RulesSubsystem::~RulesSubsystem()
+    RulesSubsystem::~RulesSubsystem()
     {
         delete mPartyManager;
         GameLoop::getSingleton().removeTask(mEffectManagementTask);
@@ -97,7 +94,7 @@ namespace rl
             Ogre::ResourceGroupManager::getSingleton()._unregisterScriptLoader(mQuestBook);
         }
         delete mQuestBook;
-		delete mGameEventLog;
+        delete mGameEventLog;
         delete mDsaManager;
         delete mCombatManager;
         delete mActionManager;
@@ -107,19 +104,19 @@ namespace rl
         delete EffectFactoryManager::getSingletonPtr();
     }
 
-	QuestBook* RulesSubsystem::getQuestBook()
-	{
-		return mQuestBook;
-	}
+    QuestBook* RulesSubsystem::getQuestBook()
+    {
+        return mQuestBook;
+    }
 
-	void RulesSubsystem::resetQuestBook()
-	{
+    void RulesSubsystem::resetQuestBook()
+    {
         if (mQuestBook)
         {
             Ogre::ResourceGroupManager::getSingleton()._unregisterScriptLoader(mQuestBook);
         }
-		delete mQuestBook;
-		mQuestBook = new QuestBook();
+        delete mQuestBook;
+        mQuestBook = new QuestBook();
         Ogre::ResourceGroupManager::getSingleton()._registerScriptLoader(mQuestBook);
-	}
+    }
 }

@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -19,20 +19,21 @@
 
 #include "CommonPrerequisites.h"
 
-namespace rl {
-/**
- * Diese Klasse dient als Basisklasse fuer Ereignisquellen
- * @author JoSch
- * @date 10-05-2004
- * @version 1.0
- */
-class _RlCommonExport EventSource {
-public:
-    /// Der Konstruktor.
-   EventSource();
-    /// Der Destruktor.
-   virtual ~EventSource();
-};
-
-} 
+namespace rl
+{
+    /**
+     * Diese Klasse dient als Basisklasse fuer Ereignisquellen
+     * @author JoSch
+     * @date 10-05-2004
+     * @version 1.0
+     */
+    class _RlCommonExport EventSource
+    {
+    public:
+        /// Der Konstruktor.
+        EventSource();
+        /// Der Destruktor.
+        virtual ~EventSource();
+    };
+}
 #endif // EVENTSOURCE_H

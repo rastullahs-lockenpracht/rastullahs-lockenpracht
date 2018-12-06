@@ -17,8 +17,8 @@
 
 #include "InGameMenuWindow.h"
 
-#include <boost/bind.hpp>
 #include <CEGUIWindowManager.h>
+#include <boost/bind.hpp>
 #include <elements/CEGUIPopupMenu.h>
 
 #include "Action.h"
@@ -32,83 +32,78 @@ using namespace CEGUI;
 using namespace Ogre;
 using std::map;
 
-namespace rl {
-
-InGameMenuWindow::InGameMenuWindow()
-: AbstractWindow("ingamemenuwindow.xml", WIT_MOUSE_INPUT)
+namespace rl
 {
-	update();
-}
 
-InGameMenuWindow::~InGameMenuWindow()
-{
-}
+    InGameMenuWindow::InGameMenuWindow()
+        : AbstractWindow("ingamemenuwindow.xml", WIT_MOUSE_INPUT)
+    {
+        update();
+    }
 
-void InGameMenuWindow::createMenu(MenuBase* menu)
-{
-	CEGUI::WindowManager* windowMan = CEGUI::WindowManager::getSingletonPtr();
+    InGameMenuWindow::~InGameMenuWindow()
+    {
+    }
 
-	const ActionVector actions = ActionManager::getSingleton().getInGameGlobalActions();
-	std::map<CeGuiString, PopupMenu*> menuGroups;
+    void InGameMenuWindow::createMenu(MenuBase* menu)
+    {
+        CEGUI::WindowManager* windowMan = CEGUI::WindowManager::getSingletonPtr();
 
-	for (ActionVector::const_iterator actIter = actions.begin(); actIter != actions.end(); actIter++)
-	{
-        Action* action = *actIter;
-		ActionGroup* group = action->getGroup();
-		if (group != NULL)
-		{
-			PopupMenu* menuGrp;
-			std::map<CeGuiString, PopupMenu*>::iterator grpIter = menuGroups.find(group->getName());
-			if (grpIter != menuGroups.end())
-			{
-				menuGrp = (*grpIter).second;
-			}
-			else
-			{
-				MenuItem* grpItem = static_cast<MenuItem*>(windowMan->createWindow("RastullahLook/MenuItem",
-					getNamePrefix()+"IngameMenu/"+group->getName()));
-				grpItem->setText(group->getName());
-				menu->addChildWindow(grpItem);
+        const ActionVector actions = ActionManager::getSingleton().getInGameGlobalActions();
+        std::map<CeGuiString, PopupMenu*> menuGroups;
 
-				menuGrp = static_cast<PopupMenu*>(windowMan->createWindow("RastullahLook/PopupMenu",
-					getNamePrefix()+"IngameMenu/Menu"+group->getName()));
-				grpItem->addChildWindow(menuGrp);
+        for (ActionVector::const_iterator actIter = actions.begin(); actIter != actions.end(); actIter++)
+        {
+            Action* action = *actIter;
+            ActionGroup* group = action->getGroup();
+            if (group != NULL)
+            {
+                PopupMenu* menuGrp;
+                std::map<CeGuiString, PopupMenu*>::iterator grpIter = menuGroups.find(group->getName());
+                if (grpIter != menuGroups.end())
+                {
+                    menuGrp = (*grpIter).second;
+                }
+                else
+                {
+                    MenuItem* grpItem = static_cast<MenuItem*>(windowMan->createWindow(
+                        "RastullahLook/MenuItem", getNamePrefix() + "IngameMenu/" + group->getName()));
+                    grpItem->setText(group->getName());
+                    menu->addChildWindow(grpItem);
 
-				menuGroups[group->getName()] = menuGrp;
-			}
+                    menuGrp = static_cast<PopupMenu*>(windowMan->createWindow(
+                        "RastullahLook/PopupMenu", getNamePrefix() + "IngameMenu/Menu" + group->getName()));
+                    grpItem->addChildWindow(menuGrp);
 
-			MenuItem* item = static_cast<MenuItem*>(windowMan->createWindow("RastullahLook/MenuItem",
-				getNamePrefix()+"IngameMenu/"+group->getName()+"/"+action->getName()));
-			item->setText(action->getDescription());
-			menuGrp->addChildWindow(item);
+                    menuGroups[group->getName()] = menuGrp;
+                }
 
-			setAction(item, action);
-		}
-	}
-}
+                MenuItem* item = static_cast<MenuItem*>(windowMan->createWindow("RastullahLook/MenuItem",
+                    getNamePrefix() + "IngameMenu/" + group->getName() + "/" + action->getName()));
+                item->setText(action->getDescription());
+                menuGrp->addChildWindow(item);
 
-void InGameMenuWindow::setAction(MenuItem* item, Action* action)
-{
-	item->subscribeEvent(
-		MenuItem::EventClicked,
-		boost::bind(
-			&InGameMenuWindow::handleAction,
-			this,
-			action));
-}
+                setAction(item, action);
+            }
+        }
+    }
 
-bool InGameMenuWindow::handleAction(Action* action)
-{
-	action->doAction(NULL, NULL, NULL);
+    void InGameMenuWindow::setAction(MenuItem* item, Action* action)
+    {
+        item->subscribeEvent(MenuItem::EventClicked, boost::bind(&InGameMenuWindow::handleAction, this, action));
+    }
 
-	setVisible(false);
+    bool InGameMenuWindow::handleAction(Action* action)
+    {
+        action->doAction(NULL, NULL, NULL);
 
-	return true;
-}
+        setVisible(false);
 
-void InGameMenuWindow::update()
-{
-	createMenu(getMenu("InGameMenu/Menubar"));
-}
+        return true;
+    }
 
+    void InGameMenuWindow::update()
+    {
+        createMenu(getMenu("InGameMenu/Menubar"));
+    }
 }

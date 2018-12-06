@@ -16,14 +16,18 @@
 #include "stdinc.h" //precompiled header
 
 #include "Dialog.h"
-#include "DialogOption.h"
 #include "DialogCondition.h"
+#include "DialogOption.h"
 
 namespace rl
 {
 
     DialogOption::DialogOption(const CeGuiString& id, const CeGuiString& person, bool autoSelected)
-    : DialogElement(id, person), mPrecondition(NULL), mResponse(NULL), mLabel(""), mAutoSelected(autoSelected)
+        : DialogElement(id, person)
+        , mPrecondition(NULL)
+        , mResponse(NULL)
+        , mLabel("")
+        , mAutoSelected(autoSelected)
     {
     }
 
@@ -31,7 +35,7 @@ namespace rl
     {
     }
 
-    void DialogOption::setResponse(DialogResponse *response)
+    void DialogOption::setResponse(DialogResponse* response)
     {
         mResponse = response;
     }
@@ -48,9 +52,10 @@ namespace rl
 
     const CeGuiString& DialogOption::getConditionVariableType()
     {
-        RlAssert(mPrecondition, CeGuiString("No precondition found for option with id: "
-                                + getId()
-                                + "\nA precondition must be set to get its variable type").c_str());
+        RlAssert(mPrecondition,
+            CeGuiString("No precondition found for option with id: " + getId()
+                + "\nA precondition must be set to get its variable type")
+                .c_str());
         return mPrecondition->getVariableType();
     }
 
@@ -73,12 +78,12 @@ namespace rl
     {
         bool isActive = true;
 
-        if(dialog->getAllProperties()->hasProperty("option" + getId() + "isActive"))
+        if (dialog->getAllProperties()->hasProperty("option" + getId() + "isActive"))
         {
             isActive = dialog->getProperty("option" + getId() + "isActive");
         }
         // if the DialogOption is not active, return false
-        if(!isActive)
+        if (!isActive)
         {
             return false;
         }
@@ -91,7 +96,7 @@ namespace rl
         return true;
     }
 
-    void DialogOption::setLabel(const CeGuiString &label)
+    void DialogOption::setLabel(const CeGuiString& label)
     {
         mLabel = label;
         mLabel.c_str();

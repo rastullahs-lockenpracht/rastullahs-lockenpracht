@@ -31,7 +31,6 @@ namespace rl
         virtual bool mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id, bool handled);
 
     protected:
-        
         enum DialogState
         {
             DS_UNKNOWN = 1,
@@ -40,9 +39,8 @@ namespace rl
             DS_SHOWING_RESPONSE,
             DS_CLOSING_DIALOG
         };
-        
-        DialogController(CommandMapper* commandMapper, Actor* camera, Creature* character,
-                ControlStateType type);
+
+        DialogController(CommandMapper* commandMapper, Actor* camera, Creature* character, ControlStateType type);
         virtual ~DialogController();
 
         void showResponse(DialogResponse* response, DialogWindow* window = NULL);
@@ -55,7 +53,7 @@ namespace rl
         void setSubtitleWindow(SubtitleWindow* window);
         virtual void pause();
 
-         SubtitleWindow* mSubtitleWindow;
+        SubtitleWindow* mSubtitleWindow;
         DialogWindow* mDialogWindow;
         SoundObject* mSoundObject;
         MeshAnimation* mTalkAnimation;
@@ -84,6 +82,5 @@ namespace rl
         void processTextVariables(CeGuiString& text);
     };
 }
-
 
 #endif /* DIALOGCONTROLLER_H_ */

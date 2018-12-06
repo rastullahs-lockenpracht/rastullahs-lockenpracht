@@ -1,18 +1,18 @@
 /* This source file is part of Rastullahs Lockenpracht.
-* Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
-*
-*  This program is free software; you can redistribute it and/or modify
-*  it under the terms of the Clarified Artistic License.
-*
-*  This program is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  Clarified Artistic License for more details.
-*
-*  You should have received a copy of the Clarified Artistic License
-*  along with this program; if not you can get it here
-*  http://www.jpaulmorrison.com/fbp/artistic2.htm.
-*/
+ * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the Clarified Artistic License.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  Clarified Artistic License for more details.
+ *
+ *  You should have received a copy of the Clarified Artistic License
+ *  along with this program; if not you can get it here
+ *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
+ */
 #include "stdinc.h" //precompiled header
 
 #include "ZoneProcessor.h"
@@ -30,22 +30,22 @@ using namespace Ogre;
 namespace rl
 {
 
-	bool ZoneProcessor::processNode(const TiXmlElement* zonesElem, const Ogre::String& resourceGroup, bool loadGameObjects)
-	{
-		if (zonesElem == NULL)
-		{
-			return false; // no zones
-		}
+    bool ZoneProcessor::processNode(
+        const TiXmlElement* zonesElem, const Ogre::String& resourceGroup, bool loadGameObjects)
+    {
+        if (zonesElem == NULL)
+        {
+            return false; // no zones
+        }
 
         for (const TiXmlNode* cur = zonesElem->FirstChild(); cur != NULL; cur = cur->NextSibling())
         {
-            if (cur->Type() == TiXmlNode::ELEMENT
-				&& hasNodeName(cur, "zone"))
+            if (cur->Type() == TiXmlNode::ELEMENT && hasNodeName(cur, "zone"))
             {
-            	const TiXmlElement* curZoneElem = cur->ToElement();
-				if (hasAttribute(curZoneElem, "name"))
-				{
-					Ogre::String name = getAttributeValueAsStdString(curZoneElem, "name");
+                const TiXmlElement* curZoneElem = cur->ToElement();
+                if (hasAttribute(curZoneElem, "name"))
+                {
+                    Ogre::String name = getAttributeValueAsStdString(curZoneElem, "name");
                     Zone* zone = NULL;
                     if (name == "default")
                     {
@@ -61,12 +61,12 @@ namespace rl
                         }
 
                         // multiple areas
-                        for (const TiXmlNode* curArea = cur->FirstChild(); curArea != NULL; curArea = curArea->NextSibling())
+                        for (const TiXmlNode* curArea = cur->FirstChild(); curArea != NULL;
+                             curArea = curArea->NextSibling())
                         {
-                            if (curArea->Type() == TiXmlNode::ELEMENT
-                                && hasNodeName(curArea, "area"))
+                            if (curArea->Type() == TiXmlNode::ELEMENT && hasNodeName(curArea, "area"))
                             {
-                            	const TiXmlElement *curAreaElem = curArea->ToElement();
+                                const TiXmlElement* curAreaElem = curArea->ToElement();
                                 if (hasAttribute(curAreaElem, "type"))
                                 {
                                     // type
@@ -88,14 +88,14 @@ namespace rl
                                         position = getValueAsVector3(positionElem);
                                     }
 
-                                    //scale, rotation, offset
+                                    // scale, rotation, offset
                                     Vector3 scale = Vector3::UNIT_SCALE;
                                     const TiXmlElement* scaleElem = getChildNamed(curAreaElem, "scale");
                                     if (!scaleElem)
                                     {
                                         scaleElem = getChildNamed(curAreaElem, "size");
                                     }
-                                    
+
                                     if (scaleElem)
                                     {
                                         scale = getValueAsVector3(scaleElem);
@@ -115,37 +115,41 @@ namespace rl
                                         rotation = getValueAsQuaternion(rotationElem);
                                     }
 
-                                    //transition distance
+                                    // transition distance
                                     Real transitionDistance = 0;
-                                    const TiXmlElement* transitionElem = getChildNamed(curAreaElem, "transition_distance");
+                                    const TiXmlElement* transitionElem
+                                        = getChildNamed(curAreaElem, "transition_distance");
                                     if (transitionElem)
                                     {
                                         transitionDistance = getValueAsReal(transitionElem);
                                     }
-					            
+
                                     if (type == "mesh")
-    					            {
+                                    {
                                         Ogre::String meshName;
                                         if (hasAttribute(curAreaElem, "meshfile"))
                                         {
                                             meshName = getAttributeValueAsStdString(curAreaElem, "meshfile");
                                             if (subtract)
                                             {
-                                                ZoneManager::getSingleton().subtractMeshAreaFromZone(name,
-                                                    meshName, GT_CONVEXHULL, position, scale, offset, rotation, transitionDistance, QUERYFLAG_PLAYER);
+                                                ZoneManager::getSingleton().subtractMeshAreaFromZone(name, meshName,
+                                                    GT_CONVEXHULL, position, scale, offset, rotation,
+                                                    transitionDistance, QUERYFLAG_PLAYER);
                                             }
                                             else
                                             {
-                                                ZoneManager::getSingleton().addMeshAreaToZone(name,
-                                                    meshName, GT_CONVEXHULL, position, scale, offset, rotation, transitionDistance, QUERYFLAG_PLAYER);
+                                                ZoneManager::getSingleton().addMeshAreaToZone(name, meshName,
+                                                    GT_CONVEXHULL, position, scale, offset, rotation,
+                                                    transitionDistance, QUERYFLAG_PLAYER);
                                             }
                                         }
                                         else
                                         {
-                                            LOG_ERROR(Logger::SCRIPT, "an <area> element with type=\"mesh\" must have attribute 'meshfile'");
+                                            LOG_ERROR(Logger::SCRIPT,
+                                                "an <area> element with type=\"mesh\" must have attribute 'meshfile'");
                                         }
                                     }
-    					            else
+                                    else
                                     {
                                         GeometryType geom = GT_NONE;
                                         if (type == "sphere")
@@ -172,19 +176,19 @@ namespace rl
                                         {
                                             LOG_ERROR(Logger::SCRIPT, "Unknown area type '" + type + "' !");
                                         }
-                                        
-                                        if ( geom != GT_NONE)
+
+                                        if (geom != GT_NONE)
                                         {
                                             Ogre::AxisAlignedBox aabb;
-                                            aabb.setMinimum( - scale / 2.0f);
-                                            aabb.setMaximum( + scale / 2.0f);
+                                            aabb.setMinimum(-scale / 2.0f);
+                                            aabb.setMaximum(+scale / 2.0f);
 
                                             if (subtract)
-                                                ZoneManager::getSingleton().subtractAreaFromZone(name,
-                                                    aabb, geom, position, offset, rotation, transitionDistance, QUERYFLAG_PLAYER);
+                                                ZoneManager::getSingleton().subtractAreaFromZone(name, aabb, geom,
+                                                    position, offset, rotation, transitionDistance, QUERYFLAG_PLAYER);
                                             else
-                                                ZoneManager::getSingleton().addAreaToZone(name,
-                                                    aabb, geom, position, offset, rotation, transitionDistance, QUERYFLAG_PLAYER);
+                                                ZoneManager::getSingleton().addAreaToZone(name, aabb, geom, position,
+                                                    offset, rotation, transitionDistance, QUERYFLAG_PLAYER);
                                         }
                                     }
                                 }
@@ -196,36 +200,36 @@ namespace rl
                         }
                     }
 
-					if (zone)
-					{
-						for (const TiXmlNode* cur = curZoneElem->FirstChild(); cur != NULL; cur = cur->NextSibling())
-						{
-							if (cur->Type() == TiXmlNode::ELEMENT)
-							{
-								const TiXmlElement* curElem = cur->ToElement();
-								if (hasNodeName(curElem, "light"))
-								{
-									Ogre::String name = getAttributeValueAsStdString(curElem, "name");
-									zone->addLight(ActorManager::getSingleton().getActor(name));
-								}
-								else if (hasNodeName(curElem, "sound"))
-								{
-									Ogre::String name = getAttributeValueAsStdString(curElem, "name");
-									zone->addSound(name);
-								}
-								else if (hasNodeName(curElem, "trigger"))
-								{
-									Ogre::String classname =
-										getAttributeValueAsStdString(curElem, "classname");
+                    if (zone)
+                    {
+                        for (const TiXmlNode* cur = curZoneElem->FirstChild(); cur != NULL; cur = cur->NextSibling())
+                        {
+                            if (cur->Type() == TiXmlNode::ELEMENT)
+                            {
+                                const TiXmlElement* curElem = cur->ToElement();
+                                if (hasNodeName(curElem, "light"))
+                                {
+                                    Ogre::String name = getAttributeValueAsStdString(curElem, "name");
+                                    zone->addLight(ActorManager::getSingleton().getActor(name));
+                                }
+                                else if (hasNodeName(curElem, "sound"))
+                                {
+                                    Ogre::String name = getAttributeValueAsStdString(curElem, "name");
+                                    zone->addSound(name);
+                                }
+                                else if (hasNodeName(curElem, "trigger"))
+                                {
+                                    Ogre::String classname = getAttributeValueAsStdString(curElem, "classname");
 
-									Ogre::String name =
-										getAttributeValueAsStdString(curElem, "name");
+                                    Ogre::String name = getAttributeValueAsStdString(curElem, "name");
 
-									Trigger* trigger = ScriptSubsystem::getSingleton().getTriggerFactory()
-										->createTrigger(classname, name);
+                                    Trigger* trigger
+                                        = ScriptSubsystem::getSingleton().getTriggerFactory()->createTrigger(
+                                            classname, name);
 
                                     // add trigger properties
-                                    for (const TiXmlNode* curProperty = cur->FirstChild(); curProperty != NULL; curProperty = curProperty->NextSibling())
+                                    for (const TiXmlNode* curProperty = cur->FirstChild(); curProperty != NULL;
+                                         curProperty = curProperty->NextSibling())
                                     {
                                         if (hasNodeName(curProperty, "property"))
                                         {
@@ -238,29 +242,28 @@ namespace rl
                                     }
 
                                     zone->addTrigger(trigger);
-								}
+                                }
                                 else if (hasNodeName(curElem, "eaxpreset"))
                                 {
-									Ogre::String name = getAttributeValueAsStdString(curElem, "name");
+                                    Ogre::String name = getAttributeValueAsStdString(curElem, "name");
                                     zone->setEaxPreset(name);
                                 }
-							}
-						}
-					}
-					else
-					{
-						LOG_ERROR(Logger::SCRIPT, "Zone named '"+name+"' could not be processes.");
-					}
-				}
-				else
-				{
-					LOG_ERROR(Logger::SCRIPT, "<zone> element must have attribute 'name'.");
-				}
-			}
-		}
+                            }
+                        }
+                    }
+                    else
+                    {
+                        LOG_ERROR(Logger::SCRIPT, "Zone named '" + name + "' could not be processes.");
+                    }
+                }
+                else
+                {
+                    LOG_ERROR(Logger::SCRIPT, "<zone> element must have attribute 'name'.");
+                }
+            }
+        }
 
         ZoneManager::getSingleton().update();
-		return true;
-	}
-
+        return true;
+    }
 }

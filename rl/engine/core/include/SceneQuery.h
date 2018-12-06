@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -17,10 +17,9 @@
 #ifndef __RL_SCENE_QUERY_H__
 #define __RL_SCENE_QUERY_H__
 
+#include "Actor.h"
 #include "CorePrerequisites.h"
 #include "DebugVisualisable.h"
-#include "Actor.h"
-
 
 namespace rl
 {
@@ -29,7 +28,11 @@ namespace rl
     class _RlCoreExport SceneQuery
     {
     public:
-        typedef enum {DM_COARSE, DM_FINE} DetailMode;
+        typedef enum
+        {
+            DM_COARSE,
+            DM_FINE
+        } DetailMode;
 
         SceneQuery(unsigned long mask = 0xffffffff);
 
@@ -102,8 +105,8 @@ namespace rl
 
         virtual const ActorVector& execute();
 
-		virtual bool queryResult(Ogre::MovableObject* obj, Ogre::Real distance);
-		virtual bool queryResult(Ogre::SceneQuery::WorldFragment* fragment, Ogre::Real distance);
+        virtual bool queryResult(Ogre::MovableObject* obj, Ogre::Real distance);
+        virtual bool queryResult(Ogre::SceneQuery::WorldFragment* fragment, Ogre::Real distance);
     };
 
     /// This query queries for objects within a sphere.

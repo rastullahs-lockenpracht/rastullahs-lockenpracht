@@ -25,16 +25,17 @@
 
 using namespace Ogre;
 
-namespace rl {
+namespace rl
+{
 
     CommandMapper::CommandMapper()
-        : mMovementCommands(),
-        mKeyGlobalActions(),
-        mKeyMovementControlState(),
-        mKeyFreeflightControlState(),
-        mKeyDialogControlState(),
-        mKeyCombatControlState(),
-        mKeyCutsceneControlState()
+        : mMovementCommands()
+        , mKeyGlobalActions()
+        , mKeyMovementControlState()
+        , mKeyFreeflightControlState()
+        , mKeyDialogControlState()
+        , mKeyCombatControlState()
+        , mKeyCutsceneControlState()
     {
         buildCommandMapping();
     }
@@ -45,8 +46,7 @@ namespace rl {
 
     const CeGuiString& CommandMapper::getGlobalAction(int keyCodeOrMouseButton) const
     {
-        KeyAndMouseCommandMap::const_iterator command =
-            mKeyGlobalActions.find(keyCodeOrMouseButton);
+        KeyAndMouseCommandMap::const_iterator command = mKeyGlobalActions.find(keyCodeOrMouseButton);
 
         if (command != mKeyGlobalActions.end())
         {
@@ -57,8 +57,7 @@ namespace rl {
         return NO_ACTION;
     }
 
-    const CeGuiString& CommandMapper::getControlStateAction(int keyCodeOrMouseButton,
-        ControlStateType type) const
+    const CeGuiString& CommandMapper::getControlStateAction(int keyCodeOrMouseButton, ControlStateType type) const
     {
         const KeyAndMouseCommandMap& mapping = getControlStateMapping(type);
 
@@ -72,8 +71,7 @@ namespace rl {
         return NO_ACTION;
     }
 
-    const CommandMapper::KeyAndMouseCommandMap&
-        CommandMapper::getControlStateMapping(ControlStateType type) const
+    const CommandMapper::KeyAndMouseCommandMap& CommandMapper::getControlStateMapping(ControlStateType type) const
     {
         switch (type)
         {
@@ -143,10 +141,9 @@ namespace rl {
             {
                 mMovementCommands[inputMgr->getScanCode(keys[i])] = getMovement(it->first);
                 LOG_MESSAGE(Logger::UI,
-                    Ogre::String("Key ") + keys[i] + " ("
-                    + StringConverter::toString(inputMgr->getScanCode(keys[i]))
-                    + ") is assigned to movement " + it->first +" ("
-                    + StringConverter::toString(getMovement(it->first))+")");
+                    Ogre::String("Key ") + keys[i] + " (" + StringConverter::toString(inputMgr->getScanCode(keys[i]))
+                        + ") is assigned to movement " + it->first + " ("
+                        + StringConverter::toString(getMovement(it->first)) + ")");
             }
         }
 
@@ -158,8 +155,7 @@ namespace rl {
         buildCommandMap(mKeyCutsceneControlState, cfgMgr->getSettings("CutsceneController keys"));
     }
 
-    void CommandMapper::buildCommandMap(KeyAndMouseCommandMap& cmdMap,
-        const NameValuePairList& values)
+    void CommandMapper::buildCommandMap(KeyAndMouseCommandMap& cmdMap, const NameValuePairList& values)
     {
         for (NameValuePairList::const_iterator it = values.begin(); it != values.end(); it++)
         {
@@ -171,24 +167,23 @@ namespace rl {
                 int keycode = getKeyCode(keys[i]);
                 cmdMap[keycode] = CeGuiString(it->first);
                 LOG_MESSAGE(Logger::UI,
-                    Ogre::String("Key ") + keys[i] + " ("
-                    + StringConverter::toString(keycode)
-                    + ") is assigned to command " + it->first);
+                    Ogre::String("Key ") + keys[i] + " (" + StringConverter::toString(keycode)
+                        + ") is assigned to command " + it->first);
             }
         }
     }
 
-    int CommandMapper::getKeyCode(const Ogre::String &keyDescription)
+    int CommandMapper::getKeyCode(const Ogre::String& keyDescription)
     {
         StringVector parts = StringUtil::split(keyDescription, "+");
 
         int modifiers = 0;
-        for(size_t i = 0; i<parts.size()-1; i++)
+        for (size_t i = 0; i < parts.size() - 1; i++)
         {
             modifiers |= InputManager::getSingleton().getSystemCode(parts[i]);
         }
 
-        return encodeKey(InputManager::getSingleton().getScanCode(parts[parts.size()-1]), modifiers);
+        return encodeKey(InputManager::getSingleton().getScanCode(parts[parts.size() - 1]), modifiers);
     }
 
     int CommandMapper::getMouseButtonCode(int buttonNum)
@@ -196,21 +191,21 @@ namespace rl {
         return buttonNum;
     }
 
-    int CommandMapper::getMouseButtonCode(const Ogre::String &buttonDescription)
+    int CommandMapper::getMouseButtonCode(const Ogre::String& buttonDescription)
     {
         StringVector parts = StringUtil::split(buttonDescription, "+");
 
         int modifiers = 0;
-        for(size_t i = 0; i<parts.size()-1; i++)
+        for (size_t i = 0; i < parts.size() - 1; i++)
         {
             modifiers |= InputManager::getSingleton().getSystemCode(parts[i]);
         }
 
-        int buttonNum = StringConverter::parseInt(parts[parts.size()-1].substr(6));
+        int buttonNum = StringConverter::parseInt(parts[parts.size() - 1].substr(6));
         return encodeKey(getMouseButtonCode(buttonNum), modifiers);
     }
 
-    MovementState CommandMapper::getMovement(const Ogre::String &movementDescription)
+    MovementState CommandMapper::getMovement(const Ogre::String& movementDescription)
     {
         if (movementDescription == "move_left")
         {

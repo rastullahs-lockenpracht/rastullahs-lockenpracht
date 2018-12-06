@@ -25,43 +25,42 @@
 namespace rl
 {
     class Creature;
-    
+
     class CharacterSelectionWindow : public AbstractWindow
     {
     public:
         CharacterSelectionWindow();
         virtual ~CharacterSelectionWindow();
-        
+
         bool update();
-        
+
     private:
-        
         class Element : public AbstractWindow, public ObjectStateChangeListener
         {
         public:
             Element(CharacterSelectionWindow* parent);
             virtual ~Element();
-            
+
             void setCreature(Creature* creature);
             void objectStateChanged(ObjectStateChangeEvent* evt);
-        
+
         private:
             CharacterSelectionWindow* mParent;
             Creature* mCreature;
             CEGUI::Window* mTextName;
             CEGUI::Window* mPortrait;
             CEGUI::ProgressBar* mLP;
-            
+
             void update();
         };
-        
+
         std::vector<Element*> mCharacterWindows;
         CEGUI::Window* mCharacterWindow;
 
         bool handleClickOnCharacter(size_t index);
         CEGUI::Window* createCharacterWindow();
         void removeCharacterWindow(CEGUI::Window* window);
-        
+
         MessagePump::ScopedConnection mCharacterAddedConnection;
         MessagePump::ScopedConnection mCharacterRemovedConnection;
     };

@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -23,20 +23,20 @@
 namespace rl
 {
 
-	class _RlUiExport LogWindow : public AbstractWindow
-	{
-	public:
-		LogWindow();
-		virtual ~LogWindow();
-	
-		void setVisible(bool visible, bool destroyAfterHide = false);
-		bool update();
+    class _RlUiExport LogWindow : public AbstractWindow
+    {
+    public:
+        LogWindow();
+        virtual ~LogWindow();
 
-	private:
-		CEGUI::MultiLineEditbox* mErrorLog;		
-		CEGUI::MultiLineEditbox* mRastullahLog;
-		CEGUI::MultiLineEditbox* mOgreLog;
-	};
+        void setVisible(bool visible, bool destroyAfterHide = false);
+        bool update();
+
+    private:
+        CEGUI::MultiLineEditbox* mErrorLog;
+        CEGUI::MultiLineEditbox* mRastullahLog;
+        CEGUI::MultiLineEditbox* mOgreLog;
+    };
 
 } // namespace rl
 

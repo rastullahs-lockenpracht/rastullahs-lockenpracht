@@ -1,34 +1,37 @@
 /* This source file is part of Rastullahs Lockenpracht.
-* Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
-*
-*  This program is free software; you can redistribute it and/or modify
-*  it under the terms of the Clarified Artistic License.
-*
-*  This program is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  Clarified Artistic License for more details.
-*
-*  You should have received a copy of the Clarified Artistic License
-*  along with this program; if not you can get it here
-*  http://www.jpaulmorrison.com/fbp/artistic2.htm.
-*/
+ * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the Clarified Artistic License.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  Clarified Artistic License for more details.
+ *
+ *  You should have received a copy of the Clarified Artistic License
+ *  along with this program; if not you can get it here
+ *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
+ */
 #include "stdinc.h" //precompiled header
 
-#include "PhysicsMaterialRaycast.h"
 #include "PhysicsManager.h"
+#include "PhysicsMaterialRaycast.h"
 
 using namespace Ogre;
 using namespace OgreNewt;
 
-namespace rl {
+namespace rl
+{
     PhysicsMaterialRaycast::PhysicsMaterialRaycast()
-        : Raycast(), mInfo(), mMaterial(0)
+        : Raycast()
+        , mInfo()
+        , mMaterial(0)
     {
     }
 
-    RaycastInfo PhysicsMaterialRaycast::execute(OgreNewt::World* world, const MaterialID* material,
-        const Vector3& start, const Vector3& end, bool invertmat)
+    RaycastInfo PhysicsMaterialRaycast::execute(
+        OgreNewt::World* world, const MaterialID* material, const Vector3& start, const Vector3& end, bool invertmat)
     {
         mMaterialVector = NULL;
         mMaterial = material;
@@ -59,27 +62,29 @@ namespace rl {
         return mInfo;
     }
 
-    bool PhysicsMaterialRaycast::userPreFilterCallback( OgreNewt::Body *body )
+    bool PhysicsMaterialRaycast::userPreFilterCallback(OgreNewt::Body* body)
     {
-        if( body->getMaterialGroupID() == NULL )
+        if (body->getMaterialGroupID() == NULL)
         {
-            LOG_MESSAGE(Logger::CORE, "Warning PhysicsMaterialRaycast found body without material (getMaterialGroupId() == NULL)!");
+            LOG_MESSAGE(Logger::CORE,
+                "Warning PhysicsMaterialRaycast found body without material (getMaterialGroupId() == NULL)!");
             return true;
         }
-        else if( body->getMaterialGroupID() == PhysicsManager::getSingleton().createMaterialID("gamearea") ) // don't trigger gameareas
+        else if (body->getMaterialGroupID()
+            == PhysicsManager::getSingleton().createMaterialID("gamearea")) // don't trigger gameareas
         {
             return false;
         }
         else
         {
-            if( mMaterial == NULL && mMaterialVector == NULL)
+            if (mMaterial == NULL && mMaterialVector == NULL)
             {
                 return true;
             }
-            else if( mMaterial != NULL )
+            else if (mMaterial != NULL)
             {
-                if (body->getMaterialGroupID()->getID() == mMaterial->getID() && !mInvertMat ||
-                    body->getMaterialGroupID()->getID() != mMaterial->getID() && mInvertMat)
+                if (body->getMaterialGroupID()->getID() == mMaterial->getID() && !mInvertMat
+                    || body->getMaterialGroupID()->getID() != mMaterial->getID() && mInvertMat)
                 {
                     return true;
                 }
@@ -89,7 +94,7 @@ namespace rl {
                 bool found = false;
 
                 MaterialVector::const_iterator iter;
-                for(iter = mMaterialVector->begin(); iter != mMaterialVector->end(); iter++)
+                for (iter = mMaterialVector->begin(); iter != mMaterialVector->end(); iter++)
                 {
                     if (body->getMaterialGroupID()->getID() == (*iter)->getID())
                     {
@@ -98,7 +103,7 @@ namespace rl {
                     }
                 }
 
-                if( found && !mInvertMat || !found && mInvertMat )
+                if (found && !mInvertMat || !found && mInvertMat)
                 {
                     return true;
                 }
@@ -107,7 +112,8 @@ namespace rl {
         return false;
     }
 
-    bool PhysicsMaterialRaycast::userCallback(Body* body, Ogre::Real distance, const Ogre::Vector3& normal, int collisionID)
+    bool PhysicsMaterialRaycast::userCallback(
+        Body* body, Ogre::Real distance, const Ogre::Vector3& normal, int collisionID)
     {
         mInfo.mBody = body;
         mInfo.mDistance = distance;
@@ -120,9 +126,11 @@ namespace rl {
             mInfo.mDistance = distance;
             mInfo.mNormal = normal;
             mGetNearest = true;
-            LOG_MESSAGE(Logger::CORE, "Warning PhysicsMaterialRaycast found body without material (getMaterialGroupId() == NULL)!");
+            LOG_MESSAGE(Logger::CORE, "Warning PhysicsMaterialRaycast found body without material (getMaterialGroupId()
+        == NULL)!");
         }
-        else if( body->getMaterialGroupID() == PhysicsManager::getSingleton().createMaterialID("gamearea") ) // don't trigger gameareas
+        else if( body->getMaterialGroupID() == PhysicsManager::getSingleton().createMaterialID("gamearea") ) // don't
+        trigger gameareas
         {
         }
         else
@@ -169,25 +177,24 @@ namespace rl {
         */
     }
 
+    // -------------------------------------------------------------------------------------------------
 
-// -------------------------------------------------------------------------------------------------
-
-    ConvexcastInfo::ConvexcastInfo(const OgreNewt::BasicConvexcast::ConvexcastContactInfo &info) :
-        ConvexcastContactInfo(info),
-        mDistance(0)
+    ConvexcastInfo::ConvexcastInfo(const OgreNewt::BasicConvexcast::ConvexcastContactInfo& info)
+        : ConvexcastContactInfo(info)
+        , mDistance(0)
     {
     }
 
-    PhysicsMaterialConvexcast::PhysicsMaterialConvexcast() :
-        mMaterialVector(NULL),
-        mMaterial(NULL),
-        mInvertMat(false)
+    PhysicsMaterialConvexcast::PhysicsMaterialConvexcast()
+        : mMaterialVector(NULL)
+        , mMaterial(NULL)
+        , mInvertMat(false)
     {
     }
 
     ConvexcastInfo PhysicsMaterialConvexcast::execute(OgreNewt::World* world, const OgreNewt::MaterialID* material,
-                        const OgreNewt::ConvexCollisionPtr& col, const Vector3& startpt, const Quaternion &ori,
-                        const Vector3& endpt, bool invertmat)
+        const OgreNewt::ConvexCollisionPtr& col, const Vector3& startpt, const Quaternion& ori, const Vector3& endpt,
+        bool invertmat)
     {
         mMaterialVector = NULL;
         mMaterial = material;
@@ -201,8 +208,8 @@ namespace rl {
     }
 
     ConvexcastInfo PhysicsMaterialConvexcast::execute(OgreNewt::World* world, const MaterialVector* materials,
-                        const OgreNewt::ConvexCollisionPtr& col, const Vector3& startpt, const Quaternion &ori,
-                        const Vector3& endpt, bool invertmat)
+        const OgreNewt::ConvexCollisionPtr& col, const Vector3& startpt, const Quaternion& ori, const Vector3& endpt,
+        bool invertmat)
     {
         mMaterialVector = materials;
         mMaterial = NULL;
@@ -215,27 +222,29 @@ namespace rl {
         return info;
     }
 
-    bool PhysicsMaterialConvexcast::userPreFilterCallback( OgreNewt::Body *body )
+    bool PhysicsMaterialConvexcast::userPreFilterCallback(OgreNewt::Body* body)
     {
-        if( body->getMaterialGroupID() == NULL )
+        if (body->getMaterialGroupID() == NULL)
         {
-            LOG_MESSAGE(Logger::CORE, "Warning PhysicsMaterialRaycast found body without material (getMaterialGroupId() == NULL)!");
+            LOG_MESSAGE(Logger::CORE,
+                "Warning PhysicsMaterialRaycast found body without material (getMaterialGroupId() == NULL)!");
             return true;
         }
-        else if( body->getMaterialGroupID() == PhysicsManager::getSingleton().createMaterialID("gamearea") ) // don't trigger gameareas
+        else if (body->getMaterialGroupID()
+            == PhysicsManager::getSingleton().createMaterialID("gamearea")) // don't trigger gameareas
         {
             return false;
         }
         else
         {
-            if( mMaterial == NULL && mMaterialVector == NULL)
+            if (mMaterial == NULL && mMaterialVector == NULL)
             {
                 return true;
             }
-            else if( mMaterial != NULL )
+            else if (mMaterial != NULL)
             {
-                if (body->getMaterialGroupID()->getID() == mMaterial->getID() && !mInvertMat ||
-                    body->getMaterialGroupID()->getID() != mMaterial->getID() && mInvertMat)
+                if (body->getMaterialGroupID()->getID() == mMaterial->getID() && !mInvertMat
+                    || body->getMaterialGroupID()->getID() != mMaterial->getID() && mInvertMat)
                 {
                     return true;
                 }
@@ -245,7 +254,7 @@ namespace rl {
                 bool found = false;
 
                 MaterialVector::const_iterator iter;
-                for(iter = mMaterialVector->begin(); iter != mMaterialVector->end(); iter++)
+                for (iter = mMaterialVector->begin(); iter != mMaterialVector->end(); iter++)
                 {
                     if (body->getMaterialGroupID()->getID() == (*iter)->getID())
                     {
@@ -254,7 +263,7 @@ namespace rl {
                     }
                 }
 
-                if( found && !mInvertMat || !found && mInvertMat )
+                if (found && !mInvertMat || !found && mInvertMat)
                 {
                     return true;
                 }
@@ -262,6 +271,4 @@ namespace rl {
         }
         return false;
     }
-
 }
-

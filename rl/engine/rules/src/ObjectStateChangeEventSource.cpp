@@ -15,79 +15,77 @@
  */
 #include "stdinc.h" //precompiled header
 
-#include "ObjectStateChangeEventSource.h"
-#include "ObjectStateChangeEvent.h"
 #include "GameObject.h"
+#include "ObjectStateChangeEvent.h"
+#include "ObjectStateChangeEventSource.h"
 
 #include "ScriptWrapper.h"
 
-namespace rl {
+namespace rl
+{
 
-    ObjectStateChangeEventSource::ObjectStateChangeEventSource( GameObject* obj ) :
-		mObjectStateChangeEventCaster(),
-        mObject(obj)
+    ObjectStateChangeEventSource::ObjectStateChangeEventSource(GameObject* obj)
+        : mObjectStateChangeEventCaster()
+        , mObject(obj)
     {
     }
 
-	ObjectStateChangeEventSource::ObjectStateChangeEventSource() :
-	mObjectStateChangeEventCaster(),
-		mObject(NULL)
-	{
-	}
+    ObjectStateChangeEventSource::ObjectStateChangeEventSource()
+        : mObjectStateChangeEventCaster()
+        , mObject(NULL)
+    {
+    }
 
     ObjectStateChangeEventSource::~ObjectStateChangeEventSource()
     {
         removeObjectStateChangeListener();
     }
 
-	void ObjectStateChangeEventSource::fireObjectStateChangeEvent()
-	{
-		ObjectStateChangeEvent* evt = new ObjectStateChangeEvent(this);
-		evt->setProvokingObject(mObject);
-		mObjectStateChangeEventCaster.dispatchEvent(evt);
+    void ObjectStateChangeEventSource::fireObjectStateChangeEvent()
+    {
+        ObjectStateChangeEvent* evt = new ObjectStateChangeEvent(this);
+        evt->setProvokingObject(mObject);
+        mObjectStateChangeEventCaster.dispatchEvent(evt);
         delete evt;
-	}
+    }
 
-    void ObjectStateChangeEventSource::addObjectStateChangeListener( ObjectStateChangeListener*  list )
+    void ObjectStateChangeEventSource::addObjectStateChangeListener(ObjectStateChangeListener* list)
     {
-        if( !mObjectStateChangeEventCaster.containsListener( list ) )
+        if (!mObjectStateChangeEventCaster.containsListener(list))
         {
-            mObjectStateChangeEventCaster.addEventListener( list );
-            ScriptWrapper::getSingleton().owned( list );
+            mObjectStateChangeEventCaster.addEventListener(list);
+            ScriptWrapper::getSingleton().owned(list);
         }
     }
 
-    void ObjectStateChangeEventSource::removeObjectStateChangeListener( ObjectStateChangeListener* list )
+    void ObjectStateChangeEventSource::removeObjectStateChangeListener(ObjectStateChangeListener* list)
     {
-        if( mObjectStateChangeEventCaster.containsListener( list ) )
+        if (mObjectStateChangeEventCaster.containsListener(list))
         {
-            mObjectStateChangeEventCaster.removeEventListener( list );
-            ScriptWrapper::getSingleton().disowned( list );
+            mObjectStateChangeEventCaster.removeEventListener(list);
+            ScriptWrapper::getSingleton().disowned(list);
         }
     }
 
-    void ObjectStateChangeEventSource::removeObjectStateChangeListener(  )
+    void ObjectStateChangeEventSource::removeObjectStateChangeListener()
     {
-        EventCaster<ObjectStateChangeEvent>::EventSet arSet
-            = mObjectStateChangeEventCaster.getEventSet();
-        EventCaster<ObjectStateChangeEvent>::EventSet::iterator iter
-            = arSet.begin();
-        for (iter; iter != arSet.end(); )
+        EventCaster<ObjectStateChangeEvent>::EventSet arSet = mObjectStateChangeEventCaster.getEventSet();
+        EventCaster<ObjectStateChangeEvent>::EventSet::iterator iter = arSet.begin();
+        for (iter; iter != arSet.end();)
         {
             EventListener<ObjectStateChangeEvent>* ev = *iter;
-            if(mObjectStateChangeEventCaster.containsListener(ev))
+            if (mObjectStateChangeEventCaster.containsListener(ev))
             {
-                ObjectStateChangeListener* gal = dynamic_cast<ObjectStateChangeListener*>( ev );
-                ScriptWrapper::getSingleton().disowned( gal );
+                ObjectStateChangeListener* gal = dynamic_cast<ObjectStateChangeListener*>(ev);
+                ScriptWrapper::getSingleton().disowned(gal);
             }
             iter++;
         }
         mObjectStateChangeEventCaster.removeEventListeners();
     }
 
-    bool ObjectStateChangeEventSource::hasListeners( ) const
+    bool ObjectStateChangeEventSource::hasListeners() const
     {
         return mObjectStateChangeEventCaster.hasEventListeners();
     }
 }
-

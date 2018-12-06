@@ -22,7 +22,7 @@ using namespace std;
 
 namespace rl
 {
-	const Ogre::String Dialog::PROP_EXIT_REQUESTED = "exit_requested";
+    const Ogre::String Dialog::PROP_EXIT_REQUESTED = "exit_requested";
 
     Dialog::Dialog()
     {
@@ -44,31 +44,31 @@ namespace rl
 
     void Dialog::initialize() ///@todo hand over NPCs and party
     {
-		mExitRequested = false;
+        mExitRequested = false;
     }
 
     void Dialog::addVariable(DialogVariable* variable)
     {
-        //mVariables[vkey] = variable;
+        // mVariables[vkey] = variable;
     }
 
     const Property Dialog::getProperty(const CeGuiString& key) const
     {
         ///@todo dialog's state
-		if (key == Dialog::PROP_EXIT_REQUESTED)
-		{
-			return mExitRequested;
-		}
+        if (key == Dialog::PROP_EXIT_REQUESTED)
+        {
+            return mExitRequested;
+        }
 
         return mPropertyVariables.getProperty(key);
     }
 
     void Dialog::setProperty(const CeGuiString& key, const Property& value)
     {
-		if (key == Dialog::PROP_EXIT_REQUESTED)
-		{
-			mExitRequested = value;
-		}
+        if (key == Dialog::PROP_EXIT_REQUESTED)
+        {
+            mExitRequested = value;
+        }
         ///@todo dialog's state
         mPropertyVariables.setProperty(key, value);
     }
@@ -84,10 +84,10 @@ namespace rl
         return keys;
     }
 
-	bool Dialog::isExitRequested() const
-	{
-		return mExitRequested;
-	}
+    bool Dialog::isExitRequested() const
+    {
+        return mExitRequested;
+    }
 
     CeGuiString Dialog::getVariableValue(const Ogre::String& key) const
     {

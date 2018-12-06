@@ -15,24 +15,19 @@
  */
 #include "stdinc.h" //precompiled header
 
-#include "Talent.h"
 #include "DsaManager.h"
+#include "Talent.h"
 
 namespace rl
 {
-    Talent::Talent(const CeGuiString name,
-                   const CeGuiString description,
-                   const EigenschaftTripel& eigenschaften,
-                   int ebe,
-				   int gruppe,
-				   const CeGuiString art,
-                   const AusweichTalente& ausweichTalente)
-                                       : mName(name),
-                                         mDescription(description),
-                                         mEigenschaften(eigenschaften),
-                                         mEbe(ebe),
-										 mTalentGruppe(gruppe),
-										 mArt(art)
+    Talent::Talent(const CeGuiString name, const CeGuiString description, const EigenschaftTripel& eigenschaften,
+        int ebe, int gruppe, const CeGuiString art, const AusweichTalente& ausweichTalente)
+        : mName(name)
+        , mDescription(description)
+        , mEigenschaften(eigenschaften)
+        , mEbe(ebe)
+        , mTalentGruppe(gruppe)
+        , mArt(art)
     {
         mAusweichTalente = ausweichTalente;
     }
@@ -62,27 +57,27 @@ namespace rl
         return mEigenschaften;
     }
 
-	int Talent::calculateEbe(int be) const
-	{
-		if (mEbe == EBE_KEINE_BE)
-			return 0;
-		if (mEbe == EBE_BEx2)
-			return be*2;
+    int Talent::calculateEbe(int be) const
+    {
+        if (mEbe == EBE_KEINE_BE)
+            return 0;
+        if (mEbe == EBE_BEx2)
+            return be * 2;
 
-		return std::max(be + mEbe, 0);
-	}
+        return std::max(be + mEbe, 0);
+    }
 
-	int Talent::getEbe() const
-	{
-		return mEbe;
-	}
+    int Talent::getEbe() const
+    {
+        return mEbe;
+    }
 
-	CeGuiString Talent::getArt() const
-	{
-		return mArt;
-	}
+    CeGuiString Talent::getArt() const
+    {
+        return mArt;
+    }
 
-    Talent::AusweichTalente Talent::getAusweichTalente()const
+    Talent::AusweichTalente Talent::getAusweichTalente() const
     {
         return mAusweichTalente;
     }

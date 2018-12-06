@@ -23,14 +23,14 @@
 namespace rl
 {
     DialogElement::DialogElement(const CeGuiString& id, const CeGuiString& person)
-        : mId(id), mPerson(person)
+        : mId(id)
+        , mPerson(person)
     {
     }
 
     DialogElement::~DialogElement()
     {
-        for (std::list<DialogParagraph*>::iterator it = mParagraphs.begin();
-            it != mParagraphs.end(); ++it)
+        for (std::list<DialogParagraph*>::iterator it = mParagraphs.begin(); it != mParagraphs.end(); ++it)
         {
             delete *it;
         }
@@ -62,8 +62,8 @@ namespace rl
         return mParagraphs;
     }
 
-	bool DialogElement::isSelection() const
-	{
-		return false;
-	}
+    bool DialogElement::isSelection() const
+    {
+        return false;
+    }
 }

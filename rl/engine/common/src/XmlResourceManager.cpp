@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -20,24 +20,19 @@
 
 using namespace Ogre;
 
-template<> rl::XmlResourceManager* Singleton<rl::XmlResourceManager>::ms_Singleton = 0;
+template <> rl::XmlResourceManager* Singleton<rl::XmlResourceManager>::ms_Singleton = 0;
 
-namespace rl {
-XmlResourceManager::XmlResourceManager()
-    :   Ogre::ResourceManager(),
-        Ogre::Singleton<XmlResourceManager>()
+namespace rl
 {
-}
+    XmlResourceManager::XmlResourceManager()
+        : Ogre::ResourceManager()
+        , Ogre::Singleton<XmlResourceManager>()
+    {
+    }
 
-Resource* XmlResourceManager::createImpl(
-    const Ogre::String& resName, 
-	ResourceHandle handle, 
-	const Ogre::String& groupName, 
-	bool isManual, 
-	ManualResourceLoader* loader, 
-	const NameValuePairList* loadParams)
-{
-	return new XmlResource(this, resName, handle, groupName, isManual, loader);	
-}
-
+    Resource* XmlResourceManager::createImpl(const Ogre::String& resName, ResourceHandle handle,
+        const Ogre::String& groupName, bool isManual, ManualResourceLoader* loader, const NameValuePairList* loadParams)
+    {
+        return new XmlResource(this, resName, handle, groupName, isManual, loader);
+    }
 }

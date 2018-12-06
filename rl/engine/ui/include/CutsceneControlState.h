@@ -17,41 +17,42 @@
 #ifndef __CutsceneCharacterController_H__
 #define __CutsceneCharacterController_H__
 
-#include "UiPrerequisites.h"
 #include "ControlState.h"
+#include "UiPrerequisites.h"
 
-namespace rl {
+namespace rl
+{
 
-	class Actor;
-	class GameObject;
+    class Actor;
+    class GameObject;
 
-	enum CameraPositionType
-	{
-	    CPT_FIXED,
-	    CPT_ROTATING
-	};
+    enum CameraPositionType
+    {
+        CPT_FIXED,
+        CPT_ROTATING
+    };
 
-	struct CameraPosition
-	{
-	    CameraPositionType type;
-	    Ogre::Vector3 position;
-	    Ogre::Quaternion orientation1;
-	    Ogre::Quaternion orientation2;
-	};
+    struct CameraPosition
+    {
+        CameraPositionType type;
+        Ogre::Vector3 position;
+        Ogre::Quaternion orientation1;
+        Ogre::Quaternion orientation2;
+    };
 
-	class _RlUiExport CutsceneControlState : public ControlState
-	{
-	public:
-		/**
-		*  @throw NullPointerException if camera is NULL.
-		*/
-		CutsceneControlState(CommandMapper* cmdMapper, Actor* camera);
-		virtual ~CutsceneControlState();
+    class _RlUiExport CutsceneControlState : public ControlState
+    {
+    public:
+        /**
+         *  @throw NullPointerException if camera is NULL.
+         */
+        CutsceneControlState(CommandMapper* cmdMapper, Actor* camera);
+        virtual ~CutsceneControlState();
 
         virtual void pause();
         virtual void resume();
 
-		virtual void run(Ogre::Real elapsedTime);
+        virtual void run(Ogre::Real elapsedTime);
 
         void setCameraPosition(const Ogre::Vector3& pos);
         void setCameraOrientation(const Ogre::Quaternion& orient);
@@ -59,15 +60,15 @@ namespace rl {
         void setCameraTarget(GameObject* target);
 
         void addCamera(const Ogre::Vector3& position, const Ogre::Quaternion& orientation);
-        void addCamera(const Ogre::Vector3& position, const Ogre::Quaternion& orientation1,
-                       const Ogre::Quaternion& orientation2);
+        void addCamera(
+            const Ogre::Vector3& position, const Ogre::Quaternion& orientation1, const Ogre::Quaternion& orientation2);
         void clearCameras();
 
-	private:
-	    std::vector<CameraPosition> mPositions;
-	    GameObject* mTarget;
+    private:
+        std::vector<CameraPosition> mPositions;
+        GameObject* mTarget;
 
-	    CameraPosition getBestCameraPosition() const;
-	};
+        CameraPosition getBestCameraPosition() const;
+    };
 }
 #endif

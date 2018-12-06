@@ -15,87 +15,86 @@
  */
 #include "stdinc.h" //precompiled header
 
-#include "Effect.h"
 #include "DsaManager.h"
+#include "Effect.h"
 
 namespace rl
 {
     const Ogre::String Effect::PROPERTY_NAME = "name";
     const Ogre::String Effect::PROPERTY_STUFE = "stufe";
-    const Ogre::String Effect::PROPERTY_ENABLED = "enabled";    
+    const Ogre::String Effect::PROPERTY_ENABLED = "enabled";
 
-	Effect::Effect(int stufe)
-	{
-		mStufe = stufe;
-		mQuantifier = QUANTIFIER_MULTIPLE;
-	}
+    Effect::Effect(int stufe)
+    {
+        mStufe = stufe;
+        mQuantifier = QUANTIFIER_MULTIPLE;
+    }
 
-	const Ogre::String Effect::getName() const
-	{
-		return mName;
-	}
+    const Ogre::String Effect::getName() const
+    {
+        return mName;
+    }
 
-	void Effect::setName(Ogre::String name)
-	{
-		mName = name;
-	}
+    void Effect::setName(Ogre::String name)
+    {
+        mName = name;
+    }
 
-	const CeGuiString Effect::getDescription() const
-	{
-		return mDescription;
-	}
+    const CeGuiString Effect::getDescription() const
+    {
+        return mDescription;
+    }
 
-	void Effect::setDescription(CeGuiString description)
-	{
-		mDescription = description;
-	}
+    void Effect::setDescription(CeGuiString description)
+    {
+        mDescription = description;
+    }
 
     Effect::Quantifier Effect::getQuantifier()
-	{
-		return mQuantifier;
-	}
+    {
+        return mQuantifier;
+    }
 
-	void Effect::setQuantifier(Quantifier quantifier)
-	{
-		mQuantifier = quantifier;
-	}
+    void Effect::setQuantifier(Quantifier quantifier)
+    {
+        mQuantifier = quantifier;
+    }
 
+    const int Effect::getStufe()
+    {
+        return mStufe;
+    }
 
-	const int Effect::getStufe()
-	{
-		return mStufe;
-	}
+    void Effect::increaseStufe()
+    {
+    }
 
-	void Effect::increaseStufe()
-	{
-	}
+    void Effect::decreaseStufe()
+    {
+    }
 
-	void Effect::decreaseStufe()
-	{
-	}
+    void Effect::enable()
+    {
+        if (!mEnabled)
+        {
+            mEnabled = true;
+        }
+    }
 
-	void Effect::enable()
-	{
-		if (!mEnabled)
-		{
-			mEnabled = true;
-		}
-	}
-
-	void Effect::disable()
-	{
-		if (mEnabled)
-		{
-			mEnabled = false;
-		}
-	}
+    void Effect::disable()
+    {
+        if (mEnabled)
+        {
+            mEnabled = false;
+        }
+    }
 
     RL_LONGLONG Effect::timeCheck()
     {
         return PERMANENT;
     }
 
-	Effect::LifeState Effect::getLifeState() const
+    Effect::LifeState Effect::getLifeState() const
     {
         // should be overlaoaded in the specific derivated effects.
         return LS_NONE;
@@ -123,9 +122,7 @@ namespace rl
         }
         else
         {
-            Throw(
-                IllegalArgumentException, 
-                key + " is not a property of this effect (" + mName + ")");
+            Throw(IllegalArgumentException, key + " is not a property of this effect (" + mName + ")");
         }
         return prop;
     }
@@ -148,16 +145,12 @@ namespace rl
             }
             else
             {
-                LOG_WARNING(
-                    Logger::RULES,
-                    key + " is not a property of this Effect (" + mName + ")");
+                LOG_WARNING(Logger::RULES, key + " is not a property of this Effect (" + mName + ")");
             }
         }
         catch (WrongFormatException ex)
         {
-            LOG_ERROR(
-                Logger::RULES,
-                "property " + key + " has the wrong format: " + ex.getMessage());
+            LOG_ERROR(Logger::RULES, "property " + key + " has the wrong format: " + ex.getMessage());
         }
     }
 
@@ -168,5 +161,4 @@ namespace rl
         keys.insert(Effect::PROPERTY_STUFE);
         return keys;
     }
-
 }

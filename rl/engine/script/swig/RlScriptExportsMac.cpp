@@ -7,10 +7,10 @@
  *
  */
 
-
 /**
  * This is just for MacOS X build, the RlScriptExports project won't build with
  * just the libRlScript to link, so we provide an empty unused function
  */
-void initRlScriptExport() {
+void initRlScriptExport()
+{
 }

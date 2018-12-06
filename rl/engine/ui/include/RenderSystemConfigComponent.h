@@ -17,8 +17,8 @@
 #ifndef _RenderSystemConfigComponent_H_
 #define _RenderSystemConfigComponent_H_
 
-#include "UiPrerequisites.h"
 #include "ConfigComponent.h"
+#include "UiPrerequisites.h"
 
 namespace Ogre
 {

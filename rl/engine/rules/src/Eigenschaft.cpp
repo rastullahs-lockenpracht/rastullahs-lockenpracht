@@ -19,11 +19,10 @@
 
 namespace rl
 {
-    Eigenschaft::Eigenschaft(const CeGuiString name,
-							 const CeGuiString nameAbbrev,
-                             const CeGuiString description) : mName(name),
-															   mNameAbbreviation(nameAbbrev),
-                                                               mDescription(description)
+    Eigenschaft::Eigenschaft(const CeGuiString name, const CeGuiString nameAbbrev, const CeGuiString description)
+        : mName(name)
+        , mNameAbbreviation(nameAbbrev)
+        , mDescription(description)
     {
     }
 

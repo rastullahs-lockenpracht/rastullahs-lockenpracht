@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -31,7 +31,7 @@ namespace rl
     static const CeGuiString E_CHARISMA = "CH";
     static const CeGuiString E_FINGERFERTIGKEIT = "FF";
     static const CeGuiString E_GEWANDTHEIT = "GE";
-	static const CeGuiString E_KONSTITUTION = "KO";
+    static const CeGuiString E_KONSTITUTION = "KO";
     static const CeGuiString E_KOERPERKRAFT = "KK";
 
     typedef Tripel<CeGuiString> EigenschaftTripel;
@@ -40,12 +40,11 @@ namespace rl
     {
     private:
         const CeGuiString mName;
-		const CeGuiString mNameAbbreviation;
+        const CeGuiString mNameAbbreviation;
         const CeGuiString mDescription;
+
     public:
-        Eigenschaft(const CeGuiString name,
-					const CeGuiString nameAbbrev,
-                    const CeGuiString description);
+        Eigenschaft(const CeGuiString name, const CeGuiString nameAbbrev, const CeGuiString description);
 
         bool operator==(const Eigenschaft& rhs) const;
         bool operator<(const Eigenschaft& rhs) const;

@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -37,45 +37,45 @@ namespace rl
         static const Ogre::String PROPERTY_CONTENT_OBJECTS;
         static const Ogre::String PROPERTY_CONTENT_POSITIONS;
 
-		/** Creates a new container
-		 * @param id the gameobject ID
-		 */
+        /** Creates a new container
+         * @param id the gameobject ID
+         */
         Container(int id);
         virtual ~Container(void);
 
-		/// Get the weight capacity (in Stein)
+        /// Get the weight capacity (in Stein)
         Ogre::Real getCapacity() const;
 
-		/// Set the weight capacity (in Stein)
+        /// Set the weight capacity (in Stein)
         void setCapacity(Ogre::Real capacity);
 
-		/// Set the "volume" to x (width) * y (height) spaces
-		void setVolume(int x, int y);
+        /// Set the "volume" to x (width) * y (height) spaces
+        void setVolume(int x, int y);
 
-		/// Get the container's "volume" spaces
-		IntPair getVolume() const;
+        /// Get the container's "volume" spaces
+        IntPair getVolume() const;
 
         /** Returns whether this item is a container
-		 * @return always <code>true</code>
-		 */
+         * @return always <code>true</code>
+         */
         virtual bool isContainer() const;
 
-		/// Liefert Gesamtgewicht des Inhalts.
+        /// Liefert Gesamtgewicht des Inhalts.
         Ogre::Real getContentWeight() const;
 
-		virtual Ogre::Real getMass() const;
+        virtual Ogre::Real getMass() const;
 
-		/**
-		 * Add an item to the container's content
-		 * @param item the item
-		 * @return <code>true</code> if adding was successful, <code>false</code> otherwise (e.g. not enough space)
-		 */
-        bool addItem(Item* item, IntPair position = IntPair(0,0));
+        /**
+         * Add an item to the container's content
+         * @param item the item
+         * @return <code>true</code> if adding was successful, <code>false</code> otherwise (e.g. not enough space)
+         */
+        bool addItem(Item* item, IntPair position = IntPair(0, 0));
 
         /**
          * Remove an item from the container
          *
-		 * @param item the item
+         * @param item the item
          */
         void removeItem(Item* item);
 
@@ -83,13 +83,13 @@ namespace rl
          * Remove an item from the container
          * Note: This method must only be called by Item, use removeItem in all other cases
          *
-		 * @param item the item
+         * @param item the item
          */
         void _doRemoveItem(Item* item);
 
         ItemSet getItems() const;
 
-		int getItemCount() const;
+        int getItemCount() const;
 
         bool isFree(int x, int y) const;
         Item* getItemAt(int x, int y) const;
@@ -105,33 +105,30 @@ namespace rl
         bool canHold(Item* item) const;
 
         // in order to set the owner of the items in this container correctly override this function
-        void setOwner(GameObject *go);
+        void setOwner(GameObject* go);
 
     private:
-		static const IntPair NO_SPACE_FOR_ITEM;
+        static const IntPair NO_SPACE_FOR_ITEM;
 
         Ogre::Real mCapacity;
-		IntPair mVolume;
-		
-		// Speichert, wo die Items sich im Container befinden.
-		// Speichert also die IDs der Objekte in die einzelnen Volumenfelder
-		int objIDMap [1][1];
+        IntPair mVolume;
+
+        // Speichert, wo die Items sich im Container befinden.
+        // Speichert also die IDs der Objekte in die einzelnen Volumenfelder
+        int objIDMap[1][1];
 
         ItemSet mItems;
 
         std::map<Item*, IntPair> mItemPositions;
 
-        IntPair	findPositionWithEnoughSpace(IntPair space) const;
-        bool checkSpace(
-			int xStart, 
-			int yStart, 
-			IntPair space) const;
+        IntPair findPositionWithEnoughSpace(IntPair space) const;
+        bool checkSpace(int xStart, int yStart, IntPair space) const;
 
         /*
          * recursive function
          * @param cont a container
          * @return true, if cont is this container or any of his parents
-        */
+         */
         bool isParent(Container* cont) const;
     };
 }

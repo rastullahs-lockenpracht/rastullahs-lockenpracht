@@ -1,26 +1,26 @@
 /* This source file is part of Rastullahs Lockenpracht.
-* Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
-* 
-*  This program is free software; you can redistribute it and/or modify
-*  it under the terms of the Clarified Artistic License.
-*
-*  This program is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  Clarified Artistic License for more details.
-*
-*  You should have received a copy of the Clarified Artistic License
-*  along with this program; if not you can get it here
-*  http://www.jpaulmorrison.com/fbp/artistic2.htm.
-*/
+ * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the Clarified Artistic License.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  Clarified Artistic License for more details.
+ *
+ *  You should have received a copy of the Clarified Artistic License
+ *  along with this program; if not you can get it here
+ *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
+ */
 
 #ifndef __RL_JOB_H__
 #define __RL_JOB_H__
 
 #include "CorePrerequisites.h"
 
-#include "TimeSource.h"
 #include "Properties.h"
+#include "TimeSource.h"
 
 namespace rl
 {
@@ -29,9 +29,10 @@ namespace rl
     public:
         enum JobPersistenceType
         {
-            NOT_PERSISTENT,             // the job is not influenced by any save/load - events
-            PERSISTENT,                 // the job stores data in (and loads from) a savegamefile, the job is deleted (not discarded) before a new game is loaded
-            FINISH_WHEN_GAME_LOADED     // the job is discarded if it is discardable or deleted, when a new game is loaded
+            NOT_PERSISTENT, // the job is not influenced by any save/load - events
+            PERSISTENT, // the job stores data in (and loads from) a savegamefile, the job is deleted (not discarded)
+                        // before a new game is loaded
+            FINISH_WHEN_GAME_LOADED // the job is discarded if it is discardable or deleted, when a new game is loaded
         };
 
         /**
@@ -46,8 +47,7 @@ namespace rl
          *         Job, after execution is finished. This should usually be the case, but
          *         sometimes it is sensible to pool a number of Jobs for reuse.
          */
-        AbstractJob(bool isDiscardable, 
-            bool destroyWhenDone);
+        AbstractJob(bool isDiscardable, bool destroyWhenDone);
 
         virtual ~AbstractJob();
 
@@ -87,13 +87,11 @@ namespace rl
 
         /// returns the name of the class
         virtual const CeGuiString getClassName() const = 0;
-    
+
     protected:
         bool mIsDiscardable;
         bool mDestroyWhenDone;
-
     };
-
 
     /** A Job is an independent executional entity, that encapsules a singe specific task
      *  of some finite duration.
@@ -120,9 +118,7 @@ namespace rl
          *         Job, after execution is finished. This should usually be the case, but
          *         sometimes it is sensible to pool a number of Jobs for reuse.
          */
-        Job(bool isDiscardable, 
-            bool destroyWhenDone, 
-            TimeSource::TimeSourceType type = TimeSource::REALTIME_CONTINUOUS, 
+        Job(bool isDiscardable, bool destroyWhenDone, TimeSource::TimeSourceType type = TimeSource::REALTIME_CONTINUOUS,
             JobPersistenceType persistence = NOT_PERSISTENT);
         virtual ~Job();
 

@@ -28,8 +28,8 @@
 
 #include <iostream>
 
-#include "SoundManager.h"
 #include "SoundDriver.h"
+#include "SoundManager.h"
 
 using namespace Ogre;
 using namespace CEGUI;
@@ -43,30 +43,28 @@ namespace rl
         // Register sound driver components
         std::list<SoundDriver*> soundDriverList = SoundManager::getSingleton().getDriverList();
 
-        for (std::list<SoundDriver*>::iterator it = soundDriverList.begin();
-             it != soundDriverList.end(); it++)
+        for (std::list<SoundDriver*>::iterator it = soundDriverList.begin(); it != soundDriverList.end(); it++)
         {
             if ((*it)->isDriverPlugin())
             {
-                //registerSoundDriverConfig((*it)->getConfigComponent());
+                // registerSoundDriverConfig((*it)->getConfigComponent());
             }
         }
 
         // Connect actions to callbacks
-        getWindow()->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked,
-                                    boost::bind(&GameSettings::onCancel, this));
+        getWindow()->subscribeEvent(CEGUI::FrameWindow::EventCloseClicked, boost::bind(&GameSettings::onCancel, this));
 
         mVideoRenderer = getCombobox("GameOptionsWindow/Video/Renderer");
         mVideoResolution = getCombobox("GameOptionsWindow/Video/Resolution");
         mVideoFullscreen = getCheckbox("GameOptionsWindow/Video/Fullscreen");
-        
+
         mVideoColorDepth32 = getRadioButton("GameOptionsWindow/Video/ColorDepth/32");
         mVideoColorDepth32->setUserData(new Ogre::String("32"));
         mVideoColorDepth32->setGroupID(1);
         mVideoColorDepth16 = getRadioButton("GameOptionsWindow/Video/ColorDepth/16");
         mVideoColorDepth16->setUserData(new Ogre::String("16"));
         mVideoColorDepth16->setGroupID(1);
-        
+
         mVideoFsaa0 = getRadioButton("GameOptionsWindow/Video/FSAA/Off");
         mVideoFsaa0->setUserData(new Ogre::String("0"));
         mVideoFsaa0->setGroupID(2);
@@ -79,7 +77,7 @@ namespace rl
         mVideoFsaa8 = getRadioButton("GameOptionsWindow/Video/FSAA/8x");
         mVideoFsaa8->setUserData(new Ogre::String("8"));
         mVideoFsaa8->setGroupID(2);
-        
+
         mVideoRttModeFBO = getRadioButton("GameOptionsWindow/Video/RTT/FBO");
         mVideoRttModeFBO->setUserData(new Ogre::String("FBO"));
         mVideoRttModeFBO->setGroupID(3);
@@ -89,7 +87,7 @@ namespace rl
         mVideoRttModeCopy = getRadioButton("GameOptionsWindow/Video/RTT/Copy");
         mVideoRttModeCopy->setUserData(new Ogre::String("Copy"));
         mVideoRttModeCopy->setGroupID(3);
-        
+
         centerWindow();
         setVisible(false);
         update();
@@ -104,10 +102,9 @@ namespace rl
         // Add component to list
         mSoundDriverConfigs.push_back(scc);
 
-        getCombobox("GameOptionsWindow/Sound/TableSoundDriver")->addItem(
-            new CEGUI::ListboxTextItem(scc->getDriverName(),
-            getCombobox("GameOptionsWindow/Sound/TableSoundDriver")->getItemCount(),
-            scc));
+        getCombobox("GameOptionsWindow/Sound/TableSoundDriver")
+            ->addItem(new CEGUI::ListboxTextItem(
+                scc->getDriverName(), getCombobox("GameOptionsWindow/Sound/TableSoundDriver")->getItemCount(), scc));
     }
 
     void GameSettings::registerRenderSystemConfig(RenderSystemConfigComponent* rcc)
@@ -172,23 +169,23 @@ namespace rl
     {
         return true;
     }
-    
+
     void GameSettings::update()
     {
         Root* root = Ogre::Root::getSingletonPtr();
-        
-		Ogre::RenderSystem* renderer = root->getRenderSystem();
+
+        Ogre::RenderSystem* renderer = root->getRenderSystem();
 
 #if OGRE_VERSION_MINOR == 7 || OGRE_VERSION_MINOR == 8
         const RenderSystemList& renderers = root->getAvailableRenderers();
-#else 
+#else
         const RenderSystemList renderers = *root->getAvailableRenderers();
-#endif        
+#endif
         createElements(mVideoRenderer, renderers.size());
 
         for (unsigned int i = 0; i < renderers.size(); ++i)
         {
-			Ogre::RenderSystem* cur = renderers[i];
+            Ogre::RenderSystem* cur = renderers[i];
             ListboxItem* item = mVideoRenderer->getListboxItemFromIndex(i);
             item->setText(cur->getName());
             if (cur == renderer)
@@ -196,14 +193,14 @@ namespace rl
                 mVideoRenderer->setItemSelectState(item, true);
             }
         }
-        
+
         ConfigOptionMap config = renderer->getConfigOptions();
-        
+
         setOption(config, "Full Screen", mVideoFullscreen);
         std::vector<RadioButton*> videoColorDepth;
         videoColorDepth.push_back(mVideoColorDepth32);
         videoColorDepth.push_back(mVideoColorDepth16);
-        
+
         setOption(config, "Colour Depth", videoColorDepth);
         std::vector<RadioButton*> videoAntiAliasing;
         videoAntiAliasing.push_back(mVideoFsaa0);
@@ -211,29 +208,29 @@ namespace rl
         videoAntiAliasing.push_back(mVideoFsaa4);
         videoAntiAliasing.push_back(mVideoFsaa8);
         setOption(config, "FSAA", videoAntiAliasing);
-        
-		std::vector<RadioButton*> videoRttMode;
+
+        std::vector<RadioButton*> videoRttMode;
         videoRttMode.push_back(mVideoRttModeFBO);
         videoRttMode.push_back(mVideoRttModePBuffer);
         videoRttMode.push_back(mVideoRttModeCopy);
         setOption(config, "RTT Preferred Mode", videoRttMode);
-        
+
         setOption(config, "Video Mode", mVideoResolution);
     }
-    
+
     void GameSettings::setOption(const ConfigOptionMap& configuration, const Ogre::String& option, Checkbox* checkbox)
     {
         ConfigOptionMap::const_iterator cfi = configuration.find(option);
-        if (cfi != configuration.end()) 
+        if (cfi != configuration.end())
         {
-            checkbox->setSelected(cfi->second.currentValue == "Yes");            
+            checkbox->setSelected(cfi->second.currentValue == "Yes");
         }
     }
 
     void GameSettings::setOption(const ConfigOptionMap& configuration, const Ogre::String& option, Combobox* combobox)
     {
         ConfigOptionMap::const_iterator cfi = configuration.find(option);
-        if (cfi != configuration.end()) 
+        if (cfi != configuration.end())
         {
             ConfigOption curOption = cfi->second;
             int delta = curOption.possibleValues.size() - combobox->getItemCount();
@@ -253,7 +250,7 @@ namespace rl
                     delete item;
                 }
             }
-            
+
             for (unsigned int i = 0; i < combobox->getItemCount(); ++i)
             {
                 ListboxItem* item = combobox->getListboxItemFromIndex(i);
@@ -262,10 +259,11 @@ namespace rl
         }
     }
 
-    void GameSettings::setOption(const ConfigOptionMap& configuration, const Ogre::String& option, std::vector<RadioButton*> radioGroup)
+    void GameSettings::setOption(
+        const ConfigOptionMap& configuration, const Ogre::String& option, std::vector<RadioButton*> radioGroup)
     {
         ConfigOptionMap::const_iterator cfi = configuration.find(option);
-        if (cfi != configuration.end()) 
+        if (cfi != configuration.end())
         {
             ConfigOption curOption = cfi->second;
             for (std::vector<RadioButton*>::const_iterator it = radioGroup.begin(); it != radioGroup.end(); ++it)
@@ -279,7 +277,7 @@ namespace rl
             }
         }
     }
-    
+
     void GameSettings::createElements(CEGUI::Combobox* combobox, size_t count)
     {
         int delta = count - combobox->getItemCount();
@@ -299,5 +297,5 @@ namespace rl
                 delete item;
             }
         }
-    }    
+    }
 }

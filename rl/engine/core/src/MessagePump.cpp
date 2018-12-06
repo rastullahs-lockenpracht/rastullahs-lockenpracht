@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -17,34 +17,34 @@
 
 #include "MessagePump.h"
 
-template<> rl::MessagePump* Ogre::Singleton<rl::MessagePump>::ms_Singleton = 0;
+template <> rl::MessagePump* Ogre::Singleton<rl::MessagePump>::ms_Singleton = 0;
 
 namespace rl
 {
     MessagePump::~MessagePump()
     {
 
-        while(!mMessageQueue.empty())
+        while (!mMessageQueue.empty())
         {
-        
+
             delete mMessageQueue.front();
-            mMessageQueue.pop();    
+            mMessageQueue.pop();
         }
 
         MessageHandlerMap::iterator it = mMessageHandlerMap.begin();
-        for( ; it != mMessageHandlerMap.end(); it++ )
-            if( it->second != NULL )
+        for (; it != mMessageHandlerMap.end(); it++)
+            if (it->second != NULL)
                 delete it->second;
     }
 
     void MessagePump::run(Ogre::Real elapsedTime)
     {
         static bool sending = false;
-        if(!sending)
+        if (!sending)
         {
             sending = true;
             sendPending();
-            sending = false;  
+            sending = false;
         }
     }
 
@@ -53,24 +53,23 @@ namespace rl
         static Ogre::String name = "MessagePump";
         return name;
     }
-    
+
     void MessagePump::sendPending()
     {
-        while(!mMessageQueue.empty())
+        while (!mMessageQueue.empty())
         {
             doSend(mMessageQueue.front());
             mMessageQueue.pop();
         }
     }
-    
-    
+
     MessagePump::MessageHandlerMapEntries* MessagePump::getOrCreateMapEntries(int id)
     {
         // if (id != 0x1000204){
-        //     LOG_MESSAGE("MessagePump", "Create or get id " + Ogre::StringConverter::toString(id));                
+        //     LOG_MESSAGE("MessagePump", "Create or get id " + Ogre::StringConverter::toString(id));
         // }
         MessageHandlerMap::iterator it = mMessageHandlerMap.find(id);
-        if(it == mMessageHandlerMap.end())
+        if (it == mMessageHandlerMap.end())
         {
             MessageHandlerMapEntries* entries = new MessageHandlerMapEntries();
             mMessageHandlerMap[id] = entries;
@@ -78,32 +77,32 @@ namespace rl
         }
         return it->second;
     }
-    
+
     bool MessagePump::doSend(MessageObjectBase* msg)
     {
         bool msgHandled = false;
         MessageHandlerMapEntries* entries = getOrCreateMapEntries(msg->getMessageTypeId());
-        for(MessageHandlerMapEntries::iterator it = entries->begin(); it != entries->end(); ++it)
+        for (MessageHandlerMapEntries::iterator it = entries->begin(); it != entries->end(); ++it)
         {
-            if((*it).handlerWrapper->Invoke(msg))
+            if ((*it).handlerWrapper->Invoke(msg))
             {
                 msgHandled = true;
             }
         }
         delete msg;
-        return msgHandled;;
+        return msgHandled;
+        ;
     }
-    
+
     void MessagePump::doPost(MessageObjectBase* msg)
     {
         mMessageQueue.push(msg);
     }
-    
+
     void MessagePump::disconnectHandler(int connectionId)
     {
-        //not very performant...definitely needs improvement
-        for (MessageHandlerMap::iterator it = mMessageHandlerMap.begin();
-             it != mMessageHandlerMap.end(); ++it)
+        // not very performant...definitely needs improvement
+        for (MessageHandlerMap::iterator it = mMessageHandlerMap.begin(); it != mMessageHandlerMap.end(); ++it)
         {
             MessageHandlerMapEntries* en = it->second;
             for (MessageHandlerMapEntries::iterator jt = en->begin(); jt != en->end(); ++jt)
@@ -122,5 +121,4 @@ namespace rl
             }
         }
     }
-    
 }

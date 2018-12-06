@@ -18,90 +18,97 @@
 #define GAMESETTINGS_H
 
 #include "AbstractWindow.h"
-#include "SoundDriverConfigComponent.h"
 #include "RenderSystemConfigComponent.h"
+#include "SoundDriverConfigComponent.h"
 
 namespace rl
 {
-	class GameSettings : AbstractWindow
-	{
-	public:
-		/**
-		 * Constructs a new GameSettings object.
-		 *
-		 * Creates the connections between callback functions and CEGUI
-		 * widgets.
-		 */
-		GameSettings();
-		~GameSettings();
+    class GameSettings : AbstractWindow
+    {
+    public:
+        /**
+         * Constructs a new GameSettings object.
+         *
+         * Creates the connections between callback functions and CEGUI
+         * widgets.
+         */
+        GameSettings();
+        ~GameSettings();
 
-		void registerSoundDriverConfig(SoundDriverConfigComponent* scc);
-		void registerRenderSystemConfig(RenderSystemConfigComponent* rcc);
+        void registerSoundDriverConfig(SoundDriverConfigComponent* scc);
+        void registerRenderSystemConfig(RenderSystemConfigComponent* rcc);
 
-		void setVisible(bool visible, bool destroyAfterHide = false);
+        void setVisible(bool visible, bool destroyAfterHide = false);
 
-	private:
-		/**
-		 * Helper function, which sets the configuration component for a
-		 * given driver name
-		 *
-		 * Searchs both ConfigComponent lists and activates the correct
-		 * ConfigComponent
-		 *
-		 * @param drivername Name of the driver to set the ConfigComponent for
-		 */
-		void setConfigComponent(const CEGUI::String& drivername);
+    private:
+        /**
+         * Helper function, which sets the configuration component for a
+         * given driver name
+         *
+         * Searchs both ConfigComponent lists and activates the correct
+         * ConfigComponent
+         *
+         * @param drivername Name of the driver to set the ConfigComponent for
+         */
+        void setConfigComponent(const CEGUI::String& drivername);
 
-		/**
-		 * Is called if the user clicks the Apply button
-		 *
-		 * Collects all settings and passes those on to the
-		 * different subsystems like CoreSubsystem or Ogre::RenderSystem.
-		 */
-		bool onApply();
+        /**
+         * Is called if the user clicks the Apply button
+         *
+         * Collects all settings and passes those on to the
+         * different subsystems like CoreSubsystem or Ogre::RenderSystem.
+         */
+        bool onApply();
 
-		/**
-		 * Is called if the user clicks the Cancel button
-		 *
-		 * No changes made to any of the configuration pages will be saved.
-		 */
-		bool onCancel();
+        /**
+         * Is called if the user clicks the Cancel button
+         *
+         * No changes made to any of the configuration pages will be saved.
+         */
+        bool onCancel();
 
-		/**
-		 * Is called if the user selects a new sounddriver
-		 *
-		 * Initialises the selected sound driver and loads the specific
-		 * configuration section.
-		 */
-		bool onSoundDriverChanged();
+        /**
+         * Is called if the user selects a new sounddriver
+         *
+         * Initialises the selected sound driver and loads the specific
+         * configuration section.
+         */
+        bool onSoundDriverChanged();
 
-		/**
-		 * Is called if the user selected a new rendersystem
-		 *
-		 * Initialises the selected render system and loads the specific
-		 * configuration section.
-		 */
-		bool onRenderSystemChanged();
-        
+        /**
+         * Is called if the user selected a new rendersystem
+         *
+         * Initialises the selected render system and loads the specific
+         * configuration section.
+         */
+        bool onRenderSystemChanged();
+
         void update();
-        
-        void setOption(const Ogre::ConfigOptionMap& configuration, const Ogre::String& option, CEGUI::Checkbox* checkbox);
-        void setOption(const Ogre::ConfigOptionMap& configuration, const Ogre::String& option, CEGUI::Combobox* combobox);
-        void setOption(const Ogre::ConfigOptionMap& configuration, const Ogre::String& option, std::vector<CEGUI::RadioButton*> radioGroup);
+
+        void setOption(
+            const Ogre::ConfigOptionMap& configuration, const Ogre::String& option, CEGUI::Checkbox* checkbox);
+        void setOption(
+            const Ogre::ConfigOptionMap& configuration, const Ogre::String& option, CEGUI::Combobox* combobox);
+        void setOption(const Ogre::ConfigOptionMap& configuration, const Ogre::String& option,
+            std::vector<CEGUI::RadioButton*> radioGroup);
         void createElements(CEGUI::Combobox* combobox, size_t count);
-        
-		std::list<SoundDriverConfigComponent*> mSoundDriverConfigs;   //!< List of registered sounddriver configuration components
-		SoundDriverConfigComponent* mCurrentSoundDriverConfig;        //!< Configuration component of currently selected sound driver
-		std::list<RenderSystemConfigComponent*> mRenderSystemConfigs; //!< List of registered rendersystem configuration components
-		RenderSystemConfigComponent* mCurrentRenderSystemConfig;      //!< Configuration component of currently selected rendersystem
-        
+
+        std::list<SoundDriverConfigComponent*>
+            mSoundDriverConfigs; //!< List of registered sounddriver configuration components
+        SoundDriverConfigComponent*
+            mCurrentSoundDriverConfig; //!< Configuration component of currently selected sound driver
+        std::list<RenderSystemConfigComponent*>
+            mRenderSystemConfigs; //!< List of registered rendersystem configuration components
+        RenderSystemConfigComponent*
+            mCurrentRenderSystemConfig; //!< Configuration component of currently selected rendersystem
+
         CEGUI::Combobox* mVideoRenderer;
         CEGUI::Combobox* mVideoResolution;
         CEGUI::Checkbox* mVideoFullscreen;
-        CEGUI::RadioButton* mVideoColorDepth32, *mVideoColorDepth16;
-        CEGUI::RadioButton* mVideoFsaa0, *mVideoFsaa2, *mVideoFsaa4, *mVideoFsaa8;
-        CEGUI::RadioButton* mVideoRttModeFBO, *mVideoRttModePBuffer, *mVideoRttModeCopy;
-	};
+        CEGUI::RadioButton *mVideoColorDepth32, *mVideoColorDepth16;
+        CEGUI::RadioButton *mVideoFsaa0, *mVideoFsaa2, *mVideoFsaa4, *mVideoFsaa8;
+        CEGUI::RadioButton *mVideoRttModeFBO, *mVideoRttModePBuffer, *mVideoRttModeCopy;
+    };
 }
 
 #endif

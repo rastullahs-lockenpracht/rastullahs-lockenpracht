@@ -19,40 +19,37 @@
 #include "AStarWayPointNode.h"
 #include "WayPointNode.h"
 
-namespace rl {
-
-AStarCosts::AStarCosts(const AStarHeuristic* Heuristic, float TieBreakFactor)
-: mHeuristic(Heuristic),
-  mTieBreakFactor(TieBreakFactor)
+namespace rl
 {
-}
 
-AStarCosts::~AStarCosts()
-{
-}
+    AStarCosts::AStarCosts(const AStarHeuristic* Heuristic, float TieBreakFactor)
+        : mHeuristic(Heuristic)
+        , mTieBreakFactor(TieBreakFactor)
+    {
+    }
 
-float AStarCosts::calcHeuristic(const WayPointGraph* WPGraph,
-                                const AStarWayPointNode* wp1,
-                                const AStarWayPointNode* wp2) const
-{
-	return mTieBreakFactor *
-        mHeuristic->calcDistance(wp1->getWP()->getPosition(), wp2->getWP()->getPosition());
-}
+    AStarCosts::~AStarCosts()
+    {
+    }
 
-AStarCostsDefault::AStarCostsDefault(const AStarHeuristic* Heuristic, float TieBreakFactor)
-: AStarCosts(Heuristic, TieBreakFactor)
-{
-}
+    float AStarCosts::calcHeuristic(
+        const WayPointGraph* WPGraph, const AStarWayPointNode* wp1, const AStarWayPointNode* wp2) const
+    {
+        return mTieBreakFactor * mHeuristic->calcDistance(wp1->getWP()->getPosition(), wp2->getWP()->getPosition());
+    }
 
-AStarCostsDefault::~AStarCostsDefault()
-{
-}
+    AStarCostsDefault::AStarCostsDefault(const AStarHeuristic* Heuristic, float TieBreakFactor)
+        : AStarCosts(Heuristic, TieBreakFactor)
+    {
+    }
 
-float AStarCostsDefault::calcCost(const WayPointGraph* WPGraph,
-                                  const AStarWayPointNode* wp1,
-                                  const AStarWayPointNode* wp2) const
-{
-	return mEuclid.calcDistance(wp1->getWP()->getPosition(), wp2->getWP()->getPosition());
-}
+    AStarCostsDefault::~AStarCostsDefault()
+    {
+    }
 
+    float AStarCostsDefault::calcCost(
+        const WayPointGraph* WPGraph, const AStarWayPointNode* wp1, const AStarWayPointNode* wp2) const
+    {
+        return mEuclid.calcDistance(wp1->getWP()->getPosition(), wp2->getWP()->getPosition());
+    }
 };

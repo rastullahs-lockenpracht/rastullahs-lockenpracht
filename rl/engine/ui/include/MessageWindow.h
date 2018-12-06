@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -17,38 +17,35 @@
 #ifndef __MessageWindow_H__
 #define __MessageWindow_H__
 
-#include "UiPrerequisites.h"
 #include "AbstractWindow.h"
+#include "UiPrerequisites.h"
 
-namespace rl {
-	
-	class _RlUiExport MessageWindow :
-		public AbstractWindow
-	{
-	public:
-        enum Buttons 
+namespace rl
+{
+
+    class _RlUiExport MessageWindow : public AbstractWindow
+    {
+    public:
+        enum Buttons
         {
             OK,
             YES_NO
         };
 
-        MessageWindow(
-            const CeGuiString& title, 
-            const CeGuiString& text, 
-            const Buttons buttons);
+        MessageWindow(const CeGuiString& title, const CeGuiString& text, const Buttons buttons);
 
         void setTitle(const CeGuiString& title);
         void setText(const CeGuiString& text);
         void setButtons(const CeGuiStringVector& buttonTexts);
         virtual bool onButtonClicked(int button, const CeGuiString& text);
-	
-	private:
+
+    private:
         CEGUI::Window* mTextField;
         CEGUI::Window* mButtonPanel;
         int mNumButtons;
 
         const CeGuiStringVector getButtonTexts(const Buttons buttons) const;
-	};
+    };
 }
 
 #endif

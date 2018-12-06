@@ -1,18 +1,18 @@
 /* This source file is part of Rastullahs Lockenpracht.
-* Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
-* 
-*  This program is free software; you can redistribute it and/or modify
-*  it under the terms of the Clarified Artistic License.
-*
-*  This program is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  Clarified Artistic License for more details.
-*
-*  You should have received a copy of the Clarified Artistic License
-*  along with this program; if not you can get it here
-*  http://www.jpaulmorrison.com/fbp/artistic2.htm.
-*/
+ * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the Clarified Artistic License.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  Clarified Artistic License for more details.
+ *
+ *  You should have received a copy of the Clarified Artistic License
+ *  along with this program; if not you can get it here
+ *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
+ */
 
 #ifndef __RL_JOB_SCHEDULER_H__
 #define __RL_JOB_SCHEDULER_H__
@@ -44,13 +44,15 @@ namespace rl
      *  are added to it. The number of tokens depends on its priority. The higher the priority, the
      *  more tokens added.
      */
-    class _RlCoreExport JobScheduler
-        : public GameTask,
-          public Ogre::Singleton<JobScheduler>,
-          public SaveGameData
+    class _RlCoreExport JobScheduler : public GameTask, public Ogre::Singleton<JobScheduler>, public SaveGameData
     {
     public:
-        typedef enum {JP_LOW = 10, JP_NORMAL = 20, JP_HIGH = 30} JobPriority;
+        typedef enum
+        {
+            JP_LOW = 10,
+            JP_NORMAL = 20,
+            JP_HIGH = 30
+        } JobPriority;
 
         JobScheduler();
         virtual ~JobScheduler();
@@ -74,8 +76,8 @@ namespace rl
          *         looses its validity to the JobScheduler itself though. If a job is saved and reloaded
          *         from a SaveGameFile, a new ticket will be assigned!
          */
-        unsigned long addJob(AbstractJob* job, JobPriority priority=JP_NORMAL, Ogre::Real delay=0.0f,
-            Ogre::Real maxRuntime=Ogre::Math::POS_INFINITY, JobListener* listener=NULL);
+        unsigned long addJob(AbstractJob* job, JobPriority priority = JP_NORMAL, Ogre::Real delay = 0.0f,
+            Ogre::Real maxRuntime = Ogre::Math::POS_INFINITY, JobListener* listener = NULL);
 
         /**
          * Removes a Job from the queue.
@@ -91,34 +93,35 @@ namespace rl
 
         virtual const Ogre::String& getName() const;
 
-
         /// Override from SaveGameData
         /// Manages saving and loading from the SaveGameFile
 
         virtual CeGuiString getXmlNodeIdentifier() const;
         virtual void writeData(SaveGameFileWriter* writer);
         virtual void readData(SaveGameFileReader* reader);
-        virtual int getPriority() const;  // this should probably be one of the last things to load, so the job can access various things (gameobjects etc)
+        virtual int getPriority() const; // this should probably be one of the last things to load, so the job can
+                                         // access various things (gameobjects etc)
 
-        typedef AbstractJob*(*JobCreateFunction)(void);
-        static void registerJobClass(const Ogre::String &name, JobCreateFunction);
+        typedef AbstractJob* (*JobCreateFunction)(void);
+        static void registerJobClass(const Ogre::String& name, JobCreateFunction);
+
     private:
         /// A JobEntry encapsules a Job for the Scheduler, it contains the Job itself and
         /// various administrional data.
         struct JobEntry
         {
-            AbstractJob* job;             ///< The Job to be executed.
-            JobListener* listener;        ///< attached JobListener or NULL else.
-            unsigned long ticket;         ///< ticket to identify the Job.
-            JobPriority priority;         ///< priority it runs with.
-            unsigned short tokens;        ///< number of accumulated tokens.
-            unsigned long start;          ///< when to execute the Job for the first time.
-            unsigned long end;            ///< when to discard the Job, if not then finished.
-            Time timeLastCall;            ///< time (of the job's time source) of the last call of Job#execute.
+            AbstractJob* job; ///< The Job to be executed.
+            JobListener* listener; ///< attached JobListener or NULL else.
+            unsigned long ticket; ///< ticket to identify the Job.
+            JobPriority priority; ///< priority it runs with.
+            unsigned short tokens; ///< number of accumulated tokens.
+            unsigned long start; ///< when to execute the Job for the first time.
+            unsigned long end; ///< when to discard the Job, if not then finished.
+            Time timeLastCall; ///< time (of the job's time source) of the last call of Job#execute.
             TimeSource::TimeSourceType timeSourceLastCall;
-            
-            bool called;                  ///< false, if the Job has not been called yet.
-            bool markedToRemove;          ///< only true, if removeJob with the ticket of this job is called
+
+            bool called; ///< false, if the Job has not been called yet.
+            bool markedToRemove; ///< only true, if removeJob with the ticket of this job is called
         };
 
         /// Functor for finding a Job in a JobQueue by its ticket.
@@ -133,8 +136,8 @@ namespace rl
         typedef std::deque<JobEntry> JobQueue;
 
         JobQueue mJobQueue;
-		JobQueue mAddedJobs;
-        //JobQueue mRemovedJobs; // should probably replaced by JobsToDelete
+        JobQueue mAddedJobs;
+        // JobQueue mRemovedJobs; // should probably replaced by JobsToDelete
         unsigned short mTokenThreshold;
         unsigned long mTicketCounter;
 

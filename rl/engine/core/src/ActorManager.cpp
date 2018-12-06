@@ -1,18 +1,18 @@
 /* This source file is part of Rastullahs Lockenpracht.
-* Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
-*
-*  This program is free software; you can redistribute it and/or modify
-*  it under the terms of the Clarified Artistic License.
-*
-*  This program is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  Clarified Artistic License for more details.
-*
-*  You should have received a copy of the Clarified Artistic License
-*  along with this program; if not you can get it here
-*  http://www.jpaulmorrison.com/fbp/artistic2.htm.
-*/
+ * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the Clarified Artistic License.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  Clarified Artistic License for more details.
+ *
+ *  You should have received a copy of the Clarified Artistic License
+ *  along with this program; if not you can get it here
+ *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
+ */
 #include "stdinc.h" //precompiled header
 
 #include "ActorManager.h"
@@ -20,13 +20,13 @@
 #include "CoreSubsystem.h"
 
 #include "Actor.h"
+#include "BoxPrimitive.h"
 #include "CameraObject.h"
 #include "LightObject.h"
 #include "ListenerMovable.h"
 #include "ListenerObject.h"
 #include "MergeableMeshObject.h"
 #include "MeshObject.h"
-#include "BoxPrimitive.h"
 #include "MovableText.h"
 #include "PhysicalThing.h"
 #include "ScriptWrapper.h"
@@ -38,14 +38,15 @@
 
 using namespace Ogre;
 
-template<> rl::ActorManager* Singleton<rl::ActorManager>::ms_Singleton = 0;
+template <> rl::ActorManager* Singleton<rl::ActorManager>::ms_Singleton = 0;
 
-namespace rl {
+namespace rl
+{
 
     ActorManager::ActorManager()
-        : mActors(),
-        mWorld(CoreSubsystem::getSingleton().getWorld()),
-        mActorRenderingDistance(100.0f)
+        : mActors()
+        , mWorld(CoreSubsystem::getSingleton().getWorld())
+        , mActorRenderingDistance(100.0f)
     {
     }
 
@@ -54,7 +55,7 @@ namespace rl {
         destroyAllActors();
     }
 
-    void ActorManager::setWorld( World* world )
+    void ActorManager::setWorld(World* world)
     {
         mWorld = world;
     }
@@ -69,17 +70,16 @@ namespace rl {
         return mActorRenderingDistance;
     }
 
-    void ActorManager::setDefaultActorRenderingDistance( Ogre::Real dist )
+    void ActorManager::setDefaultActorRenderingDistance(Ogre::Real dist)
     {
-        for (ActorPtrMap::iterator it = mActors.begin();
-            it != mActors.end();)
+        for (ActorPtrMap::iterator it = mActors.begin(); it != mActors.end();)
         {
             Actor* actor = it->second;
 
             // Nur die Actoren veraendern, deren Distanz nicht geaendert wurde
-            if( actor->getRenderingDistance() == mActorRenderingDistance )
+            if (actor->getRenderingDistance() == mActorRenderingDistance)
             {
-                actor->setRenderingDistance( dist );
+                actor->setRenderingDistance(dist);
             }
 
             ++it;
@@ -92,7 +92,7 @@ namespace rl {
     {
         ActorPtrMap::const_iterator pActorIter = mActors.find(name);
 
-        if( pActorIter != mActors.end() )
+        if (pActorIter != mActors.end())
             return pActorIter->second;
 
         return 0;
@@ -102,7 +102,7 @@ namespace rl {
     {
         if (actor == NULL)
         {
-            Throw(NullPointerException, "Argument actor darf nicht null sein." );
+            Throw(NullPointerException, "Argument actor darf nicht null sein.");
         }
 
         ActorPtrMap::iterator it = mActors.find(actor->getName());
@@ -111,8 +111,8 @@ namespace rl {
             Throw(IllegalArgumentException, "Argument actor wird nicht vom ActorManager verwaltet.");
         }
         mActors.erase(it);
-        LOG_MESSAGE("ActorManager", "Delete actor '"+actor->getName()+"'");
-        //actor->detachAllChildren(); //just avoiding a crash. is there a better resolution?
+        LOG_MESSAGE("ActorManager", "Delete actor '" + actor->getName() + "'");
+        // actor->detachAllChildren(); //just avoiding a crash. is there a better resolution?
         // should not be needed, is also done in the destructor of the actor
 
         doDestroyActor(actor);
@@ -125,10 +125,10 @@ namespace rl {
         ActorControlledObject* actObj = actor->getControlledObject();
         PhysicalThing* physThing = actor->getPhysicalThing();
 
-		if (actor == SoundManager::getSingleton().getListenerActor())
-		{
-			SoundManager::getSingleton()._clearListenerActor();
-		}
+        if (actor == SoundManager::getSingleton().getListenerActor())
+        {
+            SoundManager::getSingleton()._clearListenerActor();
+        }
 
         ScriptWrapper::getSingleton().deleted(actor);
         delete actor;
@@ -154,9 +154,9 @@ namespace rl {
         }
     }
 
-    Actor* ActorManager::createLightActor(const String& name, rl::LightObject::LightTypes type )
+    Actor* ActorManager::createLightActor(const String& name, rl::LightObject::LightTypes type)
     {
-        const String&  uniquename = nextUniqueName(name);
+        const String& uniquename = nextUniqueName(name);
 
         Actor* actor = 0;
         try
@@ -165,19 +165,18 @@ namespace rl {
             LightObject* lo = new LightObject(uniquename, type);
 
             actor = new Actor(uniquename, lo);
-            mActors.insert(ActorPtrPair(uniquename,actor));
+            mActors.insert(ActorPtrPair(uniquename, actor));
         }
         catch (Ogre::Exception& e)
         {
-            LOG_ERROR(Logger::CORE, "ActorManager - Das Licht '"
-                + uniquename + "' konnte nicht erstellt werden. Grund: "
-                + e.getFullDescription());
+            LOG_ERROR(Logger::CORE,
+                "ActorManager - Das Licht '" + uniquename
+                    + "' konnte nicht erstellt werden. Grund: " + e.getFullDescription());
         }
         catch (rl::Exception& e)
         {
-            LOG_ERROR(Logger::CORE, "ActorManager - Das Licht '"
-                + uniquename + "' konnte nicht erstellt werden. Grund: "
-                + e.getMessage());
+            LOG_ERROR(Logger::CORE,
+                "ActorManager - Das Licht '" + uniquename + "' konnte nicht erstellt werden. Grund: " + e.getMessage());
         }
 
         return actor;
@@ -185,28 +184,26 @@ namespace rl {
 
     Actor* ActorManager::createSoundSampleActor(const String& name, const String& soundfile)
     {
-        const String&  uniquename = nextUniqueName(name);
+        const String& uniquename = nextUniqueName(name);
 
         Actor* actor = 0;
         try
         {
-            Sound* sm = SoundManager::getSingleton().getActiveDriver()->
-                createSound(soundfile, ST_SAMPLE);
+            Sound* sm = SoundManager::getSingleton().getActiveDriver()->createSound(soundfile, ST_SAMPLE);
             SoundObject* so = new SoundObject(sm, soundfile);
             actor = new Actor(uniquename, so);
-            mActors.insert(ActorPtrPair(uniquename,actor));
+            mActors.insert(ActorPtrPair(uniquename, actor));
         }
         catch (Ogre::Exception& e)
         {
-            LOG_ERROR(Logger::CORE, "ActorManager - Der Sound '"
-                + uniquename + "' konnte nicht erstellt werden. Grund: "
-                + e.getFullDescription());
+            LOG_ERROR(Logger::CORE,
+                "ActorManager - Der Sound '" + uniquename
+                    + "' konnte nicht erstellt werden. Grund: " + e.getFullDescription());
         }
         catch (rl::Exception& e)
         {
-            LOG_ERROR(Logger::CORE, "ActorManager - Der Sound '"
-                + uniquename + "' konnte nicht erstellt werden. Grund: "
-                + e.getMessage());
+            LOG_ERROR(Logger::CORE,
+                "ActorManager - Der Sound '" + uniquename + "' konnte nicht erstellt werden. Grund: " + e.getMessage());
         }
 
         return actor;
@@ -214,29 +211,27 @@ namespace rl {
 
     Actor* ActorManager::createSoundStreamActor(const String& name, const String& soundfile)
     {
-        const String&  uniquename = nextUniqueName(name);
+        const String& uniquename = nextUniqueName(name);
 
         Actor* actor = 0;
         try
         {
-            Sound* sm = SoundManager::getSingleton().getActiveDriver()->
-                createSound(soundfile, ST_STREAM);
+            Sound* sm = SoundManager::getSingleton().getActiveDriver()->createSound(soundfile, ST_STREAM);
             SoundObject* so = new SoundObject(sm, soundfile);
 
             actor = new Actor(uniquename, so);
-            mActors.insert(ActorPtrPair(uniquename,actor));
+            mActors.insert(ActorPtrPair(uniquename, actor));
         }
         catch (Ogre::Exception& e)
         {
-            LOG_ERROR(Logger::CORE, "ActorManager - Der Sound '"
-                + uniquename + "' konnte nicht erstellt werden. Grund: "
-                + e.getFullDescription());
+            LOG_ERROR(Logger::CORE,
+                "ActorManager - Der Sound '" + uniquename
+                    + "' konnte nicht erstellt werden. Grund: " + e.getFullDescription());
         }
         catch (rl::Exception& e)
         {
-            LOG_ERROR(Logger::CORE, "ActorManager - Der Sound '"
-                + uniquename + "' konnte nicht erstellt werden. Grund: "
-                + e.getMessage());
+            LOG_ERROR(Logger::CORE,
+                "ActorManager - Der Sound '" + uniquename + "' konnte nicht erstellt werden. Grund: " + e.getMessage());
         }
 
         return actor;
@@ -244,31 +239,28 @@ namespace rl {
 
     Actor* ActorManager::createListenerActor(const String& name)
     {
-        const String&  uniquename = nextUniqueName(name);
+        const String& uniquename = nextUniqueName(name);
 
         Actor* actor = 0;
         try
         {
-            ListenerMovable* lm = SoundManager::getSingleton().
-                getActiveDriver()->createListener(name);
+            ListenerMovable* lm = SoundManager::getSingleton().getActiveDriver()->createListener(name);
             ListenerObject* lo = new ListenerObject(lm);
 
             actor = new Actor(uniquename, lo);
-            mActors.insert(ActorPtrPair(uniquename,actor));
+            mActors.insert(ActorPtrPair(uniquename, actor));
         }
         catch (Ogre::Exception& e)
         {
             LOG_ERROR(Logger::CORE,
-                "ActorManager - Der Listener '"
-                + uniquename + "' konnte nicht erstellt werden. Grund: "
-                + e.getFullDescription());
+                "ActorManager - Der Listener '" + uniquename
+                    + "' konnte nicht erstellt werden. Grund: " + e.getFullDescription());
         }
         catch (rl::Exception& e)
         {
             LOG_ERROR(Logger::CORE,
-                "ActorManager - Der Listener '"
-                + uniquename + "' konnte nicht erstellt werden. Grund: "
-                + e.getMessage());
+                "ActorManager - Der Listener '" + uniquename
+                    + "' konnte nicht erstellt werden. Grund: " + e.getMessage());
         }
 
         return actor;
@@ -276,144 +268,131 @@ namespace rl {
 
     Actor* ActorManager::createEmptyActor(const String& name)
     {
-        const String&  uniquename = nextUniqueName(name);
+        const String& uniquename = nextUniqueName(name);
 
         Actor* actor = new Actor(uniquename);
-        mActors.insert(ActorPtrPair(uniquename,actor));
+        mActors.insert(ActorPtrPair(uniquename, actor));
 
         return actor;
     }
 
     Actor* ActorManager::createCameraActor(const String& name)
     {
-        const String&  uniquename = nextUniqueName(name);
+        const String& uniquename = nextUniqueName(name);
         Actor* actor = 0;
         try
         {
             CameraObject* co = new CameraObject(uniquename);
             // the mass should be as small as possible, so the camera doesn't interact with other bodies,
             // but setting the mass to 0 means, that the body is static!
-            PhysicalThing* pt = PhysicsManager::getSingleton()
-                .createPhysicalThing(GT_SPHERE, co,
-                0.001f, true);
+            PhysicalThing* pt = PhysicsManager::getSingleton().createPhysicalThing(GT_SPHERE, co, 0.001f, true);
             PhysicsManager::getSingleton().createPhysicsProxy(pt);
-            pt->_getBody()->setMaterialGroupID(
-                PhysicsManager::getSingleton().createMaterialID("camera"));
+            pt->_getBody()->setMaterialGroupID(PhysicsManager::getSingleton().createMaterialID("camera"));
             actor = new Actor(uniquename, co, pt);
 
-            mActors.insert(ActorPtrPair(uniquename,actor));
+            mActors.insert(ActorPtrPair(uniquename, actor));
         }
         catch (Ogre::Exception& e)
         {
             LOG_ERROR(Logger::CORE,
-                "ActorManager - Die Kamera '"
-                + name + "' fuer den Aktor '"
-                + uniquename + "' konnte nicht erstellt werden. Grund: "
-                + e.getFullDescription());
+                "ActorManager - Die Kamera '" + name + "' fuer den Aktor '" + uniquename
+                    + "' konnte nicht erstellt werden. Grund: " + e.getFullDescription());
         }
         catch (rl::Exception& e)
         {
             LOG_ERROR(Logger::CORE,
-                "ActorManager - Die Kamera '"
-                + name + "' fuer den Aktor '"
-                + uniquename + "' konnte nicht erstellt werden. Grund: "
-                + e.getMessage());
+                "ActorManager - Die Kamera '" + name + "' fuer den Aktor '" + uniquename
+                    + "' konnte nicht erstellt werden. Grund: " + e.getMessage());
         }
 
         return actor;
     }
 
     Actor* ActorManager::createMeshActor(const String& name, const Ogre::String& basemeshname,
-		const MeshPartMap& meshparts, GeometryType geomType, Ogre::Real mass)
-	{
-		if (meshparts.empty())
-		{
-			return NULL;
-		}
-
-        const String&  uniquename = nextUniqueName(name);
-        Actor* actor = NULL;
-
-        try
-        {
-
-			MergeableMeshObject* mmo = new MergeableMeshObject(uniquename, basemeshname);
-
-			for (MeshPartMap::const_iterator partIt = meshparts.begin(); partIt != meshparts.end(); ++partIt)
-			{
-				if (partIt->second == basemeshname)
-				{
-					mmo->setBaseMeshPart(partIt->first);
-				}
-				mmo->addSubmesh(partIt->first, partIt->second);
-			}
-
-			PhysicalThing* pt = PhysicsManager::getSingleton()
-				.createPhysicalThing(geomType, mmo, mass);
-
-			actor = new Actor(uniquename, mmo, pt);
-			mActors.insert(ActorPtrPair(uniquename,actor));
-		}
-        catch (Ogre::Exception& e)
-        {
-            LOG_ERROR(Logger::CORE, "ActorManager - Mesh parts for actor '"
-                + uniquename + "' could not be created. Reason: "
-                + e.getFullDescription());
-        }
-        catch (rl::Exception& e)
-        {
-            LOG_ERROR(Logger::CORE, "ActorManager - Mesh parts for actor '"
-                + uniquename + "' could not be created. Reason: "
-                + e.getMessage());
-        }
-        return actor;
-	}
-
-
-    Actor* ActorManager::createMeshActor(const String& name, const String& meshname,
-        GeometryType geomType, Ogre::Real mass, bool mergeable)
+        const MeshPartMap& meshparts, GeometryType geomType, Ogre::Real mass)
     {
-        const String&  uniquename = nextUniqueName(name);
+        if (meshparts.empty())
+        {
+            return NULL;
+        }
+
+        const String& uniquename = nextUniqueName(name);
         Actor* actor = NULL;
 
         try
         {
-			MeshObject* mo = NULL;
 
-			if (mergeable)
-			{
-				mo = new MergeableMeshObject(uniquename, meshname);
-			}
-			else
-			{
-				mo = new MeshObject(uniquename, meshname);
-			}
-            PhysicalThing* pt = PhysicsManager::getSingleton()
-                .createPhysicalThing(geomType, mo, mass);
+            MergeableMeshObject* mmo = new MergeableMeshObject(uniquename, basemeshname);
 
-            actor = new Actor(uniquename, mo, pt);
-            mActors.insert(ActorPtrPair(uniquename,actor));
+            for (MeshPartMap::const_iterator partIt = meshparts.begin(); partIt != meshparts.end(); ++partIt)
+            {
+                if (partIt->second == basemeshname)
+                {
+                    mmo->setBaseMeshPart(partIt->first);
+                }
+                mmo->addSubmesh(partIt->first, partIt->second);
+            }
+
+            PhysicalThing* pt = PhysicsManager::getSingleton().createPhysicalThing(geomType, mmo, mass);
+
+            actor = new Actor(uniquename, mmo, pt);
+            mActors.insert(ActorPtrPair(uniquename, actor));
         }
         catch (Ogre::Exception& e)
         {
-            LOG_ERROR(Logger::CORE, "ActorManager - Das Mesh '"
-                + meshname + "' fuer den Aktor '"
-                + uniquename + "' konnte nicht erstellt werden. Grund: "
-                + e.getFullDescription());
+            LOG_ERROR(Logger::CORE,
+                "ActorManager - Mesh parts for actor '" + uniquename
+                    + "' could not be created. Reason: " + e.getFullDescription());
         }
         catch (rl::Exception& e)
         {
-            LOG_ERROR(Logger::CORE, "ActorManager - Das Mesh '"
-                + meshname + "' fuer den Aktor '"
-                + uniquename + "' konnte nicht erstellt werden. Grund: "
-                + e.getMessage());
+            LOG_ERROR(Logger::CORE,
+                "ActorManager - Mesh parts for actor '" + uniquename
+                    + "' could not be created. Reason: " + e.getMessage());
         }
         return actor;
     }
 
-    Actor* ActorManager::createBoxPrimitiveActor(const Ogre::String& name,
-        const Ogre::Vector3& minCorner, const Ogre::Vector3& maxCorner,
-        const Ogre::String& materialName, Ogre::Real mass)
+    Actor* ActorManager::createMeshActor(
+        const String& name, const String& meshname, GeometryType geomType, Ogre::Real mass, bool mergeable)
+    {
+        const String& uniquename = nextUniqueName(name);
+        Actor* actor = NULL;
+
+        try
+        {
+            MeshObject* mo = NULL;
+
+            if (mergeable)
+            {
+                mo = new MergeableMeshObject(uniquename, meshname);
+            }
+            else
+            {
+                mo = new MeshObject(uniquename, meshname);
+            }
+            PhysicalThing* pt = PhysicsManager::getSingleton().createPhysicalThing(geomType, mo, mass);
+
+            actor = new Actor(uniquename, mo, pt);
+            mActors.insert(ActorPtrPair(uniquename, actor));
+        }
+        catch (Ogre::Exception& e)
+        {
+            LOG_ERROR(Logger::CORE,
+                "ActorManager - Das Mesh '" + meshname + "' fuer den Aktor '" + uniquename
+                    + "' konnte nicht erstellt werden. Grund: " + e.getFullDescription());
+        }
+        catch (rl::Exception& e)
+        {
+            LOG_ERROR(Logger::CORE,
+                "ActorManager - Das Mesh '" + meshname + "' fuer den Aktor '" + uniquename
+                    + "' konnte nicht erstellt werden. Grund: " + e.getMessage());
+        }
+        return actor;
+    }
+
+    Actor* ActorManager::createBoxPrimitiveActor(const Ogre::String& name, const Ogre::Vector3& minCorner,
+        const Ogre::Vector3& maxCorner, const Ogre::String& materialName, Ogre::Real mass)
     {
         const String uniquename = nextUniqueName(name);
         // Make sure that min/maxCorners are valid. Since this is called by scripters, be lenient.
@@ -426,28 +405,27 @@ namespace rl {
         try
         {
             BoxPrimitive* bp = new BoxPrimitive(size, uniquename, materialName);
-            PhysicalThing* pt = PhysicsManager::getSingleton()
-                .createPhysicalThing(GT_BOX, bp, mass);
+            PhysicalThing* pt = PhysicsManager::getSingleton().createPhysicalThing(GT_BOX, bp, mass);
 
             actor = new Actor(uniquename, bp, pt);
-            mActors.insert(ActorPtrPair(uniquename,actor));
+            mActors.insert(ActorPtrPair(uniquename, actor));
         }
         catch (Ogre::Exception& e)
         {
-            LOG_ERROR(Logger::CORE, "ActorManager - Das BoxPrimitive fuer den Aktor '"
-                + uniquename + "' konnte nicht erstellt werden. Grund: "
-                + e.getFullDescription());
+            LOG_ERROR(Logger::CORE,
+                "ActorManager - Das BoxPrimitive fuer den Aktor '" + uniquename
+                    + "' konnte nicht erstellt werden. Grund: " + e.getFullDescription());
         }
         catch (rl::Exception& e)
         {
-            LOG_ERROR(Logger::CORE, "ActorManager - Das BoxPrimitive fuer den Aktor '"
-                + uniquename + "' konnte nicht erstellt werden. Grund: "
-                + e.getMessage());
+            LOG_ERROR(Logger::CORE,
+                "ActorManager - Das BoxPrimitive fuer den Aktor '" + uniquename
+                    + "' konnte nicht erstellt werden. Grund: " + e.getMessage());
         }
         return actor;
     }
 
-    Actor* ActorManager::createParticleSystemActor(const String& name,const String& partname)
+    Actor* ActorManager::createParticleSystemActor(const String& name, const String& partname)
     {
         const String& uniquename = nextUniqueName(name);
 
@@ -457,23 +435,19 @@ namespace rl {
             ParticleSystemObject* po = new ParticleSystemObject(uniquename, partname);
 
             actor = new Actor(uniquename, po, 0);
-            mActors.insert(ActorPtrPair(uniquename,actor));
+            mActors.insert(ActorPtrPair(uniquename, actor));
         }
         catch (Ogre::Exception& e)
         {
             LOG_ERROR(Logger::CORE,
-                "ActorManager - Das Partikelsystem '"
-                + partname + "' fuer den Aktor '"
-                + uniquename + "' konnte nicht erstellt werden. Grund: "
-                + e.getFullDescription());
+                "ActorManager - Das Partikelsystem '" + partname + "' fuer den Aktor '" + uniquename
+                    + "' konnte nicht erstellt werden. Grund: " + e.getFullDescription());
         }
         catch (rl::Exception& e)
         {
             LOG_ERROR(Logger::CORE,
-                "ActorManager - Das Partikelsystem '"
-                + partname + "' fuer den Aktor '"
-                + uniquename + "' konnte nicht erstellt werden. Grund: "
-                + e.getMessage());
+                "ActorManager - Das Partikelsystem '" + partname + "' fuer den Aktor '" + uniquename
+                    + "' konnte nicht erstellt werden. Grund: " + e.getMessage());
         }
 
         return actor;
@@ -485,16 +459,15 @@ namespace rl {
 
         static int id = 0;
 
-        while( getActor(newname) != NULL )
+        while (getActor(newname) != NULL)
         {
             newname = basename + "_" + StringConverter::toString(++id);
         }
 
-        if( basename != newname )
+        if (basename != newname)
         {
-            LOG_WARNING(Logger::CORE, "ActorManager - Warnung! '"
-            + basename
-            + "' war schon vergeben! Neuer Name ist '" + newname + "'.");
+            LOG_WARNING(Logger::CORE,
+                "ActorManager - Warnung! '" + basename + "' war schon vergeben! Neuer Name ist '" + newname + "'.");
         }
 
         return newname;

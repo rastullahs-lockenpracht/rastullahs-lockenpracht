@@ -53,6 +53,7 @@ namespace rl
     public:
         DialogGotoResponse(DialogResponse* response);
         virtual DialogResponse* getResponse() const;
+
     private:
         DialogResponse* mResponse;
     };

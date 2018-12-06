@@ -28,25 +28,24 @@ using namespace Ogre;
 
 namespace rl
 {
-    DialogController::DialogController(CommandMapper* commandMapper, Actor* camera, Creature* character,
-            ControlStateType type)
-        : ControlState(commandMapper, camera, character, type),
-        mSubtitleWindow(NULL),
-        mSoundObject(NULL),
-        mTalkAnimation(NULL),
-        mSubtitleSpeed(1.0f),
-        mTextShown(false),
-        mCurrFadeTextTime(0),
-        mTotalFadeTextTime(0),
-        mText(),
-        mDialogWindow(NULL),
-        mCurrentResponseText(""),
-        mGameLogger(NULL),
-        mCurrentSpeaker(NULL),
-        mDialogState(DS_UNKNOWN)
+    DialogController::DialogController(
+        CommandMapper* commandMapper, Actor* camera, Creature* character, ControlStateType type)
+        : ControlState(commandMapper, camera, character, type)
+        , mSubtitleWindow(NULL)
+        , mSoundObject(NULL)
+        , mTalkAnimation(NULL)
+        , mSubtitleSpeed(1.0f)
+        , mTextShown(false)
+        , mCurrFadeTextTime(0)
+        , mTotalFadeTextTime(0)
+        , mText()
+        , mDialogWindow(NULL)
+        , mCurrentResponseText("")
+        , mGameLogger(NULL)
+        , mCurrentSpeaker(NULL)
+        , mDialogState(DS_UNKNOWN)
     {
-        mSubtitleSpeed = ConfigurationManager::getSingleton().getRealSetting(
-            "General", "Subtitle Speed");
+        mSubtitleSpeed = ConfigurationManager::getSingleton().getRealSetting("General", "Subtitle Speed");
     }
 
     DialogController::~DialogController()
@@ -63,7 +62,7 @@ namespace rl
         Ogre::String soundFile = paragraph->getVoiceFile();
         CeGuiString text = paragraph->getText();
         // if there is no text in the paragraph, go directly to the next entry!
-        if(text.empty())
+        if (text.empty())
         {
             textFinished();
             return;
@@ -87,20 +86,19 @@ namespace rl
                 speed = 1.0;
             }
 
-            mCurrFadeTextTime = fadeTime*speed;
-            mTotalFadeTextTime = fadeTime*speed;
+            mCurrFadeTextTime = fadeTime * speed;
+            mTotalFadeTextTime = fadeTime * speed;
         }
         else
         {
             if (mSoundObject != NULL)
             {
-                mSoundObject->getMovableObject()->getParentSceneNode()->detachObject(
-                    mSoundObject->getMovableObject());
+                mSoundObject->getMovableObject()->getParentSceneNode()->detachObject(mSoundObject->getMovableObject());
                 delete mSoundObject;
             }
 
-            mSoundObject = new SoundObject(SoundManager::getSingleton().getActiveDriver()->
-                    createSound(soundFile, ST_SAMPLE), soundFile);
+            mSoundObject = new SoundObject(
+                SoundManager::getSingleton().getActiveDriver()->createSound(soundFile, ST_SAMPLE), soundFile);
 
             // An Sprecher haengen
             actor->_getSceneNode()->attachObject(mSoundObject->getMovableObject());
@@ -110,8 +108,7 @@ namespace rl
             mSoundObject->play();
             mSoundObject->_update();
 
-
-            mCurrFadeTextTime = std::max(fadeTime*mSubtitleSpeed,mSoundObject->getLength());
+            mCurrFadeTextTime = std::max(fadeTime * mSubtitleSpeed, mSoundObject->getLength());
             mTotalFadeTextTime = mCurrFadeTextTime;
         }
 
@@ -126,13 +123,8 @@ namespace rl
         }
 
         LOG_DEBUG(Logger::UI,
-            "Response: "
-                + actor->getName()
-                + " File: '"
-                + soundFile
-                + "', Text: '" + text + "', Time: "
-                + StringConverter::toString(mCurrFadeTextTime));
-
+            "Response: " + actor->getName() + " File: '" + soundFile + "', Text: '" + text
+                + "', Time: " + StringConverter::toString(mCurrFadeTextTime));
 
         mTextShown = true;
 
@@ -154,7 +146,7 @@ namespace rl
             handleDialogEnd();
             return;
         }
-        
+
         mDialogState = DS_SHOWING_RESPONSE;
 
         if (response->isSelection())
@@ -167,14 +159,13 @@ namespace rl
             mCurrentResponse = response;
         }
 
-
         if (window)
         {
             window->setVisible(false);
         }
 
         mCurrentParagraphs = mCurrentResponse->getParagraphs(mDialog);
-        if(!mCurrentParagraphs.empty())
+        if (!mCurrentParagraphs.empty())
         {
             DialogParagraph* firstParagraph = mCurrentParagraphs.front();
             mCurrentResponse->applyImplications(mDialog);
@@ -184,7 +175,7 @@ namespace rl
                 // no, so directly start with the first paragraph
                 doTalk(firstParagraph, window);
             }
-            else if(mCurrentParagraphs.size() > 1)
+            else if (mCurrentParagraphs.size() > 1)
             {
                 // yes, but there are other paragraphs in the list.
                 // the response should be executed at last, so we put it back to the end
@@ -192,10 +183,9 @@ namespace rl
                 mCurrentParagraphs.push_back(firstParagraph);
                 firstParagraph = mCurrentParagraphs.front();
                 // we don't allow more than one goto per response
-                if(firstParagraph->getResponse())
+                if (firstParagraph->getResponse())
                 {
-                    LOG_ERROR(Logger::UI, "To many gotoresponses in response with id: "
-                        + mCurrentResponse->getId());
+                    LOG_ERROR(Logger::UI, "To many gotoresponses in response with id: " + mCurrentResponse->getId());
                     handleDialogEnd();
                 }
                 else
@@ -218,7 +208,7 @@ namespace rl
     float DialogController::getShowTextLength(const CeGuiString& text) const
     {
         return 0.019f * text.length() + // Zeit fuers Text lesen
-               0.25f;                   // Fade in
+            0.25f; // Fade in
     }
 
     void DialogController::processTextVariables(CeGuiString& text)
@@ -233,35 +223,34 @@ namespace rl
                 CeGuiString::size_type endpos = newText.find("}", pos);
                 if (endpos != CeGuiString::npos)
                 {
-                    CeGuiString varName = newText.substr(pos+2, endpos - pos - 2);
+                    CeGuiString varName = newText.substr(pos + 2, endpos - pos - 2);
                     CeGuiString varValue = mDialog->getVariableValue(varName.c_str());
                     newText = newText.replace(pos, endpos - pos + 1, varValue);
                 }
             }
-        }
-        while (pos != CeGuiString::npos);
+        } while (pos != CeGuiString::npos);
         text.assign(newText);
     }
 
     void DialogController::pause()
     {
-        if (mDialogWindow) {
+        if (mDialogWindow)
+        {
             mDialogWindow->setVisible(false, false);
         }
-        if (mSubtitleWindow) {
+        if (mSubtitleWindow)
+        {
             mSubtitleWindow->setVisible(false, false);
         }
     }
 
-    bool DialogController::mouseReleased(const OIS::MouseEvent& evt,
-        OIS::MouseButtonID id, bool handled)
+    bool DialogController::mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id, bool handled)
     {
         bool retval = ControlState::mouseReleased(evt, id, handled);
 
         if (!handled && !retval)
         {
-            if (mTextShown &&
-                (mCurrFadeTextTime + 0.25 < mTotalFadeTextTime))
+            if (mTextShown && (mCurrFadeTextTime + 0.25 < mTotalFadeTextTime))
             {
                 mCurrFadeTextTime = -1;
                 retval = true;
@@ -290,10 +279,7 @@ namespace rl
         {
             MeshObject* mo = static_cast<MeshObject*>(participant->getActor()->getControlledObject());
             Ogre::AxisAlignedBox aab = mo->getDefaultSize();
-            Vector3 offset(
-                aab.getCenter().x,
-                aab.getMaximum().y * 0.933,
-                aab.getCenter().z);
+            Vector3 offset(aab.getCenter().x, aab.getMaximum().y * 0.933, aab.getCenter().z);
             eyesPosition += participant->getOrientation() * offset;
         }
 
@@ -324,6 +310,6 @@ namespace rl
             return true;
         }
 
-		return false;
+        return false;
     }
 }

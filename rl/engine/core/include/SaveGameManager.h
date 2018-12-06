@@ -1,6 +1,6 @@
-/* 
+/*
  * (C) 2003-2008. Team Pantheon. www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -17,14 +17,13 @@
 #define _SaveGameManager_H_
 
 #include "CorePrerequisites.h"
-#include "SaveGameFileWriter.h"
-#include "SaveGameFileReader.h"
-#include "SaveGameFile.h"
 #include "MessagePump.h"
+#include "SaveGameFile.h"
+#include "SaveGameFileReader.h"
+#include "SaveGameFileWriter.h"
 
-#include "XmlPropertyWriter.h"
 #include "XmlPropertyReader.h"
-
+#include "XmlPropertyWriter.h"
 
 //#include <multimap>
 
@@ -33,7 +32,7 @@ namespace rl
 
     class SaveGameData;
 
-    typedef std::multimap<int,SaveGameData*> SaveGameDataOrderMap;
+    typedef std::multimap<int, SaveGameData*> SaveGameDataOrderMap;
 
     typedef std::map<int, SaveGameFile*> SaveGameEntryMap;
 
@@ -41,28 +40,29 @@ namespace rl
     {
     public:
         SaveGameManager(void);
-        virtual ~SaveGameManager(void);    
+        virtual ~SaveGameManager(void);
 
         SaveGameEntryMap listSaveGames(void);
-        SaveGameEntryMap listSaveGames(const CeGuiString &moduleId);
-        void saveSaveGameFile(const CeGuiString &name);
-        void loadSaveGameFile(const CeGuiString &name, const CeGuiString& moduleID);
+        SaveGameEntryMap listSaveGames(const CeGuiString& moduleId);
+        void saveSaveGameFile(const CeGuiString& name);
+        void loadSaveGameFile(const CeGuiString& name, const CeGuiString& moduleID);
         void loadSaveGameFile(int id);
-        void deleteSaveGameFile(const CeGuiString &name, const CeGuiString &moduleId);
+        void deleteSaveGameFile(const CeGuiString& name, const CeGuiString& moduleId);
         void deleteSaveGameFile(int id);
-        bool SaveGameFileExists(const CeGuiString &name, const CeGuiString &moduleId);
-        SaveGameFile* getSaveGameFile(const CeGuiString &name, const CeGuiString &moduleId);
+        bool SaveGameFileExists(const CeGuiString& name, const CeGuiString& moduleId);
+        SaveGameFile* getSaveGameFile(const CeGuiString& name, const CeGuiString& moduleId);
         SaveGameFile* getSaveGameFile(int id);
-        int getSaveGameId(const CeGuiString &name, const CeGuiString &moduleId);
+        int getSaveGameId(const CeGuiString& name, const CeGuiString& moduleId);
 
-        virtual const Ogre::StringVector&  getScriptPatterns(void) const;
-        virtual void parseScript(Ogre::DataStreamPtr &stream, const Ogre::String &groupName);
+        virtual const Ogre::StringVector& getScriptPatterns(void) const;
+        virtual void parseScript(Ogre::DataStreamPtr& stream, const Ogre::String& groupName);
         virtual Ogre::Real getLoadingOrder(void) const;
 
         void registerSaveGameData(SaveGameData* data);
         void unregisterSaveGameData(SaveGameData* data);
 
         int getHighestSaveGameNumber();
+
     protected:
         void freeSaveGameMap();
 

@@ -17,10 +17,11 @@
 #ifndef _SoundDriverConfigComponent_H_
 #define _SoundDriverConfigComponent_H_
 
-#include "UiPrerequisites.h"
 #include "ConfigComponent.h"
+#include "UiPrerequisites.h"
 
-namespace rl {
+namespace rl
+{
 
     class SoundDriver;
 

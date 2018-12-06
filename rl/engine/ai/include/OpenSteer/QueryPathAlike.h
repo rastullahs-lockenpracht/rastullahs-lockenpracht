@@ -33,11 +33,8 @@
 #ifndef OPENSTEER_QUERYPATHALIKE_H
 #define OPENSTEER_QUERYPATHALIKE_H
 
-
 // Include std::numeric_limits< float >::max
 #include <limits>
-
-
 
 // Include Vector3
 #include "OpenSteer/Vec3.h"
@@ -56,23 +53,24 @@
 #undef max
 #endif
 
-
-namespace OpenSteer {
+namespace OpenSteer
+{
 
     /**
      * Provides functionality to map points or distances to path alikes and
      * to extract associated information.
      */
-    template< class PathAlike, class Mapping, class BaseDataExtractionPolicy = PointToPathAlikeBaseDataExtractionPolicy< PathAlike > >
-    class PointToPathAlikeMapping {
+    template <class PathAlike, class Mapping,
+        class BaseDataExtractionPolicy = PointToPathAlikeBaseDataExtractionPolicy<PathAlike>>
+    class PointToPathAlikeMapping
+    {
     public:
-        
         /**
-         * Maps @a queryPoint to a path alike @a pathAlike and returns the  
+         * Maps @a queryPoint to a path alike @a pathAlike and returns the
          * queried data in @a mapping.
          *
          * @c Mapping must provide the following member functions to
-         * set queried values. Member functions might be empty if the specific 
+         * set queried values. Member functions might be empty if the specific
          * data isn't needed. A good compiler should optimize the
          * empty member function calls and the associated calculations for its
          * parameters away.
@@ -93,74 +91,79 @@ namespace OpenSteer {
          * <code> void setDistanceOnPathFlag( float ) </code> and
          * <code> float distanceOnPathFlag() const </code>.
          *
-         * If the distance along the path shouldn't be extracted empty 
+         * If the distance along the path shouldn't be extracted empty
          * versions of these member functions are possible.
          *
          * @c QueryPathAlikeUtilities.h provides some base classes to inherit
          * from to automatically get some of the functionality described above.
          */
-        static void map( PathAlike const& pathAlike, Vector3 const& queryPoint, Mapping& mapping ) {
-            float minDistancePointToPath = std::numeric_limits< float >::max();
-            mapping.setDistanceOnPathFlag( 0.0f );
-            
+        static void map(PathAlike const& pathAlike, Vector3 const& queryPoint, Mapping& mapping)
+        {
+            float minDistancePointToPath = std::numeric_limits<float>::max();
+            mapping.setDistanceOnPathFlag(0.0f);
+
             typedef typename PathAlike::size_type size_type;
             size_type const segmentCount = pathAlike.segmentCount();
-            for ( size_type segmentIndex = 0; segmentIndex < segmentCount; ++segmentIndex ) {
-                
+            for (size_type segmentIndex = 0; segmentIndex < segmentCount; ++segmentIndex)
+            {
+
                 float segmentDistance = 0.0f;
                 float radius = 0.0f;
                 float distancePointToPath = 0.0f;
-                Vector3 pointOnPathCenterLine( 0.0f, 0.0f, 0.0f );
-                Vector3 tangent( 0.0f, 0.0f, 0.0f );
-                
-                BaseDataExtractionPolicy::extract( pathAlike, segmentIndex, queryPoint, segmentDistance, radius, distancePointToPath, pointOnPathCenterLine, tangent );
-                
-                if ( distancePointToPath < minDistancePointToPath ) {
+                Vector3 pointOnPathCenterLine(0.0f, 0.0f, 0.0f);
+                Vector3 tangent(0.0f, 0.0f, 0.0f);
+
+                BaseDataExtractionPolicy::extract(pathAlike, segmentIndex, queryPoint, segmentDistance, radius,
+                    distancePointToPath, pointOnPathCenterLine, tangent);
+
+                if (distancePointToPath < minDistancePointToPath)
+                {
                     minDistancePointToPath = distancePointToPath;
-                    mapping.setPointOnPathCenterLine( pointOnPathCenterLine );
-                    mapping.setPointOnPathBoundary( pointOnPathCenterLine + ( ( queryPoint - pointOnPathCenterLine ).normalisedCopy() * radius ) );
-                    mapping.setRadius( radius );
-                    mapping.setTangent( tangent );
-                    mapping.setSegmentIndex( segmentIndex );
-                    mapping.setDistancePointToPath( distancePointToPath );
-                    mapping.setDistancePointToPathCenterLine( distancePointToPath + radius );
-                    mapping.setDistanceOnPath( mapping.distanceOnPathFlag() + segmentDistance );
-                    mapping.setDistanceOnSegment( segmentDistance );
+                    mapping.setPointOnPathCenterLine(pointOnPathCenterLine);
+                    mapping.setPointOnPathBoundary(
+                        pointOnPathCenterLine + ((queryPoint - pointOnPathCenterLine).normalisedCopy() * radius));
+                    mapping.setRadius(radius);
+                    mapping.setTangent(tangent);
+                    mapping.setSegmentIndex(segmentIndex);
+                    mapping.setDistancePointToPath(distancePointToPath);
+                    mapping.setDistancePointToPathCenterLine(distancePointToPath + radius);
+                    mapping.setDistanceOnPath(mapping.distanceOnPathFlag() + segmentDistance);
+                    mapping.setDistanceOnSegment(segmentDistance);
                 }
-                
-                mapping.setDistanceOnPathFlag( mapping.distanceOnPathFlag() + pathAlike.segmentLength( segmentIndex ) );
+
+                mapping.setDistanceOnPathFlag(mapping.distanceOnPathFlag() + pathAlike.segmentLength(segmentIndex));
             }
         }
-        
+
     }; // class PointToPathAlikeMapping
-    
+
     /**
-     * Maps @a point to @a pathAlike and returns the data extracted in 
+     * Maps @a point to @a pathAlike and returns the data extracted in
      * @a mapping.
      *
      * See @c MapPointToPathAlike::map for further information.
      */
-    template< class PathAlike, class Mapping >
-    void mapPointToPathAlike( PathAlike const& pathAlike, Vector3 const& point, Mapping& mapping ) {
-        PointToPathAlikeMapping< PathAlike, Mapping >::map( pathAlike, point, mapping );
+    template <class PathAlike, class Mapping>
+    void mapPointToPathAlike(PathAlike const& pathAlike, Vector3 const& point, Mapping& mapping)
+    {
+        PointToPathAlikeMapping<PathAlike, Mapping>::map(pathAlike, point, mapping);
     }
-    
-        
-    
+
     /**
      * Provides functionality to map distances to path alikes and to extract
      * the associated data.
      */
-    template< class PathAlike, class Mapping, class BaseDataExtractionPolicy = DistanceToPathAlikeBaseDataExtractionPolicy< PathAlike > > 
-    class DistanceToPathAlikeMapping {
+    template <class PathAlike, class Mapping,
+        class BaseDataExtractionPolicy = DistanceToPathAlikeBaseDataExtractionPolicy<PathAlike>>
+    class DistanceToPathAlikeMapping
+    {
     public:
-    
         /**
-         * Maps @a distanceOnPath to a path alike @a pathAlike and returns the 
+         * Maps @a distanceOnPath to a path alike @a pathAlike and returns the
          * queried data in @a mapping.
          *
-         * @c Mapping must provide the following member functions 
-         * to set queried values. Member functions might be empty if the  
+         * @c Mapping must provide the following member functions
+         * to set queried values. Member functions might be empty if the
          * specific data isn't needed. A good compiler should optimize the
          * empty member function calls and the associated calculations for its
          * parameters away.
@@ -172,58 +175,59 @@ namespace OpenSteer {
          * <code> void setDistanceOnPath( float ) </code>
          * <code> void setDistanceOnSegment( float ) </code>
          */
-        static void map( PathAlike const& pathAlike, float distanceOnPath, Mapping& mapping ) {
+        static void map(PathAlike const& pathAlike, float distanceOnPath, Mapping& mapping)
+        {
             float const pathLength = pathAlike.length();
-            
+
             // Modify @c distanceOnPath to applicable values.
-            if ( pathAlike.isCyclic() ) {
-                distanceOnPath = modulo( distanceOnPath, pathLength );       
+            if (pathAlike.isCyclic())
+            {
+                distanceOnPath = modulo(distanceOnPath, pathLength);
             }
-            distanceOnPath = clamp( distanceOnPath, 0.0f, pathLength );
-            
+            distanceOnPath = clamp(distanceOnPath, 0.0f, pathLength);
+
             // Which path alike segment is reached by @c distanceOnPath?
             float remainingDistance = distanceOnPath;
             typedef typename PathAlike::size_type size_type;
-            size_type segmentIndex = 0;        
+            size_type segmentIndex = 0;
             size_type const maxSegmentIndex = pathAlike.segmentCount() - 1;
-            while( ( segmentIndex < maxSegmentIndex ) && 
-                   ( remainingDistance > pathAlike.segmentLength( segmentIndex ) ) ) {
-                remainingDistance -= pathAlike.segmentLength( segmentIndex );
+            while ((segmentIndex < maxSegmentIndex) && (remainingDistance > pathAlike.segmentLength(segmentIndex)))
+            {
+                remainingDistance -= pathAlike.segmentLength(segmentIndex);
                 ++segmentIndex;
             }
-            
+
             // Extract the path related data associated with the segment reached
             // by @c distanceOnPath.
-            Vector3 pointOnPathCenterLine( 0.0f, 0.0f, 0.0f );
-            Vector3 tangent( 0.0f, 0.0f, 0.0f );
+            Vector3 pointOnPathCenterLine(0.0f, 0.0f, 0.0f);
+            Vector3 tangent(0.0f, 0.0f, 0.0f);
             float radius = 0.0f;
-            BaseDataExtractionPolicy::extract( pathAlike, segmentIndex, remainingDistance, pointOnPathCenterLine, tangent, radius );
-            
+            BaseDataExtractionPolicy::extract(
+                pathAlike, segmentIndex, remainingDistance, pointOnPathCenterLine, tangent, radius);
+
             // Store the extracted data in @c mapping to return it to the caller.
-            mapping.setPointOnPathCenterLine( pointOnPathCenterLine );
-            mapping.setRadius( radius );
-            mapping.setTangent( tangent );
-            mapping.setSegmentIndex( segmentIndex );
-            mapping.setDistanceOnPath( distanceOnPath );
-            mapping.setDistanceOnSegment( remainingDistance );            
+            mapping.setPointOnPathCenterLine(pointOnPathCenterLine);
+            mapping.setRadius(radius);
+            mapping.setTangent(tangent);
+            mapping.setSegmentIndex(segmentIndex);
+            mapping.setDistanceOnPath(distanceOnPath);
+            mapping.setDistanceOnSegment(remainingDistance);
         }
-        
+
     }; // class DistanceToPathAlikeMapping
-    
-    
-    
+
     /**
      * Maps @a distance to @a pathAlike and stores the data queried in
      * @a mapping.
      *
      * See @c DistanceToPathAlikeMapping::map for further information.
      */
-    template< class PathAlike, class Mapping >
-    void mapDistanceToPathAlike( PathAlike const& pathAlike, float distance, Mapping& mapping ) {
-        DistanceToPathAlikeMapping< PathAlike, Mapping >::map( pathAlike, distance, mapping );
+    template <class PathAlike, class Mapping>
+    void mapDistanceToPathAlike(PathAlike const& pathAlike, float distance, Mapping& mapping)
+    {
+        DistanceToPathAlikeMapping<PathAlike, Mapping>::map(pathAlike, distance, mapping);
     }
-    
-    
+
 } // namespace OpenSteer
 
 #endif // OPENSTEER_QUERYPATHALIKE_H

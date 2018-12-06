@@ -20,8 +20,8 @@
 #include "Actor.h"
 #include "Container.h"
 #include "Exception.h"
-#include "Slot.h"
 #include "GameObjectManager.h"
+#include "Slot.h"
 
 using namespace std;
 
@@ -34,13 +34,13 @@ namespace rl
     const Ogre::String Item::PROPERTY_SUBMESHNAME = "submeshfile";
 
     Item::Item(unsigned int id)
-        : GameObject(id),
-		mItemType(ITEMTYPE_OTHER),
-		mSize(pair<int,int>(1,1)),
-        mOwner(NULL),
-        mParentSlot(NULL),
-        mParentContainer(NULL),
-        mSubmeshName("")
+        : GameObject(id)
+        , mItemType(ITEMTYPE_OTHER)
+        , mSize(pair<int, int>(1, 1))
+        , mOwner(NULL)
+        , mParentSlot(NULL)
+        , mParentContainer(NULL)
+        , mSubmeshName("")
     {
         mQueryFlags |= QUERYFLAG_ITEM;
     }
@@ -50,30 +50,30 @@ namespace rl
         removeOldState(); // so the parent-container etc knows this item doesn't exists any more
     }
 
-	void Item::setItemType(ItemType itemType)
-	{
-		mItemType = itemType;
-	}
+    void Item::setItemType(ItemType itemType)
+    {
+        mItemType = itemType;
+    }
 
-	Item::ItemType Item::getItemType() const
-	{
-		return mItemType;
-	}
+    Item::ItemType Item::getItemType() const
+    {
+        return mItemType;
+    }
 
-	bool Item::isContainer() const
-	{
-		return false;
-	}
+    bool Item::isContainer() const
+    {
+        return false;
+    }
 
-	pair<int,int> Item::getSize() const
-	{
-		return mSize;
-	}
+    pair<int, int> Item::getSize() const
+    {
+        return mSize;
+    }
 
-	void Item::setSize(int widthSize,int heightSize)
-	{
-		mSize = pair<int,int>(widthSize,heightSize);
-	}
+    void Item::setSize(int widthSize, int heightSize)
+    {
+        mSize = pair<int, int>(widthSize, heightSize);
+    }
 
     void Item::doLoose()
     {
@@ -99,9 +99,9 @@ namespace rl
         setState(GOS_LOADED);
     }
 
-// --------------- Warning ------------
-// do not change this function without
-// having a look at the containers and slots
+    // --------------- Warning ------------
+    // do not change this function without
+    // having a look at the containers and slots
     void Item::setState(GameObjectState targetState)
     {
         if (mState == targetState)
@@ -110,16 +110,16 @@ namespace rl
         }
 
         // do only things that are possible
-        if( targetState & (GOS_HELD | GOS_READY | GOS_IN_POSSESSION | GOS_IN_SCENE) && mState & (GOS_HELD | GOS_READY | GOS_IN_POSSESSION | GOS_IN_SCENE) )
+        if (targetState & (GOS_HELD | GOS_READY | GOS_IN_POSSESSION | GOS_IN_SCENE)
+            && mState & (GOS_HELD | GOS_READY | GOS_IN_POSSESSION | GOS_IN_SCENE))
         {
             LOG_ERROR(Logger::RULES,
-                "Item '" + getName() + "' could not change state from '"
-                + Ogre::StringConverter::toString(mState) + "' to state '"
-                + Ogre::StringConverter::toString(targetState) + "'!"
-                + "\nYou need to call 'Item::removeOldState()' first.");
-            
+                "Item '" + getName() + "' could not change state from '" + Ogre::StringConverter::toString(mState)
+                    + "' to state '" + Ogre::StringConverter::toString(targetState) + "'!"
+                    + "\nYou need to call 'Item::removeOldState()' first.");
+
             // first remove the old state (thats a recursive function call)
-            //removeOldState();
+            // removeOldState();
         }
 
         // everything else is not handled here, so give it to the parent
@@ -131,18 +131,16 @@ namespace rl
         }
 
         GameObjectState oldState = mState;
-        onBeforeStateChange(oldState, targetState);        
+        onBeforeStateChange(oldState, targetState);
 
-        if (targetState == GOS_LOADED 
-            && (mState == GOS_HELD || mState == GOS_READY || GOS_IN_POSSESSION) )
+        if (targetState == GOS_LOADED && (mState == GOS_HELD || mState == GOS_READY || GOS_IN_POSSESSION))
         {
             mState = targetState; // this is needed here to prevent an endless recursion
             // "remove old state"
             doLoose();
             destroyActor();
         }
-        else if (mState == GOS_LOADED &&
-                 (targetState == GOS_HELD || targetState == GOS_READY))
+        else if (mState == GOS_LOADED && (targetState == GOS_HELD || targetState == GOS_READY))
         {
             createActor();
             mState = targetState;

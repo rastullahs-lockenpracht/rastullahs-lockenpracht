@@ -32,9 +32,9 @@ namespace rl
     class DialogParagraph;
     class DialogResponse;
     class DialogVariable;
-	class Property;
+    class Property;
 
-	class DialogLoaderImpl : private XmlProcessor, public TiXmlVisitor
+    class DialogLoaderImpl : private XmlProcessor, public TiXmlVisitor
     {
     public:
         DialogLoaderImpl();
@@ -42,14 +42,14 @@ namespace rl
 
         Dialog* createDialog(const Ogre::String& name, const CreatureList& participants) const;
         void parseDialog(Ogre::DataStreamPtr& stream, const Ogre::String& groupName);
-        virtual bool VisitEnter(const TiXmlElement &element, const TiXmlAttribute *firstAttribute);
+        virtual bool VisitEnter(const TiXmlElement& element, const TiXmlAttribute* firstAttribute);
 
     private:
         class DialogParticipant
         {
         public:
-            DialogParticipant(const CeGuiString& personId,
-                    int goId, const CeGuiString& goClass, const CeGuiString& name);
+            DialogParticipant(
+                const CeGuiString& personId, int goId, const CeGuiString& goClass, const CeGuiString& name);
 
             bool isMatching(Creature* go) const;
             const CeGuiString& getPersonId() const;
@@ -86,14 +86,15 @@ namespace rl
         };
 
         void processDialog(const TiXmlElement* dialogXml);
-        DialogResponse* processResponseClasses(const TiXmlNode *node, DialogPrototype* dialogPrototype);
-        DialogResponse* processResponse(const TiXmlElement* responseXml, DialogPrototype* dialogPrototype, bool subelements);
+        DialogResponse* processResponseClasses(const TiXmlNode* node, DialogPrototype* dialogPrototype);
+        DialogResponse* processResponse(
+            const TiXmlElement* responseXml, DialogPrototype* dialogPrototype, bool subelements);
         DialogResponse* processSwitchResponse(const TiXmlElement* switchRespXml, DialogPrototype* dialogPrototype);
-        DialogOption* processOptionClasses(const TiXmlNode *node, DialogPrototype *dialogPrototype);
+        DialogOption* processOptionClasses(const TiXmlNode* node, DialogPrototype* dialogPrototype);
         DialogOption* processOption(const TiXmlElement* optionXml, DialogPrototype* dialogPrototype, bool subelements);
         DialogOption* processSwitchOption(const TiXmlElement* switchOptXml, DialogPrototype* dialogPrototype);
-        DialogCondition* processIf(const TiXmlElement *ifXml);
-        DialogCondition* processCase(const TiXmlElement *caseXml);
+        DialogCondition* processIf(const TiXmlElement* ifXml);
+        DialogCondition* processCase(const TiXmlElement* caseXml);
         DialogVariable* processVariableClasses(const TiXmlElement* variableXml);
         DialogCondition* processConditionClasses(const TiXmlElement* conditionXml);
         DialogParagraph* processParagraph(const TiXmlElement* paragraphXml);
@@ -101,9 +102,9 @@ namespace rl
         DialogParticipant* processPerson(const TiXmlElement* personXml);
         void processTranslation(DialogElement* element, const TiXmlNode* translationXml);
         void createDialogVariable(const TiXmlElement* variableXml, DialogPrototype* dialogPrototype);
-        void processElementNodes(const TiXmlElement* dialogXml, const Ogre::String& nodeName, DialogPrototype* dialogPrototype);
+        void processElementNodes(
+            const TiXmlElement* dialogXml, const Ogre::String& nodeName, DialogPrototype* dialogPrototype);
 
         std::map<Ogre::String, DialogPrototype*> mDialogs;
-
     };
 }

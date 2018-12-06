@@ -17,10 +17,10 @@
 
 #include "UiPrerequisites.h"
 
-#include "UiSubsystem.h"
 #include "DebugWindow.h"
-#include "InputManager.h"
 #include "GameLoop.h"
+#include "InputManager.h"
+#include "UiSubsystem.h"
 
 #include "Actor.h"
 #include "ActorManager.h"
@@ -34,17 +34,18 @@
 using namespace CEGUI;
 using namespace Ogre;
 
-template<> rl::DebugWindow* Ogre::Singleton<rl::DebugWindow>::ms_Singleton = 0;
+template <> rl::DebugWindow* Ogre::Singleton<rl::DebugWindow>::ms_Singleton = 0;
 
 namespace rl
 {
-    DebugWindow::DebugWindow() : AbstractWindow("debugwindow.xml", WIT_NONE),
-          mMessageText(),
-          mPageCaption(),
-          mPageText(),
-          mPageTexts(),
-          mCurrentPage(StringUtil::BLANK),
-          mDebugPageName("General Informations")
+    DebugWindow::DebugWindow()
+        : AbstractWindow("debugwindow.xml", WIT_NONE)
+        , mMessageText()
+        , mPageCaption()
+        , mPageText()
+        , mPageTexts()
+        , mCurrentPage(StringUtil::BLANK)
+        , mDebugPageName("General Informations")
     {
         mPageCaption = getWindow("DebugWindow/PageCaption");
         mPageCaption->moveToFront();
@@ -156,62 +157,52 @@ namespace rl
 
     void DebugWindow::updatePageText()
     {
-        Ogre::String text = mCurrentPage == StringUtil::BLANK ?
-            StringUtil::BLANK : mPageTexts[mCurrentPage];
+        Ogre::String text = mCurrentPage == StringUtil::BLANK ? StringUtil::BLANK : mPageTexts[mCurrentPage];
         mPageCaption->setText(mCurrentPage);
         mPageText->setText(text);
     }
 
     void DebugWindow::updateFps()
     {
-		const Ogre::RenderTarget::FrameStats& stats = CoreSubsystem::getSingleton().getRenderWindow()->getStatistics();
+        const Ogre::RenderTarget::FrameStats& stats = CoreSubsystem::getSingleton().getRenderWindow()->getStatistics();
 
-        Ogre::String textSt = "Current FPS: " +
-            StringConverter::toString(stats.lastFPS)+
-            "\nBest/worst/avg FPS: " +
-            StringConverter::toString(stats.bestFPS) + "/" +
-            StringConverter::toString(stats.worstFPS) + "/" +
-            StringConverter::toString(stats.avgFPS)+
-            "\nBest/worst Frame times: " +
-            StringConverter::toString(stats.bestFPS) + "/" +
-            StringConverter::toString(stats.worstFPS)+
-            "\nTriangle Count: " +
-            StringConverter::toString(stats.triangleCount);
+        Ogre::String textSt = "Current FPS: " + StringConverter::toString(stats.lastFPS) + "\nBest/worst/avg FPS: "
+            + StringConverter::toString(stats.bestFPS) + "/" + StringConverter::toString(stats.worstFPS) + "/"
+            + StringConverter::toString(stats.avgFPS) + "\nBest/worst Frame times: "
+            + StringConverter::toString(stats.bestFPS) + "/" + StringConverter::toString(stats.worstFPS)
+            + "\nTriangle Count: " + StringConverter::toString(stats.triangleCount);
 
-        if (PartyManager::getSingleton().getActiveCharacter() != NULL &&
-            PartyManager::getSingleton().getActiveCharacter()->getActor() != NULL)
+        if (PartyManager::getSingleton().getActiveCharacter() != NULL
+            && PartyManager::getSingleton().getActiveCharacter()->getActor() != NULL)
         {
-            ActorControlledObject* charObj = PartyManager::getSingletonPtr()->
-                getActiveCharacter()->getActor()->getControlledObject();
+            ActorControlledObject* charObj
+                = PartyManager::getSingletonPtr()->getActiveCharacter()->getActor()->getControlledObject();
 
-            if( charObj != NULL )
+            if (charObj != NULL)
             {
                 Ogre::Vector3 pos = charObj->getMovableObject()->getParentNode()->_getDerivedPosition();
                 Ogre::Quaternion ori = charObj->getMovableObject()->getParentNode()->_getDerivedOrientation();
 
-                textSt += "\nPlayer Position [ "
-                    + StringConverter::toString(pos.x,2,0,32,std::ios_base::fixed)+", "
-                    + StringConverter::toString(pos.y,2,0,32,std::ios_base::fixed)+", "
-                    + StringConverter::toString(pos.z,2,0,32,std::ios_base::fixed)+" ]";
+                textSt += "\nPlayer Position [ " + StringConverter::toString(pos.x, 2, 0, 32, std::ios_base::fixed)
+                    + ", " + StringConverter::toString(pos.y, 2, 0, 32, std::ios_base::fixed) + ", "
+                    + StringConverter::toString(pos.z, 2, 0, 32, std::ios_base::fixed) + " ]";
 
-                textSt += "\nPlayer Orientation [ "
-                    + StringConverter::toString(ori.w,4,0,32,std::ios_base::fixed)+", "
-                    + StringConverter::toString(ori.x,2,0,32,std::ios_base::fixed)+", "
-                    + StringConverter::toString(ori.y,2,0,32,std::ios_base::fixed)+", "
-                    + StringConverter::toString(ori.z,2,0,32,std::ios_base::fixed)+" ]";
+                textSt += "\nPlayer Orientation [ " + StringConverter::toString(ori.w, 4, 0, 32, std::ios_base::fixed)
+                    + ", " + StringConverter::toString(ori.x, 2, 0, 32, std::ios_base::fixed) + ", "
+                    + StringConverter::toString(ori.y, 2, 0, 32, std::ios_base::fixed) + ", "
+                    + StringConverter::toString(ori.z, 2, 0, 32, std::ios_base::fixed) + " ]";
             }
         }
 
         Actor* camActor = ActorManager::getSingleton().getActor("DefaultCamera");
-        if( camActor != 0 && camActor->_getSceneNode() != NULL )
+        if (camActor != 0 && camActor->_getSceneNode() != NULL)
         {
             Ogre::Camera* cam = dynamic_cast<CameraObject*>(camActor->getControlledObject())->getCamera();
             Ogre::Vector3 pos = cam->getDerivedPosition();
 
-            textSt += "\nCamera Position [ "
-                + StringConverter::toString(pos.x,2,0,32,std::ios_base::fixed)+", "
-                + StringConverter::toString(pos.y,2,0,32,std::ios_base::fixed)+", "
-                + StringConverter::toString(pos.z,2,0,32,std::ios_base::fixed)+" ]";
+            textSt += "\nCamera Position [ " + StringConverter::toString(pos.x, 2, 0, 32, std::ios_base::fixed) + ", "
+                + StringConverter::toString(pos.y, 2, 0, 32, std::ios_base::fixed) + ", "
+                + StringConverter::toString(pos.z, 2, 0, 32, std::ios_base::fixed) + " ]";
         }
 
         setPageText(mDebugPageName, textSt);
@@ -232,5 +223,4 @@ namespace rl
 
         return NAME;
     }
-
 }

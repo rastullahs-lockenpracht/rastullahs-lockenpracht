@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -19,14 +19,15 @@
 
 #include "CommonPrerequisites.h"
 
-namespace rl {
+namespace rl
+{
 
-    class _RlCommonExport ScriptWrapperInstance 
+    class _RlCommonExport ScriptWrapperInstance
     {
     public:
-        virtual void deleted( void* ptr ) = 0;
-		virtual void owned( void* ptr ) = 0;
-		virtual void disowned( void* ptr ) = 0;
+        virtual void deleted(void* ptr) = 0;
+        virtual void owned(void* ptr) = 0;
+        virtual void disowned(void* ptr) = 0;
     };
 
     class _RlCommonExport ScriptWrapper : public Ogre::Singleton<ScriptWrapper>
@@ -37,15 +38,14 @@ namespace rl {
 
         /// Ermoeglicht dem Script-Repository benachrichtigt zu werden, wenn
         /// die Loeschung eines Actors bevorsteht.
-        void setScriptWrapperInstance( ScriptWrapperInstance* list );
-		
+        void setScriptWrapperInstance(ScriptWrapperInstance* list);
 
-		void deleted( void* ptr );
-		void owned( void* ptr );
-        void disowned( void* ptr );
+        void deleted(void* ptr);
+        void owned(void* ptr);
+        void disowned(void* ptr);
+
     private:
         ScriptWrapperInstance* m_ScriptWrapperInstance;
     };
-
 }
 #endif

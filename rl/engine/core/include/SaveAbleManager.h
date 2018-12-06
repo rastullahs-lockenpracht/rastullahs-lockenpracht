@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -23,23 +23,23 @@
 
 namespace rl
 {
-	class SaveAbleManager : public Ogre::Singleton<SaveAbleManager>
-	{
-	public:
-		void saveState();
-		void addSaveAble(SaveAblePtr save);
-		void removeSaveAble(SaveAblePtr save);
-		void removeSaveAble(int id);
-		void removeAllSaveAbles();
-		void attachSaveAbleToCollection(int id);
-		void deattachSaveAbleFromColltection(int id);
-		void restoreState();
-	protected:
-		std::map<int, PropertyRecordPtr> mSaveAbleStates;
-		std::map<int, SaveAblePtr> mSaveAbles;
-		std::map<Ogre::String,SaveAbleCollection> mSaveAbleCollections;
-	};
+    class SaveAbleManager : public Ogre::Singleton<SaveAbleManager>
+    {
+    public:
+        void saveState();
+        void addSaveAble(SaveAblePtr save);
+        void removeSaveAble(SaveAblePtr save);
+        void removeSaveAble(int id);
+        void removeAllSaveAbles();
+        void attachSaveAbleToCollection(int id);
+        void deattachSaveAbleFromColltection(int id);
+        void restoreState();
+
+    protected:
+        std::map<int, PropertyRecordPtr> mSaveAbleStates;
+        std::map<int, SaveAblePtr> mSaveAbles;
+        std::map<Ogre::String, SaveAbleCollection> mSaveAbleCollections;
+    };
 }
 
 #endif
-

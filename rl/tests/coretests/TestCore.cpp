@@ -2,42 +2,41 @@
 
 #include <Ogre.h>
 #include <OgreLogManager.h>
-#include <stdexcept>
 #include <errno.h>
+#include <stdexcept>
 
-#include "Logger.h"
 #include "CoreSubsystem.h"
-#include "RulesSubsystem.h"
 #include "DialogSubsystem.h"
-#include "UiSubsystem.h"
-#include "ScriptSubsystem.h"
+#include "Logger.h"
 #include "RubyInterpreter.h"
+#include "RulesSubsystem.h"
+#include "ScriptSubsystem.h"
+#include "UiSubsystem.h"
 #include <cppunit/extensions/TestFactoryRegistry.h>
 #include <cppunit/ui/text/TestRunner.h>
-
 
 #include "Exception.h"
 #include <CEGUIExceptions.h>
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-    #define WIN32_LEAN_AND_MEAN
-    #include "windows.h"
+#define WIN32_LEAN_AND_MEAN
+#include "windows.h"
 #endif
 
-
-int main( int argc, char **argv)
+int main(int argc, char** argv)
 {
     rl::CoreSubsystem* core = NULL;
     rl::MultimediaSubsystem* sound = NULL;
     rl::RulesSubsystem* rules = NULL;
     rl::DialogSubsystem* dialog = NULL;
-    rl::UiSubsystem* ui =  NULL;
-    rl::ScriptSubsystem* script =  NULL;
+    rl::UiSubsystem* ui = NULL;
+    rl::ScriptSubsystem* script = NULL;
 
-    try {
+    try
+    {
 
         /**@todo das nach RastullahApplication
-        * und RastullahApplication nach Startup. */
+         * und RastullahApplication nach Startup. */
         core = new rl::CoreSubsystem();
         rl::Logger::getSingleton().log(rl::Logger::CORE, Ogre::LML_NORMAL, "CoreSubsystem gestartet");
 
@@ -57,38 +56,44 @@ int main( int argc, char **argv)
         rl::Logger::getSingleton().log(rl::Logger::CORE, Ogre::LML_NORMAL, "ScriptSubsystem gestartet");
 
         rl::Logger::getSingleton().log(rl::Logger::CORE, Ogre::LML_NORMAL, "Starte...");
-        //core->getInterpreter()->execute("load 'startup-global.rb'");
+        // core->getInterpreter()->execute("load 'startup-global.rb'");
 
         CppUnit::TextUi::TestRunner runner;
-        CppUnit::TestFactoryRegistry &registry = CppUnit::TestFactoryRegistry::getRegistry();
-        runner.addTest( registry.makeTest() );
+        CppUnit::TestFactoryRegistry& registry = CppUnit::TestFactoryRegistry::getRegistry();
+        runner.addTest(registry.makeTest());
         runner.run();
         rl::Logger::getSingleton().log(rl::Logger::CORE, Ogre::LML_NORMAL, "Ende...");
-
-    } 
-    catch(Ogre::Exception& oe) {
+    }
+    catch (Ogre::Exception& oe)
+    {
         rl::showError(oe.getFullDescription());
-    } 
-    catch(rl::Exception& re) {
+    }
+    catch (rl::Exception& re)
+    {
         rl::showError(re.toString());
-    } 
-    catch(CEGUI::Exception& ce) {
+    }
+    catch (CEGUI::Exception& ce)
+    {
         rl::showError(ce.getMessage().c_str());
     }
-    catch(std::runtime_error& rte) {
+    catch (std::runtime_error& rte)
+    {
         rl::showError(rte.what());
-    } 
-    catch(std::exception& exp) {
-        rl::showError( exp.what() );
-    } 
-    catch(std::string& err) {
-        rl::showError( err );
-    } 
-    catch(...) {
-        rl::showError( "Unknown exception occured" );
+    }
+    catch (std::exception& exp)
+    {
+        rl::showError(exp.what());
+    }
+    catch (std::string& err)
+    {
+        rl::showError(err);
+    }
+    catch (...)
+    {
+        rl::showError("Unknown exception occured");
     }
 
-    try 
+    try
     {
         delete script;
         delete ui;
@@ -97,25 +102,30 @@ int main( int argc, char **argv)
         delete sound;
         delete core;
     }
-    catch(Ogre::Exception& oe) {
+    catch (Ogre::Exception& oe)
+    {
         rl::showError(oe.getFullDescription());
-    } 
-    catch(rl::Exception& re) {
+    }
+    catch (rl::Exception& re)
+    {
         rl::showError(re.toString());
-    } 
-    catch(std::runtime_error& rte) {
+    }
+    catch (std::runtime_error& rte)
+    {
         rl::showError(rte.what());
-    } 
-    catch(std::exception& exp) {
-        rl::showError( exp.what() );
-    } 
-    catch(std::string& err) {
-        rl::showError( err );
-    } 
-    catch(...) {
-        rl::showError( "Unknown exception occured" );
-    }   
+    }
+    catch (std::exception& exp)
+    {
+        rl::showError(exp.what());
+    }
+    catch (std::string& err)
+    {
+        rl::showError(err);
+    }
+    catch (...)
+    {
+        rl::showError("Unknown exception occured");
+    }
 
-    
     return 0;
 }

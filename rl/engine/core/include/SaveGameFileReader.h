@@ -25,20 +25,24 @@
 namespace rl
 {
     class SaveGameData;
-    typedef std::multimap<int,SaveGameData*> SaveGameDataOrderMap;
+    typedef std::multimap<int, SaveGameData*> SaveGameDataOrderMap;
 
     class _RlCoreExport SaveGameFileReader : public XmlPropertyReader
     {
     protected:
         TiXmlDocument* mDocument;
+
     public:
         SaveGameFileReader();
-        void parseSaveGameFile(SaveGameFile* file, const SaveGameDataOrderMap &map);
-        void parseSaveGameFileHeader(Ogre::DataStreamPtr &stream, const Ogre::String &groupName, SaveGameFile* file);
+        void parseSaveGameFile(SaveGameFile* file, const SaveGameDataOrderMap& map);
+        void parseSaveGameFileHeader(Ogre::DataStreamPtr& stream, const Ogre::String& groupName, SaveGameFile* file);
 
         PropertyRecordPtr getAllPropertiesAsRecord(SaveGameData* data);
 
-        TiXmlDocument* getDocument() {return mDocument;}
+        TiXmlDocument* getDocument()
+        {
+            return mDocument;
+        }
     };
 }
 

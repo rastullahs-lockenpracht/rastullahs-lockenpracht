@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -19,21 +19,20 @@
 
 #include "RulesPrerequisites.h"
 
-
 #include <map>
 
 namespace rl
 {
-	class Combat;
+    class Combat;
     class Combatant;
     class CombatantFactory;
     class Creature;
-	class Kampfaktion;
-	
+    class Kampfaktion;
+
     class _RlRulesExport CombatManager : public Ogre::Singleton<CombatManager>
     {
     public:
-       CombatManager();
+        CombatManager();
         ~CombatManager();
 
         /// Creates a new combat object and sets it active.
@@ -57,14 +56,14 @@ namespace rl
         void registerCombatantFactory(const Ogre::String& name, CombatantFactory* factory);
         void unregisterCombatantFactory(CombatantFactory* factory);
 
-		Kampfaktion* getKampfaktion(const CeGuiString& name);
+        Kampfaktion* getKampfaktion(const CeGuiString& name);
 
     private:
         typedef std::map<Ogre::String, CombatantFactory*> CombatantFactoryMap;
         CombatantFactoryMap mCombatantFactories;
         Combat* mCurrentCombat;
 
-		std::map<CeGuiString, Kampfaktion*> mKampfaktionen;
+        std::map<CeGuiString, Kampfaktion*> mKampfaktionen;
     };
 }
 

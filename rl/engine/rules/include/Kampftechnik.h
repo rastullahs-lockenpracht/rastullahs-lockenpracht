@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -23,23 +23,22 @@
 
 namespace rl
 {
-	/// Class encapsules DSA Kampftechniken as Raufen, Dolche, Hiebwaffen, etc.
+    /// Class encapsules DSA Kampftechniken as Raufen, Dolche, Hiebwaffen, etc.
     class _RlRulesExport Kampftechnik
     {
     private:
         const CeGuiString mName;
         const CeGuiString mDescription;
         const int mEbe;
+
     public:
-        Kampftechnik(const CeGuiString name,
-                     const CeGuiString description,
-                     int ebe);
+        Kampftechnik(const CeGuiString name, const CeGuiString description, int ebe);
 
         bool operator==(const Kampftechnik& rhs) const;
         bool operator<(const Kampftechnik& rhs) const;
         CeGuiString getName() const;
         CeGuiString getDescription() const;
-		int getEbe() const;
+        int getEbe() const;
         /// Berechnet effektive Behinderung
         int calculateEbe(int be) const;
     };

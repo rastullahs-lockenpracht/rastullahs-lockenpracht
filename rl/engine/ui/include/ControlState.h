@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -20,59 +20,66 @@
 #include "UiPrerequisites.h"
 
 #ifdef __APPLE__
-#   include <OgreNewt/OgreNewt.h>
-#   include <OIS/OISMouse.h>
-#   include <OIS/OISKeyboard.h>
+#include <OIS/OISKeyboard.h>
+#include <OIS/OISMouse.h>
+#include <OgreNewt/OgreNewt.h>
 #else
-#   include <OgreNewt.h>
-#   include <OISMouse.h>
-#   include <OISKeyboard.h>
+#include <OISKeyboard.h>
+#include <OISMouse.h>
+#include <OgreNewt.h>
 #endif
 
 #include "GameTask.h"
 #include "SaveGameManager.h"
 
-namespace rl {
+namespace rl
+{
 
     class Actor;
-	class CommandMapper;
-	class Creature;
+    class CommandMapper;
+    class Creature;
 
     /**
      * This class handles character control via user input.
      */
-    class _RlUiExport ControlState// : public OIS::KeyListener, public OIS::MouseListener
+    class _RlUiExport ControlState // : public OIS::KeyListener, public OIS::MouseListener
     {
-	public:
+    public:
         static const Ogre::String PROPERTY_CHARACTERID;
 
         /**
          *  @throw NullPointerException if camera or character is NULL.
          *  @throw InvalidArgumentException if character is not placed in the scene.
          */
-        ControlState(CommandMapper* commandMapper, Actor* camera, Creature* character,
-            ControlStateType type);
-		virtual ~ControlState()= 0;
+        ControlState(CommandMapper* commandMapper, Actor* camera, Creature* character, ControlStateType type);
+        virtual ~ControlState() = 0;
 
         virtual void pause() = 0;
         virtual void resume() = 0;
 
         virtual void run(Ogre::Real elapsedTime) = 0;
 
-        virtual bool mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonID id, bool handled); // if handled is true, we should not handle the event!
+        virtual bool mousePressed(const OIS::MouseEvent& evt, OIS::MouseButtonID id,
+            bool handled); // if handled is true, we should not handle the event!
         virtual bool mouseReleased(const OIS::MouseEvent& evt, OIS::MouseButtonID id, bool handled);
         virtual bool mouseMoved(const OIS::MouseEvent& evt, bool handled);
         virtual bool keyPressed(const OIS::KeyEvent& evt, bool handled);
         virtual bool keyReleased(const OIS::KeyEvent& evt, bool handled);
 
-        const CommandMapper* getCommandMapper() const {return mCommandMapper;}
-        ControlStateType getType() const { return mType;}
+        const CommandMapper* getCommandMapper() const
+        {
+            return mCommandMapper;
+        }
+        ControlStateType getType() const
+        {
+            return mType;
+        }
 
         static bool startAction(const CeGuiString& actionName, Creature* character = NULL);
-        
-        bool refetchCharacter();
-	protected:
 
+        bool refetchCharacter();
+
+    protected:
         /// returns wether cegui currently uses the mouse
         bool isMouseUsedByCegui() const;
 
@@ -85,7 +92,7 @@ namespace rl {
         OgreNewt::Body* mCamBody;
         OgreNewt::Body* mCharBody;
 
-		CommandMapper* mCommandMapper;
+        CommandMapper* mCommandMapper;
 
         ControlStateType mType;
 

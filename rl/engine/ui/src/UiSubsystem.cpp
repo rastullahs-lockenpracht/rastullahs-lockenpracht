@@ -20,19 +20,19 @@
 #include <CEGUI.h>
 
 #ifdef __APPLE__
-#   include <OgreCEGUIRenderer/OgreCEGUIRenderer.h>
+#include <OgreCEGUIRenderer/OgreCEGUIRenderer.h>
 #else
-#   include <RendererModules/Ogre/CEGUIOgreRenderer.h>
-#   include <RendererModules/Ogre/CEGUIOgreResourceProvider.h>
+#include <RendererModules/Ogre/CEGUIOgreRenderer.h>
+#include <RendererModules/Ogre/CEGUIOgreResourceProvider.h>
 #endif
 
 #include "Actor.h"
 #include "AiMessages.h"
 #include "CeGuiHelper.h"
 #include "ConfigurationManager.h"
+#include "ControlState.h"
 #include "CoreMessages.h"
 #include "CoreSubsystem.h"
-#include "ControlState.h"
 #include "Creature.h"
 #include "Exception.h"
 #include "GameLoop.h"
@@ -49,57 +49,59 @@
 #include "WindowManager.h"
 
 using namespace Ogre;
-template<> rl::UiSubsystem* Singleton<rl::UiSubsystem>::ms_Singleton = 0;
+template <> rl::UiSubsystem* Singleton<rl::UiSubsystem>::ms_Singleton = 0;
 
 // this function needs to be in the CEGUI-namespace
-namespace CEGUI{
+namespace CEGUI
+{
     void initializeOwnCeguiWindowFactories()
     {
-            CEGUI::WindowFactoryManager& wfMgr = CEGUI::WindowFactoryManager::getSingleton();
-            wfMgr.addFactory(&CEGUI_WINDOW_FACTORY(ItemDescriptionDragContainer)); // ohne rl:: davor hier!
-            //wfMgr.addFalagardWindowMapping("ItemDescriptionDragContainer", "CEGUI/ItemDescriptionDragContainer", "", "Falagard/Default");
-            wfMgr.addFactory(&CEGUI_WINDOW_FACTORY(ItemIconDragContainer)); // ohne rl:: davor hier!
-            //wfMgr.addFalagardWindowMapping("ItemIconDragContainer", "CEGUI/ItemIconDragContainer", "", "Falagard/Default");
+        CEGUI::WindowFactoryManager& wfMgr = CEGUI::WindowFactoryManager::getSingleton();
+        wfMgr.addFactory(&CEGUI_WINDOW_FACTORY(ItemDescriptionDragContainer)); // ohne rl:: davor hier!
+        // wfMgr.addFalagardWindowMapping("ItemDescriptionDragContainer", "CEGUI/ItemDescriptionDragContainer", "",
+        // "Falagard/Default");
+        wfMgr.addFactory(&CEGUI_WINDOW_FACTORY(ItemIconDragContainer)); // ohne rl:: davor hier!
+        // wfMgr.addFalagardWindowMapping("ItemIconDragContainer", "CEGUI/ItemIconDragContainer", "",
+        // "Falagard/Default");
     }
 }
 
-namespace rl {
+namespace rl
+{
     const char* UiSubsystem::CEGUI_ROOT = "RootWindow";
 
-    UiSubsystem::UiSubsystem() :
-        mCharacter(NULL),
-        mInputManager(NULL),
-        mWindowFactory(NULL),
-        mWindowManager(NULL),
-        mGuiRenderer(NULL),
-        mGuiResourceProvider(NULL),
-        mGuiSystem(NULL)
+    UiSubsystem::UiSubsystem()
+        : mCharacter(NULL)
+        , mInputManager(NULL)
+        , mWindowFactory(NULL)
+        , mWindowManager(NULL)
+        , mGuiRenderer(NULL)
+        , mGuiResourceProvider(NULL)
+        , mGuiSystem(NULL)
     {
         mWindowFactory = new WindowFactory();
-        mSceneClearingConnection =
-            MessagePump::getSingleton().addMessageHandler<MessageType_SceneClearing>(
-			    boost::bind(&UiSubsystem::onBeforeClearScene, this));
-        mGameObjectsLoadedConnection =
-            MessagePump::getSingleton().addMessageHandler<MessageType<RLMSG_SAVEGAME_GOS_LOADED> >(
+        mSceneClearingConnection = MessagePump::getSingleton().addMessageHandler<MessageType_SceneClearing>(
+            boost::bind(&UiSubsystem::onBeforeClearScene, this));
+        mGameObjectsLoadedConnection
+            = MessagePump::getSingleton().addMessageHandler<MessageType<RLMSG_SAVEGAME_GOS_LOADED>>(
                 boost::bind(&UiSubsystem::onGameObjectsLoaded, this));
-        mBeforeLoadingGameObjectsConnection = 
-            MessagePump::getSingleton().addMessageHandler<MessageType<RLMSG_SAVEGAME_LOADING> >(
+        mBeforeLoadingGameObjectsConnection
+            = MessagePump::getSingleton().addMessageHandler<MessageType<RLMSG_SAVEGAME_LOADING>>(
                 boost::bind(&UiSubsystem::onBeforeGameObjectsLoaded, this));
-        mActiveCharacterChangedConnection = 
-            MessagePump::getSingleton().addMessageHandler<MessageType_ActivePlayerCharChanged>(
+        mActiveCharacterChangedConnection
+            = MessagePump::getSingleton().addMessageHandler<MessageType_ActivePlayerCharChanged>(
                 boost::bind(&UiSubsystem::onActiveCharacterChanged, this, _1, _2));
-        mAllPlayerCharactersDiedConnection =
-            MessagePump::getSingleton().addMessageHandler<MessageType_AllPlayerCharsDied>(
+        mAllPlayerCharactersDiedConnection
+            = MessagePump::getSingleton().addMessageHandler<MessageType_AllPlayerCharsDied>(
                 boost::bind(&UiSubsystem::onAllPlayerCharactersDied, this));
     }
 
     UiSubsystem::~UiSubsystem()
     {
-		delete mInputManager;
-	
+        delete mInputManager;
+
         delete mWindowFactory;
         delete mWindowManager;
-        
 
         mGuiSystem->destroy();
         mGuiRenderer->destroySystem();
@@ -109,41 +111,31 @@ namespace rl {
     {
         using namespace CEGUI;
 
-        LOG_MESSAGE2(Logger::UI,
-            "Initialisiere UI", "UiSubsystem::initializeUiSubsystem");
+        LOG_MESSAGE2(Logger::UI, "Initialisiere UI", "UiSubsystem::initializeUiSubsystem");
         World* world = CoreSubsystem::getSingleton().getWorld();
         SceneManager* sceneMgr = world->getSceneManager();
-        
-//        CEGUI::System::setDefaultXMLParserName("XercesParser");
 
-        LOG_MESSAGE2(Logger::UI,
-            "Initializing CEGUI Renderer.", "UiSubsystem::initializeUiSubsystem");
-		mGuiRenderer = &OgreRenderer::create(*CoreSubsystem::getSingleton().getRenderWindow());
+        //        CEGUI::System::setDefaultXMLParserName("XercesParser");
 
-        LOG_MESSAGE2(Logger::UI,
-            "Initializing CEGUI System.", "UiSubsystem::initializeUiSubsystem");
+        LOG_MESSAGE2(Logger::UI, "Initializing CEGUI Renderer.", "UiSubsystem::initializeUiSubsystem");
+        mGuiRenderer = &OgreRenderer::create(*CoreSubsystem::getSingleton().getRenderWindow());
+
+        LOG_MESSAGE2(Logger::UI, "Initializing CEGUI System.", "UiSubsystem::initializeUiSubsystem");
         mGuiResourceProvider = &mGuiRenderer->createOgreResourceProvider();
-        
-		mGuiSystem = &System::create(*mGuiRenderer, mGuiResourceProvider,
-            NULL, NULL, NULL, (utf8*)"cegui.config", ConfigurationManager::getSingleton().getCeguiLogFile());
-        CEGUI::Logger::getSingleton().setLoggingLevel(
-            rl::Logger::getSingleton().getCeGuiLogDetail());
-        LOG_MESSAGE2(Logger::UI,
-            "CEGUI System initialized.", "UiSubsystem::initializeUiSubsystem");
+
+        mGuiSystem = &System::create(*mGuiRenderer, mGuiResourceProvider, NULL, NULL, NULL, (utf8*)"cegui.config",
+            ConfigurationManager::getSingleton().getCeguiLogFile());
+        CEGUI::Logger::getSingleton().setLoggingLevel(rl::Logger::getSingleton().getCeGuiLogDetail());
+        LOG_MESSAGE2(Logger::UI, "CEGUI System initialized.", "UiSubsystem::initializeUiSubsystem");
 
         // load scheme and set up defaults
         ///@todo Hier sollte was Lookunabhaengiges rein!!! FIXME TODO BUG!
-        System::getSingleton().setDefaultMouseCursor((utf8*)"RastullahLook-Images",
-            (utf8*)"MouseArrow");
-        LOG_MESSAGE2(Logger::UI, "Mouse arrow loaded.",
-            "UiSubsystem::initializeUiSubsystem");
-        Window* sheet = CEGUI::WindowManager::getSingleton().createWindow((utf8*)"DefaultGUISheet",
-            (utf8*)CEGUI_ROOT);
-        LOG_MESSAGE2(Logger::UI, "CEGUI Root Window created.",
-            "UiSubsystem::initializeUiSubsystem");
+        System::getSingleton().setDefaultMouseCursor((utf8*)"RastullahLook-Images", (utf8*)"MouseArrow");
+        LOG_MESSAGE2(Logger::UI, "Mouse arrow loaded.", "UiSubsystem::initializeUiSubsystem");
+        Window* sheet = CEGUI::WindowManager::getSingleton().createWindow((utf8*)"DefaultGUISheet", (utf8*)CEGUI_ROOT);
+        LOG_MESSAGE2(Logger::UI, "CEGUI Root Window created.", "UiSubsystem::initializeUiSubsystem");
         sheet->setSize(
-            CeGuiHelper::asAbsolute(CEGUI::Vector2(
-                CoreSubsystem::getSingleton().getRenderWindow()->getWidth(),
+            CeGuiHelper::asAbsolute(CEGUI::Vector2(CoreSubsystem::getSingleton().getRenderWindow()->getWidth(),
                 CoreSubsystem::getSingleton().getRenderWindow()->getHeight())));
         sheet->setPosition(CeGuiHelper::asAbsolute(CEGUI::Point(0, 0)));
         System::getSingleton().setGUISheet(sheet);
@@ -153,17 +145,13 @@ namespace rl {
 
         CEGUI::initializeOwnCeguiWindowFactories();
 
-        LOG_MESSAGE2(Logger::UI, "CEGUI initialized.",
-            "UiSubsystem::initializeUiSubsystem");
-
-
+        LOG_MESSAGE2(Logger::UI, "CEGUI initialized.", "UiSubsystem::initializeUiSubsystem");
 
         mWindowManager = new WindowManager();
 
-        //Initializing InputManager
+        // Initializing InputManager
         mInputManager = new InputManager(CoreSubsystem::getSingleton().getRenderWindow());
-        LOG_MESSAGE2(Logger::UI, "InputManager started.",
-            "UiSubsystem::initializeUiSubsystem");
+        LOG_MESSAGE2(Logger::UI, "InputManager started.", "UiSubsystem::initializeUiSubsystem");
 
         mWindowFactory->initialize();
         LOG_MESSAGE2(Logger::UI, "WindowFactory initialized.", "UiSubsystem::initializeUiSubsystem");
@@ -184,14 +172,14 @@ namespace rl {
 
         if (oldActive)
         {
-            ScriptWrapper::getSingleton().disowned( oldActive );
+            ScriptWrapper::getSingleton().disowned(oldActive);
             if (oldActive->getActor())
             {
                 oldActive->getActor()->detach(SoundManager::getSingleton().getListenerActor());
             }
             oldActive->setQueryFlags(oldActive->getQueryFlags() & (~QUERYFLAG_PLAYER));
         }
-        
+
         if (!newActive)
         {
             mInputManager->clearControlStates();
@@ -200,16 +188,16 @@ namespace rl {
         {
             ScriptWrapper::getSingleton().owned(newActive);
             newActive->addQueryFlag(QUERYFLAG_PLAYER);
-            
+
             mWindowFactory->setActiveCharacter(newActive);
-            
+
             newActive->getActor()->attach(SoundManager::getSingleton().getListenerActor());
             LOG_MESSAGE(Logger::UI, "SoundListener attached.");
-            
+
             // Reset control stack for the new Character and set to movement.
             mInputManager->setControlState(CST_MOVEMENT);
         }
-        
+
         return true;
     }
 
@@ -237,7 +225,7 @@ namespace rl {
             LOG_MESSAGE(Logger::UI, "SoundListener attached.");
 
             // Reset control stack for the new Character and set to movement.
-            //mInputManager->setControlState(CST_MOVEMENT);
+            // mInputManager->setControlState(CST_MOVEMENT);
         }
         return false;
     }
@@ -245,9 +233,9 @@ namespace rl {
     bool UiSubsystem::onBeforeGameObjectsLoaded()
     {
         LOG_MESSAGE(Logger::UI, "UiSubsystem::onBeforeGameObjectsLoaded()");
-        if(mCharacter)
+        if (mCharacter)
         {
-            ScriptWrapper::getSingleton().disowned( mCharacter );
+            ScriptWrapper::getSingleton().disowned(mCharacter);
             mCharacter->getActor()->detach(SoundManager::getSingleton().getListenerActor());
 
             mWindowFactory->setActiveCharacter(NULL);
@@ -258,11 +246,11 @@ namespace rl {
         {
             mCharacterId = -1;
         }
-        
-        //mInputManager->clearControlStates();
+
+        // mInputManager->clearControlStates();
         return false;
     }
-    
+
     bool UiSubsystem::onAllPlayerCharactersDied()
     {
         LOG_MESSAGE(Logger::UI, "All player chars are dead, show game over");

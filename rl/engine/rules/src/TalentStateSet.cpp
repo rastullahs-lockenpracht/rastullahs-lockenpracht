@@ -20,44 +20,45 @@
 namespace rl
 {
 
-	TalentStateSet::TalentStateSet() : StateSet()
-	{
-		mSe = false;
-		mLehrmeisterZeiteinheiten = 0;
-		mSelbststudiumZeiteinheiten = 0;
-	}
+    TalentStateSet::TalentStateSet()
+        : StateSet()
+    {
+        mSe = false;
+        mLehrmeisterZeiteinheiten = 0;
+        mSelbststudiumZeiteinheiten = 0;
+    }
 
-	TalentStateSet::~TalentStateSet()
-	{
-	}
+    TalentStateSet::~TalentStateSet()
+    {
+    }
 
-	bool TalentStateSet::getSe()
-	{
-		return mSe;
-	}
+    bool TalentStateSet::getSe()
+    {
+        return mSe;
+    }
 
-	void TalentStateSet::setSe(bool newSe)
-	{
-		mSe = newSe;
-	}
+    void TalentStateSet::setSe(bool newSe)
+    {
+        mSe = newSe;
+    }
 
-	int TalentStateSet::getLehrmeisterZeiteinheiten()
-	{
-		return mLehrmeisterZeiteinheiten;
-	}
+    int TalentStateSet::getLehrmeisterZeiteinheiten()
+    {
+        return mLehrmeisterZeiteinheiten;
+    }
 
-	void TalentStateSet::setLehrmeisterZeiteinheiten( int newLehrmeisterZeiteinheiten )
-	{
-		mLehrmeisterZeiteinheiten = newLehrmeisterZeiteinheiten;
-	}
+    void TalentStateSet::setLehrmeisterZeiteinheiten(int newLehrmeisterZeiteinheiten)
+    {
+        mLehrmeisterZeiteinheiten = newLehrmeisterZeiteinheiten;
+    }
 
-	int TalentStateSet::getSelbststudiumZeiteinheiten()
-	{
-		return mSelbststudiumZeiteinheiten;
-	}
+    int TalentStateSet::getSelbststudiumZeiteinheiten()
+    {
+        return mSelbststudiumZeiteinheiten;
+    }
 
-	void TalentStateSet::setSelbststudiumZeiteinheiten( int newSelbststudiumZeiteinheiten )
-	{
-		mSelbststudiumZeiteinheiten = newSelbststudiumZeiteinheiten;
-	}
+    void TalentStateSet::setSelbststudiumZeiteinheiten(int newSelbststudiumZeiteinheiten)
+    {
+        mSelbststudiumZeiteinheiten = newSelbststudiumZeiteinheiten;
+    }
 }

@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -17,24 +17,25 @@
 #ifndef __ProgressWindow_H__
 #define __ProgressWindow_H__
 
-#include "UiPrerequisites.h"
 #include "AbstractWindow.h"
+#include "UiPrerequisites.h"
 
-namespace rl {
+namespace rl
+{
 
-	class _RlUiExport ProgressWindow : public AbstractWindow
-	{
-	public:
-		ProgressWindow();
-		virtual ~ProgressWindow();
+    class _RlUiExport ProgressWindow : public AbstractWindow
+    {
+    public:
+        ProgressWindow();
+        virtual ~ProgressWindow();
 
         void setText(const Ogre::String& text);
         void setProgress(Ogre::Real percentage);
 
-	private:
-		CEGUI::ProgressBar* mProgressBar;
+    private:
+        CEGUI::ProgressBar* mProgressBar;
         CEGUI::Window* mText;
-	};
+    };
 
 } // namespace rl
 

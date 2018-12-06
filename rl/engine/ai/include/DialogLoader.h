@@ -19,25 +19,24 @@
 #include "AiPrerequisites.h"
 #include "Creature.h"
 
-
 namespace rl
 {
     class Dialog;
     class DialogLoaderImpl;
 
-	class DialogLoader : public Ogre::ScriptLoader
-	{
-	public:
-		DialogLoader();
-		~DialogLoader();
+    class DialogLoader : public Ogre::ScriptLoader
+    {
+    public:
+        DialogLoader();
+        ~DialogLoader();
 
-		virtual const Ogre::StringVector& getScriptPatterns() const;
+        virtual const Ogre::StringVector& getScriptPatterns() const;
         virtual void parseScript(Ogre::DataStreamPtr& stream, const Ogre::String& groupName);
-		virtual Ogre::Real getLoadingOrder() const;
+        virtual Ogre::Real getLoadingOrder() const;
 
-		Dialog* createDialog(const Ogre::String& name, const CreatureList& participants) const;
+        Dialog* createDialog(const Ogre::String& name, const CreatureList& participants) const;
 
-	private:
+    private:
         Ogre::StringVector mScriptPatterns;
         DialogLoaderImpl* mLoaderImplementation;
     };

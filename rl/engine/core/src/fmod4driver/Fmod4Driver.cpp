@@ -18,9 +18,9 @@
 #include <fmod_errors.h>
 
 #include "Fmod4Driver.h"
+#include "Fmod4Listener.h"
 #include "Fmod4Sound.h"
 #include "Fmod4SoundStitching.h"
-#include "Fmod4Listener.h"
 #include "Logger.h"
 #include "SoundResource.h"
 
@@ -35,9 +35,9 @@ namespace rl
 
     String Fmod4Driver::NAME = "RlFmod4Driver";
 
-    Fmod4Driver::Fmod4Driver(Ogre::ResourceManager *soundResourceManager)
-        : SoundDriver(soundResourceManager),
-        mMasterChannelGroup(NULL)
+    Fmod4Driver::Fmod4Driver(Ogre::ResourceManager* soundResourceManager)
+        : SoundDriver(soundResourceManager)
+        , mMasterChannelGroup(NULL)
     {
         gSoundResourceManager = soundResourceManager;
         gDriver = this;
@@ -58,26 +58,18 @@ namespace rl
 
         CHECK_FMOD4_ERRORS(FMOD::System_Create(&mFmod4System));
 
-        mFmod4System->setFileSystem(
-            Fmod4Driver::open,
-            Fmod4Driver::close,
-            Fmod4Driver::read,
-            Fmod4Driver::seek,
-            -1);
+        mFmod4System->setFileSystem(Fmod4Driver::open, Fmod4Driver::close, Fmod4Driver::read, Fmod4Driver::seek, -1);
 
         printData();
 
         mFmod4System->setDriver(-1);
-        //CHECK_FMOD4_ERRORS(mFmod4System->setOutput(FMOD_OUTPUTTYPE_ESD));
+        // CHECK_FMOD4_ERRORS(mFmod4System->setOutput(FMOD_OUTPUTTYPE_ESD));
 
         FMOD_RESULT result = mFmod4System->init(MAX_VIRTUAL_CHANNELS, FMOD_INIT_NORMAL, NULL);
         if (result != FMOD_OK)
         {
-            LOG_ERROR(Logger::CORE,
-                "FMOD error #"
-                + StringConverter::toString(result)
-                + " "
-                + FMOD_ErrorString(result));
+            LOG_ERROR(
+                Logger::CORE, "FMOD error #" + StringConverter::toString(result) + " " + FMOD_ErrorString(result));
 
             return false;
         }
@@ -118,14 +110,13 @@ namespace rl
         return sound;
     }
 
-
-    SoundStitching *Fmod4Driver::createSoundStitchingImpl(unsigned int numSlots, const CeGuiString& name)
+    SoundStitching* Fmod4Driver::createSoundStitchingImpl(unsigned int numSlots, const CeGuiString& name)
     {
-         SoundStitching* soundstitching = new Fmod4SoundStitching(numSlots, name, this);
-         return soundstitching;
+        SoundStitching* soundstitching = new Fmod4SoundStitching(numSlots, name, this);
+        return soundstitching;
     }
 
-    ListenerMovable *Fmod4Driver::createListener(const Ogre::String &name)
+    ListenerMovable* Fmod4Driver::createListener(const Ogre::String& name)
     {
         return new Fmod4Listener(name, mFmod4System);
     }
@@ -141,10 +132,10 @@ namespace rl
         mMasterChannelGroup->setVolume(mMasterVolume);
     }
 
-#define DEF_PRESET(NAME, DEFINITION) \
-    { \
-        FMOD_REVERB_PROPERTIES prop = DEFINITION; \
-        mEaxPresetMap.insert(make_pair(NAME, prop)); \
+#define DEF_PRESET(NAME, DEFINITION)                                                                                   \
+    {                                                                                                                  \
+        FMOD_REVERB_PROPERTIES prop = DEFINITION;                                                                      \
+        mEaxPresetMap.insert(make_pair(NAME, prop));                                                                   \
     }
 
     void Fmod4Driver::initializeEaxPresetMap()
@@ -183,7 +174,7 @@ namespace rl
     {
         EaxPresetMap::iterator it = mEaxPresetMap.find(name);
 
-        if( it != mEaxPresetMap.end() )
+        if (it != mEaxPresetMap.end())
         {
             FMOD_RESULT result;
             result = mFmod4System->setReverbProperties(&(it->second)); ///@todo seems not to work correctly
@@ -214,23 +205,15 @@ namespace rl
         {
             char pluginName[128];
             unsigned int version;
-			FMOD_PLUGINTYPE type = FMOD_PLUGINTYPE_CODEC;
-			unsigned int handle;
-			FMOD_RESULT result = mFmod4System->getPluginHandle(FMOD_PLUGINTYPE_CODEC, i, &handle);
-			CHECK_FMOD4_ERRORS(result);
+            FMOD_PLUGINTYPE type = FMOD_PLUGINTYPE_CODEC;
+            unsigned int handle;
+            FMOD_RESULT result = mFmod4System->getPluginHandle(FMOD_PLUGINTYPE_CODEC, i, &handle);
+            CHECK_FMOD4_ERRORS(result);
 
-            result = mFmod4System->getPluginInfo(
-                handle,
-                &type,
-				pluginName,
-                127,
-                &version);
-			CHECK_FMOD4_ERRORS(result);
+            result = mFmod4System->getPluginInfo(handle, &type, pluginName, 127, &version);
+            CHECK_FMOD4_ERRORS(result);
             LOG_MESSAGE(Logger::MULTIMEDIA,
-                String("Fmod4Driver Plugin '")
-                + pluginName
-                + "' Version "
-                + StringConverter::toString(version));
+                String("Fmod4Driver Plugin '") + pluginName + "' Version " + StringConverter::toString(version));
         }
     }
 
@@ -248,109 +231,85 @@ namespace rl
         mFmod4System->getDriverCaps(driver, &caps, &minfreq, &maxfreq, &speakermode);
 
         LOG_MESSAGE(Logger::MULTIMEDIA,
-            String("Fmod4Driver '")
-            + name
-            + "'"
-            + (driver == curdriver ? "(cur)" : "")
-            + ": \n"
-            + "Freq " + StringConverter::toString(minfreq)
-            + " - " + StringConverter::toString(maxfreq));
+            String("Fmod4Driver '") + name + "'" + (driver == curdriver ? "(cur)" : "") + ": \n" + "Freq "
+                + StringConverter::toString(minfreq) + " - " + StringConverter::toString(maxfreq));
 
         int hard2d, hard3d, hardtotal;
         mFmod4System->getHardwareChannels(&hard2d, &hard3d, &hardtotal);
         LOG_MESSAGE(Logger::MULTIMEDIA,
-            String("Fmod4Driver '")
-            + name + "' Hardware Channels: "
-            + "2D #" + StringConverter::toString(hard2d)
-            + ", 3D #" + StringConverter::toString(hard3d)
-            + ", Total #" + StringConverter::toString(hardtotal));
+            String("Fmod4Driver '") + name + "' Hardware Channels: " + "2D #" + StringConverter::toString(hard2d)
+                + ", 3D #" + StringConverter::toString(hard3d) + ", Total #" + StringConverter::toString(hardtotal));
 
         int softchannels;
         mFmod4System->getSoftwareChannels(&softchannels);
         LOG_MESSAGE(Logger::MULTIMEDIA,
-            String("Fmod4Driver '")
-            + name + "' Software Channels: "
-            + "#" + StringConverter::toString(softchannels));
+            String("Fmod4Driver '") + name + "' Software Channels: " + "#" + StringConverter::toString(softchannels));
 
         FMOD_OUTPUTTYPE output;
         mFmod4System->getOutput(&output);
         String outputName;
 
-        if(output == FMOD_OUTPUTTYPE_AUTODETECT)
+        if (output == FMOD_OUTPUTTYPE_AUTODETECT)
             outputName = "Autodetect";
-        else if(output == FMOD_OUTPUTTYPE_UNKNOWN)
+        else if (output == FMOD_OUTPUTTYPE_UNKNOWN)
             outputName = "Unknown";
-        else if(output == FMOD_OUTPUTTYPE_NOSOUND)
+        else if (output == FMOD_OUTPUTTYPE_NOSOUND)
             outputName = "No Sound";
-        else if(output == FMOD_OUTPUTTYPE_WAVWRITER)
+        else if (output == FMOD_OUTPUTTYPE_WAVWRITER)
             outputName = "Wave Writer";
-        else if(output == FMOD_OUTPUTTYPE_NOSOUND_NRT)
+        else if (output == FMOD_OUTPUTTYPE_NOSOUND_NRT)
             outputName = "No Sound non realtime";
-        else if(output == FMOD_OUTPUTTYPE_WAVWRITER_NRT)
+        else if (output == FMOD_OUTPUTTYPE_WAVWRITER_NRT)
             outputName = "Wave Writer non realtime";
-        else if(output == FMOD_OUTPUTTYPE_DSOUND)
+        else if (output == FMOD_OUTPUTTYPE_DSOUND)
             outputName = "DirectSound";
-        else if(output == FMOD_OUTPUTTYPE_WINMM)
+        else if (output == FMOD_OUTPUTTYPE_WINMM)
             outputName = "Windows Multimedia";
-        else if(output == FMOD_OUTPUTTYPE_ASIO)
+        else if (output == FMOD_OUTPUTTYPE_ASIO)
             outputName = "Low Latency ASIO driver";
-        else if(output == FMOD_OUTPUTTYPE_OSS)
+        else if (output == FMOD_OUTPUTTYPE_OSS)
             outputName = "Open Sound System (OSS)";
-        else if(output == FMOD_OUTPUTTYPE_ALSA)
+        else if (output == FMOD_OUTPUTTYPE_ALSA)
             outputName = "Advanced Linux Sound Architecture (ALSA)";
-        else if(output == FMOD_OUTPUTTYPE_ESD)
+        else if (output == FMOD_OUTPUTTYPE_ESD)
             outputName = "Enlightment Sound Daemon (ESD)";
-        else if(output == FMOD_OUTPUTTYPE_SOUNDMANAGER)
+        else if (output == FMOD_OUTPUTTYPE_SOUNDMANAGER)
             outputName = "Macintosh SoundManager";
-        else if(output == FMOD_OUTPUTTYPE_COREAUDIO)
+        else if (output == FMOD_OUTPUTTYPE_COREAUDIO)
             outputName = "Macintosh CoreAudio";
 
-        LOG_MESSAGE(Logger::MULTIMEDIA,
-            String("Fmod4Driver '")
-            + name + "' Output: " + outputName);
+        LOG_MESSAGE(Logger::MULTIMEDIA, String("Fmod4Driver '") + name + "' Output: " + outputName);
     }
 
     FMOD_RESULT F_CALLBACK Fmod4Driver::open(
-        const char *  name,
-        int  unicode,
-        unsigned int *  filesize,
-        void **  handle,
-        void **  userdata)
+        const char* name, int unicode, unsigned int* filesize, void** handle, void** userdata)
     {
         SoundResourcePtr* res = new SoundResourcePtr(gSoundResourceManager->getByName(name));
-        LOG_DEBUG(Logger::MULTIMEDIA,
-            "Opened stream " + (*res)->getName());
+        LOG_DEBUG(Logger::MULTIMEDIA, "Opened stream " + (*res)->getName());
         (*res)->load();
         *filesize = (*res)->getSize();
         *handle = res;
         return FMOD_OK;
     }
 
-    FMOD_RESULT F_CALLBACK Fmod4Driver::close(
-        void *  handle,
-        void *  userdata)
+    FMOD_RESULT F_CALLBACK Fmod4Driver::close(void* handle, void* userdata)
     {
-           SoundResourcePtr *res = static_cast<SoundResourcePtr*>(handle);
-        LOG_DEBUG(Logger::MULTIMEDIA,
-            "Closing stream " + (*res)->getName());
+        SoundResourcePtr* res = static_cast<SoundResourcePtr*>(handle);
+        LOG_DEBUG(Logger::MULTIMEDIA, "Closing stream " + (*res)->getName());
         (*res)->unload();
         delete res;
         return FMOD_OK;
     }
 
     FMOD_RESULT F_CALLBACK Fmod4Driver::read(
-        void*  handle,
-        void*  buffer,
-        unsigned int  sizebytes,
-        unsigned int* bytesread,
-        void*  userdata)
+        void* handle, void* buffer, unsigned int sizebytes, unsigned int* bytesread, void* userdata)
     {
         if (handle == NULL)
         {
             return FMOD_ERR_INVALID_PARAM;
         }
 
-        SoundResourcePtr *sound = static_cast<SoundResourcePtr*>(handle);
+        SoundResourcePtr* sound = static_cast<SoundResourcePtr*>(handle);
         if (!sound->isNull())
         {
             if (!(*sound)->isLoaded())
@@ -373,17 +332,14 @@ namespace rl
         return FMOD_ERR_FILE_EOF;
     }
 
-    FMOD_RESULT F_CALLBACK Fmod4Driver::seek(
-        void *  handle,
-        unsigned int  pos,
-        void *  userdata)
+    FMOD_RESULT F_CALLBACK Fmod4Driver::seek(void* handle, unsigned int pos, void* userdata)
     {
         if (handle == NULL)
         {
             return FMOD_ERR_INVALID_PARAM;
         }
 
-        SoundResourcePtr *sound = static_cast<SoundResourcePtr*>(handle);
+        SoundResourcePtr* sound = static_cast<SoundResourcePtr*>(handle);
         if (!sound->isNull())
         {
             DataStreamPtr ds = (*sound)->getDataStream();
@@ -396,73 +352,69 @@ namespace rl
         return FMOD_ERR_INVALID_PARAM;
     }
 
-/**
- * This static method is as channel callback, so that we get callbacks
- * from FMOD
- * @author Blakharaz
- * @version 1.0
- * @author JoSch
- * @version 1.1
- * @date 07-03-2007
- * @param _channel The channel for which the callback is registered.
- * @param type Type of the event.
- * @param command A commando
- * @param commanddata1 Data
- * @param commanddata2 Data
- */
-FMOD_RESULT F_CALLBACK Fmod4Driver::channelCallback(
-    FMOD_CHANNEL *_channel,
-    FMOD_CHANNEL_CALLBACKTYPE type,
-    void* commanddata1, 
-    void* commanddata2)
-{
-    /// Extract the Fmod channel and then our Sound object.
-    FMOD::Channel* channel = (FMOD::Channel*)_channel;
-    RlAssert1(channel != NULL);
-    ChannelSoundMap::iterator it = gDriver->mChannelSoundMap.find((FMOD::Channel*)channel);
-    if (it != gDriver->mChannelSoundMap.end())
+    /**
+     * This static method is as channel callback, so that we get callbacks
+     * from FMOD
+     * @author Blakharaz
+     * @version 1.0
+     * @author JoSch
+     * @version 1.1
+     * @date 07-03-2007
+     * @param _channel The channel for which the callback is registered.
+     * @param type Type of the event.
+     * @param command A commando
+     * @param commanddata1 Data
+     * @param commanddata2 Data
+     */
+    FMOD_RESULT F_CALLBACK Fmod4Driver::channelCallback(
+        FMOD_CHANNEL* _channel, FMOD_CHANNEL_CALLBACKTYPE type, void* commanddata1, void* commanddata2)
     {
-        Fmod4Sound* sound = it->second;
-        RlAssert1(sound != NULL);
-        switch(type)
+        /// Extract the Fmod channel and then our Sound object.
+        FMOD::Channel* channel = (FMOD::Channel*)_channel;
+        RlAssert1(channel != NULL);
+        ChannelSoundMap::iterator it = gDriver->mChannelSoundMap.find((FMOD::Channel*)channel);
+        if (it != gDriver->mChannelSoundMap.end())
         {
+            Fmod4Sound* sound = it->second;
+            RlAssert1(sound != NULL);
+            switch (type)
+            {
             case FMOD_CHANNEL_CALLBACKTYPE_END:
+            {
+                // We dispatch a stop event
+                SoundPlayEvent event(NULL, SoundPlayEvent::STOPEVENT);
+                sound->dispatchEvent(&event);
+                // If the sound is set for autodestruction,
+                // we destroy it now.
+                if (sound->isAutoDestroying())
                 {
-                    // We dispatch a stop event
-                    SoundPlayEvent event(NULL, SoundPlayEvent::STOPEVENT);
-                    sound->dispatchEvent(&event);
-                    // If the sound is set for autodestruction,
-                    // we destroy it now.
-                    if (sound->isAutoDestroying())
-                    {
-                        gDriver->destroySound(sound);
-                        gDriver->mChannelSoundMap.erase(it);
-                    }
+                    gDriver->destroySound(sound);
+                    gDriver->mChannelSoundMap.erase(it);
                 }
-                break;
-                
-            case FMOD_CHANNEL_CALLBACKTYPE_SYNCPOINT:
-                {
-                    FMOD::Sound *fmodsound = NULL;
-                    FMOD_SYNCPOINT* syncpoint = NULL;
-                    SoundTimingEvent event(NULL, SoundTimingEvent::TIMEEVENT);
-        
-                    // We get the time point of the sync point and put it in a timing event.
-                    sound->getFmodChannel()->getCurrentSound(&fmodsound);
-                    fmodsound->getSyncPoint(*static_cast<int*>(commanddata1), &syncpoint);
-                    fmodsound->getSyncPointInfo(syncpoint, NULL, 0, &event.mTime, FMOD_TIMEUNIT_MS);
-                    sound->dispatchEvent(&event);
-                }
-                break;
-             case FMOD_CHANNEL_CALLBACKTYPE_VIRTUALVOICE:
-                {
-                }
-                break;
-        }
-    }  
-    return FMOD_OK;
-}
+            }
+            break;
 
+            case FMOD_CHANNEL_CALLBACKTYPE_SYNCPOINT:
+            {
+                FMOD::Sound* fmodsound = NULL;
+                FMOD_SYNCPOINT* syncpoint = NULL;
+                SoundTimingEvent event(NULL, SoundTimingEvent::TIMEEVENT);
+
+                // We get the time point of the sync point and put it in a timing event.
+                sound->getFmodChannel()->getCurrentSound(&fmodsound);
+                fmodsound->getSyncPoint(*static_cast<int*>(commanddata1), &syncpoint);
+                fmodsound->getSyncPointInfo(syncpoint, NULL, 0, &event.mTime, FMOD_TIMEUNIT_MS);
+                sound->dispatchEvent(&event);
+            }
+            break;
+            case FMOD_CHANNEL_CALLBACKTYPE_VIRTUALVOICE:
+            {
+            }
+            break;
+            }
+        }
+        return FMOD_OK;
+    }
 
     void Fmod4Driver::setMasterVolume(const Ogre::Real& vol)
     {
@@ -489,5 +441,4 @@ FMOD_RESULT F_CALLBACK Fmod4Driver::channelCallback(
         CHECK_FMOD4_ERRORS(res);
         mChannelSoundMap.insert(std::make_pair(channel, sound));
     }
-
 }

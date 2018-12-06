@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -17,43 +17,50 @@
 #ifndef __ObjectStateChangeEvent_H__
 #define __ObjectStateChangeEvent_H__
 
-
 #include "EventObject.h"
 
 #include "RulesPrerequisites.h"
 
-namespace rl {
-
-class ObjectStateChangeEventSource;
-class GameObject;
-
-/** 
- *  ObjectStateChangeEvent
- *  Ein Event der ausgeloest wird, wenn sich eine Eigenschaft eines GameObjects veraendert hat 
- *
- *  @see ObjectStateChangeListener, ObjectStateChangeEventSource
- *  @todo Feldgenauigkeit, also auch noch im Ereignis zu kodieren, was veraendert wurde
- */
-class _RlRulesExport ObjectStateChangeEvent : public virtual EventObject 
+namespace rl
 {
-public:
-     /** Der Standardkonstruktor
-      * @param src Die Eventquelle
-      */
-    ObjectStateChangeEvent( ObjectStateChangeEventSource* src );
-    /// Standarddestruktor
-    virtual ~ObjectStateChangeEvent() {};
 
-    /// Setzt das verursachenden Object des Events
-    void setProvokingObject(GameObject* obj ) {  mObject = obj; };
-    /// Gibt das verursachende Object des Events zurueck
-    GameObject* getProvokingObject() const { return mObject; };
-    /// Gibt die Eventquelle zurueck
-    ObjectStateChangeEventSource* getSource() const;
-private:
-    /// Das verursachende Object
-    GameObject* mObject;
-};
+    class ObjectStateChangeEventSource;
+    class GameObject;
+
+    /**
+     *  ObjectStateChangeEvent
+     *  Ein Event der ausgeloest wird, wenn sich eine Eigenschaft eines GameObjects veraendert hat
+     *
+     *  @see ObjectStateChangeListener, ObjectStateChangeEventSource
+     *  @todo Feldgenauigkeit, also auch noch im Ereignis zu kodieren, was veraendert wurde
+     */
+    class _RlRulesExport ObjectStateChangeEvent : public virtual EventObject
+    {
+    public:
+        /** Der Standardkonstruktor
+         * @param src Die Eventquelle
+         */
+        ObjectStateChangeEvent(ObjectStateChangeEventSource* src);
+        /// Standarddestruktor
+        virtual ~ObjectStateChangeEvent(){};
+
+        /// Setzt das verursachenden Object des Events
+        void setProvokingObject(GameObject* obj)
+        {
+            mObject = obj;
+        };
+        /// Gibt das verursachende Object des Events zurueck
+        GameObject* getProvokingObject() const
+        {
+            return mObject;
+        };
+        /// Gibt die Eventquelle zurueck
+        ObjectStateChangeEventSource* getSource() const;
+
+    private:
+        /// Das verursachende Object
+        GameObject* mObject;
+    };
 }
 
 #endif

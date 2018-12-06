@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -25,8 +25,7 @@ namespace rl
 {
     class Dialog;
 
-    class _RlAiExport AgentDialogState :
-        public AgentState
+    class _RlAiExport AgentDialogState : public AgentState
     {
     public:
         AgentDialogState(Agent* agent);
@@ -41,7 +40,6 @@ namespace rl
         Dialog* mDialog;
         bool mTalking;
     };
-
 }
 
 #endif // __RlAI_AgentDialogState_H__

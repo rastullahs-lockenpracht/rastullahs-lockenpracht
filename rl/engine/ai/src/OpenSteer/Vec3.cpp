@@ -48,49 +48,40 @@
 //
 // ----------------------------------------------------------------------------
 
-
 #include "OpenSteer/Vec3.h"
 
-
-Vector3 
-OpenSteer::RandomVectorInUnitRadiusSphere (void)
+Vector3 OpenSteer::RandomVectorInUnitRadiusSphere(void)
 {
     Vector3 v;
 
     do
     {
-        v.x = (frandom01()*2) - 1;
-        v.y = (frandom01()*2) - 1;
-        v.z = (frandom01()*2) - 1;
-    }
-    while (v.length() >= 1);
+        v.x = (frandom01() * 2) - 1;
+        v.y = (frandom01() * 2) - 1;
+        v.z = (frandom01() * 2) - 1;
+    } while (v.length() >= 1);
 
     return v;
 }
-
 
 // ----------------------------------------------------------------------------
 // Returns a position randomly distributed on a disk of unit radius
 // on the XZ (Y=0) plane, centered at the origin.  Orientation will be
 // random and length will range between 0 and 1
 
-
-Vector3 
-OpenSteer::randomVectorOnUnitRadiusXZDisk (void)
+Vector3 OpenSteer::randomVectorOnUnitRadiusXZDisk(void)
 {
     Vector3 v;
 
     do
     {
-        v.x = (frandom01()*2) - 1;
+        v.x = (frandom01() * 2) - 1;
         v.y = 0;
-        v.z = (frandom01()*2) - 1;
-    }
-    while (v.length() >= 1);
+        v.z = (frandom01() * 2) - 1;
+    } while (v.length() >= 1);
 
     return v;
 }
-
 
 // ----------------------------------------------------------------------------
 // Does a "ceiling" or "floor" operation on the angle by which a given vector
@@ -99,16 +90,13 @@ OpenSteer::randomVectorOnUnitRadiusXZDisk (void)
 // whether the "source" vector is forced to remain inside or outside of this
 // cone.  Called by vecLimitMaxDeviationAngle and vecLimitMinDeviationAngle.
 
-
-Vector3 
-OpenSteer::vecLimitDeviationAngleUtility (const bool insideOrOutside,
-                                          const Vector3& source,
-                                          const float cosineOfConeAngle,
-                                          const Vector3& basis)
+Vector3 OpenSteer::vecLimitDeviationAngleUtility(
+    const bool insideOrOutside, const Vector3& source, const float cosineOfConeAngle, const Vector3& basis)
 {
     // immediately return zero length input vectors
     float sourceLength = source.length();
-    if (sourceLength == 0) return source;
+    if (sourceLength == 0)
+        return source;
 
     // measure the angular diviation of "source" from "basis"
     const Vector3 direction = source / sourceLength;
@@ -119,13 +107,15 @@ OpenSteer::vecLimitDeviationAngleUtility (const bool insideOrOutside,
     // is a constant when the function is inlined into its caller)
     if (insideOrOutside)
     {
-	// source vector is already inside the cone, just return it
-	if (cosineOfSourceAngle >= cosineOfConeAngle) return source;
+        // source vector is already inside the cone, just return it
+        if (cosineOfSourceAngle >= cosineOfConeAngle)
+            return source;
     }
     else
     {
-	// source vector is already outside the cone, just return it
-	if (cosineOfSourceAngle <= cosineOfConeAngle) return source;
+        // source vector is already outside the cone, just return it
+        if (cosineOfSourceAngle <= cosineOfConeAngle)
+            return source;
     }
 
     // find the portion of "source" that is perpendicular to "basis"
@@ -138,12 +128,11 @@ OpenSteer::vecLimitDeviationAngleUtility (const bool insideOrOutside,
     // and lies on the intersection of a plane (formed the source and
     // basis vectors) and a cone (whose axis is "basis" and whose
     // angle corresponds to cosineOfConeAngle)
-    float perpDist = sqrtXXX (1 - (cosineOfConeAngle * cosineOfConeAngle));
+    float perpDist = sqrtXXX(1 - (cosineOfConeAngle * cosineOfConeAngle));
     const Vector3 c0 = basis * cosineOfConeAngle;
     const Vector3 c1 = unitPerp * perpDist;
     return (c0 + c1) * sourceLength;
 }
-
 
 // ----------------------------------------------------------------------------
 // given a vector, return a vector perpendicular to it.  arbitrarily selects
@@ -151,18 +140,16 @@ OpenSteer::vecLimitDeviationAngleUtility (const bool insideOrOutside,
 // itself, otherwise length is irrelevant (empirically, output length seems to
 // remain within 20% of input length).
 
-
-Vector3 
-OpenSteer::findPerpendicularIn3d (const Vector3& direction)
+Vector3 OpenSteer::findPerpendicularIn3d(const Vector3& direction)
 {
     // to be filled in:
-    Vector3 quasiPerp;  // a direction which is "almost perpendicular"
-    Vector3 result;     // the computed perpendicular to be returned
+    Vector3 quasiPerp; // a direction which is "almost perpendicular"
+    Vector3 result; // the computed perpendicular to be returned
 
     // three mutually perpendicular basis vectors
-    const Vector3 i (1, 0, 0);
-    const Vector3 j (0, 1, 0);
-    const Vector3 k (0, 0, 1);
+    const Vector3 i(1, 0, 0);
+    const Vector3 j(0, 1, 0);
+    const Vector3 k(0, 0, 1);
 
     // measure the projection of "direction" onto each of the axes
     const float id = i.dotProduct(direction);
@@ -172,14 +159,14 @@ OpenSteer::findPerpendicularIn3d (const Vector3& direction)
     // set quasiPerp to the basis which is least parallel to "direction"
     if ((id <= jd) && (id <= kd))
     {
-        quasiPerp = i;               // projection onto i was the smallest
+        quasiPerp = i; // projection onto i was the smallest
     }
     else
     {
         if ((jd <= id) && (jd <= kd))
-            quasiPerp = j;           // projection onto j was the smallest
+            quasiPerp = j; // projection onto j was the smallest
         else
-            quasiPerp = k;           // projection onto k was the smallest
+            quasiPerp = k; // projection onto k was the smallest
     }
 
     // return the cross product (direction x quasiPerp)
@@ -187,6 +174,5 @@ OpenSteer::findPerpendicularIn3d (const Vector3& direction)
     result = crossProduct(direction, quasiPerp);
     return result;
 }
-
 
 // ----------------------------------------------------------------------------

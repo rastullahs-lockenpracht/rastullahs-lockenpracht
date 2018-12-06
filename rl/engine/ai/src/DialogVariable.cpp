@@ -19,13 +19,14 @@
 
 #include "Creature.h"
 #include "Dialog.h"
-#include "RulesSubsystem.h"
 #include "QuestBook.h"
+#include "RulesSubsystem.h"
 
 namespace rl
 {
     DialogVariable::DialogVariable(const CeGuiString& type)
-        : mRecalculate(true), mType(type)
+        : mRecalculate(true)
+        , mType(type)
     {
     }
 
@@ -54,8 +55,9 @@ namespace rl
         mRecalculate = true;
     }
 
-    DialogPropertyVariable::DialogPropertyVariable(const Ogre::String &propertyName)
-        : DialogVariable("dialogvariable"), mPropertyName(propertyName)
+    DialogPropertyVariable::DialogPropertyVariable(const Ogre::String& propertyName)
+        : DialogVariable("dialogvariable")
+        , mPropertyName(propertyName)
     {
     }
 
@@ -64,8 +66,10 @@ namespace rl
         return dialog->getProperty(mPropertyName);
     }
 
-    QuestStateVariable::QuestStateVariable(const Ogre::String &questId, const Ogre::String &propertyName)
-        : DialogVariable("queststate"), mQuestId(questId), mPropertyName(propertyName)
+    QuestStateVariable::QuestStateVariable(const Ogre::String& questId, const Ogre::String& propertyName)
+        : DialogVariable("queststate")
+        , mQuestId(questId)
+        , mPropertyName(propertyName)
     {
     }
 
@@ -74,8 +78,11 @@ namespace rl
         return RulesSubsystem::getSingleton().getQuestBook()->getQuest(mQuestId)->getProperty(mPropertyName);
     }
 
-    TalentProbeVariable::TalentProbeVariable(const rl::CeGuiString &talent, int modifier, const rl::CeGuiString& target)
-        : DialogVariable("talentcheck"), mTalent(talent), mTarget(target), mModifier(modifier)
+    TalentProbeVariable::TalentProbeVariable(const rl::CeGuiString& talent, int modifier, const rl::CeGuiString& target)
+        : DialogVariable("talentcheck")
+        , mTalent(talent)
+        , mTarget(target)
+        , mModifier(modifier)
     {
     }
 
@@ -93,8 +100,12 @@ namespace rl
         }
     }
 
-    EigenschaftsProbeVariable::EigenschaftsProbeVariable(const rl::CeGuiString &eigenschaft, int modifier, const rl::CeGuiString& target)
-        : DialogVariable("attributecheck"), mEigenschaft(eigenschaft), mTarget(target), mModifier(modifier)
+    EigenschaftsProbeVariable::EigenschaftsProbeVariable(
+        const rl::CeGuiString& eigenschaft, int modifier, const rl::CeGuiString& target)
+        : DialogVariable("attributecheck")
+        , mEigenschaft(eigenschaft)
+        , mTarget(target)
+        , mModifier(modifier)
     {
     }
 
@@ -114,14 +125,15 @@ namespace rl
         }
     }
 
-	RandomVariable::RandomVariable(int maximum)
-		: DialogVariable("random"), mMaximum(maximum)
-	{
-	}
+    RandomVariable::RandomVariable(int maximum)
+        : DialogVariable("random")
+        , mMaximum(maximum)
+    {
+    }
 
-	Property RandomVariable::calculateValue(Dialog* dialog)
-	{
-		double d = std::rand();
+    Property RandomVariable::calculateValue(Dialog* dialog)
+    {
+        double d = std::rand();
         return Property(static_cast<int>(d * mMaximum / RAND_MAX) + 1);
-	}
+    }
 }

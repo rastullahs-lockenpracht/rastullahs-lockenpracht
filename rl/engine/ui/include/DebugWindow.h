@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -24,16 +24,16 @@
 
 #include <map>
 
-namespace rl {
+namespace rl
+{
 
-    class _RlUiExport DebugWindow
-		: public Ogre::Singleton<DebugWindow>, public GameTask, public AbstractWindow
+    class _RlUiExport DebugWindow : public Ogre::Singleton<DebugWindow>, public GameTask, public AbstractWindow
     {
     public:
         DebugWindow(void);
         ~DebugWindow();
 
-		void setVisible(bool visible, bool destroyAfterHide = false);
+        void setVisible(bool visible, bool destroyAfterHide = false);
 
         /** Registers a page on the debug window.
          *  Debug Window allows multiple pages of informations to be registered
@@ -66,7 +66,7 @@ namespace rl {
          *  This is used for situational short term info.
          */
         void setMessageText(const Ogre::String& text);
-		void run(Ogre::Real elapsedTime);
+        void run(Ogre::Real elapsedTime);
 
         /// Changes the shown page to the next page in the list.
         void showNextPage();
@@ -83,7 +83,7 @@ namespace rl {
         /// Name of the default debug page with FPS statistics
         Ogre::String mDebugPageName;
 
-		void updateFps();
+        void updateFps();
         void updatePageText();
     };
 }

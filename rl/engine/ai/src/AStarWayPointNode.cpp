@@ -17,15 +17,18 @@
 
 #include "AStarWayPointNode.h"
 
-namespace rl {
-
-AStarWayPointNode::AStarWayPointNode(const WayPointNode* WP)
-: mWP(WP), mG(-1), mH(-1), mParent(NULL)
+namespace rl
 {
-}
 
-AStarWayPointNode::~AStarWayPointNode()
-{
-}
+    AStarWayPointNode::AStarWayPointNode(const WayPointNode* WP)
+        : mWP(WP)
+        , mG(-1)
+        , mH(-1)
+        , mParent(NULL)
+    {
+    }
 
+    AStarWayPointNode::~AStarWayPointNode()
+    {
+    }
 };

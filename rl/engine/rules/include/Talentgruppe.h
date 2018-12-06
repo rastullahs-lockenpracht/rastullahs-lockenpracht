@@ -1,5 +1,5 @@
 /* (C) 2003-2008. Team Pantheon. www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -25,10 +25,9 @@ namespace rl
         const int mId;
         const std::string mName;
         const std::string mDescription;
+
     public:
-        Talentgruppe(int id,
-                     const std::string& name,
-                     const std::string& description);
+        Talentgruppe(int id, const std::string& name, const std::string& description);
         bool operator==(const Talentgruppe& rhs) const;
         bool operator<(const Talentgruppe& rhs) const;
         int getId() const;

@@ -15,36 +15,35 @@
  */
 #include "stdinc.h" //precompiled header
 
-#include "SonderfertigkeitenStateSet.h"
 #include "Exception.h"
-
+#include "SonderfertigkeitenStateSet.h"
 
 namespace rl
 {
 
-	SonderfertigkeitenStateSet::SonderfertigkeitenStateSet() : StateSet()
-	{
-		mLehrmeisterZeiteinheiten = 0;
-	}
+    SonderfertigkeitenStateSet::SonderfertigkeitenStateSet()
+        : StateSet()
+    {
+        mLehrmeisterZeiteinheiten = 0;
+    }
 
-	SonderfertigkeitenStateSet::~SonderfertigkeitenStateSet()
-	{
-	}
+    SonderfertigkeitenStateSet::~SonderfertigkeitenStateSet()
+    {
+    }
 
-	void SonderfertigkeitenStateSet::setModifier( int newModifier )
-	{
-		Throw(IllegalArgumentException,
-			"SonderfertigkeitenStateSet::setModifier: Sonderfertigkeiten koennen nicht modifiziert werden");
-	}
+    void SonderfertigkeitenStateSet::setModifier(int newModifier)
+    {
+        Throw(IllegalArgumentException,
+            "SonderfertigkeitenStateSet::setModifier: Sonderfertigkeiten koennen nicht modifiziert werden");
+    }
 
-	int SonderfertigkeitenStateSet::getLehrmeisterZeiteinheiten()
-	{
-		return mLehrmeisterZeiteinheiten;
-	}
+    int SonderfertigkeitenStateSet::getLehrmeisterZeiteinheiten()
+    {
+        return mLehrmeisterZeiteinheiten;
+    }
 
-	void SonderfertigkeitenStateSet::setLehrmeisterZeiteinheiten( int newLehrmeisterZeiteinheiten )
-	{
-		mLehrmeisterZeiteinheiten = newLehrmeisterZeiteinheiten;
-	}
+    void SonderfertigkeitenStateSet::setLehrmeisterZeiteinheiten(int newLehrmeisterZeiteinheiten)
+    {
+        mLehrmeisterZeiteinheiten = newLehrmeisterZeiteinheiten;
+    }
 }
-

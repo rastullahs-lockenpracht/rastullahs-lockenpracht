@@ -15,23 +15,24 @@
  */
 #include "stdinc.h" //precompiled header
 
+#include "Exception.h"
 #include "PhysicalObstacle.h"
 #include "PhysicalThing.h"
-#include "Exception.h"
 #include <OpenSteer/Obstacle.h>
 
 #ifdef __APPLE__
-#   include <OgreNewt/OgreNewt.h>
+#include <OgreNewt/OgreNewt.h>
 #else
-#   include <OgreNewt.h>
+#include <OgreNewt.h>
 #endif
 
 using namespace Ogre;
 
-namespace rl {
-    PhysicalObstacle::PhysicalObstacle(PhysicalThing *thing)
-		: mPhysicalThing(thing),
-		  mObstacle(NULL)
+namespace rl
+{
+    PhysicalObstacle::PhysicalObstacle(PhysicalThing* thing)
+        : mPhysicalThing(thing)
+        , mObstacle(NULL)
     {
         _update();
     }
@@ -40,44 +41,44 @@ namespace rl {
     {
     }
 
-    OpenSteer::Obstacle *PhysicalObstacle::getObstacle() const
+    OpenSteer::Obstacle* PhysicalObstacle::getObstacle() const
     {
         return mObstacle;
     }
 
-    void PhysicalObstacle::setObstacle(OpenSteer::Obstacle *obstacle)
+    void PhysicalObstacle::setObstacle(OpenSteer::Obstacle* obstacle)
     {
         mObstacle = obstacle; // TODO Need update?
     }
 
-    PhysicalThing *PhysicalObstacle::getPhysicalThing() const
+    PhysicalThing* PhysicalObstacle::getPhysicalThing() const
     {
         return mPhysicalThing;
     }
 
-    void PhysicalObstacle::setPhysicalThing(PhysicalThing *thing)
+    void PhysicalObstacle::setPhysicalThing(PhysicalThing* thing)
     {
         mPhysicalThing = thing;
-        mObstacle = NULL;	// question: shouldn't we check before doing this ?
+        mObstacle = NULL; // question: shouldn't we check before doing this ?
         _update();
     }
 
     void PhysicalObstacle::_update()
     {
-    	OgreNewt::Body *body = mPhysicalThing->_getBody();
-    	RlAssert(body, "PhysicalThing has no body yet!");
+        OgreNewt::Body* body = mPhysicalThing->_getBody();
+        RlAssert(body, "PhysicalThing has no body yet!");
         Vector3 position;
         Quaternion orientation;
         body->getPositionOrientation(position, orientation);
 
-    	const OgreNewt::CollisionPtr collision = body->getCollision();
-    	RlAssert(collision, "Body has no collision!");
-    	AxisAlignedBox box = collision->getAABB();
-    	Ogre::Vector3 dims = box.getMaximum() - box.getMinimum();
-    	OpenSteer::BoxObstacle *obstacle = new OpenSteer::BoxObstacle(dims[0], dims[1], dims[2]);
-    	obstacle->setForward(0,0,-1);
-    	obstacle->setPosition(position[0], position[1], position[2]);
-    	//obstacle->setOrientation(orient[0], orient[1], orient[2]);
-    	setObstacle(obstacle);
+        const OgreNewt::CollisionPtr collision = body->getCollision();
+        RlAssert(collision, "Body has no collision!");
+        AxisAlignedBox box = collision->getAABB();
+        Ogre::Vector3 dims = box.getMaximum() - box.getMinimum();
+        OpenSteer::BoxObstacle* obstacle = new OpenSteer::BoxObstacle(dims[0], dims[1], dims[2]);
+        obstacle->setForward(0, 0, -1);
+        obstacle->setPosition(position[0], position[1], position[2]);
+        // obstacle->setOrientation(orient[0], orient[1], orient[2]);
+        setObstacle(obstacle);
     }
 }

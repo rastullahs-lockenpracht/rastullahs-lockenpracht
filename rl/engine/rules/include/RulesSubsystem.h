@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -28,28 +28,28 @@ namespace rl
     class CreatureControllerManager;
     class DsaManager;
     class EffectManagementTask;
-	class GameEventLog;
+    class GameEventLog;
     class GlobalProperties;
-	class QuestBook;
+    class QuestBook;
     class PartyManager;
     class XdimlLoader;
 
-	class _RlRulesExport RulesSubsystem : public Ogre::Singleton<RulesSubsystem>
+    class _RlRulesExport RulesSubsystem : public Ogre::Singleton<RulesSubsystem>
     {
     public:
         RulesSubsystem();
         ~RulesSubsystem();
-	
-		QuestBook* getQuestBook();
-		void resetQuestBook();
 
-	private:
-		QuestBook* mQuestBook;
+        QuestBook* getQuestBook();
+        void resetQuestBook();
+
+    private:
+        QuestBook* mQuestBook;
         ActionManager* mActionManager;
         CombatManager* mCombatManager;
         DsaManager* mDsaManager;
-		GameEventLog* mGameEventLog;
-        CreatureControllerManager *mMovingCreatureManager;
+        GameEventLog* mGameEventLog;
+        CreatureControllerManager* mMovingCreatureManager;
         XdimlLoader* mXdimlLoader;
         GlobalProperties* mGlobalProperties;
         EffectManagementTask* mEffectManagementTask;

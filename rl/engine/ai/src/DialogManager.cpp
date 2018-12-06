@@ -27,8 +27,7 @@
 using namespace Ogre;
 using namespace std;
 
-template<>
-    rl::DialogManager* Ogre::Singleton<rl::DialogManager>::ms_Singleton = NULL;
+template <> rl::DialogManager* Ogre::Singleton<rl::DialogManager>::ms_Singleton = NULL;
 
 namespace rl
 {
@@ -39,35 +38,32 @@ namespace rl
 
     DialogManager::DialogManager()
     {
-		mDialogLoader = new DialogLoader();
-		Ogre::ResourceGroupManager::getSingleton()._registerScriptLoader(
-			mDialogLoader);
+        mDialogLoader = new DialogLoader();
+        Ogre::ResourceGroupManager::getSingleton()._registerScriptLoader(mDialogLoader);
         SaveGameManager::getSingleton().registerSaveGameData(this);
     }
 
     DialogManager::~DialogManager()
     {
-		Ogre::ResourceGroupManager::getSingleton()._unregisterScriptLoader(
-			mDialogLoader);
-		delete mDialogLoader;
+        Ogre::ResourceGroupManager::getSingleton()._unregisterScriptLoader(mDialogLoader);
+        delete mDialogLoader;
         SaveGameManager::getSingleton().unregisterSaveGameData(this);
-		std::map<DialogConfiguration, Dialog*>::iterator itr = mDialogStates.begin();
-		std::map<DialogConfiguration, Dialog*>::iterator end = mDialogStates.end();
-		for(; itr != end; ++itr)
-		{
-			delete itr->second;
-		}
-		mDialogStates.clear();
+        std::map<DialogConfiguration, Dialog*>::iterator itr = mDialogStates.begin();
+        std::map<DialogConfiguration, Dialog*>::iterator end = mDialogStates.end();
+        for (; itr != end; ++itr)
+        {
+            delete itr->second;
+        }
+        mDialogStates.clear();
     }
-
 
     const Property DialogManager::getProperty(const CeGuiString& key) const
     {
         if (key == DialogManager::PROPERTY_DIALOGS)
         {
             PropertyArray vec;
-            for (std::map<DialogConfiguration, Dialog*>::const_iterator it
-                = mDialogStates.begin(); it != mDialogStates.end(); ++it)
+            for (std::map<DialogConfiguration, Dialog*>::const_iterator it = mDialogStates.begin();
+                 it != mDialogStates.end(); ++it)
             {
                 PropertyMap curDialogProp;
                 PropertyRecordPtr dialogProps = it->second->getAllProperties();
@@ -77,7 +73,7 @@ namespace rl
                 PropertyArray npcs;
 
                 for (CreatureList::const_iterator itNpc = it->first.getParticipants().begin();
-                    itNpc != it->first.getParticipants().end(); ++itNpc)
+                     itNpc != it->first.getParticipants().end(); ++itNpc)
                 {
                     npcs.push_back(GameObjectManager::getSingleton().toProperty(*itNpc));
                 }
@@ -91,10 +87,10 @@ namespace rl
         Throw(IllegalArgumentException, key + " is not a property of DialogManager");
     }
 
-	int DialogManager::getPriority() const
-	{
-		return 50;
-	}
+    int DialogManager::getPriority() const
+    {
+        return 50;
+    }
 
     PropertyKeys DialogManager::getAllPropertyKeys() const
     {
@@ -108,7 +104,7 @@ namespace rl
         ///@todo implement
     }
 
-    void DialogManager::writeData(SaveGameFileWriter *writer)
+    void DialogManager::writeData(SaveGameFileWriter* writer)
     {
         LOG_MESSAGE(Logger::RULES, "Saving dialogs");
 
@@ -162,22 +158,22 @@ namespace rl
         }
         else
         {
-			dialog = mDialogLoader->createDialog(name, participants); ///@todo save dialogs
+            dialog = mDialogLoader->createDialog(name, participants); ///@todo save dialogs
 
-			if (!dialog)
-			{
-				return NULL;
-			}
+            if (!dialog)
+            {
+                return NULL;
+            }
 
             dialog->initialize();
             mDialogStates[DialogConfiguration(name, participants)] = dialog;
         }
-		return dialog;
+        return dialog;
     }
 
-    DialogManager::DialogConfiguration::DialogConfiguration(const Ogre::String& name,
-            const CreatureList& participants)
-        : mDialogName(name), mParticipants(participants)
+    DialogManager::DialogConfiguration::DialogConfiguration(const Ogre::String& name, const CreatureList& participants)
+        : mDialogName(name)
+        , mParticipants(participants)
     {
     }
 
@@ -191,16 +187,13 @@ namespace rl
         return mParticipants;
     }
 
-    bool DialogManager::DialogConfiguration::operator <(const rl::DialogManager::DialogConfiguration & other) const
+    bool DialogManager::DialogConfiguration::operator<(const rl::DialogManager::DialogConfiguration& other) const
     {
         return mDialogName < other.mDialogName;
     }
 
-    bool DialogManager::DialogConfiguration::operator ==(const rl::DialogManager::DialogConfiguration & other) const
+    bool DialogManager::DialogConfiguration::operator==(const rl::DialogManager::DialogConfiguration& other) const
     {
-        return (mDialogName == other.mDialogName)
-            && (mParticipants == other.mParticipants);
+        return (mDialogName == other.mDialogName) && (mParticipants == other.mParticipants);
     }
-
-
 }

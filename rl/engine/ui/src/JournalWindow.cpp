@@ -1,55 +1,54 @@
 /* This source file is part of Rastullahs Lockenpracht.
-* Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
-*
-*  This program is free software; you can redistribute it and/or modify
-*  it under the terms of the Clarified Artistic License.
-*
-*  This program is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  Clarified Artistic License for more details.
-*
-*  You should have received a copy of the Clarified Artistic License
-*  along with this program; if not you can get it here
-*  http://www.jpaulmorrison.com/fbp/artistic2.htm.
-*/
+ * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the Clarified Artistic License.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  Clarified Artistic License for more details.
+ *
+ *  You should have received a copy of the Clarified Artistic License
+ *  along with this program; if not you can get it here
+ *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
+ */
 #include "stdinc.h" //precompiled header
 
 #include "JournalWindow.h"
 
-#include <boost/bind.hpp>
 #include <CEGUIPropertyHelper.h>
+#include <boost/bind.hpp>
 #include <elements/CEGUIListboxTextItem.h>
 
-#include "RulesSubsystem.h"
 #include "Quest.h"
 #include "QuestBook.h"
-
+#include "RulesSubsystem.h"
 
 using namespace CEGUI;
 
-namespace rl {
+namespace rl
+{
 
     JournalWindow::JournalWindow()
-        : AbstractWindow("journalwindow.xml", WIT_MOUSE_INPUT),
-        mQuests(0),
-        mQuestTitle(0),
-        mQuestState(0),
-        mQuestDescription(0),
-        mJournalEntries(0),
-        mJournalEntryTitle(0),
-        mJournalEntryText(0),
-        mSelectionBrush(),
-        mSelectionImageset(),
-        mSelectionColour()
+        : AbstractWindow("journalwindow.xml", WIT_MOUSE_INPUT)
+        , mQuests(0)
+        , mQuestTitle(0)
+        , mQuestState(0)
+        , mQuestDescription(0)
+        , mJournalEntries(0)
+        , mJournalEntryTitle(0)
+        , mJournalEntryText(0)
+        , mSelectionBrush()
+        , mSelectionImageset()
+        , mSelectionColour()
     {
         bindHideWindowToXButton();
 
         mQuests = getListbox("JournalWindow/Quests/QuestList");
         mQuests->setMultiselectEnabled(false);
         mQuests->subscribeEvent(
-            CEGUI::Listbox::EventSelectionChanged,
-            boost::bind(&JournalWindow::updateQuestSelection, this));
+            CEGUI::Listbox::EventSelectionChanged, boost::bind(&JournalWindow::updateQuestSelection, this));
 
         mQuestTitle = getWindow("JournalWindow/Quests/QuestTitle");
         mQuestState = getWindow("JournalWindow/Quests/QuestState");
@@ -59,8 +58,7 @@ namespace rl {
         mJournalEntries = getListbox("JournalWindow/Journal/JournalEntryList");
         mJournalEntries->setMultiselectEnabled(false);
         mJournalEntries->subscribeEvent(
-            CEGUI::Listbox::EventSelectionChanged,
-            boost::bind(&JournalWindow::updateJournalEntrySelection, this));
+            CEGUI::Listbox::EventSelectionChanged, boost::bind(&JournalWindow::updateJournalEntrySelection, this));
 
         mJournalEntryTitle = getWindow("JournalWindow/Journal/JournalEntryTitle");
         mJournalEntryText = getMultiLineEditbox("JournalWindow/Journal/JournalEntryText");
@@ -125,7 +123,7 @@ namespace rl {
 
         if (mJournalEntries->getItemCount() > 0)
         {
-            mJournalEntries->setItemSelectState(static_cast<size_t>(0), true );
+            mJournalEntries->setItemSelectState(static_cast<size_t>(0), true);
         }
     }
 
@@ -145,7 +143,7 @@ namespace rl {
         }
 
         if (mQuests->getItemCount() > 0)
-            mQuests->setItemSelectState( (size_t)0, true );
+            mQuests->setItemSelectState((size_t)0, true);
     }
 
     bool JournalWindow::updateQuestSelection()
@@ -176,7 +174,7 @@ namespace rl {
         QuestVector quests = quest->getSubquests();
         for (QuestVector::iterator it = quests.begin(); it != quests.end(); it++)
         {
-            addQuest(*it, level+1);
+            addQuest(*it, level + 1);
         }
     }
 

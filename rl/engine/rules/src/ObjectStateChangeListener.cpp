@@ -19,18 +19,18 @@
 
 #include "Exception.h"
 
-namespace rl {
+namespace rl
+{
 
     ObjectStateChangeListener::~ObjectStateChangeListener()
     {
-	}
+    }
 
-	bool ObjectStateChangeListener::eventRaised(ObjectStateChangeEvent* evt)
-	{
+    bool ObjectStateChangeListener::eventRaised(ObjectStateChangeEvent* evt)
+    {
         objectStateChanged(evt);
 
         // consumed or not
-		return false;
-	}
+        return false;
+    }
 }
-

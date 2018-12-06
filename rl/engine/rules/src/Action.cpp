@@ -21,9 +21,9 @@
 namespace rl
 {
     Action::Action(const CeGuiString name, const CeGuiString description)
-		: mName(name),
-          mDescription(description),
-		  mGroup(NULL)
+        : mName(name)
+        , mDescription(description)
+        , mGroup(NULL)
     {
     }
 
@@ -36,11 +36,11 @@ namespace rl
         return mName;
     }
 
-	/*const CeGuiString Action::getClassName() const
-	{
-		static CeGuiString className = (CEGUI::utf8*)"Action";
-		return className;
-	}*/
+    /*const CeGuiString Action::getClassName() const
+    {
+        static CeGuiString className = (CEGUI::utf8*)"Action";
+        return className;
+    }*/
 
     const CeGuiString Action::getDescription() const
     {
@@ -52,71 +52,69 @@ namespace rl
         return TC_NO_TARGET;
     }
 
-	bool Action::canDo(GameObject* object, Creature* actor, GameObject* target) const
+    bool Action::canDo(GameObject* object, Creature* actor, GameObject* target) const
     {
         // Im Zweifel klappts halt. :)
         return true;
     }
 
-    void Action::doAction(GameObject* object,
-                          Creature* actor,
-                          GameObject* target)
+    void Action::doAction(GameObject* object, Creature* actor, GameObject* target)
     {
         // Muss ueberschrieben werden, sonst passiert nix.
     }
 
-	void Action::setGroup(ActionGroup* group)
-	{
-		mGroup = group;
-	}
+    void Action::setGroup(ActionGroup* group)
+    {
+        mGroup = group;
+    }
 
-	ActionGroup* Action::getGroup() const
-	{
-		return mGroup;
-	}
+    ActionGroup* Action::getGroup() const
+    {
+        return mGroup;
+    }
 
-	ActionGroup::ActionGroup(CeGuiString name, ActionGroup* parent)
-	{
-		mParent = parent;
-		mName = name;
+    ActionGroup::ActionGroup(CeGuiString name, ActionGroup* parent)
+    {
+        mParent = parent;
+        mName = name;
 
-		if (parent != NULL)
-			parent->addChild(this);
-	}
+        if (parent != NULL)
+            parent->addChild(this);
+    }
 
-	ActionGroup::~ActionGroup()
-	{
-		if (mParent != NULL)
-			mParent->removeChild(this);
+    ActionGroup::~ActionGroup()
+    {
+        if (mParent != NULL)
+            mParent->removeChild(this);
 
-		for (ChildrenList::iterator it = mChildren.begin(); it != mChildren.end(); it++)
-			(*it)->removeParent();
-	}
+        for (ChildrenList::iterator it = mChildren.begin(); it != mChildren.end(); it++)
+            (*it)->removeParent();
+    }
 
-	const CeGuiString ActionGroup::getName() const
-	{
-		return mName;
-	}
+    const CeGuiString ActionGroup::getName() const
+    {
+        return mName;
+    }
 
-	const ActionGroup* const ActionGroup::getParent() const
-	{
-		return mParent;
-	}
+    const ActionGroup* const ActionGroup::getParent() const
+    {
+        return mParent;
+    }
 
-	void ActionGroup::addChild(ActionGroup* child)
-	{
-		mChildren.insert(child);
-	}
+    void ActionGroup::addChild(ActionGroup* child)
+    {
+        mChildren.insert(child);
+    }
 
-	void ActionGroup::removeChild(ActionGroup* child)
-	{
-		ChildrenList::iterator it = mChildren.find(child);
-		if (it != mChildren.end())
-			mChildren.erase(it);
-	}
+    void ActionGroup::removeChild(ActionGroup* child)
+    {
+        ChildrenList::iterator it = mChildren.find(child);
+        if (it != mChildren.end())
+            mChildren.erase(it);
+    }
 
-	void ActionGroup::removeParent()
-	{
-		mParent = NULL;
-	}
+    void ActionGroup::removeParent()
+    {
+        mParent = NULL;
+    }
 };

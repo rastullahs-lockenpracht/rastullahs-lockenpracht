@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -19,10 +19,10 @@
 
 #include "ScriptPrerequisites.h"
 
-namespace rl 
+namespace rl
 {
     class ScriptObjectMarker;
-	class TriggerFactory;
+    class TriggerFactory;
 
     class _RlScriptExport ScriptSubsystem : public Ogre::Singleton<ScriptSubsystem>
     {
@@ -32,12 +32,12 @@ namespace rl
 
         void log(const CeGuiString& message);
         void logError(const CeGuiString& message);
-		void setTriggerFactory(TriggerFactory* factory);
-		TriggerFactory* getTriggerFactory() const;
+        void setTriggerFactory(TriggerFactory* factory);
+        TriggerFactory* getTriggerFactory() const;
 
     private:
         ScriptObjectMarker* mScriptObjectMarker;
-		TriggerFactory* mTriggerFactory;
+        TriggerFactory* mTriggerFactory;
 
         void initializeScriptSubsystem();
     };

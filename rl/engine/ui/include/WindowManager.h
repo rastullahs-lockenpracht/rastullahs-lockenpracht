@@ -1,6 +1,6 @@
 /* This source file is part of Rastullahs Lockenpracht.
  * Copyright (C) 2003-2008 Team Pantheon. http://www.team-pantheon.de
- * 
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the Clarified Artistic License.
  *
@@ -21,24 +21,25 @@
 
 #include "MessagePump.h"
 
-namespace rl {
+namespace rl
+{
 
-	class AbstractWindow;
-	class WindowUpdater;
+    class AbstractWindow;
+    class WindowUpdater;
 
-	class _RlUiExport WindowManager : public Ogre::Singleton<WindowManager>
-	{
-	public:
-		WindowManager();
-		~WindowManager();
+    class _RlUiExport WindowManager : public Ogre::Singleton<WindowManager>
+    {
+    public:
+        WindowManager();
+        ~WindowManager();
 
-		void registerWindow(AbstractWindow* window);
-		void unregisterWindow(AbstractWindow* window);
-		void destroyWindow(AbstractWindow* window);
+        void registerWindow(AbstractWindow* window);
+        void unregisterWindow(AbstractWindow* window);
+        void destroyWindow(AbstractWindow* window);
         bool destroyAllWindows();
-		void closeTopWindow();
-		bool handleMovedToFront(AbstractWindow* window);
-		bool handleMovedToBack(AbstractWindow* window);
+        void closeTopWindow();
+        bool handleMovedToFront(AbstractWindow* window);
+        bool handleMovedToBack(AbstractWindow* window);
 
         /// Returns the combined input mask of all open windows
         int getWindowInputMask() const;
@@ -48,13 +49,13 @@ namespace rl {
 
         AbstractWindow* getActiveWindow();
 
-	private:
-		std::list<AbstractWindow*> mWindowList;
+    private:
+        std::list<AbstractWindow*> mWindowList;
         MessagePump::ScopedConnection mSceneClearConnection;
 
         unsigned short mNumActiveWindowsMouseInput;
         unsigned short mNumActiveWindowsKeyboardInput;
-	};
+    };
 }
 
 #endif
