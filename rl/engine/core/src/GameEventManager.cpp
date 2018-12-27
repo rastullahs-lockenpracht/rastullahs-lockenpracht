@@ -296,7 +296,7 @@ namespace rl
 
     Actor* GameEventManager::bodyToActor(OgreNewt::Body* body)
     {
-        if (body->getUserData().getType() == typeid(Actor*))
+        if (body->getUserData().type() == typeid(Actor*))
             return Ogre::any_cast<Actor*>(body->getUserData());
         else
             return NULL;

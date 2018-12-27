@@ -81,7 +81,7 @@ namespace rl
             LOG_WARNING(Logger::RULES, "No scale given for plane, used (0,0)");
         }
 
-        while (!MeshManager::getSingleton().getByName(entName).isNull())
+        while (MeshManager::getSingleton().getByName(entName))
         {
             entName = getRandomName("Plane");
         }

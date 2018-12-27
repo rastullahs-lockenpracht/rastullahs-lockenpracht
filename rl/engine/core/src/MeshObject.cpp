@@ -384,7 +384,7 @@ namespace rl
                 MaterialPtr material
                     = MaterialManager::getSingleton().getByName(oldMaterial->getName() + nameExtension);
 
-                if (material.isNull())
+                if (!material)
                 {
                     material = oldMaterial->clone(oldMaterial->getName() + nameExtension);
 

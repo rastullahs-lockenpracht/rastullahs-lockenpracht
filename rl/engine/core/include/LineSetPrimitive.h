@@ -33,7 +33,8 @@ namespace rl
     public:
         /// Name has to be unique among all ActorControlledObject names.
         /// By default the name is generated.
-        LineSetPrimitive(const Ogre::String& name = Ogre::StringUtil::BLANK);
+        LineSetPrimitive(const Ogre::String& name = "");
+
         virtual ~LineSetPrimitive()
         {
         }

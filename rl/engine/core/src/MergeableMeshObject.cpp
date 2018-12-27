@@ -57,7 +57,7 @@ namespace rl
         {
             MeshPtr newMesh = MeshManager::getSingleton().getByName(newMeshName);
 
-            if (newMesh.isNull())
+            if (!newMesh)
             {
                 MeshMergeTool mm;
                 for (MeshPartMap::const_iterator it = mMeshes.begin(); it != mMeshes.end(); ++it)
@@ -65,7 +65,7 @@ namespace rl
                     String curMeshfile = (*it).second;
                     MeshPtr meshToAdd = MeshManager::getSingleton().getByName(curMeshfile);
 
-                    if (!meshToAdd.isNull())
+                    if (meshToAdd)
                     {
                         meshToAdd->load();
 

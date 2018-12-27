@@ -24,7 +24,6 @@
 
 namespace rl
 {
-
     PhysicsRagDoll::RagBone::RagBone(PhysicsRagDoll* creator, OgreNewt::World* world, PhysicsRagDoll::RagBone* parent,
         Ogre::Bone* ogreBone, Ogre::MeshPtr mesh, Ogre::Vector3 dir, PhysicsRagDoll::RagBone::BoneShape shape,
         Ogre::Vector3 size, Ogre::Real mass, Actor* parentActor)
@@ -257,7 +256,7 @@ namespace rl
         : mRootBone(NULL)
         , mNode(NULL)
         , mWorld(NULL)
-        , mMesh(NULL)
+        , mMesh()
         , mSkeleton(NULL)
     {
         mRootBone = NULL;

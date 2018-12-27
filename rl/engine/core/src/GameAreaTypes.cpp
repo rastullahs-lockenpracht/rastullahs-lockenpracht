@@ -75,7 +75,7 @@ namespace rl
             for (it = movList.begin(); it != movList.end(); ++it)
             {
                 MovableObject* mov = *it;
-                if (!mov->getUserAny().isNull())
+                if (mov->getUserAny())
                 {
                     // Zur Zeit sind die einzigen an Movables gekn¸pfte Objekte Actoren
                     Actor* act = any_cast<Actor*>(mov->getUserAny());

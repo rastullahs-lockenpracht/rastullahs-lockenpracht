@@ -78,7 +78,7 @@ namespace rl
     {
         for (const auto& section : mSettings)
         {
-            if (section.first != StringUtil::BLANK)
+            if (section.first != Ogre::BLANKSTRING)
             {
                 stream << "[" << section.first << "]" << endl;
             }

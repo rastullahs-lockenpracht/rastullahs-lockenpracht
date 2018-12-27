@@ -59,10 +59,7 @@ namespace rl
      */
     void SoundResource::unloadImpl()
     {
-        if (!mDataStream.isNull())
-        {
-            mDataStream.setNull();
-        }
+        mDataStream.reset();
     }
 
     /**

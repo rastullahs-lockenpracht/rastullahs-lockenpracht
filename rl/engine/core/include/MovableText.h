@@ -105,7 +105,7 @@ namespace rl
         void getRenderOperation(Ogre::RenderOperation& op);
         const Ogre::MaterialPtr& getMaterial(void) const
         {
-            assert(!mMaterial.isNull());
+            assert(mMaterial);
             return mMaterial;
         }
         const Ogre::LightList& getLights(void) const

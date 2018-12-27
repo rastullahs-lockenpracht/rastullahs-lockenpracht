@@ -168,7 +168,7 @@ namespace rl
         for (size_t i = 0; i < meshes->size(); ++i)
         {
             ResourcePtr res = MeshManager::getSingleton().getByName((*meshes)[i]);
-            if (res.isNull())
+            if (!res)
             {
                 MeshPtr mesh = MeshManager::getSingleton().create((*meshes)[i], getId());
             }
