@@ -13,127 +13,297 @@
  *  along with this program; if not you can get it here
  *  http://www.jpaulmorrison.com/fbp/artistic2.htm.
  */
+#include "stdinc.h" //precompiled header
 
-#ifndef __AbstractWindow_H__
-#define __AbstractWindow_H__
+#include <CEGUI/GUIContext.h>
+#include <CEGUI/WindowManager.h>
+#include <CEGUI/widgets/FrameWindow.h>
+#include <boost/bind.hpp>
 
+#include "Exception.h"
 #include "UiPrerequisites.h"
 
-#include <CEGUI/Window.h>
-//#include <CEGUI/widgets/Checkbox.h>
-#include <CEGUI/widgets/ComboDropList.h>
-#include <CEGUI/widgets/Combobox.h>
-#include <CEGUI/widgets/Editbox.h>
-#include <CEGUI/widgets/Listbox.h>
-#include <CEGUI/widgets/MenuBase.h>
-#include <CEGUI/widgets/MenuItem.h>
-#include <CEGUI/widgets/MultiColumnList.h>
-#include <CEGUI/widgets/MultiLineEditbox.h>
-#include <CEGUI/widgets/ProgressBar.h>
-#include <CEGUI/widgets/PushButton.h>
-#include <CEGUI/widgets/RadioButton.h>
-#include <CEGUI/widgets/ScrollablePane.h>
-#include <CEGUI/widgets/Slider.h>
-#include <CEGUI/widgets/TabControl.h>
+#include "AbstractWindow.h"
+#include "CeGuiHelper.h"
+#include "JobScheduler.h"
+#include "UiSubsystem.h"
+#include "WindowFadeJob.h"
+#include "WindowManager.h"
+
+using namespace std;
+using namespace CEGUI;
+using namespace Ogre;
 
 namespace rl
 {
-    class WindowUpdateTask;
 
-    /**
-     * This is the base class for all UI windows
-     */
-    class _RlUiExport AbstractWindow
+    int AbstractWindow::sNumAbstractWindows = 0;
+
+    AbstractWindow::AbstractWindow(const CeGuiString& xmlfile, int inputType, bool closeOnEscape, bool modal)
+        : mVisible(false)
+        , mModal(modal)
+        , mWindowInputType(inputType)
+        , mCloseOnEscape(closeOnEscape)
     {
-    public:
-        enum WindowInputType
+        LOG_MESSAGE(Logger::UI, "Lade Fenster '" + Ogre::String(xmlfile.c_str()) + "'");
+        mWindow = AbstractWindow::loadWindow(xmlfile, mNamePrefix);
+        if (mWindow == NULL)
         {
-            WIT_NONE = 0x00,
-            WIT_MOUSE_INPUT = 0x01,
-            WIT_KEYBOARD_INPUT = 0x02
-        };
-
-        virtual ~AbstractWindow();
-
-        /// creates a CEGUI window from an XML file, should only be used to load window parts (e.g. buttons)
-        static CEGUI::Window* loadWindow(const CeGuiString& xmlfile);
-
-        /// creates a CEGUI window from an XML file, should only be used to load window parts (e.g. buttons)
-        static CEGUI::Window* loadWindow(const CeGuiString& xmlfile, CeGuiString& prefix);
-
-        /// gets the CEGUI root
-        static CEGUI::Window* getRoot();
-
-        /// gets the wrapped CEGUI window
-        CEGUI::Window* getWindow();
-
-        CEGUI::Window* getWindow(const char* name, const char* requiredClass = NULL);
-        CEGUI::Editbox* getEditbox(const char* name);
-        CEGUI::Listbox* getListbox(const char* name);
-        CEGUI::MultiColumnList* getMultiColumnList(const char* name);
-        CEGUI::MultiLineEditbox* getMultiLineEditbox(const char* name);
-        CEGUI::ProgressBar* getProgressBar(const char* name);
-        CEGUI::MenuBase* getMenu(const char* name);
-        CEGUI::MenuItem* getMenuItem(const char* name);
-        CEGUI::PushButton* getPushButton(const char* name);
-        CEGUI::RadioButton* getRadioButton(const char* name);
-        CEGUI::Combobox* getCombobox(const char* name);
-        CEGUI::ComboDropList* getComboDropList(const char* name);
-        CEGUI::ScrollablePane* getScrollablePane(const char* name);
-        CEGUI::Slider* getSlider(const char* name);
-        CEGUI::TabControl* getTabControl(const char* name);
-        CEGUI::ToggleButton* getCheckbox(const char* name);
-
-        int getWindowInputType();
-
-        virtual bool isVisible();
-        virtual void setVisible(bool visible, bool destroyAfterHide = false);
-
-        bool isModal();
-        bool isClosingOnEscape();
-
-        const CeGuiString& getName() const;
-        const Ogre::Real& getNormalAlpha() const;
-
-        virtual void windowHid();
-
-        // return true, if the specified key should be repeated if pressed down
-        virtual bool wantsKeyToRepeat(const int& key)
-        {
-            return false;
+            Throw(rl::IllegalStateException, Ogre::String("Could not load window '") + xmlfile.c_str() + "'.");
         }
 
-        bool hideWindow();
+        CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow()->addChild(mWindow);
 
-    protected:
-        AbstractWindow(const CeGuiString& xmlfile, int inputType, bool closeOnEscape = true, bool modal = false);
+        if (modal)
+        {
+            mWindow->setModalState(true);
+            mWindow->setAlwaysOnTop(true);
+            mWindow->moveToFront();
+            mWindow->show();
+        }
+        else
+        {
+            mWindow->hide();
+        }
 
-        const CeGuiString& getNamePrefix() const;
+        mNormalAlpha = mWindow->getAlpha();
+        mName = mWindow->getName();
+        WindowManager::getSingleton().registerWindow(this);
+        mWindow->subscribeEvent(Window::EventActivated,
+            boost::bind(&rl::WindowManager::handleMovedToFront, rl::WindowManager::getSingletonPtr(), this));
+    }
 
-        void centerWindow();
-        bool destroyWindow();
+    AbstractWindow::~AbstractWindow()
+    {
+        mWindow->hide();
+        mWindow->removeAllEvents();
+        WindowManager::getSingleton().unregisterWindow(this);
+        CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow()->removeChild(mWindow);
+        CEGUI::WindowManager::getSingleton().destroyWindow(mWindow);
+    }
 
-        void bindDestroyWindowToClick(CEGUI::Window* button);
-        void bindHideWindowToClick(CEGUI::Window* button);
-        void bindDestroyWindowToXButton();
-        void bindHideWindowToXButton();
+    CEGUI::Window* AbstractWindow::loadWindow(const CeGuiString& xmlfile)
+    {
+        CeGuiString prefix = "";
+        return loadWindow(xmlfile, prefix);
+    }
 
-        const CeGuiString& getUserDataType(CEGUI::Window* window) const;
-        void setUserDataType(CEGUI::Window* window, const CeGuiString& typeDescription) const;
+    CEGUI::Window* AbstractWindow::loadWindow(const CeGuiString& xmlfile, CeGuiString& prefix)
+    {
+        CeGuiString namePrefix;
+        if (prefix == "")
+            prefix.assign(StringConverter::toString(sNumAbstractWindows));
+        sNumAbstractWindows++;
 
-        CEGUI::Window* mWindow;
-        bool mVisible;
+        CEGUI::Window* window = NULL;
+        try
+        {
+            window = CEGUI::WindowManager::getSingleton().loadLayoutFromFile(xmlfile, prefix);
+        }
+        catch (...)
+        {
+        }
 
-    private:
-        int mWindowInputType;
-        CeGuiString mNamePrefix;
-        CeGuiString mName;
-        bool mModal;
-        bool mCloseOnEscape;
-        Ogre::Real mNormalAlpha;
+        return window;
+    }
 
-        static int sNumAbstractWindows;
-    };
+    bool AbstractWindow::isVisible()
+    {
+        return mVisible;
+    }
+
+    void AbstractWindow::setVisible(bool visible, bool destroy)
+    {
+        if (mVisible != visible)
+        {
+            if (visible)
+            {
+                JobScheduler::getSingleton().addJob(new WindowFadeJob(this, WindowFadeJob::FADE_IN, mNormalAlpha));
+            }
+            else
+            {
+                JobScheduler::getSingleton().addJob(new WindowFadeJob(
+                    this, destroy ? WindowFadeJob::FADE_OUT_AND_DESTROY : WindowFadeJob::FADE_OUT, 0.0f));
+            }
+            WindowManager::getSingleton()._visiblityChanged(this, visible);
+            mVisible = visible;
+        }
+    }
+
+    const Ogre::Real& AbstractWindow::getNormalAlpha() const
+    {
+        return mNormalAlpha;
+    }
+
+    bool AbstractWindow::isModal()
+    {
+        return mModal;
+    }
+
+    bool AbstractWindow::isClosingOnEscape()
+    {
+        return mCloseOnEscape;
+    }
+
+    int AbstractWindow::getWindowInputType()
+    {
+        return mWindowInputType;
+    }
+
+    CEGUI::Window* AbstractWindow::getRoot()
+    {
+        return CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow();
+    }
+
+    Window* AbstractWindow::getWindow(const char* name, const char* requiredClass)
+    {
+        CEGUI::Window* wnd = getRoot()->getChild(mNamePrefix + name);
+
+        if (wnd == NULL)
+            Throw(rl::NullPointerException, "Window " + Ogre::String(name) + " is NULL");
+
+        if (requiredClass != NULL && wnd->getType() != requiredClass)
+        {
+            Throw(rl::NullPointerException,
+                "Window " + Ogre::String(name) + " has not the required class " + Ogre::String(requiredClass));
+        }
+
+        return wnd;
+    }
+
+    Editbox* AbstractWindow::getEditbox(const char* name)
+    {
+        return static_cast<Editbox*>(getWindow(name, "Editbox"));
+    }
+
+    ToggleButton* AbstractWindow::getCheckbox(const char* name)
+    {
+        return static_cast<ToggleButton*>(getWindow(name, "ToggleButton"));
+    }
+
+    Listbox* AbstractWindow::getListbox(const char* name)
+    {
+        return static_cast<Listbox*>(getWindow(name, "Listbox"));
+    }
+
+    MultiColumnList* AbstractWindow::getMultiColumnList(const char* name)
+    {
+        return static_cast<MultiColumnList*>(getWindow(name, "MultiColumnList"));
+    }
+
+    MultiLineEditbox* AbstractWindow::getMultiLineEditbox(const char* name)
+    {
+        return static_cast<MultiLineEditbox*>(getWindow(name, "MultiLineEditbox"));
+    }
+
+    ProgressBar* AbstractWindow::getProgressBar(const char* name)
+    {
+        return static_cast<ProgressBar*>(getWindow(name, "ProgressBar"));
+    }
+
+    MenuBase* AbstractWindow::getMenu(const char* name)
+    {
+        return static_cast<MenuBase*>(getWindow(name, "MenuBase"));
+    }
+
+    MenuItem* AbstractWindow::getMenuItem(const char* name)
+    {
+        return static_cast<MenuItem*>(getWindow(name, "MenuItem"));
+    }
+
+    PushButton* AbstractWindow::getPushButton(const char* name)
+    {
+        return static_cast<PushButton*>(getWindow(name, "PushButton"));
+    }
+
+    RadioButton* AbstractWindow::getRadioButton(const char* name)
+    {
+        return static_cast<RadioButton*>(getWindow(name, "RadioButton"));
+    }
+
+    Combobox* AbstractWindow::getCombobox(const char* name)
+    {
+        return static_cast<Combobox*>(getWindow(name, "Combobox"));
+    }
+
+    ComboDropList* AbstractWindow::getComboDropList(const char* name)
+    {
+        return static_cast<ComboDropList*>(getWindow(name, "ComboDropList"));
+    }
+
+    ScrollablePane* AbstractWindow::getScrollablePane(const char* name)
+    {
+        return static_cast<ScrollablePane*>(getWindow(name, "ScrollablePane"));
+    }
+
+    Slider* AbstractWindow::getSlider(const char* name)
+    {
+        return static_cast<Slider*>(getWindow(name, "Slider"));
+    }
+
+    TabControl* AbstractWindow::getTabControl(const char* name)
+    {
+        return static_cast<TabControl*>(getWindow(name, "TabControl"));
+    }
+
+    const CeGuiString& AbstractWindow::getName() const
+    {
+        return mName;
+    }
+
+    void AbstractWindow::centerWindow()
+    {
+        auto screenSize = System::getSingleton().getRenderer()->getDisplaySize();
+        auto windowSize = mWindow->getPixelSize();
+        float x = 0.5f * (screenSize.d_width - windowSize.d_width);
+        float y = 0.5f * (screenSize.d_height - windowSize.d_height);
+        mWindow->setPosition(CeGuiHelper::asAbsolute(x, y));
+    }
+
+    void AbstractWindow::bindDestroyWindowToClick(CEGUI::Window* button)
+    {
+        button->subscribeEvent(Window::EventMouseClick, boost::bind(&AbstractWindow::destroyWindow, this));
+    }
+
+    void AbstractWindow::bindHideWindowToClick(CEGUI::Window* button)
+    {
+        button->subscribeEvent(Window::EventMouseClick, boost::bind(&AbstractWindow::hideWindow, this));
+    }
+
+    void AbstractWindow::bindDestroyWindowToXButton()
+    {
+        mWindow->subscribeEvent(
+            CEGUI::FrameWindow::EventCloseClicked, boost::bind(&AbstractWindow::destroyWindow, this));
+    }
+
+    void AbstractWindow::bindHideWindowToXButton()
+    {
+        mWindow->subscribeEvent(FrameWindow::EventCloseClicked, boost::bind(&AbstractWindow::hideWindow, this));
+    }
+
+    bool AbstractWindow::destroyWindow()
+    {
+        setVisible(false, true);
+        return true;
+    }
+
+    bool AbstractWindow::hideWindow()
+    {
+        setVisible(false);
+        return true;
+    }
+
+    CEGUI::Window* AbstractWindow::getWindow()
+    {
+        return mWindow;
+    }
+
+    const CeGuiString& AbstractWindow::getNamePrefix() const
+    {
+        return mNamePrefix;
+    }
+
+    void AbstractWindow::windowHid()
+    {
+    }
 }
-
-#endif
