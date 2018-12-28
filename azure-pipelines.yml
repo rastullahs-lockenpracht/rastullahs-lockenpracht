@@ -29,7 +29,6 @@ steps:
                      libglu1-mesa-dev \
                      libois-dev \
                      libopenal-dev \
-                     libtinyxml2-dev \
                      libxaw7-dev \
                      libxrandr-dev \
                      libxt-dev \
@@ -39,7 +38,11 @@ steps:
                      ninja-build \
                      nvidia-cg-dev \
                      ruby-dev \
-                     swig
+                     swig \
+                     wget
+    wget http://mirrors.kernel.org/ubuntu/pool/universe/t/tinyxml2/libtinyxml2-6_6.0.0+dfsg-1_amd64.deb
+    wget http://mirrors.kernel.org/ubuntu/pool/universe/t/tinyxml2/libtinyxml2-dev_6.0.0+dfsg-1_amd64.deb
+    sudo dpkg -i libtinyxml2-6_6.0.0+dfsg-1_amd64.deb libtinyxml2-dev_6.0.0+dfsg-1_amd64.deb
   displayName: 'Install Dependencies'
 
 - script: |
@@ -91,6 +94,10 @@ steps:
 - script: |
     mkdir -p build/rl
     pushd build/rl
-    cmake ../../rastullahs-lockenpracht $(CMAKE_FLAGS)
-    cmake --build .
+    cmake ../../rl $(CMAKE_FLAGS)
+  displayName: 'Run cmake'
+
+- script: |
+    pushd build/rl
+    ninja
   displayName: 'Build'
