@@ -17,7 +17,7 @@
 #ifndef CONFIGCOMPONENT_H
 #define CONFIGCOMPONENT_H
 
-#include <CEGUIWindow.h>
+#include <CEGUI/Window.h>
 
 #include "UiPrerequisites.h"
 

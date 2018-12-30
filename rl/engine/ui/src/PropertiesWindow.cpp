@@ -21,10 +21,10 @@
  * Implementation of the PropertyHolder window
  */
 
-#include <CEGUIPropertyHelper.h>
-#include <CEGUIWindowManager.h>
+#include <CEGUI/PropertyHelper.h>
+#include <CEGUI/WindowManager.h>
+#include <CEGUI/widgets/ListboxTextItem.h>
 #include <boost/bind.hpp>
-#include <elements/CEGUIListboxTextItem.h>
 
 #include "GameObject.h"
 #include "Properties.h"
@@ -49,9 +49,9 @@ namespace rl
         mMainTable = getMultiColumnList("PropertiesWindow/PropertiesTabControl/MainTable");
         RlAssert(mMainTable != NULL, "PropertiesWindow/PropertiesTabPane is null");
 
-        mMainTable->addColumn((utf8*)"Key", 0, cegui_reldim(0.3));
-        mMainTable->addColumn((utf8*)"Type", 1, cegui_reldim(0.3));
-        mMainTable->addColumn((utf8*)"Value", 2, cegui_reldim(0.4));
+        mMainTable->addColumn("Key", 0, cegui_reldim(0.3));
+        mMainTable->addColumn("Type", 1, cegui_reldim(0.3));
+        mMainTable->addColumn("Value", 2, cegui_reldim(0.4));
 
         centerWindow();
 
@@ -186,8 +186,8 @@ namespace rl
         // Check column count
         // if count = 3 | MainTable
         // if count = 2 | Array table
-        int colCount = table->getColumnCount();
-        int rowCount = table->getRowCount();
+        unsigned int colCount = table->getColumnCount();
+        unsigned int rowCount = table->getRowCount();
 
         // Table has the three columns Key, Type, Value
         if (colCount == 3)
@@ -195,14 +195,14 @@ namespace rl
             table->addRow(rowCount);
             table->setItem(new ListboxTextItem(key + "  "), 0, rowCount);
             table->setItem(new ListboxTextItem("Int  "), 1, rowCount);
-            table->setItem(new ListboxTextItem(PropertyHelper::intToString(prop.toInt())), 2, rowCount);
+            table->setItem(new ListboxTextItem(PropertyHelper<int>::toString(prop.toInt())), 2, rowCount);
         }
         // Table has the two columns Type, Value
         else if (colCount == 2)
         {
             table->addRow(rowCount);
             table->setItem(new ListboxTextItem("Int  "), 0, rowCount);
-            table->setItem(new ListboxTextItem(PropertyHelper::intToString(prop.toInt())), 1, rowCount);
+            table->setItem(new ListboxTextItem(PropertyHelper<int>::toString(prop.toInt())), 1, rowCount);
         }
     }
 
@@ -214,8 +214,8 @@ namespace rl
         // Check column count
         // if count = 3 | MainTable
         // if count = 2 | Array table
-        int colCount = table->getColumnCount();
-        int rowCount = table->getRowCount();
+        unsigned int colCount = table->getColumnCount();
+        unsigned int rowCount = table->getRowCount();
 
         IntPair intPair = prop.toIntPair();
 
@@ -226,8 +226,8 @@ namespace rl
             table->addRow(rowCount);
             table->setItem(new ListboxTextItem(key + "  "), 0, rowCount);
             table->setItem(new ListboxTextItem("IntPair  "), 1, rowCount);
-            table->setItem(new ListboxTextItem("( " + PropertyHelper::intToString(intPair.first) + ", "
-                               + PropertyHelper::intToString(intPair.second) + " )"),
+            table->setItem(new ListboxTextItem("( " + PropertyHelper<int>::toString(intPair.first) + ", "
+                               + PropertyHelper<int>::toString(intPair.second) + " )"),
                 2, rowCount);
         }
         // Table has the two columns Type, Value
@@ -235,8 +235,8 @@ namespace rl
         {
             table->addRow(rowCount);
             table->setItem(new ListboxTextItem("IntPair  "), 0, rowCount);
-            table->setItem(new ListboxTextItem("( " + PropertyHelper::intToString(intPair.first) + ", "
-                               + PropertyHelper::intToString(intPair.second) + " )"),
+            table->setItem(new ListboxTextItem("( " + PropertyHelper<int>::toString(intPair.first) + ", "
+                               + PropertyHelper<int>::toString(intPair.second) + " )"),
                 1, rowCount);
         }
     }
@@ -261,9 +261,9 @@ namespace rl
             table->addRow(rowCount);
             table->setItem(new ListboxTextItem(key + "  "), 0, rowCount);
             table->setItem(new ListboxTextItem("IntTriple  "), 1, rowCount);
-            table->setItem(new ListboxTextItem("( " + PropertyHelper::intToString(intTriple.first) + ", "
-                               + PropertyHelper::intToString(intTriple.second) + ", "
-                               + PropertyHelper::intToString(intTriple.third) + " )"),
+            table->setItem(new ListboxTextItem("( " + PropertyHelper<int>::toString(intTriple.first) + ", "
+                               + PropertyHelper<int>::toString(intTriple.second) + ", "
+                               + PropertyHelper<int>::toString(intTriple.third) + " )"),
                 2, rowCount);
         }
         // Table has the two columns Type, Value
@@ -271,9 +271,9 @@ namespace rl
         {
             table->addRow(rowCount);
             table->setItem(new ListboxTextItem("IntTriple  "), 0, rowCount);
-            table->setItem(new ListboxTextItem("( " + PropertyHelper::intToString(intTriple.first) + ", "
-                               + PropertyHelper::intToString(intTriple.second) + ", "
-                               + PropertyHelper::intToString(intTriple.third) + " )"),
+            table->setItem(new ListboxTextItem("( " + PropertyHelper<int>::toString(intTriple.first) + ", "
+                               + PropertyHelper<int>::toString(intTriple.second) + ", "
+                               + PropertyHelper<int>::toString(intTriple.third) + " )"),
                 1, rowCount);
         }
     }
@@ -322,14 +322,14 @@ namespace rl
             table->addRow(rowCount);
             table->setItem(new ListboxTextItem(key + "  "), 0, rowCount);
             table->setItem(new ListboxTextItem("Bool  "), 1, rowCount);
-            table->setItem(new ListboxTextItem(PropertyHelper::boolToString(prop.toBool())), 2, rowCount);
+            table->setItem(new ListboxTextItem(PropertyHelper<bool>::toString(prop.toBool())), 2, rowCount);
         }
         // Table has the two columns Type, Value
         else if (colCount == 2)
         {
             table->addRow(rowCount);
             table->setItem(new ListboxTextItem("Bool  "), 0, rowCount);
-            table->setItem(new ListboxTextItem(PropertyHelper::boolToString(prop.toBool())), 1, rowCount);
+            table->setItem(new ListboxTextItem(PropertyHelper<bool>::toString(prop.toBool())), 1, rowCount);
         }
     }
 
@@ -467,7 +467,7 @@ namespace rl
     {
         // Create the new MultiColumnList with two columns
         // Type and Value and set tab text to key
-        int tabCount = mTabPane->getTabCount();
+        auto tabCount = mTabPane->getTabCount();
         CEGUI::MultiColumnList* newTable
             = static_cast<CEGUI::MultiColumnList*>(CEGUI::WindowManager::getSingleton().createWindow(
                 "RastullahLook/MultiColumnList", "PropertiesWindow/PropertiesTabControl/" + key));
@@ -475,7 +475,7 @@ namespace rl
         // Set table properties
         newTable->setText(key);
         newTable->setPosition(CEGUI::UVector2(CEGUI::UDim(0, 0), CEGUI::UDim(0, 0)));
-        newTable->setSize(CEGUI::UVector2(CEGUI::UDim(1, 0), CEGUI::UDim(1, 0)));
+        newTable->setSize(CEGUI::USize(CEGUI::UDim(1, 0), CEGUI::UDim(1, 0)));
         newTable->setUserSortControlEnabled(false);
         newTable->setFont("Vera Serif-8");
 

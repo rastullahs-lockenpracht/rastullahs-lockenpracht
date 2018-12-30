@@ -149,8 +149,9 @@ namespace rl
 
     Sound* SoundDriver::createSound(const String& name, SoundType type)
     {
-        SoundResourcePtr ptr = mSoundResourceManager->load(name, ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME);
-        if (ptr.isNull())
+        SoundResourcePtr ptr = std::dynamic_pointer_cast<SoundResource>(
+            mSoundResourceManager->load(name, ResourceGroupManager::AUTODETECT_RESOURCE_GROUP_NAME));
+        if (!ptr)
         {
             Throw(IllegalArgumentException, "Sound " + name + "nicht gefunden");
         }

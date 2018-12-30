@@ -17,12 +17,10 @@
 
 #include "ContainerContentWindow.h"
 
-#include <CEGUIImageset.h>
-#include <CEGUIImagesetManager.h>
-#include <CEGUIPropertyHelper.h>
-#include <CEGUIWindowManager.h>
-#include <boost/bind.hpp>
+#include <CEGUI/PropertyHelper.h>
+#include <CEGUI/WindowManager.h>
 
+#include "CeGuiHelper.h"
 #include "Container.h"
 #include "Inventory.h"
 #include "InventoryWindow.h"
@@ -43,18 +41,18 @@ namespace rl
     {
         mContentWindow = getWindow("ContainerContentWindow/Content");
         mContentWindow->setUserData(container);
-        mContentWindow->subscribeEvent(Window::EventDragDropItemDropped,
-            boost::bind(&ContainerContentWindow::handleItemDroppedOnContainer, this, _1));
         mContentWindow->subscribeEvent(
-            Window::EventDragDropItemEnters, boost::bind(&ContainerContentWindow::handleItemEntersContainer, this, _1));
+            Window::EventDragDropItemDropped, &ContainerContentWindow::handleItemDroppedOnContainer, this);
         mContentWindow->subscribeEvent(
-            Window::EventDragDropItemLeaves, boost::bind(&ContainerContentWindow::handleItemLeavesContainer, this, _1));
+            Window::EventDragDropItemEnters, &ContainerContentWindow::handleItemEntersContainer, this);
+        mContentWindow->subscribeEvent(
+            Window::EventDragDropItemLeaves, &ContainerContentWindow::handleItemLeavesContainer, this);
 
-        UVector2 size = UVector2(
-            cegui_absdim(container->getVolume().first * 30), cegui_absdim(container->getVolume().second * 30));
+        USize size
+            = USize(cegui_absdim(container->getVolume().first * 30), cegui_absdim(container->getVolume().second * 30));
         mContentWindow->setSize(size);
-        size.d_x += cegui_absdim(40);
-        size.d_y += cegui_absdim(50);
+        size.d_width += cegui_absdim(40);
+        size.d_height += cegui_absdim(50);
         mContentWindow->getParent()->setMaxSize(size);
         mContentWindow->getParent()->setMinSize(size);
 
@@ -67,7 +65,7 @@ namespace rl
     {
         const DragDropEventArgs& evtArgs = static_cast<const DragDropEventArgs&>(evt);
 
-        if (evtArgs.dragDropItem->testClassName("ItemDragContainer"))
+        if (evtArgs.dragDropItem->getType() == "ItemDragContainer")
         {
             ItemDragContainer* dragcont = dynamic_cast<ItemDragContainer*>(evtArgs.dragDropItem);
             Item* item = dragcont->getItem();
@@ -90,7 +88,7 @@ namespace rl
     {
         const DragDropEventArgs& evtArgs = static_cast<const DragDropEventArgs&>(evt);
 
-        if (evtArgs.dragDropItem->testClassName("ItemDragContainer"))
+        if (evtArgs.dragDropItem->getType() == "ItemDragContainer")
         {
             mContentWindow->setProperty("ContainerColour", mContentWindow->getProperty("ContainerColour_Standard"));
 
@@ -131,13 +129,13 @@ namespace rl
             std::pair<unsigned int, unsigned int> pos = mContainer->getItemPosition(item);
             itemWindow->setPosition(UVector2(cegui_absdim(pos.first * 30), cegui_absdim(pos.second * 30)));
 
-            itemWindow->subscribeEvent(
-                Window::EventMouseClick, boost::bind(&ContainerContentWindow::handleItemMouseClick, this, _1, item));
+            itemWindow->subscribeEvent(Window::EventMouseClick,
+                [this, item](const CEGUI::EventArgs& args) { return handleItemMouseClick(args, item); });
 
             itemWindow->subscribeEvent(Window::EventMouseDoubleClick,
-                boost::bind(&ContainerContentWindow::handleItemDoubleClick, this, _1, item));
+                [this, item](const CEGUI::EventArgs& args) { return handleItemDoubleClick(args, item); });
 
-            mContentWindow->addChildWindow(itemWindow);
+            mContentWindow->addChild(itemWindow);
         }
     }
 
@@ -145,31 +143,26 @@ namespace rl
     {
         const DragDropEventArgs& evtArgs = static_cast<const DragDropEventArgs&>(evt);
 
-        if (evtArgs.dragDropItem->testClassName("ItemDragContainer"))
+        if (evtArgs.dragDropItem->getType() == "ItemDragContainer")
         {
             ItemDragContainer* dragcont = dynamic_cast<ItemDragContainer*>(evtArgs.dragDropItem);
             Item* item = dragcont->getItem();
 
-            CEGUI::Vector2 relPos
-                = evtArgs.dragDropItem->getPosition().asAbsolute(evtArgs.dragDropItem->getParentPixelSize())
-                - mContentWindow->getPosition().asAbsolute(mContentWindow->getParentPixelSize());
-            int x = relPos.d_x, y = relPos.d_y;
+            auto relPos = CeGuiHelper::asAbsolute(evtArgs.dragDropItem->getPosition(), dragcont->getParentPixelSize())
+                - CeGuiHelper::asAbsolute(mContentWindow->getPosition(), mContentWindow->getParentPixelSize());
 
             // uebergangspixel
-            x += 14;
-            y += 14;
+            float x = (relPos.d_x.d_offset + 14.F) / 30.F;
+            float y = (relPos.d_y.d_offset + 14.F) / 30.F;
 
-            x = x / 30;
-            y = y / 30;
-
-            if (mContainer->addItem(item, IntPair(x, y)))
+            if (mContainer->addItem(item, IntPair(static_cast<int>(x), static_cast<int>(y))))
             {
                 if (dragcont != getItemWindow(item))
                 {
                     CEGUI::WindowManager::getSingleton().destroyWindow(dragcont);
                     // dragcont->destroyWindow();
                     dragcont = createItemWindow(item);
-                    mContentWindow->addChildWindow(dragcont);
+                    mContentWindow->addChild(dragcont);
                 }
                 std::pair<unsigned int, unsigned int> pos = mContainer->getItemPosition(item);
                 dragcont->setPosition(UVector2(cegui_absdim(pos.first * 30), cegui_absdim(pos.second * 30)));
@@ -203,10 +196,12 @@ namespace rl
         itemhandler->setPosition(UVector2(cegui_reldim(0), cegui_reldim(0)));
         if (mInventoryWindow)
         {
+            auto inventoryWindow = mInventoryWindow;
+
             itemhandler->subscribeEvent(DragContainer::EventDragStarted,
-                boost::bind(&rl::InventoryWindow::showPossibleSlots, mInventoryWindow, item));
+                [inventoryWindow, item]() { return inventoryWindow->showPossibleSlots(item); });
             itemhandler->subscribeEvent(DragContainer::EventDragEnded,
-                boost::bind(&InventoryWindow::showPossibleSlots, mInventoryWindow, (Item*)NULL));
+                [inventoryWindow]() { return inventoryWindow->showPossibleSlots(nullptr); });
         }
 
         return itemhandler;

@@ -22,7 +22,7 @@ namespace rl
 //Conversion functions for PropertyKey (std::set<CeGuiString>)
 rl::PropertyKeys convertValueToPropertyKeys(VALUE input)
 {
-    int length = RARRAY(input)->len;
+    int length = RARRAY_LEN(input);
     rl::PropertyKeys keys;
     for (int idx = 0; idx < length; ++idx)
     {

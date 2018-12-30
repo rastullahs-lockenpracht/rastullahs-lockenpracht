@@ -16,7 +16,7 @@
 #include "stdinc.h" //precompiled header
 
 #include "ActionChoiceWindow.h"
-#include <CEGUIWindowManager.h>
+#include <CEGUI/WindowManager.h>
 #include <boost/bind.hpp>
 
 #include <algorithm>
@@ -45,15 +45,14 @@ namespace rl
     {
         mHint = getWindow("ActionChoiceWindow/Hint");
         getWindow("ActionChoiceWindow")
-            ->subscribeEvent(
-                Window::EventMouseClick, boost::bind(&ActionChoiceWindow::handleClickNotOnButtons, this, _1));
+            ->subscribeEvent(Window::EventMouseClick, &ActionChoiceWindow::handleClickNotOnButtons, this);
     }
 
     ActionChoiceWindow::~ActionChoiceWindow()
     {
         /*for (unsigned int i = 0; i<mButtons.size(); i++)
         {
-            mWindow->removeChildWindow(mButtons[i]);
+            mWindow->removeChild(mButtons[i]);
             CEGUI::WindowManager::getSingleton().destroyWindow(mButtons[i]);
         }
         mButtons.clear();*/
@@ -78,7 +77,7 @@ namespace rl
 
         for (unsigned int i = 0; i < mButtons.size(); i++)
         {
-            mWindow->removeChildWindow(mButtons[i]);
+            mWindow->removeChild(mButtons[i]);
             CEGUI::WindowManager::getSingleton().destroyWindow(mButtons[i]);
         }
         mButtons.clear();
@@ -98,7 +97,7 @@ namespace rl
 
             mButtonCancel = createButton("cancelbutton", center);
             bindDestroyWindowToClick(mButtonCancel);
-            mWindow->addChildWindow(mButtonCancel);
+            mWindow->addChild(mButtonCancel);
 
             LOG_DEBUG2(Logger::UI, "Buttons erzeugt", "ActionChoiceWindow::showActionsOfObject");
             setButtonActions(actionTree, actionTree);
@@ -122,9 +121,9 @@ namespace rl
 
             button->subscribeEvent(
                 Window::EventMouseClick, boost::bind(&ActionChoiceWindow::activateAction, this, action));
-            button->subscribeEvent(
-                Window::EventMouseEnters, boost::bind(&ActionChoiceWindow::showHint, this, action->getDescription()));
-            button->subscribeEvent(Window::EventMouseLeaves, boost::bind(&ActionChoiceWindow::showHint, this, ""));
+            button->subscribeEvent(Window::EventMouseEntersArea,
+                boost::bind(&ActionChoiceWindow::showHint, this, action->getDescription()));
+            button->subscribeEvent(Window::EventMouseLeavesArea, boost::bind(&ActionChoiceWindow::showHint, this, ""));
         }
         else
         {
@@ -145,7 +144,7 @@ namespace rl
 
                 for (NodeSet::const_iterator iter = nodesToHide.begin(); iter != nodesToHide.end(); iter++)
                 {
-                    button->subscribeEvent(Window::EventMouseEnters,
+                    button->subscribeEvent(Window::EventMouseEntersArea,
                         boost::bind(&ActionChoiceWindow::setButtonVisible, this, (*iter)->getButton(), false));
                 }
             }
@@ -155,7 +154,7 @@ namespace rl
             {
                 if (button != NULL)
                 {
-                    button->subscribeEvent(Window::EventMouseEnters,
+                    button->subscribeEvent(Window::EventMouseEntersArea,
                         boost::bind(&ActionChoiceWindow::setButtonVisible, this, (*iter)->getButton(), true));
                 }
 
@@ -207,7 +206,7 @@ namespace rl
 
         actions->setButton(button);
         if (button != NULL)
-            mWindow->addChildWindow(button);
+            mWindow->addChild(button);
     }
 
     PushButton* ActionChoiceWindow::createButton(const CeGuiString& name, const CEGUI::UVector2& pos)
@@ -218,8 +217,8 @@ namespace rl
             button = AbstractWindow::loadWindow("buttons/defaultbutton.xml");
         }
 
-        CEGUI::UVector2 size = button->getSize();
-        button->setPosition(pos - size * UVector2(cegui_reldim(0.5), cegui_reldim(0.5)));
+        auto size = button->getSize();
+        button->setPosition(CEGUI::UVector2(pos.d_x - size.d_width * 0.5, pos.d_y - size.d_height * 0.5));
         return static_cast<PushButton*>(button);
     }
 

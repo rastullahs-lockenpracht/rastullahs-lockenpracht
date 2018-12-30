@@ -25,9 +25,10 @@ namespace rl
     class EnvironmentProcessor : private AbstractMapNodeProcessor
     {
     public:
-        virtual bool processNode(const TiXmlElement* nodeElem, const Ogre::String& resourceGroup, bool loadGameObjects);
-        void processFogSettings(const TiXmlElement* fogElem);
-        void processSkySettings(const TiXmlElement* fogElem);
+        virtual bool processNode(
+            const tinyxml2::XMLElement* nodeElem, const Ogre::String& resourceGroup, bool loadGameObjects);
+        void processFogSettings(const tinyxml2::XMLElement* fogElem);
+        void processSkySettings(const tinyxml2::XMLElement* fogElem);
     };
 }
 

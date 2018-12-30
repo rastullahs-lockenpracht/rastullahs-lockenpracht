@@ -1,0 +1,106 @@
+# C/C++ with GCC
+# Build your C/C++ project with GCC using make.
+# Add steps that publish test results, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/apps/c-cpp/gcc
+
+pool:
+  vmImage: 'Ubuntu 16.04'
+
+variables:
+  CMAKE_FLAGS: "-GNinja -DCMAKE_CXX_STANDARD=11"
+  OGRE_CMAKE_FLAGS: "${CMAKE_FLAGS} -DOGRE_BUILD_TESTS=OFF -DOGRE_BUILD_TOOLS=OFF -DOGRE_BUILD_SAMPLES=OFF -DOGRE_BUILD_COMPONENT_JAVA=OFF -DOGRE_BUILD_COMPONENT_MESHLODGENERATOR=OFF -DOGRE_BUILD_COMPONENT_PYTHON=OFF -DOGRE_BUILD_PLUGIN_BSP=OFF -DOGRE_BUILD_PLUGIN_CG=OFF -DOGRE_BUILD_PLUGIN_EXRCODEC=OFF -DOGRE_BUILD_PLUGIN_OCTREE=OFF -DOGRE_BUILD_PLUGIN_PCZ=OFF -DOGRE_BUILD_PLUGIN_PFX=OFF -DOGRE_BUILD_RENDERSYSTEM_D3D11=OFF -DOGRE_BUILD_RENDERSYSTEM_D3D9=OFF -DOGRE_BUILD_RENDERSYSTEM_GLES2=OFF"
+  CEGUI_CMAKE_FLAGS: "${CMAKE_FLAGS} -DCEGUI_STRING_CLASS=2 -DCEGUI_BUILD_RENDERER_OPENGL=OFF -DCEGUI_BUILD_RENDERER_OPENGL3=OFF -DCEGUI_BUILD_TESTS=OFF -DCEGUI_BUILD_PERFORMANCE_TESTS=OFF -DCEGUI_SAMPLES_ENABLED=OFF -DCEGUI_BUILD_PYTHON_MODULES=OFF"
+  CEGUI_REVISION: "v0"
+
+steps:
+- checkout: self  # self represents the repo where the initial Pipelines YAML file was found
+  submodules: true
+  fetchDepth: 50
+
+- script: |
+    sudo apt update
+    sudo apt install cmake \
+                     libboost-all-dev \
+                     libfreetype6-dev \
+                     libgl1-mesa-dev \
+                     libgles2-mesa-dev \
+                     libglew-dev \
+                     libglm-dev \
+                     libglu1-mesa-dev \
+                     libois-dev \
+                     libopenal-dev \
+                     libxaw7-dev \
+                     libxrandr-dev \
+                     libxt-dev \
+                     libzzip-dev \
+                     mercurial \
+                     mesa-common-dev \
+                     ninja-build \
+                     nvidia-cg-dev \
+                     ruby-dev \
+                     swig \
+                     wget
+    wget http://mirrors.kernel.org/ubuntu/pool/universe/t/tinyxml2/libtinyxml2-6_6.0.0+dfsg-1_amd64.deb
+    wget http://mirrors.kernel.org/ubuntu/pool/universe/t/tinyxml2/libtinyxml2-dev_6.0.0+dfsg-1_amd64.deb
+    sudo dpkg -i libtinyxml2-6_6.0.0+dfsg-1_amd64.deb libtinyxml2-dev_6.0.0+dfsg-1_amd64.deb
+  displayName: 'Install Dependencies'
+
+- script: |
+    mkdir -p build/ogre
+    pushd build/ogre
+    cmake ../../dependencies/ogre $(OGRE_CMAKE_FLAGS)
+    cmake --build .
+    sudo cmake --build . -- install
+    popd
+  displayName: 'Build OGRE'
+
+- script: |
+    hg clone https://bitbucket.org/cegui/cegui -b $(CEGUI_REVISION) dependencies/cegui
+    pushd dependencies/cegui
+    hg import ../cegui_patch_cpp11.diff --no-commit
+    popd
+    mkdir -p build/cegui
+    pushd build/cegui
+    cmake ../../dependencies/cegui $(CEGUI_CMAKE_FLAGS)
+    cmake --build .
+    sudo cmake --build . -- install
+    popd
+  displayName: 'Build dependencies - CEGUI'
+
+- script: |
+    mkdir -p build/newton
+    pushd build/newton
+    cmake ../../dependencies/newton $(CMAKE_FLAGS)
+    cmake --build .
+    sudo cmake --build . -- install
+    popd
+  displayName: 'Build dependencies - newton'
+
+- script: |
+    mkdir -p build/OgreNewt
+    pushd build/OgreNewt
+    cmake ../../dependencies/OgreNewt $(CMAKE_FLAGS)
+    cmake --build .
+    sudo cmake --build . -- install
+    popd
+  displayName: 'Build dependencies - OgreNewt'
+
+- script: |
+    mkdir -p build/meshmagick
+    pushd build/meshmagick
+    cmake ../../dependencies/meshmagick $(CMAKE_FLAGS)
+    cmake --build .
+    sudo cmake --build . -- install
+    popd
+  displayName: 'Build dependencies - meshmagick'
+
+- script: |
+    mkdir -p build/rl
+    pushd build/rl
+    cmake ../../rl $(CMAKE_FLAGS)
+  displayName: 'Run cmake'
+
+- script: |
+    pushd build/rl
+    ninja
+  displayName: 'Build'

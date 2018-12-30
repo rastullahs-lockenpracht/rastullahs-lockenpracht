@@ -19,7 +19,7 @@
 
 #include "CommonPrerequisites.h"
 
-#include <tinyxml.h>
+#include <tinyxml2.h>
 
 #include "Properties.h"
 #include "XmlProcessor.h"
@@ -31,7 +31,7 @@ namespace rl
 
     typedef std::pair<Ogre::String, Property> PropertyEntry;
 
-    class _RlCommonExport XmlPropertyReader : public XmlProcessor, public TiXmlVisitor
+    class _RlCommonExport XmlPropertyReader : public XmlProcessor, public tinyxml2::XMLVisitor
     {
     public:
         XmlPropertyReader();
@@ -40,17 +40,17 @@ namespace rl
         void parseGameObjectFile(Ogre::DataStreamPtr& stream, const Ogre::String& groupName);
         PropertyRecordVector getPropertyRecords();
 
-        PropertyEntry processProperty(const TiXmlElement* domElem) const;
-        PropertyEntry processProperty(const TiXmlAttribute* domAttr) const;
+        PropertyEntry processProperty(const tinyxml2::XMLElement* domElem) const;
+        PropertyEntry processProperty(const tinyxml2::XMLAttribute* domAttr) const;
 
-        virtual PropertyRecordPtr getPropertiesAsRecord(const TiXmlElement* parent);
-        virtual bool VisitEnter(const TiXmlElement& element, const TiXmlAttribute* firstAttribute);
+        virtual PropertyRecordPtr getPropertiesAsRecord(const tinyxml2::XMLElement* parent);
+        virtual bool VisitEnter(const tinyxml2::XMLElement& element, const tinyxml2::XMLAttribute* firstAttribute);
 
     private:
         PropertyRecordVector mPropertyRecords;
 
         Property getProperty(const Ogre::String& key, const CeGuiString& value);
-        void processGameObjectClassNode(const TiXmlElement& element);
+        void processGameObjectClassNode(const tinyxml2::XMLElement& element);
     };
 } // namespace rl
 

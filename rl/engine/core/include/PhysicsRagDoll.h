@@ -17,7 +17,7 @@
 #ifndef __PhysicsRagdoll_H__
 #define __PhysicsRagdoll_H__
 
-#include <tinyxml.h>
+#include <tinyxml2.h>
 
 #include "CorePrerequisites.h"
 #include "PhysicsManager.h"
@@ -219,7 +219,7 @@ namespace rl
             Ogre::Vector3 size, Ogre::Real mass, Ogre::Bone* ogrebone, Actor* parentActor);
 
         //! recursive function for creating bones and joints
-        RagBone* _addAllBones(RagBone* parent, TiXmlElement* boneElem, Actor* parentActor);
+        RagBone* _addAllBones(RagBone* parent, tinyxml2::XMLElement* boneElem, Actor* parentActor);
 
         //! add a joint between two bodies
         void _joinBones(PhysicsRagDoll::JointType type, RagBone* parent, RagBone* child, Ogre::Vector3 pos,

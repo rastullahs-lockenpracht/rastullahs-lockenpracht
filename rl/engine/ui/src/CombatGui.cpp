@@ -235,7 +235,7 @@ namespace rl
         Real left = 1.0f, bottom = 1.0f, right = -1.0f, top = -1.0f;
 
         // Determine screen pos of all corners and widen the rect if needed.
-        const Vector3* corners = aabb.getAllCorners();
+        const auto& corners = aabb.getAllCorners();
         for (size_t i = 0; i < 8; ++i)
         {
             Vector3 screenSpacePos = mCamera->getPointOnScreen(corners[i]);

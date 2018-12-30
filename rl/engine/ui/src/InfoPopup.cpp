@@ -28,8 +28,8 @@ namespace rl
     {
         mErrorIcon = getWindow("InfoPopup/ErrorIcon");
         mQuestIcon = getWindow("InfoPopup/QuestIcon");
-        mWindow->removeChildWindow(mErrorIcon);
-        mWindow->removeChildWindow(mQuestIcon);
+        mWindow->removeChild(mErrorIcon);
+        mWindow->removeChild(mQuestIcon);
     }
 
     InfoPopup::~InfoPopup()
@@ -56,7 +56,7 @@ namespace rl
         }
         iconWidth += ICON_SPACING * mActiveIcons.size();
 
-        mWindow->addChildWindow(image);
+        mWindow->addChild(image);
         image->setXPosition(cegui_absdim(iconWidth));
 
         mWindow->setWidth(cegui_absdim(iconWidth + ICON_SPACING + image->getPixelSize().d_width));
@@ -70,7 +70,7 @@ namespace rl
         for (std::vector<Window*>::iterator it = mActiveIcons.begin(); it != mActiveIcons.end(); it++)
         {
             Window* cur = *it;
-            mWindow->removeChildWindow(cur);
+            mWindow->removeChild(cur);
         }
 
         mActiveIcons.clear();

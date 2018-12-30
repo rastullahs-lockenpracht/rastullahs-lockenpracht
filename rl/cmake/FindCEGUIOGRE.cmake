@@ -25,24 +25,26 @@ ELSE(WIN32)
 	ENDIF(PKG_CONFIG_FOUND)
 	IF(NOT CEGUIOGRE_FOUND)
 		SET(CEGUIOGRE_INCLUDE_SEARCH_DIRS
-		    /usr/include
-		    /usr/local/include
-		    /opt/include
-		    /opt/OGRE/include)
+			/usr/include
+			/usr/local/include
+			/usr/local/include/cegui-0
+			/opt/include
+			/opt/OGRE/include)
 		SET(CEGUIOGRE_LIBRARY_SEARCH_DIRS
-		    /usr/lib
-		    /usr/lib64
-		    /usr/local/lib
-		    /usr/local/lib64
-		    /opt/OGRE/lib
-		    /opt/OGRE/lib64)
+			/usr/lib
+			/usr/lib64
+			/usr/local/lib
+			/usr/local/lib64
+			/opt/OGRE/lib
+			/opt/OGRE/lib64)
 		SET(CEGUIOGRE_INC_DIR_SUFFIXES PATH_SUFFIXES OGRE)
-		FIND_PATH(CEGUIOGRE_INCLUDE_DIR OgreCEGUIRenderer.h
-		          PATHS ${CEGUIOGRE_INCLUDE_SEARCH_DIRS}
-		          PATH_SUFFIXES ${CEGUIOGRE_INC_DIR_SUFFIXES})
-		FIND_LIBRARY(CEGUIOGRE_LIBRARY CEGUIOgreRenderer
-		             PATHS ${CEGUIOGRE_LIBRARY_SEARCH_DIRS}
-		             PATH_SUFFIXES ${CEGUIOGRE_LIB_DIR_SUFFIXES}})
+		FIND_PATH(CEGUIOGRE_INCLUDE_DIR 
+					NAMES OgreCEGUIRenderer.h CEGUI/RendererModules/Ogre/Renderer.h
+					PATHS ${CEGUIOGRE_INCLUDE_SEARCH_DIRS}
+					PATH_SUFFIXES ${CEGUIOGRE_INC_DIR_SUFFIXES})
+		FIND_LIBRARY(CEGUIOGRE_LIBRARY CEGUIOgreRenderer-0 CEGUIOgreRenderer
+					PATHS ${CEGUIOGRE_LIBRARY_SEARCH_DIRS}
+					PATH_SUFFIXES ${CEGUIOGRE_LIB_DIR_SUFFIXES}})
 	ENDIF(NOT CEGUIOGRE_FOUND)
 ENDIF(WIN32)
 

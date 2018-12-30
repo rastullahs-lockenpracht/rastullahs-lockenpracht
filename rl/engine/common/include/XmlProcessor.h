@@ -19,14 +19,14 @@
 
 #include "CommonPrerequisites.h"
 
-#include <tinyxml.h>
+#include <tinyxml2.h>
 
 #include "Tripel.h"
 
 namespace rl
 {
 
-    typedef std::vector<const TiXmlElement*> XmlElementList;
+    typedef std::vector<const tinyxml2::XMLElement*> XmlElementList;
 
     /**
      * This class offers helper methods for XML processing
@@ -48,7 +48,7 @@ namespace rl
          *
          * @return Der Kindknoten
          */
-        TiXmlElement* appendChildElement(TiXmlElement* parent, const char* const name) const;
+        tinyxml2::XMLElement* appendChildElement(tinyxml2::XMLElement* parent, const char* const name) const;
 
         /**
          * Erzeugt einen Kindknoten des Roots eines DOM-Dokuments, das einen bestimmten Namen hat,
@@ -59,7 +59,7 @@ namespace rl
          *
          * @return Der Kindknoten
          */
-        TiXmlElement* appendChildElement(TiXmlDocument* parent, const char* const name) const;
+        tinyxml2::XMLElement* appendChildElement(tinyxml2::XMLDocument* parent, const char* const name) const;
 
         /**
          * Ermittelt einen Kindknoten eines DOM-Elements, das einen bestimmten Namen hat,
@@ -70,7 +70,7 @@ namespace rl
          *
          * @return Der Kindknoten
          */
-        const TiXmlElement* getChildNamed(const TiXmlElement* parent, const char* const name) const;
+        const tinyxml2::XMLElement* getChildNamed(const tinyxml2::XMLElement* parent, const char* const name) const;
 
         /**
          * Ermittelt einen Kindknoten eines DOM-Elements, das einen bestimmten Namen hat,
@@ -81,7 +81,7 @@ namespace rl
          *
          * @return Der Kindknoten
          */
-        TiXmlElement* getChildNamed(TiXmlElement* parent, const char* const name) const;
+        tinyxml2::XMLElement* getChildNamed(tinyxml2::XMLElement* parent, const char* const name) const;
 
         /**
          * Collects all element nodes with a specified tag name
@@ -91,7 +91,7 @@ namespace rl
          *
          * @return vector of found element nodes
          */
-        XmlElementList getElementsByTagName(const TiXmlElement* parent, const char* const name) const;
+        XmlElementList getElementsByTagName(const tinyxml2::XMLElement* parent, const char* const name) const;
 
         /**
          * Collects all element nodes with a specified tag name
@@ -101,7 +101,7 @@ namespace rl
          *
          * @return vector of found element nodes
          */
-        XmlElementList getElementsByTagName(const TiXmlDocument* parent, const char* const name) const;
+        XmlElementList getElementsByTagName(const tinyxml2::XMLDocument* parent, const char* const name) const;
 
         /**
          * Setzt den Text eines Elementknotens
@@ -110,7 +110,7 @@ namespace rl
          * @param string Der zu setzende String
          * @return the DOM element node
          */
-        void setValueAsString(TiXmlElement* element, const CeGuiString& value) const;
+        void setValueAsString(tinyxml2::XMLElement* element, const CeGuiString& value) const;
 
         /**
          * Ermittelt den Text eines Elementknotens
@@ -118,7 +118,7 @@ namespace rl
          * @param element the DOM element node
          * @return Text innerhalb der Element-Tags, als CeGuiString
          */
-        CeGuiString getValueAsString(const TiXmlElement* element) const;
+        CeGuiString getValueAsString(const tinyxml2::XMLElement* element) const;
 
         /**
          * Ermittelt den Text eines Elementknotens
@@ -126,27 +126,7 @@ namespace rl
          * @param element the DOM element node
          * @return Text innerhalb der Element-Tags, als CeGuiString
          */
-        std::string getValueAsStdString(const TiXmlElement* element) const;
-
-        /**
-         * Setzt den Text eines Elementknotens, als UTF-8
-         * vor Benutzung muss initializeTranscoder() aufgerufen werden
-         *
-         * @param element the DOM element node
-         * @param utf Der zu setzende UTF String
-         * @return the DOM element node
-         */
-        void setValueAsUtf8(TiXmlElement* element, CEGUI::utf8* value) const;
-
-        /**
-         * Ermittelt den Text eines Elementknotens, als UTF-8
-         * vor Benutzung muss initializeTranscoder() aufgerufen werden
-         *
-         * @param element the DOM element node
-         * @return Text innerhalb der Element-Tags, als utf8* (muss selbst gel�scht werden)
-         * @see initializeTranscoder()
-         */
-        const CEGUI::utf8* getValueAsUtf8(const TiXmlElement* element) const;
+        std::string getValueAsStdString(const tinyxml2::XMLElement* element) const;
 
         /**
          * Formt eine Boolean in einen String um und setzt diesen als Wert
@@ -155,7 +135,7 @@ namespace rl
          * @param value Der zu setzende Bool
          * @return the DOM element node
          */
-        void setValueAsBool(TiXmlElement* element, bool value) const;
+        void setValueAsBool(tinyxml2::XMLElement* element, bool value) const;
 
         /**
          * Get the text value of an element node and parse it into a bool
@@ -163,7 +143,7 @@ namespace rl
          * @param element the DOM element node
          * @return boolean within the element tags
          */
-        bool getValueAsBool(const TiXmlElement* element) const;
+        bool getValueAsBool(const tinyxml2::XMLElement* element) const;
 
         /**
          * Formt eine Ganzzahl in einen String um und setzt diesen als Wert
@@ -172,7 +152,7 @@ namespace rl
          * @param value Der zu setzende Integer
          * @return the DOM element node
          */
-        void setValueAsInteger(TiXmlElement* element, int value) const;
+        void setValueAsInteger(tinyxml2::XMLElement* element, int value) const;
 
         /**
          * Get the text value of an element node and parse it into an integer
@@ -180,7 +160,7 @@ namespace rl
          * @param element the DOM element node
          * @return number within the element tags
          */
-        int getValueAsInteger(const TiXmlElement* element) const;
+        int getValueAsInteger(const tinyxml2::XMLElement* element) const;
 
         /**
          * Get the text value of an element node and parse it into a real number
@@ -188,7 +168,7 @@ namespace rl
          * @param element the DOM element node
          * @return number within the element tags
          */
-        Ogre::Real getValueAsReal(const TiXmlElement* element) const;
+        Ogre::Real getValueAsReal(const tinyxml2::XMLElement* element) const;
 
         /**
          * Convert an integer pair into a string and sets it as the text of a DOM element
@@ -197,7 +177,7 @@ namespace rl
          * @param value the integer pair
          * @return the DOM element node
          */
-        void setValueAsIntegerPair(TiXmlElement* element, IntPair value) const;
+        void setValueAsIntegerPair(tinyxml2::XMLElement* element, IntPair value) const;
 
         /**
          * Get the text value of an element node and parse it into an integer pair
@@ -205,7 +185,7 @@ namespace rl
          * @param element the DOM element node
          * @return pair within the element tags
          */
-        IntPair getValueAsIntegerPair(const TiXmlElement* element) const;
+        IntPair getValueAsIntegerPair(const tinyxml2::XMLElement* element) const;
 
         /**
          * Convert an integer triple into a string and set is as the text of a DOM element
@@ -214,7 +194,7 @@ namespace rl
          * @param value the integer triple
          * @return the DOM element node
          */
-        void setValueAsIntegerTriple(TiXmlElement* element, Tripel<int> value) const;
+        void setValueAsIntegerTriple(tinyxml2::XMLElement* element, Tripel<int> value) const;
 
         /**
          * Get the text value of an element node and parse it into an integer triple
@@ -222,7 +202,7 @@ namespace rl
          * @param element the DOM element node
          * @return triple within the element tags
          */
-        Tripel<int> getValueAsIntegerTriple(const TiXmlElement* element) const;
+        Tripel<int> getValueAsIntegerTriple(const tinyxml2::XMLElement* element) const;
 
         /**
          * Convert a vector3 to an xml tag
@@ -231,7 +211,7 @@ namespace rl
          * @param value The vector input
          * @return The DOM element
          */
-        void setValueAsVector3(TiXmlElement* element, Ogre::Vector3 value) const;
+        void setValueAsVector3(tinyxml2::XMLElement* element, Ogre::Vector3 value) const;
 
         /**
          * Processes an element node of shape <any_node_name x="0" y="0" z="0"/>
@@ -240,7 +220,7 @@ namespace rl
          * @param element The DOM element
          * @return the vector
          */
-        Ogre::Vector3 getValueAsVector3(const TiXmlElement* element) const;
+        Ogre::Vector3 getValueAsVector3(const tinyxml2::XMLElement* element) const;
 
         /**
          * Convert a quaternion to an xml tag
@@ -249,7 +229,7 @@ namespace rl
          * @param value The quaternion input
          * @return The DOM element
          */
-        void setValueAsQuaternion(TiXmlElement* element, Ogre::Quaternion value) const;
+        void setValueAsQuaternion(tinyxml2::XMLElement* element, Ogre::Quaternion value) const;
 
         /**
          * Processes an element node of shape <any_node_name x="0" y="0" z="0" w="1"/>
@@ -258,7 +238,7 @@ namespace rl
          * @param element The DOM element
          * @return the quaternion
          */
-        Ogre::Quaternion getValueAsQuaternion(const TiXmlElement* element) const;
+        Ogre::Quaternion getValueAsQuaternion(const tinyxml2::XMLElement* element) const;
 
         /**
          * Ermittelt, ob ein DOMElement ein bestimmtes Attribut bestitzt
@@ -267,7 +247,7 @@ namespace rl
          * @param name Name des Attributes
          * @return <code>true</code>, wenn das Attribut an diesem Element existiert, sonst <code>false</code>
          */
-        bool hasAttribute(const TiXmlElement* element, const char* const name) const;
+        bool hasAttribute(const tinyxml2::XMLElement* element, const char* const name) const;
 
         /**
          * Setzt den Wert von einem Attribut eines Elementes
@@ -277,7 +257,7 @@ namespace rl
          * @param value Wert der gesetzt werden muss
          * @return <code>true</code>, wenn das Attribut an diesem Element existiert, sonst <code>false</code>
          */
-        void setAttribute(TiXmlElement* element, const char* const name, const char* const value) const;
+        void setAttribute(tinyxml2::XMLElement* element, const char* const name, const char* const value) const;
 
         /**
          * Checks whether a DOMNode has a certain name
@@ -286,7 +266,7 @@ namespace rl
          * @param name the name to check
          * @return <code>true</code>, if the DOM node the name <code>name</code>, <code>false</code> otherwise
          */
-        bool hasNodeName(const TiXmlNode* node, const char* const name) const;
+        bool hasNodeName(const tinyxml2::XMLNode* node, const char* const name) const;
 
         /**
          * Wandelt eine Ganzzahl in einen Text um und setzt diesen als Attribut
@@ -296,7 +276,7 @@ namespace rl
          * @param value das zu setzende Integer
          * @return the DOM element node
          */
-        void setAttributeValueAsInteger(TiXmlElement* element, const char* const name, int value) const;
+        void setAttributeValueAsInteger(tinyxml2::XMLElement* element, const char* const name, int value) const;
 
         /**
          * Ermittelt den Text eines DOMElement-Attributes und parst ihn,
@@ -306,7 +286,7 @@ namespace rl
          * @param name Name des Attributes
          * @return Zahlenwert des Attributes
          */
-        int getAttributeValueAsInteger(const TiXmlElement* element, const char* const name) const;
+        int getAttributeValueAsInteger(const tinyxml2::XMLElement* element, const char* const name) const;
 
         /**
          * Converts a 64 bit integer (long long) into a string and sets it as the text of a DOM element attribute
@@ -314,7 +294,7 @@ namespace rl
          * @param element the DOM element node
          * @return number within the element tags
          */
-        void setAttributeValueAsInt64(TiXmlElement* element, const char* const name, RL_LONGLONG value) const;
+        void setAttributeValueAsInt64(tinyxml2::XMLElement* element, const char* const name, RL_LONGLONG value) const;
 
         /**
          * Gets the text value of an element attribute and parse it into a 64 bit integer (long long)
@@ -322,7 +302,7 @@ namespace rl
          * @param element the DOM element node
          * @return number within the element tags
          */
-        RL_LONGLONG getAttributeValueAsInt64(const TiXmlElement* element, const char* const name) const;
+        RL_LONGLONG getAttributeValueAsInt64(const tinyxml2::XMLElement* element, const char* const name) const;
 
         /**
          * Wandelt eine Ganzzahldubel in einen Text um und setzt diesen als Attribut
@@ -332,7 +312,7 @@ namespace rl
          * @param value das zu setzende IntegerPair
          * @return the DOM element node
          */
-        void setAttributeValueAsIntegerPair(TiXmlElement* element, const char* const name, IntPair value) const;
+        void setAttributeValueAsIntegerPair(tinyxml2::XMLElement* element, const char* const name, IntPair value) const;
 
         /**
          * Ermittelt den Text eines DOMElement-Attributes und parst ihn,
@@ -342,7 +322,7 @@ namespace rl
          * @param name Name des Attributes
          * @return Zahlendubel des Attributes
          */
-        IntPair getAttributeValueAsIntegerPair(const TiXmlElement* element, const char* const name) const;
+        IntPair getAttributeValueAsIntegerPair(const tinyxml2::XMLElement* element, const char* const name) const;
 
         /**
          * Wandelt eine Ganzzahltripel in einen Text um und setzt diesen als Attribut
@@ -352,7 +332,8 @@ namespace rl
          * @param value das zu setzende Tripel<int>
          * @return the DOM element node
          */
-        void setAttributeValueAsIntegerTriple(TiXmlElement* element, const char* const name, Tripel<int> value) const;
+        void setAttributeValueAsIntegerTriple(
+            tinyxml2::XMLElement* element, const char* const name, Tripel<int> value) const;
 
         /**
          * Ermittelt den Text eines DOMElement-Attributes und parst ihn,
@@ -362,7 +343,7 @@ namespace rl
          * @param name Name des Attributes
          * @return Zahlentripel des Attributes
          */
-        Tripel<int> getAttributeValueAsIntegerTriple(const TiXmlElement* element, const char* const name) const;
+        Tripel<int> getAttributeValueAsIntegerTriple(const tinyxml2::XMLElement* element, const char* const name) const;
 
         /**
          * Wandelt einen Vektor in einen Text um und setzt diesen als Attribut
@@ -372,7 +353,8 @@ namespace rl
          * @param value das zu setzende Vector3
          * @return the DOM element node
          */
-        void setAttributeValueAsVector3(TiXmlElement* element, const char* const name, Ogre::Vector3 value) const;
+        void setAttributeValueAsVector3(
+            tinyxml2::XMLElement* element, const char* const name, Ogre::Vector3 value) const;
 
         /**
          * Ermittelt den Text eines DOMElement-Attributes und parst ihn,
@@ -382,7 +364,7 @@ namespace rl
          * @param name Name des Attributes
          * @return Vector3 des Attributes
          */
-        Ogre::Vector3 getAttributeValueAsVector3(const TiXmlElement* element, const char* const name) const;
+        Ogre::Vector3 getAttributeValueAsVector3(const tinyxml2::XMLElement* element, const char* const name) const;
 
         /**
          * Wandelt eine Quaternion in einen Text um und setzt diesen als Attribut
@@ -392,7 +374,8 @@ namespace rl
          * @param value das zu setzende Quaternion
          * @return the DOM element node
          */
-        void setAttributeValueAsQuaternion(TiXmlElement* element, const char* const name, Ogre::Quaternion value) const;
+        void setAttributeValueAsQuaternion(
+            tinyxml2::XMLElement* element, const char* const name, Ogre::Quaternion value) const;
 
         /**
          * Ermittelt den Text eines DOMElement-Attributes und parst ihn,
@@ -402,7 +385,8 @@ namespace rl
          * @param name Name des Attributes
          * @return Quaternion des Attributes
          */
-        Ogre::Quaternion getAttributeValueAsQuaternion(const TiXmlElement* element, const char* const name) const;
+        Ogre::Quaternion getAttributeValueAsQuaternion(
+            const tinyxml2::XMLElement* element, const char* const name) const;
 
         /**
          * Setzt den Text eines DOMElement-Attributes
@@ -412,7 +396,8 @@ namespace rl
          * @param value das zu setzende CeGuiString
          * @return the DOM element node
          */
-        void setAttributeValueAsString(TiXmlElement* element, const char* const name, const CeGuiString& value) const;
+        void setAttributeValueAsString(
+            tinyxml2::XMLElement* element, const char* const name, const CeGuiString& value) const;
 
         /**
          * Ermittelt den Text eines DOMElement-Attributes und konvertiert ihn zu einem CeGuiString
@@ -421,7 +406,7 @@ namespace rl
          * @param name Name des Attributes
          * @return Konvertierter Text als CeGuiString
          */
-        CeGuiString getAttributeValueAsString(const TiXmlElement* element, const char* const name) const;
+        CeGuiString getAttributeValueAsString(const tinyxml2::XMLElement* element, const char* const name) const;
 
         /**
          * Setzt den Text eines DOMElement-Attributes
@@ -432,7 +417,7 @@ namespace rl
          * @return the DOM element node
          */
         void setAttributeValueAsStdString(
-            TiXmlElement* element, const char* const name, const std::string& value) const;
+            tinyxml2::XMLElement* element, const char* const name, const std::string& value) const;
 
         /**
          * Ermittelt den Text eines DOMElement-Attributes und konvertiert ihn zu einem std::string
@@ -441,7 +426,7 @@ namespace rl
          * @param name Name des Attributes
          * @return Konvertierter Text als std::string
          */
-        std::string getAttributeValueAsStdString(const TiXmlElement* element, const char* const name) const;
+        std::string getAttributeValueAsStdString(const tinyxml2::XMLElement* element, const char* const name) const;
 
         /**
          * Setzt den Text eines DOMElement-Attributes
@@ -451,7 +436,7 @@ namespace rl
          * @param value der zu setzende boolean
          * @return the DOM element node
          */
-        void setAttributeValueAsBool(TiXmlElement* element, const char* const name, bool value) const;
+        void setAttributeValueAsBool(tinyxml2::XMLElement* element, const char* const name, bool value) const;
 
         /**
          * Ermittelt den Text eines DOMElement-Attributes und interpretier ihn als bool
@@ -460,7 +445,7 @@ namespace rl
          * @param name Name des Attributes
          * @return Konvertierter Text als bool
          */
-        bool getAttributeValueAsBool(const TiXmlElement* element, const char* const name) const;
+        bool getAttributeValueAsBool(const tinyxml2::XMLElement* element, const char* const name) const;
 
         /**
          * Setzt den Text eines DOMElement-Attributes
@@ -470,7 +455,7 @@ namespace rl
          * @param value der zu setzende Real Wert
          * @return the DOM element node
          */
-        void setAttributeValueAsReal(TiXmlElement* element, const char* const name, Ogre::Real value) const;
+        void setAttributeValueAsReal(tinyxml2::XMLElement* element, const char* const name, Ogre::Real value) const;
 
         /**
          * Ermittelt den Text eines DOMElement-Attributes und konvertiert ihn zu Ogre::Real
@@ -479,16 +464,16 @@ namespace rl
          * @param name Name des Attributes
          * @return Konvertierter Text als Ogre::Real
          */
-        Ogre::Real getAttributeValueAsReal(const TiXmlElement* element, const char* const name) const;
+        Ogre::Real getAttributeValueAsReal(const tinyxml2::XMLElement* element, const char* const name) const;
 
-        TiXmlDocument* loadDocument(const Ogre::String& resourceName, const Ogre::String& resourceGroup = "");
-        TiXmlDocument* loadDocument(const Ogre::DataStreamPtr& stream);
+        tinyxml2::XMLDocument* loadDocument(const Ogre::String& resourceName, const Ogre::String& resourceGroup = "");
+        tinyxml2::XMLDocument* loadDocument(const Ogre::DataStreamPtr& stream);
 
     protected:
         std::string mOpenXmlFileName;
 
     private:
-        TiXmlDocument* parseToXmlDocument(const char* content) const;
+        tinyxml2::XMLDocument* parseToXmlDocument(const char* content) const;
     };
 }
 

@@ -26,7 +26,7 @@ namespace fs = boost::filesystem;
 using Ogre::LogManager;
 using Ogre::Singleton;
 
-template <> rl::Logger* Singleton<rl::Logger>::ms_Singleton = 0;
+template <> rl::Logger* Singleton<rl::Logger>::msSingleton = 0;
 const char* rl::Logger::COMMON = "Common";
 const char* rl::Logger::RULES = "Rules";
 const char* rl::Logger::CORE = "Core";
@@ -55,12 +55,7 @@ namespace rl
         }
 
         // Check, if logPath exists
-#if OGRE_PLATFORM == OGRE_PLATFORM_LINUX
-        fs::path rastullahLogDirectory(logDirectory, fs::portable_posix_name);
-#else
         fs::path rastullahLogDirectory(logDirectory);
-#endif
-
         if (!fs::exists(rastullahLogDirectory))
         {
             fs::create_directory(rastullahLogDirectory);
@@ -87,6 +82,7 @@ namespace rl
             log(level, "[" + component + "::" + ident + "] " + message);
     }
 
+#if CEGUI_STRING_CLASS == CEGUI_STRING_CLASS_UNICODE
     void Logger::log(const Logger::LogLevel level, const Ogre::String& component, const CeGuiString& message,
         const Ogre::String& ident)
     {
@@ -95,6 +91,7 @@ namespace rl
         else
             log(level, "[" + component + "::" + ident + "] " + message.c_str());
     }
+#endif
 
     void Logger::log(
         const Logger::LogLevel level, const Ogre::String& component, const char* message, const Ogre::String& ident)

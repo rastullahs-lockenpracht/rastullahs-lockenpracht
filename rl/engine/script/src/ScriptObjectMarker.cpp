@@ -22,7 +22,7 @@ extern void RL_RubyRemoveTracking(void* ptr);
 
 #include "Exception.h"
 
-template <> rl::ScriptObjectMarker* Ogre::Singleton<rl::ScriptObjectMarker>::ms_Singleton = 0;
+template <> rl::ScriptObjectMarker* Ogre::Singleton<rl::ScriptObjectMarker>::msSingleton = nullptr;
 
 namespace rl
 {
@@ -134,9 +134,9 @@ namespace rl
 
             RData* test = RDATA(val);
             /// @todo altes klass loeschen? Wie denn nur, ist nen VALUE
-            test->basic.klass = rb_cNilClass;
+            const_cast<VALUE&>(test->basic.klass) = rb_cNilClass;
             // Nicht loeschen, ist der ptr
-            test->data = NULL;
+            test->data = nullptr;
         }
         catch (IllegalArgumentException&)
         {

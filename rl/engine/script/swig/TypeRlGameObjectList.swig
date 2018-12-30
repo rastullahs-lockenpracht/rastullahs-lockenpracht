@@ -18,7 +18,7 @@
 void convertRubyToRlGameObjectList(VALUE input, rl::GameObjectList& vec)
 {
   Check_Type(input, T_ARRAY);
-  int len = RARRAY(input)->len;
+  int len = RARRAY_LEN(input);
   for (int i=0; i!=len; i++) 
   {
     VALUE inst = rb_ary_entry(input, i);
@@ -57,7 +57,7 @@ static int checkRubyGameObjectList( VALUE input )
 void convertRubyToCreatureList(VALUE input, rl::CreatureList& vec)
 {
   Check_Type(input, T_ARRAY);
-  int len = RARRAY(input)->len;
+  int len = RARRAY_LEN(input);
   for (int i=0; i!=len; i++) 
   {
     VALUE inst = rb_ary_entry(input, i);

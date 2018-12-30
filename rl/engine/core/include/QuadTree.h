@@ -20,8 +20,6 @@
 namespace Ogre
 {
     class AxisAlignedBox;
-    class Vector2;
-    class Vector3;
 };
 
 #include "CorePrerequisites.h"
@@ -29,6 +27,17 @@ namespace Ogre
 
 namespace rl
 {
+
+    /** Tells where the node within an array is located.
+     * creates a counterclockwise location of nodes.
+     */
+    enum QuadTreeNodeLocation
+    {
+        TOP_LEFT = 0, //!< upper left quad
+        BOTTOM_LEFT, //!< lower left quad
+        BOTTOM_RIGHT, //!< lower right quad
+        TOP_RIGHT //!< upper right quad
+    };
 
     /** A very basic quad tree template.
      * It just stores whether the current node is subdivided or not and
@@ -44,17 +53,6 @@ namespace rl
     template <class TData, class TNode> class TQuadTreeBasicNode
     {
     public:
-        /** Tells where the node within an array is located.
-         * creates a counterclockwise location of nodes.
-         */
-        enum NodeLocation
-        {
-            TOP_LEFT = 0, //!< upper left quad
-            BOTTOM_LEFT, //!< lower left quad
-            BOTTOM_RIGHT, //!< lower right quad
-            TOP_RIGHT //!< upper right quad
-        };
-
         TQuadTreeBasicNode();
 
         /** Returns the stored data.
@@ -71,7 +69,7 @@ namespace rl
          * @param location whether to fetch the upper/lower left/right quad.
          * @returns the subquadtree node
          */
-        TNode* getNode(enum rl::TQuadTreeBasicNode<TData, TNode>::NodeLocation location);
+        TNode* getNode(QuadTreeNodeLocation location);
 
         // function for recursively deleting the quad tree
         void remove(); // Node (TQuadTreeBasicPointerNode<TData, TNode> *node);
@@ -146,17 +144,17 @@ namespace rl
          * @param location specifies which vertex to fetch (upper/lower-left/right).
          * @returns the wanted vertex.
          */
-        inline Ogre::Vector2 getVertex(enum TQuadTreeBasicNode<TData, TNode>::NodeLocation location)
+        inline Ogre::Vector2 getVertex(QuadTreeNodeLocation location)
         {
             switch (location)
             {
-            case TQuadTreeBasicNode<TData, TNode>::TOP_LEFT:
+            case QuadTreeNodeLocation::TOP_LEFT:
                 return mVertexTL;
-            case TQuadTreeBasicNode<TData, TNode>::BOTTOM_LEFT:
+            case QuadTreeNodeLocation::BOTTOM_LEFT:
                 return Ogre::Vector2(mVertexTL.x, mVertexBR.y);
-            case TQuadTreeBasicNode<TData, TNode>::BOTTOM_RIGHT:
+            case QuadTreeNodeLocation::BOTTOM_RIGHT:
                 return mVertexBR;
-            case TQuadTreeBasicNode<TData, TNode>::TOP_RIGHT:
+            case QuadTreeNodeLocation::TOP_RIGHT:
                 return Ogre::Vector2(mVertexBR.x, mVertexTL.y);
             default:
                 Throw(IllegalArgumentException, "unknown NodeLocation type.");
@@ -363,7 +361,7 @@ namespace rl
          * TOP_LEFT).
          * @param location new location direction
          */
-        void createNewRootNode(enum rl::TQuadTreeBasicNode<TData, TNode>::NodeLocation location);
+        void createNewRootNode(QuadTreeNodeLocation location);
 
         /** maximum number of elements in one leaf.
          * Whenever this number is reached a subdivision takes place.
@@ -488,7 +486,7 @@ namespace rl
          * @param location gives the position of the vertex
          * @param vertex contains the new value
          */
-        void setVertex(enum rl::TQuadTreeBasicNode<TData, TNode>::NodeLocation location, Ogre::Vector2 vertex);
+        void setVertex(QuadTreeNodeLocation location, Ogre::Vector2 vertex);
 
         /** maximum number of elements in one leaf.
          * Whenever this number is reached a subdivision takes place.
@@ -565,18 +563,16 @@ namespace rl
             return; // last level reached, prevent subdivision
 
         Ogre::Real halfWidth = this->mWidth / 2.0f;
-        Ogre::Vector2 center(getVertex(this->TOP_LEFT) + Ogre::Vector2(halfWidth, halfWidth));
+        Ogre::Vector2 center(this->getVertex(QuadTreeNodeLocation::TOP_LEFT) + Ogre::Vector2(halfWidth, halfWidth));
         // create 4 subnodes
-        this->mNodes[TQuadTreeBasicNode<TData, TNode>::TOP_LEFT]
+        this->mNodes[QuadTreeNodeLocation::TOP_LEFT]
             = new TNode(mMaxData, mMaxDepth - 1, mLooseness / 2.0f, this->mVertexTL, center, halfWidth);
-        this->mNodes[TQuadTreeBasicNode<TData, TNode>::BOTTOM_LEFT]
-            = new TNode(mMaxData, mMaxDepth - 1, mLooseness / 2.0f, Ogre::Vector2(this->mVertexTL.x, center.y),
-                Ogre::Vector2(center.x, this->mVertexBR.y), halfWidth);
-        this->mNodes[TQuadTreeBasicNode<TData, TNode>::BOTTOM_RIGHT]
+        this->mNodes[QuadTreeNodeLocation::BOTTOM_LEFT] = new TNode(mMaxData, mMaxDepth - 1, mLooseness / 2.0f,
+            Ogre::Vector2(this->mVertexTL.x, center.y), Ogre::Vector2(center.x, this->mVertexBR.y), halfWidth);
+        this->mNodes[QuadTreeNodeLocation::BOTTOM_RIGHT]
             = new TNode(mMaxData, mMaxDepth - 1, mLooseness / 2.0f, center, this->mVertexBR, halfWidth);
-        this->mNodes[TQuadTreeBasicNode<TData, TNode>::TOP_RIGHT]
-            = new TNode(mMaxData, mMaxDepth - 1, mLooseness / 2.0f, Ogre::Vector2(center.x, this->mVertexTL.y),
-                Ogre::Vector2(this->mVertexBR.x, center.y), halfWidth);
+        this->mNodes[QuadTreeNodeLocation::TOP_RIGHT] = new TNode(mMaxData, mMaxDepth - 1, mLooseness / 2.0f,
+            Ogre::Vector2(center.x, this->mVertexTL.y), Ogre::Vector2(this->mVertexBR.x, center.y), halfWidth);
 
         // distribute the data accordingly between the subnodes
         Ogre::AxisAlignedBox aab;
@@ -645,19 +641,18 @@ namespace rl
     }
 
     template <class TData, class TNode>
-    void TLooseQuadTreeNode<TData, TNode>::setVertex(
-        enum rl::TQuadTreeBasicNode<TData, TNode>::NodeLocation location, Ogre::Vector2 vertex)
+    void TLooseQuadTreeNode<TData, TNode>::setVertex(QuadTreeNodeLocation location, Ogre::Vector2 vertex)
     {
         switch (location)
         {
-        case TQuadTreeBasicNode<TData, TNode>::TOP_LEFT:
+        case QuadTreeNodeLocation::TOP_LEFT:
             this->mVertexTL = vertex;
             break;
-        case TQuadTreeBasicNode<TData, TNode>::BOTTOM_RIGHT:
+        case QuadTreeNodeLocation::BOTTOM_RIGHT:
             this->mVertexBR = vertex;
             break;
-        case TQuadTreeBasicNode<TData, TNode>::BOTTOM_LEFT:
-        case TQuadTreeBasicNode<TData, TNode>::TOP_RIGHT:
+        case QuadTreeNodeLocation::BOTTOM_LEFT:
+        case QuadTreeNodeLocation::TOP_RIGHT:
             Throw(IllegalArgumentException, "Cannot set lowerleft/upperright corner");
             break;
         default:
@@ -708,8 +703,7 @@ namespace rl
     }
 
     template <class TData, class TNode>
-    void TLooseQuadTree<TData, TNode>::createNewRootNode(
-        enum rl::TQuadTreeBasicNode<TData, TNode>::NodeLocation location)
+    void TLooseQuadTree<TData, TNode>::createNewRootNode(QuadTreeNodeLocation location)
     {
         typedef rl::TQuadTreeBasicNode<TData, TNode> BNode;
         TNode* oldroot = mRoot;
@@ -727,57 +721,57 @@ namespace rl
         Ogre::Vector2 newVertexBR;
         switch (location)
         {
-        case BNode::TOP_LEFT:
+        case QuadTreeNodeLocation::TOP_LEFT:
             // first create new root (top) node
             newVertexBR = vertexBR + Ogre::Vector2(oldWidth, oldWidth);
             mRoot = new TNode(mMaxData, mMaxDepth, newLooseness, vertexTL, newVertexBR, newWidth);
 
-            mRoot->mNodes[BNode::TOP_LEFT] = oldroot;
-            mRoot->mNodes[BNode::BOTTOM_LEFT] = new TNode(mMaxData, oldMaxDepth, oldLooseness,
+            mRoot->mNodes[QuadTreeNodeLocation::TOP_LEFT] = oldroot;
+            mRoot->mNodes[QuadTreeNodeLocation::BOTTOM_LEFT] = new TNode(mMaxData, oldMaxDepth, oldLooseness,
                 Ogre::Vector2(vertexTL.x, vertexBR.y), Ogre::Vector2(vertexBR.x, newVertexBR.y), oldWidth);
-            mRoot->mNodes[BNode::BOTTOM_RIGHT]
+            mRoot->mNodes[QuadTreeNodeLocation::BOTTOM_RIGHT]
                 = new TNode(mMaxData, oldMaxDepth, oldLooseness, vertexBR, newVertexBR, oldWidth);
-            mRoot->mNodes[BNode::TOP_RIGHT] = new TNode(mMaxData, oldMaxDepth, oldLooseness,
+            mRoot->mNodes[QuadTreeNodeLocation::TOP_RIGHT] = new TNode(mMaxData, oldMaxDepth, oldLooseness,
                 Ogre::Vector2(vertexBR.x, vertexTL.y), Ogre::Vector2(newVertexBR.x, vertexBR.y), oldWidth);
 
             break;
-        case BNode::BOTTOM_LEFT:
+        case QuadTreeNodeLocation::BOTTOM_LEFT:
             newVertexTL = vertexTL + Ogre::Vector2(0.0f, -oldWidth);
             newVertexBR = vertexBR + Ogre::Vector2(oldWidth, 0.0f);
             mRoot = new TNode(mMaxData, mMaxDepth, newLooseness, newVertexTL, newVertexBR, newWidth);
 
-            mRoot->mNodes[BNode::TOP_LEFT] = new TNode(
+            mRoot->mNodes[QuadTreeNodeLocation::TOP_LEFT] = new TNode(
                 mMaxData, oldMaxDepth, oldLooseness, newVertexTL, Ogre::Vector2(vertexBR.x, vertexTL.y), oldWidth);
-            mRoot->mNodes[BNode::BOTTOM_LEFT] = oldroot;
-            mRoot->mNodes[BNode::BOTTOM_RIGHT] = new TNode(
+            mRoot->mNodes[QuadTreeNodeLocation::BOTTOM_LEFT] = oldroot;
+            mRoot->mNodes[QuadTreeNodeLocation::BOTTOM_RIGHT] = new TNode(
                 mMaxData, oldMaxDepth, oldLooseness, Ogre::Vector2(vertexBR.x, vertexTL.y), newVertexBR, oldWidth);
-            mRoot->mNodes[BNode::TOP_RIGHT] = new TNode(mMaxData, oldMaxDepth, oldLooseness,
+            mRoot->mNodes[QuadTreeNodeLocation::TOP_RIGHT] = new TNode(mMaxData, oldMaxDepth, oldLooseness,
                 Ogre::Vector2(vertexBR.x, newVertexTL.y), Ogre::Vector2(newVertexBR.x, vertexTL.y), oldWidth);
             break;
-        case BNode::BOTTOM_RIGHT:
+        case QuadTreeNodeLocation::BOTTOM_RIGHT:
             newVertexTL = vertexTL + Ogre::Vector2(-oldWidth, -oldWidth);
             mRoot = new TNode(mMaxData, mMaxDepth, newLooseness, newVertexTL, vertexBR, newWidth);
 
-            mRoot->mNodes[BNode::TOP_LEFT]
+            mRoot->mNodes[QuadTreeNodeLocation::TOP_LEFT]
                 = new TNode(mMaxData, oldMaxDepth, oldLooseness, newVertexTL, vertexTL, oldWidth);
-            mRoot->mNodes[BNode::BOTTOM_LEFT] = new TNode(mMaxData, oldMaxDepth, oldLooseness,
+            mRoot->mNodes[QuadTreeNodeLocation::BOTTOM_LEFT] = new TNode(mMaxData, oldMaxDepth, oldLooseness,
                 Ogre::Vector2(newVertexTL.x, vertexTL.y), Ogre::Vector2(vertexTL.x, vertexBR.y), oldWidth);
-            mRoot->mNodes[BNode::BOTTOM_RIGHT] = oldroot;
-            mRoot->mNodes[BNode::TOP_RIGHT] = new TNode(mMaxData, mMaxDepth, oldLooseness,
+            mRoot->mNodes[QuadTreeNodeLocation::BOTTOM_RIGHT] = oldroot;
+            mRoot->mNodes[QuadTreeNodeLocation::TOP_RIGHT] = new TNode(mMaxData, mMaxDepth, oldLooseness,
                 Ogre::Vector2(vertexTL.x, newVertexTL.y), Ogre::Vector2(vertexBR.x, vertexTL.y), oldWidth);
             break;
-        case BNode::TOP_RIGHT:
+        case QuadTreeNodeLocation::TOP_RIGHT:
             newVertexTL = vertexTL + Ogre::Vector2(-oldWidth, 0.0f);
             newVertexBR = vertexBR + Ogre::Vector2(0.0f, oldWidth);
             mRoot = new TNode(mMaxData, mMaxDepth, newLooseness, newVertexTL, newVertexBR, newWidth);
 
-            mRoot->mNodes[BNode::TOP_LEFT] = new TNode(
+            mRoot->mNodes[QuadTreeNodeLocation::TOP_LEFT] = new TNode(
                 mMaxData, oldMaxDepth, oldLooseness, newVertexTL, Ogre::Vector2(vertexTL.x, vertexBR.y), oldWidth);
-            mRoot->mNodes[BNode::BOTTOM_LEFT] = new TNode(mMaxData, oldMaxDepth, oldLooseness,
+            mRoot->mNodes[QuadTreeNodeLocation::BOTTOM_LEFT] = new TNode(mMaxData, oldMaxDepth, oldLooseness,
                 Ogre::Vector2(newVertexTL.x, vertexBR.y), Ogre::Vector2(vertexTL.x, newVertexBR.y), oldWidth);
-            mRoot->mNodes[BNode::BOTTOM_RIGHT] = new TNode(
+            mRoot->mNodes[QuadTreeNodeLocation::BOTTOM_RIGHT] = new TNode(
                 mMaxData, oldMaxDepth, oldLooseness, Ogre::Vector2(vertexTL.x, vertexBR.y), newVertexBR, oldWidth);
-            mRoot->mNodes[BNode::TOP_RIGHT] = oldroot;
+            mRoot->mNodes[QuadTreeNodeLocation::TOP_RIGHT] = oldroot;
             break;
         default:
             Throw(IllegalArgumentException, "unknown NodeLocation type.");
@@ -792,17 +786,17 @@ namespace rl
         {
             if (v < mRoot->mVertexTL.y)
             {
-                createNewRootNode(TQuadTreeBasicNode<TData, TNode>::BOTTOM_RIGHT);
+                createNewRootNode(QuadTreeNodeLocation::BOTTOM_RIGHT);
                 extend(u, v);
             }
             else if (v > mRoot->mVertexBR.y)
             {
-                createNewRootNode(TQuadTreeBasicNode<TData, TNode>::TOP_RIGHT);
+                createNewRootNode(QuadTreeNodeLocation::TOP_RIGHT);
                 extend(u, v);
             }
             else
             {
-                createNewRootNode(TQuadTreeBasicNode<TData, TNode>::BOTTOM_RIGHT);
+                createNewRootNode(QuadTreeNodeLocation::BOTTOM_RIGHT);
                 extend(u, v);
             }
         }
@@ -810,17 +804,17 @@ namespace rl
         {
             if (v < mRoot->mVertexTL.y)
             {
-                createNewRootNode(TQuadTreeBasicNode<TData, TNode>::BOTTOM_LEFT);
+                createNewRootNode(QuadTreeNodeLocation::BOTTOM_LEFT);
                 extend(u, v);
             }
             else if (v > mRoot->mVertexBR.y)
             {
-                createNewRootNode(TQuadTreeBasicNode<TData, TNode>::TOP_LEFT);
+                createNewRootNode(QuadTreeNodeLocation::TOP_LEFT);
                 extend(u, v);
             }
             else
             {
-                createNewRootNode(TQuadTreeBasicNode<TData, TNode>::BOTTOM_LEFT);
+                createNewRootNode(QuadTreeNodeLocation::BOTTOM_LEFT);
                 extend(u, v);
             }
         }
@@ -828,12 +822,12 @@ namespace rl
         {
             if (v < mRoot->mVertexTL.y)
             {
-                createNewRootNode(TQuadTreeBasicNode<TData, TNode>::BOTTOM_RIGHT);
+                createNewRootNode(QuadTreeNodeLocation::BOTTOM_RIGHT);
                 extend(u, v);
             }
             else if (v > mRoot->mVertexBR.y)
             {
-                createNewRootNode(TQuadTreeBasicNode<TData, TNode>::TOP_RIGHT);
+                createNewRootNode(QuadTreeNodeLocation::TOP_RIGHT);
                 extend(u, v);
             }
         }

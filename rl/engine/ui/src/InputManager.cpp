@@ -60,7 +60,308 @@ using namespace OIS;
 using CEGUI::System;
 using namespace std;
 
-template <> rl::InputManager* Singleton<rl::InputManager>::ms_Singleton = 0;
+template <> rl::InputManager* Singleton<rl::InputManager>::msSingleton = 0;
+
+namespace
+{
+    CEGUI::Key::Scan convert_to_cegui(const OIS::KeyCode keyCode)
+    {
+        switch (keyCode)
+        {
+        case KC_UNASSIGNED:
+            return CEGUI::Key::Unknown;
+        case KC_ESCAPE:
+            return CEGUI::Key::Escape;
+        case KC_1:
+            return CEGUI::Key::One;
+        case KC_2:
+            return CEGUI::Key::Two;
+        case KC_3:
+            return CEGUI::Key::Three;
+        case KC_4:
+            return CEGUI::Key::Four;
+        case KC_5:
+            return CEGUI::Key::Five;
+        case KC_6:
+            return CEGUI::Key::Six;
+        case KC_7:
+            return CEGUI::Key::Seven;
+        case KC_8:
+            return CEGUI::Key::Eight;
+        case KC_9:
+            return CEGUI::Key::Nine;
+        case KC_0:
+            return CEGUI::Key::Zero;
+        case KC_MINUS:
+            return CEGUI::Key::Minus;
+        case KC_EQUALS:
+            return CEGUI::Key::Equals;
+        case KC_BACK:
+            return CEGUI::Key::Backspace;
+        case KC_TAB:
+            return CEGUI::Key::Tab;
+        case KC_Q:
+            return CEGUI::Key::Q;
+        case KC_W:
+            return CEGUI::Key::W;
+        case KC_E:
+            return CEGUI::Key::E;
+        case KC_R:
+            return CEGUI::Key::R;
+        case KC_T:
+            return CEGUI::Key::T;
+        case KC_Y:
+            return CEGUI::Key::Y;
+        case KC_U:
+            return CEGUI::Key::U;
+        case KC_I:
+            return CEGUI::Key::I;
+        case KC_O:
+            return CEGUI::Key::O;
+        case KC_P:
+            return CEGUI::Key::P;
+        case KC_LBRACKET:
+            return CEGUI::Key::LeftBracket;
+        case KC_RBRACKET:
+            return CEGUI::Key::RightBracket;
+        case KC_RETURN:
+            return CEGUI::Key::Return;
+        case KC_LCONTROL:
+            return CEGUI::Key::LeftControl;
+        case KC_A:
+            return CEGUI::Key::A;
+        case KC_S:
+            return CEGUI::Key::S;
+        case KC_D:
+            return CEGUI::Key::D;
+        case KC_F:
+            return CEGUI::Key::F;
+        case KC_G:
+            return CEGUI::Key::G;
+        case KC_H:
+            return CEGUI::Key::H;
+        case KC_J:
+            return CEGUI::Key::J;
+        case KC_K:
+            return CEGUI::Key::K;
+        case KC_L:
+            return CEGUI::Key::L;
+        case KC_SEMICOLON:
+            return CEGUI::Key::Semicolon;
+        case KC_APOSTROPHE:
+            return CEGUI::Key::Apostrophe;
+        case KC_GRAVE:
+            return CEGUI::Key::Grave;
+        case KC_LSHIFT:
+            return CEGUI::Key::LeftShift;
+        case KC_BACKSLASH:
+            return CEGUI::Key::Backslash;
+        case KC_Z:
+            return CEGUI::Key::Z;
+        case KC_X:
+            return CEGUI::Key::X;
+        case KC_C:
+            return CEGUI::Key::C;
+        case KC_V:
+            return CEGUI::Key::V;
+        case KC_B:
+            return CEGUI::Key::B;
+        case KC_N:
+            return CEGUI::Key::N;
+        case KC_M:
+            return CEGUI::Key::M;
+        case KC_COMMA:
+            return CEGUI::Key::Comma;
+        case KC_PERIOD:
+            return CEGUI::Key::Period;
+        case KC_SLASH:
+            return CEGUI::Key::Slash;
+        case KC_RSHIFT:
+            return CEGUI::Key::RightShift;
+        case KC_MULTIPLY:
+            return CEGUI::Key::Multiply;
+        case KC_LMENU:
+            return CEGUI::Key::LeftAlt;
+        case KC_SPACE:
+            return CEGUI::Key::Space;
+        case KC_CAPITAL:
+            return CEGUI::Key::Capital;
+        case KC_F1:
+            return CEGUI::Key::F1;
+        case KC_F2:
+            return CEGUI::Key::F2;
+        case KC_F3:
+            return CEGUI::Key::F3;
+        case KC_F4:
+            return CEGUI::Key::F4;
+        case KC_F5:
+            return CEGUI::Key::F5;
+        case KC_F6:
+            return CEGUI::Key::F6;
+        case KC_F7:
+            return CEGUI::Key::F7;
+        case KC_F8:
+            return CEGUI::Key::F8;
+        case KC_F9:
+            return CEGUI::Key::F9;
+        case KC_F10:
+            return CEGUI::Key::F10;
+        case KC_NUMLOCK:
+            return CEGUI::Key::NumLock;
+        case KC_SCROLL:
+            return CEGUI::Key::ScrollLock;
+        case KC_NUMPAD7:
+            return CEGUI::Key::Numpad7;
+        case KC_NUMPAD8:
+            return CEGUI::Key::Numpad8;
+        case KC_NUMPAD9:
+            return CEGUI::Key::Numpad9;
+        case KC_SUBTRACT:
+            return CEGUI::Key::Subtract;
+        case KC_NUMPAD4:
+            return CEGUI::Key::Numpad4;
+        case KC_NUMPAD5:
+            return CEGUI::Key::Numpad5;
+        case KC_NUMPAD6:
+            return CEGUI::Key::Numpad6;
+        case KC_ADD:
+            return CEGUI::Key::Add;
+        case KC_NUMPAD1:
+            return CEGUI::Key::Numpad1;
+        case KC_NUMPAD2:
+            return CEGUI::Key::Numpad2;
+        case KC_NUMPAD3:
+            return CEGUI::Key::Numpad3;
+        case KC_NUMPAD0:
+            return CEGUI::Key::Numpad0;
+        case KC_DECIMAL:
+            return CEGUI::Key::Decimal;
+        case KC_OEM_102:
+            return CEGUI::Key::OEM_102;
+        case KC_F11:
+            return CEGUI::Key::F11;
+        case KC_F12:
+            return CEGUI::Key::F12;
+        case KC_F13:
+            return CEGUI::Key::F13;
+        case KC_F14:
+            return CEGUI::Key::F14;
+        case KC_F15:
+            return CEGUI::Key::F15;
+        case KC_KANA:
+            return CEGUI::Key::Kana;
+        case KC_ABNT_C1:
+            return CEGUI::Key::ABNT_C1;
+        case KC_CONVERT:
+            return CEGUI::Key::Convert;
+        case KC_NOCONVERT:
+            return CEGUI::Key::NoConvert;
+        case KC_YEN:
+            return CEGUI::Key::Yen;
+        case KC_ABNT_C2:
+            return CEGUI::Key::ABNT_C2;
+        case KC_NUMPADEQUALS:
+            return CEGUI::Key::NumpadEquals;
+        case KC_PREVTRACK:
+            return CEGUI::Key::PrevTrack;
+        case KC_AT:
+            return CEGUI::Key::At;
+        case KC_COLON:
+            return CEGUI::Key::Colon;
+        case KC_UNDERLINE:
+            return CEGUI::Key::Underline;
+        case KC_KANJI:
+            return CEGUI::Key::Kanji;
+        case KC_STOP:
+            return CEGUI::Key::Stop;
+        case KC_AX:
+            return CEGUI::Key::AX;
+        case KC_UNLABELED:
+            return CEGUI::Key::Unlabeled;
+        case KC_NEXTTRACK:
+            return CEGUI::Key::NextTrack;
+        case KC_NUMPADENTER:
+            return CEGUI::Key::NumpadEnter;
+        case KC_RCONTROL:
+            return CEGUI::Key::RightControl;
+        case KC_MUTE:
+            return CEGUI::Key::Mute;
+        case KC_CALCULATOR:
+            return CEGUI::Key::Calculator;
+        case KC_PLAYPAUSE:
+            return CEGUI::Key::PlayPause;
+        case KC_MEDIASTOP:
+            return CEGUI::Key::MediaStop;
+        case KC_VOLUMEDOWN:
+            return CEGUI::Key::VolumeDown;
+        case KC_VOLUMEUP:
+            return CEGUI::Key::VolumeUp;
+        case KC_WEBHOME:
+            return CEGUI::Key::WebHome;
+        case KC_NUMPADCOMMA:
+            return CEGUI::Key::NumpadComma;
+        case KC_DIVIDE:
+            return CEGUI::Key::Divide;
+        case KC_SYSRQ:
+            return CEGUI::Key::SysRq;
+        case KC_RMENU:
+            return CEGUI::Key::RightAlt;
+        case KC_PAUSE:
+            return CEGUI::Key::Pause;
+        case KC_HOME:
+            return CEGUI::Key::Home;
+        case KC_UP:
+            return CEGUI::Key::ArrowUp;
+        case KC_PGUP:
+            return CEGUI::Key::PageUp;
+        case KC_LEFT:
+            return CEGUI::Key::ArrowLeft;
+        case KC_RIGHT:
+            return CEGUI::Key::ArrowRight;
+        case KC_END:
+            return CEGUI::Key::End;
+        case KC_DOWN:
+            return CEGUI::Key::ArrowDown;
+        case KC_PGDOWN:
+            return CEGUI::Key::PageDown;
+        case KC_INSERT:
+            return CEGUI::Key::Insert;
+        case KC_DELETE:
+            return CEGUI::Key::Delete;
+        case KC_LWIN:
+            return CEGUI::Key::LeftWindows;
+        case KC_RWIN:
+            return CEGUI::Key::RightWindows;
+        case KC_APPS:
+            return CEGUI::Key::AppMenu;
+        case KC_POWER:
+            return CEGUI::Key::Power;
+        case KC_SLEEP:
+            return CEGUI::Key::Sleep;
+        case KC_WAKE:
+            return CEGUI::Key::Wake;
+        case KC_WEBSEARCH:
+            return CEGUI::Key::WebSearch;
+        case KC_WEBFAVORITES:
+            return CEGUI::Key::WebFavorites;
+        case KC_WEBREFRESH:
+            return CEGUI::Key::WebRefresh;
+        case KC_WEBSTOP:
+            return CEGUI::Key::WebStop;
+        case KC_WEBFORWARD:
+            return CEGUI::Key::WebForward;
+        case KC_WEBBACK:
+            return CEGUI::Key::WebBack;
+        case KC_MYCOMPUTER:
+            return CEGUI::Key::MyComputer;
+        case KC_MAIL:
+            return CEGUI::Key::Mail;
+        case KC_MEDIASELECT:
+            return CEGUI::Key::MediaSelect;
+        }
+        return CEGUI::Key::Unknown;
+    }
+}
 
 namespace rl
 {
@@ -269,13 +570,13 @@ namespace rl
     {
         using std::make_pair;
 
-        TiXmlDocument* doc = loadDocument(filename);
-        TiXmlElement* dataDocumentContent = doc->RootElement();
+        tinyxml2::XMLDocument* doc = loadDocument(filename);
+        tinyxml2::XMLElement* dataDocumentContent = doc->RootElement();
 
         XmlElementList keymaps = getElementsByTagName(dataDocumentContent, "Key");
         for (unsigned int idx = 0; idx < keymaps.size(); idx++)
         {
-            const TiXmlElement* key = keymaps[idx];
+            const tinyxml2::XMLElement* key = keymaps[idx];
             int keycode = getAttributeValueAsInteger(key, "KeyCode");
 
             CeGuiString s;
@@ -469,7 +770,8 @@ namespace rl
         bool retval = false;
         if (WindowManager::getSingleton().getWindowInputMask() & AbstractWindow::WIT_MOUSE_INPUT)
         {
-            if (CEGUI::System::getSingleton().injectMouseButtonDown(static_cast<CEGUI::MouseButton>(id)))
+            if (CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseButtonDown(
+                    static_cast<CEGUI::MouseButton>(id)))
                 retval = true;
         }
 
@@ -485,7 +787,8 @@ namespace rl
         bool retval = false;
         if (WindowManager::getSingleton().getWindowInputMask() & AbstractWindow::WIT_MOUSE_INPUT)
         {
-            if (CEGUI::System::getSingleton().injectMouseButtonUp(static_cast<CEGUI::MouseButton>(id)))
+            if (CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseButtonUp(
+                    static_cast<CEGUI::MouseButton>(id)))
                 retval = true;
         }
 
@@ -501,7 +804,7 @@ namespace rl
         bool retval = false;
         if (WindowManager::getSingleton().getWindowInputMask() & AbstractWindow::WIT_MOUSE_INPUT)
         {
-            if (CEGUI::System::getSingleton().injectMouseMove(evt.state.X.rel, evt.state.Y.rel))
+            if (CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseMove(evt.state.X.rel, evt.state.Y.rel))
                 retval = true;
         }
 
@@ -536,7 +839,7 @@ namespace rl
             {
                 if (time - mLastTime > 50 * mCount)
                 {
-                    if (CEGUI::System::getSingleton().injectKeyDown(mKey))
+                    if (CEGUI::System::getSingleton().getDefaultGUIContext().injectKeyDown(convert_to_cegui(mKey)))
                         handled = true;
                     else
                     {
@@ -545,12 +848,13 @@ namespace rl
                                 mKey, InputManager::getSingleton().getModifierCode())
                             != NO_CHAR)
                         {
-                            if (CEGUI::System::getSingleton().injectChar(InputManager::getSingleton().getKeyChar(
-                                    mKey, InputManager::getSingleton().getModifierCode())))
+                            if (CEGUI::System::getSingleton().getDefaultGUIContext().injectChar(
+                                    InputManager::getSingleton().getKeyChar(
+                                        mKey, InputManager::getSingleton().getModifierCode())))
                                 handled = true;
                         }
                     }
-                    if (CEGUI::System::getSingleton().injectKeyUp(mKey))
+                    if (CEGUI::System::getSingleton().getDefaultGUIContext().injectKeyUp(convert_to_cegui(mKey)))
                         handled = true;
 
                     mLastTime = time;
@@ -600,14 +904,15 @@ namespace rl
                 }
             }
 
-            if (CEGUI::System::getSingleton().injectKeyDown(evt.key))
+            if (CEGUI::System::getSingleton().getDefaultGUIContext().injectKeyDown(convert_to_cegui(evt.key)))
                 retval = true;
             else
             {
                 static const CEGUI::utf8 NO_CHAR = 0;
                 if (getKeyChar(evt.key, getModifierCode()) != NO_CHAR)
                 {
-                    if (CEGUI::System::getSingleton().injectChar(getKeyChar(evt.key, getModifierCode())))
+                    if (CEGUI::System::getSingleton().getDefaultGUIContext().injectChar(
+                            getKeyChar(evt.key, getModifierCode())))
                         retval = true;
                 }
             }
@@ -633,7 +938,7 @@ namespace rl
         bool retval = false;
         if (WindowManager::getSingleton().getWindowInputMask() & AbstractWindow::WIT_KEYBOARD_INPUT)
         {
-            if (CEGUI::System::getSingleton().injectKeyUp(evt.key))
+            if (CEGUI::System::getSingleton().getDefaultGUIContext().injectKeyUp(convert_to_cegui(evt.key)))
                 retval = true;
         }
 

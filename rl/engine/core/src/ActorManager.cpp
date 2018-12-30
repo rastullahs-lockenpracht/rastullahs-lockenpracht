@@ -38,7 +38,7 @@
 
 using namespace Ogre;
 
-template <> rl::ActorManager* Singleton<rl::ActorManager>::ms_Singleton = 0;
+template <> rl::ActorManager* Singleton<rl::ActorManager>::msSingleton = 0;
 
 namespace rl
 {

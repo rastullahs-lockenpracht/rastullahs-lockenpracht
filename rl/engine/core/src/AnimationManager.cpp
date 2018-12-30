@@ -24,7 +24,7 @@
 #include "ScriptWrapper.h"
 #include "TrackAnimation.h"
 
-template <> rl::AnimationManager* Ogre::Singleton<rl::AnimationManager>::ms_Singleton = 0;
+template <> rl::AnimationManager* Ogre::Singleton<rl::AnimationManager>::msSingleton = 0;
 
 namespace rl
 {

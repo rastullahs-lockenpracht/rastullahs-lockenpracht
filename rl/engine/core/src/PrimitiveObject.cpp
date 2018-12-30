@@ -28,10 +28,10 @@ namespace rl
         : mMaterialName(materialName)
     {
         World* world = CoreSubsystem::getSingleton().getWorld();
-        String manualObjectName = name == StringUtil::BLANK ? world->getUniqueName() : name;
+        String manualObjectName = name == Ogre::BLANKSTRING ? world->getUniqueName() : name;
         mMovableObject = world->getSceneManager()->createManualObject(manualObjectName);
 
-        if (mMaterialName == StringUtil::BLANK)
+        if (mMaterialName == Ogre::BLANKSTRING)
         {
             mMaterialName = "DefaultDebugPrimitiveMaterial";
         }

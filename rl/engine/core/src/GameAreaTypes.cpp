@@ -75,7 +75,7 @@ namespace rl
             for (it = movList.begin(); it != movList.end(); ++it)
             {
                 MovableObject* mov = *it;
-                if (!mov->getUserAny().isNull())
+                if (mov->getUserAny())
                 {
                     // Zur Zeit sind die einzigen an Movables gekn¸pfte Objekte Actoren
                     Actor* act = any_cast<Actor*>(mov->getUserAny());
@@ -233,7 +233,7 @@ namespace rl
         mBody = new OgreNewt::Body(PhysicsManager::getSingleton()._getNewtonWorld(), col);
         mBody->setMaterialGroupID(PhysicsManager::getSingleton().getMaterialID("gamearea"));
 
-        boost::dynamic_pointer_cast<OgreNewt::ConvexCollision>(col)->setAsTriggerVolume(true);
+        std::static_pointer_cast<OgreNewt::ConvexCollision>(col)->setAsTriggerVolume(true);
     }
 
     GameSimpleCollisionAreaType::GameSimpleCollisionAreaType(
@@ -244,6 +244,6 @@ namespace rl
         mBody = new OgreNewt::Body(PhysicsManager::getSingleton()._getNewtonWorld(), col);
         mBody->setMaterialGroupID(PhysicsManager::getSingleton().getMaterialID("gamearea"));
 
-        boost::dynamic_pointer_cast<OgreNewt::ConvexCollision>(col)->setAsTriggerVolume(true);
+        std::static_pointer_cast<OgreNewt::ConvexCollision>(col)->setAsTriggerVolume(true);
     }
 }

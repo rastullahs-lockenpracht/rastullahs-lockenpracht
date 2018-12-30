@@ -15,9 +15,10 @@
  */
 #include "stdinc.h" //precompiled header
 
-#include <CEGUIWindowManager.h>
+#include <CEGUI/GUIContext.h>
+#include <CEGUI/WindowManager.h>
+#include <CEGUI/widgets/FrameWindow.h>
 #include <boost/bind.hpp>
-#include <elements/CEGUIFrameWindow.h>
 
 #include "Exception.h"
 #include "UiPrerequisites.h"
@@ -51,7 +52,7 @@ namespace rl
             Throw(rl::IllegalStateException, Ogre::String("Could not load window '") + xmlfile.c_str() + "'.");
         }
 
-        getRoot()->addChildWindow(mWindow);
+        CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow()->addChild(mWindow);
 
         if (modal)
         {
@@ -77,7 +78,7 @@ namespace rl
         mWindow->hide();
         mWindow->removeAllEvents();
         WindowManager::getSingleton().unregisterWindow(this);
-        getRoot()->removeChildWindow(mWindow);
+        CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow()->removeChild(mWindow);
         CEGUI::WindowManager::getSingleton().destroyWindow(mWindow);
     }
 
@@ -97,7 +98,7 @@ namespace rl
         CEGUI::Window* window = NULL;
         try
         {
-            window = CEGUI::WindowManager::getSingleton().loadWindowLayout(xmlfile, prefix);
+            window = CEGUI::WindowManager::getSingleton().loadLayoutFromFile(xmlfile, prefix);
         }
         catch (...)
         {
@@ -151,17 +152,17 @@ namespace rl
 
     CEGUI::Window* AbstractWindow::getRoot()
     {
-        return CEGUI::WindowManager::getSingleton().getWindow((utf8*)UiSubsystem::CEGUI_ROOT);
+        return CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow();
     }
 
     Window* AbstractWindow::getWindow(const char* name, const char* requiredClass)
     {
-        CEGUI::Window* wnd = CEGUI::WindowManager::getSingleton().getWindow(mNamePrefix + (utf8*)name);
+        CEGUI::Window* wnd = getRoot()->getChild(mNamePrefix + name);
 
         if (wnd == NULL)
             Throw(rl::NullPointerException, "Window " + Ogre::String(name) + " is NULL");
 
-        if (requiredClass != NULL && !wnd->testClassName(requiredClass))
+        if (requiredClass != NULL && wnd->getType() != requiredClass)
         {
             Throw(rl::NullPointerException,
                 "Window " + Ogre::String(name) + " has not the required class " + Ogre::String(requiredClass));
@@ -175,9 +176,9 @@ namespace rl
         return static_cast<Editbox*>(getWindow(name, "Editbox"));
     }
 
-    Checkbox* AbstractWindow::getCheckbox(const char* name)
+    ToggleButton* AbstractWindow::getCheckbox(const char* name)
     {
-        return static_cast<Checkbox*>(getWindow(name, "Checkbox"));
+        return static_cast<ToggleButton*>(getWindow(name, "ToggleButton"));
     }
 
     Listbox* AbstractWindow::getListbox(const char* name)
@@ -252,11 +253,11 @@ namespace rl
 
     void AbstractWindow::centerWindow()
     {
-        CEGUI::Size screenSize = System::getSingleton().getRenderer()->getDisplaySize();
-        CEGUI::Size windowSize = mWindow->getPixelSize();
+        auto screenSize = System::getSingleton().getRenderer()->getDisplaySize();
+        auto windowSize = mWindow->getPixelSize();
         float x = 0.5f * (screenSize.d_width - windowSize.d_width);
         float y = 0.5f * (screenSize.d_height - windowSize.d_height);
-        mWindow->setPosition(CeGuiHelper::asAbsolute(CEGUI::Vector2(x, y)));
+        mWindow->setPosition(CeGuiHelper::asAbsolute(x, y));
     }
 
     void AbstractWindow::bindDestroyWindowToClick(CEGUI::Window* button)
@@ -271,7 +272,8 @@ namespace rl
 
     void AbstractWindow::bindDestroyWindowToXButton()
     {
-        mWindow->subscribeEvent(FrameWindow::EventCloseClicked, boost::bind(&AbstractWindow::destroyWindow, this));
+        mWindow->subscribeEvent(
+            CEGUI::FrameWindow::EventCloseClicked, boost::bind(&AbstractWindow::destroyWindow, this));
     }
 
     void AbstractWindow::bindHideWindowToXButton()

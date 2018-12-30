@@ -34,7 +34,7 @@
 using namespace Ogre;
 using namespace OpenSteer;
 
-template <> rl::AiSubsystem* Singleton<rl::AiSubsystem>::ms_Singleton = 0;
+template <> rl::AiSubsystem* Singleton<rl::AiSubsystem>::msSingleton = 0;
 
 namespace rl
 {

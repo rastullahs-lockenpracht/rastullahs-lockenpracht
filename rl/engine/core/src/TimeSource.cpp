@@ -21,7 +21,7 @@
 #include "GameLoop.h"
 #include "SaveGameManager.h"
 
-template <> rl::TimeSourceManager* Ogre::Singleton<rl::TimeSourceManager>::ms_Singleton = 0;
+template <> rl::TimeSourceManager* Ogre::Singleton<rl::TimeSourceManager>::msSingleton = 0;
 
 namespace rl
 {
@@ -180,12 +180,13 @@ namespace rl
 
     void TimeSourceManager::writeData(SaveGameFileWriter* writer)
     {
-        TiXmlElement* timesources = writer->appendChildElement(writer->getDocument(), getXmlNodeIdentifier().c_str());
+        tinyxml2::XMLElement* timesources
+            = writer->appendChildElement(writer->getDocument(), getXmlNodeIdentifier().c_str());
 
         for (std::map<TimeSource::TimeSourceType, TimeSource*>::const_iterator it_time_sources = mTimeSources.begin();
              it_time_sources != mTimeSources.end(); it_time_sources++)
         {
-            TiXmlElement* timesource = writer->appendChildElement(timesources, "time_source");
+            tinyxml2::XMLElement* timesource = writer->appendChildElement(timesources, "time_source");
             writer->setAttributeValueAsInteger(timesource, "ID", it_time_sources->first);
             Property time((int)it_time_sources->second->getClock());
 
@@ -206,7 +207,7 @@ namespace rl
                 rootNodeList[0], "gameobject"); // there should be only one "gameobjects" node
             for (XmlElementList::iterator it = xmlTimeSources.begin(); it != xmlTimeSources.end(); ++it)
             {
-                const TiXmlElement* xmlTimeSource = *it;
+                const tinyxml2::XMLElement* xmlTimeSource = *it;
                 TimeSource::TimeSourceType ID
                     = (TimeSource::TimeSourceType)reader->getAttributeValueAsInteger(xmlTimeSource, "ID");
                 PropertyRecordPtr properties = reader->getPropertiesAsRecord(xmlTimeSource);

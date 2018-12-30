@@ -129,7 +129,7 @@ namespace rl
         {
             LOG_MESSAGE(Logger::RULES, "Loading map " + mapresource);
 
-            TiXmlDocument* doc = loadDocument(mapresource, mResourceGroup);
+            tinyxml2::XMLDocument* doc = loadDocument(mapresource, mResourceGroup);
 
             if (doc)
             {
@@ -139,7 +139,7 @@ namespace rl
                                      ->getRootSceneNode()
                                      ->createChildSceneNode(mapresource));
 
-                TiXmlElement* dataDocumentContent = doc->RootElement();
+                tinyxml2::XMLElement* dataDocumentContent = doc->RootElement();
 
                 if (getAttributeValueAsString(dataDocumentContent, "formatVersion") != "0.4.0")
                     LOG_ERROR(Logger::SCRIPT, "Map format version doesn't match with the required version");
@@ -255,7 +255,7 @@ namespace rl
         return keys;
     }
 
-    void MapLoader::processSceneNodes(const TiXmlElement* nodesElem, bool loadGameObjects)
+    void MapLoader::processSceneNodes(const tinyxml2::XMLElement* nodesElem, bool loadGameObjects)
     {
         if (nodesElem == NULL)
         {
@@ -264,19 +264,19 @@ namespace rl
 
         setLoadingPercentage(0, "Loading map nodes");
         Ogre::Real numChildren = 0;
-        for (const TiXmlNode* cur = nodesElem->FirstChild(); cur != NULL; cur = cur->NextSibling())
+        for (const tinyxml2::XMLNode* cur = nodesElem->FirstChild(); cur != NULL; cur = cur->NextSibling())
         {
             numChildren++;
         }
 
         int count = 0;
 
-        for (const TiXmlNode* cur = nodesElem->FirstChild(); cur != NULL; cur = cur->NextSibling())
+        for (const tinyxml2::XMLNode* cur = nodesElem->FirstChild(); cur != NULL; cur = cur->NextSibling())
         {
-            if (cur->Type() == TiXmlNode::ELEMENT)
-            {
-                const TiXmlElement* curElem = cur->ToElement();
+            const tinyxml2::XMLElement* curElem = cur->ToElement();
 
+            if (curElem)
+            {
                 std::list<AbstractMapNodeProcessor*>::iterator it = mNodeProcessors.begin();
                 while (it != mNodeProcessors.end() && !(*it)->processNode(curElem, mResourceGroup, loadGameObjects))
                 {

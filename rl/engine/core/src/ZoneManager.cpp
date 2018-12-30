@@ -32,7 +32,7 @@
 
 using namespace Ogre;
 
-template <> rl::ZoneManager* Ogre::Singleton<rl::ZoneManager>::ms_Singleton = 0;
+template <> rl::ZoneManager* Ogre::Singleton<rl::ZoneManager>::msSingleton = 0;
 
 namespace rl
 {
@@ -535,7 +535,7 @@ namespace rl
 
     void ZoneManager::writeData(SaveGameFileWriter* writer)
     {
-        TiXmlElement* zoneManagerNode
+        tinyxml2::XMLElement* zoneManagerNode
             = writer->appendChildElement(writer->getDocument()->RootElement(), getXmlNodeIdentifier().c_str());
 
         // look at all zones if they need to be saved
@@ -544,7 +544,7 @@ namespace rl
             // does this zone wants to be saved
             if (zone->second->needsToBeSaved())
             {
-                TiXmlElement* zoneNode = writer->appendChildElement(zoneManagerNode, "zone");
+                tinyxml2::XMLElement* zoneNode = writer->appendChildElement(zoneManagerNode, "zone");
                 writer->setAttributeValueAsStdString(zoneNode, "name", zone->first);
 
                 // save all areas of the zone
@@ -552,7 +552,7 @@ namespace rl
                 ;
                 for (gam = zone->second->getEventSources().begin(); gam != zone->second->getEventSources().end(); gam++)
                 {
-                    TiXmlElement* areaNode = writer->appendChildElement(zoneNode, "area");
+                    tinyxml2::XMLElement* areaNode = writer->appendChildElement(zoneNode, "area");
                     writer->writeEachPropertyToElem(areaNode, (*gam)->mProperties.toPropertyMap());
                 }
 
@@ -592,14 +592,14 @@ namespace rl
 
             for (XmlElementList::iterator it = xmlZones.begin(); it != xmlZones.end(); ++it)
             {
-                const TiXmlElement* xmlZone = *it;
+                const tinyxml2::XMLElement* xmlZone = *it;
                 Ogre::String name = reader->getAttributeValueAsStdString(xmlZone, "name");
                 Zone* zone = createZone(name, true);
 
                 XmlElementList xmlAreas = reader->getElementsByTagName(xmlZone, "area");
                 for (XmlElementList::iterator itA = xmlAreas.begin(); itA != xmlAreas.end(); ++itA)
                 {
-                    const TiXmlElement* xmlArea = *itA;
+                    const tinyxml2::XMLElement* xmlArea = *itA;
                     PropertyRecordPtr properties = reader->getPropertiesAsRecord(xmlArea);
                     parseAreaProperties(name, properties);
                 }

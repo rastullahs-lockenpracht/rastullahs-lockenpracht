@@ -42,12 +42,12 @@ namespace rl
         , mAlignment(MovableText::ALIGN_LEFT)
 
     {
-        if (name == StringUtil::BLANK)
+        if (name == Ogre::BLANKSTRING)
         {
             Throw(IllegalArgumentException, "Trying to create MovableText without name");
         }
 
-        if (caption == StringUtil::BLANK)
+        if (caption == Ogre::BLANKSTRING)
         {
             Throw(IllegalArgumentException, "Trying to create MovableText without caption");
         }
@@ -66,12 +66,12 @@ namespace rl
     /************************************************************************/
     void MovableText::setFontName(const String& fontName)
     {
-        if (mFontName != fontName || mMaterial.isNull() || mFont == 0)
+        if (mFontName != fontName || !mMaterial || !mFont)
         {
             mFontName = fontName;
-            mFont = static_cast<Font*>(FontManager::getSingleton().getByName(mFontName).getPointer());
+            mFont = static_cast<Font*>(FontManager::getSingleton().getByName(mFontName).get());
 
-            if (mFont == 0)
+            if (!mFont)
             {
                 Throw(IllegalArgumentException, "Could not find font " + fontName);
             }
@@ -81,10 +81,10 @@ namespace rl
                 mFont->load();
             }
 
-            if (!mMaterial.isNull())
+            if (mMaterial)
             {
                 MaterialManager::getSingletonPtr()->remove(mMaterial->getName());
-                mMaterial.setNull();
+                mMaterial.reset();
             }
 
             mMaterial = mFont->getMaterial()->clone(mName + "Material");
@@ -104,7 +104,7 @@ namespace rl
     {
         mOnTop = show;
 
-        RlAssert1(!mMaterial.isNull());
+        RlAssert1(mMaterial);
 
         mMaterial->setDepthBias(!mOnTop, !mOnTop);
         mMaterial->setDepthCheckEnabled(!mOnTop);
@@ -155,7 +155,7 @@ namespace rl
     void MovableText::_setupGeometry()
     {
         RlAssert1(mFont);
-        RlAssert1(!mMaterial.isNull());
+        RlAssert1(mMaterial);
 
         unsigned int vertexCount = mCaption.size() * 6;
 
@@ -409,7 +409,7 @@ namespace rl
     void MovableText::_updateColours(void)
     {
         RlAssert1(mFont);
-        RlAssert1(!mMaterial.isNull());
+        RlAssert1(mMaterial);
 
         // Convert to system-specific
         RGBA colour;

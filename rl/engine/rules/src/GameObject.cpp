@@ -16,7 +16,7 @@
 #include "stdinc.h" //precompiled header
 
 #include "GameObject.h"
-#include <CEGUIPropertyHelper.h>
+#include <CEGUI/PropertyHelper.h>
 
 #include "Action.h"
 #include "ActionManager.h"
@@ -196,8 +196,8 @@ namespace rl
 
         mActions.push_back(make_pair(action, option));
         LOG_MESSAGE(Logger::RULES,
-            "Bei GameObject #" + CEGUI::PropertyHelper::intToString(mId) + " (" + getName() + ") wurde Aktion "
-                + action->getName().c_str() + " hinzugefuegt.");
+            "Bei GameObject #" + std::to_string(mId) + " (" + getName() + ") wurde Aktion " + action->getName().c_str()
+                + " hinzugefuegt.");
     }
 
     void GameObject::addActionInGroup(Action* action, ActionGroup* group, int option)
@@ -689,8 +689,8 @@ namespace rl
             if (mMeshfile.empty() && mMeshParts.empty())
             {
                 LOG_ERROR(Logger::RULES,
-                    "Neither mesh file nor mesh parts are set on gameobject '" + getName() + "' (id: " + getId()
-                        + "). Can't create actor!");
+                    "Neither mesh file nor mesh parts are set on gameobject '" + getName()
+                        + "' (id: " + std::to_string(getId()) + "). Can't create actor!");
             }
             else if (!mMeshParts.empty())
             {

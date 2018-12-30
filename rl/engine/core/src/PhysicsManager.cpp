@@ -33,7 +33,7 @@ using namespace std;
 using namespace OgreNewt;
 using namespace Ogre;
 
-template <> rl::PhysicsManager* Singleton<rl::PhysicsManager>::ms_Singleton = 0;
+template <> rl::PhysicsManager* Singleton<rl::PhysicsManager>::msSingleton = 0;
 
 namespace rl
 {

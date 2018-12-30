@@ -17,7 +17,7 @@
 
 #include "RenderSystemConfigComponent.h"
 
-#include <CEGUIWindowManager.h>
+#include <CEGUI/WindowManager.h>
 
 namespace rl
 {

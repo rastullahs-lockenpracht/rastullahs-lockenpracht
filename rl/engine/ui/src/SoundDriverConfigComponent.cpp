@@ -18,7 +18,7 @@
 #include "SoundDriverConfigComponent.h"
 
 #include "SoundDriver.h"
-#include <CEGUIWindowManager.h>
+#include <CEGUI/WindowManager.h>
 
 namespace rl
 {

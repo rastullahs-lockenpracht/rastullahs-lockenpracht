@@ -29,8 +29,9 @@ namespace rl
     public:
         /// Name has to be unique among all ActorControlledObject names.
         /// By default the name is generated.
-        BoxPrimitive(const Ogre::AxisAlignedBox& size, const Ogre::String& name = Ogre::StringUtil::BLANK,
-            const Ogre::String& materialName = Ogre::StringUtil::BLANK);
+        BoxPrimitive(
+            const Ogre::AxisAlignedBox& size, const Ogre::String& name = "", const Ogre::String& materialName = "");
+
         virtual ~BoxPrimitive()
         {
         }

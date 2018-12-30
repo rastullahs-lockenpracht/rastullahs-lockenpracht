@@ -22,7 +22,7 @@
 
 #include "ScriptWrapper.h"
 
-template <> rl::ActionManager* Singleton<rl::ActionManager>::ms_Singleton = 0;
+template <> rl::ActionManager* Singleton<rl::ActionManager>::msSingleton = 0;
 namespace rl
 {
 

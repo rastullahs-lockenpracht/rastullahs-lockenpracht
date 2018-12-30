@@ -24,7 +24,6 @@
 
 namespace rl
 {
-
     PhysicsRagDoll::RagBone::RagBone(PhysicsRagDoll* creator, OgreNewt::World* world, PhysicsRagDoll::RagBone* parent,
         Ogre::Bone* ogreBone, Ogre::MeshPtr mesh, Ogre::Vector3 dir, PhysicsRagDoll::RagBone::BoneShape shape,
         Ogre::Vector3 size, Ogre::Real mass, Actor* parentActor)
@@ -257,7 +256,7 @@ namespace rl
         : mRootBone(NULL)
         , mNode(NULL)
         , mWorld(NULL)
-        , mMesh(NULL)
+        , mMesh()
         , mSkeleton(NULL)
     {
         mRootBone = NULL;
@@ -279,7 +278,7 @@ namespace rl
 
         LOG_MESSAGE(Logger::CORE, "Loading ragdoll '" + ragdollResource + "'");
 
-        TiXmlDocument* doc = loadDocument(ragdollResource);
+        tinyxml2::XMLDocument* doc = loadDocument(ragdollResource);
         if (!doc)
         {
             LOG_ERROR(Logger::CORE, "Ragdoll resource '" + ragdollResource + "' not found");
@@ -287,13 +286,13 @@ namespace rl
         else
         {
 
-            TiXmlElement* dataDocumentContent = doc->RootElement();
+            tinyxml2::XMLElement* dataDocumentContent = doc->RootElement();
             mRootBone = _addAllBones(NULL, getChildNamed(dataDocumentContent, "Bone"), actor);
         }
     }
 
     PhysicsRagDoll::RagBone* PhysicsRagDoll::_addAllBones(
-        PhysicsRagDoll::RagBone* parent, TiXmlElement* boneElement, Actor* parentActor)
+        PhysicsRagDoll::RagBone* parent, tinyxml2::XMLElement* boneElement, Actor* parentActor)
     {
         // get the information for the bone represented by this element.
         Ogre::Vector3 dir = getAttributeValueAsVector3(boneElement, "dir");
@@ -354,7 +353,7 @@ namespace rl
         // get the joint to connect this bone with it's parent.
         if (parent && me->getBody())
         {
-            TiXmlElement* jointElement = getChildNamed(boneElement, "Joint");
+            tinyxml2::XMLElement* jointElement = getChildNamed(boneElement, "Joint");
             if (!jointElement)
             {
                 // error!
@@ -387,11 +386,12 @@ namespace rl
         ///////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////////
         // add all children of this bone.
-        for (TiXmlNode* cur = boneElement->FirstChild(); cur; cur = cur->NextSibling())
+        for (tinyxml2::XMLNode* cur = boneElement->FirstChild(); cur; cur = cur->NextSibling())
         {
-            if (cur->Type() == TiXmlNode::ELEMENT && hasNodeName(cur, "Bone"))
+            tinyxml2::XMLElement* elem = cur->ToElement();
+            if (elem && hasNodeName(elem, "Bone"))
             {
-                _addAllBones(me, cur->ToElement(), parentActor);
+                _addAllBones(me, elem, parentActor);
             }
         }
 

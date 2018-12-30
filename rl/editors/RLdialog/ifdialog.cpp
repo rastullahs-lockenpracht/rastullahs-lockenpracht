@@ -151,7 +151,7 @@ DomParser::DomParser(QIODevice* device)
     CatNode = root.firstChild();
     CatNodeList = CatNode.childNodes();
 
-    /*while (!node.isNull())
+    /*while (node)
     {
         if(node.toElement().tagName() == "Inhalt")
         {talents = talents << node.toElement().attribute("ID");

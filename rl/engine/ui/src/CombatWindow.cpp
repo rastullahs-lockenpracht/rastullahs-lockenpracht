@@ -21,7 +21,7 @@
 #include "MessagePump.h"
 #include "UiMessages.h"
 
-#include <CEGUIWindowManager.h>
+#include <CEGUI/WindowManager.h>
 
 using namespace CEGUI;
 using namespace Ogre;
@@ -37,12 +37,12 @@ namespace rl
         , mButtonPadding(3)
     {
         int width = 0, height = 0;
-        Window* w = CEGUI::WindowManager::getSingleton().loadWindowLayout("buttons/attack.xml");
-        CEGUI::Size size = w->getPixelSize();
+        Window* w = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("buttons/attack.xml");
+        auto size = w->getPixelSize();
         height = std::max((int)size.d_height, height);
         width += (int)size.d_width + mButtonPadding;
         CEGUI::WindowManager::getSingleton().destroyWindow(w);
-        w = CEGUI::WindowManager::getSingleton().loadWindowLayout("buttons/parry.xml");
+        w = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("buttons/parry.xml");
         size = w->getPixelSize();
         height = std::max((int)size.d_height, height);
         width += (int)size.d_width;
@@ -50,7 +50,7 @@ namespace rl
         mSetSize = SetSize(width, height);
 
         getWindow("CombatWindow/EndTurnButton")
-            ->subscribeEvent(CEGUI::Window::EventMouseClick, boost::bind(&CombatWindow::endTurnButtonClicked, this));
+            ->subscribeEvent(CEGUI::Window::EventMouseClick, &CombatWindow::endTurnButtonClicked, this);
     }
 
     CombatWindow::~CombatWindow()
@@ -73,11 +73,11 @@ namespace rl
     {
         CeGuiString prefix = CeGuiString("_") + StringConverter::toString(mNextHandle).c_str();
         ButtonVector buttons;
-        Window* attackButton = CEGUI::WindowManager::getSingleton().loadWindowLayout("buttons/attack.xml", prefix);
-        mWindow->addChildWindow(attackButton);
+        Window* attackButton = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("buttons/attack.xml", prefix);
+        mWindow->addChild(attackButton);
         buttons.push_back(attackButton);
-        Window* parryButton = CEGUI::WindowManager::getSingleton().loadWindowLayout("buttons/parry.xml", prefix);
-        mWindow->addChildWindow(parryButton);
+        Window* parryButton = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("buttons/parry.xml", prefix);
+        mWindow->addChild(parryButton);
         buttons.push_back(parryButton);
         mButtons.insert(std::make_pair(mNextHandle, buttons));
 

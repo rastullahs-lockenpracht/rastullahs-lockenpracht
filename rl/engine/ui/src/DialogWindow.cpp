@@ -17,9 +17,9 @@
 
 #include "DialogWindow.h"
 
+#include <CEGUI/widgets/FrameWindow.h>
+#include <CEGUI/widgets/ListboxTextItem.h>
 #include <boost/bind.hpp>
-#include <elements/CEGUIFrameWindow.h>
-#include <elements/CEGUIListboxTextItem.h>
 
 #include "ConfigurationManager.h"
 #include "Creature.h"
@@ -39,8 +39,8 @@ namespace rl
     using namespace Ogre;
     using namespace CEGUI;
 
-    const CEGUI::colour DialogWindow::COLOR_PLAYER_CHARACTER(0xFFFF7F7F);
-    const CEGUI::colour DialogWindow::COLOR_NON_PLAYER_CHARACTER(0xFFFFFF7F);
+    const CEGUI::Colour DialogWindow::COLOR_PLAYER_CHARACTER(0xFFFF7F7F);
+    const CEGUI::Colour DialogWindow::COLOR_NON_PLAYER_CHARACTER(0xFFFFFF7F);
 
     DialogWindow::DialogWindow(DialogControlState* controller)
         : AbstractWindow("dialogwindow.xml", WIT_MOUSE_INPUT, false)

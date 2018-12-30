@@ -23,7 +23,7 @@ namespace rl
 {
 
     class PropertyRecord;
-    class PropertyRecordPtr;
+    using PropertyRecordPtr = std::shared_ptr<PropertyRecord>;
     typedef std::set<CeGuiString> PropertyKeys;
     /**
      * This is the base class of all objects having Propertys
@@ -66,30 +66,7 @@ namespace rl
         PropertyRecordMap mProperties;
     };
 
-    class _RlCommonExport PropertyRecordPtr : public Ogre::SharedPtr<PropertyRecord>
-    {
-    public:
-        PropertyRecordPtr()
-            : Ogre::SharedPtr<PropertyRecord>()
-        {
-        }
-        explicit PropertyRecordPtr(PropertyRecord* rep)
-            : Ogre::SharedPtr<PropertyRecord>(rep)
-        {
-        }
-        PropertyRecordPtr(const PropertyRecordPtr& res)
-            : Ogre::SharedPtr<PropertyRecord>(res)
-        {
-        }
-
-    protected:
-        void destroy()
-        {
-            Ogre::SharedPtr<PropertyRecord>::destroy();
-        }
-    };
-
-    typedef std::vector<PropertyRecordPtr> PropertyRecordVector;
+    using PropertyRecordVector = std::vector<PropertyRecordPtr>;
 }
 
 #endif //__Properties_H__

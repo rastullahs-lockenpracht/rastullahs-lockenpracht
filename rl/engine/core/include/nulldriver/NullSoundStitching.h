@@ -38,9 +38,9 @@ namespace rl
         virtual ~NullSoundStitching();
 
         /// Laedt den Sound.
-        virtual void load() throw(RuntimeException);
+        virtual void load();
         /// Entlaedt den Sound.
-        virtual void unload() throw(RuntimeException);
+        virtual void unload();
 
         /// Moveable-Typ
         virtual const Ogre::String& getMovableType() const;
@@ -71,7 +71,7 @@ namespace rl
         /// Stoppt den Sound.
         void stop();
         /// Zurueck auf Anfang.
-        //         void rewind() throw (RuntimeException);
+        //         void rewind();
         /// Laeuft der Sound noch
         const bool isPlaying() const;
 
@@ -87,31 +87,13 @@ namespace rl
 
     protected:
         // Sind wir gueltig?
-        virtual bool isValid() const throw(RuntimeException);
+        virtual bool isValid() const;
 
     private:
         // Shared class-level name for Movable type
         static Ogre::String msMovableType;
     };
 
-    class _RlCoreExport NullSoundStitchingPtr : public Ogre::SharedPtr<NullSoundStitching>
-    {
-    public:
-        NullSoundStitchingPtr()
-            : Ogre::SharedPtr<NullSoundStitching>()
-        {
-        }
-        explicit NullSoundStitchingPtr(NullSoundStitching* rep)
-            : Ogre::SharedPtr<NullSoundStitching>(rep)
-        {
-        }
-        NullSoundStitchingPtr(const NullSoundStitchingPtr& res)
-            : Ogre::SharedPtr<NullSoundStitching>(res)
-        {
-        }
-
-    protected:
-        void destroy();
-    };
+    using NullSoundStitchingPtr = Ogre::SharedPtr<NullSoundStitching>;
 }
 #endif

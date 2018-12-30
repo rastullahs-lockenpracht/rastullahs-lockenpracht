@@ -17,9 +17,9 @@
 
 #include "CharacterSheetWindow.h"
 
-#include <CEGUIPropertyHelper.h>
+#include <CEGUI/PropertyHelper.h>
+#include <CEGUI/widgets/ListboxTextItem.h>
 #include <boost/bind.hpp>
-#include <elements/CEGUIListboxTextItem.h>
 
 #include "Creature.h"
 #include "DsaManager.h"
@@ -39,10 +39,10 @@ namespace rl
         , mCharacter(NULL)
     {
         mTalentTable = getMultiColumnList("CharacterSheet/TalentSheet/Table");
-        mTalentTable->addColumn((utf8*)"Talent", 0, cegui_reldim(0.5));
-        mTalentTable->addColumn((utf8*)"Probe", 1, cegui_reldim(0.3));
-        mTalentTable->addColumn((utf8*)"eBE", 2, cegui_reldim(0.1));
-        mTalentTable->addColumn((utf8*)"TW", 3, cegui_reldim(0.1));
+        mTalentTable->addColumn("Talent", 0, cegui_reldim(0.5));
+        mTalentTable->addColumn("Probe", 1, cegui_reldim(0.3));
+        mTalentTable->addColumn("eBE", 2, cegui_reldim(0.1));
+        mTalentTable->addColumn("TW", 3, cegui_reldim(0.1));
         mTalentTable->setUserSortControlEnabled(false);
 
         mLE = getWindow("CharacterSheet/CharacterSheet/LE");
@@ -176,9 +176,9 @@ namespace rl
             else if (talent->getEbe() == 0)
                 eBe = "BE";
             else if (talent->getEbe() > 0)
-                eBe = "BE+" + CEGUI::PropertyHelper::intToString(talent->getEbe());
+                eBe = "BE+" + CEGUI::PropertyHelper<int>::toString(talent->getEbe());
             else
-                eBe = "BE" + CEGUI::PropertyHelper::intToString(talent->getEbe());
+                eBe = "BE" + CEGUI::PropertyHelper<int>::toString(talent->getEbe());
 
             mTalentTable->setItem(new ListboxTextItem(eBe), 2, talentNum);
             mTalentTable->setItem(new ListboxTextItem(""), 3, talentNum);

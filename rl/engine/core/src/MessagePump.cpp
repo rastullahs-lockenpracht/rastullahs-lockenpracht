@@ -17,7 +17,7 @@
 
 #include "MessagePump.h"
 
-template <> rl::MessagePump* Ogre::Singleton<rl::MessagePump>::ms_Singleton = 0;
+template <> rl::MessagePump* Ogre::Singleton<rl::MessagePump>::msSingleton = 0;
 
 namespace rl
 {

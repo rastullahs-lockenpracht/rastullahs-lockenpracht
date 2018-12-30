@@ -21,7 +21,7 @@
 #include "Properties.h"
 #include "XmlPropertyWriter.h"
 
-#include <CEGUIPropertyHelper.h>
+#include <CEGUI/PropertyHelper.h>
 
 using namespace Ogre;
 
@@ -36,7 +36,7 @@ namespace rl
     {
     }
 
-    TiXmlDocument* XmlPropertyWriter::getDocument()
+    tinyxml2::XMLDocument* XmlPropertyWriter::getDocument()
     {
         return mDocument;
     }
@@ -51,9 +51,9 @@ namespace rl
         mPropertyRecords.push_back(set);
     }
 
-    TiXmlElement* XmlPropertyWriter::processProperty(TiXmlElement* parent, const PropertyEntry& entry)
+    tinyxml2::XMLElement* XmlPropertyWriter::processProperty(tinyxml2::XMLElement* parent, const PropertyEntry& entry)
     {
-        TiXmlElement* element = NULL;
+        tinyxml2::XMLElement* element = NULL;
         if (!entry.second.isEmpty())
         {
             if (entry.second.isArray())
@@ -96,18 +96,18 @@ namespace rl
         return element;
     }
 
-    TiXmlElement* XmlPropertyWriter::processPropertyRecord(
-        TiXmlElement* parent, const char* const name, const PropertyRecord& set)
+    tinyxml2::XMLElement* XmlPropertyWriter::processPropertyRecord(
+        tinyxml2::XMLElement* parent, const char* const name, const PropertyRecord& set)
     {
         PropertyMap map = set.toPropertyMap();
 
         return processPropertyMap(parent, name, map);
     }
 
-    TiXmlElement* XmlPropertyWriter::processPropertyArray(
-        TiXmlElement* parent, const char* const name, const PropertyArray& vector)
+    tinyxml2::XMLElement* XmlPropertyWriter::processPropertyArray(
+        tinyxml2::XMLElement* parent, const char* const name, const PropertyArray& vector)
     {
-        TiXmlElement* element = appendChildElement(parent, "property");
+        tinyxml2::XMLElement* element = appendChildElement(parent, "property");
         if (name[0] != '\0')
             setAttribute(element, "name", name);
         setAttribute(element, "type", "ARRAY");
@@ -120,10 +120,10 @@ namespace rl
         return element;
     }
 
-    TiXmlElement* XmlPropertyWriter::processPropertyMap(
-        TiXmlElement* parent, const char* const name, const PropertyMap& map)
+    tinyxml2::XMLElement* XmlPropertyWriter::processPropertyMap(
+        tinyxml2::XMLElement* parent, const char* const name, const PropertyMap& map)
     {
-        TiXmlElement* element = appendChildElement(parent, "property");
+        tinyxml2::XMLElement* element = appendChildElement(parent, "property");
         if (name[0] != '\0')
             setAttribute(element, "name", name);
         setAttribute(element, "type", "MAP");
@@ -136,7 +136,7 @@ namespace rl
         return element;
     }
 
-    void XmlPropertyWriter::writeEachPropertyToElem(TiXmlElement* parent, const rl::PropertyMap& map)
+    void XmlPropertyWriter::writeEachPropertyToElem(tinyxml2::XMLElement* parent, const rl::PropertyMap& map)
     {
         PropertyMap::const_iterator it_properties;
         for (it_properties = map.begin(); it_properties != map.end(); it_properties++)

@@ -18,8 +18,8 @@
 #include "SoundConfig.h"
 
 #include <boost/bind.hpp>
-#include <elements/CEGUIFrameWindow.h>
-#include <elements/CEGUIListboxTextItem.h>
+#include <CEGUI/widgets/FrameWindow.h>
+#include <CEGUI/widgets/ListboxTextItem.h>
 
 #include "Exception.h"
 #include "SoundDriver.h"

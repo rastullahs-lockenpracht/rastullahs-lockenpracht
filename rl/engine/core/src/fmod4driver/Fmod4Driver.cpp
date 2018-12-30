@@ -310,7 +310,7 @@ namespace rl
         }
 
         SoundResourcePtr* sound = static_cast<SoundResourcePtr*>(handle);
-        if (!sound->isNull())
+        if (*sound)
         {
             if (!(*sound)->isLoaded())
             {
@@ -318,7 +318,7 @@ namespace rl
             }
 
             DataStreamPtr ds = (*sound)->getDataStream();
-            if (!ds.isNull())
+            if (ds)
             {
                 *bytesread = ds->read(buffer, sizebytes);
                 if (*bytesread < sizebytes)
@@ -340,10 +340,10 @@ namespace rl
         }
 
         SoundResourcePtr* sound = static_cast<SoundResourcePtr*>(handle);
-        if (!sound->isNull())
+        if (*sound)
         {
             DataStreamPtr ds = (*sound)->getDataStream();
-            if (!ds.isNull())
+            if (ds)
             {
                 ds->seek(pos);
                 return FMOD_OK;

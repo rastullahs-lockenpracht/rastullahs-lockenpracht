@@ -18,8 +18,7 @@
 
 #include "UiPrerequisites.h"
 
-#include <CEGUI.h>
-#include <elements/CEGUIDragContainer.h>
+#include <CEGUI/widgets/DragContainer.h>
 
 namespace rl
 {
@@ -61,7 +60,6 @@ namespace rl
         CEGUI::Window* mContentWindow;
 
         ItemDragContainer(const CeGuiString& type, const CeGuiString& name);
-        virtual bool testClassName_impl(const CEGUI::String& class_name) const;
 
     private:
         Item* mItem;

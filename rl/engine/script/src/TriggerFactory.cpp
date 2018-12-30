@@ -42,7 +42,7 @@ namespace rl
 
     void TriggerFactory::writeData(SaveGameFileWriter* writer)
     {
-        TiXmlElement* triggerParentNode
+        tinyxml2::XMLElement* triggerParentNode
             = writer->appendChildElement(writer->getDocument()->RootElement(), getXmlNodeIdentifier().c_str());
 
         const ZoneManager::ZoneMap& zoneMap(ZoneManager::getSingleton().getAllZones());
@@ -57,7 +57,7 @@ namespace rl
             {
                 if ((*trigger)->needsToBeSaved())
                 {
-                    TiXmlElement* triggerNode = writer->appendChildElement(triggerParentNode, "trigger");
+                    tinyxml2::XMLElement* triggerNode = writer->appendChildElement(triggerParentNode, "trigger");
                     writer->setAttributeValueAsStdString(triggerNode, "name", (*trigger)->getName());
                     writer->setAttributeValueAsStdString(triggerNode, "classname", (*trigger)->getClassName());
                     writer->setAttributeValueAsStdString(triggerNode, "zone", zone->first);
@@ -102,10 +102,10 @@ namespace rl
             XmlElementList xmlTriggerFactory = reader->getElementsByTagName(rootNodeList[0], "trigger");
             for (XmlElementList::iterator it = xmlTriggerFactory.begin(); it != xmlTriggerFactory.end(); ++it)
             {
-                const TiXmlNode* xmlTrigger = *it;
-                if (xmlTrigger->Type() == TiXmlNode::ELEMENT)
+                const tinyxml2::XMLNode* xmlTrigger = *it;
+                const tinyxml2::XMLElement* xmlTriggerElem = xmlTrigger->ToElement();
+                if (xmlTriggerElem)
                 {
-                    const TiXmlElement* xmlTriggerElem = xmlTrigger->ToElement();
                     Ogre::String classname = reader->getAttributeValueAsStdString(xmlTriggerElem, "classname");
                     Ogre::String name = reader->getAttributeValueAsStdString(xmlTriggerElem, "name");
                     Ogre::String zoneName = reader->getAttributeValueAsStdString(xmlTriggerElem, "zone");

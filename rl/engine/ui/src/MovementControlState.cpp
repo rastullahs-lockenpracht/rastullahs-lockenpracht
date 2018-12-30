@@ -65,7 +65,7 @@ namespace rl
 
     MovementControlState::MovementControlState(CommandMapper* cmdMapper, Actor* camera, Creature* character)
         : ControlState(cmdMapper, camera, character, CST_MOVEMENT)
-        , mController(NULL)
+        , mController(nullptr)
         , mCharacterState()
         , mDesiredDistance(2.00)
         , mDistanceRange(0.60, 7.00)
@@ -134,7 +134,7 @@ namespace rl
             = MessagePump::getSingleton().addMessageHandler<MessageType_SaveGameLoading>(
                 boost::bind(&MovementControlState::beforeLoadingSaveGame, this));
 
-        mCameraCastCollision = boost::dynamic_pointer_cast<OgreNewt::ConvexCollision>(mCamBody->getCollision());
+        mCameraCastCollision = std::dynamic_pointer_cast<OgreNewt::ConvexCollision>(mCamBody->getCollision());
         RlAssert1(mCameraCastCollision);
     }
 
@@ -142,9 +142,9 @@ namespace rl
     MovementControlState::~MovementControlState()
     {
         delete mCombatSelector.getFilter();
-        mCombatSelector.setFilter(NULL);
+        mCombatSelector.setFilter(nullptr);
         delete mSelector.getFilter();
-        mSelector.setFilter(NULL);
+        mSelector.setFilter(nullptr);
         delete mRaycast;
         delete mConvexcast;
 
@@ -154,7 +154,7 @@ namespace rl
         }
 
         // Remove debug scene node from character node, if debugview was used.
-        if (mSceneNode != NULL && mSceneNode->getParent() != NULL)
+        if (mSceneNode != nullptr && mSceneNode->getParent() != nullptr)
         {
             mCharacterActor->_getSceneNode()->removeChild(mSceneNode);
         }
@@ -163,10 +163,10 @@ namespace rl
     //------------------------------------------------------------------------
     void MovementControlState::pause()
     {
-        mController = NULL;
+        mController = nullptr;
 
         // actors aren't controlled anymore
-        mCameraActor->getPhysicalThing()->setPhysicsController(NULL);
+        mCameraActor->getPhysicalThing()->setPhysicsController(nullptr);
         mCameraActor->getPhysicalThing()->freeze();
         // cam<->Level collision back to default
         PhysicsManager::getSingleton().resetMaterialPair(PhysicsManager::getSingleton().getMaterialID("camera"),
@@ -179,7 +179,7 @@ namespace rl
 
         // Unhighlight selected object, if any.
         GameObject* go = mSelector.getFirstSelectedObject();
-        if (go != NULL && go->isHighlighted())
+        if (go != nullptr && go->isHighlighted())
         {
             go->setHighlighted(false);
         }
@@ -188,7 +188,7 @@ namespace rl
     //------------------------------------------------------------------------
     void MovementControlState::resume()
     {
-        if (mController == NULL)
+        if (mController == nullptr)
         {
             mController = CreatureControllerManager::getSingleton().getCreatureController(mCharacter);
         }
@@ -210,7 +210,7 @@ namespace rl
         mCameraActor->getPhysicalThing()->setPhysicsController(this);
 
         // We also handle cam<->level, cam<->default cam<->char collision from now on
-        OgreNewt::MaterialPair* mat_pair = NULL;
+        OgreNewt::MaterialPair* mat_pair = nullptr;
         mat_pair
             = PhysicsManager::getSingleton().createMaterialPair(PhysicsManager::getSingleton().getMaterialID("camera"),
                 PhysicsManager::getSingleton().getMaterialID("default"));
@@ -276,7 +276,7 @@ namespace rl
     {
         InputManager* im = InputManager::getSingletonPtr();
         int movement = mCharacterState.mCurrentMovementState;
-        if (mController != NULL)
+        if (mController != nullptr)
         {
             Degree rotation(0);
 
@@ -1037,24 +1037,24 @@ namespace rl
 
         GameObject* newGo = mSelector.getFirstSelectedObject();
 
-        if (oldGo != NULL && oldGo != newGo)
+        if (oldGo != nullptr && oldGo != newGo)
         {
             oldGo->setHighlighted(false);
         }
 
-        if (newGo != NULL && newGo != oldGo)
+        if (newGo != nullptr && newGo != oldGo)
         {
             newGo->setHighlighted(true);
         }
         /*
                 // Optionen anzeigen
-                if (im->isMouseButtonDown(OIS::MB_Right) && newGo != NULL)
+                if (im->isMouseButtonDown(OIS::MB_Right) && newGo != nullptr)
                 {
                     WindowFactory::getSingleton().showActionChoice(newGo);
                 }
-                else if (im->isMouseButtonDown(OIS::MB_Left) && newGo != NULL)
+                else if (im->isMouseButtonDown(OIS::MB_Left) && newGo != nullptr)
                 {
-                    newGo->doDefaultAction(mCharacter, NULL);
+                    newGo->doDefaultAction(mCharacter, nullptr);
                 }
         */
     }
@@ -1298,13 +1298,13 @@ namespace rl
 
         // default action und action-selektor, falls object selected
         GameObject* newGo = mSelector.getFirstSelectedObject();
-        if (newGo != NULL && !isMouseUsedByCegui())
+        if (newGo != nullptr && !isMouseUsedByCegui())
         {
             if (id == OIS::MB_Left)
             {
-                if (newGo->getDefaultAction(mCharacter) != NULL)
+                if (newGo->getDefaultAction(mCharacter) != nullptr)
                 {
-                    newGo->doDefaultAction(mCharacter, NULL);
+                    newGo->doDefaultAction(mCharacter, nullptr);
                     handled = true;
                 }
             }
@@ -1333,7 +1333,7 @@ namespace rl
     //------------------------------------------------------------------------
     void MovementControlState::updatePrimitive()
     {
-        if (mSceneNode->getParent() == NULL)
+        if (mSceneNode->getParent() == nullptr)
         {
             mCharacterActor->_getSceneNode()->addChild(mSceneNode);
         }

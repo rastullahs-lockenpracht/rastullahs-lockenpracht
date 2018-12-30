@@ -22,10 +22,11 @@
 #include "Exception.h"
 #include "GameLoop.h"
 #include "GameTask.h"
+#include "PhysicsManager.h"
 
 using namespace Ogre;
 
-template <> rl::CreatureControllerManager* Singleton<rl::CreatureControllerManager>::ms_Singleton = 0;
+template <> rl::CreatureControllerManager* Singleton<rl::CreatureControllerManager>::msSingleton = nullptr;
 
 namespace rl
 {
@@ -74,8 +75,8 @@ namespace rl
     CreatureControllerManager::~CreatureControllerManager()
     {
         // should not be needed, because all creatures should be destroyed before
-        // causes an error because PhysicalThing::setPhysicsController(NULL) is called probably after the physicalthing
-        // is destroyed delete all creaturecontrollers
+        // causes an error because PhysicalThing::setPhysicsController(nullptr) is called probably after the
+        // physicalthing is destroyed delete all creaturecontrollers
         // for( ControllerMap::iterator it = mControllers.begin(); it != mControllers.end(); it++ )
         //{
         //    delete it->second;
@@ -96,12 +97,12 @@ namespace rl
     CreatureController* CreatureControllerManager::getCreatureController(Creature* creature)
     {
         // valid Creature is needed as argument
-        if (creature == NULL)
+        if (creature == nullptr)
         {
-            Throw(NullPointerException, "Argument creature darf nicht NULL sein.");
+            Throw(NullPointerException, "Argument creature darf nicht nullptr sein.");
         }
 
-        CreatureController* rval = NULL;
+        CreatureController* rval = nullptr;
 
         // do we have a controller attached to this creature?
         ControllerMap::const_iterator it = mControllers.find(creature);
@@ -137,10 +138,10 @@ namespace rl
 
     void CreatureControllerManager::detachController(Creature* creature)
     {
-        CreatureController* controller = NULL;
-        if (creature == NULL)
+        CreatureController* controller = nullptr;
+        if (creature == nullptr)
         {
-            Throw(NullPointerException, "Argument creature darf nicht NULL sein.");
+            Throw(NullPointerException, "Argument creature darf nicht nullptr sein.");
         }
 
         ControllerMap::iterator it = mControllers.find(creature);
@@ -162,10 +163,10 @@ namespace rl
 
     void CreatureControllerManager::userProcess(OgreNewt::ContactJoint& contactJoint, Real timestep, int threadid)
     {
-        Actor* actor = NULL;
+        Actor* actor = nullptr;
         if (contactJoint.getBody0()->getUserData().getType() == typeid(Actor*))
             actor = Ogre::any_cast<Actor*>(contactJoint.getBody0()->getUserData());
-        if (actor != NULL)
+        if (actor != nullptr)
         {
             ControllerMap::const_iterator it = mControllers.find(static_cast<Creature*>(actor->getGameObject()));
             if (it != mControllers.end())
@@ -178,7 +179,7 @@ namespace rl
         // if the controlled body is the second body...
         if (contactJoint.getBody1()->getUserData().getType() == typeid(Actor*))
             actor = Ogre::any_cast<Actor*>(contactJoint.getBody1()->getUserData());
-        if (actor != NULL)
+        if (actor != nullptr)
         {
             ControllerMap::const_iterator it = mControllers.find(static_cast<Creature*>(actor->getGameObject()));
             if (it != mControllers.end())

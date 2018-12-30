@@ -59,10 +59,7 @@ namespace rl
      */
     void SoundResource::unloadImpl()
     {
-        if (!mDataStream.isNull())
-        {
-            mDataStream.setNull();
-        }
+        mDataStream.reset();
     }
 
     /**
@@ -81,52 +78,6 @@ namespace rl
     const Ogre::DataStreamPtr& SoundResource::getDataStream() const
     {
         return mDataStream;
-    }
-
-    /**
-     * @author Blakharaz
-     * @date 03-14-2005
-     */
-    SoundResourcePtr::SoundResourcePtr(const ResourcePtr& res)
-        : SharedPtr<SoundResource>()
-    {
-        // lock & copy other mutex pointer
-        OGRE_LOCK_MUTEX(*res.OGRE_AUTO_MUTEX_NAME)
-        OGRE_COPY_AUTO_SHARED_MUTEX(res.OGRE_AUTO_MUTEX_NAME)
-        pRep = static_cast<SoundResource*>(res.getPointer());
-        pUseCount = res.useCountPointer();
-        if (pUseCount != 0)
-            ++(*pUseCount);
-    }
-
-    /**
-     * @author Blakharaz
-     * @date 03-14-2005
-     */
-    SoundResourcePtr& SoundResourcePtr::operator=(const ResourcePtr& res)
-    {
-        if (pRep == static_cast<SoundResource*>(res.getPointer()))
-            return *this;
-        release();
-
-        // lock & copy other mutex pointer
-        OGRE_LOCK_MUTEX(*res.OGRE_AUTO_MUTEX_NAME)
-        OGRE_COPY_AUTO_SHARED_MUTEX(res.OGRE_AUTO_MUTEX_NAME)
-        pRep = static_cast<SoundResource*>(res.getPointer());
-        pUseCount = res.useCountPointer();
-        if (pUseCount != 0)
-            ++(*pUseCount);
-
-        return *this;
-    }
-
-    /**
-     * @author Blakharaz
-     * @date 03-14-2005
-     */
-    void SoundResourcePtr::destroy()
-    {
-        SharedPtr<SoundResource>::destroy();
     }
 
 } /* End of Namespace */

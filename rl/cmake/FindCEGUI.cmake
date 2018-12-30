@@ -23,6 +23,9 @@ SET(CEGUI_INCLUDE_SEARCH_DIRS
 	${CMAKE_LIBRARY_PATH}
 	/usr/include
 	/usr/local/include
+	/usr/local/include/cegui-0
+	/usr/local/include/cegui-0/CEGUI
+	/usr/local/include
 	/usr/include/CEGUI
 	/usr/local/include/CEGUI
 	/opt/include/CEGUI
@@ -91,9 +94,16 @@ ELSE (WIN32) #Unix
 	IF(NOT CEGUI_FOUND) #If PkgConfig couldn't find OGRE...
 		IF (NOT CEGUI_FIND_QUIETLY)
 			MESSAGE(STATUS " Manually searching for CEGUI")
-		ENDIF (NOT CEGUI_FIND_QUIETLY)
+			ENDIF (NOT CEGUI_FIND_QUIETLY)
 		FIND_PATH(CEGUI_INCLUDE_DIRS Ogre.h ${CEGUI_INCLUDE_SEARCH_DIRS})
 		FIND_LIBRARY(CEGUI_LIBRARIES CEGUIBase PATHS ${CEGUI_LIBRARY_SEARCH_DIRS})
+		find_path(CEGUI_INCLUDE_DIRS
+				CEGUI/CEGUI.h
+				${CEGUI_INCLUDE_SEARCH_DIRS})
+		find_library(CEGUI_LIBS_MANUAL
+				NAMES CEGUIBase CEGUIBase-0
+				PATHS ${CEGUI_LIBRARY_SEARCH_DIRS})
+		SET(CEGUI_LIBRARIES ${CEGUI_LIBS_MANUAL})
 	ENDIF(NOT CEGUI_FOUND)
 ENDIF (WIN32)
 

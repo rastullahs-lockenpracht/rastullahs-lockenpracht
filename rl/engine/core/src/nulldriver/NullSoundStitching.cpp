@@ -51,7 +51,7 @@ namespace rl
      * @author JoSch
      * @date 07-12-2005
      */
-    void NullSoundStitching::load() throw(RuntimeException)
+    void NullSoundStitching::load()
     {
     }
 
@@ -59,7 +59,7 @@ namespace rl
      * @author JoSch
      * @date 07-22-2005
      */
-    void NullSoundStitching::unload() throw(RuntimeException)
+    void NullSoundStitching::unload()
     {
     }
 
@@ -68,14 +68,9 @@ namespace rl
      * @author JoSch
      * @date 07-12-2005
      */
-    bool NullSoundStitching::isValid() const throw(RuntimeException)
+    bool NullSoundStitching::isValid() const
     {
         return true;
-    }
-
-    void NullSoundStitchingPtr::destroy()
-    {
-        SharedPtr<NullSoundStitching>::destroy();
     }
 
     /**

@@ -25,10 +25,10 @@ static int checkRubyVector3( VALUE input )
 {
    bool correct = 
        TYPE(input) == T_ARRAY   && 
-       RARRAY(input)->len == 3  &&
-       SWIG_FLOAT_P( RARRAY(input)->ptr[0] ) &&
-       SWIG_FLOAT_P( RARRAY(input)->ptr[1] ) &&
-       SWIG_FLOAT_P( RARRAY(input)->ptr[2] );
+       RARRAY_LEN(input) == 3  &&
+       SWIG_FLOAT_P( RARRAY_PTR(input)[0] ) &&
+       SWIG_FLOAT_P( RARRAY_PTR(input)[1] ) &&
+       SWIG_FLOAT_P( RARRAY_PTR(input)[2] );
 
     return (correct ? 1 : 0);
 }
@@ -44,8 +44,8 @@ static int checkRubyVector3( VALUE input )
 // Helper method for filling the Vector3
 static void convertRubyToVector3( VALUE input, Ogre::Vector3* v ) 
 {
-   int length = RARRAY(input)->len;
-   VALUE* it = RARRAY(input)->ptr;
+   int length = RARRAY_LEN(input);
+   VALUE* it = RARRAY_PTR(input);
    if (length > 0) {
       v->x = NUM2DBL(*it);
       it++;

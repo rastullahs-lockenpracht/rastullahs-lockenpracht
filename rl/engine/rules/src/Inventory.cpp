@@ -114,7 +114,7 @@ namespace rl
     {
         if (!mValuesUpToDate)
             updateStats();
-        return make_pair<int, int>(mCurrentBe, mCurrentBeByWeight);
+        return { mCurrentBe, mCurrentBeByWeight };
     }
 
     int Inventory::getOverallRs()

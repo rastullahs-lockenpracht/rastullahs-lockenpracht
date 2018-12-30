@@ -97,7 +97,8 @@ namespace rl
 
     bool SaveGameFile::saveGameExists()
     {
-        return !Ogre::DataStreamPtr(new Ogre::FileHandleDataStream(fopen(this->buildFilename().c_str(), "r"))).isNull();
+        return static_cast<bool>(
+            Ogre::DataStreamPtr(new Ogre::FileHandleDataStream(fopen(this->buildFilename().c_str(), "r"))));
     }
 
     const Property SaveGameFile::getProperty(const CeGuiString& key) const

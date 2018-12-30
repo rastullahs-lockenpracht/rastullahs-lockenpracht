@@ -39,14 +39,15 @@
 #include "ScriptWrapper.h"
 #include "SoundManager.h"
 #include "TimeSource.h"
-#include "WriteableFileSystemArchiv.h"
 #include "ZoneManager.h"
+
+#include <OGRE/OgreFileSystem.h>
 
 #include <ctime>
 
 using namespace Ogre;
 
-template <> rl::CoreSubsystem* Singleton<rl::CoreSubsystem>::ms_Singleton = 0;
+template <> rl::CoreSubsystem* Singleton<rl::CoreSubsystem>::msSingleton = 0;
 
 namespace rl
 {
@@ -182,7 +183,7 @@ namespace rl
         // to load plugins.cfg and ogre.cfg
         mOgreRoot = new Root("", "", ConfigurationManager::getSingleton().getOgreLogFile());
 
-        WriteableFileSystemArchiveFactory* factory = new WriteableFileSystemArchiveFactory();
+        Ogre::FileSystemArchiveFactory* factory = new Ogre::FileSystemArchiveFactory();
         ArchiveManager::getSingleton().addArchiveFactory(factory);
 
         // Load Ogre plugins
@@ -192,12 +193,7 @@ namespace rl
             mOgreRoot->loadPlugin(*it);
         }
 
-        // Find out, what Renderer plugins are available
-#if OGRE_VERSION_MINOR == 7 || OGRE_VERSION_MINOR == 8
         const RenderSystemList& rsl = mOgreRoot->getAvailableRenderers();
-#else
-        RenderSystemList rsl = *mOgreRoot->getAvailableRenderers();
-#endif
         for (RenderSystemList::const_iterator it = rsl.begin(); it != rsl.end(); it++)
         {
             if ((*it)->getName() == ConfigurationManager::getSingleton().getStringSetting("Video", "Render System"))
@@ -388,10 +384,9 @@ namespace rl
         for (ResourceManager::ResourceMapIterator itMat = MaterialManager::getSingleton().getResourceIterator();
              itMat.hasMoreElements();)
         {
-            MaterialPtr mat = itMat.getNext();
-            for (Material::TechniqueIterator itTech = mat->getTechniqueIterator(); itTech.hasMoreElements();)
+            MaterialPtr mat = std::static_pointer_cast<Ogre::Material>(itMat.getNext());
+            for (const auto& tech : mat->getTechniques())
             {
-                Technique* tech = itTech.getNext();
                 if (tech->getSchemeName() == tuScheme)
                 {
                     tech->setSchemeName(MaterialManager::DEFAULT_SCHEME_NAME);

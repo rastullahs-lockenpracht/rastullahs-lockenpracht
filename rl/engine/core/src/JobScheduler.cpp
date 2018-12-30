@@ -24,7 +24,7 @@
 
 using namespace Ogre;
 
-template <> rl::JobScheduler* Singleton<rl::JobScheduler>::ms_Singleton = 0;
+template <> rl::JobScheduler* Singleton<rl::JobScheduler>::msSingleton = 0;
 
 namespace rl
 {
@@ -202,14 +202,14 @@ namespace rl
 
     void JobScheduler::writeData(SaveGameFileWriter* writer)
     {
-        TiXmlElement* jobSchedulerParentNode
+        tinyxml2::XMLElement* jobSchedulerParentNode
             = writer->appendChildElement(writer->getDocument()->RootElement(), getXmlNodeIdentifier().c_str());
 
         for (JobQueue::const_iterator iter = mJobQueue.begin(); iter != mJobQueue.end(); iter++)
         {
             if (iter->job->getPersistenceType() == Job::PERSISTENT && !(iter->markedToRemove))
             {
-                TiXmlElement* jobNode = writer->appendChildElement(jobSchedulerParentNode, "job");
+                tinyxml2::XMLElement* jobNode = writer->appendChildElement(jobSchedulerParentNode, "job");
                 writer->setAttributeValueAsInteger(jobNode, "priority", iter->priority);
                 writer->setAttributeValueAsInteger(jobNode, "tokens", iter->tokens);
                 writer->setAttributeValueAsInteger(jobNode, "start", iter->start);
@@ -269,10 +269,9 @@ namespace rl
             {
                 for (XmlElementList::iterator it = xmlJobs.begin(); it != xmlJobs.end(); ++it)
                 {
-                    const TiXmlNode* xmlJob_ = *it;
-                    if (xmlJob_->Type() == TiXmlNode::ELEMENT)
+                    const tinyxml2::XMLElement* xmlJob = (*it)->ToElement();
+                    if (xmlJob)
                     {
-                        const TiXmlElement* xmlJob = xmlJob_->ToElement();
                         JobPriority priority;
                         unsigned short tokens;
                         int start, end;

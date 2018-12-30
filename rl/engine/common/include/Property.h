@@ -111,29 +111,9 @@ namespace rl
         Ogre::String mName;
     };
 
-    class _RlCommonExport PropertyPtr : public Ogre::SharedPtr<Property>
-    {
-    public:
-        PropertyPtr()
-            : Ogre::SharedPtr<Property>()
-        {
-        }
-        explicit PropertyPtr(Property* rep)
-            : Ogre::SharedPtr<Property>(rep)
-        {
-        }
-        PropertyPtr(const PropertyPtr& res)
-            : Ogre::SharedPtr<Property>(res)
-        {
-        }
+    using PropertyPtr = std::shared_ptr<Property>;
 
-    protected:
-        void destroy()
-        {
-            Ogre::SharedPtr<Property>::destroy();
-        }
-    };
-
+#if CEGUI_STRING_CLASS == CEGUI_STRING_CLASS_UNICODE
     template <typename T> PropertyMap convertToPropertyMap(const std::map<const CeGuiString, T>& input)
     {
         PropertyMap map;
@@ -143,6 +123,7 @@ namespace rl
         }
         return map;
     }
+#endif
 
     template <typename T> PropertyMap convertToPropertyMap(const std::map<const Ogre::String, T>& input)
     {
@@ -173,6 +154,7 @@ namespace rl
         }
     }
 
+#if CEGUI_STRING_CLASS == CEGUI_STRING_CLASS_UNICODE
     template <typename T> void convertToMap(const PropertyMap& propmap, std::map<const CeGuiString, T>& output)
     {
         for (PropertyMap::const_iterator it = propmap.begin(); it != propmap.end(); ++it)
@@ -184,6 +166,7 @@ namespace rl
             // output.insert(typename std::map<const CeGuiString, T>::value_type(it->first, it->second));
         }
     }
+#endif
 
     template <typename T> void convertToSet(const PropertyArray& propvec, std::set<T>& output)
     {

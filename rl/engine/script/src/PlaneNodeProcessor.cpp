@@ -32,7 +32,7 @@ namespace rl
     }
 
     bool PlaneNodeProcessor::processNode(
-        const TiXmlElement* nodeElem, const Ogre::String& resourceGroup, bool loadGameObjects)
+        const tinyxml2::XMLElement* nodeElem, const Ogre::String& resourceGroup, bool loadGameObjects)
     {
         if (!hasNodeName(nodeElem, "plane"))
         {
@@ -51,7 +51,7 @@ namespace rl
         Vector3 position(Vector3::ZERO);
         Vector2 scale(1, 1);
 
-        const TiXmlElement* oriElem = getChildNamed(nodeElem, "rotation");
+        const tinyxml2::XMLElement* oriElem = getChildNamed(nodeElem, "rotation");
         if (oriElem != NULL)
         {
             orientation = processQuaternion(oriElem);
@@ -61,7 +61,7 @@ namespace rl
             LOG_WARNING(Logger::RULES, "No orientation given for plane, used Identity");
         }
 
-        const TiXmlElement* posElem = getChildNamed(nodeElem, "position");
+        const tinyxml2::XMLElement* posElem = getChildNamed(nodeElem, "position");
         if (posElem != NULL)
         {
             position = processVector3(posElem);
@@ -71,7 +71,7 @@ namespace rl
             LOG_WARNING(Logger::RULES, "No position given for plane, used (0,0,0)");
         }
 
-        const TiXmlElement* scaleElem = getChildNamed(nodeElem, "scale");
+        const tinyxml2::XMLElement* scaleElem = getChildNamed(nodeElem, "scale");
         if (posElem != NULL)
         {
             scale = processVector2(scaleElem);
@@ -81,7 +81,7 @@ namespace rl
             LOG_WARNING(Logger::RULES, "No scale given for plane, used (0,0)");
         }
 
-        while (!MeshManager::getSingleton().getByName(entName).isNull())
+        while (MeshManager::getSingleton().getByName(entName))
         {
             entName = getRandomName("Plane");
         }
@@ -106,7 +106,7 @@ namespace rl
 
         createCollision(ent, getChildNamed(nodeElem, "physicsproxy"));
 
-        const TiXmlElement* materialElem = getChildNamed(nodeElem, "material");
+        const tinyxml2::XMLElement* materialElem = getChildNamed(nodeElem, "material");
         if (materialElem)
         {
             if (getChildNamed(nodeElem, "renderToTexture"))
@@ -127,7 +127,7 @@ namespace rl
         return true;
     }
 
-    void PlaneNodeProcessor::createCollision(Ogre::Entity* entity, const TiXmlElement* physicsProxyElem)
+    void PlaneNodeProcessor::createCollision(Ogre::Entity* entity, const tinyxml2::XMLElement* physicsProxyElem)
     {
         bool collisionEnabled = false;
         if (physicsProxyElem == NULL || !hasAttribute(physicsProxyElem, "collision"))
@@ -165,7 +165,7 @@ namespace rl
     }
 
     void PlaneNodeProcessor::createRenderToTextures(
-        Ogre::Entity* entity, Plane* plane, MaterialPtr material, const TiXmlElement* rttElem)
+        Ogre::Entity* entity, Plane* plane, MaterialPtr material, const tinyxml2::XMLElement* rttElem)
     {
         if (rttElem == NULL)
             return;

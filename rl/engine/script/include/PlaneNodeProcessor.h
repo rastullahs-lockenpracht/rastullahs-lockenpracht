@@ -26,8 +26,8 @@
 
 #include "AbstractMapNodeProcessor.h"
 
-//#include <OgreMaterial.h>
-//#include <OgreRenderTargetListener.h>
+#include <OgreMaterial.h>
+#include <OgreRenderTargetListener.h>
 
 namespace rl
 {
@@ -36,12 +36,13 @@ namespace rl
     public:
         PlaneNodeProcessor();
 
-        virtual bool processNode(const TiXmlElement* nodeElem, const Ogre::String& resourceGroup, bool loadGameObjects);
+        virtual bool processNode(
+            const tinyxml2::XMLElement* nodeElem, const Ogre::String& resourceGroup, bool loadGameObjects);
 
     private:
-        void createCollision(Ogre::Entity* entity, const TiXmlElement* physicsProxyElem);
+        void createCollision(Ogre::Entity* entity, const tinyxml2::XMLElement* physicsProxyElem);
         void createRenderToTextures(
-            Ogre::Entity* entity, Ogre::Plane* plane, Ogre::MaterialPtr mat, const TiXmlElement* rttElem);
+            Ogre::Entity* entity, Ogre::Plane* plane, Ogre::MaterialPtr mat, const tinyxml2::XMLElement* rttElem);
     };
 
     class PlaneReflectionTextureListener : public Ogre::RenderTargetListener

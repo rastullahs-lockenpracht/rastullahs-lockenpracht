@@ -27,7 +27,7 @@
 
 using namespace Ogre;
 
-template <> rl::AgentManager* Singleton<rl::AgentManager>::ms_Singleton = 0;
+template <> rl::AgentManager* Singleton<rl::AgentManager>::msSingleton = 0;
 
 namespace rl
 {

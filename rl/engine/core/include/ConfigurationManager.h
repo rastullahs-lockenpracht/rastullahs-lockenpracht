@@ -46,28 +46,6 @@ namespace rl
         ~ConfigurationManager();
 
         /**
-         * Returns a pointer to the single instance of the
-         * ConfigurationManager.
-         *
-         * The ConfigurationManager object is created, if it does not
-         * exist.
-         *
-         * @return Pointer to ConfigurationManager object
-         */
-        static ConfigurationManager* getSingletonPtr();
-
-        /**
-         * Returns a reference to the single instance of the
-         * ConfigurationManager.
-         *
-         * The ConfigurationManager object is created, if it does not
-         * exist.
-         *
-         * @return Reference to ConfigurationManager object
-         */
-        static ConfigurationManager& getSingleton();
-
-        /**
          * Returns the filename for the log written by Ogre
          *
          * @return filename of Ogre's logfile

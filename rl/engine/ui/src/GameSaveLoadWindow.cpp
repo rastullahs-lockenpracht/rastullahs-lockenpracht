@@ -22,13 +22,13 @@
  */
 
 #include <Actor.h>
-#include <CEGUIWindowManager.h>
+#include <CEGUI/WindowManager.h>
+#include <CEGUI/widgets/ListboxTextItem.h>
 #include <Exception.h>
 #include <GameObject.h>
 #include <GameObjectManager.h>
 #include <InputManager.h>
 #include <boost/bind.hpp>
-#include <elements/CEGUIListboxTextItem.h>
 
 #include "ConfigurationManager.h"
 #include "ContentModule.h"
@@ -58,8 +58,8 @@ namespace rl
         mSaveGameTable = getMultiColumnList("GameSaveLoadWindow/FileSheet/SaveGameTable");
         RlAssert(mSaveGameTable != NULL, "GameSaveLoadWindow/FileSheet/SaveGameTable is null");
 
-        mSaveGameTable->addColumn((utf8*)"Filename", 0, cegui_reldim(0.65));
-        mSaveGameTable->addColumn((utf8*)"Date", 1, cegui_reldim(0.35));
+        mSaveGameTable->addColumn("Filename", 0, cegui_reldim(0.65));
+        mSaveGameTable->addColumn("Date", 1, cegui_reldim(0.35));
 
         mSaveGameTable->setSelectionMode(MultiColumnList::RowSingle);
         mSaveGameTable->subscribeEvent(

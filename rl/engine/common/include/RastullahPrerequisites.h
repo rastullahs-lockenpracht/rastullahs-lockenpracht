@@ -30,9 +30,9 @@
 #include <Ogre/OgreTagPoint.h>
 #else
 #include <Ogre.h>
-#include <OgreFont.h>
-#include <OgreFontManager.h>
 #include <OgreTagPoint.h>
+#include <Overlay/OgreFont.h>
+#include <Overlay/OgreFontManager.h>
 #endif
 
 #if OGRE_PLATFORM != OGRE_PLATFORM_WIN32
@@ -60,7 +60,5 @@ template <class T1, class T2> bool max(T1 m1, T2 m2)
 #define _CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES 1
 #endif
 #endif
-
-#define TIXML_USE_STL 1 // Let TinyXML use STL strings
 
 #endif

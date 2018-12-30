@@ -15,7 +15,7 @@
  */
 #include "stdinc.h" //precompiled header
 
-#include <CEGUIWindowManager.h>
+#include <CEGUI/WindowManager.h>
 #include <iostream>
 
 #include "ConfigComponent.h"
@@ -36,7 +36,7 @@ namespace rl
         // Free components root window and its child windows
         if (mWindow != NULL)
         {
-            mWindow->getParent()->removeChildWindow(mWindow);
+            mWindow->getParent()->removeChild(mWindow);
             CEGUI::WindowManager::getSingleton().destroyWindow(mWindow);
             CEGUI::WindowManager::getSingleton().cleanDeadPool();
         }
@@ -44,8 +44,8 @@ namespace rl
 
     void ConfigComponent::addTo(CEGUI::Window* parent)
     {
-        mWindow = CEGUI::WindowManager::getSingleton().loadWindowLayout(mXmlFile);
-        parent->addChildWindow(mWindow);
+        mWindow = CEGUI::WindowManager::getSingleton().loadLayoutFromFile(mXmlFile);
+        parent->addChild(mWindow);
     }
 
     void ConfigComponent::setVisible(bool visible)

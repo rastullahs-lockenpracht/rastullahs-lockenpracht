@@ -16,6 +16,10 @@
 #ifndef __CoreConstants_H__
 #define __CoreConstants_H__
 
+#include <map>
+
+#include <OgreString.h>
+
 namespace rl
 {
 

@@ -17,7 +17,7 @@
 
 #include "MainMenuWindow.h"
 
-#include <CEGUIWindowManager.h>
+#include <CEGUI/WindowManager.h>
 #include <boost/bind.hpp>
 
 #include "ConfigurationManager.h"

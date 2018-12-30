@@ -30,7 +30,7 @@
 
 #include <cstdlib>
 
-template <> rl::DsaManager* Ogre::Singleton<rl::DsaManager>::ms_Singleton = 0;
+template <> rl::DsaManager* Ogre::Singleton<rl::DsaManager>::msSingleton = 0;
 
 using namespace std;
 using namespace Ogre;
@@ -81,14 +81,14 @@ namespace rl
     void DsaManager::initializeEigenschaften()
     {
         /// @warning So nicht lokalisierbar
-        mEigenschaften[E_MUT] = new Eigenschaft((utf8*)"Mut", (utf8*)"MU", (utf8*)"");
-        mEigenschaften[E_KLUGHEIT] = new Eigenschaft((utf8*)"Klugheit", (utf8*)"KL", (utf8*)"");
-        mEigenschaften[E_INTUITION] = new Eigenschaft((utf8*)"Intuition", (utf8*)"IN", (utf8*)"");
-        mEigenschaften[E_CHARISMA] = new Eigenschaft((utf8*)"Charisma", (utf8*)"CH", (utf8*)"");
-        mEigenschaften[E_FINGERFERTIGKEIT] = new Eigenschaft((utf8*)"Fingerfertigkeit", (utf8*)"FF", (utf8*)"");
-        mEigenschaften[E_GEWANDTHEIT] = new Eigenschaft((utf8*)"Gewandtheit", (utf8*)"GE", (utf8*)"");
-        mEigenschaften[E_KONSTITUTION] = new Eigenschaft((utf8*)"Konstitution", (utf8*)"KO", (utf8*)"");
-        mEigenschaften[E_KOERPERKRAFT] = new Eigenschaft((utf8*)"Koerperkraft", (utf8*)"KK", (utf8*)"");
+        mEigenschaften[E_MUT] = new Eigenschaft("Mut", "MU", "");
+        mEigenschaften[E_KLUGHEIT] = new Eigenschaft("Klugheit", "KL", "");
+        mEigenschaften[E_INTUITION] = new Eigenschaft("Intuition", "IN", "");
+        mEigenschaften[E_CHARISMA] = new Eigenschaft("Charisma", "CH", "");
+        mEigenschaften[E_FINGERFERTIGKEIT] = new Eigenschaft("Fingerfertigkeit", "FF", "");
+        mEigenschaften[E_GEWANDTHEIT] = new Eigenschaft("Gewandtheit", "GE", "");
+        mEigenschaften[E_KONSTITUTION] = new Eigenschaft("Konstitution", "KO", "");
+        mEigenschaften[E_KOERPERKRAFT] = new Eigenschaft("Koerperkraft", "KK", "");
     }
 
     void DsaManager::initializeTalente()

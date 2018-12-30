@@ -29,7 +29,10 @@
 #include "SoundDriver.h"
 #include "SoundResource.h"
 
+#ifdef USE_FMOD4
 #include "Fmod4Driver.h"
+#endif
+
 #include "NullDriver.h"
 
 using namespace std;
@@ -39,7 +42,7 @@ using namespace Ogre;
  * @author JoSch
  * @date 04-26-2004
  */
-template <> rl::SoundManager* Singleton<rl::SoundManager>::ms_Singleton = 0;
+template <> rl::SoundManager* Singleton<rl::SoundManager>::msSingleton = 0;
 
 namespace rl
 {
@@ -60,8 +63,10 @@ namespace rl
         registerDriver(nullDriver);
         setActiveDriver(nullDriver);
 
+#ifdef USE_FMOD4
         Fmod4Driver* fmod4Driver = new Fmod4Driver(this);
         registerDriver(fmod4Driver);
+#endif
 
         mResourceType = "Sound";
         ResourceGroupManager::getSingleton()._registerResourceManager(mResourceType, this);

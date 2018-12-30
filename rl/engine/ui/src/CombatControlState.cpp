@@ -381,7 +381,7 @@ namespace rl
         // ideal scheint mir eine "runde" bewegung, a la kamerafahrt!
 
         Vector3 center;
-        Vector3 dist;
+        Real dist;
         if (mViewMode == VM_THIRD_PERSON && mCameraFocusedCombatant)
         {
             center = mCameraFocusedCombatant->getPosition();
@@ -406,7 +406,7 @@ namespace rl
 
         mCameraSwitchDist = (combatCenteredDistance * diff).length();
         mCameraOptPos = center + dist * diff;
-        mCameraLookAt = center + 1.4 * Vector3::UNIT_Y;
+        mCameraLookAt = center + 1.4F * Vector3::UNIT_Y;
     }
 
     void CombatControlState::OnApplyForceAndTorque(PhysicalThing* thing, float timestep)

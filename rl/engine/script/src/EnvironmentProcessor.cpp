@@ -26,7 +26,7 @@ using namespace Ogre;
 namespace rl
 {
     bool EnvironmentProcessor::processNode(
-        const TiXmlElement* nodeElem, const Ogre::String& resourceGroup, bool loadGameObjects)
+        const tinyxml2::XMLElement* nodeElem, const Ogre::String& resourceGroup, bool loadGameObjects)
     {
         if (nodeElem)
         {
@@ -37,7 +37,7 @@ namespace rl
         return true;
     }
 
-    void EnvironmentProcessor::processSkySettings(const TiXmlElement* skyElem)
+    void EnvironmentProcessor::processSkySettings(const tinyxml2::XMLElement* skyElem)
     {
         if (skyElem)
         {
@@ -68,7 +68,7 @@ namespace rl
                     Ogre::Real curvature = 10;
                     Ogre::Real tiling = 8;
 
-                    const TiXmlElement* domeSettings = getChildNamed(skyElem, "skydomesettings");
+                    const tinyxml2::XMLElement* domeSettings = getChildNamed(skyElem, "skydomesettings");
                     if (domeSettings != NULL)
                     {
                         if (hasAttribute(domeSettings, "curvature"))
@@ -95,7 +95,7 @@ namespace rl
         }
     }
 
-    void EnvironmentProcessor::processFogSettings(const TiXmlElement* fogElem)
+    void EnvironmentProcessor::processFogSettings(const tinyxml2::XMLElement* fogElem)
     {
         if (fogElem)
         {
@@ -105,7 +105,7 @@ namespace rl
                 return;
             }
 
-            const TiXmlElement* colourElem = getChildNamed(fogElem, "colour");
+            const tinyxml2::XMLElement* colourElem = getChildNamed(fogElem, "colour");
             if (colourElem == NULL)
             {
                 LOG_ERROR(Logger::RULES, "No fog colour set.");

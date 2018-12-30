@@ -77,7 +77,7 @@ namespace rl
         bool handleMouseMovedInWorld(const CEGUI::EventArgs& evt);
         bool handleKeys(const CEGUI::EventArgs& evt, bool down);
 
-        Ogre::Rectangle getCeGuiRectFromWorldAABB(CameraObject* camera, const Ogre::AxisAlignedBox& aabb) const;
+        Ogre::Rect getCeGuiRectFromWorldAABB(CameraObject* camera, const Ogre::AxisAlignedBox& aabb) const;
         typedef std::map<Container*, ContainerContentWindow*> ContainerMap;
         ContainerMap mOpenContainerMap;
     };

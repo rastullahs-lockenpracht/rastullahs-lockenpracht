@@ -21,7 +21,7 @@
 #ifdef __APPLE__
 #include <CEGUI/CEGUILogger.h>
 #else
-#include <CEGUILogger.h>
+#include <CEGUI/Logger.h>
 #endif
 
 namespace rl
@@ -59,8 +59,10 @@ namespace rl
         void log(const LogLevel level, const Ogre::String& component, const Ogre::String& message,
             const Ogre::String& ident = "");
 
+#if CEGUI_STRING_CLASS == CEGUI_STRING_CLASS_UNICODE
         void log(const LogLevel level, const Ogre::String& component, const CeGuiString& msg,
             const Ogre::String& ident = "");
+#endif
 
         void setLogDetail(const LogLevel level);
         const LogLevel& getLogDetail();
@@ -85,7 +87,7 @@ namespace rl
 }
 
 #define RL_LOG2(level, component, msg, ident)                                                                          \
-    if (rl::Logger::getSingletonPtr() != NULL && level >= rl::Logger::getSingleton().getLogDetail())                   \
+    if (rl::Logger::getSingletonPtr() && level >= rl::Logger::getSingleton().getLogDetail())                           \
     rl::Logger::getSingleton().log(level, component, msg, ident)
 
 #define RL_LOG(level, component, msg) RL_LOG2(level, component, msg, "")
@@ -112,4 +114,4 @@ namespace rl
 #define LOG_CRITICAL2(component, msg, ident) RL_LOG2(rl::Logger::LL_CRITICAL, component, msg, ident)
 #define LOG_CRITICAL_SHORT(msg) RL_LOG_SHORT(rl::Logger::LL_CRITICAL, msg)
 
-#endif
+#endif //__LOGGER_H__

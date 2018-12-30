@@ -76,22 +76,20 @@ namespace rl
 
     void ConfigFile::save(ofstream& stream, const String& separators, bool trimWhitespace)
     {
-        SettingsBySection::const_iterator section;
-        for (section = mSettings.begin(); section != mSettings.end(); section++)
+        for (const auto& section : mSettings)
         {
-            if (section->first != StringUtil::BLANK)
+            if (section.first != Ogre::BLANKSTRING)
             {
-                stream << "[" << section->first << "]" << endl;
+                stream << "[" << section.first << "]" << endl;
             }
             else
             {
                 /// Keine Sektion
             }
-            SettingsMultiMap::const_iterator setting;
-            SettingsMultiMap* settings = section->second;
-            for (setting = settings->begin(); setting != settings->end(); setting++)
+
+            for (const auto& setting : section.second)
             {
-                stream << setting->first << "=" << setting->second << endl;
+                stream << setting.first << "=" << setting.second << endl;
             }
 
             // Insert a linebreak
@@ -102,8 +100,8 @@ namespace rl
     void ConfigFile::addSection(const Ogre::String& section, const Ogre::NameValuePairList& settings)
     {
         // Create new section
-        mSettings[section] = OGRE_NEW_T(SettingsMultiMap, MEMCATEGORY_GENERAL);
+        mSettings[section] = {};
         // Insert values from the settings list
-        mSettings[section]->insert(settings.begin(), settings.end());
+        mSettings[section].insert(settings.begin(), settings.end());
     }
 }

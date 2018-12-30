@@ -133,6 +133,7 @@ namespace rl
         {
             update();
         }
+#if CEGUI_STRING_CLASS == CEGUI_STRING_CLASS_UNICODE
         Exception(const CeGuiString& message, const std::string& file, const std::string& function, int line)
             : mMessage(message.c_str())
             , mFile(file)
@@ -143,6 +144,7 @@ namespace rl
         {
             update();
         }
+#endif
 
         Exception(const Exception& rhs)
             : mMessage(rhs.mMessage)
@@ -155,9 +157,7 @@ namespace rl
             update();
         }
 
-        virtual ~Exception() throw()
-        {
-        }
+        virtual ~Exception() = default;
 
         Exception& operator=(const Exception& rhs)
         {
@@ -222,10 +222,12 @@ namespace rl
             : Exception(message, file, function, line)
         {
         }
+#if CEGUI_STRING_CLASS == CEGUI_STRING_CLASS_UNICODE
         Error(const CeGuiString& message, const std::string& file, const std::string& function, int line)
             : Exception(message, file, function, line)
         {
         }
+#endif
 
         Error(const Error& rhs)
             : Exception(rhs)
@@ -249,10 +251,12 @@ namespace rl
             : Exception(message, file, function, line)
         {
         }
+#if CEGUI_STRING_CLASS == CEGUI_STRING_CLASS_UNICODE
         RuntimeException(const CeGuiString& message, const std::string& file, const std::string& function, int line)
             : Exception(message, file, function, line)
         {
         }
+#endif
 
         RuntimeException(const RuntimeException& rhs)
             : Exception(rhs)
@@ -276,10 +280,12 @@ namespace rl
             : RuntimeException(message, file, function, line)
         {
         }
+#if CEGUI_STRING_CLASS == CEGUI_STRING_CLASS_UNICODE
         NullPointerException(const CeGuiString& message, const std::string& file, const std::string& function, int line)
             : RuntimeException(message, file, function, line)
         {
         }
+#endif
 
         NullPointerException(const NullPointerException& rhs)
             : RuntimeException(rhs)
@@ -304,11 +310,13 @@ namespace rl
             : RuntimeException(message, file, function, line)
         {
         }
+#if CEGUI_STRING_CLASS == CEGUI_STRING_CLASS_UNICODE
         IllegalArgumentException(
             const CeGuiString& message, const std::string& file, const std::string& function, int line)
             : RuntimeException(message, file, function, line)
         {
         }
+#endif
 
         IllegalArgumentException(const IllegalArgumentException& rhs)
             : RuntimeException(rhs)
@@ -334,11 +342,13 @@ namespace rl
             : RuntimeException(message, file, function, line)
         {
         }
+#if CEGUI_STRING_CLASS == CEGUI_STRING_CLASS_UNICODE
         OperationNotSupportedException(
             const CeGuiString& message, const std::string& file, const std::string& function, int line)
             : RuntimeException(message, file, function, line)
         {
         }
+#endif
 
         OperationNotSupportedException(const OperationNotSupportedException& rhs)
             : RuntimeException(rhs)
@@ -363,11 +373,13 @@ namespace rl
             : RuntimeException(message, file, function, line)
         {
         }
+#if CEGUI_STRING_CLASS == CEGUI_STRING_CLASS_UNICODE
         IllegalStateException(
             const CeGuiString& message, const std::string& file, const std::string& function, int line)
             : RuntimeException(message, file, function, line)
         {
         }
+#endif
 
         IllegalStateException(const IllegalStateException& rhs)
             : RuntimeException(rhs)
@@ -391,10 +403,12 @@ namespace rl
             : Error(message, file, function, line)
         {
         }
+#if CEGUI_STRING_CLASS == CEGUI_STRING_CLASS_UNICODE
         AssertionFailedError(const CeGuiString& message, const std::string& file, const std::string& function, int line)
             : Error(message, file, function, line)
         {
         }
+#endif
 
         AssertionFailedError(const AssertionFailedError& rhs)
             : Error(rhs)
@@ -418,10 +432,12 @@ namespace rl
             : RuntimeException(message, file, function, line)
         {
         }
+#if CEGUI_STRING_CLASS == CEGUI_STRING_CLASS_UNICODE
         OutOfRangeException(const CeGuiString& message, const std::string& file, const std::string& function, int line)
             : RuntimeException(message, file, function, line)
         {
         }
+#endif
 
         OutOfRangeException(const OutOfRangeException& rhs)
             : RuntimeException(rhs)
@@ -445,10 +461,12 @@ namespace rl
             : RuntimeException(message, file, function, line)
         {
         }
+#if CEGUI_STRING_CLASS == CEGUI_STRING_CLASS_UNICODE
         DuplicateIdException(const CeGuiString& message, const std::string& file, const std::string& function, int line)
             : RuntimeException(message, file, function, line)
         {
         }
+#endif
 
         DuplicateIdException(const DuplicateIdException& rhs)
             : RuntimeException(rhs)
@@ -473,11 +491,13 @@ namespace rl
             : RuntimeException(message, file, function, line)
         {
         }
+#if CEGUI_STRING_CLASS == CEGUI_STRING_CLASS_UNICODE
         FileNotFoundException(
             const CeGuiString& message, const std::string& file, const std::string& function, int line)
             : RuntimeException(message, file, function, line)
         {
         }
+#endif
 
         FileNotFoundException(const FileNotFoundException& rhs)
             : RuntimeException(rhs)
@@ -501,10 +521,12 @@ namespace rl
             : RuntimeException(message, file, function, line)
         {
         }
+#if CEGUI_STRING_CLASS == CEGUI_STRING_CLASS_UNICODE
         WrongFormatException(const CeGuiString& message, const std::string& file, const std::string& function, int line)
             : RuntimeException(message, file, function, line)
         {
         }
+#endif
 
         WrongFormatException(const WrongFormatException& rhs)
             : RuntimeException(rhs)

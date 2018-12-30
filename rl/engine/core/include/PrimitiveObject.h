@@ -30,8 +30,8 @@ namespace rl
     public:
         /// Name has to be unique among all ActorControlledObject names.
         /// By default the name is generated.
-        PrimitiveObject(const Ogre::String& name = Ogre::StringUtil::BLANK,
-            const Ogre::String& materialName = Ogre::StringUtil::BLANK);
+        PrimitiveObject(const Ogre::String& name = "", const Ogre::String& materialName = "");
+
         virtual ~PrimitiveObject();
 
         void setMaterial(const Ogre::String& materialName);

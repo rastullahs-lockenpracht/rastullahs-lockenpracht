@@ -17,8 +17,6 @@
 
 #include "ItemIconDragContainer.h"
 
-#include <boost/bind.hpp>
-
 #include "AbstractWindow.h"
 #include "Item.h"
 
@@ -28,7 +26,6 @@ namespace CEGUI
 }
 namespace rl
 {
-
     const CeGuiString ItemIconDragContainer::WidgetTypeName("ItemIconDragContainer");
 
     ItemIconDragContainer::ItemIconDragContainer(const CeGuiString& type, const CeGuiString& name)
@@ -42,7 +39,7 @@ namespace rl
             LOG_MESSAGE(Logger::UI, mContentWindow->getChildAtIdx(idx)->getName());
         }
 
-        addChildWindow(mContentWindow);
+        addChild(mContentWindow);
         mContentWindow->setDestroyedByParent(true);
     }
 
@@ -61,13 +58,12 @@ namespace rl
         mContentWindow->getChild(name + "/Icon")->setProperty("Image", icon);
 
         mContentWindow->subscribeEvent(
-            Window::EventMouseClick, boost::bind(&ItemDragContainer::_handleItemMouseClick, this, _1, item));
+            Window::EventMouseClick, [this, item](const CEGUI::EventArgs& args) { _handleItemMouseClick(args, item); });
+        mContentWindow->subscribeEvent(Window::EventMouseDoubleClick,
+            [this, item](const CEGUI::EventArgs& args) { _handleItemDoubleClick(args, item); });
 
-        mContentWindow->subscribeEvent(
-            Window::EventMouseDoubleClick, boost::bind(&ItemDragContainer::_handleItemDoubleClick, this, _1, item));
-
-        setSize(CEGUI::UVector2(cegui_absdim(item->getSize().first * 30), cegui_absdim(item->getSize().second * 30)));
+        setSize(CEGUI::USize(cegui_absdim(item->getSize().first * 30), cegui_absdim(item->getSize().second * 30)));
         mContentWindow->setSize(
-            CEGUI::UVector2(cegui_absdim(item->getSize().first * 30), cegui_absdim(item->getSize().second * 30)));
+            CEGUI::USize(cegui_absdim(item->getSize().first * 30), cegui_absdim(item->getSize().second * 30)));
     }
 }

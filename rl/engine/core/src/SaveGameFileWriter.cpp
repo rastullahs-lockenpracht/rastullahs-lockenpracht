@@ -26,7 +26,7 @@
 #ifdef __APPLE__
 #include <CEGUI/CEGUIPropertyHelper.h>
 #else
-#include <CEGUIPropertyHelper.h>
+#include <CEGUI/PropertyHelper.h>
 #endif
 
 #include <ContentModule.h>
@@ -44,16 +44,16 @@ namespace rl
     {
         //@toto: build
 
-        mDocument = new TiXmlDocument();
+        mDocument = new tinyxml2::XMLDocument();
         mDocument->SetValue("SaveGameFile");
 
-        TiXmlElement* rootElem = mDocument->RootElement();
+        tinyxml2::XMLElement* rootElem = mDocument->RootElement();
         // Write SaveGameVersion
         setAttributeValueAsString(rootElem, "SaveGameFormatVersion", "0.5");
         setAttributeValueAsInteger(rootElem, "Engineversion", CoreSubsystem::getSingleton().getEngineBuildNumber());
 
         // Write modul of save game
-        TiXmlElement* header = appendChildElement(rootElem, "header");
+        tinyxml2::XMLElement* header = appendChildElement(rootElem, "header");
 
         PropertyRecordPtr headerSet = file->getAllProperties();
         for (PropertyRecord::PropertyRecordMap::const_iterator it_header = headerSet->begin();
@@ -63,8 +63,8 @@ namespace rl
         }
 
         ////Write globals
-        // TiXmlElement* globals = appendChildElement(mDocument, mDocument->getDocumentElement(), "globals");
-        // TiXmlElement* gameTime = appendChildElement(mDocument, globals, "gametime");
+        // tinyxml2::XMLElement* globals = appendChildElement(mDocument, mDocument->getDocumentElement(), "globals");
+        // tinyxml2::XMLElement* gameTime = appendChildElement(mDocument, globals, "gametime");
         // TimeSource* gameTimeSource = TimeSourceManager::getSingleton().getTimeSource(TimeSource::GAMETIME);
         // setAttributeValueAsInteger(gameTime, "milliseconds", gameTimeSource->getClock());
 
@@ -76,7 +76,9 @@ namespace rl
         std::FILE* fileHandle = std::fopen(file->buildFilename().c_str(), "w");
         if (fileHandle)
         {
-            mDocument->Print(fileHandle);
+            tinyxml2::XMLPrinter printer(fileHandle);
+            mDocument->Print(&printer);
+            std::fclose(fileHandle);
         }
 
         delete mDocument;
@@ -85,7 +87,8 @@ namespace rl
 
     void SaveGameFileWriter::writeEachProperty(SaveGameData* data, const rl::PropertyMap& map)
     {
-        TiXmlElement* saveElem = appendChildElement(mDocument->RootElement(), data->getXmlNodeIdentifier().c_str());
+        tinyxml2::XMLElement* saveElem
+            = appendChildElement(mDocument->RootElement(), data->getXmlNodeIdentifier().c_str());
 
         XmlPropertyWriter::writeEachPropertyToElem(saveElem, map);
     }

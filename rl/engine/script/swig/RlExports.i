@@ -43,7 +43,7 @@ void RL_RubyRemoveTracking(void* ptr)
 
 #include "FixRubyHeaders.h"
 
-#include <CEGUIExceptions.h>
+#include <CEGUI/Exceptions.h>
 #include <vector>
 
 %}
@@ -97,28 +97,30 @@ void RL_handleRubyError( VALUE error )
 	std::stringstream stream;	
 	// get error class
     VALUE klass = rb_class_path(CLASS_OF(error));
-    stream << RSTRING(klass)->ptr << " (\""; 
+    stream << RSTRING(klass) << " (\"";
 
     // get error message
     VALUE message = rb_obj_as_string(error);
-    stream << RSTRING(message)->ptr << "\"), ";
+    stream << RSTRING(message) << "\"), ";
 
     // get backtrace
-    if(!NIL_P(ruby_errinfo)) 
+//    if(!NIL_P(rb_errinfo))
+//    {
+//		stream << "Callstack: [ ";
+//        VALUE ary = rb_funcall(
+//            rb_errinfo, rb_intern("backtrace"), 0);
+//        int c;
+//        for (c=RARRAY_LEN(ary); c>0; c--) {
+//            stream <<  RSTRING(RARRAY_PTR(ary)[c-1]);
+//            if( c > 1 )
+//				stream << ", ";
+//        }
+//        stream << "]";
+//    }
+//    else
     {
-		stream << "Callstack: [ ";
-        VALUE ary = rb_funcall(
-            ruby_errinfo, rb_intern("backtrace"), 0);
-        int c;
-        for (c=RARRAY(ary)->len; c>0; c--) {     
-            stream <<  RSTRING(RARRAY(ary)->ptr[c-1])->ptr;
-            if( c > 1 )
-				stream << ", "; 
-        }
-        stream << "]";
-    }
-    else
 		stream << "[ No Callstack found ]";
+    }
      
     LOG_ERROR(rl::Logger::SCRIPT, stream.str() );
     rl::WindowFactory::getSingleton().writeToConsole( stream.str() );  
@@ -174,15 +176,15 @@ void throwRubyException(RlExceptionClass clazz, const char* exceptionMessage)
   {
     throwRubyException(RLEX_CEGUI, ce.getMessage().c_str());
   }
-  catch (std::exception& se) 
-  {
-    throwRubyException(RLEX_STL, se.what());
-  }
   catch (Swig::DirectorException& de)
   {
 	throwRubyException(RLEX_SWIG_DIRECTOR, de.getMessage().c_str());
   }
-  catch (...) 
+  catch (std::exception& se)
+  {
+    throwRubyException(RLEX_STL, se.what());
+  }
+  catch (...)
   {
     throwRubyException(RLEX_UNKNOWN, "Unknown exception");
   }

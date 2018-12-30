@@ -17,7 +17,7 @@
 
 #include "GameObjectManager.h"
 
-#include <CEGUIPropertyHelper.h>
+#include <CEGUI/PropertyHelper.h>
 
 #include "Armor.h"
 #include "Container.h"
@@ -34,7 +34,7 @@
 #include "Weapon.h"
 #include "XmlPropertyReader.h"
 
-template <> rl::GameObjectManager* Ogre::Singleton<rl::GameObjectManager>::ms_Singleton = NULL;
+template <> rl::GameObjectManager* Ogre::Singleton<rl::GameObjectManager>::msSingleton = NULL;
 
 namespace rl
 {
@@ -193,7 +193,8 @@ namespace rl
         if (posDivider != CeGuiString::npos)
         {
             Ogre::String classId(serializedString.substr(0, posDivider).c_str());
-            unsigned int goid = CEGUI::PropertyHelper::stringToUint(serializedString.substr(posDivider + 1));
+            unsigned int goid
+                = CEGUI::PropertyHelper<unsigned int>::fromString(serializedString.substr(posDivider + 1));
             return createGameObject(classId, goid);
         }
 
@@ -202,7 +203,7 @@ namespace rl
 
     Property GameObjectManager::toProperty(const GameObject* const go) const
     {
-        return Property(go->getClassId() + "|" + CEGUI::PropertyHelper::uintToString(go->getId()));
+        return Property(go->getClassId() + "|" + CEGUI::PropertyHelper<unsigned int>::toString(go->getId()));
     }
 
     const PropertyRecordPtr GameObjectManager::getClassProperties(const CeGuiString& classId) const

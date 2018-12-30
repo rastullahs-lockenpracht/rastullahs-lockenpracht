@@ -64,7 +64,7 @@ namespace rl
         const Matrix4& viewMatrix = camera->getViewMatrix(true);
         const Matrix4& projMatrix = camera->getProjectionMatrix();
 
-        Vector3 eyeSpacePos = viewMatrix.transformAffine(worldCoords);
+        Vector3 eyeSpacePos = viewMatrix * worldCoords;
         Vector3 screenSpacePos = projMatrix * eyeSpacePos;
         screenSpacePos.z = eyeSpacePos.z;
 

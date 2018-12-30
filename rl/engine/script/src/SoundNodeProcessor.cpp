@@ -22,7 +22,7 @@ using namespace Ogre;
 namespace rl
 {
     bool SoundNodeProcessor::processNode(
-        const TiXmlElement* nodeElem, const Ogre::String& resourceGroup, bool loadGameObjects)
+        const tinyxml2::XMLElement* nodeElem, const Ogre::String& resourceGroup, bool loadGameObjects)
     {
         if (!hasNodeName(nodeElem, "sound"))
         {

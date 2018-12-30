@@ -15,6 +15,7 @@
  */
 #include "stdinc.h" //precompiled header
 
+#include "PhysicalThing.h"
 #include "StepRecognitionMovement.h"
 
 using namespace std;

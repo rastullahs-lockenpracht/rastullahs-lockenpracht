@@ -55,8 +55,7 @@ namespace rl
         Actor* createParticleSystemActor(const Ogre::String& name, const Ogre::String& partname);
 
         Actor* createBoxPrimitiveActor(const Ogre::String& name, const Ogre::Vector3& minCorner,
-            const Ogre::Vector3& maxCorner, const Ogre::String& materialName = Ogre::StringUtil::BLANK,
-            Ogre::Real mass = 0.0);
+            const Ogre::Vector3& maxCorner, const Ogre::String& materialName = "", Ogre::Real mass = 0.0);
 
         // void createDebugActors();
         void destroyActor(Actor* actor);

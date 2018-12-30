@@ -7,3 +7,6 @@
 [submodule "dependencies/meshmagick"]
 	path = dependencies/meshmagick
 	url = https://github.com/blakharaz/meshmagick.git
+[submodule "dependencies/OgreNewt"]
+	path = dependencies/OgreNewt
+	url = https://github.com/rastullahs-lockenpracht/ogrenewt.git

@@ -32,7 +32,7 @@ namespace rl
     }
 
     bool EntityNodeProcessor::processNode(
-        const TiXmlElement* nodeElem, const Ogre::String& resourceGroup, bool loadGameObjects)
+        const tinyxml2::XMLElement* nodeElem, const Ogre::String& resourceGroup, bool loadGameObjects)
     {
         if (!hasNodeName(nodeElem, "entity"))
         {
@@ -62,7 +62,7 @@ namespace rl
         Vector3 position(Vector3::ZERO);
         Quaternion orientation(Quaternion::IDENTITY);
 
-        const TiXmlElement* posElem = getChildNamed(nodeElem, "position");
+        const tinyxml2::XMLElement* posElem = getChildNamed(nodeElem, "position");
         if (posElem != NULL)
         {
             position = processVector3(posElem);
@@ -72,7 +72,7 @@ namespace rl
             LOG_WARNING(Logger::SCRIPT, "No position given for entity, used (0,0,0)");
         }
 
-        const TiXmlElement* oriElem = getChildNamed(nodeElem, "rotation");
+        const tinyxml2::XMLElement* oriElem = getChildNamed(nodeElem, "rotation");
         if (oriElem != NULL)
         {
             orientation = processQuaternion(oriElem);
@@ -114,7 +114,7 @@ namespace rl
 
         parentNode->attachObject(newEnt);
 
-        const TiXmlElement* scaleElem = getChildNamed(nodeElem, "scale");
+        const tinyxml2::XMLElement* scaleElem = getChildNamed(nodeElem, "scale");
         if (scaleElem != NULL)
         {
             parentNode->scale(processVector3(scaleElem));
@@ -126,7 +126,7 @@ namespace rl
         XmlElementList list = getElementsByTagName(nodeElem, "animation");
         for (size_t idx = 0; idx < list.size(); idx++)
         {
-            const TiXmlElement* cur = list[idx];
+            const tinyxml2::XMLElement* cur = list[idx];
             processAnimation(newEnt, cur);
         }
 
@@ -134,7 +134,7 @@ namespace rl
     }
 
     void EntityNodeProcessor::createCollision(
-        Entity* entity, Ogre::String meshName, const TiXmlElement* physicsProxyElem)
+        Entity* entity, Ogre::String meshName, const tinyxml2::XMLElement* physicsProxyElem)
     {
         Ogre::String physicsProxyTypeAsString;
         if (physicsProxyElem == NULL || !hasAttribute(physicsProxyElem, "type"))
@@ -352,7 +352,7 @@ namespace rl
         */
     }
 
-    void EntityNodeProcessor::processAnimation(Ogre::Entity* entity, const TiXmlElement* animationElem)
+    void EntityNodeProcessor::processAnimation(Ogre::Entity* entity, const tinyxml2::XMLElement* animationElem)
     {
         ///@todo EntityNodeProcessor::processAnimation
     }

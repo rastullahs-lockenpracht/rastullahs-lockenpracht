@@ -22,8 +22,8 @@
 #include <CEGUI/elements/CEGUIFrameWindow.h>
 #include <CEGUI/elements/CEGUIListboxTextItem.h>
 #else
-#include <elements/CEGUIFrameWindow.h>
-#include <elements/CEGUIListboxTextItem.h>
+#include <CEGUI/widgets/FrameWindow.h>
+#include <CEGUI/widgets/ListboxTextItem.h>
 #endif
 
 #include <iostream>
@@ -176,11 +176,7 @@ namespace rl
 
         Ogre::RenderSystem* renderer = root->getRenderSystem();
 
-#if OGRE_VERSION_MINOR == 7 || OGRE_VERSION_MINOR == 8
         const RenderSystemList& renderers = root->getAvailableRenderers();
-#else
-        const RenderSystemList renderers = *root->getAvailableRenderers();
-#endif
         createElements(mVideoRenderer, renderers.size());
 
         for (unsigned int i = 0; i < renderers.size(); ++i)
@@ -218,7 +214,8 @@ namespace rl
         setOption(config, "Video Mode", mVideoResolution);
     }
 
-    void GameSettings::setOption(const ConfigOptionMap& configuration, const Ogre::String& option, Checkbox* checkbox)
+    void GameSettings::setOption(
+        const ConfigOptionMap& configuration, const Ogre::String& option, ToggleButton* checkbox)
     {
         ConfigOptionMap::const_iterator cfi = configuration.find(option);
         if (cfi != configuration.end())

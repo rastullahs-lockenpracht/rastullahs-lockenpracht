@@ -24,11 +24,10 @@
 #include "Scene.h"
 #include "SceneLoader.h"
 
-template <> rl::SceneManager* Ogre::Singleton<rl::SceneManager>::ms_Singleton = NULL;
+template <> rl::SceneManager* Ogre::Singleton<rl::SceneManager>::msSingleton = NULL;
 
 namespace rl
 {
-
     SceneManager::SceneManager()
         : Ogre::Singleton<SceneManager>()
         , Ogre::ScriptLoader()

@@ -17,16 +17,11 @@
 
 #include "InventoryWindow.h"
 
-#include <CEGUIImageset.h>
-#include <CEGUIImagesetManager.h>
-#include <CEGUIWindowManager.h>
-#include <boost/bind.hpp>
-#include <elements/CEGUIFrameWindow.h>
-
 #include "AbstractWindow.h"
 #include "Actor.h"
 #include "ActorManager.h"
 #include "CameraObject.h"
+#include "CeGuiHelper.h"
 #include "CommandMapper.h"
 #include "Container.h"
 #include "ContainerContentWindow.h"
@@ -39,6 +34,9 @@
 #include "ItemIconDragContainer.h"
 #include "Selector.h"
 #include "WindowFactory.h"
+
+#include <CEGUI/WindowManager.h>
+#include <CEGUI/widgets/FrameWindow.h>
 
 using namespace CEGUI;
 using namespace Ogre;
@@ -58,7 +56,7 @@ namespace rl
         // mSquareSize = ...;
         mWorldBackground = getWindow("InventoryWindow/Background");
         CEGUI::Window* invWnd = getWindow("InventoryWindow");
-        invWnd->subscribeEvent(FrameWindow::EventCloseClicked, boost::bind(&InventoryWindow::destroyWindow, this));
+        invWnd->subscribeEvent(FrameWindow::EventCloseClicked, [this]() { return destroyWindow(); });
         mWorldBackground->moveToBack();
         mWorldBackground->setZOrderingEnabled(false);
         invWnd->setMaxSize(invWnd->getSize());
@@ -132,11 +130,9 @@ namespace rl
             Window* slotWindow = (*it).second;
             slotWindow->setDragDropTarget(true);
             slotWindow->subscribeEvent(
-                Window::EventDragDropItemDropped, boost::bind(&InventoryWindow::handleItemDroppedOnSlot, this, _1));
-            slotWindow->subscribeEvent(
-                Window::EventDragDropItemEnters, boost::bind(&InventoryWindow::handleItemEntersSlot, this, _1));
-            slotWindow->subscribeEvent(
-                Window::EventDragDropItemLeaves, boost::bind(&InventoryWindow::handleItemLeavesSlot, this, _1));
+                Window::EventDragDropItemDropped, &InventoryWindow::handleItemDroppedOnSlot, this);
+            slotWindow->subscribeEvent(Window::EventDragDropItemEnters, &InventoryWindow::handleItemEntersSlot, this);
+            slotWindow->subscribeEvent(Window::EventDragDropItemLeaves, &InventoryWindow::handleItemLeavesSlot, this);
 
             if (item != NULL)
             {
@@ -144,27 +140,28 @@ namespace rl
                 Window* itemWindow = createItemDragContainer(item, false, slotName);
                 if (itemWindow != NULL)
                 {
-                    slotWindow->addChildWindow(itemWindow);
+                    slotWindow->addChild(itemWindow);
                 }
             }
         }
 
         mWorldBackground->setDragDropTarget(true);
         mWorldBackground->subscribeEvent(
-            Window::EventDragDropItemDropped, boost::bind(&InventoryWindow::handleItemDroppedOnWorld, this, _1));
-        mWorldBackground->subscribeEvent(
-            Window::EventMouseMove, boost::bind(&InventoryWindow::handleMouseMovedInWorld, this, _1));
+            Window::EventDragDropItemDropped, &InventoryWindow::handleItemDroppedOnWorld, this);
+        mWorldBackground->subscribeEvent(Window::EventMouseMove, &InventoryWindow::handleMouseMovedInWorld, this);
 
         // be sure we get all key-events:
         Window* invWnd = getWindow("InventoryWindow");
         // invWnd->setDistributesCapturedInputs(false);
-        invWnd->subscribeEvent(Window::EventKeyDown, boost::bind(&InventoryWindow::handleKeys, this, _1, true));
-        invWnd->subscribeEvent(Window::EventKeyUp, boost::bind(&InventoryWindow::handleKeys, this, _1, false));
+        invWnd->subscribeEvent(Window::EventKeyDown, [this](const CEGUI::EventArgs& args) { handleKeys(args, true); });
+        invWnd->subscribeEvent(Window::EventKeyUp, [this](const CEGUI::EventArgs& args) { handleKeys(args, false); });
+
         // mWorldBackground->setDistributesCapturedInputs(false);
         mWorldBackground->subscribeEvent(
-            Window::EventKeyDown, boost::bind(&InventoryWindow::handleKeys, this, _1, true));
+            Window::EventKeyDown, [this](const CEGUI::EventArgs& args) { handleKeys(args, true); });
         mWorldBackground->subscribeEvent(
-            Window::EventKeyUp, boost::bind(&InventoryWindow::handleKeys, this, _1, false));
+            Window::EventKeyUp, [this](const CEGUI::EventArgs& args) { handleKeys(args, false); });
+
         invWnd->activate();
     }
 
@@ -239,9 +236,9 @@ namespace rl
             itemhandler->setRiseOnClickEnabled(true);
             itemhandler->setPosition(UVector2(cegui_reldim(0), cegui_reldim(0)));
             itemhandler->subscribeEvent(DragContainer::EventDragStarted,
-                boost::bind(&rl::InventoryWindow::handleItemDragStarted, this, item, showdescription));
+                [this, item, showdescription]() { handleItemDragStarted(item, showdescription); });
             itemhandler->subscribeEvent(DragContainer::EventDragEnded,
-                boost::bind(&InventoryWindow::handleItemDragEnded, this, item, showdescription));
+                [this, item, showdescription]() { handleItemDragEnded(item, showdescription); });
         }
 
         return itemhandler;
@@ -281,7 +278,7 @@ namespace rl
     {
         const DragDropEventArgs& evtArgs = static_cast<const DragDropEventArgs&>(evt);
 
-        if (evtArgs.dragDropItem->testClassName("ItemDragContainer"))
+        if (evtArgs.dragDropItem->getType() == "ItemDragContainer")
         {
             ItemDragContainer* dragcont = static_cast<ItemDragContainer*>(evtArgs.dragDropItem);
             Item* item = dragcont->getItem();
@@ -289,7 +286,7 @@ namespace rl
 
             if (mInventory->canHold(item, targetSlot))
             {
-                dragcont->getParent()->removeChildWindow(dragcont);
+                dragcont->getParent()->removeChild(dragcont);
 
                 ItemDragContainer* newCont = createItemDragContainer(item, false, targetSlot);
 
@@ -307,7 +304,7 @@ namespace rl
 
                 mInventory->hold(item, targetSlot);
 
-                slotWindow->addChildWindow(newCont);
+                slotWindow->addChild(newCont);
                 newCont->setPosition(UVector2(cegui_reldim(0), cegui_reldim(0)));
                 newCont->setItemParent(mInventory, targetSlot);
 
@@ -329,7 +326,7 @@ namespace rl
     {
         const DragDropEventArgs& evtArgs = static_cast<const DragDropEventArgs&>(evt);
 
-        if (evtArgs.dragDropItem->testClassName("ItemDragContainer"))
+        if (evtArgs.dragDropItem->getType() == "ItemDragContainer")
         {
             ItemDragContainer* dragcont = static_cast<ItemDragContainer*>(evtArgs.dragDropItem);
             Item* item = dragcont->getItem();
@@ -360,7 +357,7 @@ namespace rl
     {
         const DragDropEventArgs& evtArgs = static_cast<const DragDropEventArgs&>(evt);
 
-        if (evtArgs.dragDropItem->testClassName("ItemDragContainer"))
+        if (evtArgs.dragDropItem->getType() == "ItemDragContainer")
         {
             ItemDragContainer* dragcont = static_cast<ItemDragContainer*>(evtArgs.dragDropItem);
             Item* item = dragcont->getItem();
@@ -390,14 +387,14 @@ namespace rl
     bool InventoryWindow::handleItemDroppedOnWorld(const EventArgs& evt)
     {
         const DragDropEventArgs& evtArgs = static_cast<const DragDropEventArgs&>(evt);
-        if (evtArgs.dragDropItem->testClassName("ItemDragContainer"))
+        if (evtArgs.dragDropItem->getType() == "ItemDragContainer")
         {
             ItemDragContainer* dragcont = static_cast<ItemDragContainer*>(evtArgs.dragDropItem);
             Item* item = dragcont->getItem();
 
-            CEGUI::Vector2 relPos = dragcont->getPosition().asRelative(getRoot()->getPixelSize());
+            auto relPos = CeGuiHelper::asRelative(dragcont->getPosition(), getRoot()->getPixelSize());
 
-            Ogre::Vector3 targetPosWindow(relPos.d_x, relPos.d_y, -1);
+            Ogre::Vector3 targetPosWindow{ relPos.d_x.d_scale, relPos.d_y.d_scale, -1.F };
 
             CEGUI::WindowManager::getSingleton().destroyWindow(dragcont);
             //            dragcont->destroyWindow();
@@ -427,7 +424,7 @@ namespace rl
         Actor* cameraActor = ActorManager::getSingleton().getActor("DefaultCamera");
         CameraObject* camera = static_cast<CameraObject*>(cameraActor->getControlledObject());
 
-        CEGUI::Point mousePos = mevt.position;
+        auto mousePos = mevt.position;
         mousePos.d_x /= getRoot()->getPixelSize().d_width;
         mousePos.d_y /= getRoot()->getPixelSize().d_height;
         Ogre::Ray camToWorld = camera->getCameraToViewportRay(mousePos.d_x, mousePos.d_y);
@@ -452,15 +449,14 @@ namespace rl
                 if (!cont)
                 {
                     cont = createItemDragContainer(static_cast<Item*>(*it), true);
-                    mWorldBackground->addChildWindow(cont);
+                    mWorldBackground->addChild(cont);
                 }
                 if (cont)
                 {
-                    Ogre::Rectangle aabb
-                        = getCeGuiRectFromWorldAABB(camera, (*it)->getActor()->_getSceneNode()->_getWorldAABB());
+                    auto aabb = getCeGuiRectFromWorldAABB(camera, (*it)->getActor()->_getSceneNode()->_getWorldAABB());
                     UVector2 posCont
-                        = UVector2(UDim((aabb.left + aabb.right) / 2.0, 0), UDim((aabb.top + aabb.bottom) / 2.0, 0));
-                    posCont -= cont->getSize() / UVector2(UDim(2, 2), UDim(2, 2));
+                        = UVector2(UDim((aabb.left + aabb.right) / 2.0F, 0), UDim((aabb.top + aabb.bottom) / 2.0F, 0));
+                    posCont -= CeGuiHelper::toPosition(cont->getSize()) * 0.5F;
                     cont->setPosition(posCont);
                     cont->setVisible(true);
 
@@ -509,15 +505,15 @@ namespace rl
                     if (!cont)
                     {
                         cont = createItemDragContainer(static_cast<Item*>(*it), true);
-                        mWorldBackground->addChildWindow(cont);
+                        mWorldBackground->addChild(cont);
                     }
                     if (cont)
                     {
-                        Ogre::Rectangle aabb
+                        auto aabb
                             = getCeGuiRectFromWorldAABB(camera, (*it)->getActor()->_getSceneNode()->_getWorldAABB());
                         UVector2 posCont = UVector2(
-                            UDim((aabb.left + aabb.right) / 2.0, 0), UDim((aabb.top + aabb.bottom) / 2.0, 0));
-                        posCont -= cont->getSize() / UVector2(UDim(2, 2), UDim(2, 2));
+                            UDim((aabb.left + aabb.right) / 2.0F, 0), UDim((aabb.top + aabb.bottom) / 2.0F, 0));
+                        posCont -= CeGuiHelper::toPosition(cont->getSize()) * 0.5F;
                         cont->setPosition(posCont);
                         cont->setVisible(true);
                         cont->moveToFront();
@@ -541,13 +537,13 @@ namespace rl
         return false;
     }
 
-    Ogre::Rectangle InventoryWindow::getCeGuiRectFromWorldAABB(CameraObject* camera, const AxisAlignedBox& aabb) const
+    Ogre::Rect InventoryWindow::getCeGuiRectFromWorldAABB(CameraObject* camera, const AxisAlignedBox& aabb) const
     {
         // Initialise each to the value of the opposite side, so that min/max work smoothly.
         Real left = 1.0f, bottom = 1.0f, right = -1.0f, top = -1.0f;
 
         // Determine screen pos of all corners and widen the rect if needed
-        const Ogre::Vector3* corners = aabb.getAllCorners();
+        const auto& corners = aabb.getAllCorners();
         for (size_t i = 0; i < 8; ++i)
         {
             Ogre::Vector3 screenSpacePos = camera->getPointOnCeGuiScreen(corners[i]);
@@ -560,7 +556,7 @@ namespace rl
             top = std::max(top, screenSpacePos.y);
         }
 
-        Ogre::Rectangle rval = { left, top, right, bottom };
+        Ogre::Rect rval = { left, top, right, bottom };
         return rval;
     }
 
@@ -571,7 +567,7 @@ namespace rl
         {
             ContainerContentWindow* wnd = new ContainerContentWindow(container, this);
             mOpenContainerMap.insert(make_pair(container, wnd));
-            mWorldBackground->addChildWindow(wnd->getWindow());
+            mWorldBackground->addChild(wnd->getWindow());
             wnd->setVisible(true);
         }
         else

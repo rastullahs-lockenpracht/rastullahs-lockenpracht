@@ -21,22 +21,19 @@
 
 namespace rl
 {
-
     Scene* SceneLoader::loadScene(Ogre::DataStreamPtr& data)
     {
-        TiXmlDocument* doc = loadDocument(data);
-        TiXmlElement* root = doc->RootElement();
+        tinyxml2::XMLDocument* doc = loadDocument(data);
+        tinyxml2::XMLElement* root = doc->RootElement();
         Scene* scene = new Scene(getAttributeValueAsString(root, "name"));
 
-        for (TiXmlNode* cur = root->FirstChild(); cur; cur = cur->NextSibling())
+        for (tinyxml2::XMLNode* cur = root->FirstChild(); cur; cur = cur->NextSibling())
         {
-            if (cur->Type() == TiXmlNode::ELEMENT)
+            tinyxml2::XMLElement* elem = cur->ToElement();
+
+            if (elem && hasNodeName(elem, "map"))
             {
-                TiXmlElement* elem = cur->ToElement();
-                if (hasNodeName(elem, "map"))
-                {
-                    scene->addMap(getAttributeValueAsStdString(elem, "file"));
-                }
+                scene->addMap(getAttributeValueAsStdString(elem, "file"));
             }
         }
 

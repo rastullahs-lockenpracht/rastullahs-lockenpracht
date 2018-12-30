@@ -34,7 +34,7 @@
 using namespace CEGUI;
 using namespace Ogre;
 
-template <> rl::DebugWindow* Ogre::Singleton<rl::DebugWindow>::ms_Singleton = 0;
+template <> rl::DebugWindow* Ogre::Singleton<rl::DebugWindow>::msSingleton = 0;
 
 namespace rl
 {
@@ -44,7 +44,7 @@ namespace rl
         , mPageCaption()
         , mPageText()
         , mPageTexts()
-        , mCurrentPage(StringUtil::BLANK)
+        , mCurrentPage(Ogre::BLANKSTRING)
         , mDebugPageName("General Informations")
     {
         mPageCaption = getWindow("DebugWindow/PageCaption");
@@ -72,11 +72,11 @@ namespace rl
         }
         else
         {
-            mPageTexts.insert(make_pair(page, StringUtil::BLANK));
+            mPageTexts.insert(make_pair(page, Ogre::BLANKSTRING));
         }
 
         // If this is the first page, activate it
-        if (mCurrentPage == StringUtil::BLANK)
+        if (mCurrentPage == Ogre::BLANKSTRING)
         {
             mCurrentPage = page;
         }
@@ -102,7 +102,7 @@ namespace rl
         }
         else if (mCurrentPage == page)
         {
-            mCurrentPage = StringUtil::BLANK;
+            mCurrentPage = Ogre::BLANKSTRING;
         }
         updatePageText();
     }
@@ -157,7 +157,7 @@ namespace rl
 
     void DebugWindow::updatePageText()
     {
-        Ogre::String text = mCurrentPage == StringUtil::BLANK ? StringUtil::BLANK : mPageTexts[mCurrentPage];
+        Ogre::String text = mCurrentPage == Ogre::BLANKSTRING ? Ogre::BLANKSTRING : mPageTexts[mCurrentPage];
         mPageCaption->setText(mCurrentPage);
         mPageText->setText(text);
     }

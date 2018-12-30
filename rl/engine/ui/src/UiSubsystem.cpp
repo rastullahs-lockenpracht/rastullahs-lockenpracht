@@ -17,13 +17,13 @@
 
 #include "UiSubsystem.h"
 
-#include <CEGUI.h>
+#include <CEGUI/CEGUI.h>
 
 #ifdef __APPLE__
 #include <OgreCEGUIRenderer/OgreCEGUIRenderer.h>
 #else
-#include <RendererModules/Ogre/CEGUIOgreRenderer.h>
-#include <RendererModules/Ogre/CEGUIOgreResourceProvider.h>
+#include <CEGUI/RendererModules/Ogre/Renderer.h>
+#include <CEGUI/RendererModules/Ogre/ResourceProvider.h>
 #endif
 
 #include "Actor.h"
@@ -49,7 +49,7 @@
 #include "WindowManager.h"
 
 using namespace Ogre;
-template <> rl::UiSubsystem* Singleton<rl::UiSubsystem>::ms_Singleton = 0;
+template <> rl::UiSubsystem* Singleton<rl::UiSubsystem>::msSingleton = 0;
 
 // this function needs to be in the CEGUI-namespace
 namespace CEGUI
@@ -123,25 +123,25 @@ namespace rl
         LOG_MESSAGE2(Logger::UI, "Initializing CEGUI System.", "UiSubsystem::initializeUiSubsystem");
         mGuiResourceProvider = &mGuiRenderer->createOgreResourceProvider();
 
-        mGuiSystem = &System::create(*mGuiRenderer, mGuiResourceProvider, NULL, NULL, NULL, (utf8*)"cegui.config",
+        mGuiSystem = &System::create(*mGuiRenderer, mGuiResourceProvider, nullptr, nullptr, nullptr, "cegui.config",
             ConfigurationManager::getSingleton().getCeguiLogFile());
         CEGUI::Logger::getSingleton().setLoggingLevel(rl::Logger::getSingleton().getCeGuiLogDetail());
         LOG_MESSAGE2(Logger::UI, "CEGUI System initialized.", "UiSubsystem::initializeUiSubsystem");
 
         // load scheme and set up defaults
         ///@todo Hier sollte was Lookunabhaengiges rein!!! FIXME TODO BUG!
-        System::getSingleton().setDefaultMouseCursor((utf8*)"RastullahLook-Images", (utf8*)"MouseArrow");
+        //        System::getSingleton().setDefaultMouseCursor("RastullahLook-Images", "MouseArrow");
         LOG_MESSAGE2(Logger::UI, "Mouse arrow loaded.", "UiSubsystem::initializeUiSubsystem");
-        Window* sheet = CEGUI::WindowManager::getSingleton().createWindow((utf8*)"DefaultGUISheet", (utf8*)CEGUI_ROOT);
+        Window* sheet = CEGUI::WindowManager::getSingleton().createWindow("DefaultGUISheet", CEGUI_ROOT);
         LOG_MESSAGE2(Logger::UI, "CEGUI Root Window created.", "UiSubsystem::initializeUiSubsystem");
-        sheet->setSize(
-            CeGuiHelper::asAbsolute(CEGUI::Vector2(CoreSubsystem::getSingleton().getRenderWindow()->getWidth(),
-                CoreSubsystem::getSingleton().getRenderWindow()->getHeight())));
-        sheet->setPosition(CeGuiHelper::asAbsolute(CEGUI::Point(0, 0)));
-        System::getSingleton().setGUISheet(sheet);
+        sheet->setSize(CEGUI::USize(CEGUI::UDim(0, CoreSubsystem::getSingleton().getRenderWindow()->getWidth()),
+            CEGUI::UDim(0, CoreSubsystem::getSingleton().getRenderWindow()->getHeight())));
+        sheet->setPosition(CeGuiHelper::asAbsolute(0, 0));
+        System::getSingleton().getDefaultGUIContext().setRootWindow(sheet);
+
         sheet->setZOrderingEnabled(true);
         sheet->moveToBack();
-        System::getSingleton().setDefaultTooltip("RastullahLook/Tooltip");
+        System::getSingleton().getDefaultGUIContext().setDefaultTooltipType("RastullahLook/Tooltip");
 
         CEGUI::initializeOwnCeguiWindowFactories();
 

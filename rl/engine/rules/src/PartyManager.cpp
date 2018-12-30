@@ -22,7 +22,7 @@
 #include "Creature.h"
 #include "RulesMessages.h"
 
-template <> rl::PartyManager* Ogre::Singleton<rl::PartyManager>::ms_Singleton = 0;
+template <> rl::PartyManager* Ogre::Singleton<rl::PartyManager>::msSingleton = 0;
 
 namespace rl
 {

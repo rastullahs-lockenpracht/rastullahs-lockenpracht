@@ -21,9 +21,8 @@
 
 namespace rl
 {
-
-    class Talent;
     class Creature;
+    class Talent;
     class Kampftechnik;
 
     class XdimlLoader : public Ogre::ScriptLoader, private XmlProcessor
@@ -38,14 +37,14 @@ namespace rl
     private:
         int getEBeFromString(const Ogre::String& eBeString);
 
-        void initializeTalente(const TiXmlElement* rootTalente);
-        Talent* processTalent(int gruppe, const TiXmlElement* talentXml);
+        void initializeTalente(const tinyxml2::XMLElement* rootTalente);
+        Talent* processTalent(int gruppe, const tinyxml2::XMLElement* talentXml);
 
-        void initializeCreatures(const TiXmlElement* rootCreatures);
-        Creature* processCreature(const TiXmlElement* talentXml);
+        void initializeCreatures(const tinyxml2::XMLElement* rootCreatures);
+        Creature* processCreature(const tinyxml2::XMLElement* talentXml);
 
-        void initializeKampftechniken(const TiXmlElement* rootKampftechniken);
-        Kampftechnik* processKampftechnik(const TiXmlElement* kampftechnikXml);
+        void initializeKampftechniken(const tinyxml2::XMLElement* rootKampftechniken);
+        Kampftechnik* processKampftechnik(const tinyxml2::XMLElement* kampftechnikXml);
 
         Ogre::StringVector mScriptPatterns;
     };
